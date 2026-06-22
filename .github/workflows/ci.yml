@@ -71,7 +71,7 @@ jobs:
       - name: Install Composer dependencies
         working-directory: backend
         run: |
-          composer install --no-interaction --no-progress --prefer-dist
+          composer install --no-interaction --no-progress --prefer-dist --no-audit
 
       - name: Generate app key
         working-directory: backend

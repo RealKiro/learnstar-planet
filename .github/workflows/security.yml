@@ -36,7 +36,7 @@ jobs:
 
       - name: Install Composer dependencies
         working-directory: backend
-        run: composer install --no-interaction --no-progress
+        run: composer install --no-interaction --no-progress --no-audit
 
       - name: Run Composer security audit
         working-directory: backend

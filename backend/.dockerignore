@@ -1,5 +1,5 @@
 # Ignore files for Docker build
-# Similar to .gitignore, but specific to Docker
+# Build context = backend/ directory
 
 # Git
 .git
@@ -24,7 +24,6 @@ Thumbs.db
 
 # PHP
 /vendor/
-/composer.lock
 .php-cs-fixer.php
 .php-cs-fixer-cache
 phpstan.neon
@@ -35,7 +34,6 @@ coverage-html/
 # Laravel
 /storage/
 /bootstrap/cache/
-/env
 .env.local
 .env.production
 .env.staging
@@ -43,20 +41,15 @@ coverage-html/
 
 # Node.js
 /node_modules/
-/npm-debug.log
-/yarn-error.log
-/package-lock.json
-/yarn.lock
+npm-debug.log
+yarn-error.log
 
 # Testing
 /tests/
 /coverage/
-*.log
 
 # Documentation
-/docs/
 /*.md
-!/README.md
 
 # Archives
 *.tar
@@ -68,3 +61,8 @@ coverage-html/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Docker files themselves (not needed inside image)
+Dockerfile
+Dockerfile.dev
+.dockerignore

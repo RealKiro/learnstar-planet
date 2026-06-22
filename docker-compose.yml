@@ -15,11 +15,11 @@ services:
   # ===== 应用服务（使用预构建镜像）=====
   app:
     # 从 GitHub Container Registry 拉取预构建镜像
-    image: ghcr.io/${GITHUB_USERNAME:-yourusername}/learnstar-planet:latest
+    image: ghcr.io/${GITHUB_USERNAME:-yourusername}/learnstar-planet/backend:latest
     container_name: learnstar-app
     restart: unless-stopped
     ports:
-      - "${APP_PORT:-80}:80"
+      - "${APP_PORT:-8080}:8080"
     environment:
       # 基础配置
       - APP_NAME=${APP_NAME:-学趣星球}
@@ -67,7 +67,7 @@ services:
     networks:
       - learnstar-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3

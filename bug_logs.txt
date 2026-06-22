@@ -1,0 +1,191 @@
+Code Quality (PHP CS Fixer PHPStan)
+Install Composer dependencies：
+```
+Run composer install --no-interaction --no-progress --prefer-dist
+No composer.lock file present. Updating dependencies to latest instead of installing from lock file. See https://getcomposer.org/install for more information.
+Loading composer repositories with package information
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Root composer.json requires laravel/framework ^11.0, found laravel/framework[v11.0.0, ..., v11.54.0] but these were not loaded, because they are affected by security advisories ("PKSA-m5cs-t1y6-qpcs", "PKSA-3r5d-mb8f-1qw9", "PKSA-mdq4-51ck-6kdq", "PKSA-8qx3-n5y5-vvnd", "PKSA-q46n-4fdk-zjr4", "PKSA-qzrn-rnz3-85w1", "PKSA-w7xr-vk7n-rstm"). Go to https://packagist.org/security-advisories/ to find advisory details. To ignore the advisories, add their IDs to the "policy.advisories.ignore-id" config or add the package to "policy.advisories.ignore". To turn the feature off entirely, you can set "policy.advisories.block" to false.
+  Problem 2
+    - Root composer.json requires flux/flux ^1.0, found flux/flux[dev-main, v0.0.1, v0.0.2, v0.0.3, v5.13.0, v5.13.1, v5.13.2, 5.x-dev, v6.0.0, ..., 6.x-dev] but it does not match the constraint.
+  Problem 3
+    - Root composer.json requires larastan/larastan ^3.0 -> satisfiable by larastan/larastan[v3.0.0, ..., v3.10.0].
+    - larastan/larastan[v3.0.0, ..., v3.0.1] require phpstan/phpstan ^2.0.0 -> found phpstan/phpstan[2.0.0, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.0.2 requires phpstan/phpstan ^2.0.2 -> found phpstan/phpstan[2.0.2, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.0.3 requires phpstan/phpstan ^2.0.3 -> found phpstan/phpstan[2.0.3, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan[v3.0.4, ..., v3.2.0] require phpstan/phpstan ^2.1.3 -> found phpstan/phpstan[2.1.3, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.10.0 requires phpstan/phpstan ^2.2.0 -> found phpstan/phpstan[2.2.0, 2.2.1, 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.3.0 requires phpstan/phpstan ^2.1.8 -> found phpstan/phpstan[2.1.8, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+Error: Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Root composer.json requires laravel/framework ^11.0, found laravel/framework[v11.0.0, ..., v11.54.0] but these were not loaded, because they are affected by security advisories ("PKSA-m5cs-t1y6-qpcs", "PKSA-3r5d-mb8f-1qw9", "PKSA-mdq4-51ck-6kdq", "PKSA-8qx3-n5y5-vvnd", "PKSA-q46n-4fdk-zjr4", "PKSA-qzrn-rnz3-85w1", "PKSA-w7xr-vk7n-rstm"). Go to https://packagist.org/security-advisories/ to find advisory details. To ignore the advisories, add their IDs to the "policy.advisories.ignore-id" config or add the package to "policy.advisories.ignore". To turn the feature off entirely, you can set "policy.advisories.block" to false.
+  Problem 2
+    - Root composer.json requires flux/flux ^1.0, found flux/flux[dev-main, v0.0.1, v0.0.2, v0.0.3, v5.13.0, v5.13.1, v5.13.2, 5.x-dev, v6.0.0, ..., 6.x-dev] but it does not match the constraint.
+  Problem 3
+    - Root composer.json requires larastan/larastan ^3.0 -> satisfiable by larastan/larastan[v3.0.0, ..., v3.10.0].
+    - larastan/larastan[v3.0.0, ..., v3.0.1] require phpstan/phpstan ^2.0.0 -> found phpstan/phpstan[2.0.0, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.0.2 requires phpstan/phpstan ^2.0.2 -> found phpstan/phpstan[2.0.2, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.0.3 requires phpstan/phpstan ^2.0.3 -> found phpstan/phpstan[2.0.3, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan[v3.0.4, ..., v3.2.0] require phpstan/phpstan ^2.1.3 -> found phpstan/phpstan[2.1.3, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.10.0 requires phpstan/phpstan ^2.2.0 -> found phpstan/phpstan[2.2.0, 2.2.1, 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.3.0 requires phpstan/phpstan ^2.1.8 -> found phpstan/phpstan[2.1.8, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan[v3.3.1, ..., v3.7.0] require phpstan/phpstan ^2.1.11 -> found phpstan/phpstan[2.1.11, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.7.1 requires phpstan/phpstan ^2.1.23 -> found phpstan/phpstan[2.1.23, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.7.2 requires phpstan/phpstan ^2.1.28 -> found phpstan/phpstan[2.1.28, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.8.0 requires phpstan/phpstan ^2.1.29 -> found phpstan/phpstan[2.1.29, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan[v3.8.1, ..., v3.9.3] require phpstan/phpstan ^2.1.32 -> found phpstan/phpstan[2.1.32, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan[v3.9.4, ..., v3.9.6] require phpstan/phpstan ^2.1.44 -> found phpstan/phpstan[2.1.44, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+
+    - larastan/larastan[v3.3.1, ..., v3.7.0] require phpstan/phpstan ^2.1.11 -> found phpstan/phpstan[2.1.11, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.7.1 requires phpstan/phpstan ^2.1.23 -> found phpstan/phpstan[2.1.23, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.7.2 requires phpstan/phpstan ^2.1.28 -> found phpstan/phpstan[2.1.28, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan v3.8.0 requires phpstan/phpstan ^2.1.29 -> found phpstan/phpstan[2.1.29, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan[v3.8.1, ..., v3.9.3] require phpstan/phpstan ^2.1.32 -> found phpstan/phpstan[2.1.32, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+    - larastan/larastan[v3.9.4, ..., v3.9.6] require phpstan/phpstan ^2.1.44 -> found phpstan/phpstan[2.1.44, ..., 2.2.2] but it conflicts with your root composer.json require (^1.10).
+
+Error: Process completed with exit code 2.
+```
+---
+Build Backend Docker Image
+Build and push Backend image:
+```
+Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+Run docker/build-push-action@v5
+(node:2911) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+GitHub Actions runtime token ACs
+Docker info
+Proxy configuration
+Buildx version
+Builder info
+/usr/bin/docker buildx build --cache-from type=gha --cache-to type=gha,mode=max --file ./backend/Dockerfile --iidfile /home/runner/work/_temp/docker-actions-toolkit-9CzoGt/build-iidfile-bb72122337.txt --label org.opencontainers.image.created=2026-06-22T06:43:06.105Z --label org.opencontainers.image.description= --label org.opencontainers.image.licenses=MIT --label org.opencontainers.image.revision=52ef3382e9ac4c67277a9a91acad17750bc490d4 --label org.opencontainers.image.source=https://github.com/RealKiro/learnstar-planet --label org.opencontainers.image.title=learnstar-planet --label org.opencontainers.image.url=https://github.com/RealKiro/learnstar-planet --label org.opencontainers.image.version=main --attest type=provenance,mode=max,builder-id=https://github.com/RealKiro/learnstar-planet/actions/runs/27934572474 --tag ghcr.io/realkiro/learnstar-planet/backend:main --tag ghcr.io/realkiro/learnstar-planet/backend:latest --tag ghcr.io/realkiro/learnstar-planet/backend:sha-52ef338 --metadata-file /home/runner/work/_temp/docker-actions-toolkit-9CzoGt/build-metadata-faa7f44b80.json --push ./backend
+#0 building with "builder-75b816bd-40a6-49fc-a444-ca0355c466d9" instance using docker-container driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.23kB done
+#1 DONE 0.0s
+
+#2 [auth] library/node:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 [auth] library/php:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [auth] library/composer:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#5 [internal] load metadata for docker.io/library/php:8.2-fpm-alpine
+#5 ...
+
+#6 [internal] load metadata for docker.io/library/node:20-alpine
+#6 DONE 0.4s
+
+#5 [internal] load metadata for docker.io/library/php:8.2-fpm-alpine
+#5 DONE 0.4s
+
+#7 [internal] load metadata for docker.io/library/composer:2.6
+#7 DONE 0.4s
+
+#8 [internal] load .dockerignore
+#8 transferring context: 736B done
+#8 DONE 0.0s
+
+#9 importing cache manifest from gha:911557579489568661
+#9 DONE 0.0s
+
+#10 [internal] load build context
+#10 transferring context: 1.92kB done
+#10 DONE 0.0s
+
+#11 [composer 2/5] WORKDIR /app
+#11 CACHED
+
+#12 [composer 3/5] COPY backend/composer.json backend/composer.lock* ./
+#12 ERROR: failed to calculate checksum of ref f2zd1aw1xnys7pm3hq3vnx22r::lq08w7khpvpokeb2qe2ys41du: "/backend/composer.json": not found
+
+#13 [composer 4/5] RUN apk add --no-cache autoconf 		dpkg-dev dpkg 		file 		g++ 		gcc 		libc-dev 		make 		pkgconf 		re2c     && docker-php-ext-install pdo_mysql pdo_pgsql redis
+#13 CACHED
+
+#14 [frontend 4/6] RUN npm ci --only=production
+#14 CACHED
+
+#15 [frontend 3/6] COPY frontend/package*.json ./
+#15 CACHED
+
+#16 [app  2/12] RUN apk add --no-cache     git     curl     zip     unzip     libzip-dev     libpng-dev     libjpeg-turbo-dev     freetype-dev     oniguruma-dev     && docker-php-ext-install         pdo_mysql         pdo_pgsql         redis         zip         gd         mbstring     && rm -rf /var/cache/apk/*
+#16 CACHED
+
+#17 [app  9/12] RUN apk add --no-cache supervisor
+#17 CACHED
+
+#18 [composer 5/5] RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader     && composer dump-autoload --optimize
+#18 CACHED
+
+#19 [app  3/12] COPY --from=composer /usr/bin/composer /usr/bin/composer
+#19 CACHED
+
+#20 [frontend 2/6] WORKDIR /app
+#20 CACHED
+
+#21 [app  5/12] COPY --from=composer /app/vendor ./vendor
+#21 CACHED
+
+#22 [app  7/12] COPY --from=frontend /app/public/build ./public/build
+#22 CACHED
+
+#23 [app  8/12] RUN chown -R www-data:www-data /var/www/html     && chmod -R 755 /var/www/html/storage     && chmod -R 755 /var/www/html/bootstrap/cache
+#23 CACHED
+
+#24 [app  4/12] WORKDIR /var/www/html
+#24 CACHED
+
+#25 [frontend 6/6] RUN npm run build
+#25 CACHED
+
+#26 [app 10/12] COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+#26 ERROR: failed to calculate checksum of ref f2zd1aw1xnys7pm3hq3vnx22r::lq08w7khpvpokeb2qe2ys41du: "/docker/supervisor/supervisord.conf": not found
+
+#27 [app  6/12] COPY backend/ .
+#27 ERROR: failed to calculate checksum of ref f2zd1aw1xnys7pm3hq3vnx22r::lq08w7khpvpokeb2qe2ys41du: "/backend": not found
+
+#28 [frontend 5/6] COPY frontend/ .
+#28 ERROR: failed to calculate checksum of ref f2zd1aw1xnys7pm3hq3vnx22r::lq08w7khpvpokeb2qe2ys41du: "/frontend": not found
+
+#29 [frontend 1/6] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#29 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 done
+#29 DONE 0.0s
+
+#30 [app  1/12] FROM docker.io/library/php:8.2-fpm-alpine@sha256:a4c841f3f8d40e27fdb987ed6cc79367b2d4e471c731291145e8e6c82ad114e4
+#30 resolve docker.io/library/php:8.2-fpm-alpine@sha256:a4c841f3f8d40e27fdb987ed6cc79367b2d4e471c731291145e8e6c82ad114e4 done
+#30 DONE 0.1s
+
+#31 [composer 1/5] FROM docker.io/library/composer:2.6@sha256:f844818bfcfaef7224ecad902ccc6db5d37e23d7e83cf33346fc35b6a7ac1fc3
+#31 resolve docker.io/library/composer:2.6@sha256:f844818bfcfaef7224ecad902ccc6db5d37e23d7e83cf33346fc35b6a7ac1fc3 done
+#31 DONE 0.1s
+------
+ > [composer 3/5] COPY backend/composer.json backend/composer.lock* ./:
+------
+------
+ > [app  6/12] COPY backend/ .:
+------
+------
+ > [frontend 5/6] COPY frontend/ .:
+------
+------
+ > [app 10/12] COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf:
+------
+Dockerfile:75
+--------------------
+  73 |     
+  74 |     # Copy supervisor configuration
+  75 | >>> COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+  76 |     
+  77 |     # Copy entrypoint script
+--------------------
+ERROR: failed to build: failed to solve: failed to compute cache key: failed to calculate checksum of ref f2zd1aw1xnys7pm3hq3vnx22r::lq08w7khpvpokeb2qe2ys41du: "/docker/supervisor/supervisord.conf": not found
+Error: buildx failed with: ERROR: failed to build: failed to solve: failed to compute cache key: failed to calculate checksum of ref f2zd1aw1xnys7pm3hq3vnx22r::lq08w7khpvpokeb2qe2ys41du: "/docker/supervisor/supervisord.conf": not found
+```
