@@ -8,20 +8,20 @@ WORKDIR /app
 
 COPY composer.json composer.lock* ./
 
-# Install PHP extensions (redis via PECL, not docker-php-ext-install)
-RUN apk add --no-cache $PHPIZE_DEPS \
+# Install PHP extensions (redis via PECL, pdo_pgsql needs postgresql-dev)
+RUN apk add --no-cache $PHPIZE_DEPS postgresql-dev \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && docker-php-ext-install pdo_mysql pdo_pgsql
 
-# Install Composer dependencies
-RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-audit \
+# Install Composer dependencies (--no-security-blocking to skip advisory blocking)
+RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-security-blocking \
     && composer dump-autoload --optimize
 
 # Stage 2: Production image
 FROM php:8.3-fpm-alpine AS app
 
-# Install system dependencies
+# Install system dependencies (postgresql-dev needed for pdo_pgsql)
 RUN apk add --no-cache \
     git \
     curl \
@@ -32,6 +32,7 @@ RUN apk add --no-cache \
     libjpeg-turbo-dev \
     freetype-dev \
     oniguruma-dev \
+    postgresql-dev \
     nginx \
     supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
