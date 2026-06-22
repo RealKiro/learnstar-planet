@@ -8,14 +8,14 @@ WORKDIR /app
 
 COPY composer.json composer.lock* ./
 
-# Install PHP extensions (redis via PECL, pdo_pgsql needs postgresql-dev)
+# Install PHP extensions (redis via PECL, pdo_pgsql needs postgresql-dev, pcntl is core ext)
 RUN apk add --no-cache $PHPIZE_DEPS postgresql-dev \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && docker-php-ext-install pdo_mysql pdo_pgsql
+    && docker-php-ext-install pdo_mysql pdo_pgsql pcntl
 
-# Install Composer dependencies (advisories.block:false in composer.json handles security blocking)
-RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader \
+# Install Composer dependencies (--no-scripts: artisan not available in this stage)
+RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts \
     && composer dump-autoload --optimize
 
 # Stage 2: Production image
@@ -42,6 +42,7 @@ RUN apk add --no-cache \
         zip \
         gd \
         mbstring \
+        pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && rm -rf /var/cache/apk/*
@@ -68,8 +69,14 @@ COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Set proper permissions
-RUN chown -R www-data:www-data /var/www/html \
+# Set proper permissions and ensure storage directories exist
+RUN mkdir -p storage/app/public \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 

@@ -2,70 +2,63 @@ GitHub Actions
 / .github/workflows/deploy.yml
 Invalid workflow file
 
-(Line: 159, Col: 9): Unrecognized named-value: 'env'. Located at position 14 within expression: failure() && env.PROD_HOST != ''
+(Line: 63, Col: 13): Unrecognized named-value: 'secrets'. Located at position 59 within expression: always() && steps.check-secrets.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != '', (Line: 143, Col: 13): Unrecognized named-value: 'secrets'. Located at position 59 within expression: always() && steps.check-secrets.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != '', (Line: 187, Col: 13): Unrecognized named-value: 'secrets'. Located at position 56 within expression: always() && steps.check-prod.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != ''
 
 ---
 Install Composer dependencies
 ```
-Run composer install --no-interaction --no-progress --prefer-dist --no-security-blocking
+Run composer install --no-interaction --no-progress --prefer-dist
 No composer.lock file present. Updating dependencies to latest instead of installing from lock file. See https://getcomposer.org/install for more information.
 Loading composer repositories with package information
 Updating dependencies
-Your requirements could not be resolved to an installable set of packages.
-
-  Problem 1
-    - Root composer.json requires flux/flux ^5.0 -> satisfiable by flux/flux[v5.13.0, v5.13.1, v5.13.2].
-    - Root composer.json requires laravel/framework ^11.0 -> satisfiable by laravel/framework[v11.0.0, ..., v11.54.0].
-    - laravel/framework[v11.0.0, ..., v11.54.0] require monolog/monolog ^3.0 -> satisfiable by monolog/monolog[3.0.0, ..., 3.10.0].
-    - Conclusion: don't install one of psr/log[1.1.4], monolog/monolog[3.10.0] (conflict analysis result)
-    - Conclusion: install psr/log 1.1.4 (conflict analysis result)
-
-Error: Your requirements could not be resolved to an installable set of packages.
-
-  Problem 1
-    - Root composer.json requires flux/flux ^5.0 -> satisfiable by flux/flux[v5.13.0, v5.13.1, v5.13.2].
-    - Root composer.json requires laravel/framework ^11.0 -> satisfiable by laravel/framework[v11.0.0, ..., v11.54.0].
-    - laravel/framework[v11.0.0, ..., v11.54.0] require monolog/monolog ^3.0 -> satisfiable by monolog/monolog[3.0.0, ..., 3.10.0].
-    - Conclusion: don't install one of psr/log[1.1.4], monolog/monolog[3.10.0] (conflict analysis result)
-    - Conclusion: install psr/log 1.1.4 (conflict analysis result)
-
-Error: Process completed with exit code 2.
+Lock file operations: 155 installs, 0 updates, 0 removals
+  - Locking barryvdh/laravel-dompdf (v2.2.0)
+  - Locking brick/math (0.14.8)
+  - Locking carbonphp/carbon-doctrine-types (3.2.0)
+……
+  - Installing spatie/laravel-package-tools (1.93.1): Extracting archive
+  - Installing spatie/laravel-activitylog (4.12.3): Extracting archive
+  - Installing spatie/laravel-permission (6.25.0): Extracting archive
+47 package suggestions were added by new dependencies, use `composer suggest` to see details.
+Generating optimized autoload files
+Class Tests\Feature\Api\TeacherApiTest located in ./tests/Feature/TeacherApiTest.php does not comply with psr-4 autoloading standard (rule: Tests\ => ./tests). Skipping.
+> Illuminate\Foundation\ComposerScripts::postAutoloadDump
+> @php artisan package:discover --ansi
+Could not open input file: artisan
+Script @php artisan package:discover --ansi handling the post-autoload-dump event returned with error code 1
+Error: Process completed with exit code 1.
 ```
-
----
+--
 Build and push Backend image
 ```
 Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 Run docker/build-push-action@v5
-(node:2775) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:2816) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 GitHub Actions runtime token ACs
-Docker info
-Proxy configuration
-Buildx version
-Builder info
-/usr/bin/docker buildx build --cache-from type=gha --cache-to type=gha,mode=max --file ./backend/Dockerfile --iidfile /home/runner/work/_temp/docker-actions-toolkit-TTHgYV/build-iidfile-8463de070e.txt --label org.opencontainers.image.created=2026-06-22T08:42:27.356Z --label org.opencontainers.image.description= --label org.opencontainers.image.licenses=MIT --label org.opencontainers.image.revision=93b6185b71449d8ada9e7f31a48c888880535950 --label org.opencontainers.image.source=https://github.com/RealKiro/learnstar-planet --label org.opencontainers.image.title=learnstar-planet --label org.opencontainers.image.url=https://github.com/RealKiro/learnstar-planet --label org.opencontainers.image.version=main --attest type=provenance,mode=max,builder-id=https://github.com/RealKiro/learnstar-planet/actions/runs/27940409929 --tag ghcr.io/realkiro/learnstar-planet/backend:main --tag ghcr.io/realkiro/learnstar-planet/backend:latest --tag ghcr.io/realkiro/learnstar-planet/backend:sha-93b6185 --metadata-file /home/runner/work/_temp/docker-actions-toolkit-TTHgYV/build-metadata-249239c0e3.json --push ./backend
-#0 building with "builder-aee2ef14-5324-4a8f-899c-16105dfcf15d" instance using docker-container driver
-
-#1 [internal] load build definition from Dockerfile
-#1 DONE 0.0s
 ……
- > [composer 5/5] RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-security-blocking     && composer dump-autoload --optimize:
-0.397 
-0.400                                                        
-0.400   The "--no-security-blocking" option does not exist.  
-0.400                                                        
-0.400 
-0.400 install [--prefer-source] [--prefer-dist] [--prefer-install PREFER-INSTALL] [--dry-run] [--download-only] [--dev] [--no-suggest] [--no-dev] [--no-autoloader] [--no-progress] [--no-install] [--audit] [--audit-format AUDIT-FORMAT] [-v|vv|vvv|--verbose] [-o|--optimize-autoloader] [-a|--classmap-authoritative] [--apcu-autoloader] [--apcu-autoloader-prefix APCU-AUTOLOADER-PREFIX] [--ignore-platform-req IGNORE-PLATFORM-REQ] [--ignore-platform-reqs] [--] [<packages>...]
-0.400 
+#11 50.31  cc -I. -I/usr/src/php/ext/mbstring -I/usr/src/php/ext/mbstring/include -I/usr/src/php/ext/mbstring/main -I/usr/src/php/ext/mbstring -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/src/php/ext/mbstring/libmbfl -I/usr/src/php/ext/mbstring/libmbfl/mbfl -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DHAVE_CONFIG_H -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -DONIG_ESCAPE_UCHAR_COLLISION=1 -DUChar=OnigUChar -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -DZEND_COMPILE_DL_EXT=1 -c /usr/src/php/ext/mbstring/libmbfl/filters/mbfilter_cjk.c -MMD -MF libmbfl/filters/mbfilter_cjk.dep -MT libmbfl/filters/mbfilter_cjk.lo  -fPIC -DPIC -o libmbfl/filters/.libs/mbfilter_cjk.o
+#11 CANCELED
+------
+ > [composer 5/5] RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader     && composer dump-autoload --optimize:
+5.238     - /usr/local/etc/php/php-cli.ini
+5.238     - /usr/local/etc/php/conf.d/docker-php-ext-bz2.ini
+5.238     - /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+5.238     - /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini
+5.238     - /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
+5.238     - /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
+5.238     - /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
+5.238     - /usr/local/etc/php/conf.d/docker-php-ext-zip.ini
+5.238 You can also run `php --ini` in a terminal to see which files are used by PHP in CLI mode.
+5.238 Alternatively, you can run Composer with `--ignore-platform-req=ext-pcntl` to temporarily ignore these required extensions.
 ------
 Dockerfile:18
 --------------------
-  17 |     # Install Composer dependencies (--no-security-blocking to skip advisory blocking)
-  18 | >>> RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-security-blocking \
+  17 |     # Install Composer dependencies (advisories.block:false in composer.json handles security blocking)
+  18 | >>> RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader \
   19 | >>>     && composer dump-autoload --optimize
   20 |     
 --------------------
-ERROR: failed to build: failed to solve: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-security-blocking     && composer dump-autoload --optimize" did not complete successfully: exit code: 1
-Error: buildx failed with: ERROR: failed to build: failed to solve: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-security-blocking     && composer dump-autoload --optimize" did not complete successfully: exit code: 1
+ERROR: failed to build: failed to solve: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader     && composer dump-autoload --optimize" did not complete successfully: exit code: 2
+Error: buildx failed with: ERROR: failed to build: failed to solve: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader     && composer dump-autoload --optimize" did not complete successfully: exit code: 2
 ```

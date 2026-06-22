@@ -8,6 +8,14 @@ set -e
 
 echo "🚀 学趣星球 - 启动初始化..."
 
+# 确保存储目录存在
+mkdir -p storage/app/public \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache
+
 # 等待数据库就绪
 echo "⏳ 等待数据库连接..."
 MAX_RETRIES=30

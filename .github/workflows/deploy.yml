@@ -29,12 +29,20 @@ jobs:
 
       - name: Check deployment secrets
         id: check-secrets
+        env:
+          STAGING_HOST: ${{ secrets.STAGING_HOST }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: |
-          if [ -z "${{ secrets.STAGING_HOST }}" ]; then
+          if [ -z "$STAGING_HOST" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
             echo "⚠️ STAGING_HOST not configured, skipping deployment"
           else
             echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+          if [ -n "$SLACK_WEBHOOK" ]; then
+            echo "notify=true" >> $GITHUB_OUTPUT
+          else
+            echo "notify=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Deploy to Staging Server
@@ -60,7 +68,7 @@ jobs:
           curl -f https://staging.learnstar.com/api/health || exit 1
 
       - name: Notify deployment status
-        if: always() && steps.check-secrets.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != ''
+        if: always() && steps.check-secrets.outputs.skip != 'true' && steps.check-secrets.outputs.notify == 'true'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         uses: 8398a7/action-slack@v3
@@ -86,12 +94,20 @@ jobs:
 
       - name: Check deployment secrets
         id: check-secrets
+        env:
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: |
-          if [ -z "${{ secrets.PROD_HOST }}" ]; then
+          if [ -z "$PROD_HOST" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
             echo "⚠️ PROD_HOST not configured, skipping deployment"
           else
             echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+          if [ -n "$SLACK_WEBHOOK" ]; then
+            echo "notify=true" >> $GITHUB_OUTPUT
+          else
+            echo "notify=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Create Release Tag
@@ -140,7 +156,7 @@ jobs:
             docker-compose exec -T app php artisan health:check
 
       - name: Notify deployment status
-        if: always() && steps.check-secrets.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != ''
+        if: always() && steps.check-secrets.outputs.skip != 'true' && steps.check-secrets.outputs.notify == 'true'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         uses: 8398a7/action-slack@v3
@@ -162,12 +178,20 @@ jobs:
     steps:
       - name: Check production secrets
         id: check-prod
+        env:
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: |
-          if [ -z "${{ secrets.PROD_HOST }}" ]; then
+          if [ -z "$PROD_HOST" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
             echo "ℹ️ PROD_HOST not configured, skipping rollback"
           else
             echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+          if [ -n "$SLACK_WEBHOOK" ]; then
+            echo "notify=true" >> $GITHUB_OUTPUT
+          else
+            echo "notify=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Rollback to previous version
@@ -184,7 +208,7 @@ jobs:
             docker-compose exec -T app php artisan migrate --force
 
       - name: Notify rollback
-        if: always() && steps.check-prod.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != ''
+        if: always() && steps.check-prod.outputs.skip != 'true' && steps.check-prod.outputs.notify == 'true'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         uses: 8398a7/action-slack@v3

@@ -68,6 +68,16 @@ jobs:
         working-directory: backend
         run: cp .env.example .env
 
+      - name: Create storage directories
+        working-directory: backend
+        run: |
+          mkdir -p storage/app/public \
+            storage/framework/cache/data \
+            storage/framework/sessions \
+            storage/framework/views \
+            storage/logs \
+            bootstrap/cache
+
       - name: Install Composer dependencies
         working-directory: backend
         run: composer install --no-interaction --no-progress --prefer-dist
@@ -143,7 +153,7 @@ jobs:
 
       - name: Install Composer dependencies
         working-directory: backend
-        run: composer install --no-interaction --no-progress --prefer-dist
+        run: composer install --no-interaction --no-progress --prefer-dist --no-scripts
 
       - name: Run PHP CS Fixer (check only)
         working-directory: backend
