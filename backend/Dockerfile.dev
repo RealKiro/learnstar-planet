@@ -1,0 +1,59 @@
+# Development mode Dockerfile
+# For hot-reload and development with volume mounts
+
+FROM php:8.2-fpm-alpine
+
+# Install system dependencies
+RUN apk add --no-cache \
+    git \
+    curl \
+    zip \
+    unzip \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    oniguruma-dev \
+    nodejs \
+    npm \
+    $PHPIZE_DEPS \
+    && docker-php-ext-install \
+        pdo_mysql \
+        pdo_pgsql \
+        redis \
+        zip \
+        gd \
+        mbstring \
+    && rm -rf /var/cache/apk/*
+
+# Install Composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
+
+# Install Node.js and NPM (for frontend assets)
+RUN npm install -g npm@latest
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy application code (will be overridden by volume mount)
+COPY backend/ .
+
+# Install PHP dependencies
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# Install Node.js dependencies (if frontend uses NPM)
+# RUN npm install
+
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 777 /var/www/html/storage \
+    && chmod -R 777 /var/www/html/bootstrap/cache
+
+# Install Node.js and NPM (for frontend assets)
+RUN npm install -g npm@latest
+
+# Expose port
+EXPOSE 9000
+
+# Start PHP-FPM in development mode (with hot-reload)
+CMD ["php-fpm", "-F"]

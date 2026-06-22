@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/dashboard/dashboard",
+    "pages/students/students",
+    "pages/scores/scores",
+    "pages/pets/pets",
+    "pages/leaderboard/leaderboard",
+    "pages/shop/shop",
+    "pages/notices/notices",
+    "pages/parent-home/parent-home",
+    "pages/parent-scores/parent-scores",
+    "pages/parent-growth/parent-growth",
+    "pages/parent-ranking/parent-ranking",
+    "pages/parent-notices/parent-notices",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#4F46E5",
+    "navigationBarTitleText": "学趣星球",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8FAFC",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#64748B",
+    "selectedColor": "#4F46E5",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/dashboard/dashboard", "text": "看板", "iconPath": "images/tab-home.png", "selectedIconPath": "images/tab-home-active.png" },
+      { "pagePath": "pages/scores/scores", "text": "积分", "iconPath": "images/tab-score.png", "selectedIconPath": "images/tab-score-active.png" },
+      { "pagePath": "pages/pets/pets", "text": "宠物", "iconPath": "images/tab-pet.png", "selectedIconPath": "images/tab-pet-active.png" },
+      { "pagePath": "pages/leaderboard/leaderboard", "text": "排行", "iconPath": "images/tab-rank.png", "selectedIconPath": "images/tab-rank-active.png" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

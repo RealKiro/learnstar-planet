@@ -1,0 +1,87 @@
+# ================================
+# 学趣星球 .gitignore
+# ================================
+
+# ========== Laravel ==========
+/backend/vendor
+/backend/node_modules
+/backend/.env
+/backend/.env.local
+/backend/.env.production
+/backend/storage/*
+/backend/storage/framework/cache/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/storage/logs/*
+/backend/bootstrap/cache/*
+/backend/public/hot
+/backend/public/storage
+/backend/public/build
+/backend/public/css
+/backend/public/js
+/backend/public/mix-manifest.json
+/backend/coverage.xml
+/backend/coverage-html
+
+# ========== Node.js ==========
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# ========== 微信小程序 ==========
+/mini-program/miniprogram_npm/
+/mini-program/dist/
+/mini-program/.cache/
+
+# ========== IDE ==========
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========== OS ==========
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ========== Docker ==========
+docker/data/
+docker/volumes/
+
+# ========== 环境配置 ==========
+.env
+.env.local
+.env.*.local
+*.local
+
+# ========== 测试 ==========
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.phpunit.cache/
+.php-cs-fixer.cache
+
+# ========== 构建输出 ==========
+dist/
+build/
+out/
+*.log
+
+# ========== 其他 ==========
+*.pid
+*.seed
+*.pid.lock
+.sass-cache/
+*.css.map
+*.js.map

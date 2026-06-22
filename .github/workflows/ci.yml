@@ -1,0 +1,209 @@
+name: CI - Test & Lint
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  # ========== 后端测试（Laravel/PHP）==========
+  backend-test:
+    name: Backend Tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [8.2, 8.3]
+        database: [mysql, pgsql, sqlite]
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: learnstar_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      pgsql:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: learnstar_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, pdo_pgsql, redis
+          coverage: xdebug
+
+      - name: Copy .env
+        working-directory: backend
+        run: cp .env.example .env
+
+      - name: Install Composer dependencies
+        working-directory: backend
+        run: |
+          composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Generate app key
+        working-directory: backend
+        run: php artisan key:generate --no-interaction
+
+      - name: Setup database (MySQL)
+        if: matrix.database == 'mysql'
+        working-directory: backend
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: learnstar_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        run: php artisan migrate --force
+
+      - name: Setup database (PostgreSQL)
+        if: matrix.database == 'pgsql'
+        working-directory: backend
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: learnstar_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+        run: php artisan migrate --force
+
+      - name: Setup database (SQLite)
+        if: matrix.database == 'sqlite'
+        working-directory: backend
+        run: |
+          touch database/testing.sqlite
+          php artisan migrate --force --database=sqlite
+
+      - name: Run PHPUnit tests
+        working-directory: backend
+        env:
+          DB_CONNECTION: ${{ matrix.database == 'mysql' && 'mysql' || matrix.database == 'pgsql' && 'pgsql' || 'sqlite' }}
+          DB_HOST: 127.0.0.1
+          DB_PORT: ${{ matrix.database == 'mysql' && '3306' || matrix.database == 'pgsql' && '5432' || '' }}
+          DB_DATABASE: ${{ matrix.database == 'sqlite' && 'database/testing.sqlite' || 'learnstar_test' }}
+          DB_USERNAME: ${{ matrix.database == 'pgsql' && 'postgres' || 'root' }}
+          DB_PASSWORD: ${{ matrix.database == 'pgsql' && 'postgres' || 'root' }}
+          REDIS_HOST: 127.0.0.1
+          REDIS_PORT: 6379
+        run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+
+      - name: Upload coverage to Codecov
+        if: matrix.php == '8.2' && matrix.database == 'mysql'
+        uses: codecov/codecov-action@v4
+        with:
+          file: backend/coverage.xml
+          fail_ci_if_error: false
+
+  # ========== 代码质量检查 ==========
+  code-quality:
+    name: Code Quality (PHP CS Fixer + PHPStan)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          tools: php-cs-fixer, phpstan
+
+      - name: Install Composer dependencies
+        working-directory: backend
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Run PHP CS Fixer (check only)
+        working-directory: backend
+        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
+
+      - name: Run PHPStan (static analysis)
+        working-directory: backend
+        run: ./vendor/bin/phpstan analyse --memory-limit=512M
+
+  # ========== 前端测试 ==========
+  frontend-test:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Run unit tests
+        working-directory: frontend
+        run: npm run test
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+  # ========== 微信小程序检查 ==========
+  miniprogram-lint:
+    name: WeChat Mini Program Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate mini-program JSON files
+        run: |
+          echo "Validating mini-program config files..."
+          cat mini-program/app.json | jq . > /dev/null && echo "✅ app.json is valid JSON"
+          cat mini-program/project.config.json | jq . > /dev/null && echo "✅ project.config.json is valid JSON"
+          echo "Mini-program structure validation passed"
+
+      - name: Check mini-program file structure
+        run: |
+          test -f mini-program/app.js && echo "✅ app.js exists"
+          test -f mini-program/app.json && echo "✅ app.json exists"
+          test -f mini-program/app.wxss && echo "✅ app.wxss exists"
+          test -d mini-program/pages && echo "✅ pages directory exists"
+          echo "Mini-program file structure validation passed"

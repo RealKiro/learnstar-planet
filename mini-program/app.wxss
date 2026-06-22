@@ -1,0 +1,114 @@
+/* 学趣星球 - 小程序全局样式 */
+page {
+  background: #F8FAFC;
+  font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+  color: #1E293B;
+}
+
+.brand-primary { color: #4F46E5; }
+.brand-secondary { color: #F59E0B; }
+.brand-accent { color: #10B981; }
+.brand-danger { color: #EF4444; }
+
+/* 卡片 */
+.card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 24rpx;
+  margin: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+
+/* 统计卡片 */
+.stat-row {
+  display: flex;
+  gap: 12rpx;
+  padding: 0 16rpx;
+}
+.stat-item {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+.stat-value {
+  font-size: 36rpx;
+  font-weight: 700;
+}
+.stat-label {
+  font-size: 24rpx;
+  color: #64748B;
+}
+
+/* 按钮 */
+.btn-primary {
+  background: #4F46E5;
+  color: white;
+  border-radius: 12rpx;
+  padding: 16rpx 32rpx;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+/* 列表项 */
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #E2E8F0;
+}
+
+/* 进度条 */
+.progress-bar {
+  height: 8rpx;
+  background: #E2E8F0;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4F46E5, #818CF8);
+  border-radius: 4rpx;
+}
+
+/* 宠物大展示 */
+.pet-hero {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 48rpx;
+  text-align: center;
+  margin: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.08);
+}
+.pet-hero-emoji {
+  font-size: 120rpx;
+}
+.pet-hero-stage {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+/* 排行榜 */
+.rank-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 20rpx;
+  border-bottom: 1rpx solid #E2E8F0;
+}
+.rank-badge {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 24rpx;
+  background: rgba(79,70,229,0.08);
+  color: #4F46E5;
+}
+.rank-badge.gold { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.rank-badge.silver { background: rgba(148,163,184,0.15); color: #94A3B8; }
+.rank-badge.bronze { background: rgba(180,83,9,0.15); color: #B45309; }

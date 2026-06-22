@@ -1,0 +1,215 @@
+# Gitee Go CI/CD Workflow
+# 适配 Gitee 的自动化工作流（类似 GitHub Actions）
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [master, main, develop]
+  pull_request:
+    branches: [master, main]
+  tag_push:
+    tags: ['v*']
+
+jobs:
+  # ========== 后端测试 ==========
+  backend-test:
+    name: Backend Tests
+    runs-on: docker
+    container:
+      image: php:8.2-cli
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: learnstar_test
+        ports:
+          - 3306
+        options: "--health-cmd='mysqladmin ping' --health-interval=10s --health-timeout=5s --health-retries=5"
+      
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379
+        options: "--health-cmd='redis-cli ping' --health-interval=10s --health-timeout=5s --health-retries=5"
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install PHP extensions
+        run: |
+          apt-get update && apt-get install -y \
+            libzip-dev libpng-dev libjpeg-dev libfreetype6-dev \
+            unzip git curl
+          docker-php-ext-install pdo_mysql pdo_pgsql zip gd
+      
+      - name: Install Composer
+        run: |
+          curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      
+      - name: Copy .env
+        working-directory: backend
+        run: cp .env.example .env
+      
+      - name: Install dependencies
+        working-directory: backend
+        run: composer install --no-interaction --no-progress
+      
+      - name: Generate app key
+        working-directory: backend
+        run: php artisan key:generate --no-interaction
+      
+      - name: Run migrations
+        working-directory: backend
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: learnstar_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
+        run: php artisan migrate --force
+      
+      - name: Run PHPUnit tests
+        working-directory: backend
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: learnstar_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
+        run: ./vendor/bin/phpunit
+
+  # ========== 代码质量检查 ==========
+  code-quality:
+    name: Code Quality
+    runs-on: docker
+    container:
+      image: php:8.2-cli
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install Composer
+        run: |
+          curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      
+      - name: Install dependencies
+        working-directory: backend
+        run: composer install --no-interaction --no-progress
+      
+      - name: Run PHP CS Fixer
+        working-directory: backend
+        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
+      
+      - name: Run PHPStan
+        working-directory: backend
+        run: ./vendor/bin/phpstan analyse
+
+  # ========== 构建 Docker 镜像 ==========
+  build-docker:
+    name: Build Docker Images
+    runs-on: docker
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to Gitee Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: gitee.com
+          username: ${{ secrets.GITEE_USERNAME }}
+          password: ${{ secrets.GITEE_PASSWORD }}
+      
+      - name: Build and push backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: |
+            gitee.com/${{ github.repository }}/backend:latest
+            gitee.com/${{ github.repository }}/backend:${{ github.sha }}
+          cache-from: type=registry,ref=gitee.com/${{ github.repository }}/backend:latest
+          cache-to: type=inline
+
+  # ========== 部署到预发布环境 ==========
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: docker
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    needs: [backend-test, code-quality]
+    
+    steps:
+      - name: Deploy to Staging
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /opt/learnstar/staging
+            git pull origin develop
+            docker-compose pull
+            docker-compose up -d --remove-orphans
+            docker-compose exec -T app php artisan migrate --force
+
+  # ========== 部署到生产环境 ==========
+  deploy-production:
+    name: Deploy to Production
+    runs-on: docker
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    environment: production
+    needs: [build-docker]
+    
+    steps:
+      - name: Deploy to Production
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            cd /opt/learnstar/production
+            git pull origin master
+            docker-compose pull
+            docker-compose up -d --remove-orphans
+            docker-compose exec -T app php artisan migrate --force
+            docker-compose exec -T app php artisan config:cache
+            docker-compose exec -T app php artisan route:cache
+
+  # ========== 通知 ==========
+  notify:
+    name: Send Notification
+    runs-on: docker
+    if: always()
+    needs: [backend-test, code-quality, build-docker, deploy-staging, deploy-production]
+    
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        if: always()
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "CI/CD Pipeline - ${{ job.status }}"
+          body: "Pipeline status: ${{ job.status }}\nCommit: ${{ github.sha }}\nBranch: ${{ github.ref }}"
+          to: ${{ secrets.NOTIFY_EMAIL }}
+          from: CI/CD Bot
