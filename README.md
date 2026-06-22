@@ -11,6 +11,7 @@
 
 - [项目介绍](#项目介绍)
 - [功能特性](#功能特性)
+- [项目结构](#项目结构)
 - [快速部署](#快速部署)
 - [配置说明](#配置说明)
 - [FAQ](#faq)
@@ -99,6 +100,114 @@
 - **容器化**：Docker + Docker Compose
 - **CI/CD**：GitHub Actions + Gitee Go
 - **镜像**：GitHub Container Registry (GHCR)
+
+---
+
+## 项目结构
+
+```
+learnstar-planet/
+├── index.html                      # Web 前端（单文件，含全部页面和交互逻辑）
+├── docker-compose.yml              # Docker Compose 编排（应用 + MySQL + Redis）
+├── .env.example                    # 环境变量模板（复制为 .env 后修改）
+├── LICENSE                         # MIT 开源许可证
+├── README.md                       # 本文档
+│
+├── backend/                        # 后端 - Laravel 11 API 服务
+│   ├── Dockerfile                  # 生产环境多阶段构建（PHP 8.3 + Nginx + Supervisor）
+│   ├── Dockerfile.dev              # 开发环境构建（含热重载）
+│   ├── .dockerignore               # Docker 构建忽略文件
+│   ├── composer.json               # PHP 依赖声明（Laravel/Livewire/Flux 等）
+│   ├── .env.example                # 后端环境变量模板
+│   ├── .env.staging                # 预发布环境配置
+│   ├── .php-cs-fixer.php           # PHP CS Fixer 代码格式化规则（PSR-12）
+│   ├── phpstan.neon                # PHPStan 静态分析配置（Level 5）
+│   ├── phpunit.xml                 # PHPUnit 测试配置
+│   │
+│   ├── app/                        # 应用核心代码
+│   │   ├── Models/                 # Eloquent 数据模型（17 个）
+│   │   │   ├── School.php          #   学校
+│   │   │   ├── ClassRoom.php       #   班级
+│   │   │   ├── User.php            #   用户（教师/家长/管理员）
+│   │   │   ├── Student.php         #   学生
+│   │   │   ├── ThirdPartyBinding.php #  第三方账号绑定（微信/企微/QQ/人人通）
+│   │   │   ├── Pet.php             #   宠物
+│   │   │   ├── Score.php           #   积分
+│   │   │   ├── ScoreRule.php       #   积分规则
+│   │   │   ├── ScoreLog.php        #   积分变动日志
+│   │   │   ├── ShopItem.php        #   商城物品
+│   │   │   ├── ShopRedemption.php  #   兑换记录
+│   │   │   ├── Notice.php          #   通知公告
+│   │   │   ├── Broadcast.php       #   实时广播（教室小喇叭）
+│   │   │   ├── Attendance.php      #   考勤记录
+│   │   │   ├── HomeworkCollection.php # 作业收集
+│   │   │   ├── Quiz.php            #   在线答题/题库
+│   │   │   └── Grade.php           #   成绩
+│   │   │
+│   │   ├── Services/               # 业务逻辑服务层
+│   │   │   ├── AuthService.php     #   认证服务（教师/管理员登录拆分）
+│   │   │   ├── ScoreService.php    #   积分管理服务
+│   │   │   └── LeaderboardService.php # 排行榜服务（Redis ZSET）
+│   │   │
+│   │   ├── Livewire/               # Livewire 组件
+│   │   │   └── Teacher/
+│   │   │       ├── Dashboard.php   #   教师仪表盘组件
+│   │   │       └── ScoreManager.php #  积分管理组件
+│   │   │
+│   │   └── Events/                 # 事件类
+│   │       ├── NoticePublished.php #   通知发布事件（SSE 推送）
+│   │       └── ScoreChanged.php    #   积分变动事件
+│   │
+│   ├── config/                     # Laravel 配置文件
+│   │   ├── database.php            #   多数据库配置（MySQL/PgSQL/SQLite）
+│   │   └── cache.php               #   缓存配置（Redis）
+│   │
+│   ├── database/
+│   │   ├── migrations/             # 数据库迁移
+│   │   │   ├── 2025_01_01_000001_create_all_tables.php  # 基础表（12 张）
+│   │   │   └── 2025_01_01_000002_create_classroom_tools_tables.php # 教室工具表（8 张）
+│   │   └── seeders/                # 数据填充（预留）
+│   │
+│   ├── routes/
+│   │   └── api.php                 # API 路由（按角色分组：auth/teacher/parent/admin）
+│   │
+│   ├── resources/views/            # Blade 视图模板
+│   │   ├── layouts/app.blade.php   #   基础布局
+│   │   └── livewire/teacher/       #   Livewire 组件视图
+│   │
+│   ├── tests/                      # 测试用例
+│   │   ├── Feature/TeacherApiTest.php  # 功能测试
+│   │   └── Unit/ScoreServiceTest.php   # 单元测试
+│   │
+│   └── docker/                     # Docker 相关配置
+│       ├── nginx/default.conf      #   Nginx 配置（单容器模式，监听 8080）
+│       ├── supervisor/supervisord.conf # Supervisor 配置（管理 Nginx+PHP-FPM+Queue）
+│       └── scripts/entrypoint.sh   #   容器启动脚本（迁移/缓存/启动）
+│
+├── mini-program/                   # 微信小程序端
+│   ├── app.js                      # 小程序入口
+│   ├── app.json                    # 全局配置（页面路由、窗口样式）
+│   ├── app.wxss                    # 全局样式
+│   ├── project.config.json         # 项目配置
+│   ├── sitemap.json                # 小程序索引配置
+│   └── pages/                      # 页面
+│       ├── login/                  #   登录页（教师/管理员双面板 + 微信登录）
+│       ├── index/                  #   首页
+│       └── dashboard/              #   仪表盘
+│
+├── pwa/                            # PWA 渐进式 Web 应用
+│   ├── manifest.json               # PWA 清单（应用名/图标/主题色）
+│   └── sw.js                       # Service Worker（离线缓存）
+│
+├── .github/workflows/              # GitHub Actions CI/CD 工作流
+│   ├── ci.yml                      #   持续集成（PHP 测试 + 代码质量 + 前端检查）
+│   ├── docker.yml                  #   Docker 镜像构建并推送到 GHCR
+│   ├── deploy.yml                  #   自动部署到服务器（SSH + Docker）
+│   └── security.yml                #   安全审计（依赖审查 + Composer 审计）
+│
+└── .gitee/                         # Gitee（码云）CI/CD
+    └── workflow.yml                #   Gitee Go 流水线配置
+```
 
 ---
 

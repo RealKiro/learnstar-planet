@@ -5,7 +5,7 @@
     "keywords": ["education", "classroom", "score", "management", "gamification", "free"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "laravel/framework": "^11.0",
         "livewire/livewire": "^3.0",
         "flux/flux": "^5.0",

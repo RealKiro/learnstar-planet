@@ -8,16 +8,18 @@ WORKDIR /app
 
 COPY composer.json composer.lock* ./
 
-# Install PHP extensions required by dependencies
+# Install PHP extensions (redis via PECL, not docker-php-ext-install)
 RUN apk add --no-cache $PHPIZE_DEPS \
-    && docker-php-ext-install pdo_mysql pdo_pgsql redis
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && docker-php-ext-install pdo_mysql pdo_pgsql
 
 # Install Composer dependencies
-RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader \
+RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-audit \
     && composer dump-autoload --optimize
 
 # Stage 2: Production image
-FROM php:8.2-fpm-alpine AS app
+FROM php:8.3-fpm-alpine AS app
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -36,10 +38,11 @@ RUN apk add --no-cache \
     && docker-php-ext-install \
         pdo_mysql \
         pdo_pgsql \
-        redis \
         zip \
         gd \
         mbstring \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
     && rm -rf /var/cache/apk/*
 
 # Install Composer
