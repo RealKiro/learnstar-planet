@@ -1,0 +1,98 @@
+<!-- ============================================================
+     班宠星球 - 微信小程序首页
+     ============================================================ -->
+<view class="page">
+  <!-- Hero 区域 -->
+  <view class="bc-card" style="text-align: center; padding: 40px 20px;">
+    <text style="font-size: 64px;">🪐</text>
+    <view class="bc-gradient-text" style="font-size: 32px; font-weight: 700; margin-top: 12px;">
+      班宠星球
+    </view>
+    <view class="free-badge" style="margin-top: 8px;">全免费</view>
+    <text style="font-size: 14px; color: #64748b; margin-top: 12px;">
+      让每个班级都充满乐趣的宠物积分系统
+    </text>
+  </view>
+
+  <!-- 角色切换 -->
+  <view class="bc-card" style="margin: 16px;">
+    <text style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">选择角色</text>
+    
+    <view style="display: flex; gap: 12px;">
+      <view class="{{isTeacher ? 'bc-btn-primary' : 'bc-btn-ghost'}}" 
+            bindtap="switchRole" style="flex: 1; text-align: center;">
+        📚 教师端
+      </view>
+      <view class="{{isParent ? 'bc-btn-primary' : 'bc-btn-ghost'}}" 
+            bindtap="switchRole" style="flex: 1; text-align: center;">
+        👨‍👩‍👧 家长端
+      </view>
+    </view>
+  </view>
+
+  <!-- 教师端：班级列表 -->
+  <view wx:if="{{isTeacher}}" class="bc-card" style="margin: 16px;">
+    <text style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">我的班级</text>
+    
+    <view wx:for="{{classRooms}}" wx:key="id" 
+          class="bc-card" 
+          style="margin-bottom: 12px; border: 2px solid {{item.id === currentClassId ? '#6366f1' : '#e2e8f0'}};"
+          data-id="{{item.id}}"
+          bindtap="selectClass">
+      <view style="display: flex; align-items: center; gap: 8px;">
+        <text style="font-size: 24px;">🏫</text>
+        <text style="font-weight: 600;">{{item.name}}</text>
+        <text class="free-badge">全免费</text>
+      </view>
+      <text style="font-size: 12px; color: #64748b; margin-top: 4px;">
+        {{item.grade}}年级{{item.section}}班 · {{item.academic_year}}
+      </text>
+    </view>
+
+    <view wx:if="{{classRooms.length === 0}}" class="empty-state">
+      <text class="empty-state-icon">📝</text>
+      <text class="empty-state-text">还没有班级，快去创建吧！</text>
+    </view>
+  </view>
+
+  <!-- 家长端：孩子列表 -->
+  <view wx:if="{{isParent}}" class="bc-card" style="margin: 16px;">
+    <text style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">我的孩子</text>
+    
+    <view wx:for="{{children}}" wx:key="id" class="bc-card" style="margin-bottom: 12px;">
+      <view style="display: flex; align-items: center; gap: 8px;">
+        <text style="font-size: 24px;">{{item.pet_emoji || '🥚'}}</text>
+        <text style="font-weight: 600;">{{item.name}}</text>
+        <view class="pet-badge">Lv.{{item.pet_level || 1}}</view>
+      </view>
+      <view class="bc-progress" style="margin-top: 8px;">
+        <view class="bc-progress-bar bc-progress-bar-indigo" 
+              style="width: {{item.exp_progress || 0}}%;"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能亮点 -->
+  <view class="bc-card" style="margin: 16px; text-align: center;">
+    <text style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">核心功能 · 全免费</text>
+    
+    <view style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <view class="stat-card">
+        <text style="font-size: 24px;">⭐</text>
+        <text class="stat-label">积分系统</text>
+      </view>
+      <view class="stat-card">
+        <text style="font-size: 24px;">🥚</text>
+        <text class="stat-label">宠物进化</text>
+      </view>
+      <view class="stat-card">
+        <text style="font-size: 24px;">📊</text>
+        <text class="stat-label">排行榜</text>
+      </view>
+      <view class="stat-card">
+        <text style="font-size: 24px;">🛒</text>
+        <text class="stat-label">积分商城</text>
+      </view>
+    </view>
+  </view>
+</view>

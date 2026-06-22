@@ -1,0 +1,74 @@
+<view class="login-container">
+  <!-- 品牌 -->
+  <view class="brand-area">
+    <text class="brand-emoji">🌌</text>
+    <text class="brand-name">学趣星球</text>
+  </view>
+
+  <!-- 登录类型Tab -->
+  <view class="login-tabs">
+    <view class="login-tab {{loginType === 'teacher' ? 'tab-teacher-active' : ''}}" bindtap="switchLoginType" data-type="teacher">
+      👩‍🏫 教师登录
+    </view>
+    <view class="login-tab {{loginType === 'admin' ? 'tab-admin-active' : ''}}" bindtap="switchLoginType" data-type="admin">
+      🔧 管理员登录
+    </view>
+  </view>
+
+  <!-- ===== 教师登录面板（默认） ===== -->
+  <view class="form-area" wx:if="{{loginType === 'teacher' && !showBinding}}">
+    <text class="brand-sub">账号密码由学校管理员统一分配，直接登录即可</text>
+
+    <view class="input-group">
+      <text class="input-label">教师账号</text>
+      <input class="input-field" placeholder="输入管理员分配的教师账号" bindinput="bindUsernameInput" value="{{username}}" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">密码</text>
+      <input class="input-field" type="password" placeholder="输入管理员分配的密码" bindinput="bindPasswordInput" value="{{password}}" />
+    </view>
+    <button class="login-btn teacher-btn" bindtap="handleTeacherLogin" loading="{{loading}}">教师登录</button>
+
+    <!-- 微信一键登录 -->
+    <view class="divider"><text>扫码快捷登录</text></view>
+    <button class="wx-login-btn" bindtap="handleWxLogin">
+      💬 微信一键登录
+    </button>
+    <text class="tip-text">首次微信登录需绑定分配的教师账号</text>
+  </view>
+
+  <!-- ===== 管理员登录面板 ===== -->
+  <view class="form-area" wx:if="{{loginType === 'admin'}}">
+    <view class="admin-notice">
+      ⚠️ 管理员账号仅用于学校后台管理（创建教师账号、班级管理、全校数据查看），不可用于日常教学操作
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">管理员账号</text>
+      <input class="input-field" placeholder="学校注册时分配的管理员账号" bindinput="bindAdminUsernameInput" value="{{adminUsername}}" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">管理员密码</text>
+      <input class="input-field" type="password" placeholder="输入管理员密码" bindinput="bindAdminPasswordInput" value="{{adminPassword}}" />
+    </view>
+    <button class="login-btn admin-btn" bindtap="handleAdminLogin" loading="{{loading}}">管理员登录</button>
+
+    <text class="tip-text">管理员不支持第三方扫码登录，仅限账号密码方式</text>
+  </view>
+
+  <!-- 教师扫码后绑定账号 -->
+  <view class="form-area" wx:if="{{loginType === 'teacher' && showBinding}}">
+    <view class="bind-title">绑定已有教师账号</view>
+    <text class="bind-tip">检测到你的微信未绑定账号，请输入管理员分配的教师账号密码完成绑定</text>
+    <view class="input-group">
+      <text class="input-label">教师账号</text>
+      <input class="input-field" placeholder="分配的教师账号" bindinput="bindBindUsernameInput" value="{{bindUsername}}" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">密码</text>
+      <input class="input-field" type="password" placeholder="分配的密码" bindinput="bindBindPasswordInput" value="{{bindPassword}}" />
+    </view>
+    <button class="login-btn teacher-btn" bindtap="handleBind">完成绑定</button>
+    <text class="tip-text back-link" bindtap="cancelBinding">返回账号密码登录</text>
+  </view>
+</view>

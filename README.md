@@ -1,0 +1,459 @@
+# 🌌 学趣星球 (LearnStar Planet)
+
+> 开源版班级管理系统 - 积分激励 · 宠物养成 · AI助教 · 全免费
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/yourusername/learnstar-planet?style=social)](https://github.com/yourusername/learnstar-planet)
+
+---
+
+## 📖 目录
+
+- [项目介绍](#项目介绍)
+- [功能特性](#功能特性)
+- [快速部署](#快速部署)
+- [配置说明](#配置说明)
+- [FAQ](#faq)
+- [贡献指南](#贡献指南)
+
+---
+
+## 项目介绍
+
+**学趣星球**是一款开源的班级管理与学生激励系统，旨在为教师提供一个有趣、高效、免费的工具，通过**积分激励**、**宠物养成**、**AI助教**等创新功能，提升学生学习积极性。
+
+### 🎯 设计理念
+
+- **全免费**：无任何付费功能，所有功能完全开放
+- **易部署**：支持 Docker 一键部署，预构建镜像
+- **多端适配**：Web、微信小程序、PWA
+- **多数据库**：MySQL、PostgreSQL、SQLite、MariaDB
+- **AI 赋能**：集成通义千问等 AI 平台（可选）
+
+### 🆚 与原版对比
+
+| 功能 | 原版班宠星球 | 学趣星球 |
+|------|--------------|----------|
+| **费用** | VIP 收费 | 💯 全免费 |
+| **源码** | 闭源 | 💯 开源 |
+| **部署** | 仅云端 | 💯 自托管+云端 |
+| **AI 功能** | 无 | 💯 有（可选） |
+| **多数据库** | 仅 MySQL | 💯 4 种数据库 |
+| **版权** | 商业版权 | 💯 MIT 许可证 |
+
+---
+
+## 功能特性
+
+### 🎓 教师端
+
+#### 核心功能
+- **积分管理系统**：自定义积分规则、批量/单个打分、积分排行榜
+- **宠物养成系统**：班级宠物、学生领养、宠物进化、互动玩法
+- **通知公告系统**：发布通知、已读统计、紧急通知弹窗
+
+#### 教室小喇叭（新增）
+- 📢 **实时广播**：顶部横幅/弹窗/全屏三种模式
+- ✅ **智能考勤**：一键点名、4种状态（到/迟/缺/事）
+- 📷 **扫码收作业**：生成二维码、进度跟踪
+- 📝 **在线答题**：题库管理、自动判分
+- 📊 **成绩管理**：成绩录入、统计分析、分布图
+- 🤖 **AI 助教**：智能问答、学习建议（需配置 API Key）
+
+#### 管理功能
+- **学校/班级管理**：创建学校、分配班级、管理教师
+- **账号管理**：批量创建账号、重置密码（无自注册）
+- **数据导出**：积分记录、考勤记录、成绩报表
+
+### 👨👩👧 家长端
+
+- **积分查看**：实时查看孩子积分变动
+- **宠物查看**：查看孩子领养的宠物状态
+- **通知接收**：接收教师发布的通知
+- **成绩查看**：查看孩子考试成绩
+
+### 🔐 第三方登录
+
+教师账号支持绑定以下平台，绑定后可直接扫码登录：
+- 微信公众号
+- 企业微信
+- QQ
+- 人人通空间
+
+---
+
+## 技术架构
+
+### 后端
+- **框架**：Laravel 11
+- **API**：RESTful API
+- **缓存**：Redis（排行榜用 ZSET 实现）
+- **数据库**：MySQL / PostgreSQL / SQLite / MariaDB
+
+### 前端
+- **Web 端**：原生 HTML/CSS/JS（单文件，无构建步骤）
+- **小程序**：微信小程序原生开发
+- **PWA**：支持离线访问
+
+### 部署
+- **容器化**：Docker + Docker Compose
+- **CI/CD**：GitHub Actions + Gitee Go
+- **镜像**：GitHub Container Registry (GHCR)
+
+---
+
+## 快速部署
+
+### 🚀 方式一：使用预构建镜像（推荐，5分钟部署）
+
+#### 1. 下载配置文件
+
+```bash
+# 下载 docker-compose.yml 和 .env.example
+curl -O https://raw.githubusercontent.com/yourusername/learnstar-planet/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/yourusername/learnstar-planet/main/.env.example
+```
+
+#### 2. 修改配置
+
+```bash
+# 复制 .env.example 为 .env
+cp .env.example .env
+
+# 编辑 .env，修改以下配置
+nano .env
+```
+
+**必改项**：
+```env
+# 修改为你自己的 GitHub 用户名（用于拉取镜像）
+GITHUB_USERNAME=yourusername
+
+# 修改为你的域名或服务器 IP
+APP_URL=http://your-server-ip
+
+# 修改数据库密码（如果使用内置 MySQL）
+DB_PASSWORD=your_secure_password
+MYSQL_ROOT_PASSWORD=your_root_password
+```
+
+**可选项**（让 AI 助教可用）：
+```env
+AI_PROVIDER=qwen
+AI_API_KEY=your_qwen_api_key
+```
+
+#### 3. 启动服务
+
+```bash
+# 启动（包含应用+数据库+Redis）
+docker-compose up -d
+
+# 查看运行状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f app
+```
+
+#### 4. 初始化数据库
+
+```bash
+# 运行数据库迁移
+docker-compose exec app php artisan migrate --force
+
+# 创建管理员账号
+docker-compose exec app php artisan admin:create
+# 按提示输入：用户名、密码、学校名称
+```
+
+#### 5. 访问应用
+
+打开浏览器，访问：`http://your-server-ip`
+
+---
+
+### 🔧 方式二：使用外部数据库（适合已有数据库的用户）
+
+如果你已经有外部 MySQL/PostgreSQL 或 Redis，可以禁用内置容器：
+
+#### 1. 修改 `.env`
+
+```env
+# 修改为你的外部数据库地址
+DB_HOST=your_mysql_host
+DB_PORT=3306
+DB_DATABASE=learnstar
+DB_USERNAME=learnstar_user
+DB_PASSWORD=your_password
+
+# 修改为你的外部 Redis 地址
+REDIS_HOST=your_redis_host
+REDIS_PORT=6379
+REDIS_PASSWORD=
+```
+
+#### 2. 启动服务（禁用内置数据库）
+
+```bash
+# 只启动应用，不启动 MySQL 和 Redis
+docker-compose --profile without-db up -d
+```
+
+---
+
+### 🐳 方式三：本地构建镜像（适合开发者）
+
+```bash
+# 1. Fork 本仓库
+# 2. 克隆到本地
+git clone https://github.com/YOUR_USERNAME/learnstar-planet.git
+cd learnstar-planet
+
+# 3. 构建镜像
+docker build -t learnstar-planet:latest ./backend
+
+# 4. 修改 docker-compose.yml 中的 image 为本地镜像
+# image: learnstar-planet:latest
+
+# 5. 启动
+docker-compose up -d
+```
+
+---
+
+## 配置说明
+
+### 🤖 AI 功能配置（可选）
+
+AI 助教功能需要配置 API Key，支持以下平台：
+
+| 平台 | 获取 API Key | 推荐模型 | 价格 |
+|------|-------------|----------|------|
+| **通义千问**（推荐） | [阿里云百炼](https://dashscope.aliyuncs.com/) | `qwen-turbo`（¥0.002/1k tokens） | 便宜 |
+| **OpenAI** | [OpenAI Platform](https://platform.openai.com/) | `gpt-4o-mini` | 需翻墙 |
+| **DeepSeek** | [DeepSeek 平台](https://platform.deepseek.com/) | `deepseek-chat` | 便宜 |
+| **月之暗面** | [Moonshot 平台](https://platform.moonshot.cn/) | `moonshot-v1-8k` | 中等 |
+
+**配置步骤**（以通义千问为例）：
+
+1. 访问 [阿里云百炼控制台](https://dashscope.aliyuncs.com/)
+2. 注册/登录（需实名认证）
+3. 点击 **API Key 管理** → **创建 API Key**
+4. 复制 API Key，修改 `.env`：
+   ```env
+   AI_PROVIDER=qwen
+   AI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxx
+   AI_API_BASE=https://dashscope.aliyuncs.com/api/v1
+   AI_MODEL=qwen-turbo
+   ```
+5. 重启服务：`docker-compose restart app`
+
+**没有 API Key？** 没关系！所有核心功能都可以正常使用，AI 功能会在配置后自动启用。
+
+---
+
+### 🔐 第三方登录配置（可选）
+
+#### 微信公众号登录
+
+1. 访问 [微信公众平台](https://mp.weixin.qq.com/)
+2. 注册**服务号**（需企业资质）
+3. 进入 **开发** → **基本配置**
+4. 获取 **AppID** 和 **AppSecret**
+5. 配置 **网页授权域名**（填写你的域名）
+6. 修改 `.env`：
+   ```env
+   WECHAT_OFFICIAL_APPID=wx1234567890abcdef
+   WECHAT_OFFICIAL_SECRET=xxxxxxxxxxxxxxxxxxxxxx
+   ```
+
+#### 企业微信登录
+
+1. 访问 [企业微信管理后台](https://work.weixin.qq.com/)
+2. 进入 **应用管理** → **创建应用**
+3. 获取 **CorpID**、**AgentID**、**Secret**
+4. 修改 `.env`：
+   ```env
+   WECHAT_WORK_CORPID=ww1234567890abcdef
+   WECHAT_WORK_AGENTID=1000002
+   WECHAT_WORK_SECRET=xxxxxxxxxxxxxxxxxxxxxx
+   ```
+
+---
+
+### 🗄️ 数据库选择
+
+| 数据库 | 适用场景 | 配置方法 |
+|--------|----------|----------|
+| **MySQL 8.0+**（推荐） | 中大型部署（1000+ 学生） | `DB_CONNECTION=mysql` |
+| **MariaDB 10.3+** | MySQL 替代品，完全兼容 | `DB_CONNECTION=mysql` |
+| **PostgreSQL 14+** | 需要高级功能（JSONB、全文搜索） | `DB_CONNECTION=pgsql` |
+| **SQLite 3.8+** | 小型部署（< 500 学生） | `DB_CONNECTION=sqlite` |
+
+#### 使用 SQLite（最简单）
+
+```bash
+# 1. 修改 .env
+DB_CONNECTION=sqlite
+
+# 2. 运行迁移
+docker-compose exec app php artisan migrate --force
+```
+
+---
+
+## FAQ
+
+### Q1：我没有服务器，能部署吗？
+
+**A**：可以！以下免费/低成本方案供参考：
+
+| 平台 | 类型 | 价格 | 适用场景 |
+|------|------|------|----------|
+| **Fly.io** | 容器托管 | 免费额度 3 个小型 VM | 小型部署 |
+| **Railway** | PaaS | $5/月 免费额度 | 快速部署 |
+| **Render** | PaaS | 免费版（休眠） | 测试环境 |
+| **阿里云轻量** | VPS | ¥60/月 | 生产环境（推荐） |
+| **腾讯云轻量** | VPS | ¥50/月 | 生产环境（推荐） |
+
+---
+
+### Q2：AI 助教功能一定要配置吗？
+
+**A**：不是必须的。所有核心功能（积分、宠物、考勤、广播等）都可以独立使用。AI 功能只是增强体验，会在配置 API Key 后自动启用。
+
+---
+
+### Q3：第三方登录一定要配置吗？
+
+**A**：不是必须的。你可以使用账号密码登录。第三方登录只是提供更便捷的登录方式。
+
+---
+
+### Q4：数据库和 Redis 一定要单独部署吗？
+
+**A**：不是必须的。Docker Compose 会启动数据库和 Redis 容器，适合小型部署。当学生数超过 1000 人时，建议将它们单独部署到更高性能的服务器。
+
+---
+
+### Q5：如何升级到新版本？
+
+**A**：
+
+```bash
+# 1. 拉取最新镜像
+docker-compose pull
+
+# 2. 重新启动
+docker-compose up -d
+
+# 3. 运行数据库迁移（如果有）
+docker-compose exec app php artisan migrate --force
+```
+
+---
+
+### Q6：忘记管理员密码怎么办？
+
+**A**：
+
+```bash
+# 通过命令行重置
+docker-compose exec app php artisan admin:reset-password --username=admin
+# 会提示输入新密码
+```
+
+---
+
+### Q7：如何备份数据？
+
+**A**：
+
+```bash
+# 备份 MySQL 数据库
+docker-compose exec mysql mysqldump -u root -p learnstar > backup_$(date +%Y%m%d).sql
+
+# 备份上传的文件
+docker-compose exec app tar -czf /tmp/uploads_backup.tar.gz /var/www/html/storage/app/uploads
+docker cp learnstar-app:/tmp/uploads_backup.tar.gz ./
+```
+
+---
+
+### Q8：出现 500 错误怎么办？
+
+**A**：
+
+```bash
+# 1. 查看日志
+docker-compose logs app
+
+# 2. 查看 Laravel 日志
+docker-compose exec app tail -100 storage/logs/laravel.log
+
+# 3. 常见原因：
+#    - .env 配置错误（检查数据库/Redis 连接）
+#    - 数据库迁移未运行
+#    - 文件权限问题（运行 chmod -R 777 storage）
+```
+
+---
+
+### Q9：可以商用吗？需要付费吗？
+
+**A**：本项目采用 **MIT 许可证**，你可以自由使用、修改、商用，无需支付任何费用。但请保留原作者版权声明。
+
+---
+
+## 贡献指南
+
+我们欢迎任何形式的贡献！
+
+### 🐛 报告 Bug
+
+请在 [GitHub Issues](https://github.com/yourusername/learnstar-planet/issues) 中提交 Bug 报告，包含以下信息：
+- 问题描述
+- 复现步骤
+- 预期行为
+- 实际行为
+- 截图（如有）
+
+### 💡 功能建议
+
+请在 [GitHub Discussions](https://github.com/yourusername/learnstar-planet/discussions) 中发起功能讨论。
+
+### 🔧 提交代码
+
+1. Fork 本仓库
+2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交你的修改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开一个 Pull Request
+
+### 📝 代码规范
+
+- PHP：遵循 PSR-12 规范
+- JavaScript：使用 ESLint 检查
+- 提交信息：使用约定式提交（Conventional Commits）
+
+---
+
+## 许可证
+
+本项目采用 **MIT 许可证** - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+---
+
+## 联系我们
+
+- 📖 **文档**：[查看完整文档](https://github.com/yourusername/learnstar-planet/wiki)
+- 🐛 **Bug 反馈**：[提交 Issue](https://github.com/yourusername/learnstar-planet/issues)
+- 💬 **社区讨论**：[GitHub Discussions](https://github.com/yourusername/learnstar-planet/discussions)
+- 📧 **邮件支持**：support@yourdomain.com（需自行设置）
+
+---
+
+**祝你使用愉快！** 🎉
+
+如有问题，欢迎随时反馈。

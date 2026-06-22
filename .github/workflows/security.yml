@@ -1,0 +1,49 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+
+  # ========== 安全审计 ==========
+  security-audit:
+    name: Security Audit (Composer)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Install Composer dependencies
+        working-directory: backend
+        run: composer install --no-interaction --no-progress
+
+      - name: Run Composer security audit
+        working-directory: backend
+        run: composer audit --format=json > security-audit.json || true
+
+      - name: Upload security audit results
+        uses: actions/upload-artifact@v4
+        with:
+          name: composer-security-audit
+          path: backend/security-audit.json

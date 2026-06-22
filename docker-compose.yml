@@ -1,0 +1,130 @@
+# 学趣星球 - 简化部署配置
+# 适用场景：使用预构建镜像快速部署
+#
+# 使用步骤：
+# 1. 复制 .env.example 为 .env 并修改配置
+# 2. docker-compose up -d
+# 3. 访问 http://your-server-ip
+#
+# 可选：不使用内置数据库，改为连接外部数据库
+# 修改 .env 中的 DB_HOST 和 REDIS_HOST 即可
+
+version: '3.8'
+
+services:
+  # ===== 应用服务（使用预构建镜像）=====
+  app:
+    # 从 GitHub Container Registry 拉取预构建镜像
+    image: ghcr.io/${GITHUB_USERNAME:-yourusername}/learnstar-planet:latest
+    container_name: learnstar-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-80}:80"
+    environment:
+      # 基础配置
+      - APP_NAME=${APP_NAME:-学趣星球}
+      - APP_ENV=${APP_ENV:-production}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_URL=${APP_URL:-http://localhost}
+      
+      # 数据库配置（修改 .env 切换到外部数据库）
+      - DB_CONNECTION=${DB_CONNECTION:-mysql}
+      - DB_HOST=${DB_HOST:-mysql}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE:-learnstar}
+      - DB_USERNAME=${DB_USERNAME:-learnstar}
+      - DB_PASSWORD=${DB_PASSWORD:-learnstar_password}
+      
+      # Redis 配置
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      
+      # 缓存配置
+      - CACHE_DRIVER=${CACHE_DRIVER:-redis}
+      - SESSION_DRIVER=${SESSION_DRIVER:-redis}
+      - QUEUE_CONNECTION=${QUEUE_CONNECTION:-redis}
+      
+      # AI 功能配置（可选）
+      - AI_PROVIDER=${AI_PROVIDER:-}
+      - AI_API_KEY=${AI_API_KEY:-}
+      - AI_MODEL=${AI_MODEL:-qwen-turbo}
+      
+      # 第三方登录配置（可选）
+      - WECHAT_OFFICIAL_APPID=${WECHAT_OFFICIAL_APPID:-}
+      - WECHAT_OFFICIAL_SECRET=${WECHAT_OFFICIAL_SECRET:-}
+      - WECHAT_WORK_CORPID=${WECHAT_WORK_CORPID:-}
+      - WECHAT_WORK_SECRET=${WECHAT_WORK_SECRET:-}
+    volumes:
+      # 持久化上传文件和日志
+      - app-uploads:/var/www/html/storage/app/uploads
+      - app-logs:/var/www/html/storage/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - learnstar-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ===== MySQL 数据库（可选）=====
+  # 如果你已有外部数据库，修改 .env 中的 DB_HOST 并禁用此服务
+  mysql:
+    image: mysql:8.0
+    container_name: learnstar-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_strong_password}
+      MYSQL_DATABASE: ${DB_DATABASE:-learnstar}
+      MYSQL_USER: ${DB_USERNAME:-learnstar}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-learnstar_password}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"  # 可选：暴露端口供外部工具连接
+    networks:
+      - learnstar-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - with-db  # 默认启动，使用 --profile without-db 禁用
+
+  # ===== Redis 缓存（可选）=====
+  # 如果你已有外部 Redis，修改 .env 中的 REDIS_HOST 并禁用此服务
+  redis:
+    image: redis:7-alpine
+    container_name: learnstar-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"  # 可选：暴露端口
+    networks:
+      - learnstar-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - with-db  # 默认启动，使用 --profile without-db 禁用
+
+networks:
+  learnstar-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  redis-data:
+  app-uploads:
+  app-logs:

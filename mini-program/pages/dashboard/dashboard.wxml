@@ -1,0 +1,77 @@
+<!-- ============================================================
+     班宠星球 - 教师端数据看板（微信小程序）
+     ============================================================ -->
+<view class="page">
+  <!-- 统计卡片 -->
+  <view style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px;">
+    <view class="stat-card bc-card">
+      <text class="stat-number bc-primary">{{stats.net_total || 0}}</text>
+      <text class="stat-label">总积分</text>
+    </view>
+    <view class="stat-card bc-card">
+      <text class="stat-number" style="color: #10b981;">{{stats.today_add || 0}}</text>
+      <text class="stat-label">今日加分</text>
+    </view>
+    <view class="stat-card bc-card">
+      <text class="stat-number">{{stats.score_count || 0}}</text>
+      <text class="stat-label">积分记录</text>
+    </view>
+    <view class="stat-card bc-card">
+      <text class="stat-number" style="color: #f59e0b;">⭐ 全免费</text>
+      <text class="stat-label">无功能限制</text>
+    </view>
+  </view>
+
+  <!-- TOP 10 排行榜 -->
+  <view class="bc-card" style="margin: 16px;">
+    <view style="display: flex; align-items: center; justify-content: space-between;">
+      <text style="font-size: 16px; font-weight: 600;">⭐ TOP 10 排行榜</text>
+      <view class="free-badge">全免费</view>
+    </view>
+    
+    <view wx:for="{{topStudents}}" wx:key="student_id" class="rank-item">
+      <text class="rank-number {{index < 3 ? 'top3' : ''}}">{{item.rank}}</text>
+      <text style="font-size: 24px; margin: 0 8px;">{{item.pet_emoji}}</text>
+      <text style="font-weight: 500;">{{item.name}}</text>
+      <text class="rank-score {{item.total_score > 0 ? 'positive' : 'negative'}}">
+        {{item.total_score}}分
+      </text>
+    </view>
+    
+    <view wx:if="{{topStudents.length === 0}}" class="empty-state">
+      <text class="empty-state-icon">📊</text>
+      <text class="empty-state-text">暂无排行数据</text>
+    </view>
+  </view>
+
+  <!-- 近7天趋势 -->
+  <view class="bc-card" style="margin: 16px;">
+    <text style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📈 近7天积分趋势</text>
+    
+    <view style="display: flex; align-items: flex-end; gap: 8px; height: 120px;">
+      <view wx:for="{{scoreTrend}}" wx:key="date" style="flex: 1; text-align: center;">
+        <view style="background: linear-gradient(to top, #6366f1, #818cf8); 
+                     border-radius: 4px 4px 0 0; 
+                     height: {{item.add > 0 ? (item.add / max_add * 100) : 4}}px;
+                     min-height: 4px;"></view>
+        <text style="font-size: 10px; color: #64748b; margin-top: 4px;">
+          {{item.date_short}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="bc-card" style="margin: 16px;">
+    <text style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">⚡ 快捷操作</text>
+    
+    <view style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+      <view class="bc-btn-primary" bindtap="goScores" style="text-align: center;">
+        📋 积分管理
+      </view>
+      <view class="bc-btn-ghost" style="text-align: center;">
+        🛒 积分商城
+      </view>
+    </view>
+  </view>
+</view>

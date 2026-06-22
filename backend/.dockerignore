@@ -1,0 +1,70 @@
+# Ignore files for Docker build
+# Similar to .gitignore, but specific to Docker
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitee/
+.travis.yml
+.codecov.yml
+
+# IDE and editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+*~
+.DS_Store
+Thumbs.db
+
+# PHP
+/vendor/
+/composer.lock
+.php-cs-fixer.php
+.php-cs-fixer-cache
+phpstan.neon
+phpunit.xml
+coverage.xml
+coverage-html/
+
+# Laravel
+/storage/
+/bootstrap/cache/
+/env
+.env.local
+.env.production
+.env.staging
+*.log
+
+# Node.js
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+/package-lock.json
+/yarn.lock
+
+# Testing
+/tests/
+/coverage/
+*.log
+
+# Documentation
+/docs/
+/*.md
+!/README.md
+
+# Archives
+*.tar
+*.gz
+*.zip
+*.rar
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

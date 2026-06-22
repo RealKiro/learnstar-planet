@@ -1,0 +1,57 @@
+# PHPStan configuration
+
+includes:
+    - ./vendor/laravel/framework/src/Illuminate/Support/helpers.php
+
+parameters:
+    level: 5  # 0-9，9=最严格
+    
+    paths:
+        - app
+        - routes
+    
+    excludePaths:
+        - app/Support/helpers.php
+        - app/Providers/BroadcastServiceProvider.php
+        - vendor
+        - storage
+        - bootstrap/cache
+    
+    # 忽略某些错误
+    ignoreErrors:
+        - '#Call to an undefined method .*#'
+        - '#Access to an undefined property .*#'
+        - '#Cannot call method .*#'
+        - '#Method .* has no return typehint#'
+        - '#Method .* constructor has a unused parameter#'
+    
+    # 类型检查
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    
+    # 框架相关
+    laravel:
+        modelClasses:
+            - App\Models\School
+            - App\Models\ClassRoom
+            - App\Models\User
+            - App\Models\Student
+            - App\Models\Pet
+            - App\Models\Score
+            - App\Models\ScoreRule
+            - App\Models\ScoreLog
+            - App\Models\ShopItem
+            - App\Models\ShopRedemption
+            - App\Models\Notice
+            - App\Models\ThirdPartyBinding
+            - App\Models\Broadcast
+            - App\Models\Attendance
+            - App\Models\HomeworkCollection
+            - App\Models\Quiz
+            - App\Models\Grade
+        
+        dependencyInjectionContainerFiles:
+            - config/services.php
+    
+    # 内存限制
+    memoryLimit: 512M
