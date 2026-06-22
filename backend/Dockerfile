@@ -2,7 +2,7 @@
 # Build context = backend/ directory
 
 # Stage 1: Install Composer dependencies
-FROM composer:2.6 AS composer
+FROM composer:2.8 AS composer
 
 WORKDIR /app
 
@@ -14,8 +14,8 @@ RUN apk add --no-cache $PHPIZE_DEPS postgresql-dev \
     && docker-php-ext-enable redis \
     && docker-php-ext-install pdo_mysql pdo_pgsql
 
-# Install Composer dependencies (--no-security-blocking to skip advisory blocking)
-RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-security-blocking \
+# Install Composer dependencies (advisories.block:false in composer.json handles security blocking)
+RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader \
     && composer dump-autoload --optimize
 
 # Stage 2: Production image

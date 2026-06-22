@@ -60,7 +60,7 @@ jobs:
           curl -f https://staging.learnstar.com/api/health || exit 1
 
       - name: Notify deployment status
-        if: always() && steps.check-secrets.outputs.skip != 'true' && env.SLACK_WEBHOOK != ''
+        if: always() && steps.check-secrets.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != ''
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         uses: 8398a7/action-slack@v3
@@ -140,7 +140,7 @@ jobs:
             docker-compose exec -T app php artisan health:check
 
       - name: Notify deployment status
-        if: always() && steps.check-secrets.outputs.skip != 'true' && env.SLACK_WEBHOOK != ''
+        if: always() && steps.check-secrets.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != ''
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         uses: 8398a7/action-slack@v3
@@ -156,13 +156,22 @@ jobs:
   rollback:
     name: Rollback Deployment
     runs-on: ubuntu-latest
-    if: failure() && env.PROD_HOST != ''
+    if: failure()
     needs: [deploy-production]
-    env:
-      PROD_HOST: ${{ secrets.PROD_HOST }}
 
     steps:
+      - name: Check production secrets
+        id: check-prod
+        run: |
+          if [ -z "${{ secrets.PROD_HOST }}" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "ℹ️ PROD_HOST not configured, skipping rollback"
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Rollback to previous version
+        if: steps.check-prod.outputs.skip != 'true'
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.PROD_HOST }}
@@ -170,15 +179,19 @@ jobs:
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
             cd /opt/learnstar/production
-            git rollback
+            git revert --no-edit HEAD
             docker-compose up -d --remove-orphans
             docker-compose exec -T app php artisan migrate --force
 
       - name: Notify rollback
-        if: env.SLACK_WEBHOOK != ''
+        if: always() && steps.check-prod.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != ''
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         uses: 8398a7/action-slack@v3
         with:
           status: 'warning'
           text: 'Production deployment rolled back'
+
+      - name: Skip notice
+        if: steps.check-prod.outputs.skip == 'true'
+        run: echo "ℹ️ Rollback skipped — PROD_HOST not configured."
