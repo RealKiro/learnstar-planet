@@ -1,64 +1,145 @@
-GitHub Actions
-/ .github/workflows/deploy.yml
-Invalid workflow file
-
-(Line: 63, Col: 13): Unrecognized named-value: 'secrets'. Located at position 59 within expression: always() && steps.check-secrets.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != '', (Line: 143, Col: 13): Unrecognized named-value: 'secrets'. Located at position 59 within expression: always() && steps.check-secrets.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != '', (Line: 187, Col: 13): Unrecognized named-value: 'secrets'. Located at position 56 within expression: always() && steps.check-prod.outputs.skip != 'true' && secrets.SLACK_WEBHOOK != ''
-
----
-Install Composer dependencies
-```
-Run composer install --no-interaction --no-progress --prefer-dist
-No composer.lock file present. Updating dependencies to latest instead of installing from lock file. See https://getcomposer.org/install for more information.
-Loading composer repositories with package information
-Updating dependencies
-Lock file operations: 155 installs, 0 updates, 0 removals
-  - Locking barryvdh/laravel-dompdf (v2.2.0)
-  - Locking brick/math (0.14.8)
-  - Locking carbonphp/carbon-doctrine-types (3.2.0)
-……
-  - Installing spatie/laravel-package-tools (1.93.1): Extracting archive
-  - Installing spatie/laravel-activitylog (4.12.3): Extracting archive
-  - Installing spatie/laravel-permission (6.25.0): Extracting archive
-47 package suggestions were added by new dependencies, use `composer suggest` to see details.
-Generating optimized autoload files
-Class Tests\Feature\Api\TeacherApiTest located in ./tests/Feature/TeacherApiTest.php does not comply with psr-4 autoloading standard (rule: Tests\ => ./tests). Skipping.
-> Illuminate\Foundation\ComposerScripts::postAutoloadDump
-> @php artisan package:discover --ansi
-Could not open input file: artisan
-Script @php artisan package:discover --ansi handling the post-autoload-dump event returned with error code 1
-Error: Process completed with exit code 1.
-```
---
 Build and push Backend image
 ```
-Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-Run docker/build-push-action@v5
-(node:2816) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-GitHub Actions runtime token ACs
 ……
-#11 50.31  cc -I. -I/usr/src/php/ext/mbstring -I/usr/src/php/ext/mbstring/include -I/usr/src/php/ext/mbstring/main -I/usr/src/php/ext/mbstring -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/src/php/ext/mbstring/libmbfl -I/usr/src/php/ext/mbstring/libmbfl/mbfl -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DHAVE_CONFIG_H -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -DONIG_ESCAPE_UCHAR_COLLISION=1 -DUChar=OnigUChar -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -DZEND_COMPILE_DL_EXT=1 -c /usr/src/php/ext/mbstring/libmbfl/filters/mbfilter_cjk.c -MMD -MF libmbfl/filters/mbfilter_cjk.dep -MT libmbfl/filters/mbfilter_cjk.lo  -fPIC -DPIC -o libmbfl/filters/.libs/mbfilter_cjk.o
-#11 CANCELED
+#15 5.388 You can also run `php --ini` in a terminal to see which files are used by PHP in CLI mode.
+#15 5.388 Alternatively, you can run Composer with `--ignore-platform-req=ext-gd` to temporarily ignore these required extensions.
+#15 ERROR: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts     && composer dump-autoload --optimize" did not complete successfully: exit code: 2
 ------
- > [composer 5/5] RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader     && composer dump-autoload --optimize:
-5.238     - /usr/local/etc/php/php-cli.ini
-5.238     - /usr/local/etc/php/conf.d/docker-php-ext-bz2.ini
-5.238     - /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
-5.238     - /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini
-5.238     - /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
-5.238     - /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
-5.238     - /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
-5.238     - /usr/local/etc/php/conf.d/docker-php-ext-zip.ini
-5.238 You can also run `php --ini` in a terminal to see which files are used by PHP in CLI mode.
-5.238 Alternatively, you can run Composer with `--ignore-platform-req=ext-pcntl` to temporarily ignore these required extensions.
+ > [composer 5/5] RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts     && composer dump-autoload --optimize:
+5.388     - /usr/local/etc/php/conf.d/docker-php-ext-bz2.ini
+5.388     - /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+5.388     - /usr/local/etc/php/conf.d/docker-php-ext-pcntl.ini
+5.388     - /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini
+5.388     - /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
+5.388     - /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
+5.388     - /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
+5.388     - /usr/local/etc/php/conf.d/docker-php-ext-zip.ini
+5.388 You can also run `php --ini` in a terminal to see which files are used by PHP in CLI mode.
+5.388 Alternatively, you can run Composer with `--ignore-platform-req=ext-gd` to temporarily ignore these required extensions.
 ------
 Dockerfile:18
 --------------------
-  17 |     # Install Composer dependencies (advisories.block:false in composer.json handles security blocking)
-  18 | >>> RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader \
+  17 |     # Install Composer dependencies (--no-scripts: artisan not available in this stage)
+  18 | >>> RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts \
   19 | >>>     && composer dump-autoload --optimize
   20 |     
 --------------------
-ERROR: failed to build: failed to solve: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader     && composer dump-autoload --optimize" did not complete successfully: exit code: 2
-Error: buildx failed with: ERROR: failed to build: failed to solve: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader     && composer dump-autoload --optimize" did not complete successfully: exit code: 2
+ERROR: failed to build: failed to solve: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts     && composer dump-autoload --optimize" did not complete successfully: exit code: 2
+Error: buildx failed with: ERROR: failed to build: failed to solve: process "/bin/sh -c composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts     && composer dump-autoload --optimize" did not complete successfully: exit code: 2
+```
+---
+Run PHP CS Fixer (check only)
+```
+Run ./vendor/bin/php-cs-fixer fix --dry-run --diff
+# PHP CS Fixer configuration
+
+# @see https://github.com/FriendsOfPHP/PHP-CS-Fixer
+
+return (new PhpCsFixer\Config())
+    ->setRules([
+        // PSR-12 基础规则
+        '@PSR12' => true,
+        
+        // 数组语法
+        'array_syntax' => ['syntax' => 'short'],
+        
+        // 类型声明
+        'declare_strict_types' => true,
+        'return_type_declaration' => true,
+        'visibility_required' => ['elements' => ['method', 'property']],
+        
+        // 空白和缩进
+        'no_trailing_whitespace' => true,
+        'no_trailing_whitespace_in_comment' => true,
+        'blank_line_after_namespace' => true,
+        'blank_line_after_opening_tag' => true,
+        'blank_line_before_statement' => [
+            'statements' => ['declare', 'return', 'throw', 'try'],
+        ],
+        
+        // 括号和空格
+        'no_spaces_inside_parenthesis' => true,
+        'space_after_semicolon' => true,
+        'spaces_inside_parentheses' => false,
+        
+        // 方法和函数
+        'method_argument_space' => [
+            'on_multiline' => 'ensure_fully_multiline',
+            'keep_multiple_spaces_after_comma' => false,
+        ],
+        'no_empty_statement' => true,
+        'no_extra_blank_lines' => [
+            'tokens' => [
+                'curly_brace_block',
+                'extra',
+                'parenthesis_brace_block',
+                'square_brace_block',
+                'throw',
+                'use',
+            ],
+        ],
+        
+        // 命名约定
+        'constant_case' => ['case' => 'lower'],
+        'lowercase_keywords' => true,
+        'lowercase_static_reference' => true,
+        
+        // 导入和命名空间
+        'ordered_imports' => [
+            'imports_order' => ['class', 'function', 'const'],
+            'sort_algorithm' => 'alpha',
+        ],
+        'single_line_after_imports' => true,
+        'no_unused_imports' => true,
+        
+        // 控制结构
+        'control_structure_braces' => true,
+        'control_structure_continuation_position' => [
+            'position' => 'same_line',
+        ],
+        'no_trailing_comma_in_list_call' => true,
+        'no_trailing_comma_in_singleline_array' => true,
+        'trailing_comma_in_multiline' => true,
+        
+        // 字符串和类型转换
+        'single_quote' => true,
+        'cast_spaces' => true,
+        'concat_space' => [
+            'spacing' => 'one',
+        ],
+        
+        // 类、接口、Trait
+        'class_attributes_separation' => [
+            'elements' => [
+                'method' => 'one',
+                'property' => 'one',
+            ],
+        ],
+        'no_blank_lines_after_class_opening' => true,
+        'no_blank_lines_before_class_ending' => true,
+        'single_class_element_per_statement' => false,
+        
+In ConfigurationResolver.php line 1051:
+        // 文件末尾
+        'single_blank_line_at_eof' => true,
+        'no_closing_tag' => true,
+    ])
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->in(__DIR__)
+            ->name('*.php')
+            ->notName('*.blade.php')
+            ->exclude('vendor')
+            ->exclude('storage')
+            ->exclude('bootstrap/cache')
+                                                                               
+    );
+  The config file: "/home/runner/work/learnstar-planet/learnstar-planet/backe  
+  nd/.php-cs-fixer.php" does not return a "PhpCsFixer\ConfigInterface" instan  
+  ce. Got: "int".                                                              
+                                                                               
+
+fix [--path-mode PATH-MODE] [--allow-risky ALLOW-RISKY] [--config CONFIG] [--dry-run] [--rules RULES] [--using-cache USING-CACHE] [--allow-unsupported-php-version ALLOW-UNSUPPORTED-PHP-VERSION] [--cache-file CACHE-FILE] [--diff] [--format FORMAT] [--stop-on-violation] [--show-progress SHOW-PROGRESS] [--sequential] [--] [<path>...]
+
+Error: Process completed with exit code 16.
 ```

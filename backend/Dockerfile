@@ -8,11 +8,12 @@ WORKDIR /app
 
 COPY composer.json composer.lock* ./
 
-# Install PHP extensions (redis via PECL, pdo_pgsql needs postgresql-dev, pcntl is core ext)
-RUN apk add --no-cache $PHPIZE_DEPS postgresql-dev \
+# Install PHP extensions (gd for intervention/image, redis via PECL, pdo_pgsql needs postgresql-dev, pcntl is core ext)
+RUN apk add --no-cache $PHPIZE_DEPS postgresql-dev libpng-dev libjpeg-turbo-dev freetype-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo_mysql pdo_pgsql pcntl \
     && pecl install redis \
-    && docker-php-ext-enable redis \
-    && docker-php-ext-install pdo_mysql pdo_pgsql pcntl
+    && docker-php-ext-enable redis
 
 # Install Composer dependencies (--no-scripts: artisan not available in this stage)
 RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts \
