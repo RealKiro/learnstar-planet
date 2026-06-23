@@ -282,7 +282,119 @@ docker-compose exec app php artisan admin:create
 
 ---
 
-### 🔧 方式二：使用外部数据库（适合已有数据库的用户）
+### 🔧 方式二：Fork 仓库后自行构建镜像（推荐二次开发者）
+
+如果你想在原项目基础上做修改，或者官方镜像拉取较慢，可以 Fork 本仓库后利用 GitHub Actions 自动构建镜像到你自己的 GHCR（GitHub Container Registry）命名空间。
+
+#### 1. Fork 仓库
+
+1. 访问 [learnstar-planet 仓库](https://github.com/RealKiro/learnstar-planet)
+2. 点击右上角 **Fork** 按钮，将仓库 Fork 到你的 GitHub 账号下
+
+#### 2. 启用 GitHub Actions
+
+1. 进入你 Fork 后的仓库页面
+2. 点击 **Actions** 标签页
+3. 如果提示需要启用 Workflows，点击 **I understand my workflows, go ahead and enable them**
+4. 确认以下工作流已就绪：
+   - `Build & Push Docker Images` — 自动构建并推送 Docker 镜像
+   - `CI - Test & Lint` — 代码质量检查
+
+#### 3. 确认仓库权限
+
+GitHub Actions 构建镜像需要 `packages: write` 权限，本仓库的工作流已内置配置：
+
+1. 进入 **Settings → Actions → General**
+2. 在 **Workflow permissions** 下选择 **Read and write permissions**
+3. 勾选 **Allow GitHub Actions to create and approve pull requests**（可选）
+4. 点击 **Save**
+
+#### 4. 触发镜像构建
+
+**方式 A — 推送代码自动构建**（修改代码后推送即可）：
+
+```bash
+# 克隆你 Fork 的仓库
+git clone https://github.com/YOUR_USERNAME/learnstar-planet.git
+cd learnstar-planet
+
+# 做你的修改后提交推送
+git add .
+git commit -m "feat: my custom changes"
+git push origin main
+```
+
+推送后 GitHub Actions 会自动触发构建，镜像将推送到：
+```
+ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
+```
+
+**方式 B — 手动触发构建**：
+
+1. 进入 **Actions → Build & Push Docker Images**
+2. 点击 **Run workflow** → 选择 `main` 分支 → 点击 **Run workflow**
+3. 等待构建完成（通常 5-10 分钟），可在 Actions 页面查看进度
+
+#### 5. 设置镜像为公开（可选）
+
+默认情况下，GHCR 镜像是私有仓库。如需免登录拉取：
+
+1. 访问 [GitHub Packages](https://github.com/YOUR_USERNAME?tab=packages)
+2. 点击 `learnstar-planet/backend` 包
+3. 进入 **Package settings**
+4. 在 **Danger Zone → Change visibility** 中选择 **Public**
+
+#### 6. 部署使用你的镜像
+
+```bash
+# 下载 docker-compose.yml 和 .env.example
+curl -O https://raw.githubusercontent.com/YOUR_USERNAME/learnstar-planet/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/YOUR_USERNAME/learnstar-planet/main/.env.example
+cp .env.example .env
+
+# 编辑 .env，将 GITHUB_USERNAME 改为你的 GitHub 用户名
+nano .env
+```
+
+**必改项**：
+```env
+# 改为你的 GitHub 用户名（用于拉取你自行构建的镜像）
+GITHUB_USERNAME=YOUR_USERNAME
+
+APP_URL=http://your-server-ip
+DB_PASSWORD=your_secure_password
+MYSQL_ROOT_PASSWORD=your_root_password
+```
+
+```bash
+# 启动服务
+docker-compose up -d
+
+# 初始化数据库
+docker-compose exec app php artisan migrate --force
+docker-compose exec app php artisan admin:create
+```
+
+#### 7. 后续更新
+
+当你修改代码并推送后，GitHub Actions 会自动重新构建镜像：
+
+```bash
+# 拉取最新镜像
+docker-compose pull
+
+# 重启服务
+docker-compose up -d
+
+# 运行数据库迁移（如有）
+docker-compose exec app php artisan migrate --force
+```
+
+> 💡 **提示**：如果上游仓库有更新，可以通过 GitHub 的 **Sync fork** 功能同步最新代码，同步后推送即可触发重新构建。
+
+---
+
+### 🗄️ 方式三：使用外部数据库（适合已有数据库的用户）
 
 如果你已经有外部 MySQL/PostgreSQL 或 Redis，可以禁用内置容器：
 
@@ -311,7 +423,7 @@ docker-compose --profile without-db up -d
 
 ---
 
-### 🐳 方式三：本地构建镜像（适合开发者）
+### 🐳 方式四：本地构建镜像（适合开发者）
 
 ```bash
 # 1. Fork 本仓库
