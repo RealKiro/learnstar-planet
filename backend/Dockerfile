@@ -17,7 +17,7 @@ RUN apk add --no-cache $PHPIZE_DEPS postgresql-dev libpng-dev libjpeg-turbo-dev 
 
 # Install Composer dependencies (--no-scripts: artisan not available in this stage)
 RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts \
-    && composer dump-autoload --optimize
+    && composer dump-autoload --optimize --no-scripts
 
 # Stage 2: Production image
 FROM php:8.3-fpm-alpine AS app

@@ -12,6 +12,7 @@ $finder = (new PhpCsFixer\Finder())
     ->exclude('bootstrap/cache');
 
 return (new PhpCsFixer\Config())
+    ->setRiskyAllowed(true)
     ->setRules([
         // PSR-12 基础规则
         '@PSR12' => true,
