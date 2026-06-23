@@ -22,7 +22,8 @@ RUN composer install --no-interaction --no-progress --prefer-dist --optimize-aut
 # Stage 2: Production image
 FROM php:8.3-fpm-alpine AS app
 
-# Install system dependencies (postgresql-dev needed for pdo_pgsql)
+# Install system dependencies and PHP extensions
+# $PHPIZE_DEPS needed for pecl install (redis), removed after build to keep image lean
 RUN apk add --no-cache \
     git \
     curl \
@@ -36,6 +37,7 @@ RUN apk add --no-cache \
     postgresql-dev \
     nginx \
     supervisor \
+    $PHPIZE_DEPS \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
         pdo_mysql \
@@ -46,6 +48,7 @@ RUN apk add --no-cache \
         pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis \
+    && apk del --no-cache $PHPIZE_DEPS \
     && rm -rf /var/cache/apk/*
 
 # Install Composer

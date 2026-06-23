@@ -88,7 +88,6 @@ return (new PhpCsFixer\Config())
             ],
         ],
         'no_blank_lines_after_class_opening' => true,
-        'no_blank_lines_before_class_ending' => true,
         'single_class_element_per_statement' => false,
 
         // 文件末尾
