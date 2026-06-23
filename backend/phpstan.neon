@@ -11,11 +11,12 @@ parameters:
         - routes
 
     excludePaths:
-        - app/Support/helpers.php
-        - app/Providers/BroadcastServiceProvider.php
-        - vendor
-        - storage
-        - bootstrap/cache
+        analyseAndScan:
+            - app/Support/helpers.php (?)
+            - app/Providers/BroadcastServiceProvider.php (?)
+            - vendor
+            - storage (?)
+            - bootstrap/cache
 
     # 忽略某些错误
     ignoreErrors:
