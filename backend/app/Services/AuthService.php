@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-use App\Models\User;
 use App\Models\School;
 use App\Models\ThirdPartyBinding;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -18,6 +20,7 @@ class AuthService
     public function createTeacherAccounts(School $school, array $teachers): array
     {
         $created = [];
+
         foreach ($teachers as $teacher) {
             $username = $teacher['username'] ?? $school->code . '_T' . Str::padLeft((string) ($school->teachers()->count() + 1), 3, '0');
             $initialPassword = $teacher['password'] ?? Str::random(8);
@@ -41,6 +44,7 @@ class AuthService
                 'name' => $user->name,
             ];
         }
+
         return $created;
     }
 
@@ -82,6 +86,7 @@ class AuthService
         }
 
         $user->update(['last_login_at' => now()]);
+
         return $user;
     }
 
@@ -102,6 +107,7 @@ class AuthService
         }
 
         $user->update(['last_login_at' => now()]);
+
         return $user;
     }
 
@@ -116,16 +122,20 @@ class AuthService
         // 优先用unionid查找（可跨小程序和开放平台）
         if ($unionid) {
             $user = ThirdPartyBinding::findUserByUnionId($unionid);
+
             if ($user) {
                 $user->update(['last_login_at' => now()]);
+
                 return ['status' => 'logged_in', 'user' => $user];
             }
         }
 
         // 用openid查找
         $user = ThirdPartyBinding::findUserByPlatform('wechat', $openid);
+
         if ($user) {
             $user->update(['last_login_at' => now()]);
+
             return ['status' => 'logged_in', 'user' => $user];
         }
 
@@ -144,8 +154,10 @@ class AuthService
     public function loginWithWechatWork(string $userid): array
     {
         $user = ThirdPartyBinding::findUserByPlatform('wechat_work', $userid);
+
         if ($user) {
             $user->update(['last_login_at' => now()]);
+
             return ['status' => 'logged_in', 'user' => $user];
         }
 
@@ -162,8 +174,10 @@ class AuthService
     public function loginWithQQ(string $openid): array
     {
         $user = ThirdPartyBinding::findUserByPlatform('qq', $openid);
+
         if ($user) {
             $user->update(['last_login_at' => now()]);
+
             return ['status' => 'logged_in', 'user' => $user];
         }
 
@@ -180,8 +194,10 @@ class AuthService
     public function loginWithRenren(string $userId): array
     {
         $user = ThirdPartyBinding::findUserByPlatform('renren', $userId);
+
         if ($user) {
             $user->update(['last_login_at' => now()]);
+
             return ['status' => 'logged_in', 'user' => $user];
         }
 
@@ -201,6 +217,7 @@ class AuthService
     {
         // 检查是否已绑定同一平台
         $existing = $user->thirdPartyBindings()->where('platform', $platform)->first();
+
         if ($existing) {
             // 更新绑定信息
             $existing->update([
@@ -210,6 +227,7 @@ class AuthService
                 'platform_avatar' => $avatar,
                 'verified_at' => now(),
             ]);
+
             return $existing;
         }
 
@@ -230,11 +248,13 @@ class AuthService
     public function bindAfterScan(string $tempToken, string $username, string $password, string $platform, string $platformId, ?string $unionId = null): array
     {
         $user = $this->teacherLoginWithCredentials($username, $password);
+
         if (!$user) {
             return ['status' => 'error', 'message' => '教师账号或密码错误，仅支持绑定教师账号'];
         }
 
         $this->bindThirdParty($user, $platform, $platformId, $unionId);
+
         return ['status' => 'bound', 'user' => $user];
     }
 

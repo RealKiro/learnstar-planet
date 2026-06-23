@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Teacher;
 
-use Livewire\Component;
-use Livewire\WithFileUploads;
-use App\Models\Student;
 use App\Models\ClassRoom;
 use App\Models\Score;
+use App\Models\Student;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 /**
  * 积分管理 Livewire 组件
@@ -17,16 +19,27 @@ class ScoreManager extends Component
     use WithFileUploads;
 
     public $classRoomId;
+
     public $selectedStudentId;
+
     public $scoreType = 'add';
+
     public $amount = 5;
+
     public $ruleCode = 'homework_complete';
+
     public $comment = '';
+
     public $selectedStudents = [];
+
     public $batchAmount = 5;
+
     public $batchRuleCode = 'homework_complete';
+
     public $batchComment = '';
+
     public $showBatchModal = false;
+
     public $showQuickPanel = true;
 
     protected $rules = [
@@ -96,6 +109,7 @@ class ScoreManager extends Component
     {
         if (empty($this->selectedStudents)) {
             flux()->toast('请先选择学生', 'warning');
+
             return;
         }
 
@@ -108,7 +122,7 @@ class ScoreManager extends Component
                 $this->batchComment
             );
 
-            flux()->toast("已为 " . count($this->selectedStudents) . " 名学生加分", 'success');
+            flux()->toast('已为 ' . count($this->selectedStudents) . ' 名学生加分', 'success');
             $this->selectedStudents = [];
             $this->showBatchModal = false;
         } catch (\Exception $e) {

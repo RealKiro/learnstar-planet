@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
+use App\Events\ScoreChanged;
+use App\Models\Pet;
 use App\Models\Score;
 use App\Models\ScoreLog;
 use App\Models\ScoreRule;
 use App\Models\Student;
-use App\Models\Pet;
 use Illuminate\Support\Facades\DB;
-use App\Events\ScoreChanged;
 
 class ScoreService
 {
@@ -59,12 +61,15 @@ class ScoreService
     public function batchGiveScore(array $studentIds, int $amount, string $reason, int $givenBy, ?int $scoreRuleId = null): array
     {
         $results = [];
+
         foreach ($studentIds as $studentId) {
             $student = Student::find($studentId);
+
             if ($student) {
                 $results[] = $this->giveScore($student, $amount, $reason, $givenBy, $scoreRuleId);
             }
         }
+
         return $results;
     }
 
@@ -103,7 +108,7 @@ class ScoreService
             'total_students' => $students->count(),
             'total_score' => $students->sum('total_score'),
             'average_score' => $students->avg('total_score'),
-            'top_scorers' => $students->take(5)->map(fn($s) => [
+            'top_scorers' => $students->take(5)->map(fn ($s) => [
                 'id' => $s->id,
                 'name' => $s->name,
                 'score' => $s->total_score,

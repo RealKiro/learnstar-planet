@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -19,9 +21,20 @@ class HomeworkCollection extends Model
         'submit_types' => 'array',
     ];
 
-    public function classRoom(): BelongsTo { return $this->belongsTo(ClassRoom::class, 'class_id'); }
-    public function teacher(): BelongsTo { return $this->belongsTo(User::class, 'teacher_id'); }
-    public function submissions(): HasMany { return $this->hasMany(HomeworkSubmission::class, 'homework_id'); }
+    public function classRoom(): BelongsTo
+    {
+        return $this->belongsTo(ClassRoom::class, 'class_id');
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(HomeworkSubmission::class, 'homework_id');
+    }
 
     /**
      * 提交状态
@@ -42,6 +55,7 @@ class HomeworkCollection extends Model
     {
         $total = $this->classRoom->students()->where('status', 'active')->count();
         $submitted = $this->submissions()->count();
+
         return [
             'total'     => $total,
             'submitted' => $submitted,
@@ -62,6 +76,13 @@ class HomeworkSubmission extends Model
         'file_urls' => 'array',
     ];
 
-    public function homework(): BelongsTo { return $this->belongsTo(HomeworkCollection::class, 'homework_id'); }
-    public function student(): BelongsTo { return $this->belongsTo(Student::class); }
+    public function homework(): BelongsTo
+    {
+        return $this->belongsTo(HomeworkCollection::class, 'homework_id');
+    }
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

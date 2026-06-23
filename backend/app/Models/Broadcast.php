@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -19,9 +21,20 @@ class Broadcast extends Model
         'sent_at' => 'datetime',
     ];
 
-    public function school(): BelongsTo { return $this->belongsTo(School::class); }
-    public function classRoom(): BelongsTo { return $this->belongsTo(ClassRoom::class, 'class_id'); }
-    public function teacher(): BelongsTo { return $this->belongsTo(User::class, 'teacher_id'); }
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class);
+    }
+
+    public function classRoom(): BelongsTo
+    {
+        return $this->belongsTo(ClassRoom::class, 'class_id');
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
 
     /**
      * 广播类型

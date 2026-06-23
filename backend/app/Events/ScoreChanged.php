@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
@@ -12,7 +14,9 @@ class ScoreChanged implements ShouldBroadcastNow
     use InteractsWithSockets, SerializesModels;
 
     public int $studentId;
+
     public int $amount;
+
     public string $reason;
 
     public function __construct(int $studentId, int $amount, string $reason)

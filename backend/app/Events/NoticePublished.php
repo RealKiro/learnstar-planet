@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
@@ -12,8 +14,11 @@ class NoticePublished implements ShouldBroadcastNow
     use InteractsWithSockets, SerializesModels;
 
     public int $classId;
+
     public int $noticeId;
+
     public string $title;
+
     public string $type;
 
     public function __construct(int $classId, int $noticeId, string $title, string $type)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -18,9 +20,20 @@ class Grade extends Model
         'rank_change' => 'integer',
     ];
 
-    public function classRoom(): BelongsTo { return $this->belongsTo(ClassRoom::class, 'class_id'); }
-    public function student(): BelongsTo { return $this->belongsTo(Student::class); }
-    public function teacher(): BelongsTo { return $this->belongsTo(User::class, 'teacher_id'); }
+    public function classRoom(): BelongsTo
+    {
+        return $this->belongsTo(ClassRoom::class, 'class_id');
+    }
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
 
     /**
      * 考试名称列表
@@ -44,8 +57,8 @@ class Grade extends Model
             return ['avg' => 0, 'max' => 0, 'min' => 0, 'pass_rate' => 0];
         }
 
-        $scores = $grades->pluck('score')->map(fn($s) => (float) $s);
-        $passCount = $scores->filter(fn($s) => $s >= 60)->count();
+        $scores = $grades->pluck('score')->map(fn ($s) => (float) $s);
+        $passCount = $scores->filter(fn ($s) => $s >= 60)->count();
 
         return [
             'avg'       => round($scores->avg(), 1),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -24,10 +26,25 @@ class Quiz extends Model
         'ended_at'        => 'datetime',
     ];
 
-    public function classRoom(): BelongsTo { return $this->belongsTo(ClassRoom::class, 'class_id'); }
-    public function teacher(): BelongsTo { return $this->belongsTo(User::class, 'teacher_id'); }
-    public function questionBank(): BelongsTo { return $this->belongsTo(QuestionBank::class); }
-    public function submissions(): HasMany { return $this->hasMany(QuizSubmission::class); }
+    public function classRoom(): BelongsTo
+    {
+        return $this->belongsTo(ClassRoom::class, 'class_id');
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
+    public function questionBank(): BelongsTo
+    {
+        return $this->belongsTo(QuestionBank::class);
+    }
+
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(QuizSubmission::class);
+    }
 
     public static function getStatuses(): array
     {
@@ -51,8 +68,15 @@ class QuizSubmission extends Model
         'submitted_at' => 'datetime',
     ];
 
-    public function quiz(): BelongsTo { return $this->belongsTo(Quiz::class); }
-    public function student(): BelongsTo { return $this->belongsTo(Student::class); }
+    public function quiz(): BelongsTo
+    {
+        return $this->belongsTo(Quiz::class);
+    }
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
 }
 
 class QuestionBank extends Model
@@ -62,8 +86,15 @@ class QuestionBank extends Model
         'subject', 'question_count', 'used_count',
     ];
 
-    public function questions(): HasMany { return $this->hasMany(Question::class); }
-    public function teacher(): BelongsTo { return $this->belongsTo(User::class, 'teacher_id'); }
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
 
     public static function getSubjects(): array
     {
@@ -81,7 +112,10 @@ class Question extends Model
         'options' => 'array',
     ];
 
-    public function bank(): BelongsTo { return $this->belongsTo(QuestionBank::class, 'question_bank_id'); }
+    public function bank(): BelongsTo
+    {
+        return $this->belongsTo(QuestionBank::class, 'question_bank_id');
+    }
 
     public static function getTypes(): array
     {

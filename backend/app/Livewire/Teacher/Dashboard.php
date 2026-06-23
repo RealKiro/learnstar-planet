@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Teacher;
 
-use Livewire\Component;
-use App\Services\ScoreService;
-use App\Services\LeaderboardService;
 use App\Models\ClassRoom;
-use App\Models\Student;
 use App\Models\Score;
+use App\Models\Student;
+use App\Services\LeaderboardService;
+use App\Services\ScoreService;
+use Livewire\Component;
 
 /**
  * 教师端数据看板 Livewire 组件
@@ -16,18 +18,24 @@ use App\Models\Score;
 class Dashboard extends Component
 {
     public $classRoomId;
+
     public $classRooms = [];
+
     public $stats = [];
+
     public $recentScores = [];
+
     public $topStudents = [];
+
     public $scoreTrend = [];
+
     public $petDistribution = [];
 
     public function mount()
     {
         $teacher = auth()->user()->teacher;
         $this->classRooms = $teacher->classRooms()->where('is_active', true)->get();
-        
+
         if ($this->classRooms->isNotEmpty()) {
             $this->classRoomId = $this->classRooms->first()->id;
             $this->loadDashboard();

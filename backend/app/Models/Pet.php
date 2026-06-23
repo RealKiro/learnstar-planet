@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -93,9 +95,11 @@ class Pet extends Model
         if (!$this->canLevelUp()) {
             return false;
         }
+
         $this->experience -= $this->experienceForNextLevel();
         $this->level += 1;
         $this->save();
+
         return true;
     }
 

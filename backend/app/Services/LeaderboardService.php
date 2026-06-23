@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\Student;
@@ -91,9 +93,13 @@ class LeaderboardService
 
         $result = [];
         $rank = 1;
+
         foreach ($raw as $studentId => $score) {
             $student = $students->get($studentId);
-            if (!$student) continue;
+
+            if (!$student) {
+                continue;
+            }
 
             $entry = [
                 'rank' => $rank,
@@ -126,6 +132,7 @@ class LeaderboardService
 
         $result = [];
         $rank = 1;
+
         foreach ($students as $student) {
             // 回填Redis
             Redis::zadd($this->classTotalKey($classId), $student->total_score, $student->id);
@@ -183,10 +190,11 @@ class LeaderboardService
             ->with('pet')
             ->take($limit)
             ->get()
-            ->sortByDesc(fn($s) => $s->pet->level);
+            ->sortByDesc(fn ($s) => $s->pet->level);
 
         $result = [];
         $rank = 1;
+
         foreach ($students as $student) {
             $stage = $student->pet->currentStage();
             Redis::zadd($this->classPetLevelKey($classId), $student->pet->level, $student->id);
