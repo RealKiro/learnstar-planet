@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Api;
 
-use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Facades\Artisan;
+use PHPUnit\Framework\TestCase;
 
 class TeacherApiTest extends TestCase
 {

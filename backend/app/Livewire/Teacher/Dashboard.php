@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire\Teacher;
 
 use App\Models\ClassRoom;
-use App\Models\Score;
-use App\Models\Student;
 use App\Services\LeaderboardService;
 use App\Services\ScoreService;
 use Livewire\Component;

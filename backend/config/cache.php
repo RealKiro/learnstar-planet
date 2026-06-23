@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * 班宠星球 - 缓存配置
  * 使用独立部署的 Redis，不内置

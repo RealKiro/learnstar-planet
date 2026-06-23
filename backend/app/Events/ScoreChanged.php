@@ -11,7 +11,8 @@ use Illuminate\Queue\SerializesModels;
 
 class ScoreChanged implements ShouldBroadcastNow
 {
-    use InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public int $studentId;
 

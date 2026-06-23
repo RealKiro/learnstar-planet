@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * 班宠星球 - 数据库配置
  * 支持 MySQL / MariaDB / PostgreSQL / SQLite

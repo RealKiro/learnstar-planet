@@ -1,11 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+declare(strict_types=1);
+
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\SchoolAdminController;
-use App\Http\Controllers\Api\TeacherController;
 use App\Http\Controllers\Api\ParentController;
+use App\Http\Controllers\Api\SchoolAdminController;
 use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\Api\TeacherController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

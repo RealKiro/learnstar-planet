@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Events\ScoreChanged;
-use App\Models\Pet;
 use App\Models\Score;
 use App\Models\ScoreLog;
 use App\Models\ScoreRule;

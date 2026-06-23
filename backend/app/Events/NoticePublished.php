@@ -11,7 +11,8 @@ use Illuminate\Queue\SerializesModels;
 
 class NoticePublished implements ShouldBroadcastNow
 {
-    use InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public int $classId;
 

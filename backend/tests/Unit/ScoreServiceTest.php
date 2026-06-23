@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use App\Services\ScoreService;
 use App\Models\Student;
-use App\Models\Score;
+use App\Services\ScoreService;
+use PHPUnit\Framework\TestCase;
 
 class ScoreServiceTest extends TestCase
 {
