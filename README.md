@@ -75,11 +75,11 @@
 
 ### 🔐 第三方登录
 
-教师账号支持绑定以下平台，绑定后可直接扫码登录：
-- 微信公众号
-- 企业微信
-- QQ
-- 人人通空间
+教师账号支持绑定以下平台，绑定后可快捷登录：
+- 个人微信扫码登录
+- 企业微信扫码登录
+- QQ 扫码登录
+- 人人通空间（账号密码 / 客户端扫码登录）
 
 ---
 
@@ -364,29 +364,56 @@ AI 助教功能需要配置 API Key，支持以下平台：
 
 ### 🔐 第三方登录配置（可选）
 
-#### 微信公众号登录
+#### 个人微信扫码登录
 
-1. 访问 [微信公众平台](https://mp.weixin.qq.com/)
-2. 注册**服务号**（需企业资质）
-3. 进入 **开发** → **基本配置**
-4. 获取 **AppID** 和 **AppSecret**
-5. 配置 **网页授权域名**（填写你的域名）
-6. 修改 `.env`：
+1. 访问 [微信开放平台](https://open.weixin.qq.com/)
+2. 注册开发者账号（需企业资质并通过审核）
+3. 创建**网站应用**，获取 **AppID** 和 **AppSecret**
+4. 配置**授权回调域名**（填写你的域名）
+5. 修改 `.env`：
    ```env
-   WECHAT_OFFICIAL_APPID=wx1234567890abcdef
-   WECHAT_OFFICIAL_SECRET=xxxxxxxxxxxxxxxxxxxxxx
+   WECHAT_OPEN_APPID=wx1234567890abcdef
+   WECHAT_OPEN_SECRET=xxxxxxxxxxxxxxxxxxxxxx
    ```
 
-#### 企业微信登录
+#### 企业微信扫码登录
 
 1. 访问 [企业微信管理后台](https://work.weixin.qq.com/)
 2. 进入 **应用管理** → **创建应用**
 3. 获取 **CorpID**、**AgentID**、**Secret**
-4. 修改 `.env`：
+4. 配置**网页授权及JS-SDK**中的可信域名
+5. 修改 `.env`：
    ```env
    WECHAT_WORK_CORPID=ww1234567890abcdef
    WECHAT_WORK_AGENTID=1000002
    WECHAT_WORK_SECRET=xxxxxxxxxxxxxxxxxxxxxx
+   ```
+
+#### QQ 扫码登录
+
+1. 访问 [QQ 互联平台](https://connect.qq.com/)
+2. 注册开发者账号并创建**网站应用**
+3. 获取 **App ID** 和 **App Key**
+4. 配置**回调地址**（填写 `https://你的域名/auth/qq/callback`）
+5. 修改 `.env`：
+   ```env
+   QQ_APP_ID=1012345678
+   QQ_APP_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   QQ_REDIRECT_URI=https://your-domain.com/auth/qq/callback
+   ```
+
+#### 人人通空间登录
+
+人人通空间支持两种登录方式：**账号密码登录**与**客户端扫码登录**。
+
+1. 联系当地教育主管部门或人人通空间服务方，申请接入权限
+2. 获取 **应用 ID（AppKey）** 和 **应用密钥（AppSecret）**
+3. 配置**回调地址**（填写 `https://你的域名/auth/rrt/callback`）
+4. 修改 `.env`：
+   ```env
+   RRT_APP_KEY=rrt1234567890abcdef
+   RRT_APP_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   RRT_REDIRECT_URI=https://your-domain.com/auth/rrt/callback
    ```
 
 ---
