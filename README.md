@@ -3,7 +3,7 @@
 > 开源版班级管理系统 - 积分激励 · 宠物养成 · AI助教 · 全免费
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/learnstar-planet?style=social)](https://github.com/yourusername/learnstar-planet)
+[![GitHub stars](https://img.shields.io/github/stars/RealKiro/learnstar-planet?style=social)](https://github.com/RealKiro/learnstar-planet)
 
 ---
 
@@ -359,8 +359,8 @@ docker-compose exec app php artisan migrate --force
 
 ```bash
 # 下载 docker-compose.yml 和 .env.example
-curl -O https://raw.githubusercontent.com/yourusername/learnstar-planet/main/docker-compose.yml
-curl -O https://raw.githubusercontent.com/yourusername/learnstar-planet/main/.env.example
+curl -O https://raw.githubusercontent.com/RealKiro/learnstar-planet/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/RealKiro/learnstar-planet/main/.env.example
 ```
 
 #### 2. 修改配置
@@ -376,7 +376,7 @@ nano .env
 **必改项**：
 ```env
 # 修改为你自己的 GitHub 用户名（用于拉取镜像）
-GITHUB_USERNAME=yourusername
+GITHUB_USERNAME=RealKiro
 
 # 修改为你的域名或服务器 IP
 APP_URL=http://your-server-ip
@@ -688,7 +688,7 @@ docker-compose exec app tail -100 storage/logs/laravel.log
 
 ### 🐛 报告 Bug
 
-请在 [GitHub Issues](https://github.com/yourusername/learnstar-planet/issues) 中提交 Bug 报告，包含以下信息：
+请在 [GitHub Issues](https://github.com/RealKiro/learnstar-planet/issues) 中提交 Bug 报告，包含以下信息：
 - 问题描述
 - 复现步骤
 - 预期行为
@@ -697,7 +697,7 @@ docker-compose exec app tail -100 storage/logs/laravel.log
 
 ### 💡 功能建议
 
-请在 [GitHub Discussions](https://github.com/yourusername/learnstar-planet/discussions) 中发起功能讨论。
+请在 [GitHub Discussions](https://github.com/RealKiro/learnstar-planet/discussions) 中发起功能讨论。
 
 ### 🔧 提交代码
 
@@ -723,9 +723,9 @@ docker-compose exec app tail -100 storage/logs/laravel.log
 
 ## 联系我们
 
-- 📖 **文档**：[查看完整文档](https://github.com/yourusername/learnstar-planet/wiki)
-- 🐛 **Bug 反馈**：[提交 Issue](https://github.com/yourusername/learnstar-planet/issues)
-- 💬 **社区讨论**：[GitHub Discussions](https://github.com/yourusername/learnstar-planet/discussions)
+- 📖 **文档**：[查看完整文档](https://github.com/RealKiro/learnstar-planet/wiki)
+- 🐛 **Bug 反馈**：[提交 Issue](https://github.com/RealKiro/learnstar-planet/issues)
+- 💬 **社区讨论**：[GitHub Discussions](https://github.com/RealKiro/learnstar-planet/discussions)
 - 📧 **邮件支持**：support@yourdomain.com（需自行设置）
 
 ---
