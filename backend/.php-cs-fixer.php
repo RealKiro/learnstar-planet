@@ -9,7 +9,8 @@ $finder = (new PhpCsFixer\Finder())
     ->notName('*.blade.php')
     ->exclude('vendor')
     ->exclude('storage')
-    ->exclude('bootstrap/cache');
+    ->exclude('bootstrap/cache')
+    ->exclude('tests/phpstan-stubs');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
