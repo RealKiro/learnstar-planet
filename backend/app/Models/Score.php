@@ -43,7 +43,7 @@ class Score extends Model
     public static function getRules(): array
     {
         return ScoreRule::getActiveRules()
-            ->mapWithKeys(fn ($rule) => [
+            ->mapWithKeys(fn (ScoreRule $rule): array => [
                 $rule->code => [
                     'name' => $rule->name,
                     'amount' => $rule->default_amount,
@@ -53,22 +53,34 @@ class Score extends Model
             ->toArray();
     }
 
-    public function student()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Student, $this>
+     */
+    public function student(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Student::class);
     }
 
-    public function classRoom()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<ClassRoom, $this>
+     */
+    public function classRoom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ClassRoom::class, 'class_id');
     }
 
-    public function scoreRule()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<ScoreRule, $this>
+     */
+    public function scoreRule(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ScoreRule::class);
     }
 
-    public function giver()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, $this>
+     */
+    public function giver(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'given_by');
     }

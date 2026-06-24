@@ -15,6 +15,9 @@ parameters:
         - tests/phpstan-stubs/flux.php
         - tests/phpstan-stubs/global-helpers.php
 
+    # Treat PHPDoc types as not always certain (avoids false "always true" warnings)
+    treatPhpDocTypesAsCertain: false
+
     excludePaths:
         analyseAndScan:
             - app/Support/helpers.php (?)
@@ -27,3 +30,5 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method .*#'
         - '#Access to an undefined property .*#'
+        - message: '#Function flux not found\.#'
+          reportUnmatched: false

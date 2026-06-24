@@ -41,32 +41,50 @@ class Student extends Model
 
     // ========== 关系 ==========
 
-    public function classRoom()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<ClassRoom, $this>
+     */
+    public function classRoom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ClassRoom::class, 'class_id');
     }
 
-    public function parent()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, $this>
+     */
+    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'parent_id');
     }
 
-    public function pet()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<Pet, $this>
+     */
+    public function pet(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Pet::class);
     }
 
-    public function scores()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Score, $this>
+     */
+    public function scores(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Score::class);
     }
 
-    public function scoreLogs()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<ScoreLog, $this>
+     */
+    public function scoreLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ScoreLog::class);
     }
 
-    public function shopRedemptions()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<ShopRedemption, $this>
+     */
+    public function shopRedemptions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ShopRedemption::class);
     }

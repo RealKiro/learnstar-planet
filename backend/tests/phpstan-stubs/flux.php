@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
 // Stub file for Livewire Flux package
-// Tells PHPStan about the Flux class and the global flux() helper function
+// NOTE: No declare(strict_types=1) here — PHPStan stub files do not support declare statements
 
 namespace Livewire\Flux;
 

@@ -75,9 +75,9 @@ class ScoreRule extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
-    public static function getActiveRules()
+    public static function getActiveRules(): \Illuminate\Database\Eloquent\Collection
     {
-        return self::where('is_active', true)
+        return static::where('is_active', true)
             ->orderBy('sort_order')
             ->get();
     }

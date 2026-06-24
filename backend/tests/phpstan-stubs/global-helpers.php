@@ -1,16 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
 // Global helper functions stub for PHPStan
-// This file tells PHPStan about helper functions that are not autoloaded
+// NOTE: No declare(strict_types=1) here — PHPStan stub files do not support declare statements
 
-/**
- * Get the Flux instance for toast notifications, modals, etc.
- *
- * @return \Livewire\Flux\Flux
- */
-function flux()
-{
-    return new \Livewire\Flux\Flux();
+namespace {
+    /**
+     * Get the Flux instance for toast notifications, modals, etc.
+     *
+     * @return \Livewire\Flux\Flux
+     */
+    function flux(): \Livewire\Flux\Flux
+    {
+        return new \Livewire\Flux\Flux();
+    }
 }
