@@ -67,7 +67,35 @@ return new class () extends Migration {
             $table->unique(['homework_id', 'student_id']);
         });
 
-        // ===== quizzes 答题表 =====
+        // ===== question_banks 题库表 (must be created before quizzes) =====
+        Schema::create('question_banks', function ($table) {
+            $table->id();
+            $table->foreignId('school_id')->nullable()->constrained('schools')->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
+            $table->string('title', 200);
+            $table->string('subject', 50);
+            $table->integer('question_count')->default(0);
+            $table->integer('used_count')->default(0);
+            $table->boolean('is_public')->default(false);  // 是否全校共享
+            $table->timestamps();
+            $table->index(['teacher_id', 'subject']);
+        });
+
+        // ===== questions 题目表 (depends on question_banks) =====
+        Schema::create('questions', function ($table) {
+            $table->id();
+            $table->foreignId('question_bank_id')->constrained('question_banks')->onDelete('cascade');
+            $table->enum('type', ['single', 'multiple', 'fill', 'judge', 'short']);
+            $table->text('content');
+            $table->json('options')->nullable();  // 选择题选项
+            $table->text('answer');  // 正确答案
+            $table->decimal('score', 4, 1)->default(1.0);
+            $table->text('explanation')->nullable();
+            $table->integer('sort_order')->default(0);
+            $table->timestamps();
+        });
+
+        // ===== quizzes 答题表 (depends on question_banks) =====
         Schema::create('quizzes', function ($table) {
             $table->id();
             $table->foreignId('class_id')->constrained('class_rooms')->onDelete('cascade');
@@ -85,7 +113,7 @@ return new class () extends Migration {
             $table->index(['class_id', 'status']);
         });
 
-        // ===== quiz_submissions 答题提交表 =====
+        // ===== quiz_submissions 答题提交表 (depends on quizzes) =====
         Schema::create('quiz_submissions', function ($table) {
             $table->id();
             $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
@@ -95,34 +123,6 @@ return new class () extends Migration {
             $table->timestamp('submitted_at')->nullable();
             $table->timestamps();
             $table->unique(['quiz_id', 'student_id']);
-        });
-
-        // ===== question_banks 题库表 =====
-        Schema::create('question_banks', function ($table) {
-            $table->id();
-            $table->foreignId('school_id')->nullable()->constrained('schools')->onDelete('cascade');
-            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
-            $table->string('title', 200);
-            $table->string('subject', 50);
-            $table->integer('question_count')->default(0);
-            $table->integer('used_count')->default(0);
-            $table->boolean('is_public')->default(false);  // 是否全校共享
-            $table->timestamps();
-            $table->index(['teacher_id', 'subject']);
-        });
-
-        // ===== questions 题目表 =====
-        Schema::create('questions', function ($table) {
-            $table->id();
-            $table->foreignId('question_bank_id')->constrained('question_banks')->onDelete('cascade');
-            $table->enum('type', ['single', 'multiple', 'fill', 'judge', 'short']);
-            $table->text('content');
-            $table->json('options')->nullable();  // 选择题选项
-            $table->text('answer');  // 正确答案
-            $table->decimal('score', 4, 1)->default(1.0);
-            $table->text('explanation')->nullable();
-            $table->integer('sort_order')->default(0);
-            $table->timestamps();
         });
 
         // ===== grades 成绩表 =====
@@ -145,8 +145,9 @@ return new class () extends Migration {
     public function down(): void
     {
         $tables = [
-            'grades', 'questions', 'question_banks',
+            'grades',
             'quiz_submissions', 'quizzes',
+            'questions', 'question_banks',
             'homework_submissions', 'homework_collections',
             'attendances', 'broadcasts',
         ];
