@@ -7,6 +7,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int $id
+ * @property int $class_id
+ * @property int|null $parent_id
+ * @property string $name
+ * @property string|null $student_no
+ * @property string|null $avatar_path
+ * @property int $total_score
+ * @property string $status
+ * @property \Illuminate\Database\Eloquent\Collection<int, Pet> $pet
+ * @property \Illuminate\Database\Eloquent\Collection<int, Score> $scores
+ * @property \Illuminate\Database\Eloquent\Collection<int, ScoreLog> $scoreLogs
+ * @property \Illuminate\Database\Eloquent\Collection<int, ShopRedemption> $shopRedemptions
+ */
 class Student extends Model
 {
     use SoftDeletes;

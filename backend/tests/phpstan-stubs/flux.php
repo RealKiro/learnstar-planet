@@ -1,13 +1,9 @@
 <?php
 
-/**
- * PHPStan stub for Livewire Flux helper function
- *
- * This file tells PHPStan about the flux() helper function
- * provided by the Livewire Flux package.
- */
-
 declare(strict_types=1);
+
+// Stub file for Livewire Flux package
+// Tells PHPStan about the Flux class and the global flux() helper function
 
 namespace Livewire\Flux;
 
@@ -36,14 +32,4 @@ class Flux
     public function modal(string $name): void
     {
     }
-}
-
-/**
- * Global helper function for Flux
- *
- * @return \Livewire\Flux\Flux
- */
-function flux()
-{
-    return new Flux();
 }

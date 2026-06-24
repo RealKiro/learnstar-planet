@@ -6,6 +6,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $student_id
+ * @property int $class_id
+ * @property int $score_rule_id
+ * @property int $amount
+ * @property string|null $reason
+ * @property int $given_by
+ * @property Student $student
+ * @property ClassRoom $classRoom
+ * @property ScoreRule $scoreRule
+ * @property User $giver
+ */
 class Score extends Model
 {
     protected $fillable = [

@@ -69,4 +69,16 @@ class ScoreRule extends Model
     {
         return $this->belongsTo(School::class);
     }
+
+    /**
+     * 获取所有活跃的规则（用于 Score::getRules() 调用）
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
+     */
+    public static function getActiveRules()
+    {
+        return self::where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+    }
 }
