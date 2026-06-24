@@ -10,6 +10,10 @@ parameters:
         - app
         - routes
 
+    # PHPStan stub files (for helper functions not detected automatically)
+    stubFiles:
+        - tests/phpstan-stubs/flux.php
+
     excludePaths:
         analyseAndScan:
             - app/Support/helpers.php (?)
@@ -18,7 +22,7 @@ parameters:
             - storage (?)
             - bootstrap/cache
 
-    # 忽略某些错误
+    # 忽略某些错误（仅保留实际匹配的错误）
     ignoreErrors:
         - '#Call to an undefined method .*#'
         - '#Access to an undefined property .*#'

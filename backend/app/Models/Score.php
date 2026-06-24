@@ -22,6 +22,24 @@ class Score extends Model
         'amount' => 'integer',
     ];
 
+    /**
+     * 获取所有活跃的积分规则（用于前端展示和快速操作）
+     *
+     * @return array<string, array{name: string, amount: int, description: string}>
+     */
+    public static function getRules(): array
+    {
+        return ScoreRule::getActiveRules()
+            ->mapWithKeys(fn ($rule) => [
+                $rule->code => [
+                    'name' => $rule->name,
+                    'amount' => $rule->default_amount,
+                    'description' => $rule->description ?? '',
+                ],
+            ])
+            ->toArray();
+    }
+
     public function student()
     {
         return $this->belongsTo(Student::class);

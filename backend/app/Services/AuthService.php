@@ -22,7 +22,7 @@ class AuthService
         $created = [];
 
         foreach ($teachers as $teacher) {
-            $username = $teacher['username'] ?? $school->code . '_T' . Str::padLeft((string) ($school->teachers()->count() + 1), 3, '0');
+            $username = $teacher['username'] ?? $school->code . '_T' . str_pad((string) ($school->teachers()->count() + 1), 3, '0', STR_PAD_LEFT);
             $initialPassword = $teacher['password'] ?? Str::random(8);
 
             $user = User::create([
@@ -53,7 +53,7 @@ class AuthService
      */
     public function createParentAccount(School $school, array $parentData): User
     {
-        $username = $parentData['username'] ?? $school->code . '_P' . Str::padLeft((string) User::where('school_id', $school->id)->where('role', 'parent')->count() + 1, 3, '0');
+        $username = $parentData['username'] ?? $school->code . '_P' . str_pad((string) User::where('school_id', $school->id)->where('role', 'parent')->count() + 1, 3, '0', STR_PAD_LEFT);
         $initialPassword = $parentData['password'] ?? Str::random(8);
 
         return User::create([

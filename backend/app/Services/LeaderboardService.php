@@ -25,11 +25,6 @@ class LeaderboardService
         return "leaderboard:class:{$classId}:pet_level";
     }
 
-    private function schoolTotalKey(int $schoolId): string
-    {
-        return "leaderboard:school:{$schoolId}:total";
-    }
-
     // ========== 更新排行榜缓存 ==========
 
     public function updateTotalScore(int $classId, int $studentId, int $score): void
@@ -51,7 +46,7 @@ class LeaderboardService
 
     public function getClassTotalLeaderboard(int $classId, int $limit = 20): array
     {
-        $raw = Redis::zrevrange($this->classTotalKey($classId), 0, $limit - 1, 'WITHSCORES');
+        $raw = Redis::zrevrange($this->classTotalKey($classId), 0, $limit - 1, true);
 
         if (empty($raw)) {
             // Redis无数据时从数据库回填
@@ -63,7 +58,7 @@ class LeaderboardService
 
     public function getClassWeeklyLeaderboard(int $classId, int $limit = 20): array
     {
-        $raw = Redis::zrevrange($this->classWeeklyKey($classId), 0, $limit - 1, 'WITHSCORES');
+        $raw = Redis::zrevrange($this->classWeeklyKey($classId), 0, $limit - 1, true);
 
         if (empty($raw)) {
             // 从DB计算本周积分增量
@@ -75,7 +70,7 @@ class LeaderboardService
 
     public function getPetLevelLeaderboard(int $classId, int $limit = 20): array
     {
-        $raw = Redis::zrevrange($this->classPetLevelKey($classId), 0, $limit - 1, 'WITHSCORES');
+        $raw = Redis::zrevrange($this->classPetLevelKey($classId), 0, $limit - 1, true);
 
         if (empty($raw)) {
             return $this->rebuildPetLevelFromDB($classId, $limit);
