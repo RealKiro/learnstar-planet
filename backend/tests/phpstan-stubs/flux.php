@@ -9,45 +9,41 @@
 
 declare(strict_types=1);
 
-// Define the flux() function in the global namespace
-if (!function_exists('flux')) {
+namespace Livewire\Flux;
+
+/**
+ * Flux class for type hints
+ */
+class Flux
+{
     /**
-     * Get the Flux instance for toast notifications, modals, etc.
+     * Show a toast notification
      *
-     * @return \Livewire\Flux\Flux
+     * @param string $message
+     * @param string $type
+     * @return void
      */
-    function flux()
+    public function toast(string $message, string $type = 'info'): void
     {
-        // Stub implementation - returns a Flux instance
-        return new \Livewire\Flux\Flux();
+    }
+
+    /**
+     * Show a modal
+     *
+     * @param string $name
+     * @return void
+     */
+    public function modal(string $name): void
+    {
     }
 }
 
-namespace Livewire\Flux {
-    /**
-     * Flux class for type hints
-     */
-    class Flux
-    {
-        /**
-         * Show a toast notification
-         *
-         * @param string $message
-         * @param string $type
-         * @return void
-         */
-        public function toast(string $message, string $type = 'info'): void
-        {
-        }
-
-        /**
-         * Show a modal
-         *
-         * @param string $name
-         * @return void
-         */
-        public function modal(string $name): void
-        {
-        }
-    }
+/**
+ * Global helper function for Flux
+ *
+ * @return \Livewire\Flux\Flux
+ */
+function flux()
+{
+    return new Flux();
 }
