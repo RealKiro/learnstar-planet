@@ -375,9 +375,6 @@ nano .env
 
 **必改项**：
 ```env
-# 修改为你自己的 GitHub 用户名（用于拉取镜像）
-GITHUB_USERNAME=RealKiro
-
 # 修改为你的域名或服务器 IP
 APP_URL=http://your-server-ip
 
@@ -385,6 +382,8 @@ APP_URL=http://your-server-ip
 DB_PASSWORD=your_secure_password
 MYSQL_ROOT_PASSWORD=your_root_password
 ```
+
+> 💡 **提示**：`GITHUB_USERNAME=RealKiro` 已预置为源作者用户名，用于拉取官方预构建镜像，无需修改。
 
 **可选项**（让 AI 助教可用）：
 ```env
