@@ -213,7 +213,147 @@ learnstar-planet/
 
 ## 快速部署
 
-### 🚀 方式一：使用预构建镜像（推荐，5分钟部署）
+> 💡 **推荐方式**：Fork 本仓库后自行构建镜像（方式一），完全掌控代码和部署流程，免费使用 GitHub Actions 构建镜像并推送到你的 GHCR 命名空间。
+
+---
+
+### 🔧 方式一：Fork 仓库后自行构建镜像（推荐 ✅）
+
+适合需要在原项目基础上做定制开发，或希望完全掌控部署流程的用户。Fork 后 GitHub Actions 会自动构建 Docker 镜像并推送到你的 GHCR，无需本地配置构建环境。
+
+#### 1. Fork 仓库
+
+1. 访问 [learnstar-planet 仓库](https://github.com/RealKiro/learnstar-planet)
+2. 点击右上角 **Fork** 按钮，将仓库 Fork 到你的 GitHub 账号下
+
+#### 2. 启用 GitHub Actions
+
+1. 进入你 Fork 后的仓库页面
+2. 点击 **Actions** 标签页
+3. 如果提示需要启用 Workflows，点击 **I understand my workflows, go ahead and enable them**
+4. 确认以下工作流已就绪：
+   - `Build & Push Docker Images` — 自动构建并推送 Docker 镜像
+   - `CI - Test & Lint` — 代码质量检查
+
+#### 3. 确认仓库权限
+
+GitHub Actions 构建镜像需要 `packages: write` 权限，本仓库的工作流已内置配置：
+
+1. 进入 **Settings → Actions → General**
+2. 在 **Workflow permissions** 下选择 **Read and write permissions**
+3. 勾选 **Allow GitHub Actions to create and approve pull requests**（可选）
+4. 点击 **Save**
+
+#### 4. 触发镜像构建
+
+**方式 A — 推送代码自动构建**（修改代码后推送即可）：
+
+```bash
+# 克隆你 Fork 的仓库
+git clone https://github.com/YOUR_USERNAME/learnstar-planet.git
+cd learnstar-planet
+
+# 做你的修改后提交推送
+git add .
+git commit -m "feat: my custom changes"
+git push origin main
+```
+
+推送后 GitHub Actions 会自动触发构建，镜像将推送到：
+```
+ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
+```
+
+**方式 B — 手动触发构建**：
+
+1. 进入 **Actions → Build & Push Docker Images**
+2. 点击 **Run workflow** → 选择 `main` 分支 → 点击 **Run workflow**
+3. 等待构建完成（通常 5-10 分钟），可在 Actions 页面查看进度
+
+#### 5. （可选）设置镜像为公开
+
+默认情况下，GHCR 镜像是私有仓库。如需免登录拉取：
+
+1. 访问 [GitHub Packages](https://github.com/YOUR_USERNAME?tab=packages)
+2. 点击 `learnstar-planet/backend` 包
+3. 进入 **Package settings**
+4. 在 **Danger Zone → Change visibility** 中选择 **Public**
+
+#### 6. 部署
+
+**Using Docker Run（快速启动，需自备数据库）**
+
+```bash
+# 拉取镜像
+docker pull ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
+
+# 创建 .env 文件（参考 .env.example，配置你的数据库地址）
+# 启动容器（映射端口 8080）
+docker run -d -p 8080:8080 --name learnstar-planet \
+  --env-file .env \
+  ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
+
+# 初始化数据库
+docker exec learnstar-planet php artisan migrate --force
+docker exec learnstar-planet php artisan admin:create
+```
+
+**Using Docker Compose（推荐，全自动，含数据库）**
+
+```bash
+# 下载配置文件
+curl -O https://raw.githubusercontent.com/YOUR_USERNAME/learnstar-planet/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/YOUR_USERNAME/learnstar-planet/main/.env.example
+cp .env.example .env
+
+# 编辑 .env
+nano .env
+```
+
+**必改项**：
+```env
+# 改为你的 GitHub 用户名（用于拉取你自行构建的镜像）
+GITHUB_USERNAME=YOUR_USERNAME
+
+APP_URL=http://your-server-ip
+DB_PASSWORD=your_secure_password
+MYSQL_ROOT_PASSWORD=your_root_password
+```
+
+```bash
+# 启动服务（自动拉取镜像并启动应用+数据库+Redis）
+docker-compose up -d
+
+# 查看运行状态
+docker-compose ps
+
+# 初始化数据库
+docker-compose exec app php artisan migrate --force
+docker-compose exec app php artisan admin:create
+```
+
+#### 7. 后续更新
+
+当你修改代码并推送后，GitHub Actions 会自动重新构建镜像：
+
+```bash
+# 拉取最新镜像
+docker-compose pull
+
+# 重启服务
+docker-compose up -d
+
+# 运行数据库迁移（如有）
+docker-compose exec app php artisan migrate --force
+```
+
+> 💡 **提示**：如果上游仓库有更新，可以通过 GitHub 的 **Sync fork** 功能同步最新代码，同步后推送即可触发重新构建。
+
+---
+
+### 📦 方式二：使用预构建镜像（快速试用）
+
+适合快速体验项目，或暂时不想 Fork 仓库的用户。直接用官方预构建镜像，5 分钟内完成部署。
 
 #### 1. 下载配置文件
 
@@ -279,118 +419,6 @@ docker-compose exec app php artisan admin:create
 #### 5. 访问应用
 
 打开浏览器，访问：`http://your-server-ip`
-
----
-
-### 🔧 方式二：Fork 仓库后自行构建镜像（推荐二次开发者）
-
-如果你想在原项目基础上做修改，或者官方镜像拉取较慢，可以 Fork 本仓库后利用 GitHub Actions 自动构建镜像到你自己的 GHCR（GitHub Container Registry）命名空间。
-
-#### 1. Fork 仓库
-
-1. 访问 [learnstar-planet 仓库](https://github.com/RealKiro/learnstar-planet)
-2. 点击右上角 **Fork** 按钮，将仓库 Fork 到你的 GitHub 账号下
-
-#### 2. 启用 GitHub Actions
-
-1. 进入你 Fork 后的仓库页面
-2. 点击 **Actions** 标签页
-3. 如果提示需要启用 Workflows，点击 **I understand my workflows, go ahead and enable them**
-4. 确认以下工作流已就绪：
-   - `Build & Push Docker Images` — 自动构建并推送 Docker 镜像
-   - `CI - Test & Lint` — 代码质量检查
-
-#### 3. 确认仓库权限
-
-GitHub Actions 构建镜像需要 `packages: write` 权限，本仓库的工作流已内置配置：
-
-1. 进入 **Settings → Actions → General**
-2. 在 **Workflow permissions** 下选择 **Read and write permissions**
-3. 勾选 **Allow GitHub Actions to create and approve pull requests**（可选）
-4. 点击 **Save**
-
-#### 4. 触发镜像构建
-
-**方式 A — 推送代码自动构建**（修改代码后推送即可）：
-
-```bash
-# 克隆你 Fork 的仓库
-git clone https://github.com/YOUR_USERNAME/learnstar-planet.git
-cd learnstar-planet
-
-# 做你的修改后提交推送
-git add .
-git commit -m "feat: my custom changes"
-git push origin main
-```
-
-推送后 GitHub Actions 会自动触发构建，镜像将推送到：
-```
-ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
-```
-
-**方式 B — 手动触发构建**：
-
-1. 进入 **Actions → Build & Push Docker Images**
-2. 点击 **Run workflow** → 选择 `main` 分支 → 点击 **Run workflow**
-3. 等待构建完成（通常 5-10 分钟），可在 Actions 页面查看进度
-
-#### 5. 设置镜像为公开（可选）
-
-默认情况下，GHCR 镜像是私有仓库。如需免登录拉取：
-
-1. 访问 [GitHub Packages](https://github.com/YOUR_USERNAME?tab=packages)
-2. 点击 `learnstar-planet/backend` 包
-3. 进入 **Package settings**
-4. 在 **Danger Zone → Change visibility** 中选择 **Public**
-
-#### 6. 部署使用你的镜像
-
-```bash
-# 下载 docker-compose.yml 和 .env.example
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/learnstar-planet/main/docker-compose.yml
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/learnstar-planet/main/.env.example
-cp .env.example .env
-
-# 编辑 .env，将 GITHUB_USERNAME 改为你的 GitHub 用户名
-nano .env
-```
-
-**必改项**：
-```env
-# 改为你的 GitHub 用户名（用于拉取你自行构建的镜像）
-GITHUB_USERNAME=YOUR_USERNAME
-
-APP_URL=http://your-server-ip
-DB_PASSWORD=your_secure_password
-MYSQL_ROOT_PASSWORD=your_root_password
-```
-
-```bash
-# 启动服务
-docker-compose up -d
-
-# 初始化数据库
-docker-compose exec app php artisan migrate --force
-docker-compose exec app php artisan admin:create
-```
-
-#### 7. 后续更新
-
-当你修改代码并推送后，GitHub Actions 会自动重新构建镜像：
-
-```bash
-# 拉取最新镜像
-docker-compose pull
-
-# 重启服务
-docker-compose up -d
-
-# 运行数据库迁移（如有）
-docker-compose exec app php artisan migrate --force
-```
-
-> 💡 **提示**：如果上游仓库有更新，可以通过 GitHub 的 **Sync fork** 功能同步最新代码，同步后推送即可触发重新构建。
 
 ---
 
