@@ -45,8 +45,8 @@ class TeacherApiTest extends TestCase
     {
         $endpoints = [
             ['GET', '/api/teacher/students'],
-            ['GET', '/api/teacher/leaderboard'],
-            ['GET', '/api/teacher/pets'],
+            ['GET', '/api/teacher/leaderboard/total'],
+            ['GET', '/api/teacher/pets/class-overview'],
         ];
 
         foreach ($endpoints as [$method, $uri]) {
