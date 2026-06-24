@@ -24,7 +24,6 @@ if (!function_exists('flux')) {
 }
 
 namespace Livewire\Flux {
-
     /**
      * Flux class for type hints
      */

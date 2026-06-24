@@ -13,7 +13,8 @@ class AuthController extends Controller
 {
     public function __construct(
         private readonly AuthService $authService
-    ) {}
+    ) {
+    }
 
     /**
      * 教师账号密码登录

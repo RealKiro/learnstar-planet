@@ -13,7 +13,8 @@ class SchoolAdminController extends Controller
 {
     public function __construct(
         private readonly AuthService $authService
-    ) {}
+    ) {
+    }
 
     // ===== 学校管理 =====
 
