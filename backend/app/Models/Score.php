@@ -42,15 +42,16 @@ class Score extends Model
      */
     public static function getRules(): array
     {
-        return ScoreRule::getActiveRules()
-            ->mapWithKeys(fn (ScoreRule $rule): array => [
-                $rule->code => [
-                    'name' => $rule->name,
-                    'amount' => $rule->default_amount,
-                    'description' => $rule->description ?? '',
-                ],
-            ])
-            ->toArray();
+        $rules = [];
+        foreach (ScoreRule::getActiveRules() as $rule) {
+            $rules[$rule->code] = [
+                'name' => $rule->name,
+                'amount' => $rule->default_amount,
+                'description' => $rule->description ?? '',
+            ];
+        }
+
+        return $rules;
     }
 
     /**
