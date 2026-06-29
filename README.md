@@ -389,7 +389,7 @@ DB_PASSWORD=your_secure_password
 MYSQL_ROOT_PASSWORD=your_root_password
 ```
 
-> 💡 **提示**：`GITHUB_USERNAME=RealKiro` 已预置为源作者用户名，用于拉取官方预构建镜像，无需修改。
+> 💡 **提示**：`GITHUB_USERNAME=realkiro` 已预置为源作者用户名（GHCR 镜像路径要求全小写），用于拉取官方预构建镜像，无需修改。
 
 > ⚠️ **关于 APP_URL**：
 > - 这是 Laravel 生成绝对 URL 用的（邮件链接、API 返回的 URL 等），必须填**其他设备访问你时用的地址**

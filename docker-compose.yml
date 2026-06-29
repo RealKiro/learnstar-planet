@@ -15,7 +15,7 @@ services:
   # ===== 应用服务（使用预构建镜像）=====
   app:
     # 从 GitHub Container Registry 拉取预构建镜像
-    image: ghcr.io/${GITHUB_USERNAME:-RealKiro}/learnstar-planet/backend:latest
+    image: ghcr.io/${GITHUB_USERNAME:-realkiro}/learnstar-planet/backend:latest
     container_name: learnstar-app
     restart: unless-stopped
     ports:
