@@ -16,43 +16,6 @@ jobs:
         php: [8.3]
         database: [mysql, pgsql, sqlite]
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: learnstar_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-      pgsql:
-        image: postgres:16
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: learnstar_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-      redis:
-        image: redis:7-alpine
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd="redis-cli ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -77,6 +40,81 @@ jobs:
             storage/framework/views \
             storage/logs \
             bootstrap/cache
+
+      - name: Start Redis (with retry)
+        run: |
+          for attempt in 1 2 3 4 5; do
+            echo "Attempt $attempt/5 to start Redis..."
+            docker run -d --name redis -p 6379:6379 redis:7-alpine && break
+            echo "Redis start failed, retrying in 15s..."
+            sleep 15
+          done
+          echo "Waiting for Redis to be ready..."
+          for i in $(seq 1 30); do
+            docker exec redis redis-cli ping 2>/dev/null | grep -q PONG && echo "✅ Redis ready" && exit 0
+            sleep 1
+          done
+          echo "❌ Redis did not become ready in time"
+          docker logs redis
+          exit 1
+
+      - name: Start MySQL (with retry)
+        if: matrix.database == 'mysql'
+        run: |
+          for attempt in 1 2 3 4 5; do
+            echo "Attempt $attempt/5 to start MySQL..."
+            docker run -d --name mysql \
+              -e MYSQL_ROOT_PASSWORD=root \
+              -e MYSQL_DATABASE=learnstar_test \
+              -p 3306:3306 \
+              --health-cmd="mysqladmin ping -h localhost -uroot -proot" \
+              --health-interval=5s \
+              --health-timeout=5s \
+              --health-retries=10 \
+              mysql:8.0 && break
+            echo "MySQL start failed, retrying in 15s..."
+            docker rm -f mysql 2>/dev/null || true
+            sleep 15
+          done
+          echo "Waiting for MySQL to be healthy..."
+          for i in $(seq 1 60); do
+            status=$(docker inspect --format='{{.State.Health.Status}}' mysql 2>/dev/null || echo 'starting')
+            [ "$status" = "healthy" ] && echo "✅ MySQL healthy" && exit 0
+            echo "MySQL health status: $status, waiting..."
+            sleep 2
+          done
+          echo "❌ MySQL did not become healthy in time"
+          docker logs mysql
+          exit 1
+
+      - name: Start PostgreSQL (with retry)
+        if: matrix.database == 'pgsql'
+        run: |
+          for attempt in 1 2 3 4 5; do
+            echo "Attempt $attempt/5 to start PostgreSQL..."
+            docker run -d --name pgsql \
+              -e POSTGRES_PASSWORD=postgres \
+              -e POSTGRES_DB=learnstar_test \
+              -p 5432:5432 \
+              --health-cmd="pg_isready -U postgres" \
+              --health-interval=5s \
+              --health-timeout=5s \
+              --health-retries=10 \
+              postgres:16 && break
+            echo "PostgreSQL start failed, retrying in 15s..."
+            docker rm -f pgsql 2>/dev/null || true
+            sleep 15
+          done
+          echo "Waiting for PostgreSQL to be healthy..."
+          for i in $(seq 1 60); do
+            status=$(docker inspect --format='{{.State.Health.Status}}' pgsql 2>/dev/null || echo 'starting')
+            [ "$status" = "healthy" ] && echo "✅ PostgreSQL healthy" && exit 0
+            echo "PostgreSQL health status: $status, waiting..."
+            sleep 2
+          done
+          echo "❌ PostgreSQL did not become healthy in time"
+          docker logs pgsql
+          exit 1
 
       - name: Install Composer dependencies
         working-directory: backend
