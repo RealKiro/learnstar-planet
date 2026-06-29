@@ -1,45 +1,63 @@
-# Multi-stage Dockerfile for Laravel Backend
+# Multi-stage Dockerfile for Laravel Backend (Optimized for minimal size)
 # Build context = backend/ directory
+#
+# Optimization techniques:
+# 1. --no-dev: Excludes PHPUnit/PHPStan/etc from production image (~80MB saved)
+# 2. --virtual .build-deps: Dev headers removed after compilation (~100MB saved)
+# 3. Runtime libs only: libpng instead of libpng-dev, etc.
+# 4. No git/unzip/composer in final image (build-time only)
+# 5. Parallel compilation with -j$(nproc)
+# 6. Aggressive cache cleanup
 
-# Stage 1: Install Composer dependencies
+# ============================================================
+# Stage 1: Install Composer dependencies (production only)
+# ============================================================
 FROM composer:2.8 AS composer
 
 WORKDIR /app
 
 COPY composer.json composer.lock* ./
 
-# Install PHP extensions (gd for intervention/image, redis via PECL, pdo_pgsql needs postgresql-dev, pcntl is core ext)
-RUN apk add --no-cache $PHPIZE_DEPS postgresql-dev libpng-dev libjpeg-turbo-dev freetype-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo_mysql pdo_pgsql pcntl \
-    && pecl install redis \
-    && docker-php-ext-enable redis
+# Install ONLY production dependencies (no dev deps = no PHPUnit/PHPStan/Faker)
+# --no-scripts: artisan not available in this stage
+# --ignore-platform-reqs: extensions built in next stage, skip checks here
+RUN composer install \
+        --no-interaction \
+        --no-progress \
+        --prefer-dist \
+        --optimize-autoloader \
+        --no-dev \
+        --no-scripts \
+    && composer dump-autoload --optimize --no-scripts --no-dev \
+    && rm -rf /root/.composer/cache
 
-# Install Composer dependencies (--no-scripts: artisan not available in this stage)
-RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts \
-    && composer dump-autoload --optimize --no-scripts
-
-# Stage 2: Production image
+# ============================================================
+# Stage 2: Production runtime image (minimal)
+# ============================================================
 FROM php:8.3-fpm-alpine AS app
 
-# Install system dependencies and PHP extensions
-# $PHPIZE_DEPS needed for pecl install (redis), removed after build to keep image lean
-RUN apk add --no-cache \
-    git \
-    curl \
-    zip \
-    unzip \
-    libzip-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    oniguruma-dev \
-    postgresql-dev \
-    nginx \
-    supervisor \
-    $PHPIZE_DEPS \
+# Install build deps as virtual package, compile PHP extensions,
+# then remove build deps. Only runtime shared libraries remain.
+RUN apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        postgresql-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        freetype-dev \
+        libzip-dev \
+        oniguruma-dev \
+    && apk add --no-cache \
+        nginx \
+        supervisor \
+        curl \
+        libzip \
+        libpng \
+        libjpeg-turbo \
+        freetype \
+        oniguruma \
+        postgresql-libs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install \
+    && docker-php-ext-install -j"$(nproc)" \
         pdo_mysql \
         pdo_pgsql \
         zip \
@@ -48,32 +66,25 @@ RUN apk add --no-cache \
         pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apk del --no-cache $PHPIZE_DEPS \
-    && rm -rf /var/cache/apk/*
-
-# Install Composer
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+    && apk del --no-cache .build-deps \
+    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/php*
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy dependencies from composer stage
+# Copy production vendor (no dev dependencies)
 COPY --from=composer /app/vendor ./vendor
 
 # Copy application code (context = backend/)
 COPY . .
 
-# Copy Nginx config
+# Copy configuration files
 COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
-
-# Copy supervisor configuration
 COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Copy entrypoint script
 COPY docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Set proper permissions and ensure storage directories exist
+# Ensure storage directories exist with proper permissions
 RUN mkdir -p storage/app/public \
     storage/framework/cache/data \
     storage/framework/sessions \

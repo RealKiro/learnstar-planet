@@ -1,4 +1,4 @@
-# Ignore files for Docker build
+# Ignore files for Docker build (reduces build context & image size)
 # Build context = backend/ directory
 
 # Git
@@ -22,27 +22,35 @@
 .DS_Store
 Thumbs.db
 
-# PHP
+# PHP dev tools & configs (not needed in production image)
 /vendor/
 .php-cs-fixer.php
 .php-cs-fixer-cache
 phpstan.neon
 phpunit.xml
+phpunit.xml.dist
 coverage.xml
 coverage-html/
+infection.json
+infection.json.dist
 
-# Laravel
+# Laravel runtime (created by entrypoint)
 /storage/
 /bootstrap/cache/
+
+# Environment files
+.env
 .env.local
 .env.production
 .env.staging
+.env.testing
 *.log
 
 # Node.js
 /node_modules/
 npm-debug.log
 yarn-error.log
+package-lock.json
 
 # Testing
 /tests/
@@ -50,6 +58,7 @@ yarn-error.log
 
 # Documentation
 /*.md
+/docs/
 
 # Archives
 *.tar
@@ -66,3 +75,6 @@ desktop.ini
 Dockerfile
 Dockerfile.dev
 .dockerignore
+
+# Makefile (dev convenience only)
+Makefile
