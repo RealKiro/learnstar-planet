@@ -315,7 +315,10 @@ nano .env
 # 改为你的 GitHub 用户名（用于拉取你自行构建的镜像）
 GITHUB_USERNAME=YOUR_USERNAME
 
-APP_URL=http://your-server-ip
+# 改为你访问该服务的地址（不要用 Docker 内部 IP）
+# 公网服务器：http://your-server-ip:8080
+# 局域网 NAS：http://192.168.1.100:8080（替换为你的 NAS IP）
+APP_URL=http://your-server-ip:8080
 DB_PASSWORD=your_secure_password
 MYSQL_ROOT_PASSWORD=your_root_password
 ```
@@ -375,8 +378,11 @@ nano .env
 
 **必改项**：
 ```env
-# 修改为你的域名或服务器 IP
-APP_URL=http://your-server-ip
+# 修改为你访问该服务的地址（不要用 Docker 内部 IP）
+# 公网服务器：http://your-server-ip:8080
+# 局域网 NAS（群晖/飞牛等）：http://192.168.1.100:8080（替换为你的 NAS IP）
+# 有域名/反向代理：https://learnstar.yourdomain.com
+APP_URL=http://your-server-ip:8080
 
 # 修改数据库密码（如果使用内置 MySQL）
 DB_PASSWORD=your_secure_password
@@ -384,6 +390,12 @@ MYSQL_ROOT_PASSWORD=your_root_password
 ```
 
 > 💡 **提示**：`GITHUB_USERNAME=RealKiro` 已预置为源作者用户名，用于拉取官方预构建镜像，无需修改。
+
+> ⚠️ **关于 APP_URL**：
+> - 这是 Laravel 生成绝对 URL 用的（邮件链接、API 返回的 URL 等），必须填**其他设备访问你时用的地址**
+> - **不要**填 Docker 容器内部 IP（如 `172.17.0.x`），局域网其他设备无法访问该地址
+> - 群晖/飞牛 NAS 部署：填 NAS 的局域网 IP + 端口，如 `http://192.168.1.100:8080`
+> - `APP_PORT` 控制宿主机映射端口（默认 8080），容器内部固定监听 8080
 
 **可选项**（让 AI 助教可用）：
 ```env

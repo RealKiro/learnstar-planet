@@ -4,7 +4,7 @@
 # 使用步骤：
 # 1. 复制 .env.example 为 .env 并修改配置
 # 2. docker-compose up -d
-# 3. 访问 http://your-server-ip
+# 3. 访问 http://your-server-ip:8080
 #
 # 可选：不使用内置数据库，改为连接外部数据库
 # 修改 .env 中的 DB_HOST 和 REDIS_HOST 即可
@@ -15,7 +15,7 @@ services:
   # ===== 应用服务（使用预构建镜像）=====
   app:
     # 从 GitHub Container Registry 拉取预构建镜像
-    image: ghcr.io/${GITHUB_USERNAME:-yourusername}/learnstar-planet/backend:latest
+    image: ghcr.io/${GITHUB_USERNAME:-RealKiro}/learnstar-planet/backend:latest
     container_name: learnstar-app
     restart: unless-stopped
     ports:
