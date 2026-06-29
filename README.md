@@ -328,9 +328,22 @@ APP_PORT=8080
 
 # APP_URL 由 APP_HOST 和 APP_PORT 自动拼接，一般无需手动修改
 APP_URL=http://${APP_HOST}:${APP_PORT}
+
+# 应用数据库账号密码（Laravel 应用用 learnstar 账号读写业务数据）
 DB_PASSWORD=your_secure_password
+
+# MySQL root 超级管理员密码（数据库维护/备份/恢复用，建议和 DB_PASSWORD 不同）
 MYSQL_ROOT_PASSWORD=your_root_password
 ```
+
+> ⚠️ **关于数据库配置**（重要）：
+> - `DB_PASSWORD` 是 **Laravel 应用**连接数据库时用的密码（对应 `DB_USERNAME=learnstar`）
+> - `MYSQL_ROOT_PASSWORD` 是 **MySQL root 管理员**密码，用于数据库维护、备份、紧急恢复
+> - 这两个密码**建议不同**，不要把 root 密码泄露给应用
+> - `DB_PORT=3306` 是**容器内部**端口，一般不需要改
+> - `MYSQL_PORT` 是**宿主机**暴露给外部工具（如 Navicat/DBeaver）的端口，如果 3306 被占用，可改成 `3307`/`3308`
+>
+> 示例：宿主机 MySQL 端口改成 3307 后，Navicat 连接时主机填 `你的IP`，端口填 `3307`，但 `DB_PORT` 仍然保持 `3306`
 
 ```bash
 # 启动服务（自动拉取镜像并启动应用+数据库+Redis）
@@ -402,8 +415,10 @@ APP_PORT=8080
 # 如果你使用 https 或自定义路径，可以手动覆盖
 APP_URL=http://${APP_HOST}:${APP_PORT}
 
-# 修改数据库密码（如果使用内置 MySQL）
+# 应用数据库账号密码（Laravel 应用用 learnstar 账号读写业务数据）
 DB_PASSWORD=your_secure_password
+
+# MySQL root 超级管理员密码（数据库维护/备份/恢复用，建议和 DB_PASSWORD 不同）
 MYSQL_ROOT_PASSWORD=your_root_password
 ```
 
@@ -416,6 +431,15 @@ MYSQL_ROOT_PASSWORD=your_root_password
 > - **APP_PORT 是宿主机端口**，你可以改成任意未被占用的端口（如 8081、8090、9000）
 > - **APP_URL 由 APP_HOST 和 APP_PORT 自动拼接**（`http://${APP_HOST}:${APP_PORT}`），一般无需手动改
 > - 如果 `APP_PORT=80`，可以省略端口写 `http://your-server-ip`，此时需要手动覆盖 APP_URL
+
+> ⚠️ **关于数据库配置**（重要）：
+> - `DB_PASSWORD` 是 **Laravel 应用**连接数据库时用的密码（对应 `DB_USERNAME=learnstar`）
+> - `MYSQL_ROOT_PASSWORD` 是 **MySQL root 管理员**密码，用于数据库维护、备份、紧急恢复
+> - 这两个密码**建议不同**，不要把 root 密码泄露给应用
+> - `DB_PORT=3306` 是**容器内部**端口，一般不需要改
+> - `MYSQL_PORT` 是**宿主机**暴露给外部工具（如 Navicat/DBeaver）的端口，如果 3306 被占用，可改成 `3307`/`3308`
+>
+> 示例：宿主机 MySQL 端口改成 3307 后，Navicat 连接时主机填 `你的IP`，端口填 `3307`，但 `DB_PORT` 仍然保持 `3306`
 
 > ⚠️ **关于 APP_URL**：
 > - 这是 Laravel 生成绝对 URL 用的（邮件链接、API 返回的 URL 等），必须填**其他设备访问你时用的地址**

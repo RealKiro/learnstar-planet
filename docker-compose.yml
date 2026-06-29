@@ -85,14 +85,19 @@ services:
     container_name: learnstar-mysql
     restart: unless-stopped
     environment:
+      # MySQL root 管理员密码（数据库维护/备份用）
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_strong_password}
+      # 自动创建的数据库名、业务账号及密码（Laravel 应用使用）
       MYSQL_DATABASE: ${DB_DATABASE:-learnstar}
       MYSQL_USER: ${DB_USERNAME:-learnstar}
       MYSQL_PASSWORD: ${DB_PASSWORD:-learnstar_password}
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
-      - "${MYSQL_PORT:-3306}:3306"  # 可选：暴露端口供外部工具连接
+      # 端口映射：宿主机端口 : 容器内部端口
+      # 左边：由 .env 中的 MYSQL_PORT 控制，供 Navicat/DBeaver 等外部工具连接
+      # 右边：固定 3306，Laravel 应用通过 DB_PORT=3306 在容器内部连接
+      - "${MYSQL_PORT:-3306}:3306"
     networks:
       - learnstar-net
     healthcheck:
