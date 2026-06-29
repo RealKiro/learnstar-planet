@@ -12,7 +12,7 @@
 # ============================================================
 # Stage 1: Install Composer dependencies (production only)
 # ============================================================
-FROM composer:2.8 AS composer
+FROM composer:2.8-php8.3 AS composer
 
 WORKDIR /app
 
@@ -28,6 +28,7 @@ RUN composer install \
         --optimize-autoloader \
         --no-dev \
         --no-scripts \
+        --ignore-platform-reqs \
     && composer dump-autoload --optimize --no-scripts --no-dev \
     && rm -rf /root/.composer/cache
 
