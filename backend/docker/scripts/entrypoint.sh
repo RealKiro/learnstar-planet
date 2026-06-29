@@ -45,6 +45,11 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
     php artisan migrate --force
     echo "✅ 迁移完成"
 
+    # 创建默认管理员账号（首次部署）
+    echo "👤 创建默认管理员..."
+    php artisan db:seed --class=AdminUserSeeder --force
+    echo "✅ 管理员账号已就绪"
+
     # 创建存储目录链接
     echo "🔗 创建存储链接..."
     php artisan storage:link --force 2>/dev/null || true

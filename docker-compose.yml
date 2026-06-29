@@ -60,6 +60,13 @@ services:
       - WECHAT_OFFICIAL_SECRET=${WECHAT_OFFICIAL_SECRET:-}
       - WECHAT_WORK_CORPID=${WECHAT_WORK_CORPID:-}
       - WECHAT_WORK_SECRET=${WECHAT_WORK_SECRET:-}
+      
+      # 超级管理员配置（首次部署自动创建，生产环境请务必修改密码）
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123456}
+      - ADMIN_NAME=${ADMIN_NAME:-系统管理员}
+      - ADMIN_SCHOOL_NAME=${ADMIN_SCHOOL_NAME:-学趣星球默认学校}
+      - ADMIN_SCHOOL_CODE=${ADMIN_SCHOOL_CODE:-learnstar-default}
     volumes:
       # 持久化上传文件和日志
       - app-uploads:/var/www/html/storage/app/uploads

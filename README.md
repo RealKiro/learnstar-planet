@@ -293,9 +293,9 @@ docker run -d -p 8080:8080 --name learnstar-planet \
   --env-file .env \
   ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
 
-# 初始化数据库
+# 初始化数据库（自动创建管理员账号：admin / admin123456）
 docker exec learnstar-planet php artisan migrate --force
-docker exec learnstar-planet php artisan admin:create
+docker exec learnstar-planet php artisan db:seed --class=AdminUserSeeder --force
 ```
 
 **Using Docker Compose（推荐，全自动，含数据库）**
@@ -334,6 +334,10 @@ DB_PASSWORD=your_secure_password
 
 # MySQL root 超级管理员密码（数据库维护/备份/恢复用，建议和 DB_PASSWORD 不同）
 MYSQL_ROOT_PASSWORD=your_root_password
+
+# 后台超级管理员账号（首次部署自动创建，生产环境请务必修改密码）
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123456
 ```
 
 > ⚠️ **关于数据库配置**（重要）：
@@ -346,15 +350,15 @@ MYSQL_ROOT_PASSWORD=your_root_password
 > 示例：宿主机 MySQL 端口改成 3307 后，Navicat 连接时主机填 `你的IP`，端口填 `3307`，但 `DB_PORT` 仍然保持 `3306`
 
 ```bash
-# 启动服务（自动拉取镜像并启动应用+数据库+Redis）
+# 启动服务（自动拉取镜像、启动应用+数据库+Redis、并自动创建管理员）
 docker-compose up -d
 
 # 查看运行状态
 docker-compose ps
 
-# 初始化数据库
+# 如果需要手动初始化数据库（自动创建管理员账号：admin / admin123456）
 docker-compose exec app php artisan migrate --force
-docker-compose exec app php artisan admin:create
+docker-compose exec app php artisan db:seed --class=AdminUserSeeder --force
 ```
 
 #### 7. 后续更新
@@ -420,6 +424,10 @@ DB_PASSWORD=your_secure_password
 
 # MySQL root 超级管理员密码（数据库维护/备份/恢复用，建议和 DB_PASSWORD 不同）
 MYSQL_ROOT_PASSWORD=your_root_password
+
+# 后台超级管理员账号（首次部署自动创建，生产环境请务必修改密码）
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123456
 ```
 
 > 💡 **提示**：`GITHUB_USERNAME=realkiro` 已预置为源作者用户名（GHCR 镜像路径要求全小写），用于拉取官方预构建镜像，无需修改。
@@ -455,7 +463,7 @@ AI_API_KEY=your_qwen_api_key
 #### 3. 启动服务
 
 ```bash
-# 启动（包含应用+数据库+Redis）
+# 启动（包含应用+数据库+Redis，会自动运行迁移并创建管理员账号）
 docker-compose up -d
 
 # 查看运行状态
@@ -465,16 +473,19 @@ docker-compose ps
 docker-compose logs -f app
 ```
 
+> 💡 **默认管理员**：`admin` / `admin123456`，可在 `.env` 中通过 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 修改。
+
 #### 4. 初始化数据库
 
 ```bash
-# 运行数据库迁移
+# 运行数据库迁移（启动脚本已自动执行，也可手动执行）
 docker-compose exec app php artisan migrate --force
 
-# 创建管理员账号
-docker-compose exec app php artisan admin:create
-# 按提示输入：用户名、密码、学校名称
+# 创建默认管理员账号（默认：admin / admin123456）
+docker-compose exec app php artisan db:seed --class=AdminUserSeeder --force
 ```
+
+> 💡 **提示**：管理员账号可在 `.env` 中通过 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 自定义。如果账号已存在，重复执行不会修改密码。
 
 #### 5. 访问应用
 
