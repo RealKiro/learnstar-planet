@@ -315,16 +315,19 @@ nano .env
 # 改为你的 GitHub 用户名（用于拉取你自行构建的镜像）
 GITHUB_USERNAME=YOUR_USERNAME
 
-# 改为你访问该服务的地址（不要用 Docker 内部 IP）
-# 支持变量引用：${APP_PORT} 会自动拼接上面的 APP_PORT，修改 APP_PORT 时无需手动改这里
-# 注意：APP_PORT 是宿主机端口，可改；容器内部端口固定为 8080
-# 公网服务器：http://your-server-ip:8080
-# 局域网 NAS（APP_PORT=8080）：http://192.168.1.100:8080
-APP_URL=http://your-server-ip:${APP_PORT}
+# 改为你访问该服务的 IP 或域名（不要用 Docker 内部 IP）
+# 只改 APP_HOST，APP_URL 会自动拼接 APP_PORT
+# 公网服务器：your-server-ip
+# 局域网 NAS（群晖/飞牛）：192.168.1.100
+# 有域名/反向代理：learnstar.yourdomain.com
+APP_HOST=your-server-ip
 
 # 宿主机访问端口（容器内部固定为 8080，不要改 docker-compose 里的 8080）
 # 如果 8080 被占用，改成 8081/8090/9000 等未被占用的端口
 APP_PORT=8080
+
+# APP_URL 由 APP_HOST 和 APP_PORT 自动拼接，一般无需手动修改
+APP_URL=http://${APP_HOST}:${APP_PORT}
 DB_PASSWORD=your_secure_password
 MYSQL_ROOT_PASSWORD=your_root_password
 ```
@@ -384,17 +387,20 @@ nano .env
 
 **必改项**：
 ```env
-# 修改为你访问该服务的地址（不要用 Docker 内部 IP）
-# 支持变量引用：${APP_PORT} 会自动拼接上面的 APP_PORT，修改 APP_PORT 时无需手动改这里
-# 注意：APP_PORT 是宿主机端口，可改；容器内部端口固定为 8080
-# 公网服务器：http://your-server-ip:8080
-# 局域网 NAS（APP_PORT=8080）：http://192.168.1.100:8080
-# 有域名/反向代理：https://learnstar.yourdomain.com
-APP_URL=http://your-server-ip:${APP_PORT}
+# 修改为你访问该服务的 IP 或域名（不要用 Docker 内部 IP）
+# 只改 APP_HOST，APP_URL 会自动拼接 APP_PORT
+# 公网服务器：your-server-ip
+# 局域网 NAS（群晖/飞牛）：192.168.1.100
+# 有域名/反向代理：learnstar.yourdomain.com
+APP_HOST=your-server-ip
 
 # 宿主机访问端口（容器内部固定为 8080，不要改 docker-compose.yml 里的 8080）
 # 如果 8080 被占用，改成 8081/8090/9000 等未被占用的端口
 APP_PORT=8080
+
+# APP_URL 由 APP_HOST 和 APP_PORT 自动拼接，一般无需手动修改
+# 如果你使用 https 或自定义路径，可以手动覆盖
+APP_URL=http://${APP_HOST}:${APP_PORT}
 
 # 修改数据库密码（如果使用内置 MySQL）
 DB_PASSWORD=your_secure_password
@@ -406,9 +412,10 @@ MYSQL_ROOT_PASSWORD=your_root_password
 > ⚠️ **关于端口映射**（重要）：
 > - `docker-compose.yml` 中的端口映射格式是：`宿主机端口:容器端口`
 > - **容器内部端口固定为 8080**（Nginx 监听这个端口），通常不需要改它
-> - **APP_URL 已配置为自动读取 APP_PORT**（`APP_URL=http://your-server-ip:${APP_PORT}`），修改 APP_PORT 后通常无需手动改 APP_URL
+> - **APP_HOST 只填 IP 或域名**，例如 `192.168.1.100`、`localhost`、`learnstar.yourdomain.com`
 > - **APP_PORT 是宿主机端口**，你可以改成任意未被占用的端口（如 8081、8090、9000）
-> - 如果 `APP_PORT=80`，可以省略端口写 `http://your-server-ip`
+> - **APP_URL 由 APP_HOST 和 APP_PORT 自动拼接**（`http://${APP_HOST}:${APP_PORT}`），一般无需手动改
+> - 如果 `APP_PORT=80`，可以省略端口写 `http://your-server-ip`，此时需要手动覆盖 APP_URL
 
 > ⚠️ **关于 APP_URL**：
 > - 这是 Laravel 生成绝对 URL 用的（邮件链接、API 返回的 URL 等），必须填**其他设备访问你时用的地址**
