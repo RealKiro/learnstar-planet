@@ -1,10 +1,15 @@
 # 学趣星球 - 简化部署配置
 # 适用场景：使用预构建镜像快速部署
 #
+# 端口说明：
+#   容器内部 Nginx 固定监听 8080，不可改。
+#   APP_PORT 是宿主机（NAS/服务器）上的访问端口，可以自由修改。
+#   访问地址：http://你的服务器IP:<APP_PORT>
+#
 # 使用步骤：
 # 1. 复制 .env.example 为 .env 并修改配置
 # 2. docker-compose up -d
-# 3. 访问 http://your-server-ip:8080
+# 3. 访问 http://your-server-ip:APP_PORT
 #
 # 可选：不使用内置数据库，改为连接外部数据库
 # 修改 .env 中的 DB_HOST 和 REDIS_HOST 即可

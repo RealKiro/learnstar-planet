@@ -316,9 +316,15 @@ nano .env
 GITHUB_USERNAME=YOUR_USERNAME
 
 # 改为你访问该服务的地址（不要用 Docker 内部 IP）
+# 注意：APP_PORT 是宿主机端口，可改；容器内部端口固定为 8080
 # 公网服务器：http://your-server-ip:8080
-# 局域网 NAS：http://192.168.1.100:8080（替换为你的 NAS IP）
+# 局域网 NAS（APP_PORT=8080）：http://192.168.1.100:8080
+# 局域网 NAS（APP_PORT=8090）：http://192.168.1.100:8090
 APP_URL=http://your-server-ip:8080
+
+# 宿主机访问端口（容器内部固定为 8080，不要改 docker-compose 里的 8080）
+# 如果 8080 被占用，改成 8081/8090/9000 等未被占用的端口
+APP_PORT=8080
 DB_PASSWORD=your_secure_password
 MYSQL_ROOT_PASSWORD=your_root_password
 ```
@@ -379,10 +385,16 @@ nano .env
 **必改项**：
 ```env
 # 修改为你访问该服务的地址（不要用 Docker 内部 IP）
+# 注意：APP_PORT 是宿主机端口，可改；容器内部端口固定为 8080
 # 公网服务器：http://your-server-ip:8080
-# 局域网 NAS（群晖/飞牛等）：http://192.168.1.100:8080（替换为你的 NAS IP）
+# 局域网 NAS（APP_PORT=8080）：http://192.168.1.100:8080
+# 局域网 NAS（APP_PORT=8090）：http://192.168.1.100:8090
 # 有域名/反向代理：https://learnstar.yourdomain.com
 APP_URL=http://your-server-ip:8080
+
+# 宿主机访问端口（容器内部固定为 8080，不要改 docker-compose.yml 里的 8080）
+# 如果 8080 被占用，改成 8081/8090/9000 等未被占用的端口
+APP_PORT=8080
 
 # 修改数据库密码（如果使用内置 MySQL）
 DB_PASSWORD=your_secure_password
@@ -391,11 +403,17 @@ MYSQL_ROOT_PASSWORD=your_root_password
 
 > 💡 **提示**：`GITHUB_USERNAME=realkiro` 已预置为源作者用户名（GHCR 镜像路径要求全小写），用于拉取官方预构建镜像，无需修改。
 
+> ⚠️ **关于端口映射**（重要）：
+> - `docker-compose.yml` 中的端口映射格式是：`宿主机端口:容器端口`
+> - **容器内部端口固定为 8080**（Nginx 监听这个端口），通常不需要改它
+> - **APP_PORT 是宿主机端口**，你可以改成任意未被占用的端口（如 8081、8090、9000）
+> - 改完 APP_PORT 后，APP_URL 里的端口也要同步改，例如 `APP_PORT=8090` 对应 `APP_URL=http://192.168.1.100:8090`
+> - 如果 `APP_PORT=80`，可以省略端口写 `http://your-server-ip`
+
 > ⚠️ **关于 APP_URL**：
 > - 这是 Laravel 生成绝对 URL 用的（邮件链接、API 返回的 URL 等），必须填**其他设备访问你时用的地址**
 > - **不要**填 Docker 容器内部 IP（如 `172.17.0.x`），局域网其他设备无法访问该地址
-> - 群晖/飞牛 NAS 部署：填 NAS 的局域网 IP + 端口，如 `http://192.168.1.100:8080`
-> - `APP_PORT` 控制宿主机映射端口（默认 8080），容器内部固定监听 8080
+> - 群晖/飞牛 NAS 部署：填 NAS 的局域网 IP + APP_PORT，如 `http://192.168.1.100:8080`
 
 **可选项**（让 AI 助教可用）：
 ```env
