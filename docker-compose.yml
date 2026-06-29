@@ -30,7 +30,7 @@ services:
       - APP_NAME=${APP_NAME:-学趣星球}
       - APP_ENV=${APP_ENV:-production}
       - APP_DEBUG=${APP_DEBUG:-false}
-      - APP_URL=${APP_URL:-http://localhost}
+      - APP_URL=${APP_URL:-http://localhost:${APP_PORT:-8080}}
       
       # 数据库配置（修改 .env 切换到外部数据库）
       - DB_CONNECTION=${DB_CONNECTION:-mysql}

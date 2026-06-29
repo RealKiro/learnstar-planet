@@ -316,11 +316,11 @@ nano .env
 GITHUB_USERNAME=YOUR_USERNAME
 
 # 改为你访问该服务的地址（不要用 Docker 内部 IP）
+# 支持变量引用：${APP_PORT} 会自动拼接上面的 APP_PORT，修改 APP_PORT 时无需手动改这里
 # 注意：APP_PORT 是宿主机端口，可改；容器内部端口固定为 8080
 # 公网服务器：http://your-server-ip:8080
 # 局域网 NAS（APP_PORT=8080）：http://192.168.1.100:8080
-# 局域网 NAS（APP_PORT=8090）：http://192.168.1.100:8090
-APP_URL=http://your-server-ip:8080
+APP_URL=http://your-server-ip:${APP_PORT}
 
 # 宿主机访问端口（容器内部固定为 8080，不要改 docker-compose 里的 8080）
 # 如果 8080 被占用，改成 8081/8090/9000 等未被占用的端口
@@ -385,12 +385,12 @@ nano .env
 **必改项**：
 ```env
 # 修改为你访问该服务的地址（不要用 Docker 内部 IP）
+# 支持变量引用：${APP_PORT} 会自动拼接上面的 APP_PORT，修改 APP_PORT 时无需手动改这里
 # 注意：APP_PORT 是宿主机端口，可改；容器内部端口固定为 8080
 # 公网服务器：http://your-server-ip:8080
 # 局域网 NAS（APP_PORT=8080）：http://192.168.1.100:8080
-# 局域网 NAS（APP_PORT=8090）：http://192.168.1.100:8090
 # 有域名/反向代理：https://learnstar.yourdomain.com
-APP_URL=http://your-server-ip:8080
+APP_URL=http://your-server-ip:${APP_PORT}
 
 # 宿主机访问端口（容器内部固定为 8080，不要改 docker-compose.yml 里的 8080）
 # 如果 8080 被占用，改成 8081/8090/9000 等未被占用的端口
@@ -406,8 +406,8 @@ MYSQL_ROOT_PASSWORD=your_root_password
 > ⚠️ **关于端口映射**（重要）：
 > - `docker-compose.yml` 中的端口映射格式是：`宿主机端口:容器端口`
 > - **容器内部端口固定为 8080**（Nginx 监听这个端口），通常不需要改它
+> - **APP_URL 已配置为自动读取 APP_PORT**（`APP_URL=http://your-server-ip:${APP_PORT}`），修改 APP_PORT 后通常无需手动改 APP_URL
 > - **APP_PORT 是宿主机端口**，你可以改成任意未被占用的端口（如 8081、8090、9000）
-> - 改完 APP_PORT 后，APP_URL 里的端口也要同步改，例如 `APP_PORT=8090` 对应 `APP_URL=http://192.168.1.100:8090`
 > - 如果 `APP_PORT=80`，可以省略端口写 `http://your-server-ip`
 
 > ⚠️ **关于 APP_URL**：
