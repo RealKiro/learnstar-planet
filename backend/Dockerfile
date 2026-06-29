@@ -12,7 +12,15 @@
 # ============================================================
 # Stage 1: Install Composer dependencies (production only)
 # ============================================================
-FROM composer:2.8-php8.3 AS composer
+# Use the same PHP 8.3 CLI variant as the runtime stage to ensure PHP version
+# parity. Composer is copied as a static binary from the official composer image.
+FROM php:8.3-cli-alpine AS composer
+
+# Install the composer binary from the official composer image and unzip (needed
+# to extract dist archives). unzip is removed before the stage ends.
+RUN apk add --no-cache unzip \
+    && rm -rf /var/cache/apk/*
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
