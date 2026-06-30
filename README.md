@@ -495,7 +495,7 @@ docker-compose exec app php artisan db:seed --class=AdminUserSeeder --force
 
 ### 🗄️ 方式三：使用外部数据库（适合已有数据库的用户）
 
-如果你已经有外部 MySQL/PostgreSQL 或 Redis，可以禁用内置容器：
+如果你已经有外部 MySQL/MariaDB/PostgreSQL 或 Redis，可以跳过内置容器：
 
 #### 1. 修改 `.env`
 
@@ -513,11 +513,11 @@ REDIS_PORT=6379
 REDIS_PASSWORD=
 ```
 
-#### 2. 启动服务（禁用内置数据库）
+#### 2. 启动服务（只启动应用，跳过内置 MySQL/Redis）
 
 ```bash
-# 只启动应用，不启动 MySQL 和 Redis
-docker-compose --profile without-db up -d
+# --no-deps 跳过内置 mysql/redis 依赖，直接启动 app
+docker-compose up -d app --no-deps
 ```
 
 ---
@@ -643,8 +643,15 @@ AI 助教功能需要配置 API Key，支持以下平台：
 ```bash
 # 1. 修改 .env
 DB_CONNECTION=sqlite
+# 同时将缓存改为 file（SQLite 部署通常无 Redis）
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_CONNECTION=database
 
-# 2. 运行迁移
+# 2. 启动（跳过内置 MySQL/Redis）
+docker-compose up -d app --no-deps
+
+# 3. 运行迁移
 docker-compose exec app php artisan migrate --force
 ```
 
