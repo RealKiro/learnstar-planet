@@ -2241,7 +2241,8 @@ function restoreLoginState() {
 
     try {
         const user = JSON.parse(userStr);
-        currentRole = user.role || 'teacher';
+        // API 返回的 role 是 'school_admin'，统一映射为 'admin'
+        currentRole = user.role === 'school_admin' ? 'admin' : (user.role || 'teacher');
         localStorage.setItem('token', token);
         localStorage.setItem('currentUser', userStr);
 
