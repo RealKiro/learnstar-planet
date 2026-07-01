@@ -14,7 +14,9 @@ mkdir -p storage/app/public \
     storage/framework/sessions \
     storage/framework/views \
     storage/logs \
-    bootstrap/cache
+    bootstrap/cache \
+    /var/log/supervisor \
+    /var/run
 
 # ──────────────────────────────────────────
 # 从 Docker 环境变量创建 .env 文件
