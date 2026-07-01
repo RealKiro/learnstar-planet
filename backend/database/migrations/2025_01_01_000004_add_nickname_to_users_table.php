@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class () extends Migration {
     /**
      * 给 users 表加 nickname 和 avatar_path 字段（教师/家长有昵称和头像）
      * 昵称默认为中文转拼音（如果装了 overtrue/pinyin）
