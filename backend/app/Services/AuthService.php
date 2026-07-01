@@ -214,6 +214,7 @@ class AuthService
 
     /**
      * 用户主动绑定第三方平台（需先登录账号密码）
+     * @phpstan-return ThirdPartyBinding
      */
     public function bindThirdParty(User $user, string $platform, string $platformId, ?string $unionId = null, ?string $nick = null, ?string $avatar = null): ThirdPartyBinding
     {

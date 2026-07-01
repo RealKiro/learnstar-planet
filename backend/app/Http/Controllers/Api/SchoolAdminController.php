@@ -100,6 +100,9 @@ class SchoolAdminController extends Controller
         }
 
         $school = $request->user()->school;
+        if (!$school instanceof \App\Models\School) {
+            return response()->json(['message' => '未找到学校'], 404);
+        }
         $created = $this->authService->createTeacherAccounts($school, $request->input('teachers'));
 
         return response()->json(['data' => $created]);
@@ -226,6 +229,9 @@ class SchoolAdminController extends Controller
         }
 
         $school = $request->user()->school;
+        if (!$school instanceof \App\Models\School) {
+            return response()->json(['message' => '未找到学校'], 404);
+        }
         $created = [];
 
         foreach ($request->input('parents') as $parentData) {
@@ -306,8 +312,9 @@ class SchoolAdminController extends Controller
             ->orderBy('name')
             ->get();
 
-        $classes = $allClasses->map(function (ClassRoom $c) {
-            return [
+        $classes = [];
+        foreach ($allClasses as $c) {
+            $classes[] = [
                 'id' => $c->id,
                 'name' => $c->name,
                 'grade' => $c->grade,
@@ -319,7 +326,7 @@ class SchoolAdminController extends Controller
                 'status' => $c->status,
                 'created_at' => $c->created_at?->toDateTimeString(),
             ];
-        });
+        }
 
         return response()->json(['data' => $classes]);
     }
@@ -524,12 +531,13 @@ class SchoolAdminController extends Controller
             ->withCount('students')
             ->get();
 
-        $rows = $classes->map(function (ClassRoom $c) {
+        $rows = [];
+        foreach ($classes as $c) {
             $classScore = (int) Score::where('class_id', $c->id)
                 ->whereMonth('created_at', Carbon::now()->month)
                 ->sum('amount');
 
-            return [
+            $rows[] = [
                 'class_id' => $c->id,
                 'class_name' => $c->name,
                 'grade' => $c->grade,
@@ -537,7 +545,7 @@ class SchoolAdminController extends Controller
                 'student_count' => $c->students_count,
                 'monthly_score' => $classScore,
             ];
-        });
+        }
 
         return response()->json(['data' => $rows]);
     }

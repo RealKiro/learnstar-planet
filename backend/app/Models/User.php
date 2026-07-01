@@ -63,6 +63,9 @@ class User extends Authenticatable
 
     // ========== 第三方登录快捷方法 ==========
 
+    /**
+     * @phpstan-return ThirdPartyBinding
+     */
     public function bindWechat(string $openid, string $unionid = null): ThirdPartyBinding
     {
         return $this->thirdPartyBindings()->create([
@@ -75,6 +78,9 @@ class User extends Authenticatable
         ]);
     }
 
+    /**
+     * @phpstan-return ThirdPartyBinding
+     */
     public function bindWechatWork(string $userid): ThirdPartyBinding
     {
         return $this->thirdPartyBindings()->create([
@@ -84,6 +90,9 @@ class User extends Authenticatable
         ]);
     }
 
+    /**
+     * @phpstan-return ThirdPartyBinding
+     */
     public function bindQQ(string $openid): ThirdPartyBinding
     {
         return $this->thirdPartyBindings()->create([
@@ -93,6 +102,9 @@ class User extends Authenticatable
         ]);
     }
 
+    /**
+     * @phpstan-return ThirdPartyBinding
+     */
     public function bindRenren(string $userId): ThirdPartyBinding
     {
         return $this->thirdPartyBindings()->create([
@@ -102,21 +114,33 @@ class User extends Authenticatable
         ]);
     }
 
+    /**
+     * @phpstan-return ThirdPartyBinding|null
+     */
     public function getWechatBinding(): ?ThirdPartyBinding
     {
         return $this->thirdPartyBindings()->where('platform', 'wechat')->first();
     }
 
+    /**
+     * @phpstan-return ThirdPartyBinding|null
+     */
     public function getWechatWorkBinding(): ?ThirdPartyBinding
     {
         return $this->thirdPartyBindings()->where('platform', 'wechat_work')->first();
     }
 
+    /**
+     * @phpstan-return ThirdPartyBinding|null
+     */
     public function getQQBinding(): ?ThirdPartyBinding
     {
         return $this->thirdPartyBindings()->where('platform', 'qq')->first();
     }
 
+    /**
+     * @phpstan-return ThirdPartyBinding|null
+     */
     public function getRenrenBinding(): ?ThirdPartyBinding
     {
         return $this->thirdPartyBindings()->where('platform', 'renren')->first();
