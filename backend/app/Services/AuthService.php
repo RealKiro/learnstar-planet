@@ -16,14 +16,26 @@ class AuthService
 
     /**
      * 学校管理员批量创建教师账号
+     *
+     * 智能默认：
+     * - username: 默认为 name（去重后加 _2/_3 后缀）
+     * - nickname: 默认为 name 的拼音（去重后加 _2/_3 后缀）
+     * - 第三方登录首次创建账号时,昵称/头像自动采用第三方平台的值（由调用方传入）
      */
     public function createTeacherAccounts(School $school, array $teachers): array
     {
         $created = [];
 
         foreach ($teachers as $teacher) {
-            $count = $school->teachers()->count() + 1;
-            $username = $teacher['username'] ?? $school->code . '_T' . str_pad((string) $count, 3, '0', STR_PAD_LEFT);
+            $name = $teacher['name'];
+
+            // username 默认 = name
+            $username = $teacher['username'] ?? $this->uniqueUsername($name, $school);
+            // nickname 默认 = name 的拼音
+            $nickname = $teacher['nickname'] ?? $this->uniqueNickname($name, $school);
+            // 头像: 调用方若传入则使用(第三方首次登录场景),否则留空
+            $avatar = $teacher['avatar_path'] ?? null;
+
             $initialPassword = $teacher['password'] ?? Str::random(8);
 
             $user = User::create([
@@ -31,7 +43,9 @@ class AuthService
                 'role' => 'teacher',
                 'username' => $username,
                 'password' => Hash::make($initialPassword),
-                'name' => $teacher['name'],
+                'name' => $name,
+                'nickname' => $nickname,
+                'avatar_path' => $avatar,
                 'phone' => $teacher['phone'] ?? null,
                 'email' => $teacher['email'] ?? null,
                 'password_changed' => false,
@@ -41,6 +55,7 @@ class AuthService
             $created[] = [
                 'id' => $user->id,
                 'username' => $username,
+                'nickname' => $nickname,
                 'initial_password' => $initialPassword, // 仅创建时返回，后续不可查
                 'name' => $user->name,
             ];
@@ -50,24 +65,90 @@ class AuthService
     }
 
     /**
-     * 学校管理员创建家长账号（绑定学生）
+     * 生成全校唯一的 username
+     * 若 name 已被占用，则依次追加 _2/_3/_4...
      */
-    public function createParentAccount(School $school, array $parentData): User
+    public function uniqueUsername(string $base, School $school): string
     {
-        $parentCount = User::where('school_id', $school->id)->where('role', 'parent')->count() + 1;
-        $username = $parentData['username'] ?? $school->code . '_P' . str_pad((string) $parentCount, 3, '0', STR_PAD_LEFT);
+        return $this->makeUnique($base, function (string $candidate) use ($school) {
+            return User::where('school_id', $school->id)
+                ->where('username', $candidate)
+                ->exists();
+        });
+    }
+
+    /**
+     * 生成全校唯一的 nickname（基于拼音）
+     */
+    public function uniqueNickname(string $chineseName, School $school): string
+    {
+        $base = PinyinService::toPinyin($chineseName);
+        if ($base === '') {
+            $base = $chineseName; // 拼音库未装时 fallback
+        }
+
+        return $this->makeUnique($base, function (string $candidate) use ($school) {
+            return User::where('school_id', $school->id)
+                ->where('nickname', $candidate)
+                ->exists();
+        });
+    }
+
+    /**
+     * 通用去重：$exists($candidate) 为 true 时，追加 _2/_3/...
+     */
+    private function makeUnique(string $base, callable $exists): string
+    {
+        $candidate = $base;
+        $i = 2;
+        while ($exists($candidate)) {
+            $candidate = $base . '_' . $i;
+            $i++;
+            if ($i > 999) {
+                // 极端兜底：超过 999 次重名时使用随机后缀
+                $candidate = $base . '_' . Str::lower(Str::random(4));
+                break;
+            }
+        }
+
+        return $candidate;
+    }
+
+    /**
+     * 学校管理员创建家长账号（绑定学生）
+     *
+     * username 默认 = 家长姓名
+     * nickname 默认 = 姓名拼音
+     *
+     * 返回数组（含明文初始密码），方便管理员一次性下发给家长
+     */
+    public function createParentAccount(School $school, array $parentData): array
+    {
+        $name = $parentData['name'];
+        $username = $parentData['username'] ?? $this->uniqueUsername($name, $school);
+        $nickname = $parentData['nickname'] ?? $this->uniqueNickname($name, $school);
         $initialPassword = $parentData['password'] ?? Str::random(8);
 
-        return User::create([
+        $parent = User::create([
             'school_id' => $school->id,
             'role' => 'parent',
             'username' => $username,
             'password' => Hash::make($initialPassword),
-            'name' => $parentData['name'],
+            'name' => $name,
+            'nickname' => $nickname,
+            'avatar_path' => $parentData['avatar_path'] ?? null,
             'phone' => $parentData['phone'] ?? null,
             'password_changed' => false,
             'status' => 'active',
         ]);
+
+        return [
+            'id' => $parent->id,
+            'username' => $parent->username,
+            'nickname' => $parent->nickname,
+            'initial_password' => $initialPassword,
+            'name' => $parent->name,
+        ];
     }
 
     // ========== 账号密码登录（教师和管理员分开） ==========
@@ -118,8 +199,9 @@ class AuthService
     /**
      * 微信扫码登录
      * 流程：前端获取openid → 调此服务 → 如果已绑定直接登录，否则返回需绑定提示
+     * nick/avatar 暂存到 temp_token 关联的缓存,绑定时取出同步到 user
      */
-    public function loginWithWechat(string $openid, ?string $unionid = null): array
+    public function loginWithWechat(string $openid, ?string $unionid = null, ?string $nick = null, ?string $avatar = null): array
     {
         // 优先用unionid查找（可跨小程序和开放平台）
         if ($unionid) {
@@ -142,9 +224,18 @@ class AuthService
         }
 
         // 未绑定，返回临时token用于后续绑定流程
+        $tempToken = Str::uuid()->toString();
+        $this->storeTempBindingContext($tempToken, [
+            'platform' => 'wechat',
+            'platform_id' => $openid,
+            'unionid' => $unionid,
+            'nick' => $nick,
+            'avatar' => $avatar,
+        ]);
+
         return [
             'status' => 'need_binding',
-            'temp_token' => Str::uuid()->toString(),
+            'temp_token' => $tempToken,
             'openid' => $openid,
             'unionid' => $unionid,
         ];
@@ -153,7 +244,7 @@ class AuthService
     /**
      * 企业微信扫码登录
      */
-    public function loginWithWechatWork(string $userid): array
+    public function loginWithWechatWork(string $userid, ?string $nick = null, ?string $avatar = null): array
     {
         $user = ThirdPartyBinding::findUserByPlatform('wechat_work', $userid);
 
@@ -163,9 +254,17 @@ class AuthService
             return ['status' => 'logged_in', 'user' => $user];
         }
 
+        $tempToken = Str::uuid()->toString();
+        $this->storeTempBindingContext($tempToken, [
+            'platform' => 'wechat_work',
+            'platform_id' => $userid,
+            'nick' => $nick,
+            'avatar' => $avatar,
+        ]);
+
         return [
             'status' => 'need_binding',
-            'temp_token' => Str::uuid()->toString(),
+            'temp_token' => $tempToken,
             'platform_id' => $userid,
         ];
     }
@@ -173,7 +272,7 @@ class AuthService
     /**
      * QQ扫码登录
      */
-    public function loginWithQQ(string $openid): array
+    public function loginWithQQ(string $openid, ?string $nick = null, ?string $avatar = null): array
     {
         $user = ThirdPartyBinding::findUserByPlatform('qq', $openid);
 
@@ -183,9 +282,17 @@ class AuthService
             return ['status' => 'logged_in', 'user' => $user];
         }
 
+        $tempToken = Str::uuid()->toString();
+        $this->storeTempBindingContext($tempToken, [
+            'platform' => 'qq',
+            'platform_id' => $openid,
+            'nick' => $nick,
+            'avatar' => $avatar,
+        ]);
+
         return [
             'status' => 'need_binding',
-            'temp_token' => Str::uuid()->toString(),
+            'temp_token' => $tempToken,
             'openid' => $openid,
         ];
     }
@@ -193,7 +300,7 @@ class AuthService
     /**
      * 人人通空间登录
      */
-    public function loginWithRenren(string $userId): array
+    public function loginWithRenren(string $userId, ?string $nick = null, ?string $avatar = null): array
     {
         $user = ThirdPartyBinding::findUserByPlatform('renren', $userId);
 
@@ -203,11 +310,35 @@ class AuthService
             return ['status' => 'logged_in', 'user' => $user];
         }
 
+        $tempToken = Str::uuid()->toString();
+        $this->storeTempBindingContext($tempToken, [
+            'platform' => 'renren',
+            'platform_id' => $userId,
+            'nick' => $nick,
+            'avatar' => $avatar,
+        ]);
+
         return [
             'status' => 'need_binding',
-            'temp_token' => Str::uuid()->toString(),
+            'temp_token' => $tempToken,
             'platform_id' => $userId,
         ];
+    }
+
+    /**
+     * 把扫码时的 nick/avatar 暂存到 cache（10 分钟），绑定时再取出同步
+     * 避免前端在 need_binding 后再传一次
+     */
+    private function storeTempBindingContext(string $tempToken, array $context): void
+    {
+        \Illuminate\Support\Facades\Cache::put('wechat_scan_ctx:' . $tempToken, $context, now()->addMinutes(10));
+    }
+
+    private function getTempBindingContext(string $tempToken): ?array
+    {
+        $ctx = \Illuminate\Support\Facades\Cache::get('wechat_scan_ctx:' . $tempToken);
+
+        return is_array($ctx) ? $ctx : null;
     }
 
     // ========== 绑定第三方账号 ==========
@@ -251,8 +382,11 @@ class AuthService
     /**
      * 第三方首次扫码后绑定已有教师账号
      * 仅允许绑定教师账号（role=teacher），管理员不支持第三方登录
+     *
+     * 第三方首次登录时,优先从 temp_token 对应的 cache 取出扫码时的 nick/avatar
+     * 同步到 user 表（仅在 user 尚未设置时覆盖）
      */
-    public function bindAfterScan(string $tempToken, string $username, string $password, string $platform, string $platformId, ?string $unionId = null): array
+    public function bindAfterScan(string $tempToken, string $username, string $password, string $platform, string $platformId, ?string $unionId = null, ?string $nick = null, ?string $avatar = null): array
     {
         $user = $this->teacherLoginWithCredentials($username, $password);
 
@@ -260,9 +394,32 @@ class AuthService
             return ['status' => 'error', 'message' => '教师账号或密码错误，仅支持绑定教师账号'];
         }
 
-        $this->bindThirdParty($user, $platform, $platformId, $unionId);
+        // 优先从 cache 取（扫码时存的 nick/avatar）
+        $ctx = $this->getTempBindingContext($tempToken) ?? [];
+        $ctxPlatform = $ctx['platform'] ?? $platform;
+        $ctxPlatformId = $ctx['platform_id'] ?? $platformId;
+        $ctxUnionId = $ctx['unionid'] ?? $unionId;
+        $ctxNick = $ctx['nick'] ?? $nick;
+        $ctxAvatar = $ctx['avatar'] ?? $avatar;
 
-        return ['status' => 'bound', 'user' => $user];
+        $this->bindThirdParty($user, $ctxPlatform, $ctxPlatformId, $ctxUnionId, $ctxNick, $ctxAvatar);
+
+        // 同步昵称/头像到 user 表（仅在 user 尚未设置时覆盖）
+        $updates = [];
+        if ($ctxNick && (empty($user->nickname) || $user->nickname === PinyinService::toPinyin($user->name))) {
+            $updates['nickname'] = $ctxNick;
+        }
+        if ($ctxAvatar && empty($user->avatar_path)) {
+            $updates['avatar_path'] = $ctxAvatar;
+        }
+        if ($updates) {
+            $user->update($updates);
+        }
+
+        // 清理临时 context
+        \Illuminate\Support\Facades\Cache::forget('wechat_scan_ctx:' . $tempToken);
+
+        return ['status' => 'bound', 'user' => $user->fresh()];
     }
 
     /**

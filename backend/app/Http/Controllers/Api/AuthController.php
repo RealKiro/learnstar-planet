@@ -90,17 +90,22 @@ class AuthController extends Controller
 
     /**
      * 微信扫码登录
+     * 第三方首次登录时,前端应同时传 nick (昵称) 和 avatar (头像URL)
      */
     public function teacherLoginWithWechat(Request $request): JsonResponse
     {
         $request->validate([
             'openid' => 'required|string',
             'unionid' => 'nullable|string',
+            'nick' => 'nullable|string|max:80',
+            'avatar' => 'nullable|string|max:500',
         ]);
 
         $result = $this->authService->loginWithWechat(
             $request->input('openid'),
-            $request->input('unionid')
+            $request->input('unionid'),
+            $request->input('nick'),
+            $request->input('avatar')
         );
 
         return response()->json(['data' => $result]);
@@ -113,9 +118,15 @@ class AuthController extends Controller
     {
         $request->validate([
             'userid' => 'required|string',
+            'nick' => 'nullable|string|max:80',
+            'avatar' => 'nullable|string|max:500',
         ]);
 
-        $result = $this->authService->loginWithWechatWork($request->input('userid'));
+        $result = $this->authService->loginWithWechatWork(
+            $request->input('userid'),
+            $request->input('nick'),
+            $request->input('avatar')
+        );
 
         return response()->json(['data' => $result]);
     }
@@ -127,9 +138,15 @@ class AuthController extends Controller
     {
         $request->validate([
             'openid' => 'required|string',
+            'nick' => 'nullable|string|max:80',
+            'avatar' => 'nullable|string|max:500',
         ]);
 
-        $result = $this->authService->loginWithQQ($request->input('openid'));
+        $result = $this->authService->loginWithQQ(
+            $request->input('openid'),
+            $request->input('nick'),
+            $request->input('avatar')
+        );
 
         return response()->json(['data' => $result]);
     }
@@ -141,15 +158,22 @@ class AuthController extends Controller
     {
         $request->validate([
             'user_id' => 'required|string',
+            'nick' => 'nullable|string|max:80',
+            'avatar' => 'nullable|string|max:500',
         ]);
 
-        $result = $this->authService->loginWithRenren($request->input('user_id'));
+        $result = $this->authService->loginWithRenren(
+            $request->input('user_id'),
+            $request->input('nick'),
+            $request->input('avatar')
+        );
 
         return response()->json(['data' => $result]);
     }
 
     /**
      * 扫码后绑定账号
+     * 第三方平台昵称/头像会同步给绑定的 user
      */
     public function bindAfterScan(Request $request): JsonResponse
     {
@@ -159,6 +183,9 @@ class AuthController extends Controller
             'password' => 'required|string',
             'platform' => 'required|string',
             'platform_id' => 'required|string',
+            'unionid' => 'nullable|string',
+            'nick' => 'nullable|string|max:80',
+            'avatar' => 'nullable|string|max:500',
         ]);
 
         $result = $this->authService->bindAfterScan(
@@ -166,7 +193,10 @@ class AuthController extends Controller
             $request->input('username'),
             $request->input('password'),
             $request->input('platform'),
-            $request->input('platform_id')
+            $request->input('platform_id'),
+            $request->input('unionid'),
+            $request->input('nick'),
+            $request->input('avatar')
         );
 
         return response()->json(['data' => $result]);

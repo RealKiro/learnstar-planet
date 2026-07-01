@@ -155,19 +155,19 @@
     }
     .form-group input {
         width: 100%; padding: 12px 16px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.15);
+        background: var(--bg);
+        border: 1px solid var(--border);
         border-radius: var(--radius-md);
-        color: #F1F5F9; font-size: 15px;
+        color: var(--text); font-size: 15px;
         transition: all var(--transition-fast);
         outline: none;
     }
     .form-group input:focus {
         border-color: var(--primary-light);
-        background: rgba(255,255,255,0.1);
+        background: var(--bg-card);
         box-shadow: 0 0 0 3px rgba(79,70,229,0.2);
     }
-    .form-group input::placeholder { color: #64748B; }
+    .form-group input::placeholder { color: var(--text-secondary); }
 
     .btn {
         display: inline-flex; align-items: center; justify-content: center;
@@ -2731,11 +2731,16 @@ function renderTeacherCards(teachers) {
         const bindingTags = (t.bindings || []).map(b => `<span class="bind-tag">${platformTag(b)}</span>`).join('');
         const classTag = (t.class_names && t.class_names.length)
             ? `<span class="bind-tag" style="background:rgba(245,158,11,0.1);color:#F59E0B;">🏫 ${escapeHtml(t.class_names.join('、'))}</span>` : '';
+        const avatarContent = t.avatar_path
+            ? `<img src="${escapeHtml(t.avatar_path)}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+            : escapeHtml((t.nickname || t.name || '教').charAt(0));
+        const nickLine = t.nickname && t.nickname !== t.name
+            ? `<span style="color:var(--text-secondary);font-size:12px;"> @${escapeHtml(t.nickname)}</span>` : '';
         return `
         <div class="admin-account-card" data-id="${t.id}">
-            <div class="acc-avatar-new" style="background:linear-gradient(135deg,${colorFor(t.name, i)},${colorFor(t.name, i+1)}cc);">${escapeHtml((t.name||'教').charAt(0))}</div>
+            <div class="acc-avatar-new" style="background:linear-gradient(135deg,${colorFor(t.name, i)},${colorFor(t.name, i+1)}cc);">${avatarContent}</div>
             <div class="acc-body">
-                <div class="acc-name">${escapeHtml(t.name)}${t.status==='disabled' ? ' <span style="color:var(--danger);font-size:12px;font-weight:normal;">已禁用</span>' : ''}</div>
+                <div class="acc-name">${escapeHtml(t.name)}${nickLine}${t.status==='disabled' ? ' <span style="color:var(--danger);font-size:12px;font-weight:normal;">已禁用</span>' : ''}</div>
                 <div class="acc-meta">${escapeHtml(t.username)}${t.phone ? ' · ' + escapeHtml(t.phone) : ''}</div>
                 <div class="acc-bindings">${bindingTags}${classTag}</div>
             </div>
@@ -2772,11 +2777,16 @@ function renderParentCards(parents) {
     grid.innerHTML = parents.map((p, i) => {
         const childTag = (p.children && p.children.length)
             ? `<span class="bind-tag" style="background:rgba(16,185,129,0.1);color:#10B981;">🎓 关联学生：${escapeHtml(p.children.join('、'))}</span>` : '';
+        const avatarContent = p.avatar_path
+            ? `<img src="${escapeHtml(p.avatar_path)}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+            : escapeHtml((p.nickname || p.name || '家').charAt(0));
+        const nickLine = p.nickname && p.nickname !== p.name
+            ? `<span style="color:var(--text-secondary);font-size:12px;"> @${escapeHtml(p.nickname)}</span>` : '';
         return `
         <div class="admin-account-card" data-id="${p.id}">
-            <div class="acc-avatar-new" style="background:linear-gradient(135deg,${colorFor(p.name, i)},${colorFor(p.name, i+1)}cc);">${escapeHtml((p.name||'家').charAt(0))}</div>
+            <div class="acc-avatar-new" style="background:linear-gradient(135deg,${colorFor(p.name, i)},${colorFor(p.name, i+1)}cc);">${avatarContent}</div>
             <div class="acc-body">
-                <div class="acc-name">${escapeHtml(p.name)}</div>
+                <div class="acc-name">${escapeHtml(p.name)}${nickLine}</div>
                 <div class="acc-meta">${escapeHtml(p.username)}${p.phone ? ' · ' + escapeHtml(p.phone) : ''}</div>
                 <div class="acc-bindings">${childTag}</div>
             </div>
@@ -2979,6 +2989,47 @@ function parseCsvText(text) {
     }).filter(r => r.length && r[0]);
 }
 
+// ===== 通用：上传文件→解析→回填到指定 textarea（教师/家长批量创建共用） =====
+async function parseBatchImportFile(event, targetTextareaId, previewDivId) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const ext = (file.name.split('.').pop() || '').toLowerCase();
+    try {
+        let rows;
+        if (ext === 'csv' || ext === 'txt') {
+            const text = await file.text();
+            rows = parseCsvText(text);
+        } else {
+            const XLSX = await ensureXlsxLib();
+            const buf = await file.arrayBuffer();
+            const wb = XLSX.read(buf, { type: 'array' });
+            const sheet = wb.Sheets[wb.SheetNames[0]];
+            rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+        }
+        // 过滤空行
+        rows = rows.filter(r => r && r.length && r.some(c => String(c).trim()));
+        // 跳过头部（如果有"姓名"/"手机"等关键词）
+        if (rows[0] && /姓名|手机|邮箱|学号/.test(String(rows[0][0]))) {
+            rows = rows.slice(1);
+        }
+        const text = rows.map(r => r.join(',')).join('\n');
+        const ta = document.getElementById(targetTextareaId);
+        if (ta) {
+            ta.value = text;
+            ta.dispatchEvent(new Event('input'));
+        }
+        const preview = document.getElementById(previewDivId);
+        if (preview) {
+            const sample = rows.slice(0, 3).map(r => r.join(' | ')).join('\n');
+            preview.style.display = 'block';
+            preview.innerHTML = `✅ 已解析 <b>${rows.length}</b> 行数据，前 3 行预览：\n<pre style="margin-top:6px;white-space:pre-wrap;">${escapeHtml(sample)}</pre>`;
+        }
+        showToast('已解析 ' + rows.length + ' 行', 'success');
+    } catch (e) {
+        showToast('文件解析失败：' + e.message, 'error');
+    }
+}
+
 // ===== 报表 =====
 async function loadAdminReports() {
     try {
@@ -3080,7 +3131,7 @@ async function submitBatchCreateTeachers() {
             body: JSON.stringify({ teachers }),
         });
         const list = res.data || [];
-        const pwdText = list.map(t => `${t.name}（账号：${t.username}，初始密码：${t.initial_password || '已随机生成'}）`).join('\n');
+        const pwdText = list.map(t => `${t.name}  账号:${t.username}  昵称:${t.nickname || '-'}  初始密码:${t.initial_password || '已随机生成'}`).join('\n');
         showModal('batch-teacher-result');
         setTimeout(() => {
             const el = document.getElementById('batchTeacherResult');
@@ -3101,12 +3152,17 @@ async function submitBatchCreateParents() {
         return { name: parts[0], phone: parts[1] || null };
     });
     try {
-        await adminApi('/parents/batch-create', {
+        const res = await adminApi('/parents/batch-create', {
             method: 'POST',
             body: JSON.stringify({ parents }),
         });
-        showToast('已创建 ' + parents.length + ' 个家长账号', 'success');
-        closeModal();
+        const list = res.data || [];
+        const pwdText = list.map(t => `${t.name}  账号:${t.username}  昵称:${t.nickname || '-'}  初始密码:${t.initial_password || '已随机生成'}`).join('\n');
+        showModal('batch-parent-result');
+        setTimeout(() => {
+            const el = document.getElementById('batchParentResult');
+            if (el) el.textContent = '已创建 ' + list.length + ' 个家长账号：\n\n' + pwdText + '\n\n请通过内部渠道将账号和密码下发给家长。';
+        }, 50);
         loadAdminParents();
         loadAdminOverview();
     } catch (e) {}
@@ -3139,25 +3195,44 @@ function showModal(type) {
             <div class="form-group"><label>内容</label><textarea style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:100px;" placeholder="通知内容"></textarea></div>
             <button class="btn btn-primary" onclick="closeModal(); showToast('通知已发布', 'success');">发布</button>`,
         'batch-create-teacher': `<h3>批量创建教师账号<button class="modal-close" onclick="closeModal()">×</button></h3>
-            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">系统自动生成账号和初始密码，教师使用分配的账号直接登录</p>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">仅 <b>姓名</b> 必填，系统将自动生成：<br>
+            &nbsp;&nbsp;· <b>账号</b> = 姓名（重名自动加 <code>_2</code>/<code>_3</code> 后缀）<br>
+            &nbsp;&nbsp;· <b>昵称</b> = 姓名拼音（重名自动加 <code>_2</code>/<code>_3</code> 后缀）<br>
+            &nbsp;&nbsp;· <b>初始密码</b> = 8 位随机字符串（创建后只显示一次）</p>
             <div class="form-group">
-                <label>教师名单（每行一位：姓名,手机,邮箱；可只填姓名）</label>
-                <textarea id="batchTeacherText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="张老师,13800138001,zhang@example.com\n李老师,13800138002\n王老师"></textarea>
+                <label>📤 上传文件（.xlsx / .xls / .csv）</label>
+                <input type="file" accept=".xlsx,.xls,.csv" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg);color:var(--text-primary);" onchange="parseBatchImportFile(event, 'batchTeacherText', 'batchTeacherPreview')">
             </div>
+            <div class="form-group">
+                <label>或直接粘贴（每行一位：姓名,手机,邮箱）</label>
+                <textarea id="batchTeacherText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="张老师,13800138001,zhang@example.com&#10;李老师,13800138002&#10;王老师"></textarea>
+            </div>
+            <div id="batchTeacherPreview" style="display:none;background:rgba(79,70,229,0.05);color:var(--text-primary);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
                 <button class="btn btn-ghost" onclick="downloadExcelTemplate('teachers')">📥 下载 CSV 模板</button>
                 <button class="btn btn-primary" onclick="submitBatchCreateTeachers()">创建账号</button>
             </div>`,
         'batch-teacher-result': `<h3>账号创建成功<button class="modal-close" onclick="closeModal()">×</button></h3>
             <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">请妥善保存初始密码，关闭后将无法再次查看</p>
-            <pre id="batchTeacherResult" style="background:var(--bg);padding:16px;border-radius:var(--radius-md);font-size:13px;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;"></pre>
+            <pre id="batchTeacherResult" style="background:var(--bg);color:var(--text-primary);padding:16px;border-radius:var(--radius-md);font-size:13px;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;"></pre>
+            <button class="btn btn-primary" onclick="closeModal()">我已记录</button>`,
+        'batch-parent-result': `<h3>家长账号创建成功<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">请妥善保存初始密码，关闭后将无法再次查看</p>
+            <pre id="batchParentResult" style="background:var(--bg);color:var(--text-primary);padding:16px;border-radius:var(--radius-md);font-size:13px;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;"></pre>
             <button class="btn btn-primary" onclick="closeModal()">我已记录</button>`,
         'batch-create-parent': `<h3>批量创建家长账号<button class="modal-close" onclick="closeModal()">×</button></h3>
-            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">家长账号登录后可查看孩子的积分、宠物、通知等</p>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">家长账号登录后可查看孩子的积分、宠物、通知等<br>
+            &nbsp;&nbsp;· <b>账号</b> = 家长姓名（重名自动加 <code>_2</code>/<code>_3</code> 后缀）<br>
+            &nbsp;&nbsp;· <b>昵称</b> = 姓名拼音（重名自动加 <code>_2</code>/<code>_3</code> 后缀）</p>
             <div class="form-group">
-                <label>家长名单（每行一位：姓名,手机号）</label>
-                <textarea id="batchParentText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="王家长,13800138021\n赵家长,13800138022"></textarea>
+                <label>📤 上传文件（.xlsx / .xls / .csv）</label>
+                <input type="file" accept=".xlsx,.xls,.csv" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg);color:var(--text-primary);" onchange="parseBatchImportFile(event, 'batchParentText', 'batchParentPreview')">
             </div>
+            <div class="form-group">
+                <label>或直接粘贴（每行一位：姓名,手机号）</label>
+                <textarea id="batchParentText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="王家长,13800138021&#10;赵家长,13800138022"></textarea>
+            </div>
+            <div id="batchParentPreview" style="display:none;background:rgba(79,70,229,0.05);color:var(--text-primary);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
                 <button class="btn btn-ghost" onclick="downloadExcelTemplate('parents')">📥 下载 CSV 模板</button>
                 <button class="btn btn-primary" onclick="submitBatchCreateParents()">创建账号</button>
@@ -3193,11 +3268,11 @@ function showModal(type) {
             </div>`,
         'school-settings': `<h3>学校信息设置<button class="modal-close" onclick="closeModal()">×</button></h3>
             <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">修改后全校师生立即看到新名称。学校代码不可修改（用于生成账号前缀）</p>
-            <div class="form-group"><label>学校名称 *</label><input id="schoolNameInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
+            <div class="form-group"><label>学校名称 *</label><input id="schoolNameInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);"></div>
             <div class="form-group"><label>学校代码（只读）</label><input id="schoolCodeInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-secondary);" readonly></div>
-            <div class="form-group"><label>学校地址</label><input id="schoolAddressInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
-            <div class="form-group"><label>联系电话</label><input id="schoolPhoneInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
-            <div class="form-group"><label>联系邮箱</label><input id="schoolEmailInput" type="email" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
+            <div class="form-group"><label>学校地址</label><input id="schoolAddressInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);"></div>
+            <div class="form-group"><label>联系电话</label><input id="schoolPhoneInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);"></div>
+            <div class="form-group"><label>联系邮箱</label><input id="schoolEmailInput" type="email" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
                 <button class="btn btn-ghost" onclick="closeModal()">取消</button>
                 <button class="btn btn-primary" onclick="submitSchoolSettings()">保存修改</button>

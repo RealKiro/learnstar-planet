@@ -21,6 +21,7 @@ class User extends Authenticatable
         'username',          // 管理员分配的账号
         'password',          // 管理员分配的初始密码
         'name',
+        'nickname',          // 昵称，默认 = name 的拼音
         'avatar_path',
         'phone',
         'email',

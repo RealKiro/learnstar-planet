@@ -130,6 +130,8 @@ class SchoolAdminController extends Controller
                 'id' => $t->id,
                 'username' => $t->username,
                 'name' => $t->name,
+                'nickname' => $t->nickname,
+                'avatar_path' => $t->avatar_path,
                 'phone' => $t->phone,
                 'email' => $t->email,
                 'status' => $t->status,
@@ -235,18 +237,11 @@ class SchoolAdminController extends Controller
         $created = [];
 
         foreach ($request->input('parents') as $parentData) {
-            $parent = $this->authService->createParentAccount($school, $parentData);
+            $result = $this->authService->createParentAccount($school, $parentData);
             if (!empty($parentData['student_id'])) {
-                Student::where('id', $parentData['student_id'])->update(['parent_id' => $parent->id]);
+                Student::where('id', $parentData['student_id'])->update(['parent_id' => $result['id']]);
             }
-            $created[] = [
-                'id' => $parent->id,
-                'username' => $parent->username,
-                'initial_password' => $parent->getRawOriginal('password')
-                    ? '' // 已 hash，无法显示
-                    : '',
-                'name' => $parent->name,
-            ];
+            $created[] = $result;
         }
 
         return response()->json(['data' => $created]);
@@ -273,6 +268,8 @@ class SchoolAdminController extends Controller
                 'id' => $p->id,
                 'username' => $p->username,
                 'name' => $p->name,
+                'nickname' => $p->nickname,
+                'avatar_path' => $p->avatar_path,
                 'phone' => $p->phone,
                 'status' => $p->status,
                 'children' => $childrenNames,
