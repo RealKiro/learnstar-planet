@@ -2118,13 +2118,18 @@ function showPage(pageId) {
     const sidebar = target.querySelector('.sidebar');
     const main = target.querySelector('.main-content');
     console.log('[showPage] page=', pageId, 'display=', getComputedStyle(target).display, 'h=', target.offsetHeight, 'w=', target.offsetWidth);
-    console.log('[showPage] body h=', document.body.offsetHeight, 'html h=', document.documentElement.offsetHeight);
+    console.log('[showPage] body h=', document.body.offsetHeight, 'html h=', document.documentElement.offsetHeight, 'viewport h=', window.innerHeight);
     if (layout) {
         const r = layout.getBoundingClientRect();
         console.log('[showPage] .app-layout display=', getComputedStyle(layout).display, 'min-h=', getComputedStyle(layout).minHeight, 'h=', layout.offsetHeight, 'rect=', r);
         console.log('[showPage] .app-layout children:', layout.children.length, 'parent tagName=', layout.parentElement.tagName, 'parent class=', layout.parentElement.className);
-        if (sidebar) console.log('[showPage] .sidebar h=', sidebar.offsetHeight, 'w=', sidebar.offsetWidth, 'display=', getComputedStyle(sidebar).display);
-        if (main) console.log('[showPage] .main-content h=', main.offsetHeight, 'w=', main.offsetWidth, 'display=', getComputedStyle(main).display, 'flex=', getComputedStyle(main).flex);
+        if (sidebar) console.log('[showPage] .sidebar h=', sidebar.offsetHeight, 'w=', sidebar.offsetWidth, 'display=', getComputedStyle(sidebar).display, 'flex=', getComputedStyle(sidebar).flex, 'bg=', getComputedStyle(sidebar).background);
+        if (main) console.log('[showPage] .main-content h=', main.offsetHeight, 'w=', main.offsetWidth, 'display=', getComputedStyle(main).display, 'flex=', getComputedStyle(main).flex, 'bg=', getComputedStyle(main).background);
+        // 终极探测：每个子元素的尺寸
+        for (let i = 0; i < layout.children.length; i++) {
+            const c = layout.children[i];
+            console.log(`[showPage] .app-layout child[${i}]: tag=${c.tagName} class="${c.className}" h=${c.offsetHeight} w=${c.offsetWidth} display=${getComputedStyle(c).display}`);
+        }
     } else {
         console.log('[showPage] NO .app-layout found inside', pageId);
     }
