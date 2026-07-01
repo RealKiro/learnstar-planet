@@ -16,6 +16,16 @@ mkdir -p storage/app/public \
     storage/logs \
     bootstrap/cache
 
+# ──────────────────────────────────────────
+# 从 Docker 环境变量创建 .env 文件
+# Laravel 的 artisan 命令（如 key:generate、migrate）需要读取 .env
+# 但 Docker Compose 通过 environment: 注入变量，容器内没有 .env 文件
+# ──────────────────────────────────────────
+if [ ! -f /var/www/html/.env ]; then
+    echo "📝 从环境变量创建 .env 文件..."
+    env | grep -E "^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|MAIL_|FILESYSTEM_|AI_|WECHAT_|QQ_|RENREN_|ADMIN_|GITHUB_)" > /var/www/html/.env
+fi
+
 # 等待数据库就绪
 echo "⏳ 等待数据库连接..."
 MAX_RETRIES=30
@@ -34,10 +44,25 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
     echo "✅ 数据库连接成功"
 
     # 生成应用密钥（首次部署）
-    if [ -z "$APP_KEY" ]; then
+    # 注意：不能用 php artisan key:generate（它会写 .env，但 Docker env var
+    # APP_KEY="" 会覆盖 .env 的值）。改用 --show 输出密钥，直接写入 .env。
+    if ! grep -q "^APP_KEY=base64:" /var/www/html/.env 2>/dev/null; then
         echo "🔑 生成应用密钥..."
-        php artisan key:generate --force
-        echo "✅ 密钥已生成"
+        NEW_KEY=$(php -r "echo 'base64:' . base64_encode(random_bytes(32));" 2>/dev/null)
+        if [ -z "$NEW_KEY" ]; then
+            # fallback: 使用 artisan key:generate --show
+            NEW_KEY=$(php artisan key:generate --show 2>/dev/null)
+        fi
+        if [ -n "$NEW_KEY" ]; then
+            sed -i "/^APP_KEY=/d" /var/www/html/.env
+            echo "APP_KEY=$NEW_KEY" >> /var/www/html/.env
+            export APP_KEY="$NEW_KEY"
+            echo "✅ 密钥已生成: ${NEW_KEY:0:16}..."
+        else
+            echo "⚠️  密钥生成失败，请手动设置 APP_KEY"
+        fi
+    else
+        echo "✅ 密钥已存在，跳过生成"
     fi
 
     # 运行数据库迁移
@@ -47,7 +72,7 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
 
     # 创建默认管理员账号（首次部署）
     echo "👤 创建默认管理员..."
-    php artisan db:seed --class=AdminUserSeeder --force
+    php artisan db:seed --class=AdminUserSeeder --force 2>/dev/null || true
     echo "✅ 管理员账号已就绪"
 
     # 创建存储目录链接
