@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -39,22 +41,22 @@ class User extends Authenticatable
 
     // ========== 关系 ==========
 
-    public function school()
+    public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
     }
 
-    public function thirdPartyBindings()
+    public function thirdPartyBindings(): HasMany
     {
         return $this->hasMany(ThirdPartyBinding::class);
     }
 
-    public function classesAsTeacher()
+    public function classesAsTeacher(): HasMany
     {
         return $this->hasMany(ClassRoom::class, 'teacher_id');
     }
 
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(Student::class, 'parent_id');
     }

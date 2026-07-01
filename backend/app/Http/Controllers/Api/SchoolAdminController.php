@@ -112,12 +112,14 @@ class SchoolAdminController extends Controller
     {
         $school = $request->user()->school;
 
-        $teachers = User::where('school_id', $school->id)
+        /** @var \Illuminate\Database\Eloquent\Collection<int, User> $teacherUsers */
+        $teacherUsers = User::where('school_id', $school->id)
             ->where('role', 'teacher')
             ->with(['thirdPartyBindings', 'classesAsTeacher'])
             ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function (User $t) {
+            ->get();
+
+        $teachers = $teacherUsers->map(function (User $t) {
                 $bindings = $t->thirdPartyBindings->pluck('platform')->toArray();
                 $classes = $t->classesAsTeacher->pluck('name')->toArray();
 
@@ -251,12 +253,14 @@ class SchoolAdminController extends Controller
     {
         $school = $request->user()->school;
 
-        $parents = User::where('school_id', $school->id)
+        /** @var \Illuminate\Database\Eloquent\Collection<int, User> $parentUsers */
+        $parentUsers = User::where('school_id', $school->id)
             ->where('role', 'parent')
             ->with('children')
             ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function (User $p) {
+            ->get();
+
+        $parents = $parentUsers->map(function (User $p) {
                 $childrenNames = $p->children->pluck('name')->toArray();
 
                 return [
@@ -294,12 +298,15 @@ class SchoolAdminController extends Controller
     public function index(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-        $classes = ClassRoom::where('school_id', $school->id)
+
+        /** @var \Illuminate\Database\Eloquent\Collection<int, ClassRoom> $allClasses */
+        $allClasses = ClassRoom::where('school_id', $school->id)
             ->with(['teacher', 'students'])
             ->orderBy('grade')
             ->orderBy('name')
-            ->get()
-            ->map(function (ClassRoom $c) {
+            ->get();
+
+        $classes = $allClasses->map(function (ClassRoom $c) {
                 return [
                     'id' => $c->id,
                     'name' => $c->name,
@@ -510,11 +517,14 @@ class SchoolAdminController extends Controller
     public function reportsByClass(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-        $rows = ClassRoom::where('school_id', $school->id)
+
+        /** @var \Illuminate\Database\Eloquent\Collection<int, ClassRoom> $classes */
+        $classes = ClassRoom::where('school_id', $school->id)
             ->with(['teacher'])
             ->withCount('students')
-            ->get()
-            ->map(function (ClassRoom $c) {
+            ->get();
+
+        $rows = $classes->map(function (ClassRoom $c) {
                 $classScore = (int) Score::where('class_id', $c->id)
                     ->whereMonth('created_at', Carbon::now()->month)
                     ->sum('amount');

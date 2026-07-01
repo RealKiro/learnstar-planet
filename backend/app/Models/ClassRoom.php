@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClassRoom extends Model
@@ -26,37 +28,37 @@ class ClassRoom extends Model
         'settings' => 'array',
     ];
 
-    public function school()
+    public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
     }
 
-    public function teacher()
+    public function teacher(): BelongsTo
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
 
-    public function students()
+    public function students(): HasMany
     {
         return $this->hasMany(Student::class);
     }
 
-    public function pets()
+    public function pets(): HasMany
     {
         return $this->hasMany(Pet::class);
     }
 
-    public function notices()
+    public function notices(): HasMany
     {
         return $this->hasMany(Notice::class);
     }
 
-    public function scoreRules()
+    public function scoreRules(): HasMany
     {
         return $this->hasMany(ScoreRule::class);
     }
 
-    public function shopItems()
+    public function shopItems(): HasMany
     {
         return $this->hasMany(ShopItem::class);
     }
