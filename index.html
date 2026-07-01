@@ -2125,35 +2125,59 @@ function switchLoginTab(type) {
 }
 
 // ===== 教师登录 =====
-function handleTeacherLogin() {
-    const username = document.getElementById('teacherUsername').value;
+async function handleTeacherLogin() {
+    const username = document.getElementById('teacherUsername').value.trim();
     const password = document.getElementById('teacherPassword').value;
     if (!username || !password) { showToast('请输入教师账号和密码', 'error'); return; }
 
-    // 模拟登录（实际调用后端API）
-    if (username.startsWith('SCH') && username.includes('_T')) {
+    try {
+        const res = await fetch('/api/auth/teacher/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            showToast(data.message || '账号或密码错误', 'error');
+            return;
+        }
+        // 存储 token 和用户信息
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('currentUser', JSON.stringify(data.data.user));
         currentRole = 'teacher';
         showPage('page-teacher');
         initTeacherDashboard();
         showToast('教师登录成功', 'success');
-    } else {
-        showToast('教师账号格式不正确（格式：SCH编号_T编号），请联系管理员', 'error');
+    } catch (e) {
+        showToast('网络错误，请稍后重试', 'error');
     }
 }
 
 // ===== 管理员登录 =====
-function handleAdminLogin() {
-    const username = document.getElementById('adminUsername').value;
+async function handleAdminLogin() {
+    const username = document.getElementById('adminUsername').value.trim();
     const password = document.getElementById('adminPassword').value;
     if (!username || !password) { showToast('请输入管理员账号和密码', 'error'); return; }
 
-    // 模拟登录（实际调用后端API）
-    if (username.startsWith('SCH') && username.includes('_A')) {
+    try {
+        const res = await fetch('/api/auth/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            showToast(data.message || '账号或密码错误', 'error');
+            return;
+        }
+        // 存储 token 和用户信息
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('currentUser', JSON.stringify(data.data.user));
         currentRole = 'admin';
         showPage('page-admin');
         showToast('管理员登录成功', 'success');
-    } else {
-        showToast('管理员账号格式不正确，请联系超级管理员', 'error');
+    } catch (e) {
+        showToast('网络错误，请稍后重试', 'error');
     }
 }
 
