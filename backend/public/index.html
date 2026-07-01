@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学趣星球 - 让学习充满乐趣的成长平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+    /* ===== CSS 变量体系 ===== */
+    :root {
+        /* 品牌色：星空探索主题 */
+        --primary: #4F46E5;         /* 星空靛蓝 */
+        --primary-light: #818CF8;
+        --primary-dark: #3730A3;
+        --secondary: #F59E0B;       /* 星光琥珀 */
+        --secondary-light: #FCD34D;
+        --accent: #10B981;          /* 灵苗翡翠 */
+        --accent-light: #6EE7B7;
+        --danger: #EF4444;
+        --danger-light: #FCA5A5;
+        --info: #3B82F6;
+
+        /* 中性色 */
+        --bg: #F8FAFC;
+        --bg-card: #FFFFFF;
+        --bg-dark: #0F172A;
+        --bg-dark-card: #1E293B;
+        --text: #1E293B;
+        --text-secondary: #64748B;
+        --text-light: #F1F5F9;
+        --text-light-secondary: #94A3B8;
+        --border: #E2E8F0;
+        --border-dark: #334155;
+
+        /* 渐变 */
+        --gradient-primary: linear-gradient(135deg, #4F46E5, #818CF8);
+        --gradient-hero: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #4F46E5 100%);
+        --gradient-card: linear-gradient(135deg, rgba(79,70,229,0.05), rgba(129,140,248,0.05));
+        --gradient-gold: linear-gradient(135deg, #F59E0B, #FCD34D);
+
+        /* 圆角 */
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --radius-xl: 28px;
+
+        /* 阴影 */
+        --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+        --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+        --shadow-glow: 0 0 20px rgba(79,70,229,0.3);
+
+        /* 间距 */
+        --sp-xs: 4px;
+        --sp-sm: 8px;
+        --sp-md: 16px;
+        --sp-lg: 24px;
+        --sp-xl: 32px;
+        --sp-2xl: 48px;
+
+        /* 动画 */
+        --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        --transition-fast: 0.2s var(--ease-smooth);
+        --transition-normal: 0.3s var(--ease-smooth);
+        --transition-slow: 0.5s var(--ease-smooth);
+    }
+
+    [data-theme="dark"] {
+        --bg: #0F172A;
+        --bg-card: #1E293B;
+        --text: #F1F5F9;
+        --text-secondary: #94A3B8;
+        --border: #334155;
+        --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+        --shadow-lg: 0 12px 32px rgba(0,0,0,0.4);
+    }
+
+    /* ===== 全局样式 ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Noto Sans SC', -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+        transition: background var(--transition-normal), color var(--transition-normal);
+    }
+    a { color: var(--primary); text-decoration: none; transition: color var(--transition-fast); }
+    a:hover { color: var(--primary-dark); }
+
+    /* ===== 登录页 ===== */
+    .login-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--gradient-hero);
+        position: relative;
+        overflow: hidden;
+    }
+    .login-page::before {
+        content: '';
+        position: absolute;
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(79,70,229,0.15) 0%, transparent 70%);
+        top: -200px; right: -200px;
+        animation: floatOrb 8s ease-in-out infinite;
+    }
+    .login-page::after {
+        content: '';
+        position: absolute;
+        width: 400px; height: 400px;
+        background: radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%);
+        bottom: -100px; left: -100px;
+        animation: floatOrb 10s ease-in-out infinite reverse;
+    }
+    @keyframes floatOrb { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px,-20px); } }
+
+    .login-card {
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(40px) saturate(180%);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: var(--radius-xl);
+        padding: var(--sp-2xl);
+        width: 420px;
+        max-width: 90vw;
+        position: relative;
+        z-index: 1;
+        box-shadow: var(--shadow-lg);
+    }
+    .login-card h1 {
+        font-size: 28px; font-weight: 900;
+        color: #F1F5F9; text-align: center;
+        margin-bottom: var(--sp-sm);
+    }
+    .login-card .subtitle {
+        color: #94A3B8; text-align: center;
+        margin-bottom: var(--sp-xl); font-size: 14px;
+    }
+    .login-card .brand-emoji {
+        font-size: 48px; text-align: center; margin-bottom: var(--sp-md);
+        display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+
+    .form-group {
+        margin-bottom: var(--sp-md);
+    }
+    .form-group label {
+        display: block; font-size: 13px; font-weight: 500;
+        color: #CBD5E1; margin-bottom: var(--sp-xs);
+    }
+    .form-group input {
+        width: 100%; padding: 12px 16px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: var(--radius-md);
+        color: #F1F5F9; font-size: 15px;
+        transition: all var(--transition-fast);
+        outline: none;
+    }
+    .form-group input:focus {
+        border-color: var(--primary-light);
+        background: rgba(255,255,255,0.1);
+        box-shadow: 0 0 0 3px rgba(79,70,229,0.2);
+    }
+    .form-group input::placeholder { color: #64748B; }
+
+    .btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 8px; padding: 12px 24px;
+        border-radius: var(--radius-md);
+        font-size: 15px; font-weight: 500;
+        cursor: pointer; border: none;
+        transition: all var(--transition-normal);
+        position: relative; overflow: hidden;
+    }
+    .btn-primary {
+        background: var(--gradient-primary);
+        color: #F1F5F9; width: 100%;
+        box-shadow: 0 4px 12px rgba(79,70,229,0.3);
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(79,70,229,0.4);
+    }
+    .btn-ghost {
+        background: rgba(255,255,255,0.06);
+        color: #CBD5E1;
+        border: 1px solid rgba(255,255,255,0.12);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.1); color: #F1F5F9; }
+
+    /* 第三方登录区 */
+    .third-party-section {
+        margin-top: var(--sp-lg);
+        text-align: center;
+    }
+    .third-party-section .divider {
+        color: #64748B; font-size: 13px;
+        margin-bottom: var(--sp-md);
+        display: flex; align-items: center; gap: 12px;
+    }
+    .third-party-section .divider::before,
+    .third-party-section .divider::after {
+        content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1);
+    }
+    .third-party-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-sm);
+    }
+    .tp-btn {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 4px; padding: 12px 8px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: var(--radius-md);
+        cursor: pointer; transition: all var(--transition-fast);
+        color: #CBD5E1; font-size: 12px;
+    }
+    .tp-btn:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+    .tp-btn .tp-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+    .tp-btn .tp-icon svg { width: 28px; height: 28px; }
+    .tp-btn.wechat:hover { border-color: #07C160; background: rgba(7,193,96,0.1); }
+    .tp-btn.wechat-work:hover { border-color: #2B7CE9; background: rgba(43,124,233,0.1); }
+    .tp-btn.qq:hover { border-color: #12B7F5; background: rgba(18,183,245,0.1); }
+    .tp-btn.renren:hover { border-color: #FF6A00; background: rgba(255,106,0,0.1); }
+
+    /* 第三方绑定卡片图标 */
+    .tp-platform-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .tp-platform-icon svg { width: 32px; height: 32px; }
+
+    .login-footer {
+        margin-top: var(--sp-lg); text-align: center;
+        color: #64748B; font-size: 12px;
+    }
+
+    /* 登录类型Tab */
+    .login-tabs {
+        display: flex; gap: 0; margin-bottom: var(--sp-lg);
+        background: rgba(255,255,255,0.06);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(255,255,255,0.12);
+        padding: 4px;
+    }
+    .login-tab {
+        flex: 1; padding: 10px 16px; text-align: center;
+        font-size: 14px; font-weight: 500; color: #94A3B8;
+        border-radius: var(--radius-sm); cursor: pointer;
+        transition: all var(--transition-fast);
+        border: none; background: transparent;
+    }
+    .login-tab:hover { color: #CBD5E1; }
+    .login-tab.active-teacher {
+        background: var(--gradient-primary); color: #F1F5F9;
+        box-shadow: 0 2px 8px rgba(79,70,229,0.3);
+    }
+    .login-tab.active-admin {
+        background: linear-gradient(135deg, #F59E0B, #D97706); color: #F1F5F9;
+        box-shadow: 0 2px 8px rgba(245,158,11,0.3);
+    }
+    .login-form-panel { display: none; }
+    .login-form-panel.active { display: block; }
+
+    /* 管理员登录差异化样式 */
+    .admin-badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 6px 14px; border-radius: var(--radius-sm);
+        background: rgba(245,158,11,0.15); color: #F59E0B;
+        font-size: 13px; font-weight: 500;
+        border: 1px solid rgba(245,158,11,0.2);
+    }
+    .admin-notice {
+        background: rgba(245,158,11,0.08);
+        border: 1px solid rgba(245,158,11,0.15);
+        border-radius: var(--radius-md);
+        padding: 12px 16px; margin-bottom: var(--sp-md);
+        color: #FCD34D; font-size: 13px; line-height: 1.5;
+    }
+    .btn-admin-primary {
+        background: linear-gradient(135deg, #F59E0B, #D97706);
+        color: #F1F5F9; width: 100%;
+        box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+    }
+    .btn-admin-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(245,158,11,0.4);
+    }
+
+    /* ===== 侧边栏布局 ===== */
+    .app-layout {
+        display: flex; min-height: 100vh;
+    }
+    .sidebar {
+        width: 260px; background: var(--bg-card);
+        border-right: 1px solid var(--border);
+        display: flex; flex-direction: column;
+        position: fixed; top: 0; left: 0; height: 100vh;
+        z-index: 100; transition: transform var(--transition-normal);
+    }
+    [data-theme="dark"] .sidebar {
+        background: var(--bg-dark-card);
+        border-right-color: var(--border-dark);
+    }
+    .sidebar-brand {
+        padding: var(--sp-lg);
+        display: flex; align-items: center; gap: 12px;
+        border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .sidebar-brand { border-bottom-color: var(--border-dark); }
+    .sidebar-brand .brand-icon { font-size: 28px; }
+    .sidebar-brand .brand-text { font-weight: 700; font-size: 18px; }
+    .sidebar-brand .brand-sub { font-size: 11px; color: var(--text-secondary); }
+
+    .sidebar-user {
+        padding: var(--sp-md) var(--sp-lg);
+        display: flex; align-items: center; gap: 12px;
+        border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .sidebar-user { border-bottom-color: var(--border-dark); }
+    .sidebar-user .user-avatar {
+        width: 40px; height: 40px; border-radius: var(--radius-md);
+        background: var(--gradient-primary); color: white;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 16px;
+    }
+    .sidebar-user .user-info { flex: 1; }
+    .sidebar-user .user-name { font-weight: 500; font-size: 14px; }
+    .sidebar-user .user-role { font-size: 12px; color: var(--text-secondary); }
+    .sidebar-user .binding-badge {
+        display: inline-flex; align-items: center; gap: 2px;
+        font-size: 10px; padding: 2px 6px;
+        background: rgba(79,70,229,0.1); color: var(--primary);
+        border-radius: 4px; margin-top: 2px;
+    }
+
+    /* 导航分组（核心优化：功能不再散乱） */
+    .sidebar-nav {
+        flex: 1; overflow-y: auto; padding: var(--sp-md) 0;
+    }
+    .nav-section {
+        margin-bottom: var(--sp-md);
+    }
+    .nav-section-title {
+        font-size: 11px; font-weight: 700;
+        color: var(--text-secondary); text-transform: uppercase;
+        padding: var(--sp-sm) var(--sp-lg);
+        letter-spacing: 1px;
+    }
+    .nav-item {
+        display: flex; align-items: center; gap: 10px;
+        padding: 10px var(--sp-lg);
+        font-size: 14px; color: var(--text-secondary);
+        cursor: pointer; transition: all var(--transition-fast);
+        border-left: 3px solid transparent;
+    }
+    .nav-item:hover {
+        color: var(--primary); background: rgba(79,70,229,0.04);
+    }
+    .nav-item.active {
+        color: var(--primary); background: rgba(79,70,229,0.08);
+        border-left-color: var(--primary); font-weight: 500;
+    }
+    .nav-item .nav-icon { font-size: 18px; width: 24px; text-align: center; }
+
+    .sidebar-footer {
+        padding: var(--sp-md) var(--sp-lg);
+        border-top: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: space-between;
+    }
+    [data-theme="dark"] .sidebar-footer { border-top-color: var(--border-dark); }
+    .theme-toggle {
+        width: 36px; height: 36px; border-radius: var(--radius-sm);
+        background: rgba(79,70,229,0.08); border: none;
+        cursor: pointer; font-size: 18px;
+        display: flex; align-items: center; justify-content: center;
+        transition: all var(--transition-fast);
+    }
+    .theme-toggle:hover { background: rgba(79,70,229,0.15); }
+
+    /* ===== 主内容区 ===== */
+    .main-content {
+        flex: 1; margin-left: 260px;
+        padding: var(--sp-xl);
+        min-height: 100vh;
+    }
+    .page-header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: var(--sp-xl);
+    }
+    .page-header h2 {
+        font-size: 24px; font-weight: 700;
+    }
+    .page-header .header-actions {
+        display: flex; gap: var(--sp-sm);
+    }
+    .btn-sm {
+        padding: 8px 16px; font-size: 13px;
+        border-radius: var(--radius-sm);
+    }
+
+    /* ===== 统计卡片 ===== */
+    .stats-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: var(--sp-md); margin-bottom: var(--sp-xl);
+    }
+    .stat-card {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        padding: var(--sp-lg); border: 1px solid var(--border);
+        transition: all var(--transition-normal);
+        position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+        content: ''; position: absolute;
+        top: 0; left: 0; width: 100%; height: 4px;
+    }
+    .stat-card.primary::before { background: var(--gradient-primary); }
+    .stat-card.secondary::before { background: var(--gradient-gold); }
+    .stat-card.accent::before { background: linear-gradient(135deg, #10B981, #6EE7B7); }
+    .stat-card.info::before { background: linear-gradient(135deg, #3B82F6, #93C5FD); }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .stat-card .stat-icon { font-size: 28px; margin-bottom: var(--sp-sm); }
+    .stat-card .stat-value { font-size: 32px; font-weight: 900; }
+    .stat-card .stat-label { font-size: 13px; color: var(--text-secondary); }
+    .stat-card .stat-change {
+        font-size: 12px; margin-top: var(--sp-xs);
+        display: inline-flex; align-items: center; gap: 4px;
+    }
+    .stat-change.up { color: var(--accent); }
+    .stat-change.down { color: var(--danger); }
+
+    /* ===== 数据表格 ===== */
+    .data-table {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); overflow: hidden;
+    }
+    .data-table-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: var(--sp-md) var(--sp-lg);
+        border-bottom: 1px solid var(--border);
+    }
+    .data-table-header h3 { font-size: 16px; font-weight: 600; }
+    .data-table table { width: 100%; border-collapse: collapse; }
+    .data-table th {
+        padding: 12px var(--sp-md); font-size: 12px; font-weight: 600;
+        color: var(--text-secondary); text-align: left;
+        background: rgba(79,70,229,0.04); border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+        padding: 12px var(--sp-md); font-size: 14px;
+        border-bottom: 1px solid var(--border);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(79,70,229,0.03); }
+
+    /* ===== 积分操作区 ===== */
+    .score-panel {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: var(--sp-lg);
+    }
+    .score-rules-card {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); padding: var(--sp-lg);
+    }
+    .score-rules-card h3 { font-size: 16px; font-weight: 600; margin-bottom: var(--sp-md); }
+    .rule-grid {
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-sm);
+    }
+    .rule-btn {
+        display: flex; align-items: center; gap: 8px;
+        padding: 10px 12px; border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        cursor: pointer; transition: all var(--transition-fast);
+        font-size: 13px; background: var(--bg);
+    }
+    .rule-btn:hover { border-color: var(--primary); background: rgba(79,70,229,0.04); }
+    .rule-btn.positive { border-color: rgba(16,185,129,0.3); }
+    .rule-btn.positive:hover { background: rgba(16,185,129,0.08); border-color: var(--accent); }
+    .rule-btn.negative { border-color: rgba(239,68,68,0.3); }
+    .rule-btn.negative:hover { background: rgba(239,68,68,0.08); border-color: var(--danger); }
+    .rule-amount { font-weight: 700; font-size: 14px; }
+    .rule-amount.plus { color: var(--accent); }
+    .rule-amount.minus { color: var(--danger); }
+
+    /* ===== 宠物卡片 ===== */
+    .pet-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: var(--sp-md);
+    }
+    .pet-card {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); padding: var(--sp-md);
+        text-align: center; transition: all var(--transition-normal);
+        cursor: pointer;
+    }
+    .pet-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .pet-card .pet-emoji { font-size: 48px; margin-bottom: var(--sp-sm); display: block; }
+    .pet-card .pet-name { font-weight: 600; font-size: 14px; }
+    .pet-card .pet-stage { font-size: 12px; color: var(--text-secondary); }
+    .pet-card .pet-level-bar {
+        margin-top: var(--sp-sm); height: 6px;
+        background: var(--border); border-radius: 3px;
+        overflow: hidden;
+    }
+    .pet-card .pet-level-fill {
+        height: 100%; background: var(--gradient-primary); border-radius: 3px;
+        transition: width var(--transition-slow);
+    }
+
+    /* ===== 排行榜 ===== */
+    .leaderboard-section {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); padding: var(--sp-lg);
+    }
+    .leaderboard-tabs {
+        display: flex; gap: var(--sp-sm); margin-bottom: var(--sp-lg);
+    }
+    .lb-tab {
+        padding: 8px 16px; border-radius: var(--radius-sm);
+        font-size: 13px; cursor: pointer;
+        background: var(--bg); border: 1px solid var(--border);
+        transition: all var(--transition-fast);
+    }
+    .lb-tab.active {
+        background: var(--primary); color: white; border-color: var(--primary);
+    }
+    .lb-item {
+        display: flex; align-items: center; gap: var(--sp-md);
+        padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .lb-item:last-child { border-bottom: none; }
+    .lb-rank {
+        width: 32px; height: 32px; border-radius: var(--radius-sm);
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 14px;
+        background: rgba(79,70,229,0.08); color: var(--primary);
+    }
+    .lb-rank.gold { background: rgba(245,158,11,0.15); color: #F59E0B; }
+    .lb-rank.silver { background: rgba(148,163,184,0.15); color: #94A3B8; }
+    .lb-rank.bronze { background: rgba(180,83,9,0.15); color: #B45309; }
+    .lb-avatar {
+        width: 36px; height: 36px; border-radius: var(--radius-sm);
+        background: var(--gradient-primary); color: white;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; font-weight: 600;
+    }
+    .lb-name { font-weight: 500; flex: 1; }
+    .lb-score { font-weight: 700; font-size: 16px; color: var(--primary); }
+
+    /* ===== 商城 ===== */
+    .shop-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: var(--sp-md);
+    }
+    .shop-item-card {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); padding: var(--sp-lg);
+        text-align: center; transition: all var(--transition-normal);
+    }
+    .shop-item-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .shop-item-card .item-emoji { font-size: 40px; margin-bottom: var(--sp-sm); }
+    .shop-item-card .item-name { font-weight: 600; font-size: 14px; }
+    .shop-item-card .item-cost {
+        display: inline-flex; align-items: center; gap: 4px;
+        color: var(--secondary); font-weight: 700; font-size: 14px;
+        margin-top: var(--sp-sm);
+    }
+
+    /* ===== 通知列表 ===== */
+    .notice-list {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); padding: var(--sp-md);
+    }
+    .notice-item {
+        display: flex; gap: var(--sp-md);
+        padding: var(--sp-md); border-bottom: 1px solid var(--border);
+        cursor: pointer; transition: all var(--transition-fast);
+    }
+    .notice-item:hover { background: rgba(79,70,229,0.03); }
+    .notice-item:last-child { border-bottom: none; }
+    .notice-type-badge {
+        padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+        white-space: nowrap;
+    }
+    .notice-type-badge.info { background: rgba(59,130,246,0.1); color: #3B82F6; }
+    .notice-type-badge.homework { background: rgba(79,70,229,0.1); color: #4F46E5; }
+    .notice-type-badge.event { background: rgba(16,185,129,0.1); color: #10B981; }
+    .notice-type-badge.urgent { background: rgba(239,68,68,0.1); color: #EF4444; }
+    .notice-content { flex: 1; }
+    .notice-title { font-weight: 500; font-size: 14px; }
+    .notice-time { font-size: 12px; color: var(--text-secondary); }
+
+    /* ===== 家长端宠物大展示 ===== */
+    .parent-pet-hero {
+        background: var(--bg-card); border-radius: var(--radius-xl);
+        border: 1px solid var(--border); padding: var(--sp-2xl);
+        text-align: center; margin-bottom: var(--sp-xl);
+        position: relative; overflow: hidden;
+    }
+    .parent-pet-hero::before {
+        content: ''; position: absolute; inset: 0;
+        background: var(--gradient-card); opacity: 0.5;
+    }
+    .parent-pet-hero .hero-emoji {
+        font-size: 80px; display: block; margin-bottom: var(--sp-md);
+        position: relative;
+    }
+    .parent-pet-hero .hero-stage {
+        font-size: 24px; font-weight: 900; position: relative;
+    }
+    .parent-pet-hero .hero-subtitle {
+        font-size: 14px; color: var(--text-secondary); position: relative;
+    }
+    .parent-pet-hero .mood-bar {
+        margin-top: var(--sp-md); height: 8px;
+        background: var(--border); border-radius: 4px;
+        overflow: hidden; position: relative;
+    }
+    .parent-pet-hero .mood-fill {
+        height: 100%; background: var(--gradient-gold);
+        border-radius: 4px; transition: width var(--transition-slow);
+    }
+
+    /* ===== 时间轴 ===== */
+    .timeline {
+        padding-left: 20px; border-left: 2px solid var(--border);
+    }
+    .timeline-item {
+        padding: var(--sp-md) 0; position: relative;
+    }
+    .timeline-item::before {
+        content: ''; position: absolute; left: -26px; top: 16px;
+        width: 10px; height: 10px; border-radius: 50%;
+        background: var(--primary); border: 2px solid var(--bg-card);
+    }
+    .timeline-time { font-size: 12px; color: var(--text-secondary); }
+    .timeline-text { font-size: 14px; }
+
+    /* ===== 学校管理端 ===== */
+    .admin-section {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); padding: var(--sp-lg);
+        margin-bottom: var(--sp-lg);
+    }
+    .admin-section h3 { font-size: 16px; font-weight: 600; margin-bottom: var(--sp-md); }
+    .account-list {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--sp-md);
+    }
+    .account-card {
+        display: flex; align-items: center; gap: var(--sp-md);
+        padding: var(--sp-md); border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+    }
+    .account-card .acc-avatar {
+        width: 44px; height: 44px; border-radius: var(--radius-md);
+        background: var(--gradient-primary); color: white;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700;
+    }
+    .account-card .acc-info { flex: 1; }
+    .account-card .acc-name { font-weight: 500; }
+    .account-card .acc-username { font-size: 12px; color: var(--text-secondary); }
+    .account-card .acc-bindings {
+        display: flex; gap: 4px; margin-top: 2px;
+    }
+    .acc-binding-icon {
+        font-size: 14px; padding: 2px;
+    }
+
+    /* ===== 进化展示 ===== */
+    .evolution-chain {
+        display: flex; align-items: center; justify-content: center;
+        gap: 4px; padding: var(--sp-xl) 0;
+        flex-wrap: wrap;
+    }
+    .evolution-node {
+        display: flex; flex-direction: column;
+        align-items: center; gap: 4px;
+        padding: 8px; border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+    }
+    .evolution-node:hover {
+        background: rgba(79,70,229,0.08);
+        transform: scale(1.15);
+    }
+    .evolution-node .evo-emoji { font-size: 32px; }
+    .evolution-node .evo-name { font-size: 11px; font-weight: 500; }
+    .evo-arrow { font-size: 16px; color: var(--text-secondary); }
+
+    /* ===== 首页 Hero ===== */
+    .hero-section {
+        min-height: 600px;
+        background: var(--gradient-hero);
+        display: flex; align-items: center;
+        padding: var(--sp-2xl) calc(var(--sp-xl) + 260px);
+        position: relative; overflow: hidden;
+    }
+    .hero-section::before {
+        content: ''; position: absolute;
+        width: 800px; height: 800px;
+        background: radial-gradient(circle, rgba(79,70,229,0.12) 0%, transparent 70%);
+        top: -300px; right: -200px;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-content h1 {
+        font-size: 48px; font-weight: 900; color: #F1F5F9;
+        margin-bottom: var(--sp-md); line-height: 1.2;
+    }
+    .hero-content .hero-highlight {
+        color: var(--primary-light);
+    }
+    .hero-content .hero-desc {
+        font-size: 18px; color: #94A3B8;
+        margin-bottom: var(--sp-xl); max-width: 560px;
+    }
+    .hero-actions { display: flex; gap: var(--sp-md); }
+    .btn-hero-primary {
+        background: var(--gradient-primary); color: white;
+        padding: 14px 32px; border-radius: var(--radius-lg);
+        font-size: 16px; font-weight: 600;
+        box-shadow: var(--shadow-glow);
+        transition: all var(--transition-normal);
+    }
+    .btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(79,70,229,0.5); }
+    .btn-hero-secondary {
+        background: rgba(255,255,255,0.08); color: #CBD5E1;
+        padding: 14px 32px; border-radius: var(--radius-lg);
+        font-size: 16px; font-weight: 600;
+        border: 1px solid rgba(255,255,255,0.15);
+        transition: all var(--transition-normal);
+    }
+    .btn-hero-secondary:hover { background: rgba(255,255,255,0.15); }
+
+    .hero-stats {
+        display: flex; gap: var(--sp-xl); margin-top: var(--sp-2xl);
+    }
+    .hero-stat {
+        text-align: center;
+    }
+    .hero-stat .hs-value { font-size: 28px; font-weight: 900; color: #F1F5F9; }
+    .hero-stat .hs-label { font-size: 13px; color: #94A3B8; }
+
+    /* ===== 功能特色 ===== */
+    .features-section {
+        padding: var(--sp-2xl) var(--sp-xl); margin-left: 260px;
+    }
+    .features-section h2 {
+        text-align: center; font-size: 28px; font-weight: 700;
+        margin-bottom: var(--sp-sm);
+    }
+    .features-section .feat-sub {
+        text-align: center; color: var(--text-secondary);
+        margin-bottom: var(--sp-xl);
+    }
+    .features-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: var(--sp-lg);
+    }
+    .feature-card {
+        background: var(--bg-card); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); padding: var(--sp-xl);
+        text-align: center; transition: all var(--transition-normal);
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .feature-card .feat-icon { font-size: 36px; margin-bottom: var(--sp-md); }
+    .feature-card .feat-title { font-weight: 600; font-size: 16px; margin-bottom: var(--sp-sm); }
+    .feature-card .feat-desc { font-size: 13px; color: var(--text-secondary); }
+
+    /* ===== 模态框 ===== */
+    .modal-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        display: none; align-items: center; justify-content: center;
+        z-index: 200; backdrop-filter: blur(8px);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+        background: var(--bg-card); border-radius: var(--radius-xl);
+        padding: var(--sp-xl); width: 480px; max-width: 90vw;
+        box-shadow: var(--shadow-lg);
+    }
+    .modal h3 { font-size: 18px; font-weight: 600; margin-bottom: var(--sp-lg); }
+    .modal-close {
+        float: right; font-size: 20px; cursor: pointer;
+        color: var(--text-secondary); border: none; background: none;
+    }
+
+    /* ===== 移动端适配 ===== */
+    .mobile-nav-toggle {
+        display: none; position: fixed; top: var(--sp-md); left: var(--sp-md);
+        z-index: 150; width: 44px; height: 44px;
+        border-radius: var(--radius-md); background: var(--bg-card);
+        border: 1px solid var(--border); cursor: pointer;
+        font-size: 20px;
+        display: flex; align-items: center; justify-content: center;
+    }
+    @media (max-width: 768px) {
+        .sidebar { transform: translateX(-100%); }
+        .sidebar.open { transform: translateX(0); }
+        .main-content { margin-left: 0; }
+        .features-section { margin-left: 0; padding: var(--sp-lg); }
+        .hero-section { padding: var(--sp-xl) var(--sp-lg); }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .score-panel { grid-template-columns: 1fr; }
+        .features-grid { grid-template-columns: 1fr; }
+        .mobile-nav-toggle { display: flex; }
+    }
+
+    /* ===== 页面切换 ===== */
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== toast ===== */
+    .toast-container {
+        position: fixed; top: var(--sp-lg); right: var(--sp-lg);
+        z-index: 300; display: flex; flex-direction: column; gap: var(--sp-sm);
+    }
+    .toast {
+        padding: 12px 20px; border-radius: var(--radius-md);
+        background: var(--bg-card); border: 1px solid var(--border);
+        box-shadow: var(--shadow-md); font-size: 14px;
+        animation: slideInRight 0.3s var(--ease-smooth);
+    }
+    .toast.success { border-color: var(--accent); color: var(--accent); }
+    .toast.error { border-color: var(--danger); color: var(--danger); }
+    @keyframes slideInRight { from { transform: translateX(100px); opacity: 0; } }
+
+    /* ===== Landing Page 登录按钮 ===== */
+    #page-landing .landing-nav {
+        position: fixed; top: 0; left: 0; right: 0;
+        padding: var(--sp-md) var(--sp-xl);
+        display: flex; align-items: center; justify-content: space-between;
+        z-index: 50;
+    }
+    #page-landing .landing-nav .nav-logo {
+        font-size: 20px; font-weight: 700; color: #F1F5F9;
+        display: flex; align-items: center; gap: 8px;
+    }
+    #page-landing .landing-nav .nav-links {
+        display: flex; gap: var(--sp-md);
+    }
+    #page-landing .landing-nav .nav-link {
+        color: #CBD5E1; font-size: 14px; cursor: pointer;
+        transition: color var(--transition-fast);
+    }
+    #page-landing .landing-nav .nav-link:hover { color: #F1F5F9; }
+    #page-landing .hero-section { padding: var(--sp-2xl); margin-left: 0; }
+    #page-landing .features-section { margin-left: 0; }
+    /* ===== 新功能组件样式 ===== */
+
+    /* 实时广播 */
+    .broadcast-type-tabs { display: flex; gap: 8px; }
+    .bc-type-btn { flex: 1; padding: 10px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); color: var(--text-secondary); font-size: 13px; cursor: pointer; font-weight: 500; }
+    .bc-type-btn.active { border-color: var(--primary); background: rgba(79,70,229,0.1); color: var(--primary); }
+    .bc-template { padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--border); cursor: pointer; font-size: 13px; transition: all 0.2s; }
+
+    /* 考勤状态 */
+    .attendance-status-present { color: var(--accent); font-weight: 500; }
+    .attendance-status-late { color: #F59E0B; font-weight: 500; }
+    .attendance-status-leave { color: #3B82F6; font-weight: 500; }
+    .attendance-status-absent { color: var(--danger); font-weight: 500; }
+
+    /* 成绩管理 */
+    .grade-table td:first-child { font-weight: 500; }
+    .grade-high { color: var(--accent); font-weight: 700; }
+    .grade-low { color: var(--danger); }
+
+    /* AI助教 */
+    .ai-chat-area { min-height: 300px; max-height: 400px; overflow-y: auto; padding: var(--sp-md); background: var(--bg); border-radius: var(--radius-md); margin-bottom: var(--sp-md); }
+    .ai-bubble-bot { display: flex; gap: 12px; margin-bottom: 16px; }
+    .ai-bubble-user { display: flex; gap: 12px; margin-bottom: 16px; justify-content: flex-end; }
+    .ai-msg-bot { background: var(--bg-card); border: 1px solid var(--border); border-radius: 0 12px 12px 12px; padding: 12px 16px; max-width: 80%; font-size: 14px; line-height: 1.6; white-space: pre-line; }
+    .ai-msg-user { background: var(--gradient-primary); color: #F1F5F9; border-radius: 12px 0 12px 12px; padding: 12px 16px; max-width: 80%; font-size: 14px; line-height: 1.6; }
+    .ai-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+    .user-avatar-sm { width: 36px; height: 36px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+
+    /* 扫码收作业 */
+    .hw-qr-card { display: flex; flex-direction: column; align-items: center; padding: var(--sp-lg); background: var(--bg); border-radius: var(--radius-md); }
+    .hw-progress-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .hw-progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+
+    /* 在线答题 */
+    .quiz-active-badge { padding: 4px 12px; border-radius: 12px; background: rgba(34,197,94,0.1); color: #22C55E; font-size: 13px; font-weight: 500; }
+    .quiz-card { background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: var(--sp-lg); margin-bottom: var(--sp-md); }
+
+    @media (max-width: 768px) {
+        .features-grid { grid-template-columns: 1fr 1fr; }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    </style>
+</head>
+<body data-theme="light">
+
+<!-- ===== Toast Container ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== 模态框 ===== -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- ===== 页面1：登录 ===== -->
+<div class="page active" id="page-login">
+    <div class="login-page">
+        <div class="login-card">
+            <span class="brand-emoji">🌌</span>
+            <h1>学趣星球</h1>
+
+            <!-- 登录类型Tab -->
+            <div class="login-tabs">
+                <button class="login-tab active-teacher" id="tabTeacher" onclick="switchLoginTab('teacher')">👩‍🏫 教师登录</button>
+                <button class="login-tab" id="tabAdmin" onclick="switchLoginTab('admin')">🔧 管理员登录</button>
+            </div>
+
+            <!-- ===== 教师登录面板（默认） ===== -->
+            <div class="login-form-panel active" id="panelTeacher">
+                <p class="subtitle">账号密码由学校管理员统一分配，直接登录即可</p>
+
+                <div class="form-group">
+                    <label>教师账号</label>
+                    <input type="text" id="teacherUsername" placeholder="输入管理员分配的教师账号">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="teacherPassword" placeholder="输入管理员分配的密码">
+                </div>
+                <button class="btn btn-primary" onclick="handleTeacherLogin()">教师登录</button>
+
+                <div class="third-party-section">
+                    <div class="divider">扫码快捷登录</div>
+                    <div class="third-party-grid">
+                        <!-- 微信官方图标 -->
+                        <div class="tp-btn wechat" onclick="handleThirdPartyLogin('wechat', 'teacher')">
+                            <span class="tp-icon">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="10" fill="#07C160"/>
+                                    <!-- WeChat left bubble -->
+                                    <ellipse cx="14.5" cy="18" rx="8" ry="6.5" fill="white"/>
+                                    <circle cx="11.5" cy="17.5" r="1.4" fill="#07C160"/>
+                                    <circle cx="15.5" cy="16.5" r="1.4" fill="#07C160"/>
+                                    <circle cx="19" cy="17.5" r="1.4" fill="#07C160"/>
+                                    <path d="M6 24.5 C6 24.5 9 22.5 12 24" stroke="white" stroke-width="0" fill="none"/>
+                                    <path d="M7 24 L9.5 26 L9 23.5" fill="white"/>
+                                    <!-- WeChat right bubble -->
+                                    <ellipse cx="26" cy="22" rx="8.5" ry="6.5" fill="rgba(255,255,255,0.85)"/>
+                                    <circle cx="22.5" cy="21.5" r="1.3" fill="#07C160"/>
+                                    <circle cx="26.5" cy="21.5" r="1.3" fill="#07C160"/>
+                                    <circle cx="30" cy="21.5" r="1.3" fill="#07C160"/>
+                                    <path d="M34 28.5 L31 27 L31.5 29.5" fill="rgba(255,255,255,0.85)"/>
+                                </svg>
+                            </span>
+                            <span>微信</span>
+                        </div>
+                        <!-- 企业微信官方图标 -->
+                        <div class="tp-btn wechat-work" onclick="handleThirdPartyLogin('wechat_work', 'teacher')">
+                            <span class="tp-icon">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="10" fill="#2B7CE9"/>
+                                    <!-- 企业微信 logo: 左侧绿色泡泡 + 右蓝色泡泡 + 小领带图形 -->
+                                    <ellipse cx="14" cy="17" rx="7" ry="5.5" fill="#fff"/>
+                                    <circle cx="11" cy="16.8" r="1.3" fill="#2B7CE9"/>
+                                    <circle cx="14.5" cy="16" r="1.3" fill="#2B7CE9"/>
+                                    <circle cx="18" cy="16.8" r="1.3" fill="#2B7CE9"/>
+                                    <path d="M7.5 22 L10 20.5 L9.8 23" fill="white"/>
+                                    <ellipse cx="26.5" cy="22" rx="7.5" ry="5.5" fill="rgba(255,255,255,0.7)"/>
+                                    <circle cx="23" cy="21.8" r="1.2" fill="#2B7CE9"/>
+                                    <circle cx="26.5" cy="21" r="1.2" fill="#2B7CE9"/>
+                                    <circle cx="30" cy="21.8" r="1.2" fill="#2B7CE9"/>
+                                    <path d="M33.5 27 L31 25.5 L31.2 28" fill="rgba(255,255,255,0.7)"/>
+                                    <!-- 领带/企业标志 -->
+                                    <rect x="18.5" y="13" width="3" height="2" rx="1" fill="white" opacity="0.9"/>
+                                    <polygon points="19,15 21,15 20.5,18 19.5,18" fill="white" opacity="0.9"/>
+                                </svg>
+                            </span>
+                            <span>企业微信</span>
+                        </div>
+                        <!-- QQ官方图标 -->
+                        <div class="tp-btn qq" onclick="handleThirdPartyLogin('qq', 'teacher')">
+                            <span class="tp-icon">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="10" fill="#12B7F5"/>
+                                    <!-- QQ企鹅头部 -->
+                                    <ellipse cx="20" cy="16.5" rx="8" ry="9" fill="white"/>
+                                    <!-- 企鹅眼睛 -->
+                                    <ellipse cx="16.5" cy="14.5" rx="2.2" ry="2.8" fill="#1A1A1A"/>
+                                    <ellipse cx="23.5" cy="14.5" rx="2.2" ry="2.8" fill="#1A1A1A"/>
+                                    <ellipse cx="16" cy="13.5" rx="0.8" ry="1" fill="white"/>
+                                    <ellipse cx="23" cy="13.5" rx="0.8" ry="1" fill="white"/>
+                                    <!-- 鼻子/嘴巴 -->
+                                    <ellipse cx="20" cy="18" rx="2.5" ry="1.5" fill="#FFB84D"/>
+                                    <!-- 耳朵 -->
+                                    <ellipse cx="12" cy="13" rx="2.2" ry="2.8" fill="#1A1A1A"/>
+                                    <ellipse cx="28" cy="13" rx="2.2" ry="2.8" fill="#1A1A1A"/>
+                                    <!-- 身体/肚子 -->
+                                    <ellipse cx="20" cy="27" rx="7" ry="5.5" fill="white"/>
+                                    <ellipse cx="20" cy="27.5" rx="4.5" ry="3.5" fill="#FFB84D" opacity="0.8"/>
+                                    <!-- 脚 -->
+                                    <ellipse cx="16.5" cy="32" rx="2.5" ry="1.2" fill="#FF8C00"/>
+                                    <ellipse cx="23.5" cy="32" rx="2.5" ry="1.2" fill="#FF8C00"/>
+                                </svg>
+                            </span>
+                            <span>QQ</span>
+                        </div>
+                        <!-- 人人通官方图标 -->
+                        <div class="tp-btn renren" onclick="handleThirdPartyLogin('renren', 'teacher')">
+                            <span class="tp-icon">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="10" fill="#FF6A00"/>
+                                    <!-- 人人通 logo: 两个人形 -->
+                                    <!-- 左人 -->
+                                    <circle cx="14" cy="13" r="4" fill="white"/>
+                                    <path d="M7 30 C7 23.5 10.5 20 14 20 C17.5 20 21 23.5 21 30" fill="white"/>
+                                    <!-- 右人（偏右偏后，稍小） -->
+                                    <circle cx="24" cy="14.5" r="3.5" fill="rgba(255,255,255,0.75)"/>
+                                    <path d="M17.5 30 C17.5 24.5 20.5 21.5 24 21.5 C27.5 21.5 30.5 24.5 30.5 30" fill="rgba(255,255,255,0.75)"/>
+                                    <!-- 连接线（表示通/互联） -->
+                                    <path d="M18 16 Q20 12 22 16" stroke="white" stroke-width="1.5" fill="none" stroke-dasharray="2,1.5"/>
+                                </svg>
+                            </span>
+                            <span>人人通</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="login-footer">
+                    扫码登录需先绑定账号 → 登录后在设置页绑定第三方平台
+                </p>
+            </div>
+
+            <!-- ===== 管理员登录面板 ===== -->
+            <div class="login-form-panel" id="panelAdmin">
+                <div class="admin-notice">
+                    ⚠️ 管理员账号仅用于学校后台管理（创建教师账号、班级管理、全校数据查看），不可用于日常教学操作
+                </div>
+
+                <div class="form-group">
+                    <label>管理员账号</label>
+                    <input type="text" id="adminUsername" placeholder="学校注册时分配的管理员账号">
+                </div>
+                <div class="form-group">
+                    <label>管理员密码</label>
+                    <input type="password" id="adminPassword" placeholder="输入管理员密码">
+                </div>
+                <button class="btn btn-admin-primary" onclick="handleAdminLogin()">管理员登录</button>
+
+                <p class="login-footer">
+                    管理员账号不支持第三方扫码登录，仅限账号密码方式
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== 页面2：首页（Landing） ===== -->
+<div class="page" id="page-landing">
+    <div class="landing-nav">
+        <div class="nav-logo">🌌 学趣星球</div>
+        <div class="nav-links">
+            <span class="nav-link" onclick="showPage('page-login')">登录</span>
+            <span class="nav-link">功能介绍</span>
+            <span class="nav-link">联系我们</span>
+        </div>
+    </div>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>让学习充满<span class="hero-highlight">乐趣</span>的成长平台</h1>
+            <p class="hero-desc">积分激励、宠物陪伴、排行竞技 —— 全免费，零门槛，让每个学生的努力都被看见</p>
+            <div class="hero-actions">
+                <button class="btn-hero-primary" onclick="showPage('page-login')">立即使用</button>
+                <button class="btn-hero-secondary">了解更多</button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="hs-value">50,000+</span><br><span class="hs-label">活跃班级</span></div>
+                <div class="hero-stat"><span class="hs-value">200万+</span><br><span class="hs-label">学生用户</span></div>
+                <div class="hero-stat"><span class="hs-value">4.9⭐</span><br><span class="hs-label">教师好评</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="features-section">
+        <h2>核心功能</h2>
+        <p class="feat-sub">12大模块，覆盖班级管理全场景</p>
+        <div class="features-grid">
+            <div class="feature-card"><span class="feat-icon">📡</span><h4 class="feat-title">实时广播</h4><p class="feat-desc">消息直达教室桌面端，支持文字/语音/横幅/全屏</p></div>
+            <div class="feature-card"><span class="feat-icon">✅</span><h4 class="feat-title">智能考勤</h4><p class="feat-desc">一键点名签到，到课/请假/迟到状态实时统计</p></div>
+            <div class="feature-card"><span class="feat-icon">📱</span><h4 class="feat-title">扫码收作业</h4><p class="feat-desc">生成专属二维码，学生扫码提交，自动汇总</p></div>
+            <div class="feature-card"><span class="feat-icon">📝</span><h4 class="feat-title">在线答题</h4><p class="feat-desc">题库管理+课堂即时检测，自动判分统计</p></div>
+            <div class="feature-card"><span class="feat-icon">📊</span><h4 class="feat-title">成绩管理</h4><p class="feat-desc">成绩录入分析，班级对比，趋势可视化</p></div>
+            <div class="feature-card"><span class="feat-icon">🤖</span><h4 class="feat-title">AI助教</h4><p class="feat-desc">生成班级反馈、学生分析、家校沟通建议</p></div>
+            <div class="feature-card"><span class="feat-icon">⭐</span><h4 class="feat-title">积分激励</h4><p class="feat-desc">自定义规则，实时加减分，进步看得见</p></div>
+            <div class="feature-card"><span class="feat-icon">🌟</span><h4 class="feat-title">宠物进化</h4><p class="feat-desc">10阶宇宙进化体系，积分变经验驱动成长</p></div>
+            <div class="feature-card"><span class="feat-icon">🏆</span><h4 class="feat-title">排行竞技</h4><p class="feat-desc">总积分/周进步/宠物等级三大排行</p></div>
+            <div class="feature-card"><span class="feat-icon">🛍️</span><h4 class="feat-title">积分商城</h4><p class="feat-desc">学生兑换实物/特权奖励，教师审批发放</p></div>
+            <div class="feature-card"><span class="feat-icon">📢</span><h4 class="feat-title">班级通知</h4><p class="feat-desc">一键发布，实时推送家长端</p></div>
+            <div class="feature-card"><span class="feat-icon">🔗</span><h4 class="feat-title">多端登录</h4><p class="feat-desc">微信/企微/QQ/人人通扫码，账号密码双通道</p></div>
+        </div>
+    </div>
+
+    <!-- 进化展示 -->
+    <div style="margin-left:0; padding: var(--sp-xl);">
+        <h2 style="text-align:center; margin-bottom: var(--sp-md);">宠物10阶进化体系</h2>
+        <div class="evolution-chain">
+            <div class="evolution-node"><span class="evo-emoji">🌟</span><span class="evo-name">星尘</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🌙</span><span class="evo-name">月芽</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🌱</span><span class="evo-name">灵苗</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🌿</span><span class="evo-name">青藤</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🌳</span><span class="evo-name">慧树</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🦋</span><span class="evo-name">蝶灵</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🦅</span><span class="evo-name">鹰慧</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🦁</span><span class="evo-name">狮睿</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🦄</span><span class="evo-name">灵角</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">✨</span><span class="evo-name">星耀</span></div>
+            <span class="evo-arrow">→</span>
+            <div class="evolution-node"><span class="evo-emoji">🌌</span><span class="evo-name">银河</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== 页面3-8：教师端（侧边栏布局） ===== -->
+<div class="page" id="page-teacher">
+    <div class="app-layout">
+        <button class="mobile-nav-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="sidebar" id="teacherSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🌌</span>
+                <div><span class="brand-text">学趣星球</span><br><span class="brand-sub">教师端</span></div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">张</div>
+                <div class="user-info">
+                    <span class="user-name">张老师</span>
+                    <span class="user-role">三年二班 · 班主任</span>
+                    <div class="binding-badge">💬 微信已绑定</div>
+                </div>
+            </div>
+
+            <!-- 导航分组（功能结构优化） -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">概览</div>
+                    <div class="nav-item active" data-page="t-dashboard"><span class="nav-icon">📊</span>数据看板</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">学生管理</div>
+                    <div class="nav-item" data-page="t-students"><span class="nav-icon">👨‍🎓</span>学生列表</div>
+                    <div class="nav-item" data-page="t-pets"><span class="nav-icon">🌟</span>宠物园</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">积分中心</div>
+                    <div class="nav-item" data-page="t-scores"><span class="nav-icon">⭐</span>积分管理</div>
+                    <div class="nav-item" data-page="t-rules"><span class="nav-icon">📋</span>积分规则</div>
+                    <div class="nav-item" data-page="t-leaderboard"><span class="nav-icon">🏆</span>排行榜</div>
+                    <div class="nav-item" data-page="t-shop"><span class="nav-icon">🛍️</span>积分商城</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">课堂工具</div>
+                    <div class="nav-item" data-page="t-broadcast"><span class="nav-icon">📡</span>实时广播</div>
+                    <div class="nav-item" data-page="t-attendance"><span class="nav-icon">✅</span>智能考勤</div>
+                    <div class="nav-item" data-page="t-homework"><span class="nav-icon">📱</span>扫码收作业</div>
+                    <div class="nav-item" data-page="t-quiz"><span class="nav-icon">📝</span>在线答题</div>
+                    <div class="nav-item" data-page="t-ai"><span class="nav-icon">🤖</span>AI助教</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">学业评价</div>
+                    <div class="nav-item" data-page="t-grades"><span class="nav-icon">📊</span>成绩管理</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">沟通</div>
+                    <div class="nav-item" data-page="t-notices"><span class="nav-icon">📢</span>班级通知</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">报表</div>
+                    <div class="nav-item" data-page="t-reports"><span class="nav-icon">📈</span>数据报表</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">设置</div>
+                    <div class="nav-item" data-page="t-settings"><span class="nav-icon">⚙️</span>账号设置</div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span style="font-size:12px; color:var(--text-secondary);">全部功能免费</span>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <!-- 教师看板 -->
+            <div id="t-dashboard" class="teacher-page active">
+                <div class="page-header">
+                    <h2>数据看板</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-ghost">刷新数据</button>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <span class="stat-icon">👨‍🎓</span>
+                        <div class="stat-value">42</div>
+                        <div class="stat-label">班级学生</div>
+                        <span class="stat-change up">↑ +2 本周新增</span>
+                    </div>
+                    <div class="stat-card secondary">
+                        <span class="stat-icon">⭐</span>
+                        <div class="stat-value">1,260</div>
+                        <div class="stat-label">本周积分发放</div>
+                        <span class="stat-change up">↑ +18% vs上周</span>
+                    </div>
+                    <div class="stat-card accent">
+                        <span class="stat-icon">🌟</span>
+                        <div class="stat-value">Lv.5</div>
+                        <div class="stat-label">全班平均宠物等级</div>
+                        <span class="stat-change up">↑ 升级3只</span>
+                    </div>
+                    <div class="stat-card info">
+                        <span class="stat-icon">🛍️</span>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">待审批兑换</div>
+                        <span class="stat-change down">↓ 3已处理</span>
+                    </div>
+                </div>
+
+                <!-- 最近积分动态 -->
+                <div class="data-table" style="margin-bottom: var(--sp-lg);">
+                    <div class="data-table-header">
+                        <h3>最近积分动态</h3>
+                    </div>
+                    <table>
+                        <thead><tr><th>学生</th><th>积分变化</th><th>原因</th><th>时间</th></tr></thead>
+                        <tbody>
+                            <tr><td>小明</td><td style="color:var(--accent);">+5</td><td>作业完成</td><td>10分钟前</td></tr>
+                            <tr><td>小红</td><td style="color:var(--accent);">+10</td><td>作业优秀</td><td>15分钟前</td></tr>
+                            <tr><td>小刚</td><td style="color:var(--danger);">-3</td><td>课堂违纪</td><td>20分钟前</td></tr>
+                            <tr><td>小丽</td><td style="color:var(--accent);">+3</td><td>主动发言</td><td>30分钟前</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TOP5 排行 -->
+                <div class="leaderboard-section">
+                    <h3 style="margin-bottom: var(--sp-md);">本周 TOP 5</h3>
+                    <div class="lb-item"><span class="lb-rank gold">🥇</span><span class="lb-avatar">明</span><span class="lb-name">小明</span><span class="lb-score">85分</span></div>
+                    <div class="lb-item"><span class="lb-rank silver">🥈</span><span class="lb-avatar">丽</span><span class="lb-name">小丽</span><span class="lb-score">78分</span></div>
+                    <div class="lb-item"><span class="lb-rank bronze">🥉</span><span class="lb-avatar">华</span><span class="lb-name">小华</span><span class="lb-score">72分</span></div>
+                    <div class="lb-item"><span class="lb-rank">4</span><span class="lb-avatar">红</span><span class="lb-name">小红</span><span class="lb-score">65分</span></div>
+                    <div class="lb-item"><span class="lb-rank">5</span><span class="lb-avatar">强</span><span class="lb-name">小强</span><span class="lb-score">58分</span></div>
+                </div>
+            </div>
+
+            <!-- 学生列表 -->
+            <div id="t-students" class="teacher-page">
+                <div class="page-header">
+                    <h2>学生列表</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('import-students')">批量导入</button>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <table>
+                        <thead><tr><th>姓名</th><th>学号</th><th>总积分</th><th>宠物等级</th><th>状态</th></tr></thead>
+                        <tbody id="studentList"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 宠物园 -->
+            <div id="t-pets" class="teacher-page">
+                <div class="page-header">
+                    <h2>宠物园</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-ghost">全班喂养</button>
+                    </div>
+                </div>
+                <div class="pet-grid" id="petGrid"></div>
+            </div>
+
+            <!-- 积分管理 -->
+            <div id="t-scores" class="teacher-page">
+                <div class="page-header">
+                    <h2>积分管理</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('batch-score')">批量加分</button>
+                    </div>
+                </div>
+                <div class="score-panel">
+                    <div class="score-rules-card">
+                        <h3>快捷规则加分</h3>
+                        <div class="rule-grid" id="scoreRuleGrid"></div>
+                    </div>
+                    <div>
+                        <div class="score-rules-card">
+                            <h3>手动加减分</h3>
+                            <div class="form-group">
+                                <label>选择学生</label>
+                                <select style="width:100%; padding:10px; border-radius:var(--radius-md); border:1px solid var(--border); background:var(--bg);">
+                                    <option>小明</option><option>小红</option><option>小刚</option><option>小丽</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>积分值</label>
+                                <input type="number" placeholder="正数加分，负数减分" style="width:100%; padding:10px; border-radius:var(--radius-md); border:1px solid var(--border); background:var(--bg);">
+                            </div>
+                            <div class="form-group">
+                                <label>理由</label>
+                                <input type="text" placeholder="填写理由" style="width:100%; padding:10px; border-radius:var(--radius-md); border:1px solid var(--border); background:var(--bg);">
+                            </div>
+                            <button class="btn btn-primary" style="margin-top:var(--sp-md);">确认发放</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 积分规则 -->
+            <div id="t-rules" class="teacher-page">
+                <div class="page-header">
+                    <h2>积分规则</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary">添加规则</button>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <table>
+                        <thead><tr><th>规则名称</th><th>积分值</th><th>分类</th><th>类型</th><th>操作</th></tr></thead>
+                        <tbody id="ruleList"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 排行榜 -->
+            <div id="t-leaderboard" class="teacher-page">
+                <div class="page-header"><h2>排行榜</h2></div>
+                <div class="leaderboard-section">
+                    <div class="leaderboard-tabs">
+                        <div class="lb-tab active" onclick="switchLeaderboard('total')">总积分榜</div>
+                        <div class="lb-tab" onclick="switchLeaderboard('weekly')">进步最快榜</div>
+                        <div class="lb-tab" onclick="switchLeaderboard('pet')">宠物等级榜</div>
+                    </div>
+                    <div id="leaderboardContent"></div>
+                </div>
+            </div>
+
+            <!-- 积分商城 -->
+            <div id="t-shop" class="teacher-page">
+                <div class="page-header">
+                    <h2>积分商城</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('add-shop-item')">添加奖品</button>
+                    </div>
+                </div>
+                <div class="shop-grid">
+                    <div class="shop-item-card"><span class="item-emoji">📖</span><div class="item-name">课外图书</div><div class="item-cost">⭐ 50积分</div></div>
+                    <div class="shop-item-card"><span class="item-emoji">🎨</span><div class="item-name">美术用品</div><div class="item-cost">⭐ 80积分</div></div>
+                    <div class="shop-item-card"><span class="item-emoji">🎮</span><div class="item-name">免作业1天</div><div class="item-cost">⭐ 30积分</div></div>
+                    <div class="shop-item-card"><span class="item-emoji">🏆</span><div class="item-name">班级之星徽章</div><div class="item-cost">⭐ 100积分</div></div>
+                    <div class="shop-item-card"><span class="item-emoji">🍦</span><div class="item-name">冰淇淋奖励</div><div class="item-cost">⭐ 40积分</div></div>
+                    <div class="shop-item-card"><span class="item-emoji">🎬</span><div class="item-name">电影票</div><div class="item-cost">⭐ 120积分</div></div>
+                </div>
+
+                <!-- 待审批兑换 -->
+                <div style="margin-top: var(--sp-xl);">
+                    <h3 style="margin-bottom: var(--sp-md);">待审批兑换</h3>
+                    <div class="data-table">
+                        <table>
+                            <thead><tr><th>学生</th><th>奖品</th><th>积分</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>小明</td><td>课外图书</td><td>50</td><td>待审批</td><td><button class="btn btn-sm" style="background:var(--accent);color:white;">批准</button> <button class="btn btn-sm" style="background:var(--danger);color:white;">拒绝</button></td></tr>
+                                <tr><td>小红</td><td>免作业1天</td><td>30</td><td>待审批</td><td><button class="btn btn-sm" style="background:var(--accent);color:white;">批准</button> <button class="btn btn-sm" style="background:var(--danger);color:white;">拒绝</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 班级通知 -->
+            <div id="t-notices" class="teacher-page">
+                <div class="page-header">
+                    <h2>班级通知</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('create-notice')">发布通知</button>
+                    </div>
+                </div>
+                <div class="notice-list">
+                    <div class="notice-item"><span class="notice-type-badge homework">作业</span><div class="notice-content"><div class="notice-title">本周数学作业安排</div><div class="notice-time">2小时前</div></div></div>
+                    <div class="notice-item"><span class="notice-type-badge event">活动</span><div class="notice-content"><div class="notice-title">春季运动会通知</div><div class="notice-time">昨天</div></div></div>
+                    <div class="notice-item"><span class="notice-type-badge urgent">紧急</span><div class="notice-content"><div class="notice-title">明日家长会提醒</div><div class="notice-time">1天前</div></div></div>
+                    <div class="notice-item"><span class="notice-type-badge info">通知</span><div class="notice-content"><div class="notice-title">班级图书角开放</div><div class="notice-time">3天前</div></div></div>
+                </div>
+            </div>
+
+            <!-- 数据报表 -->
+            <div id="t-reports" class="teacher-page">
+                <div class="page-header">
+                    <h2>数据报表</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-ghost">导出报表</button>
+                    </div>
+                </div>
+                <div style="background:var(--bg-card); border-radius:var(--radius-lg); border:1px solid var(--border); padding:var(--sp-lg); margin-bottom:var(--sp-lg);">
+                    <h3 style="margin-bottom: var(--sp-md);">积分趋势（近4周）</h3>
+                    <div style="display:flex; gap:var(--sp-md); align-items:end; height:200px;">
+                        <div style="flex:1; background:rgba(79,70,229,0.1); border-radius:var(--radius-sm) var(--radius-sm) 0 0; height:60%; position:relative;"><span style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;">+860</span></div>
+                        <div style="flex:1; background:rgba(79,70,229,0.2); border-radius:var(--radius-sm) var(--radius-sm) 0 0; height:75%; position:relative;"><span style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;">+1,100</span></div>
+                        <div style="flex:1; background:rgba(79,70,229,0.15); border-radius:var(--radius-sm) var(--radius-sm) 0 0; height:55%; position:relative;"><span style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;">+920</span></div>
+                        <div style="flex:1; background:var(--gradient-primary); border-radius:var(--radius-sm) var(--radius-sm) 0 0; height:90%; position:relative;"><span style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;color:var(--primary);">+1,260</span></div>
+                    </div>
+                    <div style="display:flex; gap:var(--sp-md); margin-top:var(--sp-sm); font-size:12px; color:var(--text-secondary); text-align:center;">
+                        <div style="flex:1;">第1周</div><div style="flex:1;">第2周</div><div style="flex:1;">第3周</div><div style="flex:1;">第4周</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 账号设置 -->
+            <div id="t-settings" class="teacher-page">
+                <div class="page-header"><h2>账号设置</h2></div>
+                <div style="background:var(--bg-card); border-radius:var(--radius-lg); border:1px solid var(--border); padding:var(--sp-xl); margin-bottom:var(--sp-lg);">
+                    <h3 style="margin-bottom: var(--sp-lg);">基本信息</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-md);">
+                        <div class="form-group"><label>账号</label><input value="SCH001_T001" readonly style="background:var(--bg);"></div>
+                        <div class="form-group"><label>姓名</label><input value="张老师" style="background:var(--bg);"></div>
+                        <div class="form-group"><label>手机</label><input value="138****5678" style="background:var(--bg);"></div>
+                        <div class="form-group"><label>邮箱</label><input value="zhang@school.edu" style="background:var(--bg);"></div>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top:var(--sp-md);">修改密码</button>
+                </div>
+
+                <!-- 第三方绑定 -->
+                <div style="background:var(--bg-card); border-radius:var(--radius-lg); border:1px solid var(--border); padding:var(--sp-xl);">
+                    <h3 style="margin-bottom: var(--sp-lg);">第三方账号绑定</h3>
+                    <p style="font-size:13px; color:var(--text-secondary); margin-bottom:var(--sp-md);">绑定后可使用扫码快捷登录，无需输入账号密码</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-md);">
+                        <div style="display:flex; align-items:center; gap:var(--sp-md); padding:var(--sp-md); border-radius:var(--radius-md); border:1px solid var(--border);">
+                            <span class="tp-platform-icon">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="10" fill="#07C160"/>
+                                    <ellipse cx="14.5" cy="18" rx="8" ry="6.5" fill="white"/>
+                                    <circle cx="11.5" cy="17.5" r="1.4" fill="#07C160"/>
+                                    <circle cx="15.5" cy="16.5" r="1.4" fill="#07C160"/>
+                                    <circle cx="19" cy="17.5" r="1.4" fill="#07C160"/>
+                                    <path d="M7 24 L9.5 26 L9 23.5" fill="white"/>
+                                    <ellipse cx="26" cy="22" rx="8.5" ry="6.5" fill="rgba(255,255,255,0.85)"/>
+                                    <circle cx="22.5" cy="21.5" r="1.3" fill="#07C160"/>
+                                    <circle cx="26.5" cy="21.5" r="1.3" fill="#07C160"/>
+                                    <circle cx="30" cy="21.5" r="1.3" fill="#07C160"/>
+                                    <path d="M34 28.5 L31 27 L31.5 29.5" fill="rgba(255,255,255,0.85)"/>
+                                </svg>
+                            </span>
+                            <div style="flex:1;"><div style="font-weight:500;">微信</div><div style="font-size:12px; color:var(--accent);">✅ 已绑定</div></div>
+                            <button class="btn btn-sm btn-ghost" style="color:var(--danger);">解绑</button>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:var(--sp-md); padding:var(--sp-md); border-radius:var(--radius-md); border:1px solid var(--border);">
+                            <span class="tp-platform-icon">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="10" fill="#2B7CE9"/>
+                                    <ellipse cx="14" cy="17" rx="7" ry="5.5" fill="#fff"/>
+                                    <circle cx="11" cy="16.8" r="1.3" fill="#2B7CE9"/>
+                                    <circle cx="14.5" cy="16" r="1.3" fill="#2B7CE9"/>
+                                    <circle cx="18" cy="16.8" r="1.3" fill="#2B7CE9"/>
+                                    <path d="M7.5 22 L10 20.5 L9.8 23" fill="white"/>
+                                    <ellipse cx="26.5" cy="22" rx="7.5" ry="5.5" fill="rgba(255,255,255,0.7)"/>
+                                    <circle cx="23" cy="21.8" r="1.2" fill="#2B7CE9"/>
+                                    <circle cx="26.5" cy="21" r="1.2" fill="#2B7CE9"/>
+                                    <circle cx="30" cy="21.8" r="1.2" fill="#2B7CE9"/>
+                                    <path d="M33.5 27 L31 25.5 L31.2 28" fill="rgba(255,255,255,0.7)"/>
+                                    <rect x="18.5" y="13" width="3" height="2" rx="1" fill="white" opacity="0.9"/>
+                                    <polygon points="19,15 21,15 20.5,18 19.5,18" fill="white" opacity="0.9"/>
+                                </svg>
+                            </span>
+                            <div style="flex:1;"><div style="font-weight:500;">企业微信</div><div style="font-size:12px; color:var(--text-secondary);">未绑定</div></div>
+                            <button class="btn btn-sm btn-primary">绑定</button>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:var(--sp-md); padding:var(--sp-md); border-radius:var(--radius-md); border:1px solid var(--border);">
+                            <span class="tp-platform-icon">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="10" fill="#12B7F5"/>
+                                    <ellipse cx="20" cy="16.5" rx="8" ry="9" fill="white"/>
+                                    <ellipse cx="16.5" cy="14.5" rx="2.2" ry="2.8" fill="#1A1A1A"/>
+                                    <ellipse cx="23.5" cy="14.5" rx="2.2" ry="2.8" fill="#1A1A1A"/>
+                                    <ellipse cx="16" cy="13.5" rx="0.8" ry="1" fill="white"/>
+                                    <ellipse cx="23" cy="13.5" rx="0.8" ry="1" fill="white"/>
+                                    <ellipse cx="20" cy="18" rx="2.5" ry="1.5" fill="#FFB84D"/>
+                                    <ellipse cx="12" cy="13" rx="2.2" ry="2.8" fill="#1A1A1A"/>
+                                    <ellipse cx="28" cy="13" rx="2.2" ry="2.8" fill="#1A1A1A"/>
+                                    <ellipse cx="20" cy="27" rx="7" ry="5.5" fill="white"/>
+                                    <ellipse cx="20" cy="27.5" rx="4.5" ry="3.5" fill="#FFB84D" opacity="0.8"/>
+                                    <ellipse cx="16.5" cy="32" rx="2.5" ry="1.2" fill="#FF8C00"/>
+                                    <ellipse cx="23.5" cy="32" rx="2.5" ry="1.2" fill="#FF8C00"/>
+                                </svg>
+                            </span>
+                            <div style="flex:1;"><div style="font-weight:500;">QQ</div><div style="font-size:12px; color:var(--text-secondary);">未绑定</div></div>
+                            <button class="btn btn-sm btn-primary">绑定</button>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:var(--sp-md); padding:var(--sp-md); border-radius:var(--radius-md); border:1px solid var(--border);">
+                            <span class="tp-platform-icon">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="10" fill="#FF6A00"/>
+                                    <circle cx="14" cy="13" r="4" fill="white"/>
+                                    <path d="M7 30 C7 23.5 10.5 20 14 20 C17.5 20 21 23.5 21 30" fill="white"/>
+                                    <circle cx="24" cy="14.5" r="3.5" fill="rgba(255,255,255,0.75)"/>
+                                    <path d="M17.5 30 C17.5 24.5 20.5 21.5 24 21.5 C27.5 21.5 30.5 24.5 30.5 30" fill="rgba(255,255,255,0.75)"/>
+                                    <path d="M18 16 Q20 12 22 16" stroke="white" stroke-width="1.5" fill="none" stroke-dasharray="2,1.5"/>
+                                </svg>
+                            </span>
+                            <div style="flex:1;"><div style="font-weight:500;">人人通空间</div><div style="font-size:12px; color:var(--text-secondary);">未绑定</div></div>
+                            <button class="btn btn-sm btn-primary">绑定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== 实时广播 ===== -->
+            <div id="t-broadcast" class="teacher-page">
+                <div class="page-header">
+                    <h2>📡 实时广播</h2>
+                    <div class="header-actions">
+                        <span style="font-size:13px;color:var(--text-secondary);">🖥️ 教室桌面端：<strong style="color:var(--accent);">已连接</strong></span>
+                    </div>
+                </div>
+
+                <!-- 广播发送区 -->
+                <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-xl);margin-bottom:var(--sp-lg);">
+                    <h3 style="margin-bottom:var(--sp-md);">发送广播</h3>
+                    <div class="broadcast-type-tabs" style="display:flex;gap:8px;margin-bottom:var(--sp-md);">
+                        <button class="bc-type-btn active" onclick="selectBroadcastType(this,'banner')" style="flex:1;padding:10px;border-radius:var(--radius-md);border:2px solid var(--accent);background:rgba(79,70,229,0.1);color:var(--accent);font-size:13px;cursor:pointer;font-weight:500;">📌 顶部横幅</button>
+                        <button class="bc-type-btn" onclick="selectBroadcastType(this,'popup')" style="flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-secondary);font-size:13px;cursor:pointer;">💬 弹窗提示</button>
+                        <button class="bc-type-btn" onclick="selectBroadcastType(this,'fullscreen')" style="flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-secondary);font-size:13px;cursor:pointer;">🖥️ 全屏展示</button>
+                    </div>
+                    <div class="form-group">
+                        <label>广播内容</label>
+                        <textarea id="broadcastContent" style="width:100%;padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:80px;font-size:15px;resize:vertical;" placeholder="输入要发送到教室的内容，如：请同学们准备上交数学作业"></textarea>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:var(--sp-md);">
+                        <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="checkbox" id="bcVoice" checked> 🔊 语音播报</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="checkbox" id="bcLoop"> 🔁 循环播放</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:14px;">⏱️ 显示时长
+                            <select style="padding:4px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);">
+                                <option value="5">5秒</option>
+                                <option value="10" selected>10秒</option>
+                                <option value="30">30秒</option>
+                                <option value="0">常驻</option>
+                            </select>
+                        </label>
+                    </div>
+                    <button class="btn btn-primary" style="width:auto;" onclick="sendBroadcast()">📡 立即发送到教室</button>
+                </div>
+
+                <!-- 快捷广播模板 -->
+                <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-xl);margin-bottom:var(--sp-lg);">
+                    <h3 style="margin-bottom:var(--sp-md);">快捷模板</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
+                        <div class="bc-template" onclick="useBroadcastTemplate('请同学们准备上交数学作业')" style="padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;font-size:13px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'">📚 收作业提醒</div>
+                        <div class="bc-template" onclick="useBroadcastTemplate('请保持安静，自习课开始')" style="padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;font-size:13px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'">🤫 自习课开始</div>
+                        <div class="bc-template" onclick="useBroadcastTemplate('眼保健操时间到了，请同学们开始做操')" style="padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;font-size:13px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'">👁️ 眼保健操</div>
+                        <div class="bc-template" onclick="useBroadcastTemplate('下课时间到，请注意安全')" style="padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;font-size:13px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'">🔔 下课提醒</div>
+                        <div class="bc-template" onclick="useBroadcastTemplate('今天值日生请留下来打扫卫生')" style="padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;font-size:13px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'">🧹 值日提醒</div>
+                        <div class="bc-template" onclick="useBroadcastTemplate('请翻到课本第25页，准备上课')" style="padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;font-size:13px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'">📖 课前准备</div>
+                    </div>
+                </div>
+
+                <!-- 广播历史 -->
+                <div class="data-table">
+                    <div class="data-table-header"><h3>广播记录</h3></div>
+                    <table>
+                        <thead><tr><th>内容</th><th>类型</th><th>语音</th><th>发送时间</th><th>状态</th></tr></thead>
+                        <tbody>
+                            <tr><td>请同学们准备上交数学作业</td><td>📌 横幅</td><td>🔊 是</td><td>10:25</td><td style="color:var(--accent);">✅ 已送达</td></tr>
+                            <tr><td>眼保健操时间到了</td><td>🖥️ 全屏</td><td>🔊 是</td><td>09:50</td><td style="color:var(--accent);">✅ 已送达</td></tr>
+                            <tr><td>请翻到课本第25页</td><td>💬 弹窗</td><td>🔇 否</td><td>09:01</td><td style="color:var(--accent);">✅ 已送达</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== 智能考勤 ===== -->
+            <div id="t-attendance" class="teacher-page">
+                <div class="page-header">
+                    <h2>✅ 智能考勤</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="startAttendance()">开始点名</button>
+                    </div>
+                </div>
+
+                <!-- 考勤统计卡 -->
+                <div class="stats-grid" style="margin-bottom:var(--sp-lg);">
+                    <div class="stat-card success"><span class="stat-icon">✅</span><div class="stat-value">38</div><div class="stat-label">到课</div></div>
+                    <div class="stat-card warning"><span class="stat-icon">迟到</span><div class="stat-value">2</div><div class="stat-label">迟到</div></div>
+                    <div class="stat-card info"><span class="stat-icon">📋</span><div class="stat-value">1</div><div class="stat-label">请假</div></div>
+                    <div class="stat-card danger"><span class="stat-icon">❌</span><div class="stat-value">1</div><div class="stat-label">缺勤</div></div>
+                </div>
+
+                <!-- 考勤名单 -->
+                <div class="data-table">
+                    <div class="data-table-header">
+                        <h3>今日考勤 (2026-06-18)</h3>
+                        <span style="font-size:13px;color:var(--text-secondary);">出勤率 90.5%</span>
+                    </div>
+                    <table>
+                        <thead><tr><th>姓名</th><th>学号</th><th>状态</th><th>签到时间</th><th>操作</th></tr></thead>
+                        <tbody id="attendanceList">
+                            <tr><td>小明</td><td>001</td><td><span style="color:var(--accent);font-weight:500;">✅ 到课</span></td><td>07:55</td><td><button class="btn btn-sm btn-ghost" onclick="setAttendance(this,'late')">标记迟到</button></td></tr>
+                            <tr><td>小红</td><td>002</td><td><span style="color:var(--accent);font-weight:500;">✅ 到课</span></td><td>07:52</td><td><button class="btn btn-sm btn-ghost" onclick="setAttendance(this,'late')">标记迟到</button></td></tr>
+                            <tr><td>小刚</td><td>003</td><td><span style="color:#F59E0B;font-weight:500;">⏰ 迟到</span></td><td>08:12</td><td><button class="btn btn-sm btn-ghost" onclick="setAttendance(this,'present')">改为到课</button></td></tr>
+                            <tr><td>小丽</td><td>004</td><td><span style="color:var(--accent);font-weight:500;">✅ 到课</span></td><td>07:48</td><td><button class="btn btn-sm btn-ghost" onclick="setAttendance(this,'late')">标记迟到</button></td></tr>
+                            <tr><td>小华</td><td>005</td><td><span style="color:#3B82F6;font-weight:500;">📋 请假</span></td><td>-</td><td><button class="btn btn-sm btn-ghost" onclick="setAttendance(this,'present')">改为到课</button></td></tr>
+                            <tr><td>小强</td><td>006</td><td><span style="color:var(--danger);font-weight:500;">❌ 缺勤</span></td><td>-</td><td><button class="btn btn-sm btn-ghost" onclick="setAttendance(this,'present')">改为到课</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== 扫码收作业 ===== -->
+            <div id="t-homework" class="teacher-page">
+                <div class="page-header">
+                    <h2>📱 扫码收作业</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('create-homework')">新建收取任务</button>
+                    </div>
+                </div>
+
+                <!-- 进行中的收取任务 -->
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--sp-md);margin-bottom:var(--sp-lg);">
+                    <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-lg);position:relative;overflow:hidden;">
+                        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient-primary);"></div>
+                        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:var(--sp-md);">
+                            <div><h4 style="font-size:16px;font-weight:600;">数学作业 第3章</h4><p style="font-size:12px;color:var(--text-secondary);">截止：今天 18:00</p></div>
+                            <span style="padding:2px 10px;border-radius:12px;background:rgba(34,197,94,0.1);color:#22C55E;font-size:12px;font-weight:500;">进行中</span>
+                        </div>
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);margin-bottom:var(--sp-md);">
+                            <div style="font-size:80px;line-height:1;">📋</div>
+                            <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">学生扫码即可提交</p>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-sm);">
+                            <span style="font-size:13px;color:var(--text-secondary);">已收取</span>
+                            <span style="font-size:20px;font-weight:700;color:var(--accent);">38<span style="font-size:14px;color:var(--text-secondary);">/42</span></span>
+                        </div>
+                        <div style="height:6px;background:var(--bg);border-radius:3px;overflow:hidden;margin-bottom:var(--sp-md);"><div style="height:100%;width:90%;background:var(--gradient-primary);border-radius:3px;"></div></div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-sm btn-primary" style="flex:1;" onclick="showToast('二维码已显示在大屏', 'success')">📲 展示二维码</button>
+                            <button class="btn btn-sm btn-ghost" style="flex:1;" onclick="showToast('已复制收取链接', 'success')">🔗 复制链接</button>
+                        </div>
+                    </div>
+
+                    <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-lg);position:relative;overflow:hidden;">
+                        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#F59E0B;"></div>
+                        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:var(--sp-md);">
+                            <div><h4 style="font-size:16px;font-weight:600;">语文作文《我的梦想》</h4><p style="font-size:12px;color:var(--text-secondary);">截止：明天 12:00</p></div>
+                            <span style="padding:2px 10px;border-radius:12px;background:rgba(245,158,11,0.1);color:#F59E0B;font-size:12px;font-weight:500;">进行中</span>
+                        </div>
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);margin-bottom:var(--sp-md);">
+                            <div style="font-size:80px;line-height:1;">📄</div>
+                            <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">学生扫码即可提交</p>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-sm);">
+                            <span style="font-size:13px;color:var(--text-secondary);">已收取</span>
+                            <span style="font-size:20px;font-weight:700;color:#F59E0B;">15<span style="font-size:14px;color:var(--text-secondary);">/42</span></span>
+                        </div>
+                        <div style="height:6px;background:var(--bg);border-radius:3px;overflow:hidden;margin-bottom:var(--sp-md);"><div style="height:100%;width:36%;background:#F59E0B;border-radius:3px;"></div></div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-sm btn-primary" style="flex:1;" onclick="showToast('二维码已显示在大屏', 'success')">📲 展示二维码</button>
+                            <button class="btn btn-sm btn-ghost" style="flex:1;" onclick="showToast('已复制收取链接', 'success')">🔗 复制链接</button>
+                        </div>
+                    </div>
+
+                    <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-lg);position:relative;overflow:hidden;opacity:0.7;">
+                        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--text-secondary);"></div>
+                        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:var(--sp-md);">
+                            <div><h4 style="font-size:16px;font-weight:600;">英语单词听写</h4><p style="font-size:12px;color:var(--text-secondary);">已截止</p></div>
+                            <span style="padding:2px 10px;border-radius:12px;background:rgba(100,116,139,0.1);color:var(--text-secondary);font-size:12px;font-weight:500;">已结束</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-sm);">
+                            <span style="font-size:13px;color:var(--text-secondary);">已收取</span>
+                            <span style="font-size:20px;font-weight:700;color:var(--text-secondary);">42<span style="font-size:14px;color:var(--text-secondary);">/42</span></span>
+                        </div>
+                        <div style="height:6px;background:var(--bg);border-radius:3px;overflow:hidden;margin-bottom:var(--sp-md);"><div style="height:100%;width:100%;background:var(--text-secondary);border-radius:3px;"></div></div>
+                        <button class="btn btn-sm btn-ghost" style="width:100%;" onclick="showToast('正在导出作业列表...', 'success')">📊 查看汇总</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== 在线答题 ===== -->
+            <div id="t-quiz" class="teacher-page">
+                <div class="page-header">
+                    <h2>📝 在线答题</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('create-quiz')">创建答题</button>
+                        <button class="btn btn-sm btn-ghost" onclick="showModal('create-question')">题库管理</button>
+                    </div>
+                </div>
+
+                <!-- 进行中的答题 -->
+                <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-xl);margin-bottom:var(--sp-lg);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-md);">
+                        <h3 style="font-size:18px;font-weight:600;">📊 第三单元数学随堂测验</h3>
+                        <span style="padding:4px 12px;border-radius:12px;background:rgba(34,197,94,0.1);color:#22C55E;font-size:13px;font-weight:500;">🔴 进行中</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-md);margin-bottom:var(--sp-md);">
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);"><div style="font-size:28px;font-weight:700;color:var(--accent);">10</div><div style="font-size:12px;color:var(--text-secondary);">题目数</div></div>
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);"><div style="font-size:28px;font-weight:700;color:var(--accent);">15分钟</div><div style="font-size:12px;color:var(--text-secondary);">限时</div></div>
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);"><div style="font-size:28px;font-weight:700;color:var(--accent);">36</div><div style="font-size:12px;color:var(--text-secondary);">已提交</div></div>
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);"><div style="font-size:28px;font-weight:700;color:var(--accent);">6</div><div style="font-size:12px;color:var(--text-secondary);">答题中</div></div>
+                    </div>
+                    <div style="display:flex;gap:12px;">
+                        <button class="btn btn-sm btn-primary" onclick="showToast('正在实时统计答题数据...', 'success')">📊 查看实时统计</button>
+                        <button class="btn btn-sm btn-ghost" onclick="showToast('答题已提前结束', 'success')">⏹️ 提前结束</button>
+                    </div>
+                </div>
+
+                <!-- 题库列表 -->
+                <div class="data-table">
+                    <div class="data-table-header">
+                        <h3>我的题库</h3>
+                        <span style="font-size:13px;color:var(--text-secondary);">共 128 题</span>
+                    </div>
+                    <table>
+                        <thead><tr><th>题目标题</th><th>科目</th><th>题型</th><th>题数</th><th>使用次数</th><th>操作</th></tr></thead>
+                        <tbody>
+                            <tr><td>第三单元随堂测验</td><td>数学</td><td>选择+填空</td><td>10题</td><td>3次</td><td><button class="btn btn-sm btn-ghost">发起</button> <button class="btn btn-sm btn-ghost">编辑</button></td></tr>
+                            <tr><td>古诗文默写练习</td><td>语文</td><td>填空</td><td>20题</td><td>5次</td><td><button class="btn btn-sm btn-ghost">发起</button> <button class="btn btn-sm btn-ghost">编辑</button></td></tr>
+                            <tr><td>英语时态选择题</td><td>英语</td><td>单选</td><td>15题</td><td>8次</td><td><button class="btn btn-sm btn-ghost">发起</button> <button class="btn btn-sm btn-ghost">编辑</button></td></tr>
+                            <tr><td>物理力学概念检测</td><td>物理</td><td>选择+判断</td><td>12题</td><td>2次</td><td><button class="btn btn-sm btn-ghost">发起</button> <button class="btn btn-sm btn-ghost">编辑</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== 成绩管理 ===== -->
+            <div id="t-grades" class="teacher-page">
+                <div class="page-header">
+                    <h2>📊 成绩管理</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('input-grades')">录入成绩</button>
+                        <button class="btn btn-sm btn-ghost" onclick="showToast('成绩单已导出', 'success')">📤 导出</button>
+                    </div>
+                </div>
+
+                <!-- 成绩概览卡 -->
+                <div class="stats-grid" style="margin-bottom:var(--sp-lg);">
+                    <div class="stat-card primary"><span class="stat-icon">📈</span><div class="stat-value">82.5</div><div class="stat-label">班级平均分</div><span class="stat-change up">↑ +3.2 vs上次</span></div>
+                    <div class="stat-card success"><span class="stat-icon">🏆</span><div class="stat-value">96</div><div class="stat-label">最高分</div><span class="stat-change">小明</span></div>
+                    <div class="stat-card warning"><span class="stat-icon">📉</span><div class="stat-value">58</div><div class="stat-label">最低分</div><span class="stat-change">小强</span></div>
+                    <div class="stat-card info"><span class="stat-icon">✅</span><div class="stat-value">85.7%</div><div class="stat-label">及格率</div><span class="stat-change up">↑ +5%</span></div>
+                </div>
+
+                <!-- 成绩列表 -->
+                <div class="data-table" style="margin-bottom:var(--sp-lg);">
+                    <div class="data-table-header">
+                        <h3>期中考试成绩</h3>
+                        <select style="padding:4px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);font-size:13px;" onchange="showToast('已切换考试', 'success')">
+                            <option>期中考试</option>
+                            <option>月考一</option>
+                            <option>月考二</option>
+                            <option>期末考试</option>
+                        </select>
+                    </div>
+                    <table>
+                        <thead><tr><th>姓名</th><th>语文</th><th>数学</th><th>英语</th><th>总分</th><th>平均分</th><th>班名次</th><th>变化</th></tr></thead>
+                        <tbody>
+                            <tr><td>小华</td><td>92</td><td>98</td><td>95</td><td style="font-weight:700;">285</td><td>95.0</td><td style="color:#EAB308;font-weight:700;">1</td><td style="color:var(--accent);">↑ 2</td></tr>
+                            <tr><td>小丽</td><td>95</td><td>94</td><td>92</td><td style="font-weight:700;">281</td><td>93.7</td><td style="color:#94A3B8;font-weight:700;">2</td><td style="color:var(--danger);">↓ 1</td></tr>
+                            <tr><td>小明</td><td>88</td><td>96</td><td>90</td><td style="font-weight:700;">274</td><td>91.3</td><td style="color:#CD7F32;font-weight:700;">3</td><td style="color:var(--accent);">↑ 3</td></tr>
+                            <tr><td>小红</td><td>90</td><td>85</td><td>88</td><td style="font-weight:700;">263</td><td>87.7</td><td>4</td><td style="color:var(--text-secondary);">— 0</td></tr>
+                            <tr><td>小刚</td><td>78</td><td>82</td><td>80</td><td style="font-weight:700;">240</td><td>80.0</td><td>5</td><td style="color:var(--accent);">↑ 1</td></tr>
+                            <tr><td>小强</td><td>55</td><td>62</td><td>58</td><td style="font-weight:700;color:var(--danger);">175</td><td style="color:var(--danger);">58.3</td><td>6</td><td style="color:var(--danger);">↓ 2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分数段分布 -->
+                <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-xl);">
+                    <h3 style="margin-bottom:var(--sp-md);">分数段分布</h3>
+                    <div style="display:flex;gap:4px;align-items:end;height:160px;padding-bottom:30px;border-bottom:2px solid var(--border);">
+                        <div style="flex:1;text-align:center;"><div style="height:90%;background:var(--accent);border-radius:4px 4px 0 0;margin-bottom:4px;"></div><div style="font-size:12px;color:var(--text-secondary);">90-100</div><div style="font-size:14px;font-weight:700;">8人</div></div>
+                        <div style="flex:1;text-align:center;"><div style="height:70%;background:var(--accent);border-radius:4px 4px 0 0;margin-bottom:4px;opacity:0.8;"></div><div style="font-size:12px;color:var(--text-secondary);">80-89</div><div style="font-size:14px;font-weight:700;">15人</div></div>
+                        <div style="flex:1;text-align:center;"><div style="height:50%;background:#F59E0B;border-radius:4px 4px 0 0;margin-bottom:4px;"></div><div style="font-size:12px;color:var(--text-secondary);">70-79</div><div style="font-size:14px;font-weight:700;">10人</div></div>
+                        <div style="flex:1;text-align:center;"><div style="height:25%;background:#F59E0B;border-radius:4px 4px 0 0;margin-bottom:4px;opacity:0.8;"></div><div style="font-size:12px;color:var(--text-secondary);">60-69</div><div style="font-size:14px;font-weight:700;">6人</div></div>
+                        <div style="flex:1;text-align:center;"><div style="height:8%;background:var(--danger);border-radius:4px 4px 0 0;margin-bottom:4px;"></div><div style="font-size:12px;color:var(--text-secondary);">60以下</div><div style="font-size:14px;font-weight:700;">3人</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== AI助教 ===== -->
+            <div id="t-ai" class="teacher-page">
+                <div class="page-header">
+                    <h2>🤖 AI助教</h2>
+                    <div class="header-actions">
+                        <span style="font-size:13px;color:var(--text-secondary);">🟢 AI服务正常 · 剩余Token: <strong style="color:var(--accent);">8,520</strong></span>
+                    </div>
+                </div>
+
+                <!-- AI对话区 -->
+                <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-xl);margin-bottom:var(--sp-lg);">
+                    <h3 style="margin-bottom:var(--sp-md);">💬 与AI助教对话</h3>
+                    <div id="aiChatArea" style="min-height:300px;max-height:400px;overflow-y:auto;margin-bottom:var(--sp-md);padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);">
+                        <div style="display:flex;gap:12px;margin-bottom:16px;">
+                            <div style="width:36px;height:36px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;">🤖</div>
+                            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:0 12px 12px 12px;padding:12px 16px;max-width:80%;"><p style="font-size:14px;line-height:1.6;">你好，张老师！我是AI助教，可以帮你：<br>📋 生成班级反馈 · 📊 分析学生表现 · 💬 家校沟通建议 · 📝 自动出题<br><br>试试问我：「根据本周课堂情况生成一段班级反馈」</p></div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <input id="aiInput" type="text" style="flex:1;padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);font-size:14px;" placeholder="输入你的问题..." onkeypress="if(event.key==='Enter')sendAIMessage()">
+                        <button class="btn btn-primary" style="width:auto;" onclick="sendAIMessage()">发送</button>
+                    </div>
+                </div>
+
+                <!-- 快捷指令 -->
+                <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-xl);margin-bottom:var(--sp-lg);">
+                    <h3 style="margin-bottom:var(--sp-md);">⚡ 快捷指令</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;">
+                        <div onclick="useAICommand('请根据本周课堂情况生成一段班级反馈')" style="padding:16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'"><span style="font-size:24px;">📋</span><div style="font-weight:500;font-size:14px;margin-top:8px;">生成班级反馈</div><div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">基于本周课堂表现</div></div>
+                        <div onclick="useAICommand('请分析班上需要重点关注的学生，并给出建议')" style="padding:16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'"><span style="font-size:24px;">🎯</span><div style="font-weight:500;font-size:14px;margin-top:8px;">重点关注学生</div><div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">识别需额外关注的学生</div></div>
+                        <div onclick="useAICommand('请生成本周家校沟通建议')" style="padding:16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'"><span style="font-size:24px;">💬</span><div style="font-weight:500;font-size:14px;margin-top:8px;">家校沟通建议</div><div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">生成沟通话术建议</div></div>
+                        <div onclick="useAICommand('请根据第三单元知识点出10道选择题')" style="padding:16px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(79,70,229,0.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent'"><span style="font-size:24px;">📝</span><div style="font-weight:500;font-size:14px;margin-top:8px;">自动出题</div><div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">根据知识点生成题目</div></div>
+                    </div>
+                </div>
+
+                <!-- AI使用统计 -->
+                <div style="background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:var(--sp-xl);">
+                    <h3 style="margin-bottom:var(--sp-md);">📊 本月使用统计</h3>
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-md);">
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);"><div style="font-size:28px;font-weight:700;color:var(--accent);">156</div><div style="font-size:12px;color:var(--text-secondary);">对话次数</div></div>
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);"><div style="font-size:28px;font-weight:700;color:var(--accent);">8,520</div><div style="font-size:12px;color:var(--text-secondary);">剩余Token</div></div>
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);"><div style="font-size:28px;font-weight:700;color:var(--accent);">23</div><div style="font-size:12px;color:var(--text-secondary);">生成反馈</div></div>
+                        <div style="text-align:center;padding:var(--sp-md);background:var(--bg);border-radius:var(--radius-md);"><div style="font-size:28px;font-weight:700;color:var(--accent);">12</div><div style="font-size:12px;color:var(--text-secondary);">自动出题</div></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+<div class="page" id="page-parent">
+    <div class="app-layout">
+        <button class="mobile-nav-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="sidebar" id="parentSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🌌</span>
+                <div><span class="brand-text">学趣星球</span><br><span class="brand-sub">家长端</span></div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">王</div>
+                <div class="user-info">
+                    <span class="user-name">王家长</span>
+                    <span class="user-role">小明 · 家长</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">概览</div>
+                    <div class="nav-item active" data-page="p-home"><span class="nav-icon">🏠</span>孩子概览</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">成长详情</div>
+                    <div class="nav-item" data-page="p-scores"><span class="nav-icon">⭐</span>积分明细</div>
+                    <div class="nav-item" data-page="p-growth"><span class="nav-icon">📝</span>成长日志</div>
+                    <div class="nav-item" data-page="p-ranking"><span class="nav-icon">🏆</span>班级排名</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">通知</div>
+                    <div class="nav-item" data-page="p-notices"><span class="nav-icon">📢</span>班级通知</div>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <!-- 家长首页 -->
+            <div id="p-home" class="parent-page active">
+                <div class="parent-pet-hero">
+                    <span class="hero-emoji">🦋</span>
+                    <div class="hero-stage">蝶灵 · Lv.5</div>
+                    <div class="hero-subtitle">小明的宠物「星尘」正在成长</div>
+                    <div class="mood-bar"><div class="mood-fill" style="width:80%;"></div></div>
+                    <p style="position:relative; font-size:12px; color:var(--text-secondary); margin-top:var(--sp-sm);">心情指数 80/100</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <span class="stat-icon">⭐</span>
+                        <div class="stat-value">385</div>
+                        <div class="stat-label">总积分</div>
+                    </div>
+                    <div class="stat-card secondary">
+                        <span class="stat-icon">📈</span>
+                        <div class="stat-value">+25</div>
+                        <div class="stat-label">本周新增</div>
+                    </div>
+                    <div class="stat-card accent">
+                        <span class="stat-icon">🏆</span>
+                        <div class="stat-value">第3名</div>
+                        <div class="stat-label">班级排名</div>
+                    </div>
+                    <div class="stat-card info">
+                        <span class="stat-icon">🌟</span>
+                        <div class="stat-value">5级</div>
+                        <div class="stat-label">宠物等级</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 积分明细 -->
+            <div id="p-scores" class="parent-page">
+                <div class="page-header"><h2>积分明细</h2></div>
+                <div class="data-table">
+                    <table>
+                        <thead><tr><th>日期</th><th>积分变化</th><th>原因</th><th>发放人</th></tr></thead>
+                        <tbody>
+                            <tr><td>今天</td><td style="color:var(--accent);">+5</td><td>作业完成</td><td>张老师</td></tr>
+                            <tr><td>昨天</td><td style="color:var(--accent);">+10</td><td>作业优秀</td><td>张老师</td></tr>
+                            <tr><td>2天前</td><td style="color:var(--accent);">+3</td><td>主动发言</td><td>张老师</td></tr>
+                            <tr><td>3天前</td><td style="color:var(--danger);">-3</td><td>课堂违纪</td><td>张老师</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 成长日志 -->
+            <div id="p-growth" class="parent-page">
+                <div class="page-header"><h2>成长日志</h2></div>
+                <div class="timeline">
+                    <div class="timeline-item"><div class="timeline-time">今天 10:30</div><div class="timeline-text">🌟 宠物升级到蝶灵(Lv.5)</div></div>
+                    <div class="timeline-item"><div class="timeline-time">今天 08:15</div><div class="timeline-text">⭐ 获得5积分 - 作业完成</div></div>
+                    <div class="timeline-item"><div class="timeline-time">昨天 16:00</div><div class="timeline-text">⭐ 获得10积分 - 作业优秀</div></div>
+                    <div class="timeline-item"><div class="timeline-time">昨天 09:30</div><div class="timeline-text">🛍️ 兑换「课外图书」待审批</div></div>
+                    <div class="timeline-item"><div class="timeline-time">2天前</div><div class="timeline-text">⭐ 获得3积分 - 主动发言</div></div>
+                </div>
+            </div>
+
+            <!-- 排名 -->
+            <div id="p-ranking" class="parent-page">
+                <div class="page-header"><h2>班级排名</h2></div>
+                <div class="leaderboard-section">
+                    <div class="lb-item"><span class="lb-rank gold">🥇</span><span class="lb-avatar">华</span><span class="lb-name">小华</span><span class="lb-score">420分</span></div>
+                    <div class="lb-item"><span class="lb-rank silver">🥈</span><span class="lb-avatar">丽</span><span class="lb-name">小丽</span><span class="lb-score">395分</span></div>
+                    <div class="lb-item"><span class="lb-rank bronze">🥉</span><span class="lb-avatar" style="background:var(--gradient-gold);color:#92400E;">明</span><span class="lb-name" style="font-weight:700;">小明</span><span class="lb-score">385分</span></div>
+                    <div class="lb-item"><span class="lb-rank">4</span><span class="lb-avatar">红</span><span class="lb-name">小红</span><span class="lb-score">365分</span></div>
+                    <div class="lb-item"><span class="lb-rank">5</span><span class="lb-avatar">强</span><span class="lb-name">小强</span><span class="lb-score">350分</span></div>
+                </div>
+            </div>
+
+            <!-- 通知 -->
+            <div id="p-notices" class="parent-page">
+                <div class="page-header"><h2>班级通知</h2></div>
+                <div class="notice-list">
+                    <div class="notice-item"><span class="notice-type-badge homework">作业</span><div class="notice-content"><div class="notice-title">本周数学作业安排</div><div class="notice-time">2小时前</div></div></div>
+                    <div class="notice-item"><span class="notice-type-badge urgent">紧急</span><div class="notice-content"><div class="notice-title">明日家长会提醒</div><div class="notice-time">1天前</div></div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- ===== 页面：学校管理端 ===== -->
+<div class="page" id="page-admin">
+    <div class="app-layout">
+        <button class="mobile-nav-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🌌</span>
+                <div><span class="brand-text">学趣星球</span><br><span class="brand-sub">学校管理</span></div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar" style="background:var(--gradient-gold);color:#92400E;">李</div>
+                <div class="user-info">
+                    <span class="user-name">李校长</span>
+                    <span class="user-role">阳光小学 · 管理员</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">概览</div>
+                    <div class="nav-item active" data-page="a-dashboard"><span class="nav-icon">📊</span>全校看板</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">账号管理</div>
+                    <div class="nav-item" data-page="a-teachers"><span class="nav-icon">👨‍🏫</span>教师账号</div>
+                    <div class="nav-item" data-page="a-parents"><span class="nav-icon">👨‍👩‍👧</span>家长账号</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">班级管理</div>
+                    <div class="nav-item" data-page="a-classes"><span class="nav-icon">🏫</span>班级列表</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">报表</div>
+                    <div class="nav-item" data-page="a-reports"><span class="nav-icon">📈</span>全校报表</div>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <!-- 全校看板 -->
+            <div id="a-dashboard" class="admin-page active">
+                <div class="page-header"><h2>全校看板</h2></div>
+                <div class="stats-grid">
+                    <div class="stat-card primary"><span class="stat-icon">🏫</span><div class="stat-value">24</div><div class="stat-label">班级总数</div></div>
+                    <div class="stat-card secondary"><span class="stat-icon">👨‍🏫</span><div class="stat-value">18</div><div class="stat-label">教师账号</div></div>
+                    <div class="stat-card accent"><span class="stat-icon">👨‍🎓</span><div class="stat-value">1,050</div><div class="stat-label">学生总数</div></div>
+                    <div class="stat-card info"><span class="stat-icon">⭐</span><div class="stat-value">52,800</div><div class="stat-label">本月积分发放</div></div>
+                </div>
+            </div>
+
+            <!-- 教师账号管理 -->
+            <div id="a-teachers" class="admin-page">
+                <div class="page-header">
+                    <h2>教师账号管理</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('batch-create-teacher')">批量创建账号</button>
+                    </div>
+                </div>
+                <div class="account-list">
+                    <div class="account-card">
+                        <div class="acc-avatar">张</div>
+                        <div class="acc-info"><div class="acc-name">张老师</div><div class="acc-username">SCH001_T001</div>
+                            <div class="acc-bindings"><span class="acc-binding-icon">💬</span></div>
+                        </div>
+                        <div style="display:flex;gap:4px;"><button class="btn btn-sm btn-ghost">重置密码</button><button class="btn btn-sm btn-ghost" style="color:var(--danger);">禁用</button></div>
+                    </div>
+                    <div class="account-card">
+                        <div class="acc-avatar">李</div>
+                        <div class="acc-info"><div class="acc-name">李老师</div><div class="acc-username">SCH001_T002</div>
+                            <div class="acc-bindings"><span class="acc-binding-icon">💬</span><span class="acc-binding-icon">🐧</span></div>
+                        </div>
+                        <div style="display:flex;gap:4px;"><button class="btn btn-sm btn-ghost">重置密码</button><button class="btn btn-sm btn-ghost" style="color:var(--danger);">禁用</button></div>
+                    </div>
+                    <div class="account-card">
+                        <div class="acc-avatar">王</div>
+                        <div class="acc-info"><div class="acc-name">王老师</div><div class="acc-username">SCH001_T003</div>
+                            <div class="acc-bindings"></div>
+                        </div>
+                        <div style="display:flex;gap:4px;"><button class="btn btn-sm btn-ghost">重置密码</button><button class="btn btn-sm btn-ghost" style="color:var(--danger);">禁用</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 家长账号管理 -->
+            <div id="a-parents" class="admin-page">
+                <div class="page-header">
+                    <h2>家长账号管理</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm btn-primary" onclick="showModal('batch-create-parent')">批量创建账号</button>
+                    </div>
+                </div>
+                <div class="account-list">
+                    <div class="account-card">
+                        <div class="acc-avatar" style="background:var(--gradient-gold);color:#92400E;">王</div>
+                        <div class="acc-info"><div class="acc-name">王家长</div><div class="acc-username">SCH001_P001</div><div style="font-size:11px;color:var(--text-secondary);">关联学生：小明</div></div>
+                        <button class="btn btn-sm btn-ghost">重置密码</button>
+                    </div>
+                    <div class="account-card">
+                        <div class="acc-avatar" style="background:var(--gradient-gold);color:#92400E;">赵</div>
+                        <div class="acc-info"><div class="acc-name">赵家长</div><div class="acc-username">SCH001_P002</div><div style="font-size:11px;color:var(--text-secondary);">关联学生：小红</div></div>
+                        <button class="btn btn-sm btn-ghost">重置密码</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 班级列表 -->
+            <div id="a-classes" class="admin-page">
+                <div class="page-header"><h2>班级列表</h2></div>
+                <div class="data-table">
+                    <table>
+                        <thead><tr><th>班级</th><th>年级</th><th>班主任</th><th>学生数</th><th>操作</th></tr></thead>
+                        <tbody>
+                            <tr><td>三年二班</td><td>三年级</td><td>张老师</td><td>42</td><td><button class="btn btn-sm btn-ghost">编辑</button></td></tr>
+                            <tr><td>四年一班</td><td>四年级</td><td>李老师</td><td>38</td><td><button class="btn btn-sm btn-ghost">编辑</button></td></tr>
+                            <tr><td>五年三班</td><td>五年级</td><td>王老师</td><td>40</td><td><button class="btn btn-sm btn-ghost">编辑</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 全校报表 -->
+            <div id="a-reports" class="admin-page">
+                <div class="page-header"><h2>全校报表</h2></div>
+                <div class="stats-grid">
+                    <div class="stat-card primary"><span class="stat-icon">⭐</span><div class="stat-value">52,800</div><div class="stat-label">本月积分发放</div></div>
+                    <div class="stat-card secondary"><span class="stat-icon">🌟</span><div class="stat-value">Lv.4</div><div class="stat-label">全校平均宠物等级</div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+// ===== 全局状态 =====
+let currentRole = null;
+let currentPage = 'page-login';
+
+// ===== 页面切换 =====
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    currentPage = pageId;
+}
+
+// ===== 登录Tab切换 =====
+function switchLoginTab(type) {
+    const tabTeacher = document.getElementById('tabTeacher');
+    const tabAdmin = document.getElementById('tabAdmin');
+    const panelTeacher = document.getElementById('panelTeacher');
+    const panelAdmin = document.getElementById('panelAdmin');
+
+    if (type === 'teacher') {
+        tabTeacher.className = 'login-tab active-teacher';
+        tabAdmin.className = 'login-tab';
+        panelTeacher.classList.add('active');
+        panelAdmin.classList.remove('active');
+    } else {
+        tabTeacher.className = 'login-tab';
+        tabAdmin.className = 'login-tab active-admin';
+        panelTeacher.classList.remove('active');
+        panelAdmin.classList.add('active');
+    }
+}
+
+// ===== 教师登录 =====
+function handleTeacherLogin() {
+    const username = document.getElementById('teacherUsername').value;
+    const password = document.getElementById('teacherPassword').value;
+    if (!username || !password) { showToast('请输入教师账号和密码', 'error'); return; }
+
+    // 模拟登录（实际调用后端API）
+    if (username.startsWith('SCH') && username.includes('_T')) {
+        currentRole = 'teacher';
+        showPage('page-teacher');
+        initTeacherDashboard();
+        showToast('教师登录成功', 'success');
+    } else {
+        showToast('教师账号格式不正确（格式：SCH编号_T编号），请联系管理员', 'error');
+    }
+}
+
+// ===== 管理员登录 =====
+function handleAdminLogin() {
+    const username = document.getElementById('adminUsername').value;
+    const password = document.getElementById('adminPassword').value;
+    if (!username || !password) { showToast('请输入管理员账号和密码', 'error'); return; }
+
+    // 模拟登录（实际调用后端API）
+    if (username.startsWith('SCH') && username.includes('_A')) {
+        currentRole = 'admin';
+        showPage('page-admin');
+        showToast('管理员登录成功', 'success');
+    } else {
+        showToast('管理员账号格式不正确，请联系超级管理员', 'error');
+    }
+}
+
+// ===== 第三方登录（仅教师可用） =====
+function handleThirdPartyLogin(platform, role) {
+    if (role !== 'teacher') {
+        showToast('管理员不支持第三方扫码登录', 'error');
+        return;
+    }
+    const labels = { wechat: '微信', wechat_work: '企业微信', qq: 'QQ', renren: '人人通空间' };
+    showToast(`正在打开${labels[platform]}扫码...`, 'success');
+
+    // 模拟：如果已绑定则直接登录
+    setTimeout(() => {
+        if (platform === 'wechat') {
+            currentRole = 'teacher';
+            showPage('page-teacher');
+            initTeacherDashboard();
+            showToast('微信扫码登录成功', 'success');
+        } else {
+            showToast('该平台未绑定账号，请先用账号密码登录后在设置页绑定', 'error');
+        }
+    }, 1500);
+}
+
+// ===== 侧边栏导航 =====
+document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+    item.addEventListener('click', function() {
+        const sidebar = this.closest('.sidebar');
+        sidebar.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        this.classList.add('active');
+
+        const pageId = this.dataset.page;
+        const mainContent = sidebar.nextElementSibling;
+        mainContent.querySelectorAll('.teacher-page, .parent-page, .admin-page').forEach(p => p.classList.remove('active'));
+        mainContent.querySelector('#' + pageId)?.classList.add('active');
+
+        // 移动端自动关闭侧边栏
+        if (window.innerWidth <= 768) sidebar.classList.remove('open');
+    });
+});
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.page.active .sidebar');
+    sidebar?.classList.toggle('open');
+}
+
+// ===== 主题切换 =====
+function toggleTheme() {
+    const body = document.body;
+    const isDark = body.dataset.theme === 'dark';
+    body.dataset.theme = isDark ? 'light' : 'dark';
+    document.querySelectorAll('.theme-toggle').forEach(btn => btn.textContent = isDark ? '🌙' : '☀️');
+}
+
+// ===== Toast =====
+function showToast(msg, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = msg;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// ===== Modal =====
+function showModal(type) {
+    const overlay = document.getElementById('modalOverlay');
+    const content = document.getElementById('modalContent');
+
+    const templates = {
+        'batch-score': `<h3>批量加分<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">选择学生和规则，一次性为多人加分</p>
+            <div class="form-group"><label>选择规则</label><select style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"><option>作业完成 (+5)</option><option>作业优秀 (+10)</option><option>主动发言 (+3)</option></select></div>
+            <div class="form-group"><label>选择学生</label><div style="display:flex;gap:8px;flex-wrap:wrap;"><label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;"><input type="checkbox"> 小明</label><label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;"><input type="checkbox"> 小红</label><label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;"><input type="checkbox"> 小刚</label><label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;"><input type="checkbox"> 小丽</label></div></div>
+            <button class="btn btn-primary" onclick="closeModal(); showToast('已为4名学生加分5积分', 'success');">确认发放</button>`,
+        'create-notice': `<h3>发布通知<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <div class="form-group"><label>通知类型</label><select style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"><option value="info">通知</option><option value="homework">作业</option><option value="event">活动</option><option value="urgent">紧急</option></select></div>
+            <div class="form-group"><label>标题</label><input style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="通知标题"></div>
+            <div class="form-group"><label>内容</label><textarea style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:100px;" placeholder="通知内容"></textarea></div>
+            <button class="btn btn-primary" onclick="closeModal(); showToast('通知已发布', 'success');">发布</button>`,
+        'batch-create-teacher': `<h3>批量创建教师账号<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">系统自动生成账号和初始密码，教师使用分配的账号直接登录</p>
+            <div class="form-group"><label>教师名单（每行一个姓名）</label><textarea style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:120px;" placeholder="张老师\n李老师\n王老师"></textarea></div>
+            <button class="btn btn-primary" onclick="closeModal(); showToast('已创建3个教师账号，初始密码请通过内部渠道下发', 'success');">创建账号</button>`,
+
+        // ===== 新功能模态框 =====
+        'create-homework': `<h3>📱 新建作业收取任务<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <div class="form-group"><label>作业名称</label><input style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：数学作业 第3章"></div>
+            <div class="form-group"><label>截止时间</label><input type="datetime-local" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
+            <div class="form-group"><label>提交方式</label>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;"><input type="checkbox" checked> 扫码提交</label>
+                    <label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;"><input type="checkbox"> 上传文件</label>
+                    <label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;"><input type="checkbox"> 在线答案</label>
+                </div>
+            </div>
+            <div class="form-group"><label>作业说明（选填）</label><textarea style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:80px;" placeholder="填写作业要求..."></textarea></div>
+            <button class="btn btn-primary" onclick="closeModal(); showToast('作业收取任务已创建，学生可扫码提交', 'success');">创建并生成二维码</button>`,
+
+        'create-quiz': `<h3>📝 创建在线答题<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <div class="form-group"><label>答题标题</label><input style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：第三单元数学随堂测验"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md);">
+                <div class="form-group"><label>选择题库</label>
+                    <select style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
+                        <option>第三单元随堂测验（10题）</option>
+                        <option>古诗文默写练习（20题）</option>
+                        <option>英语时态选择题（15题）</option>
+                        <option>📝 从题库随机抽题</option>
+                    </select></div>
+                <div class="form-group"><label>答题限时</label>
+                    <select style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
+                        <option value="0">不限时</option>
+                        <option value="10" selected>10分钟</option>
+                        <option value="15">15分钟</option>
+                        <option value="30">30分钟</option>
+                        <option value="45">45分钟</option>
+                    </select></div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:var(--sp-md);">
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="checkbox" checked> ✅ 自动判分</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="checkbox" checked> 📊 实时统计</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="checkbox"> 🔒 匿名答题</label>
+            </div>
+            <button class="btn btn-primary" onclick="closeModal(); showToast('答题已创建，学生可扫码参与', 'success');">创建并发起</button>`,
+
+        'create-question': `<h3>📝 题库管理<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <div style="display:flex;gap:var(--sp-md);margin-bottom:var(--sp-md);">
+                <button class="btn btn-sm btn-primary" onclick="showToast('单选题已添加', 'success')">+ 单选题</button>
+                <button class="btn btn-sm btn-ghost" onclick="showToast('多选题已添加', 'success')">+ 多选题</button>
+                <button class="btn btn-sm btn-ghost" onclick="showToast('填空题已添加', 'success')">+ 填空题</button>
+            </div>
+            <div style="background:var(--bg);border-radius:var(--radius-md);padding:var(--sp-md);margin-bottom:var(--sp-md);">
+                <p style="font-size:13px;font-weight:500;margin-bottom:8px;">题目示例：</p>
+                <p style="font-size:14px;">下列哪个是质数？</p>
+                <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px;">
+                    <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="q1"> A. 4</label>
+                    <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="q1"> B. 6</label>
+                    <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="q1"> C. 7 ✅</label>
+                    <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="q1"> D. 9</label>
+                </div>
+            </div>
+            <div class="form-group"><label>所属科目</label>
+                <select style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
+                    <option>数学</option><option>语文</option><option>英语</option><option>物理</option><option>化学</option>
+                </select></div>
+            <button class="btn btn-primary" onclick="closeModal(); showToast('题目已保存到题库', 'success');">保存题目</button>`,
+
+        'input-grades': `<h3>📊 录入成绩<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md);margin-bottom:var(--sp-md);">
+                <div class="form-group"><label>考试名称</label>
+                    <select style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
+                        <option>期中考试</option><option>月考一</option><option>月考二</option><option>期末考试</option>
+                    </select></div>
+                <div class="form-group"><label>科目</label>
+                    <select style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
+                        <option>语文</option><option>数学</option><option>英语</option><option>物理</option>
+                    </select></div>
+            </div>
+            <div style="background:var(--bg);border-radius:var(--radius-md);padding:var(--sp-md);max-height:300px;overflow-y:auto;margin-bottom:var(--sp-md);">
+                <table style="width:100%;font-size:13px;">
+                    <thead><tr style="text-align:left;color:var(--text-secondary);"><th>姓名</th><th>分数</th></tr></thead>
+                    <tbody>
+                        <tr><td>小明</td><td><input type="number" style="width:80px;padding:4px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);" placeholder="0"></td></tr>
+                        <tr><td>小红</td><td><input type="number" style="width:80px;padding:4px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);" placeholder="0"></td></tr>
+                        <tr><td>小刚</td><td><input type="number" style="width:80px;padding:4px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);" placeholder="0"></td></tr>
+                        <tr><td>小丽</td><td><input type="number" style="width:80px;padding:4px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);" placeholder="0"></td></tr>
+                        <tr><td>小华</td><td><input type="number" style="width:80px;padding:4px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);" placeholder="0"></td></tr>
+                        <tr><td>小强</td><td><input type="number" style="width:80px;padding:4px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);" placeholder="0"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-primary" onclick="closeModal(); showToast('成绩已录入，统计数据已更新', 'success');">保存成绩</button>`,
+    };
+
+    content.innerHTML = templates[type] || '<h3>操作<button class="modal-close" onclick="closeModal()">×</button></h3><p>功能开发中</p>';
+    overlay.classList.add('active');
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+}
+
+// ===== 实时广播 =====
+let currentBroadcastType = 'banner';
+function selectBroadcastType(btn, type) {
+    document.querySelectorAll('.bc-type-btn').forEach(b => {
+        b.style.border = '1px solid var(--border)';
+        b.style.background = 'var(--bg)';
+        b.style.color = 'var(--text-secondary)';
+        b.classList.remove('active');
+    });
+    btn.style.border = '2px solid var(--accent)';
+    btn.style.background = 'rgba(79,70,229,0.1)';
+    btn.style.color = 'var(--accent)';
+    btn.classList.add('active');
+    currentBroadcastType = type;
+}
+function useBroadcastTemplate(text) {
+    document.getElementById('broadcastContent').value = text;
+    showToast('模板已填入', 'success');
+}
+function sendBroadcast() {
+    const content = document.getElementById('broadcastContent').value;
+    if (!content.trim()) { showToast('请输入广播内容', 'error'); return; }
+    const typeLabels = { banner: '顶部横幅', popup: '弹窗提示', fullscreen: '全屏展示' };
+    showToast(`📡 广播已发送（${typeLabels[currentBroadcastType]}），教室端已接收`, 'success');
+    document.getElementById('broadcastContent').value = '';
+}
+
+// ===== 智能考勤 =====
+function startAttendance() {
+    showToast('✅ 考勤已开始，学生端将收到签到提醒', 'success');
+}
+function setAttendance(btn, status) {
+    const row = btn.closest('tr');
+    const statusCell = row.children[2];
+    const timeCell = row.children[3];
+    const labels = {
+        present: { text: '✅ 到课', color: 'var(--accent)', time: new Date().toTimeString().slice(0,5) },
+        late: { text: '⏰ 迟到', color: '#F59E0B', time: new Date().toTimeString().slice(0,5) },
+        leave: { text: '📋 请假', color: '#3B82F6', time: '-' },
+        absent: { text: '❌ 缺勤', color: 'var(--danger)', time: '-' },
+    };
+    const s = labels[status];
+    statusCell.innerHTML = `<span style="color:${s.color};font-weight:500;">${s.text}</span>`;
+    timeCell.textContent = s.time;
+    showToast(`已标记为${s.text}`, 'success');
+}
+
+// ===== AI助教 =====
+function sendAIMessage() {
+    const input = document.getElementById('aiInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    const chatArea = document.getElementById('aiChatArea');
+    // 用户消息
+    chatArea.innerHTML += `<div style="display:flex;gap:12px;margin-bottom:16px;justify-content:flex-end;"><div style="background:var(--gradient-primary);color:#F1F5F9;border-radius:12px 0 12px 12px;padding:12px 16px;max-width:80%;font-size:14px;line-height:1.6;">${msg}</div><div style="width:36px;height:36px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">👤</div></div>`;
+    input.value = '';
+    chatArea.scrollTop = chatArea.scrollHeight;
+    // 模拟AI回复
+    setTimeout(() => {
+        let reply = '收到你的问题，正在分析中...';
+        if (msg.includes('班级反馈')) {
+            reply = '📋 **本周班级反馈**\n\n1. 课堂参与度整体稳定，后排学生互动需加强\n2. 小华和小丽本周表现突出，建议给予表扬\n3. 小强作业提交及时性下降，建议家校沟通\n4. 整体积分较上周增长18%，班级氛围良好\n\n💡 **建议**：可对后排学生补充鼓励性反馈，同时与小强家长同步学习状态。';
+        } else if (msg.includes('重点关注')) {
+            reply = '🎯 **需重点关注学生**\n\n1. **小强** - 积分下降明显，作业提交率低，建议课后辅导\n2. **小刚** - 课堂参与度波动大，需关注情绪变化\n3. **后排部分学生** - 互动频率低，可调整座位或增加提问\n\n💡 建议结合成长记录进行综合分析，避免单一维度评价。';
+        } else if (msg.includes('家校沟通')) {
+            reply = '💬 **家校沟通建议**\n\n1. **小华家长**：表扬孩子近期进步，鼓励继续保持\n2. **小强家长**：沟通作业问题，共同制定改进计划\n3. **全班家长**：发布本周班级总结，包含整体表现和下周重点\n\n📌 沟通模板已生成，可在通知页直接使用。';
+        } else if (msg.includes('出题')) {
+            reply = '📝 **已生成10道选择题**\n\n1. 下列哪个是质数？ A.4 B.6 C.7 D.9\n2. 12和18的最大公约数是？ A.2 B.3 C.6 D.12\n...\n\n✅ 题目已保存到题库，可在「在线答题」中直接发起。';
+        }
+        chatArea.innerHTML += `<div style="display:flex;gap:12px;margin-bottom:16px;"><div style="width:36px;height:36px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;">🤖</div><div style="background:var(--bg-card);border:1px solid var(--border);border-radius:0 12px 12px 12px;padding:12px 16px;max-width:80%;font-size:14px;line-height:1.6;white-space:pre-line;">${reply}</div></div>`;
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }, 1200);
+}
+function useAICommand(command) {
+    document.getElementById('aiInput').value = command;
+    sendAIMessage();
+}
+
+// ===== 初始化教师看板数据 =====
+function initTeacherDashboard() {
+    // 学生列表
+    const students = [
+        { name: '小明', no: '001', score: 385, level: 5, status: '活跃' },
+        { name: '小红', no: '002', score: 365, level: 4, status: '活跃' },
+        { name: '小刚', no: '003', score: 350, level: 3, status: '活跃' },
+        { name: '小丽', no: '004', score: 395, level: 6, status: '活跃' },
+        { name: '小华', no: '005', score: 420, level: 7, status: '活跃' },
+        { name: '小强', no: '006', score: 280, level: 2, status: '活跃' },
+    ];
+    const tbody = document.getElementById('studentList');
+    tbody.innerHTML = students.map(s => `<tr><td>${s.name}</td><td>${s.no}</td><td>${s.score}</td><td>Lv.${s.level}</td><td style="color:var(--accent);">${s.status}</td></tr>`).join('');
+
+    // 宠物园
+    const stages = ['🌟星尘','🌙月芽','🌱灵苗','🌿青藤','🌳慧树','🦋蝶灵','🦅鹰慧','🦁狮睿','🦄灵角','✨星耀','🌌银河'];
+    document.getElementById('petGrid').innerHTML = students.map(s => {
+        const emoji = stages[s.level]?.split('星')[0] || stages[s.level]?.charAt(0) || '🌟';
+        const stageName = Pet.getStageName(s.level);
+        const fillPct = Math.min(100, Math.round((s.score % 100) / 100 * 100));
+        return `<div class="pet-card"><span class="pet-emoji">${emoji}</span><div class="pet-name">${s.name}</div><div class="pet-stage">Lv.${s.level} · ${stageName}</div><div class="pet-level-bar"><div class="pet-level-fill" style="width:${fillPct}%;"></div></div></div>`;
+    }).join('');
+
+    // 积分规则
+    const rules = [
+        { name: '作业完成', amount: '+5', cat: '学业', pos: true },
+        { name: '作业优秀', amount: '+10', cat: '学业', pos: true },
+        { name: '主动发言', amount: '+3', cat: '学业', pos: true },
+        { name: '帮助同学', amount: '+5', cat: '行为', pos: true },
+        { name: '课堂专注', amount: '+3', cat: '行为', pos: true },
+        { name: '考试进步', amount: '+8', cat: '学业', pos: true },
+        { name: '考试优秀', amount: '+15', cat: '学业', pos: true },
+        { name: '活动参与', amount: '+5', cat: '活动', pos: true },
+        { name: '课堂违纪', amount: '-3', cat: '行为', pos: false },
+        { name: '作业未交', amount: '-5', cat: '学业', pos: false },
+        { name: '迟到早退', amount: '-2', cat: '行为', pos: false },
+    ];
+
+    const ruleGrid = document.getElementById('scoreRuleGrid');
+    ruleGrid.innerHTML = rules.map(r => `<div class="rule-btn ${r.pos ? 'positive' : 'negative'}" onclick="showToast('已为选中学生${r.amount}积分 - ${r.name}', '${r.pos ? 'success' : 'error'}')"><span class="rule-amount ${r.pos ? 'plus' : 'minus'}">${r.amount}</span><span>${r.name}</span></div>`).join('');
+
+    // 规则列表
+    const ruleList = document.getElementById('ruleList');
+    ruleList.innerHTML = rules.map(r => `<tr><td>${r.name}</td><td style="color:${r.pos ? 'var(--accent)' : 'var(--danger)'};font-weight:700;">${r.amount}</td><td>${r.cat}</td><td>${r.pos ? '加分' : '减分'}</td><td><button class="btn btn-sm btn-ghost">编辑</button> <button class="btn btn-sm btn-ghost" style="color:var(--danger);">删除</button></td></tr>`).join('');
+
+    // 排行榜
+    switchLeaderboard('total');
+}
+
+function Pet_getStageName(level) {
+    const names = ['星尘','月芽','灵苗','青藤','慧树','蝶灵','鹰慧','狮睿','灵角','星耀','银河'];
+    return names[level] || '星尘';
+}
+
+function switchLeaderboard(type) {
+    document.querySelectorAll('.leaderboard-tabs .lb-tab').forEach(t => t.classList.remove('active'));
+    event?.target?.classList.add('active');
+
+    const data = {
+        total: [
+            { rank: '🥇', name: '小华', score: '420分', cls: 'gold' },
+            { rank: '🥈', name: '小丽', score: '395分', cls: 'silver' },
+            { rank: '🥉', name: '小明', score: '385分', cls: 'bronze' },
+            { rank: '4', name: '小红', score: '365分', cls: '' },
+            { rank: '5', name: '小刚', score: '350分', cls: '' },
+        ],
+        weekly: [
+            { rank: '🥇', name: '小明', score: '+25分', cls: 'gold' },
+            { rank: '🥈', name: '小华', score: '+20分', cls: 'silver' },
+            { rank: '🥉', name: '小红', score: '+15分', cls: 'bronze' },
+            { rank: '4', name: '小丽', score: '+10分', cls: '' },
+            { rank: '5', name: '小刚', score: '+5分', cls: '' },
+        ],
+        pet: [
+            { rank: '🥇', name: '小华', score: '🦁 Lv.7 狮睿', cls: 'gold' },
+            { rank: '🥈', name: '小丽', score: '🦋 Lv.6 蝶灵', cls: 'silver' },
+            { rank: '🥉', name: '小明', score: '🦋 Lv.5 蝶灵', cls: 'bronze' },
+            { rank: '4', name: '小红', score: '🌳 Lv.4 慧树', cls: '' },
+            { rank: '5', name: '小刚', score: '🌿 Lv.3 青藤', cls: '' },
+        ],
+    };
+
+    const content = document.getElementById('leaderboardContent');
+    content.innerHTML = data[type].map(item =>
+        `<div class="lb-item"><span class="lb-rank ${item.cls}">${item.rank}</span><span class="lb-avatar">${item.name.charAt(1)}</span><span class="lb-name">${item.name}</span><span class="lb-score">${item.score}</span></div>`
+    ).join('');
+}
+
+// 点击模态框overlay关闭
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// 初始化
+document.addEventListener('DOMContentLoaded', function() {
+    // 检测系统主题偏好
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.dataset.theme = 'dark';
+        document.querySelectorAll('.theme-toggle').forEach(btn => btn.textContent = '☀️');
+    }
+});
+</script>
+</body>
+</html>
