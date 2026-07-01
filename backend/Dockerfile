@@ -87,6 +87,10 @@ COPY --from=composer /app/vendor ./vendor
 # Copy application code (context = backend/)
 COPY . .
 
+# Regenerate autoload after code copy (ensures platform_check.php matches runtime PHP)
+# platform-check:false in composer.json prevents platform_check.php from being generated
+RUN composer dump-autoload --optimize --no-scripts --no-dev 2>/dev/null || true
+
 # Copy configuration files
 COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
