@@ -809,9 +809,12 @@
 
     /* ===== 页面切换 ===== */
     .page { display: none; }
-    .page.active { display: block; animation: fadeIn 0.3s ease; }
+    .page.active { display: block; animation: fadeIn 0.3s ease; min-height: 100vh; }
     /* DEBUG: 红框标识 admin 页面是否渲染 */
-    #page-admin.page.active .app-layout { outline: 3px solid red; outline-offset: -3px; }
+    #page-admin.page.active { background: lime; outline: 3px solid red; }
+    #page-admin.page.active .app-layout { outline: 3px solid red; outline-offset: -3px; min-height: 100vh; }
+    #page-admin.page.active .sidebar { background: yellow; }
+    #page-admin.page.active .main-content { background: cyan; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ===== toast ===== */
@@ -2109,7 +2112,21 @@ function showPage(pageId) {
     const target = document.getElementById(pageId);
     if (!target) { console.error('[showPage] Element not found:', pageId); return; }
     target.classList.add('active');
-    console.log('[showPage] After active, display=', getComputedStyle(target).display, ', height=', target.offsetHeight, ', innerHTML.length=', target.innerHTML.length);
+    // === 详细高度诊断 ===
+    const layout = target.querySelector('.app-layout');
+    const sidebar = target.querySelector('.sidebar');
+    const main = target.querySelector('.main-content');
+    console.log('[showPage] page=', pageId, 'display=', getComputedStyle(target).display, 'h=', target.offsetHeight, 'w=', target.offsetWidth);
+    console.log('[showPage] body h=', document.body.offsetHeight, 'html h=', document.documentElement.offsetHeight);
+    if (layout) {
+        const r = layout.getBoundingClientRect();
+        console.log('[showPage] .app-layout display=', getComputedStyle(layout).display, 'min-h=', getComputedStyle(layout).minHeight, 'h=', layout.offsetHeight, 'rect=', r);
+        console.log('[showPage] .app-layout children:', layout.children.length, 'parent tagName=', layout.parentElement.tagName, 'parent class=', layout.parentElement.className);
+        if (sidebar) console.log('[showPage] .sidebar h=', sidebar.offsetHeight, 'w=', sidebar.offsetWidth, 'display=', getComputedStyle(sidebar).display);
+        if (main) console.log('[showPage] .main-content h=', main.offsetHeight, 'w=', main.offsetWidth, 'display=', getComputedStyle(main).display, 'flex=', getComputedStyle(main).flex);
+    } else {
+        console.log('[showPage] NO .app-layout found inside', pageId);
+    }
     currentPage = pageId;
 }
 
