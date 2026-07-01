@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Test</title>
+<style>
+:root {
+    --primary: #4F46E5;
+    --secondary: #F59E0B;
+    --accent: #10B981;
+    --danger: #EF4444;
+    --info: #3B82F6;
+    --bg: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --text: #1E293B;
+    --text-secondary: #64748B;
+    --border: #E2E8F0;
+    --gradient-primary: linear-gradient(135deg, #4F46E5, #818CF8);
+    --gradient-gold: linear-gradient(135deg, #F59E0B, #FCD34D);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+    --sp-xs: 4px;
+    --sp-sm: 8px;
+    --sp-md: 16px;
+    --sp-lg: 24px;
+    --sp-xl: 32px;
+    --sp-2xl: 48px;
+    --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: 0.2s var(--ease-smooth);
+    --transition-normal: 0.3s var(--ease-smooth);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Page switching */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Sidebar layout */
+.app-layout { display: flex; min-height: 100vh; }
+.sidebar {
+    width: 260px; background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    position: fixed; top: 0; left: 0; height: 100vh;
+    z-index: 100; transition: transform var(--transition-normal);
+}
+.sidebar-brand { padding: var(--sp-lg); }
+.brand-icon { font-size: 24px; }
+.brand-text { font-weight: 800; font-size: 20px; color: var(--primary); }
+.brand-sub { font-size: 12px; color: var(--text-secondary); }
+.sidebar-user {
+    padding: var(--sp-md) var(--sp-lg); display: flex; align-items: center;
+    gap: var(--sp-md); border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+.user-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; background: var(--gradient-gold); color: #92400E;
+}
+.user-name { font-size: 14px; font-weight: 600; display: block; }
+.user-role { font-size: 12px; color: var(--text-secondary); }
+.sidebar-nav { flex: 1; padding: var(--sp-md); overflow-y: auto; }
+.nav-section { margin-bottom: var(--sp-lg); }
+.nav-section-title {
+    font-size: 11px; text-transform: uppercase; color: var(--text-secondary);
+    letter-spacing: 1px; padding: var(--sp-xs) var(--sp-sm); margin-bottom: var(--sp-xs);
+}
+.nav-item {
+    padding: var(--sp-sm) var(--sp-md); border-radius: var(--radius-sm);
+    cursor: pointer; font-size: 14px; transition: all var(--transition-fast);
+    display: flex; align-items: center; gap: var(--sp-sm);
+}
+.nav-item:hover { background: rgba(79,70,229,0.05); }
+.nav-item.active { background: var(--gradient-primary); color: #FFF; }
+.nav-icon { font-size: 16px; }
+.sidebar-footer { padding: var(--sp-md); border-top: 1px solid var(--border); }
+.theme-toggle {
+    background: rgba(79,70,229,0.08); border: none; cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%; font-size: 16px;
+    transition: all var(--transition-fast);
+}
+.theme-toggle:hover { background: rgba(79,70,229,0.15); }
+
+/* Main content */
+.main-content {
+    flex: 1; margin-left: 260px;
+    padding: var(--sp-xl);
+    min-height: 100vh;
+}
+.page-header { margin-bottom: var(--sp-xl); }
+.page-header h2 { font-size: 24px; font-weight: 800; }
+
+/* Stats grid */
+.stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-md); margin-bottom: var(--sp-xl);
+}
+.stat-card {
+    background: var(--bg-card); border-radius: var(--radius-lg);
+    padding: var(--sp-lg); border: 1px solid var(--border);
+    transition: all var(--transition-normal);
+    position: relative; overflow: hidden;
+}
+.stat-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; width: 100%; height: 4px;
+}
+.stat-card.primary::before { background: var(--gradient-primary); }
+.stat-card.secondary::before { background: var(--gradient-gold); }
+.stat-card.accent::before { background: linear-gradient(135deg, #10B981, #6EE7B7); }
+.stat-card.info::before { background: linear-gradient(135deg, #3B82F6, #93C5FD); }
+.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.stat-card .stat-icon { font-size: 28px; margin-bottom: var(--sp-sm); }
+.stat-card .stat-value { font-size: 32px; font-weight: 900; }
+.stat-card .stat-label { font-size: 13px; color: var(--text-secondary); }
+
+.admin-page { display: none; }
+.admin-page.active { display: block; }
+
+@media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main-content { margin-left: 0; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="page" id="page-login" style="padding:100px;text-align:center;">
+    <h1>Login Page</h1>
+    <p>This should be hidden after login</p>
+</div>
+
+<div class="page active" id="page-admin">
+    <div class="app-layout">
+        <div class="sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🌌</span>
+                <div><span class="brand-text">学趣星球</span><br><span class="brand-sub">学校管理</span></div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">李</div>
+                <div class="user-info">
+                    <span class="user-name">李校长</span>
+                    <span class="user-role">阳光小学 · 管理员</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">概览</div>
+                    <div class="nav-item active" data-page="a-dashboard"><span class="nav-icon">📊</span>全校看板</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">账号管理</div>
+                    <div class="nav-item" data-page="a-teachers"><span class="nav-icon">👨‍🏫</span>教师账号</div>
+                    <div class="nav-item" data-page="a-parents"><span class="nav-icon">👨‍👩‍👧</span>家长账号</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">班级管理</div>
+                    <div class="nav-item" data-page="a-classes"><span class="nav-icon">🏫</span>班级列表</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">报表</div>
+                    <div class="nav-item" data-page="a-reports"><span class="nav-icon">📈</span>全校报表</div>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <div id="a-dashboard" class="admin-page active">
+                <div class="page-header"><h2>全校看板</h2></div>
+                <div class="stats-grid">
+                    <div class="stat-card primary"><span class="stat-icon">🏫</span><div class="stat-value">24</div><div class="stat-label">班级总数</div></div>
+                    <div class="stat-card secondary"><span class="stat-icon">👨‍🏫</span><div class="stat-value">18</div><div class="stat-label">教师账号</div></div>
+                    <div class="stat-card accent"><span class="stat-icon">👨‍🎓</span><div class="stat-value">1,050</div><div class="stat-label">学生总数</div></div>
+                    <div class="stat-card info"><span class="stat-icon">⭐</span><div class="stat-value">52,800</div><div class="stat-label">本月积分发放</div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+console.log('Page loaded, admin page visible:', document.getElementById('page-admin').classList.contains('active'));
+</script>
+</body>
+</html>

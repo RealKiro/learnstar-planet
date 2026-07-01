@@ -810,6 +810,8 @@
     /* ===== 页面切换 ===== */
     .page { display: none; }
     .page.active { display: block; animation: fadeIn 0.3s ease; }
+    /* DEBUG: 红框标识 admin 页面是否渲染 */
+    #page-admin.page.active .app-layout { outline: 3px solid red; outline-offset: -3px; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ===== toast ===== */
@@ -2099,8 +2101,15 @@ let currentPage = 'page-login';
 
 // ===== 页面切换 =====
 function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+    console.log('[showPage] Switching to:', pageId);
+    document.querySelectorAll('.page').forEach(p => {
+        if (p.classList.contains('active')) console.log('[showPage] Removing active from:', p.id);
+        p.classList.remove('active');
+    });
+    const target = document.getElementById(pageId);
+    if (!target) { console.error('[showPage] Element not found:', pageId); return; }
+    target.classList.add('active');
+    console.log('[showPage] After active, display=', getComputedStyle(target).display, ', height=', target.offsetHeight, ', innerHTML.length=', target.innerHTML.length);
     currentPage = pageId;
 }
 
@@ -2235,18 +2244,24 @@ function toggleTheme() {
 
 // ===== 恢复登录状态 =====
 function restoreLoginState() {
+    console.log('[restoreLoginState] Checking localStorage at', new Date().toISOString());
     const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('currentUser');
-    if (!token || !userStr) return false;
+    console.log('[restoreLoginState] token exists:', !!token, 'userStr exists:', !!userStr);
+    if (!token || !userStr) { console.log('[restoreLoginState] No stored session'); return false; }
 
     try {
         const user = JSON.parse(userStr);
+        console.log('[restoreLoginState] Parsed user:', user.username, 'role:', user.role, 'name:', user.name);
         // API 返回的 role 是 'school_admin'，统一映射为 'admin'
         currentRole = user.role === 'school_admin' ? 'admin' : (user.role || 'teacher');
+        console.log('[restoreLoginState] currentRole set to:', currentRole);
         localStorage.setItem('token', token);
         localStorage.setItem('currentUser', userStr);
 
         if (currentRole === 'admin') {
+            console.log('[restoreLoginState] Admin role, calling showPage("page-admin")');
+            console.log('[restoreLoginState] page-admin exists:', !!document.getElementById('page-admin'));
             showPage('page-admin');
             showToast('欢迎回来，' + (user.name || '管理员'), 'success');
         } else {
@@ -2256,6 +2271,7 @@ function restoreLoginState() {
         }
         return true;
     } catch (e) {
+        console.error('[restoreLoginState] ERROR:', e.message, e.stack);
         localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
         return false;
@@ -2563,8 +2579,13 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('[DOMContentLoaded] Fired, total .page elements:', document.querySelectorAll('.page').length);
+    console.log('[DOMContentLoaded] body data-theme:', document.body.dataset.theme);
     // 恢复登录状态（刷新页面后保持登录）
-    if (restoreLoginState()) {
+    const restored = restoreLoginState();
+    console.log('[DOMContentLoaded] restoreLoginState returned:', restored);
+    if (restored) {
+        console.log('[DOMContentLoaded] Returning early (session restored)');
         return; // 已恢复登录，无需初始化主题外的其他内容
     }
 
@@ -2573,6 +2594,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.dataset.theme = 'dark';
         document.querySelectorAll('.theme-toggle').forEach(btn => btn.textContent = '☀️');
     }
+    console.log('[DOMContentLoaded] Initialized with default login page');
 });
 </script>
 </body>
