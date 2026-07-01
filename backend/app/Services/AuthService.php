@@ -219,6 +219,7 @@ class AuthService
     public function bindThirdParty(User $user, string $platform, string $platformId, ?string $unionId = null, ?string $nick = null, ?string $avatar = null): ThirdPartyBinding
     {
         // 检查是否已绑定同一平台
+        /** @var ThirdPartyBinding|null $existing */
         $existing = $user->thirdPartyBindings()->where('platform', $platform)->first();
 
         if ($existing) {
@@ -234,7 +235,8 @@ class AuthService
             return $existing;
         }
 
-        return $user->thirdPartyBindings()->create([
+        /** @var ThirdPartyBinding $binding */
+        $binding = $user->thirdPartyBindings()->create([
             'platform' => $platform,
             'platform_id' => $platformId,
             'platform_union_id' => $unionId,
@@ -242,6 +244,8 @@ class AuthService
             'platform_avatar' => $avatar,
             'verified_at' => now(),
         ]);
+
+        return $binding;
     }
 
     /**

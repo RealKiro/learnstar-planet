@@ -68,7 +68,8 @@ class User extends Authenticatable
      */
     public function bindWechat(string $openid, string $unionid = null): ThirdPartyBinding
     {
-        return $this->thirdPartyBindings()->create([
+        /** @var ThirdPartyBinding $binding */
+        $binding = $this->thirdPartyBindings()->create([
             'platform' => 'wechat',
             'platform_id' => $openid,
             'platform_union_id' => $unionid,
@@ -76,6 +77,8 @@ class User extends Authenticatable
             'platform_avatar' => '',
             'verified_at' => now(),
         ]);
+
+        return $binding;
     }
 
     /**
@@ -83,11 +86,14 @@ class User extends Authenticatable
      */
     public function bindWechatWork(string $userid): ThirdPartyBinding
     {
-        return $this->thirdPartyBindings()->create([
+        /** @var ThirdPartyBinding $binding */
+        $binding = $this->thirdPartyBindings()->create([
             'platform' => 'wechat_work',
             'platform_id' => $userid,
             'verified_at' => now(),
         ]);
+
+        return $binding;
     }
 
     /**
@@ -95,11 +101,14 @@ class User extends Authenticatable
      */
     public function bindQQ(string $openid): ThirdPartyBinding
     {
-        return $this->thirdPartyBindings()->create([
+        /** @var ThirdPartyBinding $binding */
+        $binding = $this->thirdPartyBindings()->create([
             'platform' => 'qq',
             'platform_id' => $openid,
             'verified_at' => now(),
         ]);
+
+        return $binding;
     }
 
     /**
@@ -107,11 +116,14 @@ class User extends Authenticatable
      */
     public function bindRenren(string $userId): ThirdPartyBinding
     {
-        return $this->thirdPartyBindings()->create([
+        /** @var ThirdPartyBinding $binding */
+        $binding = $this->thirdPartyBindings()->create([
             'platform' => 'renren',
             'platform_id' => $userId,
             'verified_at' => now(),
         ]);
+
+        return $binding;
     }
 
     /**
@@ -119,7 +131,10 @@ class User extends Authenticatable
      */
     public function getWechatBinding(): ?ThirdPartyBinding
     {
-        return $this->thirdPartyBindings()->where('platform', 'wechat')->first();
+        /** @var ThirdPartyBinding|null $binding */
+        $binding = $this->thirdPartyBindings()->where('platform', 'wechat')->first();
+
+        return $binding;
     }
 
     /**
@@ -127,7 +142,10 @@ class User extends Authenticatable
      */
     public function getWechatWorkBinding(): ?ThirdPartyBinding
     {
-        return $this->thirdPartyBindings()->where('platform', 'wechat_work')->first();
+        /** @var ThirdPartyBinding|null $binding */
+        $binding = $this->thirdPartyBindings()->where('platform', 'wechat_work')->first();
+
+        return $binding;
     }
 
     /**
@@ -135,7 +153,10 @@ class User extends Authenticatable
      */
     public function getQQBinding(): ?ThirdPartyBinding
     {
-        return $this->thirdPartyBindings()->where('platform', 'qq')->first();
+        /** @var ThirdPartyBinding|null $binding */
+        $binding = $this->thirdPartyBindings()->where('platform', 'qq')->first();
+
+        return $binding;
     }
 
     /**
@@ -143,7 +164,10 @@ class User extends Authenticatable
      */
     public function getRenrenBinding(): ?ThirdPartyBinding
     {
-        return $this->thirdPartyBindings()->where('platform', 'renren')->first();
+        /** @var ThirdPartyBinding|null $binding */
+        $binding = $this->thirdPartyBindings()->where('platform', 'renren')->first();
+
+        return $binding;
     }
 
     public function hasAnyBinding(): bool
