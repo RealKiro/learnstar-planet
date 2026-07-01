@@ -120,23 +120,23 @@ class SchoolAdminController extends Controller
             ->get();
 
         $teachers = $teacherUsers->map(function (User $t) {
-                $bindings = $t->thirdPartyBindings->pluck('platform')->toArray();
-                $classes = $t->classesAsTeacher->pluck('name')->toArray();
+            $bindings = $t->thirdPartyBindings->pluck('platform')->toArray();
+            $classes = $t->classesAsTeacher->pluck('name')->toArray();
 
-                return [
-                    'id' => $t->id,
-                    'username' => $t->username,
-                    'name' => $t->name,
-                    'phone' => $t->phone,
-                    'email' => $t->email,
-                    'status' => $t->status,
-                    'password_changed' => $t->password_changed,
-                    'last_login_at' => $t->last_login_at?->toDateTimeString(),
-                    'bindings' => $bindings,
-                    'class_names' => $classes,
-                    'created_at' => $t->created_at?->toDateTimeString(),
-                ];
-            });
+            return [
+                'id' => $t->id,
+                'username' => $t->username,
+                'name' => $t->name,
+                'phone' => $t->phone,
+                'email' => $t->email,
+                'status' => $t->status,
+                'password_changed' => $t->password_changed,
+                'last_login_at' => $t->last_login_at?->toDateTimeString(),
+                'bindings' => $bindings,
+                'class_names' => $classes,
+                'created_at' => $t->created_at?->toDateTimeString(),
+            ];
+        });
 
         return response()->json(['data' => $teachers]);
     }
@@ -261,18 +261,18 @@ class SchoolAdminController extends Controller
             ->get();
 
         $parents = $parentUsers->map(function (User $p) {
-                $childrenNames = $p->children->pluck('name')->toArray();
+            $childrenNames = $p->children->pluck('name')->toArray();
 
-                return [
-                    'id' => $p->id,
-                    'username' => $p->username,
-                    'name' => $p->name,
-                    'phone' => $p->phone,
-                    'status' => $p->status,
-                    'children' => $childrenNames,
-                    'created_at' => $p->created_at?->toDateTimeString(),
-                ];
-            });
+            return [
+                'id' => $p->id,
+                'username' => $p->username,
+                'name' => $p->name,
+                'phone' => $p->phone,
+                'status' => $p->status,
+                'children' => $childrenNames,
+                'created_at' => $p->created_at?->toDateTimeString(),
+            ];
+        });
 
         return response()->json(['data' => $parents]);
     }
@@ -307,19 +307,19 @@ class SchoolAdminController extends Controller
             ->get();
 
         $classes = $allClasses->map(function (ClassRoom $c) {
-                return [
-                    'id' => $c->id,
-                    'name' => $c->name,
-                    'grade' => $c->grade,
-                    'year' => $c->year,
-                    'teacher_id' => $c->teacher_id,
-                    'teacher_name' => $c->teacher?->name,
-                    'student_count' => $c->students->count(),
-                    'max_students' => $c->max_students,
-                    'status' => $c->status,
-                    'created_at' => $c->created_at?->toDateTimeString(),
-                ];
-            });
+            return [
+                'id' => $c->id,
+                'name' => $c->name,
+                'grade' => $c->grade,
+                'year' => $c->year,
+                'teacher_id' => $c->teacher_id,
+                'teacher_name' => $c->teacher?->name,
+                'student_count' => $c->students->count(),
+                'max_students' => $c->max_students,
+                'status' => $c->status,
+                'created_at' => $c->created_at?->toDateTimeString(),
+            ];
+        });
 
         return response()->json(['data' => $classes]);
     }
@@ -525,19 +525,19 @@ class SchoolAdminController extends Controller
             ->get();
 
         $rows = $classes->map(function (ClassRoom $c) {
-                $classScore = (int) Score::where('class_id', $c->id)
-                    ->whereMonth('created_at', Carbon::now()->month)
-                    ->sum('amount');
+            $classScore = (int) Score::where('class_id', $c->id)
+                ->whereMonth('created_at', Carbon::now()->month)
+                ->sum('amount');
 
-                return [
-                    'class_id' => $c->id,
-                    'class_name' => $c->name,
-                    'grade' => $c->grade,
-                    'teacher_name' => $c->teacher?->name,
-                    'student_count' => $c->students_count,
-                    'monthly_score' => $classScore,
-                ];
-            });
+            return [
+                'class_id' => $c->id,
+                'class_name' => $c->name,
+                'grade' => $c->grade,
+                'teacher_name' => $c->teacher?->name,
+                'student_count' => $c->students_count,
+                'monthly_score' => $classScore,
+            ];
+        });
 
         return response()->json(['data' => $rows]);
     }
