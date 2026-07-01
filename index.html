@@ -920,11 +920,11 @@
 
                 <div class="form-group">
                     <label>教师账号</label>
-                    <input type="text" id="teacherUsername" placeholder="输入管理员分配的教师账号">
+                    <input type="text" id="teacherUsername" placeholder="输入管理员分配的教师账号" onkeydown="if(event.key==='Enter')handleTeacherLogin()">
                 </div>
                 <div class="form-group">
                     <label>密码</label>
-                    <input type="password" id="teacherPassword" placeholder="输入管理员分配的密码">
+                    <input type="password" id="teacherPassword" placeholder="输入管理员分配的密码" onkeydown="if(event.key==='Enter')handleTeacherLogin()">
                 </div>
                 <button class="btn btn-primary" onclick="handleTeacherLogin()">教师登录</button>
 
@@ -1037,11 +1037,11 @@
 
                 <div class="form-group">
                     <label>管理员账号</label>
-                    <input type="text" id="adminUsername" placeholder="学校注册时分配的管理员账号">
+                    <input type="text" id="adminUsername" placeholder="学校注册时分配的管理员账号" onkeydown="if(event.key==='Enter')handleAdminLogin()">
                 </div>
                 <div class="form-group">
                     <label>管理员密码</label>
-                    <input type="password" id="adminPassword" placeholder="输入管理员密码">
+                    <input type="password" id="adminPassword" placeholder="输入管理员密码" onkeydown="if(event.key==='Enter')handleAdminLogin()">
                 </div>
                 <button class="btn btn-admin-primary" onclick="handleAdminLogin()">管理员登录</button>
 
