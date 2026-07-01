@@ -2233,6 +2233,34 @@ function toggleTheme() {
     document.querySelectorAll('.theme-toggle').forEach(btn => btn.textContent = isDark ? '🌙' : '☀️');
 }
 
+// ===== 恢复登录状态 =====
+function restoreLoginState() {
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('currentUser');
+    if (!token || !userStr) return false;
+
+    try {
+        const user = JSON.parse(userStr);
+        currentRole = user.role || 'teacher';
+        localStorage.setItem('token', token);
+        localStorage.setItem('currentUser', userStr);
+
+        if (currentRole === 'admin') {
+            showPage('page-admin');
+            showToast('欢迎回来，' + (user.name || '管理员'), 'success');
+        } else {
+            showPage('page-teacher');
+            initTeacherDashboard();
+            showToast('欢迎回来，' + (user.name || '老师'), 'success');
+        }
+        return true;
+    } catch (e) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('currentUser');
+        return false;
+    }
+}
+
 // ===== Toast =====
 function showToast(msg, type = 'success') {
     const container = document.getElementById('toastContainer');
@@ -2534,6 +2562,11 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // 恢复登录状态（刷新页面后保持登录）
+    if (restoreLoginState()) {
+        return; // 已恢复登录，无需初始化主题外的其他内容
+    }
+
     // 检测系统主题偏好
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.dataset.theme = 'dark';

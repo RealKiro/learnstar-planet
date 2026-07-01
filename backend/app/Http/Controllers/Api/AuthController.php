@@ -35,7 +35,21 @@ class AuthController extends Controller
             return response()->json(['message' => '账号或密码错误'], 401);
         }
 
-        return response()->json(['data' => $user]);
+        // 生成 Sanctum token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'data' => [
+                'token' => $token,
+                'user' => [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                    'name' => $user->name,
+                    'role' => $user->role,
+                    'school_id' => $user->school_id,
+                ]
+            ]
+        ]);
     }
 
     /**
@@ -57,7 +71,21 @@ class AuthController extends Controller
             return response()->json(['message' => '账号或密码错误'], 401);
         }
 
-        return response()->json(['data' => $user]);
+        // 生成 Sanctum token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'data' => [
+                'token' => $token,
+                'user' => [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                    'name' => $user->name,
+                    'role' => $user->role,
+                    'school_id' => $user->school_id,
+                ]
+            ]
+        ]);
     }
 
     /**
