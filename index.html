@@ -360,8 +360,12 @@
         color: var(--primary); background: rgba(79,70,229,0.04);
     }
     .nav-item.active {
-        color: var(--primary); background: rgba(79,70,229,0.08);
-        border-left-color: var(--primary); font-weight: 500;
+        color: var(--primary);
+        background: rgba(79,70,229,0.1);
+        border-left-color: var(--primary);
+        border-radius: 0 8px 8px 0;
+        margin-right: 8px;
+        font-weight: 600;
     }
     .nav-item .nav-icon { font-size: 18px; width: 24px; text-align: center; }
 
@@ -811,13 +815,6 @@
     /* ===== 页面切换 ===== */
     .page { display: none; }
     .page.active { display: block; animation: fadeIn 0.3s ease; min-height: 100vh; }
-    /* DEBUG: 红框标识 admin 页面是否渲染 */
-    #page-admin { display: none; }
-    #page-admin.active { display: block !important; }
-    #page-admin.page.active { background: lime !important; outline: 5px solid red !important; min-height: 100vh !important; }
-    #page-admin.page.active .app-layout { display: flex !important; outline: 3px solid red; outline-offset: -3px; min-height: 100vh !important; }
-    #page-admin.page.active .sidebar { background: yellow !important; min-height: 100vh !important; }
-    #page-admin.page.active .main-content { background: cyan !important; min-height: 100vh !important; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ===== toast ===== */
@@ -896,6 +893,185 @@
     @media (max-width: 768px) {
         .features-grid { grid-template-columns: 1fr 1fr; }
         .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ══════════════════════════════════════════════
+       管理端 Premium 样式 — 现代仪表盘设计
+       ══════════════════════════════════════════════ */
+
+    /* ===== 管理端统计卡片 ===== */
+    .admin-stats-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: var(--sp-md); margin-bottom: var(--sp-xl);
+    }
+    .admin-stat-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        padding: var(--sp-lg);
+        display: flex; align-items: center; gap: var(--sp-md);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer; position: relative; overflow: hidden;
+    }
+    .admin-stat-card::after {
+        content: ''; position: absolute;
+        inset: 0; background: radial-gradient(circle at 100% 0%, rgba(79,70,229,0.03) 0%, transparent 50%);
+        pointer-events: none;
+    }
+    .admin-stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+        border-color: var(--primary-light);
+    }
+    .admin-stat-card .stat-icon-wrap {
+        width: 52px; height: 52px; border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; flex-shrink: 0;
+    }
+    .admin-stat-card.primary .stat-icon-wrap { background: rgba(79,70,229,0.1); }
+    .admin-stat-card.success .stat-icon-wrap { background: rgba(16,185,129,0.1); }
+    .admin-stat-card.warning .stat-icon-wrap { background: rgba(245,158,11,0.1); }
+    .admin-stat-card.info   .stat-icon-wrap { background: rgba(59,130,246,0.1); }
+    .admin-stat-card .stat-body { flex: 1; min-width: 0; }
+    .admin-stat-card .stat-label {
+        font-size: 12px; font-weight: 600; color: var(--text-secondary);
+        text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
+    }
+    .admin-stat-card .stat-value {
+        font-size: 30px; font-weight: 800; line-height: 1.1;
+    }
+    .admin-stat-card .stat-trend {
+        font-size: 12px; margin-top: 4px; display: flex; align-items: center; gap: 3px;
+    }
+    .stat-trend.up { color: var(--accent); }
+    .stat-trend.down { color: var(--danger); }
+
+    /* ===== 管理端分隔区 ===== */
+    .admin-section {
+        margin-bottom: var(--sp-xl);
+    }
+    .admin-section-title {
+        font-size: 17px; font-weight: 700; margin-bottom: var(--sp-md);
+        display: flex; align-items: center; gap: var(--sp-sm);
+    }
+    .admin-section-title::before {
+        content: ''; width: 4px; height: 20px;
+        background: var(--gradient-primary); border-radius: 2px;
+    }
+
+    /* ===== 管理端账号卡片 ===== */
+    .admin-account-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: var(--sp-md);
+    }
+    .admin-account-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        padding: var(--sp-md) var(--sp-lg);
+        display: flex; align-items: center; gap: var(--sp-md);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .admin-account-card:hover {
+        border-color: var(--primary-light);
+        box-shadow: 0 4px 20px rgba(79,70,229,0.08);
+        transform: translateY(-2px);
+    }
+    .admin-account-card .acc-avatar-new {
+        width: 48px; height: 48px; border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 18px; flex-shrink: 0;
+        color: white; position: relative;
+    }
+    .admin-account-card .acc-avatar-new::after {
+        content: ''; position: absolute;
+        bottom: -2px; right: -2px;
+        width: 13px; height: 13px; border-radius: 50%;
+        border: 2.5px solid var(--bg-card);
+        background: var(--accent);
+    }
+    .admin-account-card .acc-avatar-new.gold { background: linear-gradient(135deg, #F59E0B, #FCD34D); color: #92400E; }
+    .admin-account-card .acc-avatar-new.gold::after { background: var(--secondary); }
+    .admin-account-card .acc-body { flex: 1; min-width: 0; }
+    .admin-account-card .acc-name { font-weight: 600; font-size: 15px; }
+    .admin-account-card .acc-meta { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+    .admin-account-card .acc-bindings { display: flex; gap: 3px; margin-top: 5px; }
+    .admin-account-card .bind-tag {
+        font-size: 11px; padding: 2px 8px; border-radius: 10px;
+        background: rgba(79,70,229,0.06); color: var(--primary);
+        font-weight: 500;
+    }
+    .admin-account-card .acc-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .admin-account-card .acc-btn {
+        padding: 6px 14px; border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--bg); color: var(--text-secondary);
+        font-size: 12px; font-weight: 500; cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .admin-account-card .acc-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: rgba(79,70,229,0.04);
+    }
+    .admin-account-card .acc-btn.danger:hover {
+        border-color: var(--danger);
+        color: var(--danger);
+        background: rgba(239,68,68,0.04);
+    }
+
+    /* ===== 管理端表格 ===== */
+    .admin-table-wrap {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        overflow: hidden;
+    }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table thead th {
+        padding: 14px var(--sp-lg);
+        font-size: 11px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.8px;
+        color: var(--text-secondary);
+        text-align: left;
+        background: var(--bg);
+        border-bottom: 2px solid var(--border);
+        position: sticky; top: 0; z-index: 1;
+    }
+    .admin-table tbody td {
+        padding: 14px var(--sp-lg);
+        font-size: 14px;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.15s ease;
+    }
+    .admin-table tbody tr { transition: background 0.15s ease; }
+    .admin-table tbody tr:hover td { background: rgba(79,70,229,0.025); }
+    .admin-table tbody tr:last-child td { border-bottom: none; }
+    .admin-table .grade-tag {
+        display: inline-block; padding: 4px 12px; border-radius: 20px;
+        font-size: 12px; font-weight: 600;
+        background: rgba(79,70,229,0.08); color: var(--primary);
+    }
+    .admin-table .table-action {
+        padding: 5px 14px; border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: transparent; color: var(--text-secondary);
+        font-size: 12px; cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .admin-table .table-action:hover {
+        border-color: var(--primary); color: var(--primary);
+    }
+
+    /* ===== 管理端响应式 ===== */
+    @media (max-width: 1024px) {
+        .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+        .admin-stats-grid { grid-template-columns: 1fr; }
+        .admin-account-grid { grid-template-columns: 1fr; }
+        .admin-account-card .acc-actions { flex-direction: column; }
+        .admin-table-wrap { overflow-x: auto; }
     }
     </style>
 </head>
@@ -2010,98 +2186,228 @@
         </div>
 
         <main class="main-content">
-            <!-- 全校看板 -->
+            <!-- ═══ 全校看板 ═══ -->
             <div id="a-dashboard" class="admin-page active">
-                <div class="page-header"><h2>全校看板</h2></div>
-                <div class="stats-grid">
-                    <div class="stat-card primary"><span class="stat-icon">🏫</span><div class="stat-value">24</div><div class="stat-label">班级总数</div></div>
-                    <div class="stat-card secondary"><span class="stat-icon">👨‍🏫</span><div class="stat-value">18</div><div class="stat-label">教师账号</div></div>
-                    <div class="stat-card accent"><span class="stat-icon">👨‍🎓</span><div class="stat-value">1,050</div><div class="stat-label">学生总数</div></div>
-                    <div class="stat-card info"><span class="stat-icon">⭐</span><div class="stat-value">52,800</div><div class="stat-label">本月积分发放</div></div>
+                <div class="page-header">
+                    <div>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">欢迎回来</p>
+                        <h2>全校看板</h2>
+                    </div>
+                    <span style="font-size:13px;color:var(--text-secondary);">阳光小学 · 今日数据概览</span>
+                </div>
+
+                <!-- 统计卡片 -->
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card primary">
+                        <div class="stat-icon-wrap">🏫</div>
+                        <div class="stat-body">
+                            <div class="stat-label">班级总数</div>
+                            <div class="stat-value">24</div>
+                            <div class="stat-trend up">↗ 新增 2 个班</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card success">
+                        <div class="stat-icon-wrap">👨‍🏫</div>
+                        <div class="stat-body">
+                            <div class="stat-label">教师账号</div>
+                            <div class="stat-value">18</div>
+                            <div class="stat-trend up">↗ 本月 +3</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card warning">
+                        <div class="stat-icon-wrap">👨‍🎓</div>
+                        <div class="stat-body">
+                            <div class="stat-label">学生总数</div>
+                            <div class="stat-value">1,050</div>
+                            <div class="stat-trend up">↗ 本学期 +48</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card info">
+                        <div class="stat-icon-wrap">⭐</div>
+                        <div class="stat-body">
+                            <div class="stat-label">本月积分发放</div>
+                            <div class="stat-value">52,800</div>
+                            <div class="stat-trend up">↗ 较上月 +12%</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 教师账号管理 -->
+            <!-- ═══ 教师账号管理 ═══ -->
             <div id="a-teachers" class="admin-page">
                 <div class="page-header">
-                    <h2>教师账号管理</h2>
-                    <div class="header-actions">
-                        <button class="btn btn-sm btn-primary" onclick="showModal('batch-create-teacher')">批量创建账号</button>
+                    <div>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">账号管理</p>
+                        <h2>教师账号</h2>
                     </div>
+                    <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(79,70,229,0.35)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 8px rgba(79,70,229,0.25)'" onclick="showModal('batch-create-teacher')">+ 批量创建账号</button>
                 </div>
-                <div class="account-list">
-                    <div class="account-card">
-                        <div class="acc-avatar">张</div>
-                        <div class="acc-info"><div class="acc-name">张老师</div><div class="acc-username">SCH001_T001</div>
-                            <div class="acc-bindings"><span class="acc-binding-icon">💬</span></div>
+                <div class="admin-account-grid">
+                    <div class="admin-account-card">
+                        <div class="acc-avatar-new" style="background:linear-gradient(135deg,#6366F1,#818CF8);">张</div>
+                        <div class="acc-body">
+                            <div class="acc-name">张老师</div>
+                            <div class="acc-meta">SCH001_T001 · 三年二班班主任</div>
+                            <div class="acc-bindings"><span class="bind-tag">💬 已绑定微信</span></div>
                         </div>
-                        <div style="display:flex;gap:4px;"><button class="btn btn-sm btn-ghost">重置密码</button><button class="btn btn-sm btn-ghost" style="color:var(--danger);">禁用</button></div>
+                        <div class="acc-actions">
+                            <button class="acc-btn">重置密码</button>
+                            <button class="acc-btn danger">禁用</button>
+                        </div>
                     </div>
-                    <div class="account-card">
-                        <div class="acc-avatar">李</div>
-                        <div class="acc-info"><div class="acc-name">李老师</div><div class="acc-username">SCH001_T002</div>
-                            <div class="acc-bindings"><span class="acc-binding-icon">💬</span><span class="acc-binding-icon">🐧</span></div>
+                    <div class="admin-account-card">
+                        <div class="acc-avatar-new" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA);">李</div>
+                        <div class="acc-body">
+                            <div class="acc-name">李老师</div>
+                            <div class="acc-meta">SCH001_T002 · 四年一班班主任</div>
+                            <div class="acc-bindings"><span class="bind-tag">💬 微信</span><span class="bind-tag">🐧 QQ</span></div>
                         </div>
-                        <div style="display:flex;gap:4px;"><button class="btn btn-sm btn-ghost">重置密码</button><button class="btn btn-sm btn-ghost" style="color:var(--danger);">禁用</button></div>
+                        <div class="acc-actions">
+                            <button class="acc-btn">重置密码</button>
+                            <button class="acc-btn danger">禁用</button>
+                        </div>
                     </div>
-                    <div class="account-card">
-                        <div class="acc-avatar">王</div>
-                        <div class="acc-info"><div class="acc-name">王老师</div><div class="acc-username">SCH001_T003</div>
-                            <div class="acc-bindings"></div>
+                    <div class="admin-account-card">
+                        <div class="acc-avatar-new" style="background:linear-gradient(135deg,#EC4899,#F472B6);">王</div>
+                        <div class="acc-body">
+                            <div class="acc-name">王老师</div>
+                            <div class="acc-meta">SCH001_T003 · 五年三班班主任</div>
+                            <div class="acc-bindings"><span class="bind-tag" style="background:rgba(148,163,184,0.1);color:var(--text-secondary);">未绑定</span></div>
                         </div>
-                        <div style="display:flex;gap:4px;"><button class="btn btn-sm btn-ghost">重置密码</button><button class="btn btn-sm btn-ghost" style="color:var(--danger);">禁用</button></div>
+                        <div class="acc-actions">
+                            <button class="acc-btn">重置密码</button>
+                            <button class="acc-btn danger">禁用</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 家长账号管理 -->
+            <!-- ═══ 家长账号管理 ═══ -->
             <div id="a-parents" class="admin-page">
                 <div class="page-header">
-                    <h2>家长账号管理</h2>
-                    <div class="header-actions">
-                        <button class="btn btn-sm btn-primary" onclick="showModal('batch-create-parent')">批量创建账号</button>
+                    <div>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">账号管理</p>
+                        <h2>家长账号</h2>
                     </div>
+                    <button class="btn btn-sm" style="background:var(--gradient-gold);color:#92400E;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(245,158,11,0.25);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(245,158,11,0.35)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 8px rgba(245,158,11,0.25)'" onclick="showModal('batch-create-parent')">+ 批量创建账号</button>
                 </div>
-                <div class="account-list">
-                    <div class="account-card">
-                        <div class="acc-avatar" style="background:var(--gradient-gold);color:#92400E;">王</div>
-                        <div class="acc-info"><div class="acc-name">王家长</div><div class="acc-username">SCH001_P001</div><div style="font-size:11px;color:var(--text-secondary);">关联学生：小明</div></div>
-                        <button class="btn btn-sm btn-ghost">重置密码</button>
+                <div class="admin-account-grid">
+                    <div class="admin-account-card">
+                        <div class="acc-avatar-new gold">王</div>
+                        <div class="acc-body">
+                            <div class="acc-name">王家长</div>
+                            <div class="acc-meta">SCH001_P001 · 关联学生：小明</div>
+                        </div>
+                        <div class="acc-actions">
+                            <button class="acc-btn">重置密码</button>
+                        </div>
                     </div>
-                    <div class="account-card">
-                        <div class="acc-avatar" style="background:var(--gradient-gold);color:#92400E;">赵</div>
-                        <div class="acc-info"><div class="acc-name">赵家长</div><div class="acc-username">SCH001_P002</div><div style="font-size:11px;color:var(--text-secondary);">关联学生：小红</div></div>
-                        <button class="btn btn-sm btn-ghost">重置密码</button>
+                    <div class="admin-account-card">
+                        <div class="acc-avatar-new gold">赵</div>
+                        <div class="acc-body">
+                            <div class="acc-name">赵家长</div>
+                            <div class="acc-meta">SCH001_P002 · 关联学生：小红</div>
+                        </div>
+                        <div class="acc-actions">
+                            <button class="acc-btn">重置密码</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 班级列表 -->
+            <!-- ═══ 班级列表 ═══ -->
             <div id="a-classes" class="admin-page">
-                <div class="page-header"><h2>班级列表</h2></div>
-                <div class="data-table">
-                    <table>
-                        <thead><tr><th>班级</th><th>年级</th><th>班主任</th><th>学生数</th><th>操作</th></tr></thead>
+                <div class="page-header">
+                    <div>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">班级管理</p>
+                        <h2>班级列表</h2>
+                    </div>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>班级名称</th>
+                                <th>年级</th>
+                                <th>班主任</th>
+                                <th>学生数</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td>三年二班</td><td>三年级</td><td>张老师</td><td>42</td><td><button class="btn btn-sm btn-ghost">编辑</button></td></tr>
-                            <tr><td>四年一班</td><td>四年级</td><td>李老师</td><td>38</td><td><button class="btn btn-sm btn-ghost">编辑</button></td></tr>
-                            <tr><td>五年三班</td><td>五年级</td><td>王老师</td><td>40</td><td><button class="btn btn-sm btn-ghost">编辑</button></td></tr>
+                            <tr>
+                                <td style="font-weight:600;">三年二班</td>
+                                <td><span class="grade-tag">三年级</span></td>
+                                <td>张老师</td>
+                                <td style="font-weight:600;">42 人</td>
+                                <td><button class="table-action">编辑</button></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:600;">四年一班</td>
+                                <td><span class="grade-tag">四年级</span></td>
+                                <td>李老师</td>
+                                <td style="font-weight:600;">38 人</td>
+                                <td><button class="table-action">编辑</button></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:600;">五年三班</td>
+                                <td><span class="grade-tag">五年级</span></td>
+                                <td>王老师</td>
+                                <td style="font-weight:600;">40 人</td>
+                                <td><button class="table-action">编辑</button></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- 全校报表 -->
+            <!-- ═══ 全校报表 ═══ -->
             <div id="a-reports" class="admin-page">
-                <div class="page-header"><h2>全校报表</h2></div>
-                <div class="stats-grid">
-                    <div class="stat-card primary"><span class="stat-icon">⭐</span><div class="stat-value">52,800</div><div class="stat-label">本月积分发放</div></div>
-                    <div class="stat-card secondary"><span class="stat-icon">🌟</span><div class="stat-value">Lv.4</div><div class="stat-label">全校平均宠物等级</div></div>
+                <div class="page-header">
+                    <div>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">数据报表</p>
+                        <h2>全校报表</h2>
+                    </div>
+                </div>
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card primary">
+                        <div class="stat-icon-wrap">⭐</div>
+                        <div class="stat-body">
+                            <div class="stat-label">本月积分发放</div>
+                            <div class="stat-value">52,800</div>
+                            <div class="stat-trend up">↗ 较上月 +12%</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card success">
+                        <div class="stat-icon-wrap">🌟</div>
+                        <div class="stat-body">
+                            <div class="stat-label">全校平均宠物等级</div>
+                            <div class="stat-value">Lv.4</div>
+                            <div class="stat-trend up">↗ 上升 1 级</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card warning">
+                        <div class="stat-icon-wrap">📝</div>
+                        <div class="stat-body">
+                            <div class="stat-label">本月发放作业量</div>
+                            <div class="stat-value">356</div>
+                            <div class="stat-trend up">↗ 较上月 +8%</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card info">
+                        <div class="stat-icon-wrap">💬</div>
+                        <div class="stat-body">
+                            <div class="stat-label">AI 对话次数</div>
+                            <div class="stat-value">2,340</div>
+                            <div class="stat-trend up">↗ 较上月 +22%</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 </div>
+
 
 <script>
 // ===== 全局状态 =====
@@ -2110,34 +2416,10 @@ let currentPage = 'page-login';
 
 // ===== 页面切换 =====
 function showPage(pageId) {
-    console.log('[showPage] Switching to:', pageId);
-    document.querySelectorAll('.page').forEach(p => {
-        if (p.classList.contains('active')) console.log('[showPage] Removing active from:', p.id);
-        p.classList.remove('active');
-    });
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById(pageId);
     if (!target) { console.error('[showPage] Element not found:', pageId); return; }
     target.classList.add('active');
-    // === 详细高度诊断 ===
-    const layout = target.querySelector('.app-layout');
-    const sidebar = target.querySelector('.sidebar');
-    const main = target.querySelector('.main-content');
-    console.log('[showPage] page=', pageId, 'display=', getComputedStyle(target).display, 'h=', target.offsetHeight, 'w=', target.offsetWidth);
-    console.log('[showPage] body h=', document.body.offsetHeight, 'html h=', document.documentElement.offsetHeight, 'viewport h=', window.innerHeight);
-    if (layout) {
-        const r = layout.getBoundingClientRect();
-        console.log('[showPage] .app-layout display=', getComputedStyle(layout).display, 'min-h=', getComputedStyle(layout).minHeight, 'h=', layout.offsetHeight, 'rect=', r);
-        console.log('[showPage] .app-layout children:', layout.children.length, 'parent tagName=', layout.parentElement.tagName, 'parent class=', layout.parentElement.className);
-        if (sidebar) console.log('[showPage] .sidebar h=', sidebar.offsetHeight, 'w=', sidebar.offsetWidth, 'display=', getComputedStyle(sidebar).display, 'flex=', getComputedStyle(sidebar).flex, 'bg=', getComputedStyle(sidebar).background);
-        if (main) console.log('[showPage] .main-content h=', main.offsetHeight, 'w=', main.offsetWidth, 'display=', getComputedStyle(main).display, 'flex=', getComputedStyle(main).flex, 'bg=', getComputedStyle(main).background);
-        // 终极探测：每个子元素的尺寸
-        for (let i = 0; i < layout.children.length; i++) {
-            const c = layout.children[i];
-            console.log(`[showPage] .app-layout child[${i}]: tag=${c.tagName} class="${c.className}" h=${c.offsetHeight} w=${c.offsetWidth} display=${getComputedStyle(c).display}`);
-        }
-    } else {
-        console.log('[showPage] NO .app-layout found inside', pageId);
-    }
     currentPage = pageId;
 }
 
@@ -2272,24 +2554,16 @@ function toggleTheme() {
 
 // ===== 恢复登录状态 =====
 function restoreLoginState() {
-    console.log('[restoreLoginState] Checking localStorage at', new Date().toISOString());
     const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('currentUser');
-    console.log('[restoreLoginState] token exists:', !!token, 'userStr exists:', !!userStr);
-    if (!token || !userStr) { console.log('[restoreLoginState] No stored session'); return false; }
+    if (!token || !userStr) return false;
 
     try {
         const user = JSON.parse(userStr);
-        console.log('[restoreLoginState] Parsed user:', user.username, 'role:', user.role, 'name:', user.name);
         // API 返回的 role 是 'school_admin'，统一映射为 'admin'
         currentRole = user.role === 'school_admin' ? 'admin' : (user.role || 'teacher');
-        console.log('[restoreLoginState] currentRole set to:', currentRole);
-        localStorage.setItem('token', token);
-        localStorage.setItem('currentUser', userStr);
 
         if (currentRole === 'admin') {
-            console.log('[restoreLoginState] Admin role, calling showPage("page-admin")');
-            console.log('[restoreLoginState] page-admin exists:', !!document.getElementById('page-admin'));
             showPage('page-admin');
             showToast('欢迎回来，' + (user.name || '管理员'), 'success');
         } else {
@@ -2299,7 +2573,6 @@ function restoreLoginState() {
         }
         return true;
     } catch (e) {
-        console.error('[restoreLoginState] ERROR:', e.message, e.stack);
         localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
         return false;
@@ -2607,22 +2880,14 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('[DOMContentLoaded] Fired, total .page elements:', document.querySelectorAll('.page').length);
-    console.log('[DOMContentLoaded] body data-theme:', document.body.dataset.theme);
     // 恢复登录状态（刷新页面后保持登录）
-    const restored = restoreLoginState();
-    console.log('[DOMContentLoaded] restoreLoginState returned:', restored);
-    if (restored) {
-        console.log('[DOMContentLoaded] Returning early (session restored)');
-        return; // 已恢复登录，无需初始化主题外的其他内容
-    }
+    if (restoreLoginState()) return;
 
     // 检测系统主题偏好
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.dataset.theme = 'dark';
         document.querySelectorAll('.theme-toggle').forEach(btn => btn.textContent = '☀️');
     }
-    console.log('[DOMContentLoaded] Initialized with default login page');
 });
 </script>
 </body>
