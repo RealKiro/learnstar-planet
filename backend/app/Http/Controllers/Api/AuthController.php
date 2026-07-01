@@ -83,8 +83,8 @@ class AuthController extends Controller
                     'name' => $user->name,
                     'role' => $user->role,
                     'school_id' => $user->school_id,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
