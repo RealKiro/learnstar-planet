@@ -812,10 +812,12 @@
     .page { display: none; }
     .page.active { display: block; animation: fadeIn 0.3s ease; min-height: 100vh; }
     /* DEBUG: 红框标识 admin 页面是否渲染 */
-    #page-admin.page.active { background: lime; outline: 3px solid red; }
-    #page-admin.page.active .app-layout { outline: 3px solid red; outline-offset: -3px; min-height: 100vh; }
-    #page-admin.page.active .sidebar { background: yellow; }
-    #page-admin.page.active .main-content { background: cyan; }
+    #page-admin { display: none; }
+    #page-admin.active { display: block !important; }
+    #page-admin.page.active { background: lime !important; outline: 5px solid red !important; min-height: 100vh !important; }
+    #page-admin.page.active .app-layout { display: flex !important; outline: 3px solid red; outline-offset: -3px; min-height: 100vh !important; }
+    #page-admin.page.active .sidebar { background: yellow !important; min-height: 100vh !important; }
+    #page-admin.page.active .main-content { background: cyan !important; min-height: 100vh !important; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ===== toast ===== */
