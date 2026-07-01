@@ -14,11 +14,12 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         // 读取环境变量，提供安全默认值
-        $adminUsername = env('ADMIN_USERNAME', 'admin');
-        $adminPassword = env('ADMIN_PASSWORD', 'admin123456');
-        $adminName     = env('ADMIN_NAME', '系统管理员');
-        $schoolName    = env('ADMIN_SCHOOL_NAME', '学趣星球默认学校');
-        $schoolCode    = env('ADMIN_SCHOOL_CODE', 'learnstar-default');
+        // 兼容历史字段 ADMIN_* 与新统一字段 INITIAL_*（推荐用 INITIAL_*）
+        $adminUsername = env('INITIAL_ADMIN_USERNAME', env('ADMIN_USERNAME', 'admin'));
+        $adminPassword = env('INITIAL_ADMIN_PASSWORD', env('ADMIN_PASSWORD', 'ChangeThisImmediately'));
+        $adminName     = env('INITIAL_ADMIN_NAME', env('ADMIN_NAME', '李校长'));
+        $schoolName    = env('INITIAL_SCHOOL_NAME', env('ADMIN_SCHOOL_NAME', '阳光小学'));
+        $schoolCode    = env('INITIAL_SCHOOL_CODE', env('ADMIN_SCHOOL_CODE', 'learnstar-default'));
 
         // 创建默认学校（如果不存在）
         $school = School::firstOrCreate(

@@ -308,6 +308,7 @@
         padding: var(--sp-lg);
         display: flex; align-items: center; gap: 12px;
         border-bottom: 1px solid var(--border);
+        position: relative;
     }
     [data-theme="dark"] .sidebar-brand { border-bottom-color: var(--border-dark); }
     .sidebar-brand .brand-icon { font-size: 28px; }
@@ -792,13 +793,12 @@
     }
 
     /* ===== 移动端适配 ===== */
+    /* 三横杠按钮：默认隐藏（桌面端有侧边栏），仅在移动端显示 */
     .mobile-nav-toggle {
-        display: none; position: fixed; top: var(--sp-md); left: var(--sp-md);
-        z-index: 150; width: 44px; height: 44px;
-        border-radius: var(--radius-md); background: var(--bg-card);
-        border: 1px solid var(--border); cursor: pointer;
-        font-size: 20px;
-        display: flex; align-items: center; justify-content: center;
+        display: none;
+    }
+    .sidebar-close {
+        display: none;
     }
     @media (max-width: 768px) {
         .sidebar { transform: translateX(-100%); }
@@ -809,7 +809,37 @@
         .stats-grid { grid-template-columns: repeat(2, 1fr); }
         .score-panel { grid-template-columns: 1fr; }
         .features-grid { grid-template-columns: 1fr; }
-        .mobile-nav-toggle { display: flex; }
+        .mobile-nav-toggle {
+            display: flex; align-items: center; justify-content: center;
+            position: fixed; top: 12px; left: 12px;
+            z-index: 200; width: 44px; height: 44px;
+            border-radius: var(--radius-md); background: var(--bg-card);
+            border: 1px solid var(--border); cursor: pointer;
+            font-size: 20px; color: var(--text);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-fast);
+        }
+        .mobile-nav-toggle:hover {
+            background: var(--primary); color: #fff;
+            transform: scale(1.05);
+        }
+        .sidebar-close {
+            display: flex; align-items: center; justify-content: center;
+            position: absolute; top: 12px; right: 12px;
+            width: 32px; height: 32px;
+            border-radius: var(--radius-sm); background: rgba(79,70,229,0.08);
+            border: none; cursor: pointer; font-size: 18px;
+            color: var(--text-secondary);
+        }
+        .sidebar-close:hover { background: rgba(239,68,68,0.1); color: var(--danger); }
+        /* 移动端遮罩层 */
+        .sidebar-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99;
+        }
+        .sidebar-overlay.show { display: block; }
     }
 
     /* ===== 页面切换 ===== */
@@ -1314,10 +1344,12 @@
 <div class="page" id="page-teacher">
     <div class="app-layout">
         <button class="mobile-nav-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="sidebar-overlay" onclick="closeSidebar()"></div>
         <div class="sidebar" id="teacherSidebar">
             <div class="sidebar-brand">
                 <span class="brand-icon">🌌</span>
                 <div><span class="brand-text">学趣星球</span><br><span class="brand-sub">教师端</span></div>
+                <button class="sidebar-close" onclick="closeSidebar()">✕</button>
             </div>
             <div class="sidebar-user">
                 <div class="user-avatar">张</div>
@@ -2025,10 +2057,12 @@
 <div class="page" id="page-parent">
     <div class="app-layout">
         <button class="mobile-nav-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="sidebar-overlay" onclick="closeSidebar()"></div>
         <div class="sidebar" id="parentSidebar">
             <div class="sidebar-brand">
                 <span class="brand-icon">🌌</span>
                 <div><span class="brand-text">学趣星球</span><br><span class="brand-sub">家长端</span></div>
+                <button class="sidebar-close" onclick="closeSidebar()">✕</button>
             </div>
             <div class="sidebar-user">
                 <div class="user-avatar">王</div>
@@ -2149,16 +2183,18 @@
 <div class="page" id="page-admin">
     <div class="app-layout">
         <button class="mobile-nav-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="sidebar-overlay" onclick="closeSidebar()"></div>
         <div class="sidebar" id="adminSidebar">
             <div class="sidebar-brand">
                 <span class="brand-icon">🌌</span>
                 <div><span class="brand-text">学趣星球</span><br><span class="brand-sub">学校管理</span></div>
+                <button class="sidebar-close" onclick="closeSidebar()">✕</button>
             </div>
             <div class="sidebar-user">
-                <div class="user-avatar" style="background:var(--gradient-gold);color:#92400E;">李</div>
+                <div class="user-avatar" style="background:var(--gradient-gold);color:#92400E;">管</div>
                 <div class="user-info">
-                    <span class="user-name">李校长</span>
-                    <span class="user-role">阳光小学 · 管理员</span>
+                    <span class="user-name">管理员</span>
+                    <span class="user-role">学校管理</span>
                 </div>
             </div>
             <nav class="sidebar-nav">
@@ -2179,6 +2215,10 @@
                     <div class="nav-section-title">报表</div>
                     <div class="nav-item" data-page="a-reports"><span class="nav-icon">📈</span>全校报表</div>
                 </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">系统</div>
+                    <div class="nav-item" data-page="a-school" onclick="openSchoolSettings()"><span class="nav-icon">⚙️</span>学校信息</div>
+                </div>
             </nav>
             <div class="sidebar-footer">
                 <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
@@ -2193,41 +2233,41 @@
                         <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">欢迎回来</p>
                         <h2>全校看板</h2>
                     </div>
-                    <span style="font-size:13px;color:var(--text-secondary);">阳光小学 · 今日数据概览</span>
+                    <span style="font-size:13px;color:var(--text-secondary);">学校 · 今日数据概览</span>
                 </div>
 
-                <!-- 统计卡片 -->
+                <!-- 统计卡片（由 JS 拉取真实数据填充） -->
                 <div class="admin-stats-grid">
                     <div class="admin-stat-card primary">
                         <div class="stat-icon-wrap">🏫</div>
                         <div class="stat-body">
                             <div class="stat-label">班级总数</div>
-                            <div class="stat-value">24</div>
-                            <div class="stat-trend up">↗ 新增 2 个班</div>
+                            <div class="stat-value">-</div>
+                            <div class="stat-trend up">加载中…</div>
                         </div>
                     </div>
                     <div class="admin-stat-card success">
                         <div class="stat-icon-wrap">👨‍🏫</div>
                         <div class="stat-body">
                             <div class="stat-label">教师账号</div>
-                            <div class="stat-value">18</div>
-                            <div class="stat-trend up">↗ 本月 +3</div>
+                            <div class="stat-value">-</div>
+                            <div class="stat-trend up">加载中…</div>
                         </div>
                     </div>
                     <div class="admin-stat-card warning">
                         <div class="stat-icon-wrap">👨‍🎓</div>
                         <div class="stat-body">
                             <div class="stat-label">学生总数</div>
-                            <div class="stat-value">1,050</div>
-                            <div class="stat-trend up">↗ 本学期 +48</div>
+                            <div class="stat-value">-</div>
+                            <div class="stat-trend up">加载中…</div>
                         </div>
                     </div>
                     <div class="admin-stat-card info">
                         <div class="stat-icon-wrap">⭐</div>
                         <div class="stat-body">
                             <div class="stat-label">本月积分发放</div>
-                            <div class="stat-value">52,800</div>
-                            <div class="stat-trend up">↗ 较上月 +12%</div>
+                            <div class="stat-value">-</div>
+                            <div class="stat-trend up">加载中…</div>
                         </div>
                     </div>
                 </div>
@@ -2240,44 +2280,15 @@
                         <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">账号管理</p>
                         <h2>教师账号</h2>
                     </div>
-                    <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(79,70,229,0.35)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 8px rgba(79,70,229,0.25)'" onclick="showModal('batch-create-teacher')">+ 批量创建账号</button>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="downloadExcelTemplate('teachers')">📥 导入模板</button>
+                        <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onclick="showModal('batch-create-teacher')">+ 批量创建账号</button>
+                    </div>
                 </div>
-                <div class="admin-account-grid">
-                    <div class="admin-account-card">
-                        <div class="acc-avatar-new" style="background:linear-gradient(135deg,#6366F1,#818CF8);">张</div>
-                        <div class="acc-body">
-                            <div class="acc-name">张老师</div>
-                            <div class="acc-meta">SCH001_T001 · 三年二班班主任</div>
-                            <div class="acc-bindings"><span class="bind-tag">💬 已绑定微信</span></div>
-                        </div>
-                        <div class="acc-actions">
-                            <button class="acc-btn">重置密码</button>
-                            <button class="acc-btn danger">禁用</button>
-                        </div>
-                    </div>
-                    <div class="admin-account-card">
-                        <div class="acc-avatar-new" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA);">李</div>
-                        <div class="acc-body">
-                            <div class="acc-name">李老师</div>
-                            <div class="acc-meta">SCH001_T002 · 四年一班班主任</div>
-                            <div class="acc-bindings"><span class="bind-tag">💬 微信</span><span class="bind-tag">🐧 QQ</span></div>
-                        </div>
-                        <div class="acc-actions">
-                            <button class="acc-btn">重置密码</button>
-                            <button class="acc-btn danger">禁用</button>
-                        </div>
-                    </div>
-                    <div class="admin-account-card">
-                        <div class="acc-avatar-new" style="background:linear-gradient(135deg,#EC4899,#F472B6);">王</div>
-                        <div class="acc-body">
-                            <div class="acc-name">王老师</div>
-                            <div class="acc-meta">SCH001_T003 · 五年三班班主任</div>
-                            <div class="acc-bindings"><span class="bind-tag" style="background:rgba(148,163,184,0.1);color:var(--text-secondary);">未绑定</span></div>
-                        </div>
-                        <div class="acc-actions">
-                            <button class="acc-btn">重置密码</button>
-                            <button class="acc-btn danger">禁用</button>
-                        </div>
+                <div class="admin-account-grid" id="adminTeacherGrid">
+                    <div class="empty-state" style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-secondary);">
+                        <div style="font-size:48px;margin-bottom:8px;">⏳</div>
+                        <p>正在加载教师列表…</p>
                     </div>
                 </div>
             </div>
@@ -2289,28 +2300,15 @@
                         <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">账号管理</p>
                         <h2>家长账号</h2>
                     </div>
-                    <button class="btn btn-sm" style="background:var(--gradient-gold);color:#92400E;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(245,158,11,0.25);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(245,158,11,0.35)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 8px rgba(245,158,11,0.25)'" onclick="showModal('batch-create-parent')">+ 批量创建账号</button>
-                </div>
-                <div class="admin-account-grid">
-                    <div class="admin-account-card">
-                        <div class="acc-avatar-new gold">王</div>
-                        <div class="acc-body">
-                            <div class="acc-name">王家长</div>
-                            <div class="acc-meta">SCH001_P001 · 关联学生：小明</div>
-                        </div>
-                        <div class="acc-actions">
-                            <button class="acc-btn">重置密码</button>
-                        </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="downloadExcelTemplate('parents')">📥 导入模板</button>
+                        <button class="btn btn-sm" style="background:var(--gradient-gold);color:#92400E;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(245,158,11,0.25);" onclick="showModal('batch-create-parent')">+ 批量创建账号</button>
                     </div>
-                    <div class="admin-account-card">
-                        <div class="acc-avatar-new gold">赵</div>
-                        <div class="acc-body">
-                            <div class="acc-name">赵家长</div>
-                            <div class="acc-meta">SCH001_P002 · 关联学生：小红</div>
-                        </div>
-                        <div class="acc-actions">
-                            <button class="acc-btn">重置密码</button>
-                        </div>
+                </div>
+                <div class="admin-account-grid" id="adminParentGrid">
+                    <div class="empty-state" style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-secondary);">
+                        <div style="font-size:48px;margin-bottom:8px;">⏳</div>
+                        <p>正在加载家长列表…</p>
                     </div>
                 </div>
             </div>
@@ -2321,6 +2319,10 @@
                     <div>
                         <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">班级管理</p>
                         <h2>班级列表</h2>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="downloadExcelTemplate('students')">📥 学生导入模板</button>
+                        <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onclick="showModal('create-class')">+ 添加班级</button>
                     </div>
                 </div>
                 <div class="admin-table-wrap">
@@ -2334,28 +2336,11 @@
                                 <th>操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td style="font-weight:600;">三年二班</td>
-                                <td><span class="grade-tag">三年级</span></td>
-                                <td>张老师</td>
-                                <td style="font-weight:600;">42 人</td>
-                                <td><button class="table-action">编辑</button></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight:600;">四年一班</td>
-                                <td><span class="grade-tag">四年级</span></td>
-                                <td>李老师</td>
-                                <td style="font-weight:600;">38 人</td>
-                                <td><button class="table-action">编辑</button></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight:600;">五年三班</td>
-                                <td><span class="grade-tag">五年级</span></td>
-                                <td>王老师</td>
-                                <td style="font-weight:600;">40 人</td>
-                                <td><button class="table-action">编辑</button></td>
-                            </tr>
+                        <tbody id="adminClassTbody">
+                            <tr><td colspan="5" style="text-align:center;padding:48px;color:var(--text-secondary);">
+                                <div style="font-size:32px;margin-bottom:8px;">⏳</div>
+                                正在加载班级列表…
+                            </td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -2369,38 +2354,49 @@
                         <h2>全校报表</h2>
                     </div>
                 </div>
-                <div class="admin-stats-grid">
+                <div class="admin-stats-grid" id="adminReportCards">
                     <div class="admin-stat-card primary">
                         <div class="stat-icon-wrap">⭐</div>
                         <div class="stat-body">
                             <div class="stat-label">本月积分发放</div>
-                            <div class="stat-value">52,800</div>
-                            <div class="stat-trend up">↗ 较上月 +12%</div>
+                            <div class="stat-value">-</div>
+                            <div class="stat-trend up">加载中…</div>
                         </div>
                     </div>
                     <div class="admin-stat-card success">
-                        <div class="stat-icon-wrap">🌟</div>
+                        <div class="stat-icon-wrap">🏫</div>
                         <div class="stat-body">
-                            <div class="stat-label">全校平均宠物等级</div>
-                            <div class="stat-value">Lv.4</div>
-                            <div class="stat-trend up">↗ 上升 1 级</div>
+                            <div class="stat-label">班级总数</div>
+                            <div class="stat-value">-</div>
+                            <div class="stat-trend up">加载中…</div>
                         </div>
                     </div>
                     <div class="admin-stat-card warning">
-                        <div class="stat-icon-wrap">📝</div>
+                        <div class="stat-icon-wrap">👨‍🎓</div>
                         <div class="stat-body">
-                            <div class="stat-label">本月发放作业量</div>
-                            <div class="stat-value">356</div>
-                            <div class="stat-trend up">↗ 较上月 +8%</div>
+                            <div class="stat-label">学生总数</div>
+                            <div class="stat-value">-</div>
+                            <div class="stat-trend up">加载中…</div>
                         </div>
                     </div>
                     <div class="admin-stat-card info">
-                        <div class="stat-icon-wrap">💬</div>
+                        <div class="stat-icon-wrap">👨‍👩‍👧</div>
                         <div class="stat-body">
-                            <div class="stat-label">AI 对话次数</div>
-                            <div class="stat-value">2,340</div>
-                            <div class="stat-trend up">↗ 较上月 +22%</div>
+                            <div class="stat-label">家长账号</div>
+                            <div class="stat-value">-</div>
+                            <div class="stat-trend up">加载中…</div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 按年级分布 -->
+                <div style="margin-top: var(--sp-xl);">
+                    <h3 style="margin-bottom: var(--sp-md);">按年级分布</h3>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead><tr><th>年级</th><th>班级数</th><th>学生数</th></tr></thead>
+                            <tbody id="adminReportByGrade"><tr><td colspan="3" style="text-align:center;color:var(--text-secondary);">加载中…</td></tr></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -2534,14 +2530,30 @@ document.querySelectorAll('.nav-item[data-page]').forEach(item => {
         mainContent.querySelectorAll('.teacher-page, .parent-page, .admin-page').forEach(p => p.classList.remove('active'));
         mainContent.querySelector('#' + pageId)?.classList.add('active');
 
+        // 切换页面时按需刷新
+        if (pageId === 'a-reports') {
+            loadAdminOverview().then(loadAdminReports);
+        }
+
         // 移动端自动关闭侧边栏
-        if (window.innerWidth <= 768) sidebar.classList.remove('open');
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('open');
+            document.querySelectorAll('.page.active .sidebar-overlay').forEach(o => o.classList.remove('show'));
+        }
     });
 });
 
 function toggleSidebar() {
     const sidebar = document.querySelector('.page.active .sidebar');
-    sidebar?.classList.toggle('open');
+    const overlay = document.querySelector('.page.active .sidebar-overlay');
+    if (!sidebar) return;
+    sidebar.classList.toggle('open');
+    if (overlay) overlay.classList.toggle('show', sidebar.classList.contains('open'));
+}
+
+function closeSidebar() {
+    document.querySelectorAll('.page.active .sidebar').forEach(s => s.classList.remove('open'));
+    document.querySelectorAll('.page.active .sidebar-overlay').forEach(o => o.classList.remove('show'));
 }
 
 // ===== 主题切换 =====
@@ -2565,6 +2577,12 @@ function restoreLoginState() {
 
         if (currentRole === 'admin') {
             showPage('page-admin');
+            // 拉取真实数据
+            loadAdminSchoolInfo();
+            loadAdminOverview();
+            loadAdminTeachers();
+            loadAdminParents();
+            loadAdminClasses();
             showToast('欢迎回来，' + (user.name || '管理员'), 'success');
         } else {
             showPage('page-teacher');
@@ -2577,6 +2595,521 @@ function restoreLoginState() {
         localStorage.removeItem('currentUser');
         return false;
     }
+}
+
+// ===== 管理员 API 调用 =====
+const API_BASE = '/api/admin';
+
+function adminHeaders() {
+    return {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (localStorage.getItem('token') || ''),
+    };
+}
+
+async function adminApi(path, options = {}) {
+    const res = await fetch(API_BASE + path, {
+        ...options,
+        headers: { ...adminHeaders(), ...(options.headers || {}) },
+    });
+    if (res.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('currentUser');
+        showToast('登录已过期，请重新登录', 'error');
+        showPage('page-landing');
+        throw new Error('unauthorized');
+    }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+        const msg = data.message || ('请求失败 ' + res.status);
+        showToast(msg, 'error');
+        throw new Error(msg);
+    }
+    return data;
+}
+
+function avatarGradientByName(name) {
+    const gradients = [
+        'linear-gradient(135deg,#6366F1,#818CF8)',
+        'linear-gradient(135deg,#8B5CF6,#A78BFA)',
+        'linear-gradient(135deg,#EC4899,#F472B6)',
+        'linear-gradient(135deg,#F59E0B,#FCD34D)',
+        'linear-gradient(135deg,#10B981,#6EE7B7)',
+        'linear-gradient(135deg,#3B82F6,#60A5FA)',
+    ];
+    let hash = 0;
+    for (let i = 0; i < (name || '').length; i++) hash = (hash * 31 + name.charCodeAt(i)) & 0xffffffff;
+    return gradients[Math.abs(hash) % gradients.length];
+}
+
+function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[m]));
+}
+
+function platformTag(p) {
+    return { wechat: '💬 微信', wechat_work: '💼 企业微信', qq: '🐧 QQ', renren: '🌐 人人通' }[p] || p;
+}
+
+async function loadAdminSchoolInfo() {
+    try {
+        const res = await adminApi('/school');
+        const s = res.data || {};
+        // 侧边栏显示
+        const userName = JSON.parse(localStorage.getItem('currentUser') || '{}').name || '管理员';
+        const userAvatar = document.querySelector('#adminSidebar .user-avatar');
+        if (userAvatar) {
+            userAvatar.textContent = (userName || '管').charAt(0);
+            userAvatar.style.background = avatarGradientByName(userName);
+        }
+        const userInfo = document.querySelector('#adminSidebar .user-info');
+        if (userInfo) {
+            userInfo.innerHTML = `
+                <span class="user-name">${escapeHtml(userName)}</span>
+                <span class="user-role">${escapeHtml(s.name || '学校管理')}</span>`;
+        }
+        // 头部副标题
+        const subtitle = document.querySelector('#a-dashboard .page-header span');
+        if (subtitle) subtitle.textContent = (s.name || '学校') + ' · 今日数据概览';
+        // 缓存到 localStorage 以便其他页面读取
+        localStorage.setItem('schoolInfo', JSON.stringify(s));
+    } catch (e) {
+        console.warn('loadAdminSchoolInfo failed', e);
+    }
+}
+
+async function loadAdminOverview() {
+    try {
+        const res = await adminApi('/reports/overview');
+        const d = res.data || {};
+        // 4 个统计卡片
+        const cards = document.querySelectorAll('#a-dashboard .admin-stat-card');
+        const setCard = (idx, label, value, trend) => {
+            if (!cards[idx]) return;
+            const c = cards[idx];
+            c.querySelector('.stat-label').textContent = label;
+            c.querySelector('.stat-value').textContent = value;
+            c.querySelector('.stat-trend').textContent = trend;
+        };
+        const studentTrend = d.student_count > 0 ? '🎓 累计 ' + d.student_count + ' 名' : '';
+        setCard(0, '班级总数', String(d.class_count ?? 0), '🏫 共 ' + (d.class_count ?? 0) + ' 个');
+        setCard(1, '教师账号', String(d.teacher_count ?? 0), '👨‍🏫 在职 ' + (d.teacher_count ?? 0) + ' 人');
+        setCard(2, '学生总数', (d.student_count ?? 0).toLocaleString(), studentTrend);
+        const monthLabel = d.month_label || new Date().toISOString().slice(0, 7);
+        const scoreTrend = (d.score_trend_percent >= 0 ? '↗ ' : '↘ ') + Math.abs(d.score_trend_percent || 0) + '%';
+        setCard(3, '本月积分发放', (d.monthly_score ?? 0).toLocaleString(), monthLabel + ' ' + scoreTrend);
+    } catch (e) {
+        console.warn('loadAdminOverview failed', e);
+    }
+}
+
+async function loadAdminTeachers() {
+    try {
+        const res = await adminApi('/teachers');
+        const teachers = res.data || [];
+        renderTeacherCards(teachers);
+    } catch (e) {
+        console.warn('loadAdminTeachers failed', e);
+    }
+}
+
+function renderTeacherCards(teachers) {
+    const grid = document.querySelector('#a-teachers .admin-account-grid');
+    if (!grid) return;
+    if (!teachers.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-secondary);">
+            <div style="font-size:48px;margin-bottom:8px;">👨‍🏫</div>
+            <p>暂无教师账号，点击右上角"批量创建账号"开始</p>
+        </div>`;
+        return;
+    }
+    const colors = ['#6366F1','#8B5CF6','#EC4899','#F59E0B','#10B981','#3B82F6','#EF4444'];
+    const colorFor = (n, i) => colors[(n.charCodeAt(0) + i) % colors.length];
+    grid.innerHTML = teachers.map((t, i) => {
+        const bindingTags = (t.bindings || []).map(b => `<span class="bind-tag">${platformTag(b)}</span>`).join('');
+        const classTag = (t.class_names && t.class_names.length)
+            ? `<span class="bind-tag" style="background:rgba(245,158,11,0.1);color:#F59E0B;">🏫 ${escapeHtml(t.class_names.join('、'))}</span>` : '';
+        return `
+        <div class="admin-account-card" data-id="${t.id}">
+            <div class="acc-avatar-new" style="background:linear-gradient(135deg,${colorFor(t.name, i)},${colorFor(t.name, i+1)}cc);">${escapeHtml((t.name||'教').charAt(0))}</div>
+            <div class="acc-body">
+                <div class="acc-name">${escapeHtml(t.name)}${t.status==='disabled' ? ' <span style="color:var(--danger);font-size:12px;font-weight:normal;">已禁用</span>' : ''}</div>
+                <div class="acc-meta">${escapeHtml(t.username)}${t.phone ? ' · ' + escapeHtml(t.phone) : ''}</div>
+                <div class="acc-bindings">${bindingTags}${classTag}</div>
+            </div>
+            <div class="acc-actions">
+                <button class="acc-btn" onclick="resetTeacherPwd(${t.id}, '${escapeHtml(t.name)}')">重置密码</button>
+                <button class="acc-btn danger" onclick="deleteTeacher(${t.id}, '${escapeHtml(t.name)}')">删除</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+async function loadAdminParents() {
+    try {
+        const res = await adminApi('/parents');
+        const parents = res.data || [];
+        renderParentCards(parents);
+    } catch (e) {
+        console.warn('loadAdminParents failed', e);
+    }
+}
+
+function renderParentCards(parents) {
+    const grid = document.querySelector('#a-parents .admin-account-grid');
+    if (!grid) return;
+    if (!parents.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-secondary);">
+            <div style="font-size:48px;margin-bottom:8px;">👨‍👩‍👧</div>
+            <p>暂无家长账号</p>
+        </div>`;
+        return;
+    }
+    const colors = ['#F59E0B','#EC4899','#8B5CF6','#10B981','#3B82F6','#EF4444'];
+    const colorFor = (n, i) => colors[(n.charCodeAt(0) + i) % colors.length];
+    grid.innerHTML = parents.map((p, i) => {
+        const childTag = (p.children && p.children.length)
+            ? `<span class="bind-tag" style="background:rgba(16,185,129,0.1);color:#10B981;">🎓 关联学生：${escapeHtml(p.children.join('、'))}</span>` : '';
+        return `
+        <div class="admin-account-card" data-id="${p.id}">
+            <div class="acc-avatar-new" style="background:linear-gradient(135deg,${colorFor(p.name, i)},${colorFor(p.name, i+1)}cc);">${escapeHtml((p.name||'家').charAt(0))}</div>
+            <div class="acc-body">
+                <div class="acc-name">${escapeHtml(p.name)}</div>
+                <div class="acc-meta">${escapeHtml(p.username)}${p.phone ? ' · ' + escapeHtml(p.phone) : ''}</div>
+                <div class="acc-bindings">${childTag}</div>
+            </div>
+            <div class="acc-actions">
+                <button class="acc-btn">重置密码</button>
+                <button class="acc-btn danger" onclick="deleteParent(${p.id}, '${escapeHtml(p.name)}')">删除</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+async function loadAdminClasses() {
+    try {
+        const res = await adminApi('/classes');
+        const classes = res.data || [];
+        renderClassTable(classes);
+    } catch (e) {
+        console.warn('loadAdminClasses failed', e);
+    }
+}
+
+function renderClassTable(classes) {
+    const tbody = document.querySelector('#a-classes table tbody');
+    if (!tbody) return;
+    if (!classes.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:48px;color:var(--text-secondary);">
+            <div style="font-size:32px;margin-bottom:8px;">🏫</div>
+            暂无班级，点击右上角"添加班级"开始
+        </td></tr>`;
+        return;
+    }
+    tbody.innerHTML = classes.map(c => `
+        <tr data-id="${c.id}">
+            <td style="font-weight:600;">${escapeHtml(c.name)}</td>
+            <td><span class="grade-tag">${escapeHtml(c.grade || '未分')}</span></td>
+            <td>${c.teacher_name ? escapeHtml(c.teacher_name) : '<span style="color:var(--text-secondary);">未分配</span>'}</td>
+            <td style="font-weight:600;">${c.student_count} 人</td>
+            <td>
+                <button class="table-action" onclick="openImportStudents(${c.id}, '${escapeHtml(c.name)}')">导入学生</button>
+                <button class="table-action danger" onclick="deleteClass(${c.id}, '${escapeHtml(c.name)}')">删除</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// ===== 管理员 操作 =====
+async function deleteTeacher(id, name) {
+    if (!confirm('确定删除教师「' + name + '」？\n该教师关联的班级将被解除班主任，请谨慎操作。')) return;
+    try {
+        await adminApi('/teachers/' + id, { method: 'DELETE' });
+        showToast('已删除教师：' + name, 'success');
+        loadAdminTeachers();
+        loadAdminOverview();
+        loadAdminClasses();
+    } catch (e) { /* toast 已显示 */ }
+}
+
+async function deleteParent(id, name) {
+    if (!confirm('确定删除家长「' + name + '」？\n关联学生的家长绑定将被解除。')) return;
+    try {
+        await adminApi('/parents/' + id, { method: 'DELETE' });
+        showToast('已删除家长：' + name, 'success');
+        loadAdminParents();
+        loadAdminOverview();
+    } catch (e) {}
+}
+
+async function deleteClass(id, name) {
+    if (!confirm('确定删除班级「' + name + '」？\n班级下所有学生记录也会一并删除。')) return;
+    try {
+        await adminApi('/classes/' + id, { method: 'DELETE' });
+        showToast('已删除班级：' + name, 'success');
+        loadAdminClasses();
+        loadAdminOverview();
+    } catch (e) {}
+}
+
+async function resetTeacherPwd(id, name) {
+    const newPwd = prompt('为「' + name + '」设置新密码（留空则自动生成 8 位）：', '');
+    try {
+        const body = newPwd ? JSON.stringify({ password: newPwd }) : '{}';
+        const res = await adminApi('/teachers/' + id + '/reset-password', {
+            method: 'POST',
+            body,
+        });
+        showToast('密码已重置：' + (res.data?.new_password || '请通过安全渠道下发'), 'success');
+    } catch (e) {}
+}
+
+function openImportStudents(classId, className) {
+    showModal('import-students');
+    // 缓存当前 classId 给模态框使用
+    document.getElementById('modalContent').dataset.classId = classId;
+    document.getElementById('modalContent').dataset.className = className;
+}
+
+async function submitImportStudents() {
+    const classId = document.getElementById('modalContent').dataset.classId;
+    const className = document.getElementById('modalContent').dataset.className;
+    const text = document.getElementById('importStudentsText')?.value || '';
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    if (!lines.length) {
+        showToast('请先粘贴学生名单', 'error');
+        return;
+    }
+    const students = lines.map(line => {
+        const parts = line.split(/[,\t，]/).map(s => s.trim());
+        return { name: parts[0], student_no: parts[1] || null, phone: parts[2] || null };
+    });
+    try {
+        const res = await adminApi('/classes/' + classId + '/import-students', {
+            method: 'POST',
+            body: JSON.stringify({ students }),
+        });
+        showToast('已导入 ' + (res.data?.created?.length || students.length) + ' 名学生到「' + className + '」', 'success');
+        closeModal();
+        loadAdminClasses();
+        loadAdminOverview();
+    } catch (e) {}
+}
+
+function downloadExcelTemplate(type) {
+    // type: 'students' | 'teachers' | 'parents'
+    const csv = {
+        students: '姓名,学号,家长手机号\n小明,SCH001_001,13800138001\n小红,SCH001_002,13800138002\n',
+        teachers: '姓名,手机号,邮箱\n张老师,13800138011,zhang@example.com\n李老师,13800138012,li@example.com\n',
+        parents: '姓名,手机号\n王家长,13800138021\n赵家长,13800138022\n',
+    }[type] || '';
+    const filename = {
+        students: 'students_template.csv',
+        teachers: 'teachers_template.csv',
+        parents: 'parents_template.csv',
+    }[type] || 'template.csv';
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 100);
+}
+
+// ===== Excel 解析（支持 .xlsx/.xls/.csv） =====
+// 通过动态加载 SheetJS (xlsx) CDN 实现 Excel 解析
+let _xlsxLib = null;
+async function ensureXlsxLib() {
+    if (_xlsxLib) return _xlsxLib;
+    return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+        s.onload = () => { _xlsxLib = window.XLSX; resolve(_xlsxLib); };
+        s.onerror = () => reject(new Error('无法加载 Excel 解析库'));
+        document.head.appendChild(s);
+    });
+}
+
+async function parseImportFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const ext = (file.name.split('.').pop() || '').toLowerCase();
+    try {
+        let rows;
+        if (ext === 'csv' || ext === 'txt') {
+            const text = await file.text();
+            rows = parseCsvText(text);
+        } else {
+            const XLSX = await ensureXlsxLib();
+            const buf = await file.arrayBuffer();
+            const wb = XLSX.read(buf, { type: 'array' });
+            const sheet = wb.Sheets[wb.SheetNames[0]];
+            rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+        }
+        // 把解析结果填入 textarea（统一后续处理）
+        const text = rows.map(r => r.join(',')).join('\n');
+        const ta = document.getElementById('importStudentsText');
+        if (ta) {
+            ta.value = text;
+            ta.dispatchEvent(new Event('input'));
+        }
+        // 预览
+        const preview = document.getElementById('importPreview');
+        if (preview) {
+            const sample = rows.slice(0, 3).map(r => r.join(' | ')).join('\n');
+            preview.style.display = 'block';
+            preview.innerHTML = `✅ 已解析 <b>${rows.length}</b> 行数据，前 3 行预览：\n<pre style="margin-top:6px;white-space:pre-wrap;">${escapeHtml(sample)}</pre>`;
+        }
+        showToast('已解析 ' + rows.length + ' 行', 'success');
+    } catch (e) {
+        showToast('文件解析失败：' + e.message, 'error');
+    }
+}
+
+function parseCsvText(text) {
+    // 简单 CSV 解析：支持逗号/制表符/中文逗号分隔
+    const lines = text.replace(/\r\n?/g, '\n').split('\n').filter(l => l.trim());
+    return lines.map(line => {
+        // 优先用 \t，其次中文逗号，最后英文逗号
+        if (line.includes('\t')) return line.split('\t').map(s => s.trim());
+        if (line.includes('，')) return line.split('，').map(s => s.trim());
+        return line.split(',').map(s => s.trim());
+    }).filter(r => r.length && r[0]);
+}
+
+// ===== 报表 =====
+async function loadAdminReports() {
+    try {
+        const res = await adminApi('/reports/overview');
+        const d = res.data || {};
+        const cards = document.querySelectorAll('#adminReportCards .admin-stat-card');
+        if (cards.length >= 4) {
+            cards[0].querySelector('.stat-value').textContent = (d.monthly_score || 0).toLocaleString();
+            const trend = (d.score_trend_percent >= 0 ? '↗ 较上月 +' : '↘ 较上月 ') + Math.abs(d.score_trend_percent || 0) + '%';
+            cards[0].querySelector('.stat-trend').textContent = (d.month_label || '') + ' ' + trend;
+            cards[1].querySelector('.stat-value').textContent = (d.class_count || 0) + ' 个';
+            cards[1].querySelector('.stat-trend').textContent = '🏫 共 ' + (d.class_count || 0) + ' 个班级';
+            cards[2].querySelector('.stat-value').textContent = (d.student_count || 0).toLocaleString();
+            cards[2].querySelector('.stat-trend').textContent = '🎓 累计学生';
+            cards[3].querySelector('.stat-value').textContent = (d.parent_count || 0);
+            cards[3].querySelector('.stat-trend').textContent = '👨‍👩‍👧 在用家长';
+        }
+    } catch (e) {}
+    try {
+        const res = await adminApi('/reports/by-grade');
+        const rows = res.data || [];
+        const tbody = document.getElementById('adminReportByGrade');
+        if (!rows.length) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--text-secondary);">暂无数据</td></tr>';
+        } else {
+            tbody.innerHTML = rows.map(r =>
+                `<tr><td style="font-weight:600;">${escapeHtml(r.grade)}</td><td>${r.class_count}</td><td>${r.student_count}</td></tr>`
+            ).join('');
+        }
+    } catch (e) {}
+}
+
+// ===== 学校信息设置 =====
+async function openSchoolSettings() {
+    let school = {};
+    try {
+        const res = await adminApi('/school');
+        school = res.data || {};
+    } catch (e) { return; }
+    showModal('school-settings');
+    setTimeout(() => {
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+        set('schoolNameInput', school.name);
+        set('schoolCodeInput', school.code);
+        set('schoolAddressInput', school.address);
+        set('schoolPhoneInput', school.contact_phone);
+        set('schoolEmailInput', school.contact_email);
+    }, 50);
+}
+
+async function submitSchoolSettings() {
+    const payload = {
+        name: document.getElementById('schoolNameInput')?.value?.trim(),
+        address: document.getElementById('schoolAddressInput')?.value?.trim(),
+        contact_phone: document.getElementById('schoolPhoneInput')?.value?.trim(),
+        contact_email: document.getElementById('schoolEmailInput')?.value?.trim(),
+    };
+    if (!payload.name) {
+        showToast('学校名称不能为空', 'error');
+        return;
+    }
+    try {
+        await adminApi('/school', { method: 'PUT', body: JSON.stringify(payload) });
+        showToast('学校信息已更新', 'success');
+        closeModal();
+        loadAdminSchoolInfo();
+    } catch (e) {}
+}
+
+// ===== 创建班级 =====
+async function submitCreateClass() {
+    const payload = {
+        name: document.getElementById('classNameInput')?.value?.trim(),
+        grade: document.getElementById('classGradeInput')?.value?.trim(),
+        year: document.getElementById('classYearInput')?.value?.trim(),
+    };
+    if (!payload.name) { showToast('请输入班级名称', 'error'); return; }
+    try {
+        await adminApi('/classes', { method: 'POST', body: JSON.stringify(payload) });
+        showToast('班级「' + payload.name + '」已创建', 'success');
+        closeModal();
+        loadAdminClasses();
+        loadAdminOverview();
+    } catch (e) {}
+}
+
+// ===== 批量创建教师 =====
+async function submitBatchCreateTeachers() {
+    const text = document.getElementById('batchTeacherText')?.value || '';
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    if (!lines.length) { showToast('请输入教师名单', 'error'); return; }
+    const teachers = lines.map(line => {
+        const parts = line.split(/[,\t，]/).map(s => s.trim());
+        return { name: parts[0], phone: parts[1] || null, email: parts[2] || null };
+    });
+    try {
+        const res = await adminApi('/teachers/batch-create', {
+            method: 'POST',
+            body: JSON.stringify({ teachers }),
+        });
+        const list = res.data || [];
+        const pwdText = list.map(t => `${t.name}（账号：${t.username}，初始密码：${t.initial_password || '已随机生成'}）`).join('\n');
+        showModal('batch-teacher-result');
+        setTimeout(() => {
+            const el = document.getElementById('batchTeacherResult');
+            if (el) el.textContent = '已创建 ' + list.length + ' 个教师账号：\n\n' + pwdText + '\n\n请通过内部渠道将账号和密码下发给教师。';
+        }, 50);
+        loadAdminTeachers();
+        loadAdminOverview();
+    } catch (e) {}
+}
+
+// ===== 批量创建家长 =====
+async function submitBatchCreateParents() {
+    const text = document.getElementById('batchParentText')?.value || '';
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    if (!lines.length) { showToast('请输入家长名单', 'error'); return; }
+    const parents = lines.map(line => {
+        const parts = line.split(/[,\t，]/).map(s => s.trim());
+        return { name: parts[0], phone: parts[1] || null };
+    });
+    try {
+        await adminApi('/parents/batch-create', {
+            method: 'POST',
+            body: JSON.stringify({ parents }),
+        });
+        showToast('已创建 ' + parents.length + ' 个家长账号', 'success');
+        closeModal();
+        loadAdminParents();
+        loadAdminOverview();
+    } catch (e) {}
 }
 
 // ===== Toast =====
@@ -2607,8 +3140,68 @@ function showModal(type) {
             <button class="btn btn-primary" onclick="closeModal(); showToast('通知已发布', 'success');">发布</button>`,
         'batch-create-teacher': `<h3>批量创建教师账号<button class="modal-close" onclick="closeModal()">×</button></h3>
             <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">系统自动生成账号和初始密码，教师使用分配的账号直接登录</p>
-            <div class="form-group"><label>教师名单（每行一个姓名）</label><textarea style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:120px;" placeholder="张老师\n李老师\n王老师"></textarea></div>
-            <button class="btn btn-primary" onclick="closeModal(); showToast('已创建3个教师账号，初始密码请通过内部渠道下发', 'success');">创建账号</button>`,
+            <div class="form-group">
+                <label>教师名单（每行一位：姓名,手机,邮箱；可只填姓名）</label>
+                <textarea id="batchTeacherText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="张老师,13800138001,zhang@example.com\n李老师,13800138002\n王老师"></textarea>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="downloadExcelTemplate('teachers')">📥 下载 CSV 模板</button>
+                <button class="btn btn-primary" onclick="submitBatchCreateTeachers()">创建账号</button>
+            </div>`,
+        'batch-teacher-result': `<h3>账号创建成功<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">请妥善保存初始密码，关闭后将无法再次查看</p>
+            <pre id="batchTeacherResult" style="background:var(--bg);padding:16px;border-radius:var(--radius-md);font-size:13px;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;"></pre>
+            <button class="btn btn-primary" onclick="closeModal()">我已记录</button>`,
+        'batch-create-parent': `<h3>批量创建家长账号<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">家长账号登录后可查看孩子的积分、宠物、通知等</p>
+            <div class="form-group">
+                <label>家长名单（每行一位：姓名,手机号）</label>
+                <textarea id="batchParentText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="王家长,13800138021\n赵家长,13800138022"></textarea>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="downloadExcelTemplate('parents')">📥 下载 CSV 模板</button>
+                <button class="btn btn-primary" onclick="submitBatchCreateParents()">创建账号</button>
+            </div>`,
+        'import-students': `<h3>导入学生名单<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">支持两种方式：① 上传 Excel/CSV 文件 ② 直接粘贴文本。每行一位：姓名,学号,家长手机号</p>
+            <div class="form-group">
+                <label>📤 上传文件（.xlsx / .xls / .csv）</label>
+                <input type="file" id="importStudentsFile" accept=".xlsx,.xls,.csv" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg);" onchange="parseImportFile(event)">
+            </div>
+            <div class="form-group">
+                <label>或直接粘贴（每行一位）</label>
+                <textarea id="importStudentsText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="小明,SCH001_001,13800138001&#10;小红,SCH001_002&#10;小刚"></textarea>
+            </div>
+            <div id="importPreview" style="display:none;background:rgba(79,70,229,0.05);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="downloadExcelTemplate('students')">📥 下载 CSV 模板</button>
+                <button class="btn btn-primary" onclick="submitImportStudents()">开始导入</button>
+            </div>`,
+        'create-class': `<h3>添加新班级<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <div class="form-group"><label>班级名称</label><input id="classNameInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：三年二班"></div>
+            <div class="form-group"><label>年级</label>
+                <select id="classGradeInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
+                    <option value="">未指定</option>
+                    <option>一年级</option><option>二年级</option><option>三年级</option>
+                    <option>四年级</option><option>五年级</option><option>六年级</option>
+                </select>
+            </div>
+            <div class="form-group"><label>学年（选填）</label><input id="classYearInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：2025-2026"></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitCreateClass()">创建班级</button>
+            </div>`,
+        'school-settings': `<h3>学校信息设置<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">修改后全校师生立即看到新名称。学校代码不可修改（用于生成账号前缀）</p>
+            <div class="form-group"><label>学校名称 *</label><input id="schoolNameInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
+            <div class="form-group"><label>学校代码（只读）</label><input id="schoolCodeInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-secondary);" readonly></div>
+            <div class="form-group"><label>学校地址</label><input id="schoolAddressInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
+            <div class="form-group"><label>联系电话</label><input id="schoolPhoneInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
+            <div class="form-group"><label>联系邮箱</label><input id="schoolEmailInput" type="email" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitSchoolSettings()">保存修改</button>
+            </div>`,
 
         // ===== 新功能模态框 =====
         'create-homework': `<h3>📱 新建作业收取任务<button class="modal-close" onclick="closeModal()">×</button></h3>

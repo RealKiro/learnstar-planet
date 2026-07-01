@@ -64,7 +64,12 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group
     Route::delete('teachers/{id}', [SchoolAdminController::class, 'disableTeacher']);
     Route::post('parents/batch-create', [SchoolAdminController::class, 'batchCreateParents']);
     Route::get('parents', [SchoolAdminController::class, 'listParents']);
-    Route::apiResource('classes', SchoolAdminController::class . 'ClassController');
+    Route::delete('parents/{id}', [SchoolAdminController::class, 'deleteParent']);
+    Route::get('classes', [SchoolAdminController::class, 'index']);
+    Route::post('classes', [SchoolAdminController::class, 'store']);
+    Route::get('classes/{id}', [SchoolAdminController::class, 'show']);
+    Route::put('classes/{id}', [SchoolAdminController::class, 'update']);
+    Route::delete('classes/{id}', [SchoolAdminController::class, 'destroy']);
     Route::post('classes/{id}/assign-teacher', [SchoolAdminController::class, 'assignClassTeacher']);
     Route::post('classes/{id}/import-students', [SchoolAdminController::class, 'importStudents']);
     Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
