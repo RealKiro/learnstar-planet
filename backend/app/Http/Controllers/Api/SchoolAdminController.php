@@ -7,8 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\Score;
-use App\Models\ScoreLog;
-use App\Models\School;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\AuthService;
@@ -260,6 +258,7 @@ class SchoolAdminController extends Controller
             ->get()
             ->map(function (User $p) {
                 $childrenNames = $p->children->pluck('name')->toArray();
+
                 return [
                     'id' => $p->id,
                     'username' => $p->username,
@@ -519,6 +518,7 @@ class SchoolAdminController extends Controller
                 $classScore = (int) Score::where('class_id', $c->id)
                     ->whereMonth('created_at', Carbon::now()->month)
                     ->sum('amount');
+
                 return [
                     'class_id' => $c->id,
                     'class_name' => $c->name,
