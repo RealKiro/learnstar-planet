@@ -14,6 +14,9 @@ parameters:
     stubFiles:
         - tests/phpstan-stubs/flux.php
         - tests/phpstan-stubs/global-helpers.php
+
+    # Scanned files for class discovery
+    scanFiles:
         - tests/phpstan-stubs/overtrue-pinyin.php
 
     # Treat PHPDoc types as not always certain (avoids false "always true" warnings)
@@ -31,5 +34,6 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method .*#'
         - '#Access to an undefined property .*#'
+        - '#Call to static method permalink\(\) on an unknown class Overtrue\\Pinyin\\Pinyin\.#'
         - message: '#Function flux not found\.#'
           reportUnmatched: false
