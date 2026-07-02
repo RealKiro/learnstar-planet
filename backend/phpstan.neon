@@ -34,6 +34,7 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method .*#'
         - '#Access to an undefined property .*#'
-        - '#Call to static method permalink\(\) on an unknown class Overtrue\\Pinyin\\Pinyin\.#'
+        - message: '#Call to static method permalink\(\) on an unknown class Overtrue\\Pinyin\\Pinyin\.#'
+          reportUnmatched: false
         - message: '#Function flux not found\.#'
           reportUnmatched: false
