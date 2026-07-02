@@ -36,7 +36,7 @@ class AuthService
             // 头像: 调用方若传入则使用(第三方首次登录场景),否则留空
             $avatar = $teacher['avatar_path'] ?? null;
 
-            $initialPassword = $teacher['password'] ?? Str::random(8);
+            $initialPassword = $teacher['password'] ?? 'star123456';
 
             $user = User::create([
                 'school_id' => $school->id,
@@ -127,7 +127,7 @@ class AuthService
         $name = $parentData['name'];
         $username = $parentData['username'] ?? $this->uniqueUsername($name, $school);
         $nickname = $parentData['nickname'] ?? $this->uniqueNickname($name, $school);
-        $initialPassword = $parentData['password'] ?? Str::random(8);
+        $initialPassword = $parentData['password'] ?? 'star123456';
 
         $parent = User::create([
             'school_id' => $school->id,
@@ -391,7 +391,7 @@ class AuthService
         $user = $this->teacherLoginWithCredentials($username, $password);
 
         if (!$user) {
-            return ['status' => 'error', 'message' => '教师账号或密码错误，仅支持绑定教师账号'];
+            return ['status' => 'error', 'message' => '账号或密码错误，请核对后重试'];
         }
 
         // 优先从 cache 取（扫码时存的 nick/avatar）

@@ -11,6 +11,8 @@ Page({
     tempToken: '',
     bindUsername: '',
     bindPassword: '',
+    teacherAttempts: 0,
+    bindAttempts: 0,
   },
 
   onLoad() {
@@ -54,7 +56,7 @@ Page({
 
     app.loginWithCredentials(this.data.username, this.data.password)
       .then(() => {
-        this.setData({ loading: false });
+        this.setData({ loading: false, teacherAttempts: 0 });
         if (app.globalData.role === 'teacher') {
           wx.switchTab({ url: '/pages/dashboard/dashboard' });
         } else {
@@ -63,8 +65,14 @@ Page({
         }
       })
       .catch((err) => {
-        this.setData({ loading: false });
-        wx.showToast({ title: err.message || '教师登录失败', icon: 'none' });
+        const attempts = this.data.teacherAttempts + 1;
+        const maxAttempts = 3;
+        this.setData({ loading: false, teacherAttempts: attempts });
+        if (attempts >= maxAttempts) {
+          wx.showToast({ title: '密码错误次数过多，请联系管理员修改密码', icon: 'none' });
+        } else {
+          wx.showToast({ title: (err.message || '账号或密码错误') + '，请重试（还剩 ' + (maxAttempts - attempts) + ' 次）', icon: 'none' });
+        }
       });
   },
 
@@ -128,11 +136,18 @@ Page({
     const app = getApp();
     app.bindAfterScan(this.data.tempToken, this.data.bindUsername, this.data.bindPassword)
       .then(() => {
-        this.setData({ showBinding: false });
+        this.setData({ showBinding: false, bindAttempts: 0 });
         wx.switchTab({ url: '/pages/dashboard/dashboard' });
       })
       .catch((err) => {
-        wx.showToast({ title: err.message || '绑定失败', icon: 'none' });
+        const attempts = this.data.bindAttempts + 1;
+        const maxAttempts = 3;
+        this.setData({ bindAttempts: attempts });
+        if (attempts >= maxAttempts) {
+          wx.showToast({ title: '密码错误次数过多，请联系管理员修改密码', icon: 'none' });
+        } else {
+          wx.showToast({ title: (err.message || '账号或密码错误') + '，请重试（还剩 ' + (maxAttempts - attempts) + ' 次）', icon: 'none' });
+        }
       });
   },
 

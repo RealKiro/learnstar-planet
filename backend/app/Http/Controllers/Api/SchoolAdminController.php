@@ -92,7 +92,7 @@ class SchoolAdminController extends Controller
             'teachers.*.phone' => 'nullable|string|max:30',
             'teachers.*.email' => 'nullable|email|max:100',
             'teachers.*.username' => 'nullable|string|max:50',
-            'teachers.*.password' => 'nullable|string|min:6|max:50',
+            'teachers.*.password' => 'required|string|min:6|max:50',
         ]);
 
         if ($validator->fails()) {
@@ -222,6 +222,7 @@ class SchoolAdminController extends Controller
         $validator = Validator::make($request->all(), [
             'parents' => 'required|array|min:1',
             'parents.*.name' => 'required|string|max:50',
+            'parents.*.password' => 'required|string|min:6|max:50',
             'parents.*.phone' => 'nullable|string|max:30',
             'parents.*.student_id' => 'nullable|integer|exists:students,id',
         ]);

@@ -2281,7 +2281,7 @@
                         <h2>教师账号</h2>
                     </div>
                     <div style="display:flex;gap:8px;">
-                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="downloadExcelTemplate('teachers')">📥 导入模板</button>
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="showModal('batch-create-teacher')">📥 导入模板</button>
                         <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onclick="showModal('batch-create-teacher')">+ 批量创建账号</button>
                     </div>
                 </div>
@@ -2301,7 +2301,7 @@
                         <h2>家长账号</h2>
                     </div>
                     <div style="display:flex;gap:8px;">
-                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="downloadExcelTemplate('parents')">📥 导入模板</button>
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="showModal('batch-create-parent')">📥 导入模板</button>
                         <button class="btn btn-sm" style="background:var(--gradient-gold);color:#92400E;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(245,158,11,0.25);" onclick="showModal('batch-create-parent')">+ 批量创建账号</button>
                     </div>
                 </div>
@@ -2409,6 +2409,8 @@
 // ===== 全局状态 =====
 let currentRole = null;
 let currentPage = 'page-login';
+const teacherLoginAttempts = { count: 0, max: 3 };
+const thirdPartyBindAttempts = { count: 0, max: 3 };
 
 // ===== 页面切换 =====
 function showPage(pageId) {
@@ -2453,9 +2455,16 @@ async function handleTeacherLogin() {
         });
         const data = await res.json();
         if (!res.ok) {
-            showToast(data.message || '账号或密码错误', 'error');
+            teacherLoginAttempts.count++;
+            const remaining = teacherLoginAttempts.max - teacherLoginAttempts.count;
+            if (teacherLoginAttempts.count >= teacherLoginAttempts.max) {
+                showToast('密码错误次数过多，请联系管理员修改密码', 'error');
+            } else {
+                showToast((data.message || '账号或密码错误') + '，请重试（还剩 ' + remaining + ' 次）', 'error');
+            }
             return;
         }
+        teacherLoginAttempts.count = 0;
         // 存储 token 和用户信息
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('currentUser', JSON.stringify(data.data.user));
@@ -2912,8 +2921,8 @@ function downloadExcelTemplate(type) {
     // type: 'students' | 'teachers' | 'parents'
     const csv = {
         students: '姓名,学号,家长手机号\n小明,SCH001_001,13800138001\n小红,SCH001_002,13800138002\n',
-        teachers: '姓名,手机号,邮箱\n张老师,13800138011,zhang@example.com\n李老师,13800138012,li@example.com\n',
-        parents: '姓名,手机号\n王家长,13800138021\n赵家长,13800138022\n',
+        teachers: '姓名,密码,手机号,邮箱\n张老师,star123456,13800138011,zhang@example.com\n李老师,star123456,13800138012,li@example.com\n',
+        parents: '姓名,密码,手机号\n王家长,star123456,13800138021\n赵家长,star123456,13800138022\n',
     }[type] || '';
     const filename = {
         students: 'students_template.csv',
@@ -3123,8 +3132,10 @@ async function submitBatchCreateTeachers() {
     if (!lines.length) { showToast('请输入教师名单', 'error'); return; }
     const teachers = lines.map(line => {
         const parts = line.split(/[,\t，]/).map(s => s.trim());
-        return { name: parts[0], phone: parts[1] || null, email: parts[2] || null };
+        return { name: parts[0], password: parts[1] || null, phone: parts[2] || null, email: parts[3] || null };
     });
+    const missingPwd = teachers.filter(t => !t.password);
+    if (missingPwd.length) { showToast('密码为必填项，请检查第 ' + (lines.findIndex(l => l.startsWith(missingPwd[0].name)) + 1) + ' 行', 'error'); return; }
     try {
         const res = await adminApi('/teachers/batch-create', {
             method: 'POST',
@@ -3149,8 +3160,10 @@ async function submitBatchCreateParents() {
     if (!lines.length) { showToast('请输入家长名单', 'error'); return; }
     const parents = lines.map(line => {
         const parts = line.split(/[,\t，]/).map(s => s.trim());
-        return { name: parts[0], phone: parts[1] || null };
+        return { name: parts[0], password: parts[1] || null, phone: parts[2] || null };
     });
+    const missingPwd = parents.filter(p => !p.password);
+    if (missingPwd.length) { showToast('密码为必填项，请检查第 ' + (lines.findIndex(l => l.startsWith(missingPwd[0].name)) + 1) + ' 行', 'error'); return; }
     try {
         const res = await adminApi('/parents/batch-create', {
             method: 'POST',
@@ -3195,17 +3208,17 @@ function showModal(type) {
             <div class="form-group"><label>内容</label><textarea style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:100px;" placeholder="通知内容"></textarea></div>
             <button class="btn btn-primary" onclick="closeModal(); showToast('通知已发布', 'success');">发布</button>`,
         'batch-create-teacher': `<h3>批量创建教师账号<button class="modal-close" onclick="closeModal()">×</button></h3>
-            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">仅 <b>姓名</b> 必填，系统将自动生成：<br>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);"><b>姓名</b> 和 <b>密码</b> 必填，系统将自动生成：<br>
             &nbsp;&nbsp;· <b>账号</b> = 姓名（重名自动加 <code>_2</code>/<code>_3</code> 后缀）<br>
-            &nbsp;&nbsp;· <b>昵称</b> = 姓名拼音（重名自动加 <code>_2</code>/<code>_3</code> 后缀）<br>
-            &nbsp;&nbsp;· <b>初始密码</b> = 8 位随机字符串（创建后只显示一次）</p>
+            &nbsp;&nbsp;· <b>昵称</b> = 姓名拼音（登录后可自行修改）<br>
+            &nbsp;&nbsp;· <b>默认密码</b> = star123456（教师首次登录后可自行修改）</p>
             <div class="form-group">
                 <label>📤 上传文件（.xlsx / .xls / .csv）</label>
                 <input type="file" accept=".xlsx,.xls,.csv" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg);color:var(--text-primary);" onchange="parseBatchImportFile(event, 'batchTeacherText', 'batchTeacherPreview')">
             </div>
             <div class="form-group">
-                <label>或直接粘贴（每行一位：姓名,手机,邮箱）</label>
-                <textarea id="batchTeacherText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="张老师,13800138001,zhang@example.com&#10;李老师,13800138002&#10;王老师"></textarea>
+                <label>或直接粘贴（每行一位：姓名,密码,手机,邮箱）</label>
+                <textarea id="batchTeacherText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="张老师,star123456,13800138001,zhang@example.com&#10;李老师,star123456,13800138002&#10;王老师,star123456"></textarea>
             </div>
             <div id="batchTeacherPreview" style="display:none;background:rgba(79,70,229,0.05);color:var(--text-primary);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
@@ -3223,14 +3236,15 @@ function showModal(type) {
         'batch-create-parent': `<h3>批量创建家长账号<button class="modal-close" onclick="closeModal()">×</button></h3>
             <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">家长账号登录后可查看孩子的积分、宠物、通知等<br>
             &nbsp;&nbsp;· <b>账号</b> = 家长姓名（重名自动加 <code>_2</code>/<code>_3</code> 后缀）<br>
-            &nbsp;&nbsp;· <b>昵称</b> = 姓名拼音（重名自动加 <code>_2</code>/<code>_3</code> 后缀）</p>
+            &nbsp;&nbsp;· <b>昵称</b> = 姓名拼音（登录后可自行修改）<br>
+            &nbsp;&nbsp;· <b>默认密码</b> = star123456（家长首次登录后可自行修改）</p>
             <div class="form-group">
                 <label>📤 上传文件（.xlsx / .xls / .csv）</label>
                 <input type="file" accept=".xlsx,.xls,.csv" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg);color:var(--text-primary);" onchange="parseBatchImportFile(event, 'batchParentText', 'batchParentPreview')">
             </div>
             <div class="form-group">
-                <label>或直接粘贴（每行一位：姓名,手机号）</label>
-                <textarea id="batchParentText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="王家长,13800138021&#10;赵家长,13800138022"></textarea>
+                <label>或直接粘贴（每行一位：姓名,密码,手机号）</label>
+                <textarea id="batchParentText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="王家长,star123456,13800138021&#10;赵家长,star123456,13800138022"></textarea>
             </div>
             <div id="batchParentPreview" style="display:none;background:rgba(79,70,229,0.05);color:var(--text-primary);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">

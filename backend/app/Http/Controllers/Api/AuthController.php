@@ -32,7 +32,7 @@ class AuthController extends Controller
         );
 
         if (!$user) {
-            return response()->json(['message' => '账号或密码错误'], 401);
+            return response()->json(['message' => '账号或密码错误，请核对后重试'], 401);
         }
 
         // 生成 Sanctum token
@@ -68,7 +68,7 @@ class AuthController extends Controller
         );
 
         if (!$user) {
-            return response()->json(['message' => '账号或密码错误'], 401);
+            return response()->json(['message' => '账号或密码错误，请核对后重试'], 401);
         }
 
         // 生成 Sanctum token
