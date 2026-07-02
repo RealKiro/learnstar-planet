@@ -14,6 +14,7 @@ parameters:
     stubFiles:
         - tests/phpstan-stubs/flux.php
         - tests/phpstan-stubs/global-helpers.php
+        - tests/phpstan-stubs/overtrue-pinyin.php
 
     # Treat PHPDoc types as not always certain (avoids false "always true" warnings)
     treatPhpDocTypesAsCertain: false
