@@ -2281,7 +2281,7 @@
                         <h2>教师账号</h2>
                     </div>
                     <div style="display:flex;gap:8px;">
-                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="showModal('batch-create-teacher')">📥 导入模板</button>
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="downloadExcelTemplate('teachers')">📥 下载模板</button>
                         <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onclick="showModal('batch-create-teacher')">+ 批量创建账号</button>
                     </div>
                 </div>
@@ -2301,7 +2301,7 @@
                         <h2>家长账号</h2>
                     </div>
                     <div style="display:flex;gap:8px;">
-                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="showModal('batch-create-parent')">📥 导入模板</button>
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="downloadExcelTemplate('parents')">📥 下载模板</button>
                         <button class="btn btn-sm" style="background:var(--gradient-gold);color:#92400E;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(245,158,11,0.25);" onclick="showModal('batch-create-parent')">+ 批量创建账号</button>
                     </div>
                 </div>
@@ -2321,8 +2321,9 @@
                         <h2>班级列表</h2>
                     </div>
                     <div style="display:flex;gap:8px;">
-                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="downloadExcelTemplate('students')">📥 学生导入模板</button>
-                        <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onclick="showModal('create-class')">+ 添加班级</button>
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="showModal('import-students')">📥 导入学生</button>
+                        <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onclick="showModal('batch-create-class')">+ 批量添加班级</button>
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="showModal('create-class')">+ 添加班级</button>
                     </div>
                 </div>
                 <div class="admin-table-wrap">
@@ -3125,6 +3126,27 @@ async function submitCreateClass() {
     } catch (e) {}
 }
 
+// ===== 批量创建班级 =====
+async function submitBatchCreateClasses() {
+    const grade = document.getElementById('batchClassGradeInput')?.value?.trim();
+    const count = parseInt(document.getElementById('batchClassCountInput')?.value) || 0;
+    const year = document.getElementById('batchClassYearInput')?.value?.trim();
+    if (!grade) { showToast('请选择年级', 'error'); return; }
+    if (!count || count < 1 || count > 20) { showToast('班级数量需为 1-20 之间的整数', 'error'); return; }
+    try {
+        const res = await adminApi('/classes/batch-create', {
+            method: 'POST',
+            body: JSON.stringify({ grade, count, year }),
+        });
+        const list = res.data || [];
+        const names = list.map(c => c.name).join('、');
+        showToast('已批量创建 ' + count + ' 个班级：' + names, 'success');
+        closeModal();
+        loadAdminClasses();
+        loadAdminOverview();
+    } catch (e) {}
+}
+
 // ===== 批量创建教师 =====
 async function submitBatchCreateTeachers() {
     const text = document.getElementById('batchTeacherText')?.value || '';
@@ -3279,6 +3301,21 @@ function showModal(type) {
             <div style="display:flex;gap:8px;justify-content:flex-end;">
                 <button class="btn btn-ghost" onclick="closeModal()">取消</button>
                 <button class="btn btn-primary" onclick="submitCreateClass()">创建班级</button>
+            </div>`,
+        'batch-create-class': `<h3>批量添加班级<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">选择年级并输入班级数量，系统将自动创建班级（如：一年级一班、一年级二班…）</p>
+            <div class="form-group"><label>年级 *</label>
+                <select id="batchClassGradeInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
+                    <option value="">请选择年级</option>
+                    <option>一年级</option><option>二年级</option><option>三年级</option>
+                    <option>四年级</option><option>五年级</option><option>六年级</option>
+                </select>
+            </div>
+            <div class="form-group"><label>班级数量 *</label><input id="batchClassCountInput" type="number" min="1" max="20" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：6（将创建一班至六班）"></div>
+            <div class="form-group"><label>学年（选填）</label><input id="batchClassYearInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：2025-2026"></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitBatchCreateClasses()">批量创建</button>
             </div>`,
         'school-settings': `<h3>学校信息设置<button class="modal-close" onclick="closeModal()">×</button></h3>
             <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">修改后全校师生立即看到新名称。学校代码不可修改（用于生成账号前缀）</p>

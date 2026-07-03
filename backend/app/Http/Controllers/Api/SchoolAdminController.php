@@ -357,6 +357,64 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => '班级已创建', 'data' => $class], 201);
     }
 
+    /**
+     * 批量创建班级
+     */
+    public function batchCreateClasses(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'grade' => 'required|string|max:50',
+            'count' => 'required|integer|min:1|max:20',
+            'year' => 'nullable|string|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $school = $request->user()->school;
+        $grade = $request->input('grade');
+        $count = $request->input('count');
+        $year = $request->input('year');
+
+        // 获取该年级现有班级数量，用于确定起始序号
+        $existingCount = ClassRoom::where('school_id', $school->id)
+            ->where('grade', $grade)
+            ->count();
+
+        $created = [];
+        for ($i = 1; $i <= $count; $i++) {
+            $classNum = $existingCount + $i;
+            $classNames = [
+                '一年级' => ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十',
+                             '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十'],
+                '二年级' => ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十',
+                             '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十'],
+                '三年级' => ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十',
+                             '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十'],
+                '四年级' => ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十',
+                             '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十'],
+                '五年级' => ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十',
+                             '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十'],
+                '六年级' => ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十',
+                             '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十'],
+            ];
+            $numStr = $classNames[$grade][$classNum - 1] ?? $classNum;
+            $name = $grade . '第' . $numStr . '班';
+
+            $class = ClassRoom::create([
+                'school_id' => $school->id,
+                'name' => $name,
+                'grade' => $grade,
+                'year' => $year,
+                'status' => 'active',
+            ]);
+            $created[] = ['id' => $class->id, 'name' => $class->name];
+        }
+
+        return response()->json(['message' => '已批量创建 ' . $count . ' 个班级', 'data' => $created], 201);
+    }
+
     public function show(Request $request, int $id): JsonResponse
     {
         $school = $request->user()->school;
