@@ -2210,6 +2210,11 @@
                 <div class="nav-section">
                     <div class="nav-section-title">班级管理</div>
                     <div class="nav-item" data-page="a-classes"><span class="nav-icon">🏫</span>班级列表</div>
+                    <div class="nav-item" data-page="a-students"><span class="nav-icon">🎒</span>学生管理</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">学年管理</div>
+                    <div class="nav-item" data-page="a-upgrade"><span class="nav-icon">📅</span>学年升级</div>
                 </div>
                 <div class="nav-section">
                     <div class="nav-section-title">报表</div>
@@ -2344,6 +2349,73 @@
                             </td></tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- ═══ 学生管理 ═══ -->
+            <div id="a-students" class="admin-page">
+                <div class="page-header">
+                    <div>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">学生管理</p>
+                        <h2>学生列表</h2>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <input id="studentSearchInput" type="text" placeholder="搜索姓名/学号…" style="padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);color:var(--text);width:180px;" onkeydown="if(event.key==='Enter')loadAdminStudents()">
+                        <select id="studentGradeFilter" style="padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);color:var(--text);" onchange="loadAdminStudents()">
+                            <option value="">全部年级</option>
+                            <option>一年级</option><option>二年级</option><option>三年级</option>
+                            <option>四年级</option><option>五年级</option><option>六年级</option>
+                        </select>
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="showModal('create-student'); populateClassOptions('studentClassInput')">+ 添加学生</button>
+                    </div>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="studentSelectAll" onchange="toggleSelectAllStudents(this)"></th>
+                                <th>姓名</th>
+                                <th>学号</th>
+                                <th>班级</th>
+                                <th>年级</th>
+                                <th>总积分</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminStudentTbody">
+                            <tr><td colspan="8" style="text-align:center;padding:48px;color:var(--text-secondary);">
+                                <div style="font-size:32px;margin-bottom:8px;">⏳</div>
+                                正在加载学生列表…
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="studentBatchBar" style="display:none;margin-top:12px;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);gap:8px;align-items:center;">
+                    <span id="studentSelectedCount" style="color:var(--text-secondary);font-size:13px;">已选择 0 名学生</span>
+                    <div style="flex:1;"></div>
+                    <button class="btn btn-sm" style="background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 16px;cursor:pointer;" onclick="showBatchMoveModal()">📦 批量移动</button>
+                    <button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1px solid #fecaca;border-radius:var(--radius-sm);padding:8px 16px;cursor:pointer;" onclick="batchDeleteStudents()">🗑 批量删除</button>
+                </div>
+                <div id="studentPagination" style="display:flex;gap:8px;justify-content:center;margin-top:16px;"></div>
+            </div>
+
+            <!-- ═══ 学年升级 ═══ -->
+            <div id="a-upgrade" class="admin-page">
+                <div class="page-header">
+                    <div>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">学年管理</p>
+                        <h2>学年升级</h2>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-sm" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 18px;font-weight:500;cursor:pointer;" onclick="previewGradeUpgrade()">👁 预览升级</button>
+                        <button class="btn btn-sm" style="background:var(--gradient-primary);color:white;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(79,70,229,0.25);" onclick="showModal('grade-upgrade-confirm')">⚡ 执行学年升级</button>
+                    </div>
+                </div>
+                <div id="upgradePreviewArea" style="padding:24px;text-align:center;color:var(--text-secondary);">
+                    <div style="font-size:48px;margin-bottom:12px;">📅</div>
+                    <p>点击「预览升级」查看学年升级方案</p>
+                    <p style="font-size:13px;margin-top:8px;">每年7月毕业季后，六年级学生毕业，二至五年级学生随班级升一个年级</p>
                 </div>
             </div>
 
@@ -2543,6 +2615,9 @@ document.querySelectorAll('.nav-item[data-page]').forEach(item => {
         // 切换页面时按需刷新
         if (pageId === 'a-reports') {
             loadAdminOverview().then(loadAdminReports);
+        }
+        if (pageId === 'a-students') {
+            loadAdminStudents();
         }
 
         // 移动端自动关闭侧边栏
@@ -3203,6 +3278,276 @@ async function submitBatchCreateParents() {
     } catch (e) {}
 }
 
+// ===== 学生管理 =====
+let adminStudentsCurrentPage = 1;
+let selectedStudentIds = [];
+
+async function loadAdminStudents(page = 1) {
+    adminStudentsCurrentPage = page;
+    const search = document.getElementById('studentSearchInput')?.value?.trim() || '';
+    const grade = document.getElementById('studentGradeFilter')?.value || '';
+    const tbody = document.getElementById('adminStudentTbody');
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:48px;color:var(--text-secondary);">⏳ 正在加载…</td></tr>';
+
+    try {
+        let url = '/school-admin/students?page=' + page + '&per_page=50';
+        if (search) url += '&search=' + encodeURIComponent(search);
+        if (grade) url += '&grade=' + encodeURIComponent(grade);
+        const res = await adminApi(url);
+        const students = res.data || [];
+        const meta = res.meta || {};
+
+        if (!students.length) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:48px;color:var(--text-secondary);"><div style="font-size:32px;margin-bottom:8px;">📭</div>暂无学生数据</td></tr>';
+        } else {
+            tbody.innerHTML = students.map(s => {
+                const checked = selectedStudentIds.includes(s.id) ? 'checked' : '';
+                const statusBadge = s.status === 'active' ? '<span style="color:#16a34a;">在读</span>' :
+                    s.status === 'graduated' ? '<span style="color:#6b7280;">已毕业</span>' :
+                    '<span style="color:#dc2626;">停用</span>';
+                return `<tr>
+                    <td><input type="checkbox" class="student-checkbox" value="${s.id}" ${checked} onchange="toggleSelectStudent(${s.id}, this.checked)"></td>
+                    <td>${s.name}</td>
+                    <td style="color:var(--text-secondary);">${s.student_no || '-'}</td>
+                    <td>${s.class_room?.name || '-'}</td>
+                    <td>${s.class_room?.grade || '-'}</td>
+                    <td><b>${s.total_score || 0}</b></td>
+                    <td>${statusBadge}</td>
+                    <td style="display:flex;gap:4px;">
+                        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;cursor:pointer;" onclick="editStudent(${s.id}, '${s.name}', '${s.student_no || ''}', ${s.class_id || 0})">编辑</button>
+                        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px;background:#fee2e2;color:#dc2626;border:1px solid #fecaca;border-radius:4px;cursor:pointer;" onclick="deleteStudent(${s.id}, '${s.name}')">删除</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // 渲染分页
+        const paginationEl = document.getElementById('studentPagination');
+        if (paginationEl) {
+            if (meta.last_page > 1) {
+                let html = '';
+                for (let i = 1; i <= meta.last_page; i++) {
+                    const active = i === meta.current_page ? 'background:var(--gradient-primary);color:white;border:none;' : 'background:var(--bg-card);color:var(--text);border:1px solid var(--border);';
+                    html += `<button style="padding:6px 12px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;${active}" onclick="loadAdminStudents(${i})">${i}</button>`;
+                }
+                paginationEl.innerHTML = html;
+                paginationEl.style.display = 'flex';
+            } else {
+                paginationEl.style.display = 'none';
+            }
+        }
+
+        updateStudentBatchBar();
+    } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:48px;color:#dc2626;">加载失败，请刷新重试</td></tr>';
+    }
+}
+
+function toggleSelectStudent(id, checked) {
+    if (checked) {
+        if (!selectedStudentIds.includes(id)) selectedStudentIds.push(id);
+    } else {
+        selectedStudentIds = selectedStudentIds.filter(sid => sid !== id);
+    }
+    updateStudentBatchBar();
+}
+
+function toggleSelectAllStudents(checkbox) {
+    const checkboxes = document.querySelectorAll('.student-checkbox');
+    checkboxes.forEach(cb => {
+        cb.checked = checkbox.checked;
+        const id = parseInt(cb.value);
+        if (checkbox.checked) {
+            if (!selectedStudentIds.includes(id)) selectedStudentIds.push(id);
+        } else {
+            selectedStudentIds = selectedStudentIds.filter(sid => sid !== id);
+        }
+    });
+    updateStudentBatchBar();
+}
+
+function updateStudentBatchBar() {
+    const bar = document.getElementById('studentBatchBar');
+    const countEl = document.getElementById('studentSelectedCount');
+    if (bar) bar.style.display = selectedStudentIds.length > 0 ? 'flex' : 'none';
+    if (countEl) countEl.textContent = '已选择 ' + selectedStudentIds.length + ' 名学生';
+}
+
+async function populateClassOptions(selectId) {
+    try {
+        const res = await adminApi('/classes');
+        const classes = res.data || [];
+        const sel = document.getElementById(selectId);
+        if (!sel) return;
+        const currentVal = sel.value;
+        sel.innerHTML = '<option value="">请选择班级</option>' +
+            classes.map(c => `<option value="${c.id}">${c.name}（${c.grade || '无年级'}）</option>`).join('');
+        if (currentVal) sel.value = currentVal;
+    } catch (e) {}
+}
+
+async function submitCreateStudent() {
+    const name = document.getElementById('studentNameInput')?.value?.trim();
+    const classId = document.getElementById('studentClassInput')?.value;
+    const studentNo = document.getElementById('studentNoInput')?.value?.trim() || null;
+    if (!name) { showToast('请输入学生姓名', 'error'); return; }
+    if (!classId) { showToast('请选择班级', 'error'); return; }
+    try {
+        await adminApi('/students', { method: 'POST', body: JSON.stringify({ name, class_id: parseInt(classId), student_no: studentNo }) });
+        showToast('学生「' + name + '」已添加', 'success');
+        closeModal();
+        loadAdminStudents(adminStudentsCurrentPage);
+        loadAdminOverview();
+    } catch (e) {}
+}
+
+function editStudent(id, name, studentNo, classId) {
+    showModal('edit-student');
+    setTimeout(() => {
+        document.getElementById('editStudentId').value = id;
+        document.getElementById('editStudentName').value = name;
+        document.getElementById('editStudentNo').value = studentNo || '';
+        // 异步加载班级列表
+        populateClassOptions('editStudentClass').then(() => {
+            if (classId) document.getElementById('editStudentClass').value = classId;
+        });
+    }, 50);
+}
+
+async function submitEditStudent() {
+    const id = document.getElementById('editStudentId')?.value;
+    const name = document.getElementById('editStudentName')?.value?.trim();
+    const classId = document.getElementById('editStudentClass')?.value;
+    const studentNo = document.getElementById('editStudentNo')?.value?.trim() || null;
+    if (!name) { showToast('请输入学生姓名', 'error'); return; }
+    const payload = { name, student_no: studentNo };
+    if (classId) payload.class_id = parseInt(classId);
+    try {
+        await adminApi('/students/' + id, { method: 'PUT', body: JSON.stringify(payload) });
+        showToast('学生信息已更新', 'success');
+        closeModal();
+        loadAdminStudents(adminStudentsCurrentPage);
+    } catch (e) {}
+}
+
+async function deleteStudent(id, name) {
+    if (!confirm('确定删除学生「' + name + '」？此操作可恢复。')) return;
+    try {
+        await adminApi('/students/' + id, { method: 'DELETE' });
+        showToast('学生「' + name + '」已删除', 'success');
+        selectedStudentIds = selectedStudentIds.filter(sid => sid !== id);
+        loadAdminStudents(adminStudentsCurrentPage);
+        loadAdminOverview();
+    } catch (e) {}
+}
+
+async function batchDeleteStudents() {
+    if (!selectedStudentIds.length) { showToast('请先选择学生', 'error'); return; }
+    if (!confirm('确定删除选中的 ' + selectedStudentIds.length + ' 名学生？')) return;
+    try {
+        await adminApi('/students/batch-delete', { method: 'POST', body: JSON.stringify({ student_ids: selectedStudentIds }) });
+        showToast('已删除 ' + selectedStudentIds.length + ' 名学生', 'success');
+        selectedStudentIds = [];
+        loadAdminStudents(adminStudentsCurrentPage);
+        loadAdminOverview();
+    } catch (e) {}
+}
+
+function showBatchMoveModal() {
+    if (!selectedStudentIds.length) { showToast('请先选择学生', 'error'); return; }
+    showModal('batch-move-students');
+    populateClassOptions('batchMoveTargetClass');
+}
+
+async function submitBatchMoveStudents() {
+    const targetClassId = document.getElementById('batchMoveTargetClass')?.value;
+    if (!targetClassId) { showToast('请选择目标班级', 'error'); return; }
+    try {
+        const res = await adminApi('/students/batch-move', { method: 'POST', body: JSON.stringify({ student_ids: selectedStudentIds, target_class_id: parseInt(targetClassId) }) });
+        showToast(res.message || '批量移动完成', 'success');
+        closeModal();
+        selectedStudentIds = [];
+        loadAdminStudents(adminStudentsCurrentPage);
+    } catch (e) {}
+}
+
+// ===== 学年升级 =====
+async function previewGradeUpgrade() {
+    const area = document.getElementById('upgradePreviewArea');
+    if (!area) return;
+    area.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-secondary);">⏳ 正在生成升级预览…</div>';
+    try {
+        const res = await adminApi('/grade-upgrade/preview');
+        const data = res.data || {};
+        const upgrade = data.upgrade_classes || [];
+        const graduate = data.graduate_classes || [];
+        const summary = data.summary || {};
+
+        let html = '';
+
+        // 统计信息
+        html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;">';
+        html += '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;text-align:center;">';
+        html += '<div style="font-size:28px;font-weight:700;color:var(--primary);">' + (summary.upgrade_class_count || 0) + '</div>';
+        html += '<div style="font-size:12px;color:var(--text-secondary);">升级班级</div></div>';
+        html += '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;text-align:center;">';
+        html += '<div style="font-size:28px;font-weight:700;color:#16a34a;">' + (summary.upgrade_student_count || 0) + '</div>';
+        html += '<div style="font-size:12px;color:var(--text-secondary);">升级学生</div></div>';
+        html += '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;text-align:center;">';
+        html += '<div style="font-size:28px;font-weight:700;color:#dc2626;">' + (summary.graduate_class_count || 0) + '</div>';
+        html += '<div style="font-size:12px;color:var(--text-secondary);">毕业班级</div></div>';
+        html += '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;text-align:center;">';
+        html += '<div style="font-size:28px;font-weight:700;color:#92400E;">' + (summary.graduate_student_count || 0) + '</div>';
+        html += '<div style="font-size:12px;color:var(--text-secondary);">毕业学生</div></div>';
+        html += '</div>';
+
+        if (summary.note) {
+            html += '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius-md);padding:12px;margin-bottom:16px;font-size:13px;color:#1e40af;">' + summary.note + '</div>';
+        }
+
+        // 升级列表
+        if (upgrade.length) {
+            html += '<h4 style="margin-bottom:8px;">📋 升级班级明细</h4>';
+            html += '<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>当前班级</th><th>当前年级</th><th>升级后班级名</th><th>升级后年级</th><th>学生数</th></tr></thead><tbody>';
+            upgrade.forEach(u => {
+                html += '<tr><td>' + u.class_name + '</td><td>' + u.old_grade + '</td><td><b>' + u.new_name + '</b></td><td><b>' + u.new_grade + '</b></td><td>' + u.student_count + '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+        }
+
+        // 毕业列表
+        if (graduate.length) {
+            html += '<h4 style="margin:16px 0 8px;color:#dc2626;">🎓 毕业班级（学生标记毕业，班级归档）</h4>';
+            html += '<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>班级</th><th>学生数</th></tr></thead><tbody>';
+            graduate.forEach(g => {
+                html += '<tr><td>' + g.class_name + '</td><td>' + g.student_count + '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+        }
+
+        if (!upgrade.length && !graduate.length) {
+            html += '<div style="text-align:center;padding:32px;color:var(--text-secondary);">当前没有需要升级的班级</div>';
+        }
+
+        area.innerHTML = html;
+    } catch (e) {
+        area.innerHTML = '<div style="text-align:center;padding:32px;color:#dc2626;">加载预览失败，请重试</div>';
+    }
+}
+
+async function executeGradeUpgrade() {
+    if (!confirm('再次确认：此操作不可撤销！确定执行学年升级吗？')) return;
+    try {
+        const res = await adminApi('/grade-upgrade/execute', { method: 'POST', body: JSON.stringify({}) });
+        const data = res.data || {};
+        showToast('升级完成：' + data.upgraded_classes + ' 个班级升级，' + data.archived_classes + ' 个班级归档，' + data.graduated_students + ' 名学生毕业', 'success');
+        closeModal();
+        previewGradeUpgrade();
+        loadAdminOverview();
+    } catch (e) {}
+}
+
 // ===== Toast =====
 function showToast(msg, type = 'success') {
     const container = document.getElementById('toastContainer');
@@ -3328,8 +3673,55 @@ function showModal(type) {
                 <button class="btn btn-ghost" onclick="closeModal()">取消</button>
                 <button class="btn btn-primary" onclick="submitSchoolSettings()">保存修改</button>
             </div>`,
-
-        // ===== 新功能模态框 =====
+        'create-student': `<h3>添加学生<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <div class="form-group"><label>姓名 *</label><input id="studentNameInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);" placeholder="如：张小明"></div>
+            <div class="form-group"><label>班级 *</label>
+                <select id="studentClassInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);">
+                    <option value="">请选择班级</option>
+                </select>
+            </div>
+            <div class="form-group"><label>学号（选填）</label><input id="studentNoInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);" placeholder="如：SCH001_001"></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitCreateStudent()">添加</button>
+            </div>`,
+        'edit-student': `<h3>编辑学生<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <input type="hidden" id="editStudentId">
+            <div class="form-group"><label>姓名 *</label><input id="editStudentName" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);"></div>
+            <div class="form-group"><label>班级</label>
+                <select id="editStudentClass" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);">
+                    <option value="">不修改</option>
+                </select>
+            </div>
+            <div class="form-group"><label>学号</label><input id="editStudentNo" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);"></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitEditStudent()">保存</button>
+            </div>`,
+        'batch-move-students': `<h3>批量移动学生<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">将选中的学生移动到另一个班级</p>
+            <div class="form-group"><label>目标班级 *</label>
+                <select id="batchMoveTargetClass" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);">
+                    <option value="">请选择班级</option>
+                </select>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitBatchMoveStudents()">确认移动</button>
+            </div>`,
+        'grade-upgrade-confirm': `<h3>确认学年升级<button class="modal-close" onclick="closeModal()">×</button></h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">此操作将执行以下变更：<br>
+            &nbsp;&nbsp;· <b>六年级</b>学生标记为毕业，班级归档<br>
+            &nbsp;&nbsp;· <b>五年级</b>→六年级，<b>四年级</b>→五年级，<b>三年级</b>→四年级<br>
+            &nbsp;&nbsp;· <b>二年级</b>→三年级，<b>一年级</b>→二年级<br>
+            &nbsp;&nbsp;· 一年级新生需升级后手动创建班级并导入</p>
+            <div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:var(--radius-md);padding:12px;margin-bottom:var(--sp-md);">
+                <p style="color:#92400E;font-size:13px;">⚠️ 此操作不可撤销！建议先点击「预览升级」查看影响范围。</p>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" style="background:#dc2626;" onclick="executeGradeUpgrade()">确认执行升级</button>
+            </div>`,
         'create-homework': `<h3>📱 新建作业收取任务<button class="modal-close" onclick="closeModal()">×</button></h3>
             <div class="form-group"><label>作业名称</label><input style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：数学作业 第3章"></div>
             <div class="form-group"><label>截止时间</label><input type="datetime-local" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);"></div>

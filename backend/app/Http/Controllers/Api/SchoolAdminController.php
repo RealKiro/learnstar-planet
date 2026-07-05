@@ -513,6 +513,315 @@ class SchoolAdminController extends Controller
         ]);
     }
 
+    // ===== 学生管理 =====
+
+    /**
+     * 学生列表（支持搜索、按班级/年级筛选）
+     */
+    public function listStudents(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $query = Student::whereHas('classRoom', function ($q) use ($school) {
+            $q->where('school_id', $school->id);
+        })->with('classRoom:id,name,grade');
+
+        // 搜索（姓名或学号）
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('student_no', 'like', "%{$search}%");
+            });
+        }
+
+        // 按班级筛选
+        if ($classId = $request->input('class_id')) {
+            $query->where('class_id', $classId);
+        }
+
+        // 按年级筛选
+        if ($grade = $request->input('grade')) {
+            $query->whereHas('classRoom', function ($q) use ($grade) {
+                $q->where('grade', $grade);
+            });
+        }
+
+        // 状态筛选（默认不显示已删除的）
+        $status = $request->input('status', 'active');
+        if ($status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        $perPage = (int) ($request->input('per_page') ?? 50);
+        $students = $query->orderBy('id', 'desc')->paginate($perPage);
+
+        return response()->json([
+            'data' => $students->items(),
+            'meta' => [
+                'current_page' => $students->currentPage(),
+                'last_page' => $students->lastPage(),
+                'total' => $students->total(),
+                'per_page' => $students->perPage(),
+            ],
+        ]);
+    }
+
+    /**
+     * 单个添加学生
+     */
+    public function createStudent(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:50',
+            'class_id' => 'required|integer|exists:class_rooms,id',
+            'student_no' => 'nullable|string|max:50',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $school = $request->user()->school;
+        $class = ClassRoom::where('school_id', $school->id)->findOrFail($request->input('class_id'));
+
+        $student = Student::create([
+            'class_id' => $class->id,
+            'name' => $request->input('name'),
+            'student_no' => $request->input('student_no'),
+            'total_score' => 0,
+            'status' => 'active',
+        ]);
+
+        return response()->json([
+            'message' => '学生「' . $student->name . '」已添加',
+            'data' => $student,
+        ], 201);
+    }
+
+    /**
+     * 更新学生信息
+     */
+    public function updateStudent(Request $request, int $id): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:50',
+            'class_id' => 'sometimes|required|integer|exists:class_rooms,id',
+            'student_no' => 'nullable|string|max:50',
+            'status' => 'sometimes|in:active,graduated,inactive',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $school = $request->user()->school;
+        $classIds = ClassRoom::where('school_id', $school->id)->pluck('id');
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($id);
+
+        $data = $request->only(['name', 'class_id', 'student_no', 'status']);
+        // 验证新班级也属于该学校
+        if (isset($data['class_id'])) {
+            ClassRoom::where('school_id', $school->id)->findOrFail($data['class_id']);
+        }
+
+        $student->fill($data);
+        $student->save();
+
+        return response()->json(['message' => '学生信息已更新', 'data' => $student->fresh()]);
+    }
+
+    /**
+     * 删除学生（软删除）
+     */
+    public function deleteStudent(Request $request, int $id): JsonResponse
+    {
+        $school = $request->user()->school;
+        $classIds = ClassRoom::where('school_id', $school->id)->pluck('id');
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($id);
+
+        $student->delete();
+
+        return response()->json(['message' => '学生「' . $student->name . '」已删除']);
+    }
+
+    /**
+     * 批量删除学生
+     */
+    public function batchDeleteStudents(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'student_ids' => 'required|array|min:1',
+            'student_ids.*' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $school = $request->user()->school;
+        $classIds = ClassRoom::where('school_id', $school->id)->pluck('id');
+        $count = Student::whereIn('id', $request->input('student_ids'))
+            ->whereIn('class_id', $classIds)
+            ->delete();
+
+        return response()->json(['message' => '已删除 ' . $count . ' 名学生']);
+    }
+
+    /**
+     * 批量移动学生到其他班级
+     */
+    public function batchMoveStudents(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'student_ids' => 'required|array|min:1',
+            'student_ids.*' => 'required|integer',
+            'target_class_id' => 'required|integer|exists:class_rooms,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $school = $request->user()->school;
+        $targetClass = ClassRoom::where('school_id', $school->id)->findOrFail($request->input('target_class_id'));
+        $classIds = ClassRoom::where('school_id', $school->id)->pluck('id');
+
+        $count = Student::whereIn('id', $request->input('student_ids'))
+            ->whereIn('class_id', $classIds)
+            ->update(['class_id' => $targetClass->id]);
+
+        return response()->json([
+            'message' => '已将 ' . $count . ' 名学生移动到「' . $targetClass->name . '」',
+        ]);
+    }
+
+    // ===== 学年升级 =====
+
+    /**
+     * 预览学年升级（dry-run）
+     */
+    public function previewGradeUpgrade(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $gradeMap = [
+            '一年级' => '二年级',
+            '二年级' => '三年级',
+            '三年级' => '四年级',
+            '四年级' => '五年级',
+            '五年级' => '六年级',
+        ];
+
+        $classes = ClassRoom::where('school_id', $school->id)
+            ->where('status', 'active')
+            ->withCount('students')
+            ->get();
+
+        $upgrade = [];
+        $graduate = [];
+
+        foreach ($classes as $class) {
+            if ($class->grade === '六年级') {
+                $graduate[] = [
+                    'class_id' => $class->id,
+                    'class_name' => $class->name,
+                    'student_count' => $class->students_count,
+                ];
+            } elseif (isset($gradeMap[$class->grade])) {
+                $newGrade = $gradeMap[$class->grade];
+                // 生成新班级名：替换年级前缀
+                $newName = str_replace($class->grade, $newGrade, $class->name);
+                $upgrade[] = [
+                    'class_id' => $class->id,
+                    'class_name' => $class->name,
+                    'new_name' => $newName,
+                    'old_grade' => $class->grade,
+                    'new_grade' => $newGrade,
+                    'student_count' => $class->students_count,
+                ];
+            }
+        }
+
+        $graduateStudentCount = array_sum(array_column($graduate, 'student_count'));
+        $upgradeStudentCount = array_sum(array_column($upgrade, 'student_count'));
+
+        return response()->json([
+            'data' => [
+                'upgrade_classes' => $upgrade,
+                'graduate_classes' => $graduate,
+                'summary' => [
+                    'upgrade_class_count' => count($upgrade),
+                    'graduate_class_count' => count($graduate),
+                    'upgrade_student_count' => $upgradeStudentCount,
+                    'graduate_student_count' => $graduateStudentCount,
+                    'note' => '六年级学生将标记为毕业，二至五年级学生随班级升级到下一年级。一年级新生需在升级后手动创建班级并导入。',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * 执行学年升级
+     */
+    public function executeGradeUpgrade(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $gradeMap = [
+            '一年级' => '二年级',
+            '二年级' => '三年级',
+            '三年级' => '四年级',
+            '四年级' => '五年级',
+            '五年级' => '六年级',
+        ];
+
+        $classes = ClassRoom::where('school_id', $school->id)
+            ->where('status', 'active')
+            ->get();
+
+        $upgraded = 0;
+        $graduatedStudents = 0;
+        $archivedClasses = 0;
+
+        \DB::transaction(function () use ($classes, $gradeMap, &$upgraded, &$graduatedStudents, &$archivedClasses) {
+            // 1. 六年级：标记学生毕业，归档班级
+            foreach ($classes as $class) {
+                if ($class->grade === '六年级') {
+                    // 标记学生为毕业
+                    $count = Student::where('class_id', $class->id)
+                        ->where('status', 'active')
+                        ->update(['status' => 'graduated']);
+                    $graduatedStudents += $count;
+
+                    // 归档班级
+                    $class->status = 'archived';
+                    $class->save();
+                    $archivedClasses++;
+                }
+            }
+
+            // 2. 其他年级：升级年级并重命名
+            foreach ($classes as $class) {
+                if (isset($gradeMap[$class->grade])) {
+                    $newGrade = $gradeMap[$class->grade];
+                    $newName = str_replace($class->grade, $newGrade, $class->name);
+
+                    $class->grade = $newGrade;
+                    $class->name = $newName;
+                    $class->save();
+                    $upgraded++;
+                }
+            }
+        });
+
+        return response()->json([
+            'message' => '学年升级完成',
+            'data' => [
+                'upgraded_classes' => $upgraded,
+                'archived_classes' => $archivedClasses,
+                'graduated_students' => $graduatedStudents,
+                'note' => '六年级学生已标记为毕业。请创建新一年级班级并导入新生名单。',
+            ],
+        ]);
+    }
+
     // ===== 报表 =====
 
     /**

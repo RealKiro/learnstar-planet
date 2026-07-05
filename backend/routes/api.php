@@ -73,6 +73,17 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group
     Route::delete('classes/{id}', [SchoolAdminController::class, 'destroy']);
     Route::post('classes/{id}/assign-teacher', [SchoolAdminController::class, 'assignClassTeacher']);
     Route::post('classes/{id}/import-students', [SchoolAdminController::class, 'importStudents']);
+    // 学生管理
+    Route::get('students', [SchoolAdminController::class, 'listStudents']);
+    Route::post('students', [SchoolAdminController::class, 'createStudent']);
+    Route::put('students/{id}', [SchoolAdminController::class, 'updateStudent']);
+    Route::delete('students/{id}', [SchoolAdminController::class, 'deleteStudent']);
+    Route::post('students/batch-delete', [SchoolAdminController::class, 'batchDeleteStudents']);
+    Route::post('students/batch-move', [SchoolAdminController::class, 'batchMoveStudents']);
+    // 学年升级
+    Route::get('grade-upgrade/preview', [SchoolAdminController::class, 'previewGradeUpgrade']);
+    Route::post('grade-upgrade/execute', [SchoolAdminController::class, 'executeGradeUpgrade']);
+    // 报表
     Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
     Route::get('reports/by-grade', [SchoolAdminController::class, 'reportsByGrade']);
     Route::get('reports/by-class', [SchoolAdminController::class, 'reportsByClass']);
