@@ -2205,7 +2205,8 @@
                 <div class="nav-section">
                     <div class="nav-section-title">账号管理</div>
                     <div class="nav-item" data-page="a-teachers"><span class="nav-icon">👨‍🏫</span>教师账号</div>
-                    <div class="nav-item" data-page="a-parents"><span class="nav-icon">👨‍👩‍👧</span>家长账号</div>
+                    <!-- 家长功能暂时隐藏，供未来需求启用 -->
+                    <div class="nav-item" data-page="a-parents" style="display:none;"><span class="nav-icon">👨‍👩‍👧</span>家长账号</div>
                 </div>
                 <div class="nav-section">
                     <div class="nav-section-title">班级管理</div>
@@ -2298,8 +2299,8 @@
                 </div>
             </div>
 
-            <!-- ═══ 家长账号管理 ═══ -->
-            <div id="a-parents" class="admin-page">
+            <!-- ═══ 家长账号管理（暂时隐藏，供未来需求启用） ═══ -->
+            <div id="a-parents" class="admin-page" style="display:none;">
                 <div class="page-header">
                     <div>
                         <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">账号管理</p>
@@ -2375,6 +2376,7 @@
                             <tr>
                                 <th><input type="checkbox" id="studentSelectAll" onchange="toggleSelectAllStudents(this)"></th>
                                 <th>姓名</th>
+                                <th>性别</th>
                                 <th>学号</th>
                                 <th>班级</th>
                                 <th>年级</th>
@@ -2384,7 +2386,7 @@
                             </tr>
                         </thead>
                         <tbody id="adminStudentTbody">
-                            <tr><td colspan="8" style="text-align:center;padding:48px;color:var(--text-secondary);">
+                            <tr><td colspan="9" style="text-align:center;padding:48px;color:var(--text-secondary);">
                                 <div style="font-size:32px;margin-bottom:8px;">⏳</div>
                                 正在加载学生列表…
                             </td></tr>
@@ -2452,7 +2454,8 @@
                             <div class="stat-trend up">加载中…</div>
                         </div>
                     </div>
-                    <div class="admin-stat-card info">
+                    <!-- 家长统计暂时隐藏 -->
+                    <div class="admin-stat-card info" style="display:none;">
                         <div class="stat-icon-wrap">👨‍👩‍👧</div>
                         <div class="stat-body">
                             <div class="stat-label">家长账号</div>
@@ -2910,7 +2913,7 @@ function renderClassTable(classes) {
             <td>${c.teacher_name ? escapeHtml(c.teacher_name) : '<span style="color:var(--text-secondary);">未分配</span>'}</td>
             <td style="font-weight:600;">${c.student_count} 人</td>
             <td>
-                <button class="table-action" onclick="openImportStudents(${c.id}, '${escapeHtml(c.name)}')">导入学生</button>
+                <button class="table-action" onclick="openImportStudents()">导入学生</button>
                 <button class="table-action danger" onclick="deleteClass(${c.id}, '${escapeHtml(c.name)}')">删除</button>
             </td>
         </tr>
@@ -2961,42 +2964,74 @@ async function resetTeacherPwd(id, name) {
     } catch (e) {}
 }
 
-function openImportStudents(classId, className) {
+function openImportStudents() {
     showModal('import-students');
-    // 缓存当前 classId 给模态框使用
-    document.getElementById('modalContent').dataset.classId = classId;
-    document.getElementById('modalContent').dataset.className = className;
 }
 
 async function submitImportStudents() {
-    const classId = document.getElementById('modalContent').dataset.classId;
-    const className = document.getElementById('modalContent').dataset.className;
     const text = document.getElementById('importStudentsText')?.value || '';
-    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    let lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
     if (!lines.length) {
         showToast('请先粘贴学生名单', 'error');
         return;
     }
-    const students = lines.map(line => {
+
+    // 自动跳过表头行（第一列含"姓名"且第二列含"班级"）
+    if (lines[0] && /姓名/.test(lines[0]) && /班级/.test(lines[0])) {
+        lines = lines.slice(1);
+    }
+    if (!lines.length) {
+        showToast('没有可导入的数据行（仅有表头）', 'error');
+        return;
+    }
+
+    // 解析表头：姓名,班级,性别,学号（学号选填）
+    const students = lines.map((line, idx) => {
         const parts = line.split(/[,\t，]/).map(s => s.trim());
-        return { name: parts[0], student_no: parts[1] || null, phone: parts[2] || null };
+        return {
+            name: parts[0] || '',
+            class_name: parts[1] || '',
+            gender: parts[2] || '',
+            student_no: parts[3] || null,
+            phone: parts[4] || null,
+        };
     });
+
+    const invalid = students.filter((s, idx) => {
+        if (!s.name || !s.class_name || !s.gender) {
+            s._line = idx + 1;
+            return true;
+        }
+        return false;
+    });
+    if (invalid.length) {
+        const msg = invalid.slice(0, 3).map(s => '第 ' + s._line + ' 行：姓名、班级、性别均必填').join('\n');
+        showToast('模板格式错误\n' + msg, 'error', 5000);
+        return;
+    }
+
     try {
-        const res = await adminApi('/classes/' + classId + '/import-students', {
+        const res = await adminApi('/students/import', {
             method: 'POST',
             body: JSON.stringify({ students }),
         });
-        showToast('已导入 ' + (res.data?.created?.length || students.length) + ' 名学生到「' + className + '」', 'success');
+        showToast('已导入 ' + (res.data?.created_count || students.length) + ' 名学生', 'success');
         closeModal();
         loadAdminClasses();
         loadAdminOverview();
-    } catch (e) {}
+        loadAdminStudents();
+    } catch (e) {
+        if (e.data?.errors?.length) {
+            const msg = e.data.errors.slice(0, 5).join('\n');
+            showToast('导入失败：\n' + msg, 'error', 6000);
+        }
+    }
 }
 
 function downloadExcelTemplate(type) {
     // type: 'students' | 'teachers' | 'parents'
     const csv = {
-        students: '姓名,学号,家长手机号\n小明,SCH001_001,13800138001\n小红,SCH001_002,13800138002\n',
+        students: '姓名,班级,性别,学号\n张小明,三年一班,男,2026001\n李小红,三年一班,女,2026002\n',
         teachers: '姓名,密码,手机号,邮箱\n张老师,star123456,13800138011,zhang@example.com\n李老师,star123456,13800138012,li@example.com\n',
         parents: '姓名,密码,手机号\n王家长,star123456,13800138021\n赵家长,star123456,13800138022\n',
     }[type] || '';
@@ -3288,7 +3323,7 @@ async function loadAdminStudents(page = 1) {
     const grade = document.getElementById('studentGradeFilter')?.value || '';
     const tbody = document.getElementById('adminStudentTbody');
     if (!tbody) return;
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:48px;color:var(--text-secondary);">⏳ 正在加载…</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--text-secondary);">⏳ 正在加载…</td></tr>';
 
     try {
         let url = '/school-admin/students?page=' + page + '&per_page=50';
@@ -3299,23 +3334,27 @@ async function loadAdminStudents(page = 1) {
         const meta = res.meta || {};
 
         if (!students.length) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:48px;color:var(--text-secondary);"><div style="font-size:32px;margin-bottom:8px;">📭</div>暂无学生数据</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--text-secondary);"><div style="font-size:32px;margin-bottom:8px;">📭</div>暂无学生数据</td></tr>';
         } else {
             tbody.innerHTML = students.map(s => {
                 const checked = selectedStudentIds.includes(s.id) ? 'checked' : '';
                 const statusBadge = s.status === 'active' ? '<span style="color:#16a34a;">在读</span>' :
                     s.status === 'graduated' ? '<span style="color:#6b7280;">已毕业</span>' :
                     '<span style="color:#dc2626;">停用</span>';
+                const genderBadge = s.gender === '男' ? '男' :
+                    s.gender === '女' ? '女' :
+                    (s.gender || '-');
                 return `<tr>
                     <td><input type="checkbox" class="student-checkbox" value="${s.id}" ${checked} onchange="toggleSelectStudent(${s.id}, this.checked)"></td>
                     <td>${s.name}</td>
+                    <td>${genderBadge}</td>
                     <td style="color:var(--text-secondary);">${s.student_no || '-'}</td>
                     <td>${s.class_room?.name || '-'}</td>
                     <td>${s.class_room?.grade || '-'}</td>
                     <td><b>${s.total_score || 0}</b></td>
                     <td>${statusBadge}</td>
                     <td style="display:flex;gap:4px;">
-                        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;cursor:pointer;" onclick="editStudent(${s.id}, '${s.name}', '${s.student_no || ''}', ${s.class_id || 0})">编辑</button>
+                        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;cursor:pointer;" onclick="editStudent(${s.id}, '${s.name}', '${s.gender || ''}', '${s.student_no || ''}', ${s.class_id || 0})">编辑</button>
                         <button class="btn btn-sm" style="padding:4px 10px;font-size:12px;background:#fee2e2;color:#dc2626;border:1px solid #fecaca;border-radius:4px;cursor:pointer;" onclick="deleteStudent(${s.id}, '${s.name}')">删除</button>
                     </td>
                 </tr>`;
@@ -3340,7 +3379,7 @@ async function loadAdminStudents(page = 1) {
 
         updateStudentBatchBar();
     } catch (e) {
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:48px;color:#dc2626;">加载失败，请刷新重试</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:48px;color:#dc2626;">加载失败，请刷新重试</td></tr>';
     }
 }
 
@@ -3390,11 +3429,12 @@ async function populateClassOptions(selectId) {
 async function submitCreateStudent() {
     const name = document.getElementById('studentNameInput')?.value?.trim();
     const classId = document.getElementById('studentClassInput')?.value;
+    const gender = document.getElementById('studentGenderInput')?.value || '未知';
     const studentNo = document.getElementById('studentNoInput')?.value?.trim() || null;
     if (!name) { showToast('请输入学生姓名', 'error'); return; }
     if (!classId) { showToast('请选择班级', 'error'); return; }
     try {
-        await adminApi('/students', { method: 'POST', body: JSON.stringify({ name, class_id: parseInt(classId), student_no: studentNo }) });
+        await adminApi('/students', { method: 'POST', body: JSON.stringify({ name, class_id: parseInt(classId), gender, student_no: studentNo }) });
         showToast('学生「' + name + '」已添加', 'success');
         closeModal();
         loadAdminStudents(adminStudentsCurrentPage);
@@ -3402,11 +3442,14 @@ async function submitCreateStudent() {
     } catch (e) {}
 }
 
-function editStudent(id, name, studentNo, classId) {
+function editStudent(id, name, gender, studentNo, classId) {
     showModal('edit-student');
     setTimeout(() => {
         document.getElementById('editStudentId').value = id;
         document.getElementById('editStudentName').value = name;
+        if (document.getElementById('editStudentGender')) {
+            document.getElementById('editStudentGender').value = (gender === '男' || gender === '女') ? gender : '未知';
+        }
         document.getElementById('editStudentNo').value = studentNo || '';
         // 异步加载班级列表
         populateClassOptions('editStudentClass').then(() => {
@@ -3419,9 +3462,10 @@ async function submitEditStudent() {
     const id = document.getElementById('editStudentId')?.value;
     const name = document.getElementById('editStudentName')?.value?.trim();
     const classId = document.getElementById('editStudentClass')?.value;
+    const gender = document.getElementById('editStudentGender')?.value || '未知';
     const studentNo = document.getElementById('editStudentNo')?.value?.trim() || null;
     if (!name) { showToast('请输入学生姓名', 'error'); return; }
-    const payload = { name, student_no: studentNo };
+    const payload = { name, gender, student_no: studentNo };
     if (classId) payload.class_id = parseInt(classId);
     try {
         await adminApi('/students/' + id, { method: 'PUT', body: JSON.stringify(payload) });
@@ -3619,14 +3663,17 @@ function showModal(type) {
                 <button class="btn btn-primary" onclick="submitBatchCreateParents()">创建账号</button>
             </div>`,
         'import-students': `<h3>导入学生名单<button class="modal-close" onclick="closeModal()">×</button></h3>
-            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">支持两种方式：① 上传 Excel/CSV 文件 ② 直接粘贴文本。每行一位：姓名,学号,家长手机号</p>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">支持两种方式：① 上传 Excel/CSV 文件 ② 直接粘贴文本。<br>
+            &nbsp;&nbsp;· <b>姓名</b>、<b>班级</b>、<b>性别</b> 必填<br>
+            &nbsp;&nbsp;· 学号、手机号选填<br>
+            &nbsp;&nbsp;· 班级需与系统中已存在的班级名称完全匹配</p>
             <div class="form-group">
                 <label>📤 上传文件（.xlsx / .xls / .csv）</label>
                 <input type="file" id="importStudentsFile" accept=".xlsx,.xls,.csv" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg);" onchange="parseImportFile(event)">
             </div>
             <div class="form-group">
                 <label>或直接粘贴（每行一位）</label>
-                <textarea id="importStudentsText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="小明,SCH001_001,13800138001&#10;小红,SCH001_002&#10;小刚"></textarea>
+                <textarea id="importStudentsText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="姓名,班级,性别,学号&#10;张小明,三年一班,男,2026001&#10;李小红,三年一班,女,2026002&#10;王刚,三年二班,男"></textarea>
             </div>
             <div id="importPreview" style="display:none;background:rgba(79,70,229,0.05);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
@@ -3680,6 +3727,13 @@ function showModal(type) {
                     <option value="">请选择班级</option>
                 </select>
             </div>
+            <div class="form-group"><label>性别 *</label>
+                <select id="studentGenderInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                    <option value="未知">未知</option>
+                </select>
+            </div>
             <div class="form-group"><label>学号（选填）</label><input id="studentNoInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);" placeholder="如：SCH001_001"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
                 <button class="btn btn-ghost" onclick="closeModal()">取消</button>
@@ -3688,6 +3742,13 @@ function showModal(type) {
         'edit-student': `<h3>编辑学生<button class="modal-close" onclick="closeModal()">×</button></h3>
             <input type="hidden" id="editStudentId">
             <div class="form-group"><label>姓名 *</label><input id="editStudentName" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);"></div>
+            <div class="form-group"><label>性别</label>
+                <select id="editStudentGender" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                    <option value="未知">未知</option>
+                </select>
+            </div>
             <div class="form-group"><label>班级</label>
                 <select id="editStudentClass" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);">
                     <option value="">不修改</option>

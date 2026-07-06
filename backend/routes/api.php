@@ -72,8 +72,8 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group
     Route::put('classes/{id}', [SchoolAdminController::class, 'update']);
     Route::delete('classes/{id}', [SchoolAdminController::class, 'destroy']);
     Route::post('classes/{id}/assign-teacher', [SchoolAdminController::class, 'assignClassTeacher']);
-    Route::post('classes/{id}/import-students', [SchoolAdminController::class, 'importStudents']);
     // 学生管理
+    Route::post('students/import', [SchoolAdminController::class, 'importStudents']);
     Route::get('students', [SchoolAdminController::class, 'listStudents']);
     Route::post('students', [SchoolAdminController::class, 'createStudent']);
     Route::put('students/{id}', [SchoolAdminController::class, 'updateStudent']);

@@ -40,7 +40,7 @@ class ClassRoom extends Model
 
     public function students(): HasMany
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class, 'class_id');
     }
 
     public function pets(): HasMany

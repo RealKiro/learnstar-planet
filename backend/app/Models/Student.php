@@ -29,6 +29,7 @@ class Student extends Model
         'class_id',
         'parent_id',
         'name',
+        'gender',          // 性别
         'student_no',       // 学号
         'avatar_path',
         'total_score',      // 总积分

@@ -476,40 +476,71 @@ class SchoolAdminController extends Controller
     }
 
     /**
-     * Excel 导入学生到指定班级
-     * 请求体: {students: [{name, student_no?, phone?}, ...]}
+     * 学生批量导入（按模板班级名称匹配）
+     * 模板字段：姓名（必填）、班级（必填）、性别（必填）、学号（选填）、手机号（选填）
      */
-    public function importStudents(Request $request, int $id): JsonResponse
+    public function importStudents(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'students' => 'required|array|min:1',
             'students.*.name' => 'required|string|max:50',
+            'students.*.class_name' => 'required|string|max:50',
+            'students.*.gender' => 'required|string|in:男,女,男生,女生,未知',
             'students.*.student_no' => 'nullable|string|max:50',
             'students.*.phone' => 'nullable|string|max:30',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+            return response()->json(['message' => '参数错误：' . $validator->errors()->first()], 422);
         }
 
         $school = $request->user()->school;
-        $class = ClassRoom::where('school_id', $school->id)->findOrFail($id);
+
+        $classes = ClassRoom::where('school_id', $school->id)
+            ->where('status', 'active')
+            ->pluck('id', 'name')
+            ->all();
 
         $created = [];
-        foreach ($request->input('students') as $row) {
+        $errors = [];
+        foreach ($request->input('students') as $idx => $row) {
+            $className = trim($row['class_name']);
+            if (!isset($classes[$className])) {
+                $errors[] = '第 ' . ($idx + 1) . ' 行：班级「' . $className . '」不存在';
+                continue;
+            }
+
+            $gender = trim($row['gender']);
+            if (in_array($gender, ['男生', '男'], true)) {
+                $gender = '男';
+            } elseif (in_array($gender, ['女生', '女'], true)) {
+                $gender = '女';
+            } else {
+                $gender = '未知';
+            }
+
             $student = Student::create([
-                'class_id' => $class->id,
+                'class_id' => $classes[$className],
                 'name' => $row['name'],
+                'gender' => $gender,
                 'student_no' => $row['student_no'] ?? null,
                 'total_score' => 0,
                 'status' => 'active',
             ]);
-            $created[] = ['id' => $student->id, 'name' => $student->name, 'student_no' => $student->student_no];
+            $created[] = ['id' => $student->id, 'name' => $student->name, 'class_name' => $className, 'gender' => $student->gender];
+        }
+
+        if ($errors) {
+            return response()->json([
+                'message' => '部分导入失败',
+                'errors' => $errors,
+                'data' => ['created' => $created, 'created_count' => count($created)],
+            ], 422);
         }
 
         return response()->json([
             'message' => '导入完成',
-            'data' => ['class_id' => $class->id, 'class_name' => $class->name, 'created' => $created],
+            'data' => ['created_count' => count($created), 'created' => $created],
         ]);
     }
 
@@ -573,6 +604,7 @@ class SchoolAdminController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
             'class_id' => 'required|integer|exists:class_rooms,id',
+            'gender' => 'nullable|string|in:男,女,男生,女生,未知',
             'student_no' => 'nullable|string|max:50',
         ]);
 
@@ -583,9 +615,19 @@ class SchoolAdminController extends Controller
         $school = $request->user()->school;
         $class = ClassRoom::where('school_id', $school->id)->findOrFail($request->input('class_id'));
 
+        $gender = $request->input('gender');
+        if (in_array($gender, ['男生', '男'], true)) {
+            $gender = '男';
+        } elseif (in_array($gender, ['女生', '女'], true)) {
+            $gender = '女';
+        } else {
+            $gender = '未知';
+        }
+
         $student = Student::create([
             'class_id' => $class->id,
             'name' => $request->input('name'),
+            'gender' => $gender,
             'student_no' => $request->input('student_no'),
             'total_score' => 0,
             'status' => 'active',
@@ -605,6 +647,7 @@ class SchoolAdminController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:50',
             'class_id' => 'sometimes|required|integer|exists:class_rooms,id',
+            'gender' => 'nullable|string|in:男,女,男生,女生,未知',
             'student_no' => 'nullable|string|max:50',
             'status' => 'sometimes|in:active,graduated,inactive',
         ]);
@@ -617,10 +660,19 @@ class SchoolAdminController extends Controller
         $classIds = ClassRoom::where('school_id', $school->id)->pluck('id');
         $student = Student::whereIn('class_id', $classIds)->findOrFail($id);
 
-        $data = $request->only(['name', 'class_id', 'student_no', 'status']);
+        $data = $request->only(['name', 'class_id', 'gender', 'student_no', 'status']);
         // 验证新班级也属于该学校
         if (isset($data['class_id'])) {
             ClassRoom::where('school_id', $school->id)->findOrFail($data['class_id']);
+        }
+        if (isset($data['gender'])) {
+            if (in_array($data['gender'], ['男生', '男'], true)) {
+                $data['gender'] = '男';
+            } elseif (in_array($data['gender'], ['女生', '女'], true)) {
+                $data['gender'] = '女';
+            } else {
+                $data['gender'] = '未知';
+            }
         }
 
         $student->fill($data);
