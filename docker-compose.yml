@@ -15,6 +15,14 @@
 #   容器内部 Nginx 固定监听 8080，不可改
 #   APP_PORT 是宿主机访问端口，可自由修改
 #   访问地址：http://你的服务器IP:<APP_PORT>
+#
+# 反向代理说明（Cloudflare Tunnel / Nginx / Traefik 等）：
+#   APP_HOST + APP_PORT 仅用于 docker-compose 端口映射
+#   APP_URL 是 Laravel 生成绝对 URL 用的，需单独配置
+#   示例：Cloudflare Tunnel 将 https://learnstar.example.com → localhost:6900
+#     APP_HOST=learnstar.example.com
+#     APP_PORT=6900
+#     APP_URL=https://learnstar.example.com
 
 version: '3.8'
 

@@ -14,6 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // 信任反向代理头（Cloudflare Tunnel / Nginx / Traefik 等）
+        // 服务器部署模式下默认信任所有代理，确保 HTTPS 和域名正确识别
+        if (env('APP_ENV') === 'production' || env('TRUST_ALL_PROXIES', false)) {
+            $middleware->trustProxies(at: '*');
+        }
+
         $middleware->validateCsrfTokens(except: [
             'api/auth/*',
         ]);
