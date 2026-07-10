@@ -90,8 +90,11 @@ php artisan view:cache 2>/dev/null || true
 echo "✅ 缓存重建完成"
 
 echo "🎉 学趣星球初始化完成！"
-echo "  应用地址: http://localhost:${APP_PORT:-8080}"
-echo "  API地址: http://localhost:${APP_PORT:-8080}/api"
+
+# 从 APP_URL 解析协议和地址用于启动提示
+APP_PROTO=$(echo "${APP_URL:-http://localhost}" | sed -n 's|^\([^:]*\)://.*|\1|p')
+APP_HOST_PORT=$(echo "${APP_URL:-http://localhost}" | sed -n 's|^[^:]*://\(.*\)|\1|p')
+echo "  访问地址: ${APP_PROTO:-http}://${APP_HOST_PORT:-localhost}"
 
 # 启动 supervisor（管理 nginx + php-fpm + queue worker）
 exec "$@"
