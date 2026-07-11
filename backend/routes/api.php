@@ -15,21 +15,24 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | 路由结构按角色清晰分组：
-| - /api/auth/*          → 登录认证（账号密码 + 第三方扫码）
-| - /api/admin/*         → 学校管理员（分配账号、管理班级）
-| - /api/teacher/*       → 教师（积分管理、宠物、通知、教室小喇叭）
-| - /api/parent/*        → 家长（查看积分、宠物状态）
-| - /api/common/*        → 公共接口（排行榜等）
+| - /api/v1/auth/*          → 登录认证（账号密码 + 第三方扫码）
+| - /api/v1/admin/*         → 学校管理员（分配账号、管理班级）
+| - /api/v1/teacher/*       → 教师（积分管理、宠物、通知、教室小喇叭）
+| - /api/v1/parent/*        → 家长（查看积分、宠物状态）
+| - /api/v1/common/*        → 公共接口（排行榜等）
 |
 */
 
-// ===== 认证模块 =====
-Route::prefix('auth')->group(function () {
-    // 教师账号密码登录（默认入口）
-    Route::post('teacher/login', [AuthController::class, 'teacherLoginWithCredentials']);
+// API v1
+Route::prefix('v1')->group(function () {
 
-    // 管理员账号密码登录（独立入口，仅限账号密码）
-    Route::post('admin/login', [AuthController::class, 'adminLoginWithCredentials']);
+// ===== 认证 =====
+Route::prefix('auth')->group(function () {
+    // 教师账号密码登录（速率限制：每分钟 6 次）
+    Route::post('teacher/login', [AuthController::class, 'teacherLoginWithCredentials'])->middleware('throttle:6,1');
+
+    // 管理员账号密码登录
+    Route::post('admin/login', [AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
 
     // 第三方扫码登录（仅教师可用）
     Route::post('teacher/login/wechat', [AuthController::class, 'teacherLoginWithWechat']);
@@ -236,6 +239,4 @@ Route::prefix('parent')->middleware(['auth:sanctum', 'role:parent'])->group(func
 // ===== 公共接口 =====
 Route::prefix('common')->group(function () {
     Route::get('pet-types', [StudentController::class, 'petTypes']);
-    Route::get('evolution-stages', [StudentController::class, 'evolutionStages']);
-    Route::get('score-categories', [StudentController::class, 'scoreCategories']);
-});
+    Route::get('evolution-stages', [StudentController::class, 'evolutionSt

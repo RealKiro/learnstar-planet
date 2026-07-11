@@ -38,7 +38,23 @@ class User extends Authenticatable
     protected $casts = [
         'password_changed' => 'boolean',
         'last_login_at' => 'datetime',
+        'role' => 'string',
+        'status' => 'string',
     ];
+
+    // ========== 查询作用域 ==========
+
+    /** @param \Illuminate\Database\Eloquent\Builder $query */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    /** @param \Illuminate\Database\Eloquent\Builder $query */
+    public function scopeByRole($query, string $role)
+    {
+        return $query->where('role', $role);
+    }
 
     // ========== 关系 ==========
 
@@ -168,28 +184,4 @@ class User extends Authenticatable
         /** @var ThirdPartyBinding|null $binding */
         $binding = $this->thirdPartyBindings()->where('platform', 'renren')->first();
 
-        return $binding;
-    }
-
-    public function hasAnyBinding(): bool
-    {
-        return $this->thirdPartyBindings()->exists();
-    }
-
-    // ========== 辅助 ==========
-
-    public function isSchoolAdmin(): bool
-    {
-        return $this->role === 'school_admin';
-    }
-
-    public function isTeacher(): bool
-    {
-        return $this->role === 'teacher';
-    }
-
-    public function isParent(): bool
-    {
-        return $this->role === 'parent';
-    }
-}
+        return $bind

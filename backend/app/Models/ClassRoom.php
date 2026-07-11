@@ -26,7 +26,23 @@ class ClassRoom extends Model
 
     protected $casts = [
         'settings' => 'array',
+        'max_students' => 'integer',
+        'status' => 'string',
     ];
+
+    // ========== 查询作用域 ==========
+
+    /** @param \Illuminate\Database\Eloquent\Builder $query */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    /** @param \Illuminate\Database\Eloquent\Builder $query */
+    public function scopeBySchool($query, int $schoolId)
+    {
+        return $query->where('school_id', $schoolId);
+    }
 
     public function school(): BelongsTo
     {
@@ -39,27 +55,4 @@ class ClassRoom extends Model
     }
 
     public function students(): HasMany
-    {
-        return $this->hasMany(Student::class, 'class_id');
-    }
-
-    public function pets(): HasMany
-    {
-        return $this->hasMany(Pet::class);
-    }
-
-    public function notices(): HasMany
-    {
-        return $this->hasMany(Notice::class);
-    }
-
-    public function scoreRules(): HasMany
-    {
-        return $this->hasMany(ScoreRule::class);
-    }
-
-    public function shopItems(): HasMany
-    {
-        return $this->hasMany(ShopItem::class);
-    }
-}
+   

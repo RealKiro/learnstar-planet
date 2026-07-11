@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         }
 
         $middleware->validateCsrfTokens(except: [
-            'api/auth/*',
+            'api/*',
         ]);
 
         $middleware->api(prepend: [
@@ -33,6 +33,4 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
-    })
-    ->create();
+        // API 统一异常响应（始
