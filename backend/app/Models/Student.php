@@ -91,4 +91,18 @@ class Student extends Model
     }
 
     /**
-     * @return \Illuminate\Datab
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<ScoreLog, $this>
+     */
+    public function scoreLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ScoreLog::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<ShopRedemption, $this>
+     */
+    public function shopRedemptions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ShopRedemption::class);
+    }
+}

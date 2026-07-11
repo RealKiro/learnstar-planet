@@ -184,4 +184,28 @@ class User extends Authenticatable
         /** @var ThirdPartyBinding|null $binding */
         $binding = $this->thirdPartyBindings()->where('platform', 'renren')->first();
 
-        return $bind
+        return $binding;
+    }
+
+    public function hasAnyBinding(): bool
+    {
+        return $this->thirdPartyBindings()->exists();
+    }
+
+    // ========== 辅助 ==========
+
+    public function isSchoolAdmin(): bool
+    {
+        return $this->role === 'school_admin';
+    }
+
+    public function isTeacher(): bool
+    {
+        return $this->role === 'teacher';
+    }
+
+    public function isParent(): bool
+    {
+        return $this->role === 'parent';
+    }
+}

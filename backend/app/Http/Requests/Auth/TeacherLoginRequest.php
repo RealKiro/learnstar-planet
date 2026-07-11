@@ -19,4 +19,5 @@ class TeacherLoginRequest extends FormRequest
             'username' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
-   
+    }
+}

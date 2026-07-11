@@ -226,4 +226,20 @@ jobs:
       - backend-test
       - code-quality
       - frontend-build
-     
+      - build-docker
+      - deploy-staging
+      - deploy-production
+    
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        if: always()
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "CI/CD Pipeline - ${{ job.status }}"
+          body: "Pipeline status: ${{ job.status }}\nCommit: ${{ github.sha }}\nBranch: ${{ github.ref }}"
+          to: ${{ secrets.NOTIFY_EMAIL }}
+          from: CI/CD Bot

@@ -135,4 +135,4 @@ EXPOSE 8080
 
 # Run entrypoint (starts nginx + php-fpm + queue worker via supervisor)
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-C
+CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
