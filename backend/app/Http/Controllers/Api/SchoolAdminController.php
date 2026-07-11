@@ -421,6 +421,7 @@ class SchoolAdminController extends Controller
             'year' => 'nullable|string|max:20',
             'teacher_id' => 'nullable|integer|exists:users,id',
             'max_students' => 'nullable|integer|min:0',
+            'pet_series' => 'nullable|string|in:cosmic,pokemon,cute,treasure,mythic,all',
         ]);
 
         if ($validator->fails()) {
@@ -428,6 +429,14 @@ class SchoolAdminController extends Controller
         }
 
         $class->fill($request->only(['name', 'grade', 'year', 'teacher_id', 'max_students']));
+
+        // 宠物系列设置（存入 settings JSON）
+        if ($request->has('pet_series')) {
+            $settings = $class->settings ?? [];
+            $settings['pet_series'] = $request->input('pet_series');
+            $class->settings = $settings;
+        }
+
         $class->save();
 
         return response()->json(['message' => '班级已更新', 'data' => $class->fresh()]);

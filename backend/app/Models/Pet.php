@@ -144,6 +144,21 @@ class Pet extends Model
     }
 
     /**
+     * 按系列获取宠物种类
+     */
+    public static function petTypesBySeries(string $series): array
+    {
+        $all = self::petTypes();
+        $filtered = [];
+        foreach ($all as $type => $name) {
+            if (self::getCategoryByType($type) === $series) {
+                $filtered[$type] = $name;
+            }
+        }
+        return $filtered;
+    }
+
+    /**
      * 根据种类获取系列分类
      */
     public static function getCategoryByType(string $type): string
