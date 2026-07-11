@@ -478,4 +478,9 @@ async def handle_search_student(args: dict) -> list[TextContent]:
             {"name": "小明", "student_no": "001", "total_score": 385, "status": "active"},
             {"name": "小红", "student_no": "002", "total_score": 365, "status": "active"},
             {"name": "小刚", "student_no": "003", "total_score": 350, "status": "active"},
-            {"name": "小丽", "student_no": "004", "total_score": 395, "status":
+            {"name": "小丽", "student_no": "004", "total_score": 395, "status": "active"},
+            {"name": "小华", "student_no": "005", "total_score": 420, "status": "active"},
+            {"name": "小强", "student_no": "006", "total_score": 280, "status": "active"},
+        ]
+
+    matches = [s for s in students if keyword in s.get("name", "")]
