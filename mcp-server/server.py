@@ -32,7 +32,7 @@ AstrBot 完整对接流程：
   │    mcp_servers:                               │
   │      learnstar:                               │
   │        command: python3                       │
-  │        args: ["/path/to/mcp-server/server.py"]│
+  │        args: ["path/to/mcp-server/server.py"]  │
   │        env:                                   │
   │          LEARNSTAR_API_BASE: http://x.x.x.x   │
   │          LEARNSTAR_API_TOKEN: token_here      │
@@ -478,4 +478,4 @@ async def handle_search_student(args: dict) -> list[TextContent]:
             {"name": "小明", "student_no": "001", "total_score": 385, "status": "active"},
             {"name": "小红", "student_no": "002", "total_score": 365, "status": "active"},
             {"name": "小刚", "student_no": "003", "total_score": 350, "status": "active"},
-            {"name": "小丽", "student_no": "004", "total_score": 395, "status": 
+            {"name": "小丽", "student_no": "004", "total_score": 395, "status":
