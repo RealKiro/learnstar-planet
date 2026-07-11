@@ -38,24 +38,19 @@
 
 ### 基础设施
 
-- **Docker multi-stage**: Node 22 (pnpm build) → PHP 8.3-FPM (composer install). Context is repo root (`.`). Final image contains both backend app and Vue SPA dist in `/var/www/html/public/`.
-- **Docker Compose**: 3 services (app + MySQL 8.0 + Redis 7). External DB supported via `DB_HOST` env var.
-- **Image registry**: GitHub Container Registry (GHCR). Docker workflow pushes to `ghcr.io/<user>/learnstar-planet/backend:<tag>`.
-- **CI/CD workflows** (all validated YAML): `.github/workflows/ci.yml` (test + lint + frontend build), `.github/workflows/docker.yml` (multi-arch build + push + Trivy scan), `.github/workflows/deploy.yml` (SSH deploy + auto-rollback), `.gitee/workflow.yml` (Gitee Go mirror pipeline).
-- **.dockerignore**: Root-level file excludes node_modules, .git, vendor, test artifacts from build context. Sized to ~580KB (down from multi-GB without it).
-- **Frontend CI**: `npm ci` → `npx vue-tsc --noEmit` (type check) → `npm run build` (vue-tsc -b + vite build). `package-lock.json` committed for reproducible builds.
-- **Backend CI**: `composer install --ignore-platform-reqs` (no lockfile), PHP CS Fixer (PSR-12), PHPStan (level 5), PHPUnit (MySQL/PostgreSQL/SQLite matrices).
-- **Source files**: 37 Vue components, 64 PHP files, 11 TypeScript files, 13 config/support files. ~24 commits in this session.
+- Docker 多阶段构建（Node 22 + PHP 8.3-FPM + Nginx + Supervisor）
+- Docker Compose 编排（app + MySQL 8.0 + Redis 7）
+- GitHub Container Registry (GHCR) 镜像托管
+- CI/CD: GitHub Actions + Gitee Go
 
 ### 后端规范（已实施）
-- **Form Requests**: 4 request validation classes (TeacherLoginRequest, BatchCreateTeachersRequest, CreateClassRoomRequest, ImportStudentsRequest)
-- **API Resources**: 4 JsonResource classes (UserResource, ClassRoomResource, StudentResource, SchoolResource)
-- **异常处理**: `bootstrap/app.php` 全局异常处理器：ModelNotFound→404, ValidationException→422, AuthenticationException→401, AuthorizationException→403, Throwable→500
-- **速率限制**: 登录端点 `throttle:6,1`（每分钟最多6次），API 全局 `throttle:api`
-- **API 版本控制**: `/api/v1/*` 前缀 + 向后兼容旧路由（`/api/auth/*`, `/api/admin/*` 等）
-- **Eloquent Scopes**: User 模型 `active()`, `byRole()`; ClassRoom 模型 `active()`, `bySchool()`; Student 模型 `active()`, `byClass()`
-- **模型类型转换**: User, ClassRoom, Student 模型添加 `role`, `status`, `gender`, `max_students` 等字段的 cast
-- **CSRF 修复**: `bootstrap/app.php` 中将 CSRF 排除从 `api/auth/*` 扩展为 `api/*`
+
+- **Form Requests**: 登录/批量创建/班级/导入验证逻辑已从控制器中抽离到独立请求类
+- **API Resources**: UserResource、ClassRoomResource、StudentResource、SchoolResource 提供一致的 JSON 输出
+- **异常处理**: 所有异常统一返回 JSON（ModelNotFound→404、ValidationException→422、Auth→401/403、Throwable→500/503）
+- **速率限制**: 登录端点限制 `throttle:6,1`，API 整体限制 `throttle:api`
+- **API 版本控制**: `/api/v1/*` 前缀 + 向后兼容旧路由
+- **Eloquent Scopes**: User/ClassRoom/Student 模型添加 `active()`、`byRole()`、`bySchool()`、`byClass()` 作用域
 
 ---
 
@@ -230,4 +225,52 @@ learnstar-planet/                    # 真正的项目根（含 .git）
 ### 分支策略
 - `main` — 生产就绪分支
 - `feature/*` — 新功能开发
-- `fix/
+- `fix/*` — Bug 修复
+
+### API 设计约定
+- 所有 API 返回 JSON，格式: `{ data, message, meta }`
+- 认证使用 Bearer Token（Sanctum）
+- 角色中间件 `role:school_admin|teacher|parent` 控制访问
+- 401 时前端自动清除 token 并跳转登录
+- API 版本化：前端统一调用 `/api/v1/*`，后端保留向后兼容的旧路径
+- 登录端点速率限制：`throttle:6,1`（每分钟 6 次）
+- 异常处理：所有异常统一返回 JSON（ModelNotFound→404、ValidationException→422、Auth→401/403、Throwable→500/503）
+- Docker 多阶段构建：Node 22 (pnpm) → Vue 3 SPA 构建，PHP 8.3 (composer) → Laravel vendor
+- `.dockerignore` 根目录已配置，排除 node_modules、.git、test data 等无用文件
+
+### 数据库约定
+- 迁移文件命名: `YYYY_MM_DD_HHMMSS_descriptive_name.php`
+- 使用 Laravel 的 `Schema` builder，避免原始 SQL
+- 外键使用 `constrained()` 和 `cascadeOnDelete()` 明确声明
+- 所有表都有 `created_at` 和 `updated_at` 时间戳
+
+---
+
+## 常用命令
+
+### 环境搭建
+
+```bash
+# 克隆项目
+git clone https://github.com/YOUR_USERNAME/learnstar-planet.git
+cd learnstar-planet
+
+# 复制环境配置
+cp .env.example .env
+# 编辑 .env 修改数据库、Redis、管理员账号等配置
+
+# Docker Compose 启动（全栈: app + MySQL + Redis）
+docker-compose up -d
+
+# 查看运行状态
+docker-compose ps
+```
+
+### 后端开发
+
+```bash
+# 进入后端目录
+cd backend
+
+# 安装 PHP 依赖
+composer install
