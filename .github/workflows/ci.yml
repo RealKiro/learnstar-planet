@@ -239,7 +239,7 @@ jobs:
 
       - name: Build production bundle
         working-directory: frontend-vue
-        run: npm run build
+        run: npm run build:ci
 
   # ========== 微信小程序检查 ==========
   miniprogram-lint:
@@ -262,4 +262,4 @@ jobs:
           test -f mini-program/app.json && echo "✅ app.json exists"
           test -f mini-program/app.wxss && echo "✅ app.wxss exists"
           test -d mini-program/pages && echo "✅ pages directory exists"
-          echo "Mini-program file structure validation passed"
+          echo "Mini-program file structure validation passed
