@@ -587,10 +587,42 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $redemption = \App\Models\ShopRedemption::whereIn('class_id', $classIds)->findOrFail($id);
-        $redemption->approve($teacher->id);
+        $redemption = \App\Models\ShopRedemption::with(['student', 'shopItem'])
+            ->whereIn('class_id', $classIds)->findOrFail($id);
 
-        return response()->json(['message' => '已批准兑换']);
+        if ($redemption->status !== 'pending') {
+            return response()->json(['message' => '该兑换已处理'], 400);
+        }
+
+        $student = $redemption->student;
+        $itemName = $redemption->shopItem?->name ?? '未知物品';
+        $cost = $redemption->cost;
+
+        try {
+            // 扣积分 + 扣宠物经验（1:1 比例）
+            $this->scoreService->spendScore(
+                $student,
+                $cost,
+                '兑换：' . $itemName,
+                $teacher->id,
+            );
+
+            $redemption->update([
+                'status' => 'approved',
+                'approved_by' => $teacher->id,
+                'approved_at' => now(),
+            ]);
+
+            return response()->json([
+                'message' => '已批准兑换，扣除 ' . $cost . ' 积分',
+                'data' => [
+                    'remaining_score' => $student->fresh()->total_score,
+                    'pet_level' => $student->pet?->fresh()->level,
+                ],
+            ]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
     }
 
     public function rejectRedemption(Request $request, int $id): JsonResponse

@@ -55,6 +55,54 @@ class ScoreService
         });
     }
 
+    // ========== 消耗积分（兑换奖励时调用） ==========
+
+    /**
+     * 消耗积分：扣积分 + 扣宠物经验（1:1 比例）
+     * 宠物经验不足时自动降级
+     */
+    public function spendScore(Student $student, int $amount, string $reason, int $spentBy): Score
+    {
+        return DB::transaction(function () use ($student, $amount, $reason, $spentBy) {
+            $balanceBefore = $student->total_score;
+
+            if ($balanceBefore < $amount) {
+                throw new \DomainException('积分不足，当前余额：' . $balanceBefore);
+            }
+
+            // 创建扣分记录
+            $score = Score::create([
+                'student_id' => $student->id,
+                'class_id' => $student->class_id,
+                'amount' => -$amount,
+                'reason' => '兑换消耗：' . $reason,
+                'given_by' => $spentBy,
+            ]);
+
+            // 扣减积分
+            $student->update(['total_score' => $balanceBefore - $amount]);
+            $balanceAfter = $student->total_score;
+
+            // 记录日志
+            ScoreLog::create([
+                'student_id' => $student->id,
+                'score_id' => $score->id,
+                'balance_before' => $balanceBefore,
+                'balance_after' => $balanceAfter,
+                'description' => '兑换消耗：' . $reason,
+            ]);
+
+            // 扣减宠物经验（1:1 比例，可能触发降级）
+            if ($student->pet) {
+                $student->pet->removeExperience($amount);
+            }
+
+            event(new ScoreChanged($student->id, -$amount, $reason));
+
+            return $score;
+        });
+    }
+
     // ========== 批量加分 ==========
 
     public function batchGiveScore(array $studentIds, int $amount, string $reason, int $givenBy, ?int $scoreRuleId = null): array

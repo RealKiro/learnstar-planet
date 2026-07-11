@@ -214,10 +214,51 @@ class Pet extends Model
     {
         $this->experience += $amount;
         $this->save();
+
         // 自动检查升级
         while ($this->canLevelUp()) {
             $this->levelUp();
         }
+    }
+
+    /**
+     * 消耗经验（兑换奖励时调用）
+     * 经验可能变负 → 自动降级，最低 level 0
+     */
+    public function removeExperience(int $amount): void
+    {
+        $this->experience -= $amount;
+        $this->save();
+
+        // 自动检查降级
+        while ($this->canLevelDown()) {
+            $this->levelDown();
+        }
+
+        // level 0 时经验不能为负
+        if ($this->level === 0 && $this->experience < 0) {
+            $this->experience = 0;
+            $this->save();
+        }
+    }
+
+    public function canLevelDown(): bool
+    {
+        return $this->level > 0 && $this->experience < 0;
+    }
+
+    public function levelDown(): bool
+    {
+        if (!$this->canLevelDown()) {
+            return false;
+        }
+
+        $this->level -= 1;
+        // 补回升级时消耗的经验阈值
+        $this->experience += $this->experienceForNextLevel();
+        $this->save();
+
+        return true;
     }
 
     // ========== 心情系统 ==========
