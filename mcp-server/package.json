@@ -1,0 +1,13 @@
+{
+  "name": "learnstar-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for LearnStar Planet - AI-powered class management via QQ/WeChat bots",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python3 server.py",
+    "dev": "python3 server.py --debug"
+  },
+  "keywords": ["mcp", "learnstar", "education", "class-management"],
+  "license": "MIT"
+}
