@@ -20,6 +20,8 @@ class ParentController extends Controller
     public function home(Request $request): JsonResponse
     {
         $parent = $request->user();
+
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Student> $children */
         $children = $parent->children()->with(['classRoom', 'pet'])->get();
 
         if ($children->isEmpty()) {

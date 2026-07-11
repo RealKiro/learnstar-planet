@@ -32,12 +32,12 @@ class ShopRedemption extends Model
         ];
     }
 
-    public function student()
+    public function student(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Student::class);
     }
 
-    public function shopItem()
+    public function shopItem(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ShopItem::class);
     }

@@ -28,12 +28,12 @@ class Pet extends Model
         'last_fed_at' => 'datetime',
     ];
 
-    public function student()
+    public function student(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Student::class);
     }
 
-    public function classRoom()
+    public function classRoom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ClassRoom::class, 'class_id');
     }

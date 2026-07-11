@@ -373,7 +373,7 @@ class TeacherController extends Controller
         $pets = \App\Models\Pet::whereIn('class_id', $classIds)
             ->with('student:id,name')
             ->get()
-            ->map(fn ($p) => [
+            ->map(fn (\App\Models\Pet $p) => [
                 'id' => $p->id,
                 'student_id' => $p->student_id,
                 'student_name' => $p->student?->name,
@@ -676,7 +676,13 @@ class TeacherController extends Controller
         $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
 
         $notice->update(['is_published' => true]);
-        event(new \App\Events\NoticePublished($notice));
+
+        event(new \App\Events\NoticePublished(
+            $notice->class_id,
+            $notice->id,
+            $notice->title,
+            $notice->type,
+        ));
 
         return response()->json(['message' => '通知已发布']);
     }
