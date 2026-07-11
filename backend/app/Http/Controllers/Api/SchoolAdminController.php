@@ -960,4 +960,55 @@ class SchoolAdminController extends Controller
 
         return response()->json(['data' => $rows]);
     }
+
+    // ============================================================
+    // 汇率管理
+    // ============================================================
+
+    public function listExchangeRates(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+
+        $rates = \App\Models\ExchangeRate::where('school_id', $school->id)
+            ->orderBy('from_currency')->orderBy('to_currency')->get();
+
+        return response()->json(['data' => $rates]);
+    }
+
+    public function createExchangeRate(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+
+        $request->validate([
+            'from_currency' => 'required|string|in:score,science,reading,class_point',
+            'to_currency' => 'required|string|in:score,science,reading,class_point',
+            'rate' => 'required|numeric|min:0.01',
+            'is_active' => 'boolean',
+        ]);
+
+        $rate = \App\Models\ExchangeRate::create([
+            'school_id' => $school->id,
+            'from_currency' => $request->input('from_currency'),
+            'to_currency' => $request->input('to_currency'),
+            'rate' => $request->input('rate'),
+            'is_active' => $request->boolean('is_active', true),
+        ]);
+
+        return response()->json(['message' => '汇率已创建', 'data' => $rate], 201);
+    }
+
+    public function updateExchangeRate(Request $request, int $id): JsonResponse
+    {
+        $school = $request->user()->school;
+        $rate = \App\Models\ExchangeRate::where('school_id', $school->id)->findOrFail($id);
+
+        $request->validate([
+            'rate' => 'sometimes|numeric|min:0.01',
+            'is_active' => 'sometimes|boolean',
+        ]);
+
+        $rate->update($request->only(['rate', 'is_active']));
+
+        return response()->json(['message' => '汇率已更新', 'data' => $rate->fresh()]);
+    }
 }

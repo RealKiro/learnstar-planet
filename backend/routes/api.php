@@ -92,6 +92,10 @@ Route::prefix('v1')->group(function () {
         Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
         Route::get('reports/by-grade', [SchoolAdminController::class, 'reportsByGrade']);
         Route::get('reports/by-class', [SchoolAdminController::class, 'reportsByClass']);
+        // 汇率管理
+        Route::get('exchange-rates', [SchoolAdminController::class, 'listExchangeRates']);
+        Route::post('exchange-rates', [SchoolAdminController::class, 'createExchangeRate']);
+        Route::put('exchange-rates/{id}', [SchoolAdminController::class, 'updateExchangeRate']);
     });
 
     // ===== 教师 =====
@@ -213,6 +217,13 @@ Route::prefix('v1')->group(function () {
             Route::post('chat', [TeacherController::class, 'aiChat']);
             Route::get('commands', [TeacherController::class, 'getAiCommands']);
             Route::get('usage', [TeacherController::class, 'getAiUsage']);
+        });
+
+        // ===== 多币种系统 =====
+        Route::prefix('currency')->group(function () {
+            Route::get('wallets', [TeacherController::class, 'listWallets']);
+            Route::post('exchange', [TeacherController::class, 'exchangeCurrency']);
+            Route::post('cross-exchange', [TeacherController::class, 'crossExchangeCurrency']);
         });
     });
 

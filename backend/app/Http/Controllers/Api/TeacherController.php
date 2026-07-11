@@ -6,9 +6,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
+use App\Models\Notice;
 use App\Models\Score;
 use App\Models\ScoreRule;
+use App\Models\ShopItem;
+use App\Models\ShopRedemption;
 use App\Models\Student;
+use App\Models\Wallet;
+use App\Services\CurrencyService;
 use App\Services\LeaderboardService;
 use App\Services\ScoreService;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +24,7 @@ class TeacherController extends Controller
     public function __construct(
         private readonly ScoreService $scoreService,
         private readonly LeaderboardService $leaderboardService,
+        private readonly CurrencyService $currencyService,
     ) {
     }
 
@@ -513,9 +519,13 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
 
-        $items = \App\Models\ShopItem::whereIn('class_id', $classIds)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = ShopItem::whereIn('class_id', $classIds);
+
+        if ($currency = $request->input('currency_type')) {
+            $query->byCurrency($currency);
+        }
+
+        $items = $query->orderBy('created_at', 'desc')->get();
 
         return response()->json(['data' => $items]);
     }
@@ -527,16 +537,26 @@ class TeacherController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:100',
-            'cost' => 'required|integer|min:1',
+            'description' => 'nullable|string',
+            'category' => 'nullable|string|max:50',
+            'cost_score' => 'required|integer|min:1',
+            'currency_type' => 'nullable|string|max:50',
+            'event_tag' => 'nullable|string|max:50',
             'stock' => 'nullable|integer|min:0',
+            'image_path' => 'nullable|string|max:255',
         ]);
 
-        $item = \App\Models\ShopItem::create([
+        $item = ShopItem::create([
             'class_id' => $classIds->first(),
             'name' => $request->input('name'),
-            'cost' => (int) $request->input('cost'),
+            'description' => $request->input('description'),
+            'category' => $request->input('category', 'physical'),
+            'cost_score' => (int) $request->input('cost_score'),
+            'currency_type' => $request->input('currency_type', 'score'),
+            'event_tag' => $request->input('event_tag'),
             'stock' => (int) $request->input('stock', 0),
-            'image' => $request->input('image'),
+            'image_path' => $request->input('image_path'),
+            'is_active' => true,
         ]);
 
         return response()->json(['message' => '商品已添加', 'data' => $item], 201);
@@ -546,9 +566,19 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $item = \App\Models\ShopItem::whereIn('class_id', $classIds)->findOrFail($id);
+        $item = ShopItem::whereIn('class_id', $classIds)->findOrFail($id);
 
-        $item->update($request->only(['name', 'cost', 'stock', 'image']));
+        $item->update($request->only([
+            'name',
+            'description',
+            'category',
+            'cost_score',
+            'currency_type',
+            'event_tag',
+            'stock',
+            'image_path',
+            'is_active',
+        ]));
 
         return response()->json(['message' => '商品已更新', 'data' => $item]);
     }
@@ -557,7 +587,7 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $item = \App\Models\ShopItem::whereIn('class_id', $classIds)->findOrFail($id);
+        $item = ShopItem::whereIn('class_id', $classIds)->findOrFail($id);
         $item->delete();
 
         return response()->json(['message' => '商品已删除']);
@@ -568,8 +598,8 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
 
-        $redemptions = \App\Models\ShopRedemption::whereIn('class_id', $classIds)
-            ->with(['student:id,name', 'shopItem:id,name,cost'])
+        $redemptions = ShopRedemption::whereIn('class_id', $classIds)
+            ->with(['student:id,name', 'shopItem:id,name,cost_score,currency_type,event_tag,category'])
             ->orderBy('created_at', 'desc')
             ->paginate(20);
 
@@ -587,7 +617,7 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $redemption = \App\Models\ShopRedemption::with(['student', 'shopItem'])
+        $redemption = ShopRedemption::with(['student.pet', 'shopItem'])
             ->whereIn('class_id', $classIds)->findOrFail($id);
 
         if ($redemption->status !== 'pending') {
@@ -595,17 +625,20 @@ class TeacherController extends Controller
         }
 
         $student = $redemption->student;
-        $itemName = $redemption->shopItem?->name ?? '未知物品';
+        $item = $redemption->shopItem;
+        $itemName = $item?->name ?? '未知物品';
         $cost = $redemption->cost;
+        $currency = $item?->currency_type ?? 'score';
 
         try {
-            // 扣积分 + 扣宠物经验（1:1 比例）
-            $this->scoreService->spendScore(
-                $student,
-                $cost,
-                '兑换：' . $itemName,
-                $teacher->id,
-            );
+            // 根据币种选择扣款方式
+            if ($currency === 'score') {
+                // 积分兑换：扣积分 + 扣宠物经验
+                $this->scoreService->spendScore($student, $cost, '兑换：' . $itemName, $teacher->id);
+            } else {
+                // 钱包币兑换：只扣钱包余额
+                app(CurrencyService::class)->spend($student->id, $currency, $cost, '兑换：' . $itemName);
+            }
 
             $redemption->update([
                 'status' => 'approved',
@@ -613,8 +646,22 @@ class TeacherController extends Controller
                 'approved_at' => now(),
             ]);
 
+            // P4: 特权奖励自动发班级通知
+            if ($item && $item->category === 'privilege') {
+                Notice::create([
+                    'class_id' => $student->class_id,
+                    'school_id' => $teacher->school_id,
+                    'title' => '特权奖励：' . $itemName,
+                    'content' => $student->name . ' 使用 ' . $cost . ' ' . ($currency === 'score' ? '积分' : (Wallet::currencies()[$currency] ?? $currency)) . ' 兑换了「' . $itemName . '」',
+                    'type' => 'event',
+                    'published_by' => $teacher->id,
+                    'is_published' => true,
+                    'published_at' => now(),
+                ]);
+            }
+
             return response()->json([
-                'message' => '已批准兑换，扣除 ' . $cost . ' 积分',
+                'message' => '已批准兑换，扣除 ' . $cost . ' ' . ($currency === 'score' ? '积分' : (Wallet::currencies()[$currency] ?? $currency)),
                 'data' => [
                     'remaining_score' => $student->fresh()->total_score,
                     'pet_level' => $student->pet?->fresh()->level,
@@ -1024,5 +1071,97 @@ class TeacherController extends Controller
     public function getAiUsage(Request $request): JsonResponse
     {
         return response()->json(['data' => ['count' => 0, 'tokens' => 0]]);
+    }
+
+    // ============================================================
+    // 多币种系统
+    // ============================================================
+
+    /**
+     * 查看班级学生钱包余额
+     */
+    public function listWallets(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+
+        $students = Student::whereIn('class_id', $classIds)
+            ->with('wallets')
+            ->select('id', 'name', 'total_score', 'class_id')
+            ->get();
+
+        $data = $students->map(function ($s) {
+            $wallets = [];
+            foreach ($s->wallets as $w) {
+                $wallets[$w->currency_type] = $w->balance;
+            }
+
+            return [
+                'id' => $s->id,
+                'name' => $s->name,
+                'total_score' => $s->total_score,
+                'wallets' => $wallets,
+            ];
+        });
+
+        return response()->json(['data' => $data]);
+    }
+
+    /**
+     * 积分 → 币种兑换
+     */
+    public function exchangeCurrency(Request $request): JsonResponse
+    {
+        $request->validate([
+            'student_id' => 'required|integer',
+            'to_currency' => 'required|string|in:science,reading,class_point',
+            'amount' => 'required|integer|min:1',
+        ]);
+
+        try {
+            $result = app(CurrencyService::class)->exchange(
+                $request->input('student_id'),
+                $request->input('to_currency'),
+                $request->input('amount'),
+                $request->user()->id,
+            );
+
+            return response()->json([
+                'message' => '兑换成功',
+                'data' => $result,
+            ]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
+
+    /**
+     * 跨币种兑换
+     */
+    public function crossExchangeCurrency(Request $request): JsonResponse
+    {
+        $request->validate([
+            'student_id' => 'required|integer',
+            'from_currency' => 'required|string|in:science,reading,class_point',
+            'to_currency' => 'required|string|in:science,reading,class_point',
+            'amount' => 'required|integer|min:1',
+        ]);
+
+        try {
+            $result = app(CurrencyService::class)->crossExchange(
+                $request->input('student_id'),
+                $request->input('from_currency'),
+                $request->input('to_currency'),
+                $request->input('amount'),
+                $request->user()->id,
+            );
+
+            return response()->json([
+                'message' => '兑换成功',
+                'data' => $result,
+            ]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
     }
 }
