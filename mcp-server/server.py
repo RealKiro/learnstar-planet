@@ -1,27 +1,53 @@
 #!/usr/bin/env python3
 """
-LearnStar Planet MCP Server
+LearnStar Planet MCP Server — 学趣星球 AI 机器人集成服务器
 
 标准 MCP (Model Context Protocol) 服务器，供 AstrBot / Claude Desktop / Continue 等
-AI 框架调用，实现通过 QQ/微信 机器人自然语言管理班级。
+AI 框架调用。
+
+通过 QQ/微信群机器人（如 AstrBot + NapCat/Lagrange 协议实现端），
+用户可以直接用自然语言管理班级积分系统。
 
 功能：
-- 自然语言加分/减分（"小明 +5 作业优秀"）
-- 积分查询与排行
-- 班级通知
-- 学生信息查询
+  - 自然语言加分/减分（"小明 +5 作业优秀"）
+  - 积分查询与排行
+  - 班级通知
+  - 学生信息查询
 
 部署方式：
-  1. 本地开发: python3 server.py
-  2. 生产环境: 通过 systemd / supervisor 管理
+  1. 本地开发   : python3 server.py
+  2. 生产环境   : 通过 systemd / supervisor 监听 stdio
   3. AstrBot 配置: 在 plugins/mcp_client 中添加此服务器地址
 
-AstrBot 对接说明：
-  在 AstrBot 的 data/plugins/mcp_client/config.yaml 中添加：
-  mcp_servers:
-    learnstar:
-      command: python3
-      args: ["/path/to/mcp-server/server.py"]
+AstrBot 完整对接流程：
+  ┌──────────────────────────────────────────────┐
+  │ 1. 部署 AstrBot + MCP Client Plugin          │
+  │    https://github.com/Soulter/AstrBot         │
+  │                                               │
+  │ 2. 安装 MCP 客户端插件                        │
+  │    在 AstrBot 插件市场搜索 "MCP Client"       │
+  │                                               │
+  │ 3. 在 data/plugins/mcp_client/config.yaml     │
+  │    中添加本服务器：                            │
+  │    mcp_servers:                               │
+  │      learnstar:                               │
+  │        command: python3                       │
+  │        args: ["/path/to/mcp-server/server.py"]│
+  │        env:                                   │
+  │          LEARNSTAR_API_BASE: http://x.x.x.x   │
+  │          LEARNSTAR_API_TOKEN: token_here      │
+  │                                               │
+  │ 4. 重启 AstrBot                              │
+  │    → AI 自动获得积分管理能力                  │
+  └──────────────────────────────────────────────┘
+
+QQ/微信 接入路径：
+  用户手机 QQ/微信
+    → NapCatQQ/Lagrange（协议端，将手机消息转发为 HTTP）
+    → AstrBot（消息处理框架）
+    → MCP Client Plugin（工具调用）
+    → 本 MCP Server（学趣星球 API 封装）
+    → LearnStar Laravel Backend（数据库操作）
 """
 
 import os
@@ -452,42 +478,4 @@ async def handle_search_student(args: dict) -> list[TextContent]:
             {"name": "小明", "student_no": "001", "total_score": 385, "status": "active"},
             {"name": "小红", "student_no": "002", "total_score": 365, "status": "active"},
             {"name": "小刚", "student_no": "003", "total_score": 350, "status": "active"},
-            {"name": "小丽", "student_no": "004", "total_score": 395, "status": "active"},
-            {"name": "小华", "student_no": "005", "total_score": 420, "status": "active"},
-            {"name": "小强", "student_no": "006", "total_score": 280, "status": "active"},
-        ]
-
-    matches = [s for s in students if keyword in s.get("name", "")]
-    if not matches:
-        return [TextContent(type="text", text=f"未找到包含「{keyword}」的学生")]
-
-    lines = [f"搜索「{keyword}」找到 {len(matches)} 个学生："]
-    for s in matches[:10]:
-        no = s.get("student_no", "-")
-        score = s.get("total_score", 0)
-        status = s.get("status", "active")
-        lines.append(f"  {s['name']} (学号{no}) — {score}分 — {status}")
-
-    return [TextContent(type="text", text="\n".join(lines))]
-
-
-# ─── 启动 ───────────────────────────────────────────────
-
-async def main():
-    logger.info(f"LearnStar MCP Server starting...")
-    logger.info(f"API Base: {API_BASE}")
-    logger.info(f"Token: {'configured' if API_TOKEN else 'NOT SET (using demo fallback)'}")
-
-    async with stdio_server() as (read_stream, write_stream):
-        await server.run(read_stream, write_stream, server.create_initialization_options())
-
-
-if __name__ == "__main__":
-    import asyncio
-
-    if not API_TOKEN:
-        logger.warning("LEARNSTAR_API_TOKEN not set! Using demo mode (no real API calls).")
-        logger.warning("Set it with: export LEARNSTAR_API_TOKEN=your_token_here")
-        logger.warning("Get a token by logging in at http://localhost:8080/api/v1/auth/teacher/login")
-
-    asyncio.run(main())
+            {"name": "小丽", "student_no": "004", "total_score": 395, "status": 
