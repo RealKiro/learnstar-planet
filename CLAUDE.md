@@ -59,6 +59,8 @@
 
 ---
 
+## 项目结构
+
 ```
 learnstar-planet/                    # 真正的项目根（含 .git）
 ├── docker-compose.yml              # Docker Compose 编排
@@ -228,4 +230,4 @@ learnstar-planet/                    # 真正的项目根（含 .git）
 ### 分支策略
 - `main` — 生产就绪分支
 - `feature/*` — 新功能开发
-- `fix/*` — Bug 修复
+- `fix/
