@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { apiGet, apiPost, apiPut } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'

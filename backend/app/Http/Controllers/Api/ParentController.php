@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notice;
-use App\Models\Pet;
 use App\Models\ScoreLog;
 use App\Models\Student;
 use App\Services\LeaderboardService;
@@ -335,6 +334,7 @@ class ParentController extends Controller
         // 标记当前孩子
         $data = collect($leaderboard)->map(function ($entry) use ($student) {
             $entry['is_mine'] = $entry['student_id'] === $student->id;
+
             return $entry;
         });
 
@@ -410,6 +410,7 @@ class ParentController extends Controller
         if ($studentId > 0) {
             return $parent->children()->where('id', $studentId)->first();
         }
+
         return $parent->children()->first();
     }
 }

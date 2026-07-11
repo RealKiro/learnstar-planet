@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { apiGet } from '@/utils/api'
 import type { ApiResponse, LeaderboardEntry } from '@/types'
 

@@ -50,16 +50,6 @@ async function handleGiveScore(student: Student, points: number, reason: string)
   } catch { /* handled */ }
 }
 
-async function handleRuleScore(student: Student, rule: ScoreRule) {
-  try {
-    await apiPost(`/api/v1/teacher/scores/give-by-rule/${rule.id}`, {
-      student_id: student.id,
-    })
-    toast.show(`${student.name} 按规则「${rule.name}」${rule.is_penalty ? '扣' : '加'}${Math.abs(rule.points)}分`, 'success')
-    student.total_score += rule.points
-  } catch { /* handled */ }
-}
-
 // 快捷规则批量应用到全班：一次请求而非 N 次
 async function handleBatchRuleScore(rule: ScoreRule) {
   if (students.value.length === 0) return

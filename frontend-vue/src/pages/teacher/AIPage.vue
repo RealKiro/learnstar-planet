@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
 
 interface ChatMessage { role: 'user' | 'assistant'; content: string }
 interface AICommand { label: string; prompt: string }
 interface Usage { count: number; limit: number; reset_at?: string }
 
-const toast = useToastStore()
 
 const loading = ref(true)
 const commands = ref<AICommand[]>([])
