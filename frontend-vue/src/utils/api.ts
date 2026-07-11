@@ -29,6 +29,10 @@ instance.interceptors.response.use(
       const authStore = useAuthStore()
       authStore.logout()
       toast.show('登录已过期，请重新登录', 'error')
+      // 跳转登录页，用 location.href 确保状态完全重置
+      if (!window.location.pathname.startsWith('/login')) {
+        window.location.href = '/login'
+      }
     } else if (error.response?.data?.message) {
       toast.show(error.response.data.message, 'error')
     } else if (error.message === 'Network Error') {
