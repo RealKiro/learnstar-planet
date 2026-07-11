@@ -76,6 +76,18 @@ async function handleParentLogin() {
   } catch { /* handled */ } finally { loading.value = false }
 }
 
+// ===== 第三方登录（仅教师） =====
+const platforms = [
+  { key: 'wechat', label: '微信', icon: '💬', color: '#07C160' },
+  { key: 'wechat_work', label: '企业微信', icon: '💼', color: '#2B7CE9' },
+  { key: 'qq', label: 'QQ', icon: '🐧', color: '#12B7F5' },
+  { key: 'renren', label: '人人通', icon: '🌐', color: '#FF6A00' },
+]
+
+function handleThirdPartyLogin(platform: string) {
+  toast.show(`正在打开${platforms.find(p => p.key === platform)?.label || platform}扫码...`, 'success')
+}
+
 // ===== 左侧轮播 =====
 const slides = [
   {
@@ -212,6 +224,27 @@ function goToSlide(i: number) {
           <button class="btn btn-primary" style="width:100%;background:linear-gradient(135deg,#6366F1,#818CF8);border:none;padding:12px;" :disabled="loading" @click="handleTeacherLogin">
             {{ loading ? '登录中...' : '登录' }}
           </button>
+
+          <!-- 扫码快捷登录（仅教师） -->
+          <div style="margin-top:20px;text-align:center;">
+            <div style="color:#475569;font-size:12px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+              <span style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></span>
+              扫码快捷登录
+              <span style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+              <button
+                v-for="p in platforms" :key="p.key"
+                style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:#94A3B8;font-size:11px;cursor:pointer;transition:all 0.2s;"
+                onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.color='#CBD5E1'"
+                onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.color='#94A3B8'"
+                @click="handleThirdPartyLogin(p.key)"
+              >
+                <span :style="{ display:'flex', alignItems:'center', justifyContent:'center', width:'28px', height:'28px', background:p.color, borderRadius:'8px', fontSize:'14px' }">{{ p.icon }}</span>
+                {{ p.label }}
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- 管理员登录 -->
