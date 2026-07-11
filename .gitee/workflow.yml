@@ -222,4 +222,8 @@ jobs:
     name: Send Notification
     runs-on: docker
     if: always()
-    needs: [backend-test, code-quality, build-docker, deploy-staging, deploy-prod
+    needs:
+      - backend-test
+      - code-quality
+      - frontend-build
+     
