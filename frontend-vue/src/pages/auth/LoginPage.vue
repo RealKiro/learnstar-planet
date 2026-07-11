@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
@@ -19,8 +19,24 @@ const parentUsername = ref('')
 const parentPassword = ref('')
 const loading = ref(false)
 
+// 密码框 ref，用于回车跳转聚焦
+const teacherPwdRef = ref<HTMLInputElement>()
+const adminPwdRef = ref<HTMLInputElement>()
+const parentPwdRef = ref<HTMLInputElement>()
+
 let teacherAttempts = 0
 const MAX_ATTEMPTS = 3
+
+// 回车 → 聚焦密码框
+function focusTeacherPwd() {
+  if (teacherUsername.value.trim()) nextTick(() => teacherPwdRef.value?.focus())
+}
+function focusAdminPwd() {
+  if (adminUsername.value.trim()) nextTick(() => adminPwdRef.value?.focus())
+}
+function focusParentPwd() {
+  if (parentUsername.value.trim()) nextTick(() => parentPwdRef.value?.focus())
+}
 
 async function handleTeacherLogin() {
   if (!teacherUsername.value.trim() || !teacherPassword.value) {
@@ -111,7 +127,7 @@ function handleThirdPartyLogin(platform: string) {
     <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);top:-200px;right:-200px;animation:floatOrb 8s ease-in-out infinite;"></div>
     <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(245,158,11,0.1) 0%,transparent 70%);bottom:-100px;left:-100px;animation:floatOrb 10s ease-in-out infinite reverse;"></div>
 
-    <div style="background:rgba(255,255,255,0.08);backdrop-filter:blur(40px) saturate(180%);border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-xl);padding:32px;width:420px;max-width:90vw;position:relative;z-index:1;box-shadow:var(--shadow-lg);">
+    <div style="background:rgba(255,255,255,0.08);backdrop-filter:blur(40px) saturate(180%);border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-xl);padding:32px;width:400px;max-width:90vw;position:relative;z-index:1;box-shadow:var(--shadow-lg);">
       <div style="font-size:48px;text-align:center;margin-bottom:16px;">🌌</div>
       <h1 style="font-size:28px;font-weight:900;color:#F1F5F9;text-align:center;margin-bottom:8px;">学趣星球</h1>
 
@@ -119,34 +135,33 @@ function handleThirdPartyLogin(platform: string) {
       <div style="display:flex;gap:0;margin-bottom:24px;background:rgba(255,255,255,0.06);border-radius:var(--radius-md);border:1px solid rgba(255,255,255,0.12);padding:4px;">
         <button
           :style="loginType === 'teacher' ? { background:'var(--gradient-primary)', color:'#F1F5F9' } : { color:'#94A3B8' }"
-          style="flex:1;padding:10px 16px;text-align:center;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;transition:all 0.2s;"
+          style="flex:1;padding:10px 8px;text-align:center;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;transition:all 0.2s;"
           @click="loginType = 'teacher'"
-        >👩‍🏫 教师登录</button>
+        >👩‍🏫 教师</button>
         <button
           :style="loginType === 'admin' ? { background:'linear-gradient(135deg,#F59E0B,#D97706)', color:'#F1F5F9' } : { color:'#94A3B8' }"
-          style="flex:1;padding:10px 16px;text-align:center;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;transition:all 0.2s;"
+          style="flex:1;padding:10px 8px;text-align:center;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;transition:all 0.2s;"
           @click="loginType = 'admin'"
-        >🔧 管理员登录</button>
+        >🔧 管理员</button>
         <button
           :style="loginType === 'parent' ? { background:'linear-gradient(135deg,#10B981,#059669)', color:'#F1F5F9' } : { color:'#94A3B8' }"
-          style="flex:1;padding:10px 16px;text-align:center;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;transition:all 0.2s;"
+          style="flex:1;padding:10px 8px;text-align:center;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;transition:all 0.2s;"
           @click="loginType = 'parent'"
-        >👨‍👩‍👧 家长登录</button>
+        >👨‍👩‍👧 家长</button>
       </div>
 
       <!-- 教师登录表单 -->
       <div v-if="loginType === 'teacher'">
-        <p style="color:#94A3B8;text-align:center;margin-bottom:24px;font-size:14px;">账号密码由学校管理员统一分配，直接登录即可</p>
         <div class="form-group">
-          <label style="color:#CBD5E1;">教师账号</label>
-          <input v-model="teacherUsername" class="form-input" placeholder="输入管理员分配的教师账号" @keydown.enter="handleTeacherLogin">
+          <label style="color:#CBD5E1;">账号</label>
+          <input v-model="teacherUsername" class="form-input" placeholder="教师账号" @keydown.enter="focusTeacherPwd">
         </div>
         <div class="form-group">
           <label style="color:#CBD5E1;">密码</label>
-          <input v-model="teacherPassword" type="password" class="form-input" placeholder="输入管理员分配的密码" @keydown.enter="handleTeacherLogin">
+          <input ref="teacherPwdRef" v-model="teacherPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleTeacherLogin">
         </div>
         <button class="btn btn-primary" style="width:100%;" :disabled="loading" @click="handleTeacherLogin">
-          {{ loading ? '登录中...' : '教师登录' }}
+          {{ loading ? '登录中...' : '登录' }}
         </button>
 
         <!-- 快捷登录 -->
@@ -175,16 +190,13 @@ function handleThirdPartyLogin(platform: string) {
 
       <!-- 管理员登录表单 -->
       <div v-if="loginType === 'admin'">
-        <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.15);border-radius:var(--radius-md);padding:12px 16px;margin-bottom:16px;color:#FCD34D;font-size:13px;line-height:1.5;">
-          ⚠️ 管理员账号仅用于学校后台管理（创建教师账号、班级管理、全校数据查看），不可用于日常教学操作
+        <div class="form-group">
+          <label style="color:#CBD5E1;">账号</label>
+          <input v-model="adminUsername" class="form-input" placeholder="管理员账号" @keydown.enter="focusAdminPwd">
         </div>
         <div class="form-group">
-          <label style="color:#CBD5E1;">管理员账号</label>
-          <input v-model="adminUsername" class="form-input" placeholder="学校注册时分配的管理员账号" @keydown.enter="handleAdminLogin">
-        </div>
-        <div class="form-group">
-          <label style="color:#CBD5E1;">管理员密码</label>
-          <input v-model="adminPassword" type="password" class="form-input" placeholder="输入管理员密码" @keydown.enter="handleAdminLogin">
+          <label style="color:#CBD5E1;">密码</label>
+          <input ref="adminPwdRef" v-model="adminPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleAdminLogin">
         </div>
         <button
           class="btn"
@@ -192,23 +204,19 @@ function handleThirdPartyLogin(platform: string) {
           :disabled="loading"
           @click="handleAdminLogin"
         >
-          {{ loading ? '登录中...' : '管理员登录' }}
+          {{ loading ? '登录中...' : '登录' }}
         </button>
-        <p style="margin-top:24px;text-align:center;color:#64748B;font-size:12px;">
-          管理员账号不支持第三方扫码登录，仅限账号密码方式
-        </p>
       </div>
 
       <!-- 家长登录表单 -->
       <div v-if="loginType === 'parent'">
-        <p style="color:#94A3B8;text-align:center;margin-bottom:24px;font-size:14px;">家长账号由学校管理员创建，可查看孩子的积分、宠物和通知</p>
         <div class="form-group">
-          <label style="color:#CBD5E1;">家长账号</label>
-          <input v-model="parentUsername" class="form-input" placeholder="输入管理员分配的家长账号" @keydown.enter="handleParentLogin">
+          <label style="color:#CBD5E1;">账号</label>
+          <input v-model="parentUsername" class="form-input" placeholder="家长账号" @keydown.enter="focusParentPwd">
         </div>
         <div class="form-group">
           <label style="color:#CBD5E1;">密码</label>
-          <input v-model="parentPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleParentLogin">
+          <input ref="parentPwdRef" v-model="parentPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleParentLogin">
         </div>
         <button
           class="btn"
@@ -216,7 +224,7 @@ function handleThirdPartyLogin(platform: string) {
           :disabled="loading"
           @click="handleParentLogin"
         >
-          {{ loading ? '登录中...' : '家长登录' }}
+          {{ loading ? '登录中...' : '登录' }}
         </button>
       </div>
     </div>
