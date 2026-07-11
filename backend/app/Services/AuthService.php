@@ -194,7 +194,25 @@ class AuthService
         return $user;
     }
 
-    // ========== 第三方扫码登录 ==========
+    /**
+     * 家长账号密码登录
+     * 仅允许 role=parent 的账号通过此接口登录
+     */
+    public function parentLoginWithCredentials(string $username, string $password): ?User
+    {
+        $user = User::where('username', $username)
+            ->where('role', 'parent')
+            ->where('status', 'active')
+            ->first();
+
+        if (!$user || !Hash::check($password, $user->password)) {
+            return null;
+        }
+
+        $user->update(['last_login_at' => now()]);
+
+        return $user;
+    }
 
     /**
      * 微信扫码登录

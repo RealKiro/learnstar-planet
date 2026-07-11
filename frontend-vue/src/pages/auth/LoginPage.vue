@@ -10,11 +10,13 @@ const router = useRouter()
 const authStore = useAuthStore()
 const toast = useToastStore()
 
-const loginType = ref<'teacher' | 'admin'>('teacher')
+const loginType = ref<'teacher' | 'admin' | 'parent'>('teacher')
 const teacherUsername = ref('')
 const teacherPassword = ref('')
 const adminUsername = ref('')
 const adminPassword = ref('')
+const parentUsername = ref('')
+const parentPassword = ref('')
 const loading = ref(false)
 
 let teacherAttempts = 0
@@ -70,6 +72,27 @@ async function handleAdminLogin() {
   }
 }
 
+async function handleParentLogin() {
+  if (!parentUsername.value.trim() || !parentPassword.value) {
+    toast.show('请输入家长账号和密码', 'error')
+    return
+  }
+  loading.value = true
+  try {
+    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/auth/parent/login', {
+      username: parentUsername.value.trim(),
+      password: parentPassword.value,
+    })
+    authStore.setAuth(res.data.token, res.data.user)
+    toast.show('家长登录成功', 'success')
+    router.replace({ name: 'parent-home' })
+  } catch {
+    // 错误已在拦截器统一处理
+  } finally {
+    loading.value = false
+  }
+}
+
 const platforms = [
   { key: 'wechat', label: '微信', color: '#07C160', class: 'wechat' },
   { key: 'wechat_work', label: '企业微信', color: '#2B7CE9', class: 'wechat-work' },
@@ -104,6 +127,11 @@ function handleThirdPartyLogin(platform: string) {
           style="flex:1;padding:10px 16px;text-align:center;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;transition:all 0.2s;"
           @click="loginType = 'admin'"
         >🔧 管理员登录</button>
+        <button
+          :style="loginType === 'parent' ? { background:'linear-gradient(135deg,#10B981,#059669)', color:'#F1F5F9' } : { color:'#94A3B8' }"
+          style="flex:1;padding:10px 16px;text-align:center;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;transition:all 0.2s;"
+          @click="loginType = 'parent'"
+        >👨‍👩‍👧 家长登录</button>
       </div>
 
       <!-- 教师登录表单 -->
@@ -169,6 +197,27 @@ function handleThirdPartyLogin(platform: string) {
         <p style="margin-top:24px;text-align:center;color:#64748B;font-size:12px;">
           管理员账号不支持第三方扫码登录，仅限账号密码方式
         </p>
+      </div>
+
+      <!-- 家长登录表单 -->
+      <div v-if="loginType === 'parent'">
+        <p style="color:#94A3B8;text-align:center;margin-bottom:24px;font-size:14px;">家长账号由学校管理员创建，可查看孩子的积分、宠物和通知</p>
+        <div class="form-group">
+          <label style="color:#CBD5E1;">家长账号</label>
+          <input v-model="parentUsername" class="form-input" placeholder="输入管理员分配的家长账号" @keydown.enter="handleParentLogin">
+        </div>
+        <div class="form-group">
+          <label style="color:#CBD5E1;">密码</label>
+          <input v-model="parentPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleParentLogin">
+        </div>
+        <button
+          class="btn"
+          style="background:linear-gradient(135deg,#10B981,#059669);color:#F1F5F9;width:100%;box-shadow:0 4px 12px rgba(16,185,129,0.3);"
+          :disabled="loading"
+          @click="handleParentLogin"
+        >
+          {{ loading ? '登录中...' : '家长登录' }}
+        </button>
       </div>
     </div>
   </div>

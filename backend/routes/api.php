@@ -34,6 +34,9 @@ Route::prefix('auth')->group(function () {
     // 管理员账号密码登录
     Route::post('admin/login', [AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
 
+    // 家长账号密码登录
+    Route::post('parent/login', [AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
+
     // 第三方扫码登录（仅教师可用）
     Route::post('teacher/login/wechat', [AuthController::class, 'teacherLoginWithWechat']);
     Route::post('teacher/login/wechat-work', [AuthController::class, 'teacherLoginWithWechatWork']);
@@ -239,4 +242,24 @@ Route::prefix('parent')->middleware(['auth:sanctum', 'role:parent'])->group(func
 // ===== 公共接口 =====
 Route::prefix('common')->group(function () {
     Route::get('pet-types', [StudentController::class, 'petTypes']);
-    Route::get('evolution-stages', [StudentController::class, 'evolutionSt
+    Route::get('evolution-stages', [StudentController::class, 'evolutionStages']);
+    Route::get('score-categories', [StudentController::class, 'scoreCategories']);
+});
+
+}); // End API v1 prefix
+
+// 向后兼容：v1 之前的路由也映射到 v1
+Route::prefix('auth')->group(function () {
+    Route::post('teacher/login', [AuthController::class, 'teacherLoginWithCredentials'])->middleware('throttle:6,1');
+    Route::post('admin/login', [AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
+    Route::post('parent/login', [AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
+    Route::post('teacher/login/{platform}', [AuthController::class, 'teacherLoginWithWechat']);
+});
+Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
+    Route::get('school', [SchoolAdminController::class, 'getSchool']);
+    Route::put('school', [SchoolAdminController::class, 'updateSchool']);
+    Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
+    Route::get('classes', [SchoolAdminController::class, 'index']);
+    Route::get('students', [SchoolAdminController::class, 'listStudents']);
+    Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
+});
