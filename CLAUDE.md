@@ -62,6 +62,9 @@ learnstar-planet/
 │   ├── src/                        # 源代码（组件/路由/状态/类型）
 │   ├── vite.config.ts              # Vite 构建配置
 │   └── package.json                # Node.js 依赖
+├── mcp-server/                     # MCP 服务器（AI 机器人集成）
+│   ├── server.py                   #   MCP 协议服务器
+│   └── README.md                   #   部署说明
 ├── docker-compose.yml              # Docker Compose 编排（应用 + MySQL + Redis）
 ├── .env.example                    # 环境变量模板
 ├── CLAUDE.md                       # 开发文档与规范
@@ -269,6 +272,4 @@ npm run build:deploy # 输出到 ../backend/public/
 4. **第三方登录仅限教师**: 管理员不支持第三方扫码
 5. **AI 功能可选**: 不配置 AI API Key 不影响核心功能
 6. **排行榜使用 Redis ZSET**: 有 MySQL 回退方案
-7. **学年升级不可逆**: 预览→确认→执行，六年级毕业，其他顺升
-8. **家长功能目前简约**: 以查看为主（积分、宠物、通知、排名）
-9. **PWA 主要用于离线缓存**: Service Worker 缓存静态资源，网络优先策略
+7. **学年升级不可逆**: 预览→确认→执行，
