@@ -34,20 +34,26 @@ class AdminUserSeeder extends Seeder
             ]
         );
 
-        // 创建超级管理员（如果不存在）
-        User::firstOrCreate(
-            ['username' => $adminUsername],
-            [
-                'school_id'       => $school->id,
-                'role'            => 'school_admin',
-                'password'        => Hash::make($adminPassword),
-                'name'            => $adminName,
-                'status'          => 'active',
-                'password_changed' => false,
-            ]
-        );
+        // 创建或更新超级管理员
+        // 每次启动都从 .env 同步密码，确保 ADMIN_PASSWORD 是唯一真相来源
+        $user = User::where('username', $adminUsername)->first();
 
-        $this->command?->info("超级管理员已就绪：{$adminUsername}");
-        $this->command?->warn('生产环境请务必在 .env 中修改 ADMIN_PASSWORD！');
+        if (!$user) {
+            // 首次创建
+            User::create([
+                'username'         => $adminUsername,
+                'school_id'        => $school->id,
+                'role'             => 'school_admin',
+                'password'         => Hash::make($adminPassword),
+                'name'             => $adminName,
+                'status'           => 'active',
+                'password_changed' => false,
+            ]);
+        } else {
+            // 已存在：仅同步密码，不动其他字段（name/状态等可通过后台修改）
+            $user->update(['password' => Hash::make($adminPassword)]);
+        }
+
+        $this->command?->info("超级管理员已就绪：{$adminUsername}（密码已从 .env 同步）");
     }
 }
