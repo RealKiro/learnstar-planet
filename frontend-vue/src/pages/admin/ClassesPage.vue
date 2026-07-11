@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { apiGet, apiPost, apiDelete } from '@/utils/api'
+import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, ClassRoom } from '@/types'
 
@@ -31,6 +31,19 @@ const importResult = ref<{ success: number; failed: number; errors: string[] } |
 
 const gradeOptions = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
 
+const petSeriesOptions = [
+  { value: 'all',      label: '不限制', emoji: '🌐' },
+  { value: 'cosmic',   label: '原创宇宙', emoji: '🌌' },
+  { value: 'pokemon',  label: '宝可梦', emoji: '⚡' },
+  { value: 'cute',     label: '萌宠', emoji: '🐱' },
+  { value: 'treasure', label: '国宝', emoji: '🐼' },
+  { value: 'mythic',   label: '神兽', emoji: '🐉' },
+]
+
+const petSeriesLabels: Record<string, string> = {
+  all: '不限制', cosmic: '🌌 宇宙', pokemon: '⚡ 宝可梦', cute: '🐱 萌宠', treasure: '🐼 国宝', mythic: '🐉 神兽',
+}
+
 onMounted(async () => {
   try {
     const res = await apiGet<ApiResponse<ClassRoom[]>>('/api/v1/admin/classes')
@@ -45,6 +58,13 @@ async function deleteClass(cls: ClassRoom) {
     await apiDelete(`/api/v1/admin/classes/${cls.id}`)
     classes.value = classes.value.filter(c => c.id !== cls.id)
     toast.show('已删除班级：' + cls.name, 'success')
+  } catch { /* handled */ }
+}
+
+async function updatePetSeries(cls: ClassRoom, series: string) {
+  try {
+    await apiPut(`/api/v1/admin/classes/${cls.id}`, { pet_series: series })
+    toast.show(`「${cls.name}」宠物系列已设为：${petSeriesLabels[series] || series}`, 'success')
   } catch { /* handled */ }
 }
 
@@ -162,11 +182,20 @@ function downloadStudentTemplate() {
 
     <div v-else class="data-table">
       <table>
-        <thead><tr><th>班级名称</th><th>年级</th><th>班主任</th><th>学生数</th><th>操作</th></tr></thead>
+        <thead><tr><th>班级名称</th><th>年级</th><th>宠物系列</th><th>班主任</th><th>学生数</th><th>操作</th></tr></thead>
         <tbody>
           <tr v-for="c in classes" :key="c.id">
             <td style="font-weight:600;">{{ c.name }}</td>
             <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(79,70,229,0.08);color:var(--color-primary);">{{ c.grade || '未分' }}</span></td>
+            <td>
+              <select
+                :value="(c as any).settings?.pet_series || 'all'"
+                @change="updatePetSeries(c, ($event.target as HTMLSelectElement).value)"
+                style="padding:4px 8px;border-radius:8px;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:13px;cursor:pointer;"
+              >
+                <option v-for="opt in petSeriesOptions" :key="opt.value" :value="opt.value">{{ opt.emoji }} {{ opt.label }}</option>
+              </select>
+            </td>
             <td>{{ c.teacher_name || '-' }}</td>
             <td style="font-weight:600;">{{ c.student_count }} 人</td>
             <td style="display:flex;gap:4px;">
