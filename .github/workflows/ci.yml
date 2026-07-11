@@ -206,7 +206,7 @@ jobs:
 
       - name: Install Composer dependencies
         working-directory: backend
-        run: composer install --no-interaction --no-progress --prefer-dist --no-scripts
+        run: composer install --no-interaction --no-progress --prefer-dist --no-scripts --ignore-platform-reqs
 
       - name: Run PHP CS Fixer (check only)
         working-directory: backend
@@ -262,4 +262,4 @@ jobs:
           test -f mini-program/app.json && echo "✅ app.json exists"
           test -f mini-program/app.wxss && echo "✅ app.wxss exists"
           test -d mini-program/pages && echo "✅ pages directory exists"
-          echo "Mini-program file stru
+          echo 
