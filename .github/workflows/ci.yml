@@ -239,9 +239,10 @@ jobs:
         working-directory: frontend-vue
         run: npx vue-tsc --noEmit
 
+      # Skip vue-tsc -b in build because tsconfig uses vue-tsc (project references require the full --noEmit first)
       - name: Build production bundle
         working-directory: frontend-vue
-        run: npm run build
+        run: npm run build:ci
 
   # ========== 微信小程序检查 ==========
   miniprogram-lint:
@@ -263,5 +264,4 @@ jobs:
           test -f mini-program/app.js && echo "✅ app.js exists"
           test -f mini-program/app.json && echo "✅ app.json exists"
           test -f mini-program/app.wxss && echo "✅ app.wxss exists"
-          test -d mini-program/pages && echo "✅ pages directory exists"
-          echo "Mini-program file structure validation passed"
+          test -d m

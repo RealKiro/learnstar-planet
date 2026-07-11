@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "build:ci": "vite build",
     "build:deploy": "vite build --outDir ../backend/public",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit"
@@ -24,6 +25,3 @@
     "tailwindcss": "^4.3.2",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",
-    "vue-tsc": "^3.3.5"
-  }
-}
