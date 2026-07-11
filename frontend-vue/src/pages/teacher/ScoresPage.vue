@@ -1,10 +1,11 @@
 <script setup lang="ts">
-// TODO: Implement Scores page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Scores</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted, computed } from 'vue'
+import { apiGet, apiPost } from '@/utils/api'
+import { useToastStore } from '@/stores/toast'
+import type { ApiResponse, ScoreRule, Student } from '@/types'
+
+const toast = useToastStore()
+
+const students = ref<Student[]>([])
+const rules = ref<ScoreRule[]>([])
+const score

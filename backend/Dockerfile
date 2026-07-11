@@ -16,20 +16,17 @@ FROM node:22-alpine AS frontend-builder
 
 WORKDIR /app
 
-# Install pnpm for faster installs
-RUN npm install -g pnpm@latest
-
-# Copy package files and install dependencies
-COPY frontend-vue/package.json frontend-vue/pnpm-lock.yaml* ./
-RUN if [ -f pnpm-lock.yaml ]; then \
-        pnpm install --frozen-lockfile; \
+# Copy package files and install dependencies with npm
+COPY frontend-vue/package.json frontend-vue/package-lock.json* ./
+RUN if [ -f package-lock.json ]; then \
+        npm ci; \
     else \
-        pnpm install; \
+        npm install; \
     fi
 
 # Copy source and build
 COPY frontend-vue/ ./
-RUN pnpm build
+RUN npm run build
 
 # ============================================================
 # Stage 2: Install Composer dependencies (production only)
@@ -136,4 +133,6 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 # Expose port
 EXPOSE 8080
 
-# Run entrypoint (starts nginx + php-fpm + 
+# Run entrypoint (starts nginx + php-fpm + queue worker via supervisor)
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+C

@@ -1,10 +1,16 @@
 <script setup lang="ts">
-// TODO: Implement Grades page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Grades</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted } from 'vue'
+import { apiGet } from '@/utils/api'
+import type { ApiResponse } from '@/types'
+
+interface GradeEntry {
+  student_id: number
+  student_name: string
+  subjects: Record<string, number>
+  total: number
+  average: number
+  rank: number
+}
+
+const grades = ref<GradeEntry[]>([])
+const lo

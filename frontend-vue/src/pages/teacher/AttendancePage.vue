@@ -1,10 +1,13 @@
 <script setup lang="ts">
-// TODO: Implement Attendance page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Attendance</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted, computed } from 'vue'
+import { apiGet, apiPost } from '@/utils/api'
+import { useToastStore } from '@/stores/toast'
+import type { ApiResponse } from '@/types'
+
+const toast = useToastStore()
+
+interface AttendanceRecord {
+  student_id: number
+  student_name: string
+  student_no?: string
+  status: 'pres

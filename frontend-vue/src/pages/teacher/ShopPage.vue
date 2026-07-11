@@ -1,10 +1,13 @@
 <script setup lang="ts">
-// TODO: Implement Shop page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Shop</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted } from 'vue'
+import { apiGet, apiPost, apiDelete } from '@/utils/api'
+import { useToastStore } from '@/stores/toast'
+import type { ApiResponse, ShopItem } from '@/types'
+
+const toast = useToastStore()
+
+const items = ref<ShopItem[]>([])
+const loading = ref(true)
+
+onMounted(async () => {
+  

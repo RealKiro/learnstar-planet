@@ -1,10 +1,12 @@
 <script setup lang="ts">
-// TODO: Implement Broadcast page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Broadcast</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted } from 'vue'
+import { apiGet, apiPost } from '@/utils/api'
+import { useToastStore } from '@/stores/toast'
+import type { ApiResponse } from '@/types'
+
+const toast = useToastStore()
+
+const bcContent = ref('')
+const bcType = ref<'banner' | 'popup' | 'fullscreen'>('banner')
+const bcVoice = ref(true)
+co
