@@ -38,10 +38,19 @@
 
 ### 基础设施
 
-- Docker 多阶段构建（PHP 8.3-FPM + Nginx + Supervisor）
+- Docker 多阶段构建（Node 22 + PHP 8.3-FPM + Nginx + Supervisor）
 - Docker Compose 编排（app + MySQL 8.0 + Redis 7）
 - GitHub Container Registry (GHCR) 镜像托管
 - CI/CD: GitHub Actions + Gitee Go
+
+### 后端规范（已实施）
+
+- **Form Requests**: 登录/批量创建/班级/导入验证逻辑已从控制器中抽离到独立请求类
+- **API Resources**: UserResource、ClassRoomResource、StudentResource、SchoolResource 提供一致的 JSON 输出
+- **异常处理**: 所有异常统一返回 JSON（ModelNotFound→404、ValidationException→422、Auth→401/403、Throwable→500/503）
+- **速率限制**: 登录端点限制 `throttle:6,1`，API 整体限制 `throttle:api`
+- **API 版本控制**: `/api/v1/*` 前缀 + 向后兼容旧路由
+- **Eloquent Scopes**: User/ClassRoom/Student 模型添加 `active()`、`byRole()`、`bySchool()`、`byClass()` 作用域
 
 ---
 
@@ -295,37 +304,4 @@ php artisan horizon
 # 查看日志
 docker-compose logs -f app
 
-# 进入容器
-docker-compose exec app bash
-
-# 重启服务
-docker-compose restart app
-
-# 拉取最新镜像并更新
-docker-compose pull
-docker-compose up -d
-docker-compose exec app php artisan migrate --force
-
-# 备份数据库
-docker-compose exec mysql mysqldump -u root -p learnstar > backup_$(date +%Y%m%d).sql
-```
-
-### 前端开发
-
-```bash
-# 进入前端目录
-cd frontend-vue
-
-# 安装依赖
-npm install
-
-# 启动开发服务器（热重载，默认 http://localhost:5173）
-npm run dev
-
-# 类型检查 + 构建生产包
-npm run build
-
-# 构建并输出到后端 public 目录（用于 Docker 部署）
-npm run build:deploy
-
-# 微信小程序: 使用微信开发者工具打开 mini-
+# 
