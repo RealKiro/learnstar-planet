@@ -70,6 +70,10 @@ class Pet extends Model
             'light_horse'  => '光马',
             'dream_bear'   => '梦熊',
             'hope_dragon'  => '望龙',
+            'star_fish'    => '星鱼',
+            'moon_moth'    => '月蝶',
+            'sun_sparrow'  => '日雀',
+            'cloud_whale'  => '云鲸',
             // 宝可梦系列
             'pikachu'      => '皮卡丘',
             'eevee'        => '伊布',
@@ -79,6 +83,10 @@ class Pet extends Model
             'snorlax'      => '卡比兽',
             'mewtwo'       => '超梦',
             'dragonite'    => '快龙',
+            'venusaur'     => '妙蛙花',
+            'blastoise'    => '水箭龟',
+            'charizard'    => '喷火龙',
+            'gengar'       => '耿鬼',
             // 萌宠系列
             'orange_cat'   => '橘猫',
             'husky'        => '哈士奇',
@@ -88,6 +96,10 @@ class Pet extends Model
             'bunny'        => '兔子',
             'parrot'       => '鹦鹉',
             'hedgehog'     => '刺猬',
+            'chinchilla'   => '龙猫',
+            'teacup_pig'   => '小香猪',
+            'sugar_glider' => '蜜袋鼯',
+            'alpaca'       => '羊驼',
             // 国宝系列
             'panda'           => '大熊猫',
             'golden_monkey'   => '金丝猴',
@@ -97,6 +109,10 @@ class Pet extends Model
             'red_crowned_crane'=> '丹顶鹤',
             'milu_deer'       => '麋鹿',
             'chinese_alligator'=> '扬子鳄',
+            'siberian_tiger'  => '东北虎',
+            'pangolin'        => '穿山甲',
+            'red_panda'       => '小熊猫',
+            'finless_porpoise'=> '江豚',
             // 神兽系列
             'qilin'    => '麒麟',
             'fenghuang'=> '凤凰',
@@ -106,6 +122,10 @@ class Pet extends Model
             'taotie'   => '饕餮',
             'pixiu'    => '貔貅',
             'kunpeng'  => '鲲鹏',
+            'qinglong' => '青龙',
+            'qiongqi'  => '穷奇',
+            'hundun'   => '混沌',
+            'zhulong'  => '烛龙',
         ];
     }
 
@@ -129,10 +149,10 @@ class Pet extends Model
     public static function getCategoryByType(string $type): string
     {
         $categories = [
-            'pokemon' => ['pikachu', 'eevee', 'charmander', 'squirtle', 'bulbasaur', 'snorlax', 'mewtwo', 'dragonite'],
-            'cute'    => ['orange_cat', 'husky', 'shiba', 'guinea_pig', 'hamster', 'bunny', 'parrot', 'hedgehog'],
-            'treasure'=> ['panda', 'golden_monkey', 'crested_ibis', 'snow_leopard', 'tibetan_antelope', 'red_crowned_crane', 'milu_deer', 'chinese_alligator'],
-            'mythic'  => ['qilin', 'fenghuang', 'baihu', 'xuanwu', 'zhuque', 'taotie', 'pixiu', 'kunpeng'],
+            'pokemon' => ['pikachu', 'eevee', 'charmander', 'squirtle', 'bulbasaur', 'snorlax', 'mewtwo', 'dragonite', 'venusaur', 'blastoise', 'charizard', 'gengar'],
+            'cute'    => ['orange_cat', 'husky', 'shiba', 'guinea_pig', 'hamster', 'bunny', 'parrot', 'hedgehog', 'chinchilla', 'teacup_pig', 'sugar_glider', 'alpaca'],
+            'treasure'=> ['panda', 'golden_monkey', 'crested_ibis', 'snow_leopard', 'tibetan_antelope', 'red_crowned_crane', 'milu_deer', 'chinese_alligator', 'siberian_tiger', 'pangolin', 'red_panda', 'finless_porpoise'],
+            'mythic'  => ['qilin', 'fenghuang', 'baihu', 'xuanwu', 'zhuque', 'taotie', 'pixiu', 'kunpeng', 'qinglong', 'qiongqi', 'hundun', 'zhulong'],
         ];
 
         foreach ($categories as $category => $types) {
