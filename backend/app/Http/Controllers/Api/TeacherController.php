@@ -373,6 +373,7 @@ class TeacherController extends Controller
         $pets = \App\Models\Pet::whereIn('class_id', $classIds)
             ->with('student:id,name')
             ->get()
+            /** @phpstan-ignore-next-line argument.unresolvableType */
             ->map(fn (\App\Models\Pet $p) => [
                 'id' => $p->id,
                 'student_id' => $p->student_id,

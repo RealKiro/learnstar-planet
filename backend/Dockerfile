@@ -26,7 +26,7 @@ RUN if [ -f package-lock.json ]; then \
 
 # Copy source and build
 COPY frontend-vue/ ./
-RUN npm run build
+RUN npm run build:ci
 
 # ============================================================
 # Stage 2: Install Composer dependencies (production only)

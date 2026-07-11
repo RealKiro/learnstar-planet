@@ -28,6 +28,7 @@ class ParentController extends Controller
             return response()->json(['data' => ['children' => [], 'message' => '尚未绑定孩子']]);
         }
 
+        /** @phpstan-ignore-next-line argument.unresolvableType */
         $data = $children->map(function (Student $child) {
             $pet = $child->pet;
             $classRank = null;
