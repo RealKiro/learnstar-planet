@@ -91,7 +91,7 @@
 - **数据库**：MySQL / PostgreSQL / SQLite / MariaDB
 
 ### 前端
-- **Web 端**：Vue 3 + Vite + TypeScript（SPA，需构建步骤）
+- **Web 端**：Vue 3 + Vite + TypeScript（Docker 构建时自动编译，无需手动操作）
 - **小程序**：微信小程序原生开发
 - **PWA**：支持离线访问
 
