@@ -28,6 +28,28 @@ if [ ! -f /var/www/html/.env ]; then
     env | grep -E "^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|MAIL_|FILESYSTEM_|AI_|WECHAT_|QQ_|RENREN_|ADMIN_|GITHUB_)" > /var/www/html/.env
 fi
 
+# ──────────────────────────────────────────
+# 自动拼接端口到 APP_URL
+# APP_URL 不带端口时，从 APP_PORT 自动补上（80/443 除外）
+# 这样用户改端口只需改 APP_PORT，无需同步改 APP_URL
+# ──────────────────────────────────────────
+if [ -n "$APP_URL" ] && [ -n "$APP_PORT" ]; then
+    # 检查 APP_URL 是否已带端口（URL 末尾的 :数字，可能后跟 /路径）
+    if ! echo "$APP_URL" | grep -qE ':[0-9]+(/.*)?$'; then
+        case "$APP_PORT" in
+            80|443) ;;
+            *)
+                APP_URL="${APP_URL}:${APP_PORT}"
+                export APP_URL
+                if [ -f /var/www/html/.env ]; then
+                    sed -i "s|^APP_URL=.*|APP_URL=${APP_URL}|" /var/www/html/.env
+                fi
+                echo "  APP_URL 自动拼接端口: ${APP_URL}"
+                ;;
+        esac
+    fi
+fi
+
 # 等待数据库就绪
 echo "⏳ 等待数据库连接..."
 MAX_RETRIES=30
