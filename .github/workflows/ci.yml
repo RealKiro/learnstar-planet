@@ -258,8 +258,8 @@ jobs:
 
       - name: Check mini-program file structure
         run: |
-          test -f mini-program/app.js && echo "✅ app.js exists"
-          test -f mini-program/app.json && echo "✅ app.json exists"
-          test -f mini-program/app.wxss && echo "✅ app.wxss exists"
-          test -d mini-program/pages && echo "✅ pages directory exists"
-          echo "Mini-program file structure validation passed"
+          test -f mini-program/app.js
+          test -f mini-program/app.json
+          test -f mini-program/app.wxss
+          test -d mini-program/pages
+          echo "Mini-program file structure OK"
