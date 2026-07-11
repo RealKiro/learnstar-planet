@@ -273,3 +273,6 @@ npm run build:deploy # 输出到 ../backend/public/
 5. **AI 功能可选**: 不配置 AI API Key 不影响核心功能
 6. **排行榜使用 Redis ZSET**: 有 MySQL 回退方案
 7. **学年升级不可逆**: 预览→确认→执行，
+8. **家长功能目前简约**: 以查看为主（积分、宠物、通知、排名）
+9. **PWA 主要用于离线缓存**: Service Worker 缓存静态资源，网络优先策略
+10. **MCP Server 支持 AI 机器人**: `mcp-server/` 提供标准 MCP 协议服务器，可对接 AstrBot + NapCatQQ/Lagrange 实现 QQ/微信 自然语言积分管理
