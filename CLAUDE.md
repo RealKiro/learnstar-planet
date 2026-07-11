@@ -28,11 +28,11 @@
 | 日志 | spatie/laravel-activitylog 4 | 活动日志审计 |
 | 队列 | Laravel Horizon 5 | Redis 队列监控 |
 
-### 前端（现有）
+### 前端
 
 | 端 | 技术 | 说明 |
 |------|------|------|
-| Web | 原生 HTML/CSS/JS | 单文件 `index.html`（~4067行，245KB），内嵌所有 CSS 和 JS |
+| Web | Vue 3 + Vite + TypeScript | `frontend-vue/` 目录，组件化 SPA，需 `npm run build` 构建 |
 | 小程序 | 微信小程序原生 | `mini-program/` 目录，14 个页面，教师端 + 家长端 |
 | PWA | 原生 Service Worker | `pwa/` 目录，离线缓存、推送通知、后台同步 |
 
@@ -49,12 +49,36 @@
 
 ```
 learnstar-planet/                    # 真正的项目根（含 .git）
-├── index.html                      # Web 前端（单文件 SPA）
 ├── docker-compose.yml              # Docker Compose 编排
 ├── .env.example                    # 环境变量模板
 ├── README.md                       # 详尽文档（800+ 行）
 ├── serverless-analysis.md          # 无服务器部署可行性分析
 ├── LICENSE                         # MIT
+│
+├── frontend-vue/                   # Vue 3 前端 SPA
+│   ├── vite.config.ts              # Vite 构建配置 + API 代理
+│   ├── src/
+│   │   ├── types/index.ts          # 完整 TypeScript 类型定义
+│   │   ├── utils/
+│   │   │   ├── api.ts              # Axios 封装（token 拦截、401 处理）
+│   │   │   └── constants.ts        # 工具函数与常量
+│   │   ├── stores/
+│   │   │   ├── auth.ts             # 认证状态（Pinia）
+│   │   │   ├── theme.ts            # 暗色模式
+│   │   │   ├── toast.ts            # Toast 消息
+│   │   │   └── crud.ts             # 通用 CRUD Store 工厂
+│   │   ├── router/index.ts         # 路由树 + 角色守卫
+│   │   ├── layouts/                # 布局组件
+│   │   │   ├── TeacherLayout.vue   # 教师端侧边栏布局
+│   │   │   ├── AdminLayout.vue     # 管理端侧边栏布局
+│   │   │   └── ParentLayout.vue    # 家长端侧边栏布局
+│   │   └── pages/                  # 页面组件（按角色分组）
+│   │       ├── landing/            #   首页 Landing
+│   │       ├── auth/               #   登录页
+│   │       ├── teacher/            #   教师端 16 个页面
+│   │       ├── admin/              #   管理端 8 个页面
+│   │       └── parent/             #   家长端 5 个页面
+│   └── package.json
 │
 ├── backend/                        # Laravel 11 后端
 │   ├── app/
@@ -81,6 +105,8 @@ learnstar-planet/                    # 真正的项目根（含 .git）
 │   └── sw.js
 │
 ├── .github/workflows/              # GitHub Actions
+│   ├── ci.yml
+│   ├── docker.yml
 │   ├── deploy.yml
 │   └── security.yml
 │
@@ -287,40 +313,19 @@ docker-compose exec mysql mysqldump -u root -p learnstar > backup_$(date +%Y%m%d
 ### 前端开发
 
 ```bash
-# Web 端直接用浏览器打开 index.html（或通过 Docker 服务访问）
+# 进入前端目录
+cd frontend-vue
 
-# 微信小程序: 使用微信开发者工具打开 mini-program/ 目录
-```
+# 安装依赖
+npm install
 
----
+# 启动开发服务器（热重载，默认 http://localhost:5173）
+npm run dev
 
-## 设计系统（CSS 变量）
+# 类型检查 + 构建生产包
+npm run build
 
-项目采用"星空探索"主题，CSS 变量定义在 `index.html` 的 `:root` 中：
+# 构建并输出到后端 public 目录（用于 Docker 部署）
+npm run build:deploy
 
-| 类别 | 变量 | 值 |
-|------|------|-----|
-| 品牌主色 | `--primary` | `#4F46E5` 星空靛蓝 |
-| 品牌辅色 | `--secondary` | `#F59E0B` 星光琥珀 |
-| 功能色 | `--accent` / `--danger` / `--info` | `#10B981` / `#EF4444` / `#3B82F6` |
-| 背景 | `--bg` / `--bg-card` | `#F8FAFC` / `#FFFFFF` |
-| 文字 | `--text` / `--text-secondary` | `#1E293B` / `#64748B` |
-| 圆角 | `--radius-sm/md/lg/xl` | `8px` / `12px` / `20px` / `28px` |
-| 阴影 | `--shadow-sm/md/lg/glow` | 4 级阴影深度 |
-| 动画 | `--ease-smooth` / `--ease-bounce` | `cubic-bezier` 缓动函数 |
-
-支持暗色模式，通过 `[data-theme="dark"]` 覆盖变量。
-
----
-
-## 关键设计决策与注意事项
-
-1. **前端是重建目标**: 当前 `index.html` 是一个 245KB 的单文件，计划用 Vue 3 + Vite + TypeScript 重写为模块化 SPA
-2. **无自注册**: 所有账号由管理员在后台创建分配，不存在公开注册入口
-3. **角色严格隔离**: 管理员/教师/家长看到的界面和 API 端点完全不同
-4. **第三方登录仅限教师**: 管理员不支持第三方扫码，家长暂未开放第三方登录
-5. **AI 功能可选**: 不配置 AI API Key 不影响核心功能使用
-6. **排行榜使用 Redis ZSET**: 有 MySQL 回退方案
-7. **学年升级不可逆**: 预览 → 确认 → 执行的流程，升级后六年级学生毕业，其他年级顺升
-8. **家长功能目前简约**: 以查看为主（积分、宠物、通知、排名），交互操作较少
-9. **PWA 主要用于离线缓存**: Service Worker 缓存静态资源，网络优先策略
+# 微信小程序: 使用微信开发者工具打开 mini-

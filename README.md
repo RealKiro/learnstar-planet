@@ -92,7 +92,7 @@
 - **数据库**：MySQL / PostgreSQL / SQLite / MariaDB
 
 ### 前端
-- **Web 端**：原生 HTML/CSS/JS（单文件，无构建步骤）
+- **Web 端**：Vue 3 + Vite + TypeScript（SPA，需构建步骤）
 - **小程序**：微信小程序原生开发
 - **PWA**：支持离线访问
 
@@ -107,15 +107,19 @@
 
 ```
 learnstar-planet/
-├── index.html                      # Web 前端（单文件，含全部页面和交互逻辑）
+├── frontend-vue/                     # Web 前端 - Vue 3 + Vite + TypeScript SPA
+│   ├── src/                          #   源代码（组件/路由/状态/类型）
+│   ├── vite.config.ts                #   Vite 构建配置
+│   └── package.json                  #   Node.js 依赖
 ├── docker-compose.yml              # Docker Compose 编排（应用 + MySQL + Redis）
 ├── .env.example                    # 环境变量模板（复制为 .env 后修改）
+├── CLAUDE.md                       # 开发文档与规范
 ├── LICENSE                         # MIT 开源许可证
 ├── README.md                       # 本文档
 │
 ├── backend/                        # 后端 - Laravel 11 API 服务
-│   ├── Dockerfile                  # 生产环境多阶段构建（PHP 8.3 + Nginx + Supervisor）
-│   ├── Dockerfile.dev              # 开发环境构建（含热重载）
+│   ├── Dockerfile                  # 生产环境多阶段构建（Node + PHP 8.3 + Nginx + Supervisor）
+│   ├── Dockerfile.dev              # 开发环境构建
 │   ├── .dockerignore               # Docker 构建忽略文件
 │   ├── composer.json               # PHP 依赖声明（Laravel/Livewire/Flux 等）
 │   ├── .env.example                # 后端环境变量模板
@@ -802,12 +806,4 @@ docker-compose exec app tail -100 storage/logs/laravel.log
 ## 联系我们
 
 - 📖 **文档**：[查看完整文档](https://github.com/RealKiro/learnstar-planet/wiki)
-- 🐛 **Bug 反馈**：[提交 Issue](https://github.com/RealKiro/learnstar-planet/issues)
-- 💬 **社区讨论**：[GitHub Discussions](https://github.com/RealKiro/learnstar-planet/discussions)
-- 📧 **邮件支持**：support@yourdomain.com（需自行设置）
-
----
-
-**祝你使用愉快！** 🎉
-
-如有问题，欢迎随时反馈。
+- 🐛 **Bug 反馈**：[提交 Issue](https://github.com/RealKiro/learnst

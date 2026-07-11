@@ -216,35 +216,32 @@ jobs:
         working-directory: backend
         run: ./vendor/bin/phpstan analyse --memory-limit=512M
 
-  # ========== 前端检查（单文件 HTML 项目，无 npm 构建）==========
-  frontend-test:
-    name: Frontend Validation
+  # ========== 前端构建检查（Vue 3 + Vite + TypeScript）==========
+  frontend-build:
+    name: Frontend Build (Vue 3 + Vite)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check index.html exists
-        run: |
-          test -f index.html && echo "✅ index.html exists" || (echo "❌ index.html missing" && exit 1)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: frontend-vue/package-lock.json
 
-      - name: Validate HTML syntax (basic)
-        run: |
-          # 检查基础 HTML 结构标签
-          grep -q "<!DOCTYPE html>" index.html && echo "✅ DOCTYPE found"
-          grep -q "<html" index.html && echo "✅ <html> tag found"
-          grep -q "</html>" index.html && echo "✅ </html> tag found"
-          grep -q "<head>" index.html && echo "✅ <head> found"
-          grep -q "<body" index.html && echo "✅ <body> found"
-          echo "HTML structure validation passed"
+      - name: Install dependencies
+        working-directory: frontend-vue
+        run: npm ci
 
-      - name: Check for broken script tags
-        run: |
-          # 确认没有未闭合的 script 块
-          OPEN=$(grep -c "<script" index.html || true)
-          CLOSE=$(grep -c "</script>" index.html || true)
-          echo "Script tags: open=$OPEN close=$CLOSE"
-          [ "$OPEN" -eq "$CLOSE" ] && echo "✅ Script tags balanced" || (echo "❌ Unbalanced script tags" && exit 1)
+      - name: Run TypeScript type check
+        working-directory: frontend-vue
+        run: npx vue-tsc --noEmit
+
+      - name: Build production bundle
+        working-directory: frontend-vue
+        run: npm run build
 
   # ========== 微信小程序检查 ==========
   miniprogram-lint:
@@ -268,3 +265,4 @@ jobs:
           test -f mini-program/app.wxss && echo "✅ app.wxss exists"
           test -d mini-program/pages && echo "✅ pages directory exists"
           echo "Mini-program file structure validation passed"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

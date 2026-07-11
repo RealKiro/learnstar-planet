@@ -115,30 +115,54 @@ jobs:
         working-directory: backend
         run: ./vendor/bin/phpstan analyse
 
+  # ========== 前端构建检查 ==========
+  frontend-build:
+    name: Frontend Build
+    runs-on: docker
+    container:
+      image: node:22-alpine
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        working-directory: frontend-vue
+        run: npm ci
+
+      - name: Type check
+        working-directory: frontend-vue
+        run: npx vue-tsc --noEmit
+
+      - name: Build
+        working-directory: frontend-vue
+        run: npm run build
+
   # ========== 构建 Docker 镜像 ==========
   build-docker:
     name: Build Docker Images
     runs-on: docker
     if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
-    
+    needs: [backend-test, code-quality, frontend-build]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Login to Gitee Container Registry
         uses: docker/login-action@v2
         with:
           registry: gitee.com
           username: ${{ secrets.GITEE_USERNAME }}
           password: ${{ secrets.GITEE_PASSWORD }}
-      
+
       - name: Build and push backend image
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
+          context: .
           file: ./backend/Dockerfile
           push: true
           tags: |
@@ -198,18 +222,4 @@ jobs:
     name: Send Notification
     runs-on: docker
     if: always()
-    needs: [backend-test, code-quality, build-docker, deploy-staging, deploy-production]
-    
-    steps:
-      - name: Send email notification
-        uses: dawidd6/action-send-mail@v3
-        if: always()
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "CI/CD Pipeline - ${{ job.status }}"
-          body: "Pipeline status: ${{ job.status }}\nCommit: ${{ github.sha }}\nBranch: ${{ github.ref }}"
-          to: ${{ secrets.NOTIFY_EMAIL }}
-          from: CI/CD Bot
+    needs: [backend-test, code-quality, build-docker, deploy-staging, deploy-prod

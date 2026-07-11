@@ -1,5 +1,13 @@
-# Vue 3 + TypeScript + Vite
+# 学趣星球 (LearnStar Planet) — Web 前端
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Vue 3 + Vite + TypeScript 构建的模块化 SPA，替代原有的单文件 `index.html`。
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 技术栈
+
+- **Vue 3** — Composition API (`<script setup>`)
+- **Vite 8** — 构建工具
+- **TypeScript** — 类型安全
+- **Vue Router 4** — SPA 路由（含角色守卫）
+- **Pinia 3** — 状态管理
+- **Axios** — HTTP 客户端（token 拦截 + 401 处理）
+- **Tailwind CSS 4** �
