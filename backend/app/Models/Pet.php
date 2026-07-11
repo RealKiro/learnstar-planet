@@ -79,6 +79,33 @@ class Pet extends Model
             'snorlax'      => '卡比兽',
             'mewtwo'       => '超梦',
             'dragonite'    => '快龙',
+            // 萌宠系列
+            'orange_cat'   => '橘猫',
+            'husky'        => '哈士奇',
+            'shiba'        => '柴犬',
+            'guinea_pig'   => '荷兰猪',
+            'hamster'      => '仓鼠',
+            'bunny'        => '兔子',
+            'parrot'       => '鹦鹉',
+            'hedgehog'     => '刺猬',
+            // 国宝系列
+            'panda'           => '大熊猫',
+            'golden_monkey'   => '金丝猴',
+            'crested_ibis'    => '朱鹮',
+            'snow_leopard'    => '雪豹',
+            'tibetan_antelope'=> '藏羚羊',
+            'red_crowned_crane'=> '丹顶鹤',
+            'milu_deer'       => '麋鹿',
+            'chinese_alligator'=> '扬子鳄',
+            // 神兽系列
+            'qilin'    => '麒麟',
+            'fenghuang'=> '凤凰',
+            'baihu'    => '白虎',
+            'xuanwu'   => '玄武',
+            'zhuque'   => '朱雀',
+            'taotie'   => '饕餮',
+            'pixiu'    => '貔貅',
+            'kunpeng'  => '鲲鹏',
         ];
     }
 
@@ -90,6 +117,9 @@ class Pet extends Model
         return [
             'cosmic'  => '原创宇宙系列',
             'pokemon' => '宝可梦系列',
+            'cute'    => '萌宠系列',
+            'treasure'=> '国宝系列',
+            'mythic'  => '神兽系列',
         ];
     }
 
@@ -98,9 +128,20 @@ class Pet extends Model
      */
     public static function getCategoryByType(string $type): string
     {
-        $pokemonTypes = ['pikachu', 'eevee', 'charmander', 'squirtle', 'bulbasaur', 'snorlax', 'mewtwo', 'dragonite'];
+        $categories = [
+            'pokemon' => ['pikachu', 'eevee', 'charmander', 'squirtle', 'bulbasaur', 'snorlax', 'mewtwo', 'dragonite'],
+            'cute'    => ['orange_cat', 'husky', 'shiba', 'guinea_pig', 'hamster', 'bunny', 'parrot', 'hedgehog'],
+            'treasure'=> ['panda', 'golden_monkey', 'crested_ibis', 'snow_leopard', 'tibetan_antelope', 'red_crowned_crane', 'milu_deer', 'chinese_alligator'],
+            'mythic'  => ['qilin', 'fenghuang', 'baihu', 'xuanwu', 'zhuque', 'taotie', 'pixiu', 'kunpeng'],
+        ];
 
-        return in_array($type, $pokemonTypes, true) ? 'pokemon' : 'cosmic';
+        foreach ($categories as $category => $types) {
+            if (in_array($type, $types, true)) {
+                return $category;
+            }
+        }
+
+        return 'cosmic';
     }
 
     public function currentStage(): array
