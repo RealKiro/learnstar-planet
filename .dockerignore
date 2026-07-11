@@ -1,0 +1,47 @@
+# LearnStar Planet - Docker ignore
+# Prevents sending unnecessary files to Docker build context
+
+# ========== Git ==========
+.git/
+.gitignore
+.gitattributes
+
+# ========== Dependencies (installed in build stages) ==========
+backend/vendor/
+frontend-vue/node_modules/
+node_modules/
+
+# ========== IDE & OS ==========
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ========== Build outputs ==========
+dist/
+build/
+frontend-vue/dist/
+
+# ========== Docker ==========
+docker/data/
+docker/volumes/
+*.tar.gz
+
+# ========== Test & Coverage ==========
+coverage/
+backend/coverage.xml
+backend/coverage-html/
+
+# ========== Environment ==========
+.env
+.env.*
+!.env.example
+*.log
+
+# ========== Other ==========
+mini-program/
+pwa/
+serverless-analysis.md
+logs.txt

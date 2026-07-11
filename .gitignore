@@ -27,7 +27,7 @@
 node_modules/
 npm-debug.log
 yarn-error.log
-package-lock.json
+# package-lock.json is committed for CI reproducibility
 
 # ========== 微信小程序 ==========
 /mini-program/miniprogram_npm/
@@ -87,6 +87,3 @@ out/
 *.js.map
 
 # ========== 临时排查文件 ==========
-bug_logs.txt
-bug_logs/
-learnstar.html
