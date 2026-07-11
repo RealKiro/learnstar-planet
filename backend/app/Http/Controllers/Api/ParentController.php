@@ -46,8 +46,8 @@ class ParentController extends Controller
                 'class_rank' => $classRank,
                 'pet_name' => $pet?->name,
                 'pet_level' => $pet?->level,
-                'pet_stage' => $pet?->currentStage()?['name'] ?? '星尘',
-                'pet_emoji' => $pet?->currentStage()?['emoji'] ?? '🌟',
+                'pet_stage' => $pet?->currentStage()['name'] ?? '星尘',
+                'pet_emoji' => $pet?->currentStage()['emoji'] ?? '🌟',
                 'pet_mood' => $pet?->mood,
             ];
         });

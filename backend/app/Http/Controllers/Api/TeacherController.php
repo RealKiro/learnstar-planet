@@ -874,22 +874,27 @@ class TeacherController extends Controller
     {
         return response()->json(['data' => []]);
     }
+
     public function createHomework(Request $request): JsonResponse
     {
         return response()->json(['message' => '作业已创建'], 201);
     }
+
     public function getHomework(Request $request, int $id): JsonResponse
     {
         return response()->json(['data' => []]);
     }
+
     public function closeHomework(Request $request, int $id): JsonResponse
     {
         return response()->json(['message' => '作业已关闭']);
     }
+
     public function getHomeworkSubmissions(Request $request, int $id): JsonResponse
     {
         return response()->json(['data' => []]);
     }
+
     public function getHomeworkQrCode(Request $request, int $id): JsonResponse
     {
         return response()->json(['data' => ['qr_url' => '']]);
@@ -899,18 +904,22 @@ class TeacherController extends Controller
     {
         return response()->json(['data' => []]);
     }
+
     public function createQuiz(Request $request): JsonResponse
     {
         return response()->json(['message' => '测验已创建'], 201);
     }
+
     public function startQuiz(Request $request, int $id): JsonResponse
     {
         return response()->json(['message' => '测验已开始']);
     }
+
     public function stopQuiz(Request $request, int $id): JsonResponse
     {
         return response()->json(['message' => '测验已结束']);
     }
+
     public function getQuizStats(Request $request, int $id): JsonResponse
     {
         return response()->json(['data' => []]);
@@ -920,14 +929,17 @@ class TeacherController extends Controller
     {
         return response()->json(['data' => []]);
     }
+
     public function createQuestionBank(Request $request): JsonResponse
     {
         return response()->json(['message' => '题库已创建'], 201);
     }
+
     public function addQuestion(Request $request, int $id): JsonResponse
     {
         return response()->json(['message' => '题目已添加']);
     }
+
     public function getQuestions(Request $request, int $id): JsonResponse
     {
         return response()->json(['data' => []]);
@@ -937,14 +949,17 @@ class TeacherController extends Controller
     {
         return response()->json(['data' => []]);
     }
+
     public function inputGrades(Request $request): JsonResponse
     {
         return response()->json(['message' => '成绩已录入']);
     }
+
     public function getGradeStats(Request $request): JsonResponse
     {
         return response()->json(['data' => []]);
     }
+
     public function getGradeDistribution(Request $request): JsonResponse
     {
         return response()->json(['data' => []]);
@@ -956,6 +971,7 @@ class TeacherController extends Controller
 
         return response()->json(['data' => ['reply' => 'AI 助教功能需要配置 AI_PROVIDER 和 AI_API_KEY 环境变量。']]);
     }
+
     public function getAiCommands(Request $request): JsonResponse
     {
         return response()->json(['data' => [
@@ -965,6 +981,7 @@ class TeacherController extends Controller
             ['label' => '自动出题', 'prompt' => '请根据第三单元知识点出10道选择题'],
         ]]);
     }
+
     public function getAiUsage(Request $request): JsonResponse
     {
         return response()->json(['data' => ['count' => 0, 'tokens' => 0]]);
