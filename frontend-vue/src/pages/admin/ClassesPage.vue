@@ -1,10 +1,13 @@
 <script setup lang="ts">
-// TODO: Implement admin Classes page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Classes</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted } from 'vue'
+import { apiGet, apiDelete } from '@/utils/api'
+import { useToastStore } from '@/stores/toast'
+import type { ApiResponse, ClassRoom } from '@/types'
+
+const toast = useToastStore()
+const classes = ref<ClassRoom[]>([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    const re

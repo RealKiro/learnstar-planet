@@ -1,10 +1,12 @@
 <script setup lang="ts">
-// TODO: Implement Pets page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Pets</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted } from 'vue'
+import { apiGet } from '@/utils/api'
+import { getStageEmoji, getStageName } from '@/utils/constants'
+import type { ApiResponse, Pet } from '@/types'
+
+const pets = ref<Pet[]>([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    const res = await apiGet<ApiRespons

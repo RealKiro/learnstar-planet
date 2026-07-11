@@ -1,10 +1,12 @@
 <script setup lang="ts">
-// TODO: Implement Leaderboard page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Leaderboard</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted, computed } from 'vue'
+import { apiGet } from '@/utils/api'
+import type { ApiResponse, LeaderboardEntry } from '@/types'
+
+type LbType = 'total' | 'weekly' | 'pet'
+
+const activeTab = ref<LbType>('total')
+const entries = ref<LeaderboardEntry[]>([])
+const loading = ref(false)
+
+const tabs: Array<{ key: LbT

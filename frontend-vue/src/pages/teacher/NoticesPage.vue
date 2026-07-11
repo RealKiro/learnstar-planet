@@ -1,10 +1,12 @@
 <script setup lang="ts">
-// TODO: Implement Notices page
-</script>
-<template>
-  <div class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-    <div style="font-size:48px;margin-bottom:16px;">🚧</div>
-    <h2 style="margin-bottom:8px;">Notices</h2>
-    <p>此功能正在开发中...</p>
-  </div>
-</template>
+import { ref, onMounted } from 'vue'
+import { apiGet } from '@/utils/api'
+import type { ApiResponse, Notice } from '@/types'
+
+const notices = ref<Notice[]>([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    const res = await apiGet<ApiResponse<Notice[]>>('/api/v1/teacher/notices')
+    notices.value = r
