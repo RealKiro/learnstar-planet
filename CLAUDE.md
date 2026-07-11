@@ -232,6 +232,7 @@ learnstar-planet/                    # 真正的项目根（含 .git）
 - 认证使用 Bearer Token（Sanctum）
 - 角色中间件 `role:school_admin|teacher|parent` 控制访问
 - 401 时前端自动清除 token 并跳转登录
+- API 版本化：前端统一调用 `/api/v1/*`，后端保留向后兼容的旧路径
 
 ### 数据库约定
 - 迁移文件命名: `YYYY_MM_DD_HHMMSS_descriptive_name.php`
@@ -295,13 +296,4 @@ php artisan route:list
 php artisan queue:work
 
 # Horizon 面板
-php artisan horizon
-```
-
-### Docker 常用操作
-
-```bash
-# 查看日志
-docker-compose logs -f app
-
-# 
+php artisan hor
