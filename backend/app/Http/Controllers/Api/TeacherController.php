@@ -9,7 +9,6 @@ use App\Models\ClassRoom;
 use App\Models\Score;
 use App\Models\ScoreRule;
 use App\Models\Student;
-use App\Models\User;
 use App\Services\LeaderboardService;
 use App\Services\ScoreService;
 use Illuminate\Http\JsonResponse;
@@ -20,7 +19,8 @@ class TeacherController extends Controller
     public function __construct(
         private readonly ScoreService $scoreService,
         private readonly LeaderboardService $leaderboardService,
-    ) {}
+    ) {
+    }
 
     // ============================================================
     // Dashboard
@@ -245,7 +245,7 @@ class TeacherController extends Controller
         );
 
         return response()->json([
-            'message' => "批量操作完成，处理了 " . count($results) . " 名学生",
+            'message' => '批量操作完成，处理了 ' . count($results) . ' 名学生',
             'data' => ['count' => count($results)],
         ]);
     }
@@ -400,6 +400,7 @@ class TeacherController extends Controller
         }
 
         $stage = $pet->currentStage();
+
         return response()->json(['data' => [
             'id' => $pet->id,
             'name' => $pet->name,
@@ -772,6 +773,7 @@ class TeacherController extends Controller
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
         $broadcasts = \App\Models\Broadcast::whereIn('class_id', $classIds)
             ->orderBy('created_at', 'desc')->take(20)->get();
+
         return response()->json(['data' => $broadcasts]);
     }
 
@@ -794,6 +796,7 @@ class TeacherController extends Controller
             'loop' => $request->boolean('loop', false),
             'display_seconds' => (int) $request->input('duration', 10),
         ]);
+
         return response()->json(['message' => '广播已发送', 'data' => $broadcast]);
     }
 
@@ -802,6 +805,7 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
         $broadcast = \App\Models\Broadcast::whereIn('class_id', $classIds)->findOrFail($id);
+
         return response()->json(['data' => $broadcast]);
     }
 
@@ -811,6 +815,7 @@ class TeacherController extends Controller
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
         $today = \App\Models\Attendance::whereIn('class_id', $classIds)
             ->whereDate('date', today())->with('student:id,name,student_no')->get();
+
         return response()->json(['data' => $today]);
     }
 
@@ -827,6 +832,7 @@ class TeacherController extends Controller
             );
             $count++;
         }
+
         return response()->json(['message' => "已为 {$count} 名学生创建签到记录"]);
     }
 
@@ -841,6 +847,7 @@ class TeacherController extends Controller
             'status' => $request->input('status'),
             'check_in_time' => $request->input('status') === 'present' ? now() : null,
         ]);
+
         return response()->json(['message' => '考勤状态已更新']);
     }
 
@@ -855,6 +862,7 @@ class TeacherController extends Controller
         $leave = $records->where('status', 'leave')->count();
         $absent = $records->where('status', 'absent')->count();
         $total = max($records->count(), 1);
+
         return response()->json(['data' => [
             'present' => $present, 'late' => $late, 'leave' => $leave, 'absent' => $absent,
             'rate' => round($present / $total * 100, 1),
@@ -863,50 +871,89 @@ class TeacherController extends Controller
 
     // Simple stubs for remaining endpoints
     public function listHomework(Request $request): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
     public function createHomework(Request $request): JsonResponse
-    { return response()->json(['message' => '作业已创建'], 201); }
+    {
+        return response()->json(['message' => '作业已创建'], 201);
+    }
     public function getHomework(Request $request, int $id): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
     public function closeHomework(Request $request, int $id): JsonResponse
-    { return response()->json(['message' => '作业已关闭']); }
+    {
+        return response()->json(['message' => '作业已关闭']);
+    }
     public function getHomeworkSubmissions(Request $request, int $id): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
     public function getHomeworkQrCode(Request $request, int $id): JsonResponse
-    { return response()->json(['data' => ['qr_url' => '']]); }
+    {
+        return response()->json(['data' => ['qr_url' => '']]);
+    }
 
     public function listQuizzes(Request $request): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
     public function createQuiz(Request $request): JsonResponse
-    { return response()->json(['message' => '测验已创建'], 201); }
+    {
+        return response()->json(['message' => '测验已创建'], 201);
+    }
     public function startQuiz(Request $request, int $id): JsonResponse
-    { return response()->json(['message' => '测验已开始']); }
+    {
+        return response()->json(['message' => '测验已开始']);
+    }
     public function stopQuiz(Request $request, int $id): JsonResponse
-    { return response()->json(['message' => '测验已结束']); }
+    {
+        return response()->json(['message' => '测验已结束']);
+    }
     public function getQuizStats(Request $request, int $id): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
 
     public function listQuestionBanks(Request $request): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
     public function createQuestionBank(Request $request): JsonResponse
-    { return response()->json(['message' => '题库已创建'], 201); }
+    {
+        return response()->json(['message' => '题库已创建'], 201);
+    }
     public function addQuestion(Request $request, int $id): JsonResponse
-    { return response()->json(['message' => '题目已添加']); }
+    {
+        return response()->json(['message' => '题目已添加']);
+    }
     public function getQuestions(Request $request, int $id): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
 
     public function listGrades(Request $request): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
     public function inputGrades(Request $request): JsonResponse
-    { return response()->json(['message' => '成绩已录入']); }
+    {
+        return response()->json(['message' => '成绩已录入']);
+    }
     public function getGradeStats(Request $request): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
     public function getGradeDistribution(Request $request): JsonResponse
-    { return response()->json(['data' => []]); }
+    {
+        return response()->json(['data' => []]);
+    }
 
     public function aiChat(Request $request): JsonResponse
     {
         $request->validate(['message' => 'required|string|max:2000']);
+
         return response()->json(['data' => ['reply' => 'AI 助教功能需要配置 AI_PROVIDER 和 AI_API_KEY 环境变量。']]);
     }
     public function getAiCommands(Request $request): JsonResponse

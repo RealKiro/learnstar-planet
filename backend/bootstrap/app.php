@@ -70,7 +70,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // 500 — 其他所有异常
         $exceptions->renderable(function (\Throwable $e) {
             $code = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
-            if ($code < 100 || $code > 599) { $code = 500; }
+            if ($code < 100 || $code > 599) {
+                $code = 500;
+            }
 
             $payload = [
                 'message' => app()->environment('production') ? '服务器内部错误' : $e->getMessage(),

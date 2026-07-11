@@ -44,9 +44,9 @@ class TeacherApiTest extends TestCase
     public function teacher_endpoints_require_authentication(): void
     {
         $endpoints = [
-            ['GET', '/api/teacher/students'],
-            ['GET', '/api/teacher/leaderboard/total'],
-            ['GET', '/api/teacher/pets/class-overview'],
+            ['GET', '/api/v1/teacher/students'],
+            ['GET', '/api/v1/teacher/leaderboard/total'],
+            ['GET', '/api/v1/teacher/pets/class-overview'],
         ];
 
         foreach ($endpoints as [$method, $uri]) {

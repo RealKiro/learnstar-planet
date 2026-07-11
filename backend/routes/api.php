@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 // API v1
 Route::prefix('v1')->group(function () {
-
     // ===== 认证 =====
     Route::prefix('auth')->group(function () {
         // 教师账号密码登录（速率限制：每分钟 6 次）
@@ -245,7 +244,6 @@ Route::prefix('v1')->group(function () {
         Route::get('evolution-stages', [StudentController::class, 'evolutionStages']);
         Route::get('score-categories', [StudentController::class, 'scoreCategories']);
     });
-
 }); // End API v1 prefix
 
 // 向后兼容：v1 之前的路由也映射到 v1

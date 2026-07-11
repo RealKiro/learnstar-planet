@@ -15,10 +15,6 @@ use Illuminate\Http\Request;
 
 class ParentController extends Controller
 {
-    public function __construct(
-        private readonly LeaderboardService $leaderboardService = new LeaderboardService(),
-    ) {}
-
     /**
      * 家长首页 — 返回所有孩子的概览
      */
@@ -35,7 +31,7 @@ class ParentController extends Controller
             $pet = $child->pet;
             $classRank = null;
             if ($child->class_id) {
-                $leaderboard = $this->leaderboardService->getClassTotalLeaderboard($child->class_id, 100);
+                $leaderboard = app(LeaderboardService::class)->getClassTotalLeaderboard($child->class_id, 100);
                 $entry = collect($leaderboard)->firstWhere('student_id', $child->id);
                 $classRank = $entry['rank'] ?? null;
             }
@@ -79,7 +75,7 @@ class ParentController extends Controller
 
         $classRank = null;
         if ($student->class_id) {
-            $leaderboard = $this->leaderboardService->getClassTotalLeaderboard($student->class_id, 100);
+            $leaderboard = app(LeaderboardService::class)->getClassTotalLeaderboard($student->class_id, 100);
             $entry = collect($leaderboard)->firstWhere('student_id', $student->id);
             $classRank = $entry['rank'] ?? null;
         }
@@ -334,7 +330,7 @@ class ParentController extends Controller
             return response()->json(['data' => []]);
         }
 
-        $leaderboard = $this->leaderboardService->getClassTotalLeaderboard($student->class_id, 50);
+        $leaderboard = app(LeaderboardService::class)->getClassTotalLeaderboard($student->class_id, 50);
 
         // 标记当前孩子
         $data = collect($leaderboard)->map(function ($entry) use ($student) {
