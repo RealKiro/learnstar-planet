@@ -263,4 +263,3 @@ jobs:
           test -f mini-program/app.wxss && echo "✅ app.wxss exists"
           test -d mini-program/pages && echo "✅ pages directory exists"
           echo "Mini-program file structure validation passed"
-                                                                                         
