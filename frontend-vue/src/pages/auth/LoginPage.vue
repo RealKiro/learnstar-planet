@@ -127,7 +127,7 @@ function goToSlide(i: number) {
 <template>
   <div style="min-height:100vh;display:flex;background:#0F172A;">
     <!-- 左侧：项目介绍轮播 -->
-    <div class="intro-panel" style="flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:48px;">
+    <div class="intro-panel" style="flex:1.5;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:48px 64px;">
       <!-- 背景光效 -->
       <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(79,70,229,0.12) 0%,transparent 70%);top:-200px;right:-100px;animation:floatOrb 12s ease-in-out infinite;"></div>
       <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%);bottom:-100px;left:-50px;animation:floatOrb 15s ease-in-out infinite reverse;"></div>
@@ -175,7 +175,7 @@ function goToSlide(i: number) {
     </div>
 
     <!-- 右侧：登录框 -->
-    <div style="width:440px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.06);position:relative;z-index:1;">
+    <div style="width:400px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.06);position:relative;z-index:1;">
       <div style="width:100%;max-width:360px;">
         <div style="font-size:40px;text-align:center;margin-bottom:12px;">🌌</div>
         <h1 style="font-size:24px;font-weight:800;color:#F1F5F9;text-align:center;margin-bottom:24px;">学趣星球</h1>

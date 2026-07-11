@@ -10,6 +10,10 @@ const router = createRouter({
       component: () => import('@/pages/auth/LoginPage.vue'),
     },
     {
+      path: '/login',
+      redirect: '/',
+    },
+    {
       path: '/welcome',
       name: 'landing',
       component: () => import('@/pages/landing/LandingPage.vue'),

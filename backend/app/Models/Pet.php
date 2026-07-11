@@ -61,6 +61,7 @@ class Pet extends Model
     public static function petTypes(): array
     {
         return [
+            // 原创宇宙系列（默认）
             'stellar_cat'  => '星猫',
             'moon_rabbit'  => '月兔',
             'sun_deer'     => '日鹿',
@@ -69,7 +70,37 @@ class Pet extends Model
             'light_horse'  => '光马',
             'dream_bear'   => '梦熊',
             'hope_dragon'  => '望龙',
+            // 宝可梦系列
+            'pikachu'      => '皮卡丘',
+            'eevee'        => '伊布',
+            'charmander'   => '小火龙',
+            'squirtle'     => '杰尼龟',
+            'bulbasaur'    => '妙蛙种子',
+            'snorlax'      => '卡比兽',
+            'mewtwo'       => '超梦',
+            'dragonite'    => '快龙',
         ];
+    }
+
+    /**
+     * 宠物系列分类
+     */
+    public static function petCategories(): array
+    {
+        return [
+            'cosmic'  => '原创宇宙系列',
+            'pokemon' => '宝可梦系列',
+        ];
+    }
+
+    /**
+     * 根据种类获取系列分类
+     */
+    public static function getCategoryByType(string $type): string
+    {
+        $pokemonTypes = ['pikachu', 'eevee', 'charmander', 'squirtle', 'bulbasaur', 'snorlax', 'mewtwo', 'dragonite'];
+
+        return in_array($type, $pokemonTypes, true) ? 'pokemon' : 'cosmic';
     }
 
     public function currentStage(): array
