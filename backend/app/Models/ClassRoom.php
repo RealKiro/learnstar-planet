@@ -15,7 +15,7 @@ class ClassRoom extends Model
 
     protected $fillable = [
         'school_id',
-        'name',            // 如：三年二班
+        'name',            // 如：三年级（2）班
         'grade',           // 年级
         'year',            // 学年
         'teacher_id',      // 班主任
@@ -55,4 +55,27 @@ class ClassRoom extends Model
     }
 
     public function students(): HasMany
-   
+    {
+        return $this->hasMany(Student::class, 'class_id');
+    }
+
+    public function pets(): HasMany
+    {
+        return $this->hasMany(Pet::class);
+    }
+
+    public function notices(): HasMany
+    {
+        return $this->hasMany(Notice::class);
+    }
+
+    public function scoreRules(): HasMany
+    {
+        return $this->hasMany(ScoreRule::class);
+    }
+
+    public function shopItems(): HasMany
+    {
+        return $this->hasMany(ShopItem::class);
+    }
+}

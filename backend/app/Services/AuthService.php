@@ -36,7 +36,7 @@ class AuthService
             // 头像: 调用方若传入则使用(第三方首次登录场景),否则留空
             $avatar = $teacher['avatar_path'] ?? null;
 
-            $initialPassword = $teacher['password'] ?? 'star123456';
+            $initialPassword = $teacher['password'] ?? str()->random(10);
 
             $user = User::create([
                 'school_id' => $school->id,
@@ -127,7 +127,7 @@ class AuthService
         $name = $parentData['name'];
         $username = $parentData['username'] ?? $this->uniqueUsername($name, $school);
         $nickname = $parentData['nickname'] ?? $this->uniqueNickname($name, $school);
-        $initialPassword = $parentData['password'] ?? 'star123456';
+        $initialPassword = $parentData['password'] ?? str()->random(10);
 
         $parent = User::create([
             'school_id' => $school->id,

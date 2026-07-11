@@ -1355,7 +1355,7 @@
                 <div class="user-avatar">张</div>
                 <div class="user-info">
                     <span class="user-name">张老师</span>
-                    <span class="user-role">三年二班 · 班主任</span>
+                    <span class="user-role">三年级（2）班 · 班主任</span>
                     <div class="binding-badge">💬 微信已绑定</div>
                 </div>
             </div>
@@ -3031,9 +3031,9 @@ async function submitImportStudents() {
 function downloadExcelTemplate(type) {
     // type: 'students' | 'teachers' | 'parents'
     const csv = {
-        students: '姓名,班级,性别,学号\n张小明,三年一班,男,2026001\n李小红,三年一班,女,2026002\n',
-        teachers: '姓名,密码,手机号,邮箱\n张老师,star123456,13800138011,zhang@example.com\n李老师,star123456,13800138012,li@example.com\n',
-        parents: '姓名,密码,手机号\n王家长,star123456,13800138021\n赵家长,star123456,13800138022\n',
+        students: '姓名,班级,性别,学号\n张小明,三年级（1）班,男,2026001\n李小红,三年级（1）班,女,2026002\n',
+        teachers: '姓名,密码,手机号,邮箱\n张老师,,13800138011,zhang@example.com\n李老师,,13800138012,li@example.com\n',
+        parents: '姓名,密码,手机号\n王家长,,13800138021\n赵家长,,13800138022\n',
     }[type] || '';
     const filename = {
         students: 'students_template.csv',
@@ -3619,17 +3619,17 @@ function showModal(type) {
             <div class="form-group"><label>内容</label><textarea style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:100px;" placeholder="通知内容"></textarea></div>
             <button class="btn btn-primary" onclick="closeModal(); showToast('通知已发布', 'success');">发布</button>`,
         'batch-create-teacher': `<h3>批量创建教师账号<button class="modal-close" onclick="closeModal()">×</button></h3>
-            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);"><b>姓名</b> 和 <b>密码</b> 必填，系统将自动生成：<br>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);"><b>姓名</b> 必填，密码留空则自动随机生成：<br>
             &nbsp;&nbsp;· <b>账号</b> = 姓名（重名自动加 <code>_2</code>/<code>_3</code> 后缀）<br>
             &nbsp;&nbsp;· <b>昵称</b> = 姓名拼音（登录后可自行修改）<br>
-            &nbsp;&nbsp;· <b>默认密码</b> = star123456（教师首次登录后可自行修改）</p>
+            &nbsp;&nbsp;· <b>密码</b> = 留空自动随机生成（创建后页面显示，首次登录后可修改）</p>
             <div class="form-group">
                 <label>📤 上传文件（.xlsx / .xls / .csv）</label>
                 <input type="file" accept=".xlsx,.xls,.csv" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg);color:var(--text-primary);" onchange="parseBatchImportFile(event, 'batchTeacherText', 'batchTeacherPreview')">
             </div>
             <div class="form-group">
                 <label>或直接粘贴（每行一位：姓名,密码,手机,邮箱）</label>
-                <textarea id="batchTeacherText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="张老师,star123456,13800138001,zhang@example.com&#10;李老师,star123456,13800138002&#10;王老师,star123456"></textarea>
+                <textarea id="batchTeacherText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="张老师,,13800138001,zhang@example.com&#10;李老师,,13800138002&#10;王老师,"></textarea>
             </div>
             <div id="batchTeacherPreview" style="display:none;background:rgba(79,70,229,0.05);color:var(--text-primary);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
@@ -3648,14 +3648,14 @@ function showModal(type) {
             <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">家长账号登录后可查看孩子的积分、宠物、通知等<br>
             &nbsp;&nbsp;· <b>账号</b> = 家长姓名（重名自动加 <code>_2</code>/<code>_3</code> 后缀）<br>
             &nbsp;&nbsp;· <b>昵称</b> = 姓名拼音（登录后可自行修改）<br>
-            &nbsp;&nbsp;· <b>默认密码</b> = star123456（家长首次登录后可自行修改）</p>
+            &nbsp;&nbsp;· <b>密码</b> = 留空自动随机生成（创建后页面显示，首次登录后可修改）</p>
             <div class="form-group">
                 <label>📤 上传文件（.xlsx / .xls / .csv）</label>
                 <input type="file" accept=".xlsx,.xls,.csv" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg);color:var(--text-primary);" onchange="parseBatchImportFile(event, 'batchParentText', 'batchParentPreview')">
             </div>
             <div class="form-group">
                 <label>或直接粘贴（每行一位：姓名,密码,手机号）</label>
-                <textarea id="batchParentText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="王家长,star123456,13800138021&#10;赵家长,star123456,13800138022"></textarea>
+                <textarea id="batchParentText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);color:var(--text-primary);min-height:120px;font-family:monospace;" placeholder="王家长,,13800138021&#10;赵家长,,13800138022"></textarea>
             </div>
             <div id="batchParentPreview" style="display:none;background:rgba(79,70,229,0.05);color:var(--text-primary);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
@@ -3673,7 +3673,7 @@ function showModal(type) {
             </div>
             <div class="form-group">
                 <label>或直接粘贴（每行一位）</label>
-                <textarea id="importStudentsText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="姓名,班级,性别,学号&#10;张小明,三年一班,男,2026001&#10;李小红,三年一班,女,2026002&#10;王刚,三年二班,男"></textarea>
+                <textarea id="importStudentsText" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);min-height:140px;font-family:monospace;" placeholder="姓名,班级,性别,学号&#10;张小明,三年级（1）班,男,2026001&#10;李小红,三年级（1）班,女,2026002&#10;王刚,三年级（2）班,男"></textarea>
             </div>
             <div id="importPreview" style="display:none;background:rgba(79,70,229,0.05);padding:12px;border-radius:var(--radius-md);margin-bottom:var(--sp-md);font-size:13px;"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
@@ -3681,7 +3681,7 @@ function showModal(type) {
                 <button class="btn btn-primary" onclick="submitImportStudents()">开始导入</button>
             </div>`,
         'create-class': `<h3>添加新班级<button class="modal-close" onclick="closeModal()">×</button></h3>
-            <div class="form-group"><label>班级名称</label><input id="classNameInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：三年二班"></div>
+            <div class="form-group"><label>班级名称</label><input id="classNameInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：三年级（2）班"></div>
             <div class="form-group"><label>年级</label>
                 <select id="classGradeInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
                     <option value="">未指定</option>
@@ -3695,7 +3695,7 @@ function showModal(type) {
                 <button class="btn btn-primary" onclick="submitCreateClass()">创建班级</button>
             </div>`,
         'batch-create-class': `<h3>批量添加班级<button class="modal-close" onclick="closeModal()">×</button></h3>
-            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">选择年级并输入班级数量，系统将自动创建班级（如：一年级一班、一年级二班…）</p>
+            <p style="color:var(--text-secondary);margin-bottom:var(--sp-md);">选择年级并输入班级数量，系统将自动创建班级（如：一年级（1）班、一年级（2）班…）</p>
             <div class="form-group"><label>年级 *</label>
                 <select id="batchClassGradeInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);">
                     <option value="">请选择年级</option>
@@ -3703,7 +3703,7 @@ function showModal(type) {
                     <option>四年级</option><option>五年级</option><option>六年级</option>
                 </select>
             </div>
-            <div class="form-group"><label>班级数量 *</label><input id="batchClassCountInput" type="number" min="1" max="20" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：6（将创建一班至六班）"></div>
+            <div class="form-group"><label>班级数量 *</label><input id="batchClassCountInput" type="number" min="1" max="20" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：6（将创建（1）班至（6）班）"></div>
             <div class="form-group"><label>学年（选填）</label><input id="batchClassYearInput" style="width:100%;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);" placeholder="如：2025-2026"></div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
                 <button class="btn btn-ghost" onclick="closeModal()">取消</button>
