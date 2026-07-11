@@ -47,7 +47,7 @@
 
 - **Form Requests**: 登录/批量创建/班级/导入验证逻辑已从控制器中抽离到独立请求类
 - **API Resources**: UserResource、ClassRoomResource、StudentResource、SchoolResource 提供一致的 JSON 输出
-- **异常处理**: 所有异常统一返回 JSON（ModelNotFound→404、ValidationException→422、Auth→401/403、Throwable→500/503）
+- **异常处理**: 所有异常统一返回 JSON（ModelNotFound→404、ValidationException→422、Auth→401/403、Throwable→500）
 - **速率限制**: 登录端点限制 `throttle:6,1`，API 整体限制 `throttle:api`
 - **API 版本控制**: `/api/v1/*` 前缀 + 向后兼容旧路由
 - **Eloquent Scopes**: User/ClassRoom/Student 模型添加 `active()`、`byRole()`、`bySchool()`、`byClass()` 作用域
@@ -56,64 +56,37 @@
 
 ## 项目结构
 
-```
-learnstar-planet/                    # 真正的项目根（含 .git）
-├── docker-compose.yml              # Docker Compose 编排
+\`\`\`
+learnstar-planet/
+├── frontend-vue/                   # Vue 3 + Vite + TypeScript SPA
+│   ├── src/                        # 源代码（组件/路由/状态/类型）
+│   ├── vite.config.ts              # Vite 构建配置
+│   └── package.json                # Node.js 依赖
+├── docker-compose.yml              # Docker Compose 编排（应用 + MySQL + Redis）
 ├── .env.example                    # 环境变量模板
-├── README.md                       # 详尽文档（800+ 行）
-├── serverless-analysis.md          # 无服务器部署可行性分析
-├── LICENSE                         # MIT
+├── CLAUDE.md                       # 开发文档与规范
+├── LICENSE                         # MIT 开源许可证
+├── README.md                       # 项目说明
 │
-├── frontend-vue/                   # Vue 3 前端 SPA
-│   ├── vite.config.ts              # Vite 构建配置 + API 代理
-│   ├── src/
-│   │   ├── types/index.ts          # 完整 TypeScript 类型定义
-│   │   ├── utils/
-│   │   │   ├── api.ts              # Axios 封装（token 拦截、401 处理）
-│   │   │   └── constants.ts        # 工具函数与常量
-│   │   ├── stores/
-│   │   │   ├── auth.ts             # 认证状态（Pinia）
-│   │   │   ├── theme.ts            # 暗色模式
-│   │   │   ├── toast.ts            # Toast 消息
-│   │   │   └── crud.ts             # 通用 CRUD Store 工厂
-│   │   ├── router/index.ts         # 路由树 + 角色守卫
-│   │   ├── layouts/                # 布局组件
-│   │   │   ├── TeacherLayout.vue   # 教师端侧边栏布局
-│   │   │   ├── AdminLayout.vue     # 管理端侧边栏布局
-│   │   │   └── ParentLayout.vue    # 家长端侧边栏布局
-│   │   └── pages/                  # 页面组件（按角色分组）
-│   │       ├── landing/            #   首页 Landing
-│   │       ├── auth/               #   登录页
-│   │       ├── teacher/            #   教师端 16 个页面
-│   │       ├── admin/              #   管理端 8 个页面
-│   │       └── parent/             #   家长端 5 个页面
-│   └── package.json
-│
-├── backend/                        # Laravel 11 后端
+├── backend/                        # Laravel 11 API
+│   ├── Dockerfile                  # 生产环境多阶段构建（Node + PHP + Nginx）
+│   ├── Dockerfile.dev              # 开发环境构建
 │   ├── app/
 │   │   ├── Models/                 # 17 个 Eloquent 模型
 │   │   ├── Http/Controllers/Api/  # 5 个 API 控制器
 │   │   ├── Services/              # 4 个业务服务
-│   │   ├── Livewire/Teacher/      # 2 个 Livewire 组件
-│   │   ├── Events/                # 2 个事件类
-│   │   └── Http/Middleware/       # RoleMiddleware
-│   ├── database/
-│   │   ├── migrations/            # 5 个迁移（21 张表）
-│   │   └── seeders/               # AdminUserSeeder, DatabaseSeeder
-│   ├── routes/
-│   │   ├── api.php                # ~130 个 API 端点
-│   │   ├── web.php                # Web 路由
-│   │   └── console.php            # 控制台路由
-│   └── config/                    # Laravel 配置
+│   │   ├── Http/Requests/         # Form Request 验证类
+│   │   ├── Http/Resources/        # JsonResource 响应类
+│   │   └── Livewire/              # 2 个 Livewire 组件
+│   ├── database/migrations/       # 5 个迁移（21 张表）
+│   └── routes/api.php             # ~130 个 API 端点
 │
 ├── mini-program/                   # 微信小程序
 │   └── pages/                     # 14 个页面
 │
 ├── pwa/                            # PWA 配置
-│   ├── manifest.json
-│   └── sw.js
 │
-├── .github/workflows/              # GitHub Actions
+├── .github/workflows/              # GitHub Actions CI/CD
 │   ├── ci.yml
 │   ├── docker.yml
 │   ├── deploy.yml
@@ -121,83 +94,71 @@ learnstar-planet/                    # 真正的项目根（含 .git）
 │
 └── .gitee/                         # Gitee CI/CD
     └── workflow.yml
-```
+\`\`\`
 
 ---
 
 ## 数据库架构（21 张表）
 
-### 基础表（迁移 1）
-
+### 基础表
 | 表名 | 说明 | 关键字段 |
 |------|------|----------|
 | `schools` | 学校 | name, code, address, logo, settings(json) |
-| `users` | 用户 | role(enum: school_admin/teacher/parent), username, password(bcrypt), nickname, avatar |
-| `third_party_bindings` | OAuth绑定 | user_id, platform, open_id, union_id (复合唯一索引) |
+| `users` | 用户 | role, username, password(bcrypt), nickname, avatar |
+| `third_party_bindings` | OAuth绑定 | user_id, platform, open_id |
 | `class_rooms` | 班级 | grade, year, teacher_id, max_students |
-| `students` | 学生 | class_id, parent_id, total_score, student_no, gender |
-| `pets` | 宠物 | student_id(一对一), level, exp, mood, species, last_fed_at |
-| `score_rules` | 积分规则 | class_id/school_id, name, points, category, is_penalty |
-| `scores` | 积分记录 | student_id, class_id, rule_id, points, reason, giver_id |
+| `students` | 学生 | class_id, parent_id, total_score, student_no |
+| `pets` | 宠物 | student_id(一对一), level, exp, mood, species |
+| `score_rules` | 积分规则 | class_id/school_id, name, points, category |
+| `scores` | 积分记录 | student_id, class_id, rule_id, points, reason |
 | `score_logs` | 审计日志 | score_id, balance_before, balance_after |
-| `notices` | 公告 | class_id/school_id, title, content, publisher_id, is_published |
+| `notices` | 公告 | class_id/school_id, title, content, publisher_id |
 | `shop_items` | 商品 | class_id, name, cost, stock |
-| `shop_redemptions` | 兑换 | student_id, item_id, status(enum: pending/approved/rejected/delivered) |
+| `shop_redemptions` | 兑换 | student_id, item_id, status |
 
-### 教室工具表（迁移 2）
-
+### 教室工具表
 | 表名 | 说明 |
 |------|------|
-| `broadcasts` | 实时广播（type: banner/popup/fullscreen, voice, loop, duration）|
-| `attendances` | 考勤（status: present/late/leave/absent, 唯一约束: class_id+student_id+date）|
-| `homework_collections` | 作业（title, deadline, submission_types, qr_token）|
-| `homework_submissions` | 作业提交（student_id, submitted_at, content, files）|
-| `question_banks` | 题库（teacher_id, subject, is_public, question_count）|
-| `questions` | 题目（type: single/multi/fill/truefalse/short, options(json), answer, points）|
-| `quizzes` | 测验（class_id, bank_id, time_limit, auto_grade, realtime_stats）|
-| `quiz_submissions` | 测验提交（answers(json), score）|
-| `grades` | 成绩（exam_name, subject, 唯一约束: class_id+student_id+exam_name+subject, rank）|
+| `broadcasts` | 实时广播（banner/popup/fullscreen）|
+| `attendances` | 考勤（present/late/leave/absent）|
+| `homework_collections` | 作业布置 |
+| `homework_submissions` | 作业提交 |
+| `question_banks` | 题库 |
+| `questions` | 题目 |
+| `quizzes` | 测验 |
+| `quiz_submissions` | 测验提交 |
+| `grades` | 成绩 |
 
 ---
 
 ## API 架构（~130 个端点）
 
-路由按角色分组在 `backend/routes/api.php`：
-
-### `/api/auth/*` — 认证（公开 + 需认证）
-- `POST teacher/login` — 教师账号密码登录
-- `POST admin/login` — 管理员账号密码登录
-- `POST teacher/login/{wechat|wechat-work|qq|renren}` — 第三方扫码登录
-- `POST teacher/bind-after-scan` — 扫码后绑定
+### `/api/v1/auth/*` — 认证
+- POST teacher/login, admin/login, teacher/login/{platform}
+- POST bind-after-scan
 - 需认证: logout, change-password, refresh, bind/{platform}, unbind/{platform}, GET bindings
 
-### `/api/admin/*` — 学校管理员（role: school_admin）
+### `/api/v1/admin/*` — 学校管理员
 - 学校 CRUD、教师/家长批量创建与管理
 - 班级 CRUD + 批量创建 + 班主任分配
 - 学生导入/CRUD/批量删除/批量转班
 - 学年升级预览与执行
 - 报表: overview, by-grade, by-class
 
-### `/api/teacher/*` — 教师（role: teacher）
-- dashboard, students (list + import + update)
-- **scores/**: summary, give, batch-give, give-by-rule, history, rules CRUD
-- **pets/**: class-overview, get pet, feed, rename
-- **leaderboard/**: total, weekly, pet-level
-- **shop/**: items CRUD, redemptions (approve/reject/deliver)
-- **notices/**: CRUD + publish
-- **reports/**: score-trend, pet-distribution, student-progress, export
-- **broadcasts/**: list, send, get
-- **attendance/**: today, start, set, summary
-- **homework/**: CRUD + close + submissions + qr-code
-- **quizzes/**: CRUD + start/stop + stats
-- **question-banks/**: CRUD + add/get questions
-- **grades/**: CRUD + stats + distribution
-- **ai/**: chat, commands, usage
+### `/api/v1/teacher/*` — 教师
+- dashboard, students
+- scores/ (summary, give, batch-give, history, rules CRUD)
+- pets/ (class-overview, pet, feed, rename)
+- leaderboard/ (total, weekly, pet-level)
+- shop/ (items CRUD + redemptions)
+- notices/ (CRUD + publish)
+- reports/ (trend, distribution, progress, export)
+- broadcasts/, attendance/, homework/, quizzes/, question-banks/, grades/, ai/
 
-### `/api/parent/*` — 家长（role: parent）
-- home, scores (detail + history), growth (log + timeline), pet (status + feed), ranking, notices
+### `/api/v1/parent/*` — 家长
+- home, scores, growth, pet, ranking, notices
 
-### `/api/common/*` — 公开
+### `/api/v1/common/*` — 公开
 - pet-types, evolution-stages, score-categories
 
 ---
@@ -216,11 +177,11 @@ learnstar-planet/                    # 真正的项目根（含 .git）
 ## 开发规范
 
 ### 代码风格
-- **PHP**: PSR-12，使用 `.php-cs-fixer.php` 配置，Laravel 专用规则集
-- **PHP 静态分析**: PHPStan Level 5（`phpstan.neon`），使用 Larastan
-- **测试**: PHPUnit 11，Feature + Unit 测试
-- **Git 提交**: 约定式提交（Conventional Commits）— `feat:`, `fix:`, `docs:`, `chore:` 等
-- **JavaScript**: 使用 ESLint 检查
+- **PHP**: PSR-12，使用 `.php-cs-fixer.php` 配置
+- **PHP 静态分析**: PHPStan Level 5
+- **测试**: PHPUnit 11
+- **Git 提交**: 约定式提交（Conventional Commits）
+- **JavaScript**: ESLint
 
 ### 分支策略
 - `main` — 生产就绪分支
@@ -232,45 +193,82 @@ learnstar-planet/                    # 真正的项目根（含 .git）
 - 认证使用 Bearer Token（Sanctum）
 - 角色中间件 `role:school_admin|teacher|parent` 控制访问
 - 401 时前端自动清除 token 并跳转登录
-- API 版本化：前端统一调用 `/api/v1/*`，后端保留向后兼容的旧路径
-- 登录端点速率限制：`throttle:6,1`（每分钟 6 次）
-- 异常处理：所有异常统一返回 JSON（ModelNotFound→404、ValidationException→422、Auth→401/403、Throwable→500/503）
-- Docker 多阶段构建：Node 22 (pnpm) → Vue 3 SPA 构建，PHP 8.3 (composer) → Laravel vendor
-- `.dockerignore` 根目录已配置，排除 node_modules、.git、test data 等无用文件
-
-### 数据库约定
-- 迁移文件命名: `YYYY_MM_DD_HHMMSS_descriptive_name.php`
-- 使用 Laravel 的 `Schema` builder，避免原始 SQL
-- 外键使用 `constrained()` 和 `cascadeOnDelete()` 明确声明
-- 所有表都有 `created_at` 和 `updated_at` 时间戳
+- API 版本化：前端统一调用 `/api/v1/*`，后端保留向后兼容旧路由
+- 登录端点速率限制：`throttle:6,1`
+- 异常处理统一返回 JSON
+- Docker 多阶段构建：Node 22 → Vue 3 SPA，PHP 8.3 → Laravel API
 
 ---
 
 ## 常用命令
 
 ### 环境搭建
-
-```bash
-# 克隆项目
+\`\`\`bash
 git clone https://github.com/YOUR_USERNAME/learnstar-planet.git
 cd learnstar-planet
-
-# 复制环境配置
 cp .env.example .env
-# 编辑 .env 修改数据库、Redis、管理员账号等配置
-
-# Docker Compose 启动（全栈: app + MySQL + Redis）
 docker-compose up -d
-
-# 查看运行状态
-docker-compose ps
-```
+\`\`\`
 
 ### 后端开发
-
-```bash
-# 进入后端目录
+\`\`\`bash
 cd backend
-
-# 安装 PHP 依赖
 composer install
+php artisan migrate
+php artisan db:seed --class=AdminUserSeeder
+php artisan serve
+php artisan test
+vendor/bin/php-cs-fixer fix
+vendor/bin/phpstan analyse
+\`\`\`
+
+### Docker 常用操作
+\`\`\`bash
+docker-compose logs -f app
+docker-compose exec app bash
+docker-compose restart app
+docker-compose pull && docker-compose up -d
+docker-compose exec mysql mysqldump -u root -p learnstar > backup.sql
+\`\`\`
+
+### 前端开发
+\`\`\`bash
+cd frontend-vue
+npm install
+npm run dev         # 开发服务器 http://localhost:5173
+npm run typecheck   # TypeScript 类型检查
+npm run build       # 生产构建
+npm run build:deploy # 输出到 ../backend/public/
+\`\`\`
+
+---
+
+## 设计系统（CSS 变量）
+
+项目采用"星空探索"主题，定义在 `frontend-vue/src/assets/style.css`：
+
+| 类别 | 变量 | 值 |
+|------|------|-----|
+| 品牌主色 | `--primary` | `#4F46E5` 星空靛蓝 |
+| 品牌辅色 | `--secondary` | `#F59E0B` 星光琥珀 |
+| 功能色 | `--accent` / `--danger` / `--info` | `#10B981` / `#EF4444` / `#3B82F6` |
+| 背景 | `--bg` / `--bg-card` | `#F8FAFC` / `#FFFFFF` |
+| 文字 | `--text` / `--text-secondary` | `#1E293B` / `#64748B` |
+| 圆角 | `--radius-sm/md/lg/xl` | `8px` / `12px` / `20px` / `28px` |
+| 阴影 | `--shadow-sm/md/lg/glow` | 4 级阴影深度 |
+
+支持暗色模式，通过给 `<html>` 添加 `.dark` 类切换。
+
+---
+
+## 关键设计决策与注意事项
+
+1. **前端已完成 Vue 3 重构**: `frontend-vue/` 采用 Vue 3 + Vite + TypeScript + Pinia + Vue Router
+2. **无自注册**: 所有账号由管理员在后台创建分配
+3. **角色严格隔离**: 管理员/教师/家长界面和 API 完全不同
+4. **第三方登录仅限教师**: 管理员不支持第三方扫码
+5. **AI 功能可选**: 不配置 AI API Key 不影响核心功能
+6. **排行榜使用 Redis ZSET**: 有 MySQL 回退方案
+7. **学年升级不可逆**: 预览→确认→执行，六年级毕业，其他顺升
+8. **家长功能目前简约**: 以查看为主（积分、宠物、通知、排名）
+9. **PWA 主要用于离线缓存**: Service Worker 缓存静态资源，网络优先策略
