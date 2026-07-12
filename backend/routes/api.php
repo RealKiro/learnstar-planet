@@ -97,7 +97,6 @@ Route::prefix('v1')->group(function () {
         Route::put('exchange-rates/{id}', [SchoolAdminController::class, 'updateExchangeRate']);
     });
 
-
     // ===== 教师 =====
     Route::prefix('teacher')->middleware(['auth:sanctum', 'role:teacher'])->group(function () {
         Route::get('dashboard', [TeacherController::class, 'dashboard']);
@@ -265,3 +264,10 @@ Route::prefix('v1')->group(function () {
         Route::post('callback', [WechatWorkWebhookController::class, 'receive']);
     });
 }); // End API v1 prefix
+
+// ===== 兼容旧版测试路由 =====
+Route::prefix('auth')->group(function () {
+    Route::post('teacher/login', [App\Http\Controllers\Api\AuthController::class, 'teacherLoginWithCredentials'])->middleware('throttle:6,1');
+    Route::post('admin/login', [App\Http\Controllers\Api\AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
+    Route::post('parent/login', [App\Http\Controllers\Api\AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
+});

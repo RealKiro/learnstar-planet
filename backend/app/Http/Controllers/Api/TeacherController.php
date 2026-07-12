@@ -1436,7 +1436,7 @@ class TeacherController extends Controller
         return response()->json(['data' => ['reply' => 'AI 助教功能需要配置 AI_PROVIDER 和 AI_API_KEY 环境变量。']]);
     }
 
-    public function     public function getAiCommands(Request $request): JsonResponse
+    public function getAiCommands(Request $request): JsonResponse
     {
         return response()->json(['data' => [
             ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈'],
