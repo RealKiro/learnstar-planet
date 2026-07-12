@@ -29,12 +29,12 @@ if (authStore.isLoggedIn) {
     </nav>
 
     <!-- Hero 区 -->
-    <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 16px 48px;position:relative;overflow:hidden;">
+    <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 32px 48px;position:relative;overflow:hidden;">
       <!-- 背景光效 -->
       <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);top:-200px;right:-100px;animation:floatOrb 12s ease-in-out infinite;"></div>
       <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%);bottom:-150px;left:-100px;animation:floatOrb 15s ease-in-out infinite reverse;"></div>
 
-      <div style="position:relative;z-index:1;max-width:680px;text-align:center;margin:0 auto;">
+      <div style="position:relative;z-index:1;max-width:680px;text-align:center;">
         <!-- 开源徽章 -->
         <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:100px;padding:6px 16px;font-size:13px;color:#94A3B8;margin-bottom:24px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
           <span style="color:#10B981;">●</span>
@@ -73,7 +73,7 @@ if (authStore.isLoggedIn) {
 
     <!-- 功能介绍 -->
     <section style="padding:80px 32px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
-      <div style="max-width:960px;margin:0 auto;">
+      <div style="max-width:960px; ">
         <h2 style="text-align:center;font-size:32px;font-weight:800;color:#F1F5F9;margin-bottom:12px;">12 大功能模块</h2>
         <p style="text-align:center;color:#64748B;margin-bottom:48px;font-size:15px;">覆盖班级管理全场景，全部免费，无任何付费功能</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
@@ -93,7 +93,7 @@ if (authStore.isLoggedIn) {
     <section style="padding:64px 32px;text-align:center;">
       <h2 style="font-size:28px;font-weight:800;color:#F1F5F9;margin-bottom:8px;">宠物 11 阶进化体系</h2>
       <p style="color:#64748B;margin-bottom:32px;font-size:14px;">积分变经验，驱动宠物从星尘进化到银河</p>
-      <div style="display:flex;align-items:center;justify-content:center;gap:2px;flex-wrap:wrap;max-width:800px;margin:0 auto;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:2px;flex-wrap:wrap;max-width:800px; ">
         <template v-for="(stage, i) in evolutionStages" :key="stage.name">
           <div v-if="i > 0" style="font-size:14px;color:#334155;margin:0 2px;">→</div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;border-radius:12px;transition:all 0.2s;"
@@ -108,7 +108,7 @@ if (authStore.isLoggedIn) {
 
     <!-- 开源号召 -->
     <section style="padding:64px 32px;text-align:center;">
-      <div style="max-width:600px;margin:0 auto;background:linear-gradient(135deg,rgba(79,70,229,0.1),rgba(16,185,129,0.05));border:1px solid rgba(79,70,229,0.15);border-radius:20px;padding:48px 32px;">
+      <div style="max-width:600px; background:linear-gradient(135deg,rgba(79,70,229,0.1),rgba(16,185,129,0.05));border:1px solid rgba(79,70,229,0.15);border-radius:20px;padding:48px 32px;">
         <div style="font-size:40px;margin-bottom:16px;">🚀</div>
         <h2 style="font-size:26px;font-weight:800;color:#F1F5F9;margin-bottom:12px;">加入开源社区</h2>
         <p style="color:#94A3B8;margin-bottom:24px;font-size:15px;line-height:1.6;">
