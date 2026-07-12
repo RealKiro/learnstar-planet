@@ -653,9 +653,9 @@ class TeacherController extends Controller
         /** @var Student $student */
         $student = $redemption->student;
         $item = $redemption->shopItem;
-        $itemName = $item?->name ?? '未知物品';
+        $itemName = $item->name ?? '未知物品';
         $cost = $redemption->cost;
-        $currency = $item?->currency_type ?? 'score';
+        $currency = $item->currency_type ?? 'score';
 
         try {
             // 根据币种选择扣款方式
