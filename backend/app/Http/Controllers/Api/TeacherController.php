@@ -964,7 +964,9 @@ class TeacherController extends Controller
         $leaveCount = \App\Models\Attendance::whereIn('class_id', $classIds)
             ->whereDate('date', today())->where('source', 'wechat_work')->count();
         $msg = "已为 {$count} 名学生创建考勤记录（默认到课）";
-        if ($leaveCount > 0) { $msg .= "，其中 {$leaveCount} 人已通过企业微信请假"; }
+        if ($leaveCount > 0) {
+            $msg .= "，其中 {$leaveCount} 人已通过企业微信请假";
+        }
 
         return response()->json(['message' => $msg, 'data' => ['total' => $count, 'wechat_leave_count' => $leaveCount]]);
     }
@@ -1441,6 +1443,4 @@ class TeacherController extends Controller
         return response()->json(['data' => [
             ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈'],
             ['label' => '重点关注学生', 'prompt' => '请分析班上学情'],
-        ]]);
-    }
-}
+ 
