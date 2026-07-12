@@ -18,7 +18,7 @@ if (authStore.isLoggedIn) {
 }
 
 const currentSlide = ref(0)
-let slideTimer: ReturnType<typeof setInterval>
+let slideTimer: number = 0
 onMounted(function () {
   slideTimer = setInterval(function () {
     currentSlide.value = (currentSlide.value + 1) % slides.length
@@ -324,4 +324,4 @@ function handleThirdPartyLogin(platform: string) {
 .slide-icon{font-size:40px}
 }
 </style>
-                                                                                                                                    
+                                                                                                                                                        
