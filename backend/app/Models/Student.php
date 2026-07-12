@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection<int, Score> $scores
  * @property \Illuminate\Database\Eloquent\Collection<int, ScoreLog> $scoreLogs
  * @property \Illuminate\Database\Eloquent\Collection<int, ShopRedemption> $shopRedemptions
- * @property \Illuminate\Database\Eloquent\Collection<int, Wallet> $wallets
  */
 class Student extends Model
 {
