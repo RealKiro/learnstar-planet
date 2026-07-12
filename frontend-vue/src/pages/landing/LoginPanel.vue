@@ -11,9 +11,9 @@ const authStore = useAuthStore()
 const toast = useToastStore()
 
 if (authStore.isLoggedIn) {
-  if (authStore.isAdmin) { router.replace({ name: 'admin-dashboard' }); return }
-  if (authStore.isTeacher) { router.replace({ name: 'teacher-dashboard' }); return }
-  if (authStore.isParent) { router.replace({ name: 'parent-home' }); return }
+  if (authStore.isAdmin) { router.replace({ name: 'admin-dashboard' }) }
+  else if (authStore.isTeacher) { router.replace({ name: 'teacher-dashboard' }) }
+  else if (authStore.isParent) { router.replace({ name: 'parent-home' }) }
 }
 
 const loginType = ref('teacher')
