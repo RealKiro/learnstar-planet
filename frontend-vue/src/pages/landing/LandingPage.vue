@@ -29,12 +29,12 @@ if (authStore.isLoggedIn) {
     </nav>
 
     <!-- Hero 区 -->
-    <section style="display:flex;align-items:center;justify-content:center;padding:120px 0 48px;position:relative;overflow:hidden;width:100%;">
+    <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 16px 48px;position:relative;overflow:hidden;">
       <!-- 背景光效 -->
-      <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);top:-200px;left:50%;transform:translateX(-50%);animation:floatOrb 12s ease-in-out infinite;"></div>
-      <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%);bottom:-150px;left:50%;transform:translateX(-50%);animation:floatOrb 15s ease-in-out infinite reverse;"></div>
+      <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);top:-200px;right:-100px;animation:floatOrb 12s ease-in-out infinite;"></div>
+      <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%);bottom:-150px;left:-100px;animation:floatOrb 15s ease-in-out infinite reverse;"></div>
 
-      <div style="position:relative;z-index:1;max-width:680px;text-align:center;">
+      <div style="position:relative;z-index:1;max-width:680px;text-align:center;margin:0 auto;">
         <!-- 开源徽章 -->
         <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:100px;padding:6px 16px;font-size:13px;color:#94A3B8;margin-bottom:24px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
           <span style="color:#10B981;">●</span>
@@ -55,8 +55,9 @@ if (authStore.isLoggedIn) {
           <router-link to="/login" style="background:linear-gradient(135deg,#6366F1,#818CF8);color:white;padding:14px 36px;border-radius:12px;font-size:16px;font-weight:600;box-shadow:0 8px 24px rgba(79,70,229,0.3);transition:all 0.25s;text-decoration:none;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 32px rgba(79,70,229,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow='0 8px 24px rgba(79,70,229,0.3)'">
             立即使用
           </router-link>
-          <a href="#features" style="background:rgba(255,255,255,0.06);color:#E2E8F0;padding:14px 36px;border-radius:12px;font-size:16px;font-weight:600;border:1px solid rgba(255,255,255,0.12);transition:all 0.25s;text-decoration:none;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
-            了解功能
+          <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" style="background:rgba(255,255,255,0.06);color:#E2E8F0;padding:14px 36px;border-radius:12px;font-size:16px;font-weight:600;border:1px solid rgba(255,255,255,0.12);transition:all 0.25s;text-decoration:none;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            源码
           </a>
         </div>
 
@@ -71,7 +72,7 @@ if (authStore.isLoggedIn) {
     </section>
 
     <!-- 功能介绍 -->
-    <section id="features" style="padding:80px 32px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);scroll-margin-top:60px;">
+    <section style="padding:80px 32px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
       <div style="max-width:960px;margin:0 auto;">
         <h2 style="text-align:center;font-size:32px;font-weight:800;color:#F1F5F9;margin-bottom:12px;">12 大功能模块</h2>
         <p style="text-align:center;color:#64748B;margin-bottom:48px;font-size:15px;">覆盖班级管理全场景，全部免费，无任何付费功能</p>
