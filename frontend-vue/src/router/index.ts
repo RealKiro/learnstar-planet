@@ -31,6 +31,7 @@ const router = createRouter({
         { path: 'rules', name: 'teacher-rules', component: () => import('@/pages/teacher/RulesPage.vue') },
         { path: 'leaderboard', name: 'teacher-leaderboard', component: () => import('@/pages/teacher/LeaderboardPage.vue') },
         { path: 'shop', name: 'teacher-shop', component: () => import('@/pages/teacher/ShopPage.vue') },
+        { path: 'exchange', name: 'teacher-exchange', component: () => import('@/pages/teacher/ExchangeCenterPage.vue') },
         { path: 'broadcast', name: 'teacher-broadcast', component: () => import('@/pages/teacher/BroadcastPage.vue') },
         { path: 'attendance', name: 'teacher-attendance', component: () => import('@/pages/teacher/AttendancePage.vue') },
         { path: 'homework', name: 'teacher-homework', component: () => import('@/pages/teacher/HomeworkPage.vue') },
@@ -56,6 +57,7 @@ const router = createRouter({
         { path: 'upgrade', name: 'admin-upgrade', component: () => import('@/pages/admin/GradeUpgradePage.vue') },
         { path: 'reports', name: 'admin-reports', component: () => import('@/pages/admin/ReportsPage.vue') },
         { path: 'school', name: 'admin-school', component: () => import('@/pages/admin/SchoolSettingsPage.vue') },
+        { path: 'exchange-rate', name: 'admin-exchange-rate', component: () => import('@/pages/admin/ExchangeRatePage.vue') },
       ],
     },
     {

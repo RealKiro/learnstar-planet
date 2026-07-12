@@ -985,210 +985,123 @@ class TeacherController extends Controller
     // Simple stubs for remaining endpoints
     public function listHomework(Request $request): JsonResponse
     {
-        return response()->json(['data' => []]);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $homework = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)
+            ->withCount('submissions')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(fn ($h) => [
+                'id' => $h->id,
+                'title' => $h->title,
+                'deadline' => $h->deadline?->toDateTimeString(),
+                'status' => $h->deadline && $h->deadline->isPast() ? 'closed' : 'active',
+                'submission_count' => $h->submissions_count,
+                'total_students' => Student::where('class_id', $h->class_id)->count(),
+            ]);
+        return response()->json(['data' => $homework]);
     }
 
     public function createHomework(Request $request): JsonResponse
     {
-        return response()->json(['message' => '作业已创建'], 201);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $request->validate(['title' => 'required|string|max:200', 'deadline' => 'nullable|date', 'description' => 'nullable|string']);
+        $hw = \App\Models\HomeworkCollection::create([
+            'class_id' => $classIds->first(), 'title' => $request->input('title'),
+            'deadline' => $request->input('deadline'), 'description' => $request->input('description'),
+            'qr_token' => \Illuminate\Support\Str::random(16),
+        ]);
+        return response()->json(['message' => '作业已创建', 'data' => ['id' => $hw->id, 'qr_token' => $hw->qr_token]], 201);
     }
 
     public function getHomework(Request $request, int $id): JsonResponse
     {
-        return response()->json(['data' => []]);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $hw = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->with('submissions.student')->findOrFail($id);
+        return response()->json(['data' => [
+            'id' => $hw->id, 'title' => $hw->title, 'deadline' => $hw->deadline?->toDateTimeString(),
+            'status' => $hw->deadline && $hw->deadline->isPast() ? 'closed' : 'active',
+            'submissions' => $hw->submissions->map(fn ($s) => ['student_name' => $s->student?->name, 'submitted_at' => $s->submitted_at?->toDateTimeString()]),
+        ]]);
     }
 
     public function closeHomework(Request $request, int $id): JsonResponse
     {
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->findOrFail($id)->update(['deadline' => now()]);
         return response()->json(['message' => '作业已关闭']);
     }
 
     public function getHomeworkSubmissions(Request $request, int $id): JsonResponse
     {
-        return response()->json(['data' => []]);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $hw = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->findOrFail($id);
+        return response()->json(['data' => $hw->submissions()->with('student')->get()->map(fn ($s) => [
+            'student_name' => $s->student?->name, 'submitted_at' => $s->submitted_at?->toDateTimeString(),
+        ])]);
     }
 
     public function getHomeworkQrCode(Request $request, int $id): JsonResponse
     {
-        return response()->json(['data' => ['qr_url' => '']]);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $hw = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->findOrFail($id);
+        return response()->json(['data' => ['qr_url' => url("/api/v1/common/homework-submit/{$hw->qr_token}"), 'token' => $hw->qr_token]]);
     }
+
+    // ============================================================
+    // Quizzes
+    // ============================================================
 
     public function listQuizzes(Request $request): JsonResponse
     {
-        return response()->json(['data' => []]);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        return response()->json(['data' => \App\Models\Quiz::whereIn('class_id', $classIds)
+            ->withCount('submissions')->orderBy('created_at', 'desc')->get()->map(fn ($q) => [
+                'id' => $q->id, 'title' => $q->title, 'subject' => $q->subject,
+                'time_limit' => $q->time_limit, 'is_active' => $q->is_active ?? false, 'submission_count' => $q->submissions_count,
+            ])]);
     }
 
     public function createQuiz(Request $request): JsonResponse
     {
-        return response()->json(['message' => '测验已创建'], 201);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $request->validate(['title' => 'required|string|max:200', 'question_bank_id' => 'nullable|integer', 'time_limit' => 'nullable|integer|min:0', 'subject' => 'nullable|string|max:50', 'auto_grade' => 'nullable|boolean']);
+        $quiz = \App\Models\Quiz::create([
+            'class_id' => $classIds->first(), 'title' => $request->input('title'), 'question_bank_id' => $request->input('question_bank_id'),
+            'time_limit' => $request->input('time_limit', 0), 'subject' => $request->input('subject', ''),
+            'auto_grade' => $request->boolean('auto_grade', true), 'is_active' => false,
+        ]);
+        return response()->json(['message' => '测验已创建', 'data' => ['id' => $quiz->id]], 201);
     }
 
     public function startQuiz(Request $request, int $id): JsonResponse
     {
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        \App\Models\Quiz::whereIn('class_id', $classIds)->findOrFail($id)->update(['is_active' => true]);
         return response()->json(['message' => '测验已开始']);
     }
 
     public function stopQuiz(Request $request, int $id): JsonResponse
     {
-        return response()->json(['message' => '测验已结束']);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $quiz = \App\Models\Quiz::whereIn('class_id', $classIds)->findOrFail($id);
+        $quiz->update(['is_active' => false]);
+        return response()->json(['message' => '测验已结束', 'data' => [
+            'submissions' => $quiz->submissions()->count(), 'avg_score' => round((float) $quiz->submissions()->avg('score'), 1),
+        ]]);
     }
 
     public function getQuizStats(Request $request, int $id): JsonResponse
     {
-        return response()->json(['data' => []]);
-    }
-
-    public function listQuestionBanks(Request $request): JsonResponse
-    {
-        return response()->json(['data' => []]);
-    }
-
-    public function createQuestionBank(Request $request): JsonResponse
-    {
-        return response()->json(['message' => '题库已创建'], 201);
-    }
-
-    public function addQuestion(Request $request, int $id): JsonResponse
-    {
-        return response()->json(['message' => '题目已添加']);
-    }
-
-    public function getQuestions(Request $request, int $id): JsonResponse
-    {
-        return response()->json(['data' => []]);
-    }
-
-    public function listGrades(Request $request): JsonResponse
-    {
-        return response()->json(['data' => []]);
-    }
-
-    public function inputGrades(Request $request): JsonResponse
-    {
-        return response()->json(['message' => '成绩已录入']);
-    }
-
-    public function getGradeStats(Request $request): JsonResponse
-    {
-        return response()->json(['data' => []]);
-    }
-
-    public function getGradeDistribution(Request $request): JsonResponse
-    {
-        return response()->json(['data' => []]);
-    }
-
-    public function aiChat(Request $request): JsonResponse
-    {
-        $request->validate(['message' => 'required|string|max:2000']);
-
-        return response()->json(['data' => ['reply' => 'AI 助教功能需要配置 AI_PROVIDER 和 AI_API_KEY 环境变量。']]);
-    }
-
-    public function getAiCommands(Request $request): JsonResponse
-    {
-        return response()->json(['data' => [
-            ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈'],
-            ['label' => '重点关注学生', 'prompt' => '请分析班上需要重点关注的学生，并给出建议'],
-            ['label' => '家校沟通建议', 'prompt' => '请生成本周家校沟通建议'],
-            ['label' => '自动出题', 'prompt' => '请根据第三单元知识点出10道选择题'],
-        ]]);
-    }
-
-    public function getAiUsage(Request $request): JsonResponse
-    {
-        return response()->json(['data' => ['count' => 0, 'tokens' => 0]]);
-    }
-
-    // ============================================================
-    // 多币种系统
-    // ============================================================
-
-    /**
-     * 查看班级学生钱包余额
-     */
-    public function listWallets(Request $request): JsonResponse
-    {
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-
-        $students = Student::whereIn('class_id', $classIds)
-            ->with('wallets')
-            ->select('id', 'name', 'total_score', 'class_id')
-            ->get();
-
-        $data = $students->map(function ($s) {
-            $wallets = [];
-            foreach ($s->wallets as $w) {
-                $wallets[$w->currency_type] = $w->balance;
-            }
-
-            return [
-                'id' => $s->id,
-                'name' => $s->name,
-                'total_score' => $s->total_score,
-                'wallets' => $wallets,
-            ];
-        });
-
-        return response()->json(['data' => $data]);
-    }
-
-    /**
-     * 积分 → 币种兑换
-     */
-    public function exchangeCurrency(Request $request): JsonResponse
-    {
-        $request->validate([
-            'student_id' => 'required|integer',
-            'to_currency' => 'required|string|in:science,reading,class_point',
-            'amount' => 'required|integer|min:1',
-        ]);
-
-        try {
-            $result = app(CurrencyService::class)->exchange(
-                $request->input('student_id'),
-                $request->input('to_currency'),
-                $request->input('amount'),
-                $request->user()->id,
-            );
-
-            return response()->json([
-                'message' => '兑换成功',
-                'data' => $result,
-            ]);
-        } catch (\DomainException $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
-    }
-
-    /**
-     * 跨币种兑换
-     */
-    public function crossExchangeCurrency(Request $request): JsonResponse
-    {
-        $request->validate([
-            'student_id' => 'required|integer',
-            'from_currency' => 'required|string|in:science,reading,class_point',
-            'to_currency' => 'required|string|in:science,reading,class_point',
-            'amount' => 'required|integer|min:1',
-        ]);
-
-        try {
-            $result = app(CurrencyService::class)->crossExchange(
-                $request->input('student_id'),
-                $request->input('from_currency'),
-                $request->input('to_currency'),
-                $request->input('amount'),
-                $request->user()->id,
-            );
-
-            return response()->json([
-                'message' => '兑换成功',
-                'data' => $result,
-            ]);
-        } catch (\DomainException $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
-    }
-}
+        $quiz = \App\Models\Quiz::whereIn('class_id', $classIds)->findOrFai
