@@ -148,14 +148,14 @@ const typeColors: Record<string, string> = {
     <!-- 左侧：项目介绍轮播 -->
     <div class="intro">
       <!-- 背景光效 -->
-      <div class="intro-orb intro-orb--top" />
-      <div class="intro-orb intro-orb--bottom" />
+      <div class="intro-orb intro-orb--top"></div>
+      <div class="intro-orb intro-orb--bottom"></div>
 
       <div class="intro-content">
         <transition name="slide-fade" mode="out-in">
           <div :key="currentSlide" class="intro-slide">
             <div class="intro-badge">
-              <span class="intro-badge-dot" />
+              <span class="intro-badge-dot"></span>
               {{ slides[currentSlide].badge }}
             </div>
 
@@ -177,7 +177,7 @@ const typeColors: Record<string, string> = {
             :key="i"
             :class="['intro-dot', { 'intro-dot--active': currentSlide === i }]"
             @click="goToSlide(i)"
-          />
+          ></button>
         </div>
 
         <!-- 底部链接 -->
@@ -228,7 +228,7 @@ const typeColors: Record<string, string> = {
           <!-- 扫码快捷登录 -->
           <div class="login-social">
             <div class="login-social-label">
-              <span class="login-social-line" /> 扫码快捷登录 <span class="login-social-line" />
+              <span class="login-social-line"></span> 扫码快捷登录 <span class="login-social-line"></span>
             </div>
             <div class="login-social-grid">
               <button
@@ -474,4 +474,3 @@ const typeColors: Record<string, string> = {
 
 /* 表单 */
 .login-form { display: flex; flex-direction: column; gap: 16px; }
-.form-group { display: flex; fl
