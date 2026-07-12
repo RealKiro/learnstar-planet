@@ -38,4 +38,4 @@ parameters:
           reportUnmatched: false
         - message: '#Function flux not found\.#'
           reportUnmatched: false
-        - '#Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<.*\>::map\
+        - '#Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<.*\>::map\() contains unresolvable type.\#'
