@@ -1037,6 +1037,7 @@ class TeacherController extends Controller
     {
         $ownClassIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id')->toArray();
         $relatedClassIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)->pluck('class_room_id')->toArray();
+
         return array_values(array_unique(array_merge($ownClassIds, $relatedClassIds)));
     }
 

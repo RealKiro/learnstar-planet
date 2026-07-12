@@ -69,4 +69,9 @@ class Attendance extends Model
 
         return [
             'present' => $records->where('status', 'present')->count(),
-            'late'     => $records->where('status', 
+            'late'    => $records->where('status', 'late')->count(),
+            'leave'   => $records->where('status', 'leave')->count(),
+            'absent'  => $records->where('status', 'absent')->count(),
+        ];
+    }
+}
