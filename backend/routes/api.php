@@ -61,6 +61,14 @@ Route::prefix('v1')->group(function () {
 
     // ===== 学校管理员 =====
     Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
+    Route::get('school', [SchoolAdminController::class, 'getSchool']);
+    Route::put('school', [SchoolAdminController::class, 'updateSchool']);
+    Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
+    Route::get('classes', [SchoolAdminController::class, 'index']);
+    Route::get('students', [SchoolAdminController::class, 'listStudents']);
+    Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
+});
+eware(['auth:sanctum', 'role:school_admin'])->group(function () {
         Route::get('school', [SchoolAdminController::class, 'getSchool']);
         Route::put('school', [SchoolAdminController::class, 'updateSchool']);
         Route::post('teachers/batch-create', [SchoolAdminController::class, 'batchCreateTeachers']);
@@ -274,4 +282,12 @@ Route::prefix('auth')->group(function () {
     Route::post('parent/login', [AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
     Route::post('teacher/login/{platform}', [AuthController::class, 'teacherLoginWithWechat']);
 });
-Route::prefix('admin')->middl
+Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
+    Route::get('school', [SchoolAdminController::class, 'getSchool']);
+    Route::put('school', [SchoolAdminController::class, 'updateSchool']);
+    Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
+    Route::get('classes', [SchoolAdminController::class, 'index']);
+    Route::get('students', [SchoolAdminController::class, 'listStudents']);
+    Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
+});
+eware(['auth:sanctum', 'role:school_admin'])->group(function () {
