@@ -12,12 +12,12 @@ class Pet extends Model
         'student_id',
         'class_id',
         'name',
-        'type',             // 宠物类型标识
-        'level',            // 0-10 级进化
-        'experience',       // 经验值
-        'mood',             // 心情指数 (0-100)
-        'accessories',      // JSON: 装饰配件列表
-        'last_fed_at',      // 最后喂养时间
+        'type',
+        'level',
+        'experience',
+        'mood',
+        'accessories',
+        'last_fed_at',
     ];
 
     protected $casts = [
@@ -38,9 +38,6 @@ class Pet extends Model
         return $this->belongsTo(ClassRoom::class, 'class_id');
     }
 
-    // ========== 进化系统 ==========
-
-    // 完全原创的10阶进化体系（灵感来自宇宙探索）
     public static function evolutionStages(): array
     {
         return [
@@ -61,7 +58,6 @@ class Pet extends Model
     public static function petTypes(): array
     {
         return [
-            // 原创宇宙系列（默认）
             'stellar_cat'  => '星猫',
             'moon_rabbit'  => '月兔',
             'sun_deer'     => '日鹿',
@@ -74,7 +70,6 @@ class Pet extends Model
             'moon_moth'    => '月蝶',
             'sun_sparrow'  => '日雀',
             'cloud_whale'  => '云鲸',
-            // 宝可梦系列
             'pikachu'      => '皮卡丘',
             'eevee'        => '伊布',
             'charmander'   => '小火龙',
@@ -87,7 +82,6 @@ class Pet extends Model
             'blastoise'    => '水箭龟',
             'charizard'    => '喷火龙',
             'gengar'       => '耿鬼',
-            // 萌宠系列
             'orange_cat'   => '橘猫',
             'husky'        => '哈士奇',
             'shiba'        => '柴犬',
@@ -100,7 +94,6 @@ class Pet extends Model
             'teacup_pig'   => '小香猪',
             'sugar_glider' => '蜜袋鼯',
             'alpaca'       => '羊驼',
-            // 国宝系列
             'panda'           => '大熊猫',
             'golden_monkey'   => '金丝猴',
             'crested_ibis'    => '朱鹮',
@@ -113,7 +106,6 @@ class Pet extends Model
             'pangolin'        => '穿山甲',
             'red_panda'       => '小熊猫',
             'finless_porpoise' => '江豚',
-            // 神兽系列
             'qilin'    => '麒麟',
             'fenghuang' => '凤凰',
             'baihu'    => '白虎',
@@ -129,9 +121,6 @@ class Pet extends Model
         ];
     }
 
-    /**
-     * 宠物系列分类
-     */
     public static function petCategories(): array
     {
         return [
@@ -143,9 +132,6 @@ class Pet extends Model
         ];
     }
 
-    /**
-     * 按系列获取宠物种类
-     */
     public static function petTypesBySeries(string $series): array
     {
         $all = self::petTypes();
@@ -159,9 +145,6 @@ class Pet extends Model
         return $filtered;
     }
 
-    /**
-     * 根据种类获取系列分类
-     */
     public static function getCategoryByType(string $type): string
     {
         $categories = [
@@ -185,11 +168,8 @@ class Pet extends Model
         return static::evolutionStages()[$this->level] ?? static::evolutionStages()[0];
     }
 
-    // ========== 升级逻辑 ==========
-
     public function experienceForNextLevel(): int
     {
-        // 每级需要的经验递增
         return ($this->level + 1) * 100;
     }
 
@@ -216,27 +196,20 @@ class Pet extends Model
         $this->experience += $amount;
         $this->save();
 
-        // 自动检查升级
         while ($this->canLevelUp()) {
             $this->levelUp();
         }
     }
 
-    /**
-     * 消耗经验（兑换奖励时调用）
-     * 经验可能变负 → 自动降级，最低 level 0
-     */
     public function removeExperience(int $amount): void
     {
         $this->experience -= $amount;
         $this->save();
 
-        // 自动检查降级
         while ($this->canLevelDown()) {
             $this->levelDown();
         }
 
-        // level 0 时经验不能为负
         if ($this->level === 0 && $this->experience < 0) {
             $this->experience = 0;
             $this->save();
@@ -255,14 +228,11 @@ class Pet extends Model
         }
 
         $this->level -= 1;
-        // 补回升级时消耗的经验阈值
         $this->experience += $this->experienceForNextLevel();
         $this->save();
 
         return true;
     }
-
-    // ========== 心情系统 ==========
 
     public function feed(): void
     {
@@ -273,8 +243,9 @@ class Pet extends Model
 
     public function decayMood(): void
     {
-        // 每24小时未喂养，心情下降10点
         if ($this->last_fed_at && $this->last_fed_at->diffInHours(now()) >= 24) {
             $this->mood = max(0, $this->mood - 10);
             $this->save();
         }
+    }
+}
