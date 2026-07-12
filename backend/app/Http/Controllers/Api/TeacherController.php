@@ -1065,7 +1065,7 @@ class TeacherController extends Controller
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
         $hw = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->findOrFail($id);
 
-        return response()->json(['data' => $hw->submissions()->with('student')->get()->map(fn ($s) => [
+        return response()->json(['data' => $hw->submissions()->with('student')->get()->map(function ($s) {
             'student_name' => $s->student?->name,
             'student_no' => $s->student?->student_no,
             'submitted_at' => $s->submitted_at?->toDateTimeString(),
@@ -1177,7 +1177,7 @@ class TeacherController extends Controller
             'avg_score' => round((float) $subs->avg('score'), 1),
             'max_score' => $subs->max('score'),
             'min_score' => $subs->min('score'),
-            'submissions' => $subs->map(fn ($s) => [
+            'submissions' => $subs->map(function ($s) {
                 'student_name' => $s->student?->name,
                 'score' => $s->score,
             ]),
@@ -1254,7 +1254,7 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $bank = \App\Models\QuestionBank::where('teacher_id', $teacher->id)->orWhere('is_public', true)->findOrFail($id);
 
-        return response()->json(['data' => $bank->questions()->get()->map(fn ($q) => [
+        return response()->json(['data' => $bank->questions()->get()->map(function ($q) {
             'id' => $q->id,
             'type' => $q->type,
             'content' => $q->content,
@@ -1482,5 +1482,3 @@ class TeacherController extends Controller
         } catch (\DomainException $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }
-    }
-}
