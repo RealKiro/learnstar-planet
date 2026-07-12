@@ -46,7 +46,7 @@ onUnmounted(() => observer?.disconnect())
     <!-- ===== 导航栏 — 磨砂玻璃 ===== -->
     <header class="nav">
       <div class="nav-inner">
-        <a href="/welcome" class="nav-brand" aria-label="学趣星球">
+        <a href="/" class="nav-brand" aria-label="学趣星球">
           🌌&nbsp;学趣星球
         </a>
         <nav class="nav-links">
@@ -597,3 +597,4 @@ const evolutionStages = [
   .evo-arrow { font-size: 10px; }
 }
 </style>
+       

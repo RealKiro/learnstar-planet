@@ -12,12 +12,12 @@ export const useThemeStore = defineStore('theme', () => {
   }
 
   function init() {
-    // 优先使用用户设置，其次使用系统偏好
+    // 优先使用用户设置，其次默认浅色主题
     const stored = localStorage.getItem('theme')
     if (stored) {
       isDark.value = stored === 'dark'
     } else {
-      isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+      isDark.value = false
     }
     document.documentElement.className = isDark.value ? 'dark' : ''
   }

@@ -6,17 +6,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'login',
-      component: () => import('@/pages/auth/LoginPage.vue'),
+      name: 'landing',
+      component: () => import('@/pages/landing/LandingPage.vue'),
     },
     {
       path: '/login',
-      redirect: '/',
-    },
-    {
-      path: '/welcome',
-      name: 'landing',
-      component: () => import('@/pages/landing/LandingPage.vue'),
+      name: 'login',
+      component: () => import('@/pages/auth/LoginPage.vue'),
     },
     {
       path: '/teacher',
