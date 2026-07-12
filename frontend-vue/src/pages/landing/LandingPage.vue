@@ -207,9 +207,9 @@ const stages = [
           </div>
         </div>
         <div class="cta-box">
-          <div class="cta-icon">🚀</div>
+          <div class="cta-icon">&ndash;</div>
           <h3>加入开源社区</h3>
-          <p>项目完全开源，欢迎 Star / Fork / Issue / PR</p>
+          <p>项目完全开源，欢迎 Star、Fork、Issue、PR</p>
           <div class="cta-links">
             <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="cta-btn cta-btn--dark">Star</a>
             <a href="https://github.com/RealKiro/learnstar-planet/issues" target="_blank" class="cta-btn cta-btn--ghost">Issue</a>
@@ -217,7 +217,7 @@ const stages = [
         </div>
         <footer class="foot">
           <a href="https://github.com/RealKiro/learnstar-planet" target="_blank">学趣星球</a>
-           · MIT · 自托管 · 完全免费
+          <span> · MIT · 自托管 · 完全免费</span>
         </footer>
       </div>
     </div>
@@ -397,4 +397,4 @@ const stages = [
 }
 .evo-item:hover { background: #F0F0F3; transform: scale(1.08); }
 .evo-emoji { font-size: 26px; }
-.evo-name  { font-size: 11px; color: #86868B; font-we
+.evo-name  { font-size: 11px; color: 
