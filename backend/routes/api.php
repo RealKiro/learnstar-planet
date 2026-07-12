@@ -61,16 +61,6 @@ Route::prefix('v1')->group(function () {
 
     // ===== 学校管理员 =====
     Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
-    Route::get('school', [SchoolAdminController::class, 'getSchool']);
-    Route::put('school', [SchoolAdminController::class, 'updateSchool']);
-    Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
-    Route::get('classes', [SchoolAdminController::class, 'index']);
-    Route::get('students', [SchoolAdminController::class, 'listStudents']);
-    Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
-});
-eware(['auth:sanctum', 'role:school_admin'])->group(function () {
-        Route::get('school', [SchoolAdminController::class, 'getSchool']);
-        Route::put('school', [SchoolAdminController::class, 'updateSchool']);
         Route::post('teachers/batch-create', [SchoolAdminController::class, 'batchCreateTeachers']);
         Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
         Route::put('teachers/{id}', [SchoolAdminController::class, 'updateTeacher']);
@@ -106,6 +96,7 @@ eware(['auth:sanctum', 'role:school_admin'])->group(function () {
         Route::post('exchange-rates', [SchoolAdminController::class, 'createExchangeRate']);
         Route::put('exchange-rates/{id}', [SchoolAdminController::class, 'updateExchangeRate']);
     });
+
 
     // ===== 教师 =====
     Route::prefix('teacher')->middleware(['auth:sanctum', 'role:teacher'])->group(function () {
@@ -274,20 +265,3 @@ eware(['auth:sanctum', 'role:school_admin'])->group(function () {
         Route::post('callback', [WechatWorkWebhookController::class, 'receive']);
     });
 }); // End API v1 prefix
-
-// 向后兼容：v1 之前的路由也映射到 v1
-Route::prefix('auth')->group(function () {
-    Route::post('teacher/login', [AuthController::class, 'teacherLoginWithCredentials'])->middleware('throttle:6,1');
-    Route::post('admin/login', [AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
-    Route::post('parent/login', [AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
-    Route::post('teacher/login/{platform}', [AuthController::class, 'teacherLoginWithWechat']);
-});
-Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
-    Route::get('school', [SchoolAdminController::class, 'getSchool']);
-    Route::put('school', [SchoolAdminController::class, 'updateSchool']);
-    Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
-    Route::get('classes', [SchoolAdminController::class, 'index']);
-    Route::get('students', [SchoolAdminController::class, 'listStudents']);
-    Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
-});
-eware(['auth:sanctum', 'role:school_admin'])->group(function () {

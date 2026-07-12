@@ -1,1 +1,38 @@
-<?php declare(strict_types=1); use Illuminate\Database\Migrations\Migration; use Illuminate\Database\Schema\Blueprint; use Illuminate\Support\Facades\Schema; return new class extends Migration {public function up(): void { Schema::create('wechat_work_leave_records', function (Blueprint $t) { $t->id(); $t->unsignedBigInteger('school_id'); $t->unsignedBigInteger('class_id')->nullable(); $t->unsignedBigInteger('student_id')->nullable(); $t->string('parent_wework_userid',128); $t->string('student_name_from_wework',100)->nullable(); $t->string('sp_no',128); $t->date('leave_start_date'); $t->date('leave_end_date'); $t->string('leave_type',50)->nullable(); $t->text('reason')->nullable(); $t->string('approve_status',20)->default('approved'); $t->dateTime('approved_at')->nullable(); $t->json('raw_data')->nullable(); $t->dateTime('synced_at')->nullable(); $t->timestamps(); $t->unique('sp_no'); $t->index(['school_id','leave_start_date']); $t->index(['student_id','leave_start_date']); }); } public function down(): void { Schema::dropIfExists('wechat_work_leave_records'); } };
+<?php
+
+declare(strict_types=1);
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class () extends Migration {
+    public function up(): void
+    {
+        Schema::create('wechat_work_leave_records', function (Blueprint $t) {
+            $t->id();
+            $t->unsignedBigInteger('school_id');
+            $t->unsignedBigInteger('class_id')->nullable();
+            $t->unsignedBigInteger('student_id')->nullable();
+            $t->string('parent_wework_userid', 128);
+            $t->string('student_name_from_wework', 100)->nullable();
+            $t->string('sp_no', 128);
+            $t->date('leave_start_date');
+            $t->date('leave_end_date');
+            $t->string('leave_type', 50)->nullable();
+            $t->text('reason')->nullable();
+            $t->string('approve_status', 20)->default('approved');
+            $t->dateTime('approved_at')->nullable();
+            $t->json('raw_data')->nullable();
+            $t->dateTime('synced_at')->nullable();
+            $t->timestamps();
+            $t->unique('sp_no');
+            $t->index(['school_id','leave_start_date']);
+            $t->index(['student_id','leave_start_date']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('wechat_work_leave_records');
+    }
+};
