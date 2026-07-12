@@ -137,7 +137,7 @@ function goToSlide(i: number) {
 </script>
 
 <template>
-  <div style="min-height:100vh;display:flex;background:#0F172A;">
+  <div style="min-height:100vh;display:flex;justify-content:center;background:#0F172A;">
     <!-- 左侧：项目介绍轮播 -->
     <div class="intro-panel" style="flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:48px 64px;">
       <!-- 背景光效 -->
@@ -187,7 +187,7 @@ function goToSlide(i: number) {
     </div>
 
     <!-- 右侧：登录框 -->
-    <div style="flex:1;max-width:400px;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.06);position:relative;z-index:1;">
+    <div style="flex:0 0 400px;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.06);position:relative;z-index:1;">
       <div style="width:100%;max-width:360px;">
         <div style="font-size:40px;text-align:center;margin-bottom:12px;">🌌</div>
         <h1 style="font-size:24px;font-weight:800;color:#F1F5F9;text-align:center;margin-bottom:24px;">学趣星球</h1>
