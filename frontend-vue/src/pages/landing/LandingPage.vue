@@ -13,10 +13,10 @@ if (authStore.isLoggedIn) {
 </script>
 
 <template>
-  <div style="background:#0F172A;color:#F1F5F9;font-family:system-ui,-apple-system,sans-serif;">
+  <div style="background:#0F172A;color:#F1F5F9;font-family:system-ui,-apple-system,sans-serif;overflow-x:hidden;">
     <!-- 导航栏 -->
     <nav style="position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(15,23,42,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);">
-      <div style="max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="max-width:960px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;">
         <div style="font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;">
           <span>🌌</span> 学趣星球
         </div>
