@@ -55,6 +55,11 @@ class Quiz extends Model
             'finished' => '已结束',
         ];
     }
+
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
+    }
 }
 
 class QuizSubmission extends Model
@@ -83,7 +88,7 @@ class QuestionBank extends Model
 {
     protected $fillable = [
         'school_id', 'teacher_id', 'title',
-        'subject', 'question_count', 'used_count',
+        'subject', 'question_count', 'used_count', 'is_public',
     ];
 
     public function questions(): HasMany
@@ -122,9 +127,4 @@ class Question extends Model
         return [
             'single'    => '单选题',
             'multiple'  => '多选题',
-            'fill'      => '填空题',
-            'judge'     => '判断题',
-            'short'     => '简答题',
-        ];
-    }
-}
+            'fill'      => '填�
