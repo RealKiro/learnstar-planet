@@ -24,4 +24,8 @@ import LoginPanel from './LoginPanel.vue'
 .right { flex: 0 0 400px; display: flex; align-items: center; justify-content: center; padding: 32px; background: #fff; border-left: 1px solid #f0f0f3; border-radius: 0 24px 24px 0; height: 100% }
 @media (max-width: 768px) {
   .landing-wrapper { align-items: stretch }
-  .layout {
+  .layout { flex-direction: column; height: auto; max-height: none; max-width: 100%; border-radius: 0; box-shadow: none }
+  .left { height: 600px; border-radius: 0 }
+  .right { flex: none; height: auto; border-left: none; border-top: 1px solid #f0f0f3; border-radius: 0; padding: 32px 24px }
+}
+</style>
