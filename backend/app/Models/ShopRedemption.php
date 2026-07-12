@@ -13,13 +13,17 @@ class ShopRedemption extends Model
         'student_id',
         'shop_item_id',
         'class_id',
+        'cost',           // 兑换时花费的积分/币数量
         'status',         // pending / approved / rejected / delivered
         'approved_by',
+        'approved_at',
         'delivered_at',
     ];
 
     protected $casts = [
+        'cost' => 'integer',
         'delivered_at' => 'datetime',
+        'approved_at' => 'datetime',
     ];
 
     public static function statusLabels(): array

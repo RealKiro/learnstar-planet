@@ -140,6 +140,7 @@ Route::prefix('v1')->group(function () {
             Route::put('items/{id}', [TeacherController::class, 'updateShopItem']);
             Route::delete('items/{id}', [TeacherController::class, 'deleteShopItem']);
             Route::get('redemptions', [TeacherController::class, 'listRedemptions']);
+            Route::post('redemptions', [TeacherController::class, 'createRedemption']);
             Route::put('redemptions/{id}/approve', [TeacherController::class, 'approveRedemption']);
             Route::put('redemptions/{id}/reject', [TeacherController::class, 'rejectRedemption']);
             Route::put('redemptions/{id}/deliver', [TeacherController::class, 'deliverRedemption']);

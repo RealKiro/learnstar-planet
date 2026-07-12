@@ -613,6 +613,33 @@ class TeacherController extends Controller
         ]);
     }
 
+    /**
+     * 创建兑换记录（教师代学生发起）
+     */
+    public function createRedemption(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+
+        $request->validate([
+            'student_id' => 'required|integer',
+            'shop_item_id' => 'required|integer',
+        ]);
+
+        $item = ShopItem::whereIn('class_id', $classIds)->findOrFail($request->input('shop_item_id'));
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($request->input('student_id'));
+
+        $redemption = ShopRedemption::create([
+            'student_id' => $student->id,
+            'shop_item_id' => $item->id,
+            'class_id' => $item->class_id,
+            'cost' => $item->cost_score,
+            'status' => 'pending',
+        ]);
+
+        return response()->json(['message' => '兑换请求已创建', 'data' => $redemption], 201);
+    }
+
     public function approveRedemption(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
