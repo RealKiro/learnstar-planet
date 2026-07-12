@@ -187,7 +187,7 @@ function goToSlide(i: number) {
     </div>
 
     <!-- 右侧：登录框 -->
-    <div style="width:400px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.06);position:relative;z-index:1;">
+    <div style="flex:1;max-width:400px;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.06);position:relative;z-index:1;">
       <div style="width:100%;max-width:360px;">
         <div style="font-size:40px;text-align:center;margin-bottom:12px;">🌌</div>
         <h1 style="font-size:24px;font-weight:800;color:#F1F5F9;text-align:center;margin-bottom:24px;">学趣星球</h1>
