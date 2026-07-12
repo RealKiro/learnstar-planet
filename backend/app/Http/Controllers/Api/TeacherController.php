@@ -650,6 +650,7 @@ class TeacherController extends Controller
             return response()->json(['message' => '该兑换已处理'], 400);
         }
 
+        /** @var Student $student */
         $student = $redemption->student;
         $item = $redemption->shopItem;
         $itemName = $item->name ?? '未知物品';
@@ -1187,7 +1188,4 @@ class TeacherController extends Controller
                 'data' => $result,
             ]);
         } catch (\DomainException $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
-    }
-}
+            return response()->json(['message' => $e->ge
