@@ -1443,4 +1443,6 @@ class TeacherController extends Controller
         return response()->json(['data' => [
             ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈'],
             ['label' => '重点关注学生', 'prompt' => '请分析班上学情'],
- 
+        ]]);
+    }
+}
