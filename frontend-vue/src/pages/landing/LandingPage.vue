@@ -73,7 +73,7 @@ if (authStore.isLoggedIn) {
 
     <!-- 功能介绍 -->
     <section style="padding:80px 32px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
-      <div style="max-width:960px; ">
+      <div style="max-width:960px;margin:0 auto;">
         <h2 style="text-align:center;font-size:32px;font-weight:800;color:#F1F5F9;margin-bottom:12px;">12 大功能模块</h2>
         <p style="text-align:center;color:#64748B;margin-bottom:48px;font-size:15px;">覆盖班级管理全场景，全部免费，无任何付费功能</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
@@ -93,7 +93,7 @@ if (authStore.isLoggedIn) {
     <section style="padding:64px 32px;text-align:center;">
       <h2 style="font-size:28px;font-weight:800;color:#F1F5F9;margin-bottom:8px;">宠物 11 阶进化体系</h2>
       <p style="color:#64748B;margin-bottom:32px;font-size:14px;">积分变经验，驱动宠物从星尘进化到银河</p>
-      <div style="display:flex;align-items:center;justify-content:center;gap:2px;flex-wrap:wrap;max-width:800px; ">
+      <div style="display:flex;align-items:center;justify-content:center;gap:2px;flex-wrap:wrap;max-width:800px;margin:0 auto;">
         <template v-for="(stage, i) in evolutionStages" :key="stage.name">
           <div v-if="i > 0" style="font-size:14px;color:#334155;margin:0 2px;">→</div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;border-radius:12px;transition:all 0.2s;"
@@ -108,7 +108,7 @@ if (authStore.isLoggedIn) {
 
     <!-- 开源号召 -->
     <section style="padding:64px 32px;text-align:center;">
-      <div style="max-width:600px; background:linear-gradient(135deg,rgba(79,70,229,0.1),rgba(16,185,129,0.05));border:1px solid rgba(79,70,229,0.15);border-radius:20px;padding:48px 32px;">
+      <div style="max-width:600px;margin:0 auto;background:linear-gradient(135deg,rgba(79,70,229,0.1),rgba(16,185,129,0.05));border:1px solid rgba(79,70,229,0.15);border-radius:20px;padding:48px 32px;">
         <div style="font-size:40px;margin-bottom:16px;">🚀</div>
         <h2 style="font-size:26px;font-weight:800;color:#F1F5F9;margin-bottom:12px;">加入开源社区</h2>
         <p style="color:#94A3B8;margin-bottom:24px;font-size:15px;line-height:1.6;">
