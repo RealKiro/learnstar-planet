@@ -29,10 +29,10 @@ if (authStore.isLoggedIn) {
     </nav>
 
     <!-- Hero 区 -->
-    <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 32px 48px;position:relative;overflow:hidden;">
+    <section style="display:flex;align-items:center;justify-content:center;padding:120px 0 48px;position:relative;overflow:hidden;width:100%;">
       <!-- 背景光效 -->
-      <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);top:-200px;right:-100px;animation:floatOrb 12s ease-in-out infinite;"></div>
-      <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%);bottom:-150px;left:-100px;animation:floatOrb 15s ease-in-out infinite reverse;"></div>
+      <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);top:-200px;left:50%;transform:translateX(-50%);animation:floatOrb 12s ease-in-out infinite;"></div>
+      <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%);bottom:-150px;left:50%;transform:translateX(-50%);animation:floatOrb 15s ease-in-out infinite reverse;"></div>
 
       <div style="position:relative;z-index:1;max-width:680px;text-align:center;">
         <!-- 开源徽章 -->
