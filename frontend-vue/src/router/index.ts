@@ -11,8 +11,7 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'login',
-      component: () => import('@/pages/auth/LoginPage.vue'),
+      redirect: { path: '/', hash: '#login-section' },
     },
     {
       path: '/teacher',
@@ -72,16 +71,14 @@ const router = createRouter({
 	],
 })
 
-// 路由守卫 — 认证与角色检查
 router.beforeEach((to, _from, next) => {
   const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
-    return next({ name: 'login' })
+    return next({ name: 'landing' })
   }
 
   if (to.meta.role && authStore.user?.role !== to.meta.role) {
-    // 根据实际角色重定向
     if (authStore.isAdmin) return next({ name: 'admin-dashboard' })
     if (authStore.isTeacher) return next({ name: 'teacher-dashboard' })
     if (authStore.isParent) return next({ name: 'parent-home' })
