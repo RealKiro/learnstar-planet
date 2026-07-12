@@ -185,8 +185,8 @@ function handleThirdPartyLogin(platform: string) {
 <button v-for="t in (['teacher', 'admin', 'parent'] as const)" :key="t" :class="['login-tab', { 'login-tab--active': loginType === t }]" @click="loginType = t">{{ t === 'teacher' ? '👩‍🏫 教师' : t === 'admin' ? '🔧 管理员' : '👨‍👩‍👧 家长' }}</button>
 </div>
 <div v-if="loginType === 'teacher'" class="login-form">
-<div class="field"><label>账号</label><input v-model="teacherUsername" placeholder="教师账号" @keydown.enter="focusTeacherPwd"></div>
-<div class="field"><label>密码</label><input ref="teacherPwdRef" v-model="teacherPassword" type="password" placeholder="输入密码" @keydown.enter="handleTeacherLogin"></div>
+<div class="field"><label>账号</label><input v-model="teacherUsername" placeholder="教师账号" @keydown.enter="focusTeacherPwd" /></div>
+<div class="field"><label>密码</label><input ref="teacherPwdRef" v-model="teacherPassword" type="password" placeholder="输入密码" @keydown.enter="handleTeacherLogin" /></div>
 <button class="btn-login" :disabled="loading" @click="handleTeacherLogin">{{ loading ? '登录中...' : '登录' }}</button>
 <div class="social"><div class="social-label"><span></span> 扫码快捷登录 <span></span></div>
 <div class="social-btns">
@@ -194,13 +194,13 @@ function handleThirdPartyLogin(platform: string) {
 </div></div>
 </div>
 <div v-if="loginType === 'admin'" class="login-form">
-<div class="field"><label>账号</label><input v-model="adminUsername" placeholder="管理员账号" @keydown.enter="focusAdminPwd"></div>
-<div class="field"><label>密码</label><input ref="adminPwdRef" v-model="adminPassword" type="password" placeholder="输入密码" @keydown.enter="handleAdminLogin"></div>
+<div class="field"><label>账号</label><input v-model="adminUsername" placeholder="管理员账号" @keydown.enter="focusAdminPwd" /></div>
+<div class="field"><label>密码</label><input ref="adminPwdRef" v-model="adminPassword" type="password" placeholder="输入密码" @keydown.enter="handleAdminLogin" /></div>
 <button class="btn-login btn-login--amber" :disabled="loading" @click="handleAdminLogin">{{ loading ? '登录中...' : '登录' }}</button>
 </div>
 <div v-if="loginType === 'parent'" class="login-form">
-<div class="field"><label>账号</label><input v-model="parentUsername" placeholder="家长账号" @keydown.enter="focusParentPwd"></div>
-<div class="field"><label>密码</label><input ref="parentPwdRef" v-model="parentPassword" type="password" placeholder="输入密码" @keydown.enter="handleParentLogin"></div>
+<div class="field"><label>账号</label><input v-model="parentUsername" placeholder="家长账号" @keydown.enter="focusParentPwd" /></div>
+<div class="field"><label>密码</label><input ref="parentPwdRef" v-model="parentPassword" type="password" placeholder="输入密码" @keydown.enter="handleParentLogin" /></div>
 <button class="btn-login btn-login--green" :disabled="loading" @click="handleParentLogin">{{ loading ? '登录中...' : '登录' }}</button>
 </div>
 </div>
