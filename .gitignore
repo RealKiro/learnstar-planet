@@ -90,3 +90,7 @@ out/
 bug_logs.txt
 bug_logs/
 learnstar.html
+
+.workbuddy/
+logs.txt
+overview.md
