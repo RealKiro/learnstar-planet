@@ -31,9 +31,9 @@ if (authStore.isLoggedIn) {
     </nav>
 
     <!-- Hero -->
-    <section style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 24px 80px;position:relative;overflow:hidden;">
+    <section style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 0 60px;position:relative;overflow:hidden;width:100%;">
       <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,transparent 70%);top:10%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
-      <div style="position:relative;z-index:1;max-width:600px;text-align:center;">
+      <div style="position:relative;z-index:1;max-width:600px;width:100%;padding:0 20px;text-align:center;margin:0 auto;">
         <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:5px 14px;font-size:12px;color:#94A3B8;margin-bottom:28px;">
           <span style="width:6px;height:6px;background:#10B981;border-radius:50%;display:inline-block;"></span>
           MIT 开源 · 完全免费 · 自托管
@@ -66,7 +66,7 @@ if (authStore.isLoggedIn) {
     </section>
 
     <!-- 功能模块 -->
-    <section style="padding:80px 24px;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
+    <section style="padding:80px 20px;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);width:100%;">
       <div style="max-width:1000px;margin:0 auto;">
         <h2 style="text-align:center;font-size:28px;font-weight:800;margin-bottom:8px;">12 大功能模块</h2>
         <p style="text-align:center;color:#64748B;margin-bottom:48px;font-size:14px;">覆盖班级管理全场景，全部免费，无任何付费功能</p>
@@ -84,7 +84,7 @@ if (authStore.isLoggedIn) {
     </section>
 
     <!-- 宠物进化 -->
-    <section style="padding:64px 24px;">
+    <section style="padding:64px 20px;width:100%;">
       <div style="max-width:900px;margin:0 auto;text-align:center;">
         <h2 style="font-size:26px;font-weight:800;margin-bottom:6px;">宠物 11 阶进化体系</h2>
         <p style="color:#64748B;margin-bottom:32px;font-size:13px;">积分变经验，驱动宠物从星尘进化到银河</p>
@@ -103,7 +103,7 @@ if (authStore.isLoggedIn) {
     </section>
 
     <!-- CTA -->
-    <section style="padding:64px 24px;">
+    <section style="padding:64px 20px;width:100%;">
       <div style="max-width:560px;margin:0 auto;background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(16,185,129,0.04));border:1px solid rgba(99,102,241,0.12);border-radius:18px;padding:44px 32px;text-align:center;">
         <div style="font-size:36px;margin-bottom:14px;">🚀</div>
         <h2 style="font-size:24px;font-weight:800;margin-bottom:10px;">加入开源社区</h2>
@@ -118,7 +118,7 @@ if (authStore.isLoggedIn) {
     </section>
 
     <!-- 底部 -->
-    <footer style="padding:28px 24px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);">
+    <footer style="padding:28px 20px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);width:100%;">
       <div style="color:#475569;font-size:12px;margin-bottom:6px;">
         <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" style="color:#475569;text-decoration:none;">学趣星球</a>
         · MIT 开源许可证 · 自托管 · 完全免费
