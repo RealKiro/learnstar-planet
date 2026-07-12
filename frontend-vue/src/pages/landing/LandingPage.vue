@@ -61,7 +61,7 @@ async function handleTeacherLogin() {
     teacherAttempts = 0; authStore.setAuth(res.data.token, res.data.user); toast.show('登录成功', 'success'); router.replace({ name: 'teacher-dashboard' })
   } catch (e) {
     teacherAttempts++; const remaining = MAX_ATTEMPTS - teacherAttempts
-    if (teacherAttempts &gt;= MAX_ATTEMPTS) toast.show('密码错误次数过多，请联系管理员', 'error')
+    if (teacherAttempts >= MAX_ATTEMPTS) toast.show('密码错误次数过多，请联系管理员', 'error')
     else { toast.show('账号或密码错误，还剩 ' + remaining + ' 次', 'error') }
   } finally { loading.value = false }
 }
@@ -324,3 +324,4 @@ function handleThirdPartyLogin(platform: string) {
 .slide-icon{font-size:40px}
 }
 </style>
+   
