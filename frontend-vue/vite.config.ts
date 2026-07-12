@@ -3,7 +3,17 @@ import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [vue(), tailwindcss()],
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: () => false,
+          comments: false,
+        },
+      },
+    }),
+    tailwindcss()
+  ],
   resolve: {
     alias: {
       '@': '/src',
