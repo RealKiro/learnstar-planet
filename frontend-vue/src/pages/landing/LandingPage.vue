@@ -29,12 +29,12 @@ if (authStore.isLoggedIn) {
     </nav>
 
     <!-- Hero 区 -->
-    <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 32px 48px;position:relative;overflow:hidden;">
+    <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 32px 48px;position:relative;overflow:hidden;width:100%;margin:0 auto;">
       <!-- 背景光效 -->
       <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);top:-200px;right:-100px;animation:floatOrb 12s ease-in-out infinite;"></div>
       <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%);bottom:-150px;left:-100px;animation:floatOrb 15s ease-in-out infinite reverse;"></div>
 
-      <div style="position:relative;z-index:1;max-width:680px;text-align:center;">
+      <div style="position:relative;z-index:1;max-width:680px;text-align:center;margin-left:auto;margin-right:auto;">
         <!-- 开源徽章 -->
         <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:100px;padding:6px 16px;font-size:13px;color:#94A3B8;margin-bottom:24px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
           <span style="color:#10B981;">●</span>
