@@ -199,7 +199,7 @@ const stages = [
         <p class="features-sub">积分变经验，从星尘到银河</p>
         <div class="evo">
           <div v-for="(s, i) in stages" :key="s.name" style="display:flex;align-items:center;gap:2px">
-            <span v-if="i > 0" class="evo-arrow">&rarr;</span>
+            <span v-if="i &gt; 0" class="evo-arrow">&rarr;</span>
             <div class="evo-item">
               <span class="evo-emoji">{{ s.emoji }}</span>
               <span class="evo-name">{{ s.name }}</span>
@@ -397,4 +397,4 @@ const stages = [
 }
 .evo-item:hover { background: #F0F0F3; transform: scale(1.08); }
 .evo-emoji { font-size: 26px; }
-.evo-name  { font-size: 11px; color: #86868B; font-weigh
+.evo-name  { font-size: 11px; color: #86868B; font-we
