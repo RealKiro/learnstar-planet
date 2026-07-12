@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection<int, Score> $scores
  * @property \Illuminate\Database\Eloquent\Collection<int, ScoreLog> $scoreLogs
  * @property \Illuminate\Database\Eloquent\Collection<int, ShopRedemption> $shopRedemptions
- * @property \Illuminate\Database\Eloquent\Collection<int, Wallet> $wallets
  */
 class Student extends Model
 {
@@ -102,4 +101,8 @@ class Student extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany<ShopRedemption, $this>
      */
-    public function shopRedemptions(): \Illuminate\Database\Eloquent\Relations\
+    public function shopRedemptions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ShopRedemption::class);
+    }
+}

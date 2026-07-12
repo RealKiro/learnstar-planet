@@ -24,6 +24,7 @@ class TeacherController extends Controller
     public function __construct(
         private readonly ScoreService $scoreService,
         private readonly LeaderboardService $leaderboardService,
+        private readonly CurrencyService $currencyService,
     ) {
     }
 
@@ -652,9 +653,9 @@ class TeacherController extends Controller
 
         $student = $redemption->student;
         $item = $redemption->shopItem;
-        $itemName = $item->name ?? '未知物品';
+        $itemName = $item?->name ?? '未知物品';
         $cost = $redemption->cost;
-        $currency = $item->currency_type ?? 'score';
+        $currency = $item?->currency_type ?? 'score';
 
         try {
             // 根据币种选择扣款方式
@@ -662,6 +663,7 @@ class TeacherController extends Controller
                 // 积分兑换：扣积分 + 扣宠物经验
                 $this->scoreService->spendScore($student, $cost, '兑换：' . $itemName, $teacher->id);
             } else {
+                // 钱包币兑换：只扣钱包余额
                 app(CurrencyService::class)->spend($student->id, $currency, $cost, '兑换：' . $itemName);
             }
 
@@ -1190,4 +1192,3 @@ class TeacherController extends Controller
         }
     }
 }
-                                                                                                                     
