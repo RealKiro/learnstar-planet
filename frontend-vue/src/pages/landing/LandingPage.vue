@@ -129,6 +129,30 @@ const platforms = [
 function handleThirdPartyLogin(platform: string) {
   toast.show('正在打开' + (platforms.find(p => p.key === platform)?.label || platform) + '扫码...', 'success')
 }
+
+const features = [
+  { icon: '⭐', title: '积分激励', desc: '自定义规则，实时加减分，进步看得见' },
+  { icon: '🌟', title: '宠物进化', desc: '11 阶宇宙进化，积分驱动成长' },
+  { icon: '🏆', title: '排行竞技', desc: '总积分 / 周进步 / 宠物等级三大排行' },
+  { icon: '📢', title: '班级通知', desc: '一键发布，实时推送家长端' },
+  { icon: '📊', title: '成绩管理', desc: '录入分析，班级对比，趋势可视化' },
+  { icon: '🤖', title: 'AI 助教', desc: '班级反馈、学生分析、家校沟通建议' },
+  { icon: '✅', title: '智能考勤', desc: '一键签到，到课 / 请假 / 迟到统计' },
+  { icon: '📱', title: '扫码收作业', desc: '生成二维码，学生扫码提交自动汇总' },
+  { icon: '🛍️', title: '积分商城', desc: '兑换实物 / 特权，教师审批发放' },
+  { icon: '📡', title: '实时广播', desc: '消息直达桌面，文字 / 语音 / 横幅 / 全屏' },
+  { icon: '📝', title: '在线答题', desc: '题库管理，课堂检测，自动判分统计' },
+  { icon: '🔗', title: '多端登录', desc: '微信 / 企微 / QQ / 人人通，账号密码双通道' },
+]
+
+const stages = [
+  { emoji: '🌟', name: '星尘' }, { emoji: '🌙', name: '月芽' },
+  { emoji: '🌱', name: '灵苗' }, { emoji: '🌿', name: '青藤' },
+  { emoji: '🌳', name: '慧树' }, { emoji: '🦋', name: '蝶灵' },
+  { emoji: '🦅', name: '鹰慧' }, { emoji: '🦁', name: '狮睿' },
+  { emoji: '🦄', name: '灵角' }, { emoji: '✨', name: '星耀' },
+  { emoji: '🌌', name: '银河' },
+]
 </script>
 <template>
   <div class="layout">
@@ -373,49 +397,4 @@ function handleThirdPartyLogin(platform: string) {
 }
 .evo-item:hover { background: #F0F0F3; transform: scale(1.08); }
 .evo-emoji { font-size: 26px; }
-.evo-name  { font-size: 11px; color: #86868B; font-weight: 500; }
-
-/* CTA */
-.cta-box {
-  margin-top: 48px; text-align: center; padding: 40px;
-  background: #FFFFFF; border: 1px solid #F0F0F3;
-  border-radius: 20px;
-}
-.cta-icon { font-size: 40px; margin-bottom: 12px; }
-.cta-box h3 { font-size: 22px; font-weight: 800; color: #1D1D1F; margin-bottom: 8px; }
-.cta-box p  { font-size: 14px; color: #86868B; margin-bottom: 24px; }
-.cta-links { display: flex; gap: 10px; justify-content: center; }
-.cta-btn {
-  padding: 10px 24px; border-radius: 9999px; font-size: 14px; font-weight: 600;
-  text-decoration: none; transition: all 0.2s;
-}
-.cta-btn--dark  { background: #1D1D1F; color: #FFFFFF; }
-.cta-btn--dark:hover  { background: #333; }
-.cta-btn--ghost { border: 1px solid #D2D2D7; color: #1D1D1F; }
-.cta-btn--ghost:hover { background: #F5F5F7; }
-
-/* Footer */
-.foot {
-  margin-top: 40px; padding-bottom: 40px;
-  text-align: center; font-size: 13px; color: #AEAEB2;
-}
-.foot a { color: #86868B; text-decoration: none; }
-.foot a:hover { color: #1D1D1F; }
-
-/* ═══════════ 右侧：固定登录 ═══════════ */
-.right {
-  flex: 0 0 400px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 32px;
-  background: #FFFFFF;
-  border-left: 1px solid #F0F0F3;
-  position: sticky; top: 0; height: 100vh;
-}
-.login-card { width: 100%; max-width: 360px; }
-.login-header { text-align: center; margin-bottom: 28px; }
-.login-icon  { font-size: 40px; margin-bottom: 8px; display: block; }
-.login-brand { font-size: 24px; font-weight: 800; color: #1D1D1F; }
-
-.login-tabs {
-  display: flex; gap: 0; margin-bottom: 24px;
-  background: #F5F5F7; border
+.evo-name  { font-size: 11px; color: #86868B; font-weigh
