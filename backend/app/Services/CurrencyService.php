@@ -198,7 +198,7 @@ class CurrencyService
             throw new \DomainException($currencyLabel . '余额不足，当前余额：' . $wallet->balance);
         }
 
-        DB::transaction(function () use ($wallet, $amount, $reason) {
+        DB::transaction(function () use ($wallet, $amount) {
             $wallet->decrement('balance', $amount);
 
             ExchangeLog::create([
@@ -211,3 +211,4 @@ class CurrencyService
             ]);
         });
     }
+}
