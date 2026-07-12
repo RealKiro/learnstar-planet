@@ -105,17 +105,17 @@ class Pet extends Model
             'golden_monkey'   => '金丝猴',
             'crested_ibis'    => '朱鹮',
             'snow_leopard'    => '雪豹',
-            'tibetan_antelope'=> '藏羚羊',
-            'red_crowned_crane'=> '丹顶鹤',
+            'tibetan_antelope' => '藏羚羊',
+            'red_crowned_crane' => '丹顶鹤',
             'milu_deer'       => '麋鹿',
-            'chinese_alligator'=> '扬子鳄',
+            'chinese_alligator' => '扬子鳄',
             'siberian_tiger'  => '东北虎',
             'pangolin'        => '穿山甲',
             'red_panda'       => '小熊猫',
-            'finless_porpoise'=> '江豚',
+            'finless_porpoise' => '江豚',
             // 神兽系列
             'qilin'    => '麒麟',
-            'fenghuang'=> '凤凰',
+            'fenghuang' => '凤凰',
             'baihu'    => '白虎',
             'xuanwu'   => '玄武',
             'zhuque'   => '朱雀',
@@ -138,7 +138,7 @@ class Pet extends Model
             'cosmic'  => '原创宇宙系列',
             'pokemon' => '宝可梦系列',
             'cute'    => '萌宠系列',
-            'treasure'=> '国宝系列',
+            'treasure' => '国宝系列',
             'mythic'  => '神兽系列',
         ];
     }
@@ -155,6 +155,7 @@ class Pet extends Model
                 $filtered[$type] = $name;
             }
         }
+
         return $filtered;
     }
 
@@ -166,7 +167,7 @@ class Pet extends Model
         $categories = [
             'pokemon' => ['pikachu', 'eevee', 'charmander', 'squirtle', 'bulbasaur', 'snorlax', 'mewtwo', 'dragonite', 'venusaur', 'blastoise', 'charizard', 'gengar'],
             'cute'    => ['orange_cat', 'husky', 'shiba', 'guinea_pig', 'hamster', 'bunny', 'parrot', 'hedgehog', 'chinchilla', 'teacup_pig', 'sugar_glider', 'alpaca'],
-            'treasure'=> ['panda', 'golden_monkey', 'crested_ibis', 'snow_leopard', 'tibetan_antelope', 'red_crowned_crane', 'milu_deer', 'chinese_alligator', 'siberian_tiger', 'pangolin', 'red_panda', 'finless_porpoise'],
+            'treasure' => ['panda', 'golden_monkey', 'crested_ibis', 'snow_leopard', 'tibetan_antelope', 'red_crowned_crane', 'milu_deer', 'chinese_alligator', 'siberian_tiger', 'pangolin', 'red_panda', 'finless_porpoise'],
             'mythic'  => ['qilin', 'fenghuang', 'baihu', 'xuanwu', 'zhuque', 'taotie', 'pixiu', 'kunpeng', 'qinglong', 'qiongqi', 'hundun', 'zhulong'],
         ];
 
@@ -277,5 +278,3 @@ class Pet extends Model
             $this->mood = max(0, $this->mood - 10);
             $this->save();
         }
-    }
-}
