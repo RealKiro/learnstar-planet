@@ -925,61 +925,119 @@ class TeacherController extends Controller
     public function getTodayAttendance(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $today = \App\Models\Attendance::whereIn('class_id', $classIds)
-            ->whereDate('date', today())->with('student:id,name,student_no')->get();
+        $classIds = $this->getAccessibleClassIds($teacher);
 
-        return response()->json(['data' => $today]);
+        $records = \App\Models\Attendance::whereIn('class_id', $classIds)
+            ->whereDate('date', today())
+            ->with(['student:id,name,student_no,class_id', 'leaveRecord:id,sp_no,leave_type,reason'])
+            ->get()
+            ->map(fn (\App\Models\Attendance $a) => [
+                'id' => $a->id,
+                'student_id' => $a->student_id,
+                'student_name' => $a->student?->name,
+                'student_no' => $a->student?->student_no,
+                'status' => $a->status,
+                'source' => $a->source,
+                'remark' => $a->remark,
+                'check_in_time' => $a->sign_in_at?->toDateTimeString(),
+                'leave_record' => $a->leaveRecord ? [
+                    'sp_no' => $a->leaveRecord->sp_no,
+                    'leave_type' => $a->leaveRecord->leave_type,
+                    'reason' => $a->leaveRecord->reason,
+                ] : null,
+            ]);
+
+        return response()->json(['data' => $records]);
     }
 
     public function startAttendance(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $students = Student::whereIn('class_id', $classIds)->where('status', 'active')->get();
+        $classIds = $this->getAccessibleClassIds($teacher);
         $count = 0;
-        foreach ($students as $s) {
-            \App\Models\Attendance::firstOrCreate(
-                ['class_id' => $s->class_id, 'student_id' => $s->id, 'date' => today()],
-                ['status' => 'absent']
-            );
-            $count++;
+        $service = app(\App\Services\WechatWorkAttendanceService::class);
+
+        foreach ($classIds as $classId) {
+            $count += $service->startAttendanceForClass($classId, $teacher->id, today()->toDateString());
         }
 
-        return response()->json(['message' => "已为 {$count} 名学生创建签到记录"]);
+        $leaveCount = \App\Models\Attendance::whereIn('class_id', $classIds)
+            ->whereDate('date', today())->where('source', 'wechat_work')->count();
+        $msg = "已为 {$count} 名学生创建考勤记录（默认到课）";
+        if ($leaveCount > 0) { $msg .= "，其中 {$leaveCount} 人已通过企业微信请假"; }
+
+        return response()->json(['message' => $msg, 'data' => ['total' => $count, 'wechat_leave_count' => $leaveCount]]);
     }
 
     public function setAttendance(Request $request, int $studentId): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $request->validate(['status' => 'required|string|in:present,late,leave,absent']);
+        $classIds = $this->getAccessibleClassIds($teacher);
+        $request->validate(['status' => 'required|string|in:present,late,leave,absent', 'remark' => 'nullable|string|max:500']);
+        $status = $request->input('status');
+
         $record = \App\Models\Attendance::whereIn('class_id', $classIds)
             ->where('student_id', $studentId)->whereDate('date', today())->firstOrFail();
         $record->update([
-            'status' => $request->input('status'),
-            'check_in_time' => $request->input('status') === 'present' ? now() : null,
+            'status' => $status,
+            'source' => 'manual',
+            'remark' => $request->input('remark'),
+            'sign_in_at' => $status === 'present' ? now() : $record->sign_in_at,
         ]);
 
-        return response()->json(['message' => '考勤状态已更新']);
+        return response()->json(['message' => '考勤状态已更新', 'data' => $record]);
+    }
+
+    public function markManualLeave(Request $request, int $studentId): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->getAccessibleClassIds($teacher);
+        $request->validate(['remark' => 'required|string|max:500']);
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
+        $service = app(\App\Services\WechatWorkAttendanceService::class);
+        $record = $service->markManualLeave($studentId, $student->class_id, $teacher->id, today()->toDateString(), $request->input('remark'));
+
+        return response()->json(['message' => '已标记为请假', 'data' => ['id' => $record->id, 'status' => $record->status, 'source' => $record->source, 'remark' => $record->remark]]);
+    }
+
+    public function markManualAbsent(Request $request, int $studentId): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->getAccessibleClassIds($teacher);
+        $request->validate(['remark' => 'nullable|string|max:500']);
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
+        $service = app(\App\Services\WechatWorkAttendanceService::class);
+        $record = $service->markManualAbsent($studentId, $student->class_id, $teacher->id, today()->toDateString(), $request->input('remark'));
+
+        return response()->json(['message' => '已标记为缺勤，建议联系家长确认情况', 'data' => ['id' => $record->id, 'status' => $record->status, 'source' => $record->source, 'remark' => $record->remark]]);
     }
 
     public function attendanceSummary(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $records = \App\Models\Attendance::whereIn('class_id', $classIds)
-            ->whereDate('date', today())->get();
+        $classIds = $this->getAccessibleClassIds($teacher);
+        $records = \App\Models\Attendance::whereIn('class_id', $classIds)->whereDate('date', today())->get();
         $present = $records->where('status', 'present')->count();
         $late = $records->where('status', 'late')->count();
         $leave = $records->where('status', 'leave')->count();
         $absent = $records->where('status', 'absent')->count();
         $total = max($records->count(), 1);
+        $wechatLeave = $records->where('status', 'leave')->where('source', 'wechat_work')->count();
+        $manualLeave = $records->where('status', 'leave')->where('source', 'manual')->count();
 
         return response()->json(['data' => [
             'present' => $present, 'late' => $late, 'leave' => $leave, 'absent' => $absent,
             'rate' => round($present / $total * 100, 1),
+            'wechat_leave_count' => $wechatLeave,
+            'manual_leave_count' => $manualLeave,
         ]]);
+    }
+
+    private function getAccessibleClassIds($teacher): array
+    {
+        $ownClassIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id')->toArray();
+        $relatedClassIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)->pluck('class_room_id')->toArray();
+        return array_values(array_unique(array_merge($ownClassIds, $relatedClassIds)));
     }
 
     // ============================================================
@@ -1381,106 +1439,4 @@ class TeacherController extends Controller
     {
         return response()->json(['data' => [
             ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈'],
-            ['label' => '重点关注学生', 'prompt' => '请分析班上需要重点关注的学生，并给出建议'],
-            ['label' => '家校沟通建议', 'prompt' => '请生成本周家校沟通建议'],
-            ['label' => '自动出题', 'prompt' => '请根据第三单元知识点出10道选择题'],
-        ]]);
-    }
-
-    public function getAiUsage(Request $request): JsonResponse
-    {
-        return response()->json(['data' => ['count' => 0, 'tokens' => 0]]);
-    }
-
-    // ============================================================
-    // 多币种系统
-    // ============================================================
-
-    /**
-     * 查看班级学生钱包余额
-     */
-    public function listWallets(Request $request): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-
-        $students = Student::whereIn('class_id', $classIds)
-            ->with('wallets')
-            ->select('id', 'name', 'total_score', 'class_id')
-            ->get();
-
-        $data = $students->map(function ($s) {
-            $wallets = [];
-            foreach ($s->wallets as $w) {
-                $wallets[$w->currency_type] = $w->balance;
-            }
-
-            return [
-                'id' => $s->id,
-                'name' => $s->name,
-                'total_score' => $s->total_score,
-                'wallets' => $wallets,
-            ];
-        });
-
-        return response()->json(['data' => $data]);
-    }
-
-    /**
-     * 积分 → 币种兑换
-     */
-    public function exchangeCurrency(Request $request): JsonResponse
-    {
-        $request->validate([
-            'student_id' => 'required|integer',
-            'to_currency' => 'required|string|in:science,reading,class_point',
-            'amount' => 'required|integer|min:1',
-        ]);
-
-        try {
-            $result = app(CurrencyService::class)->exchange(
-                $request->input('student_id'),
-                $request->input('to_currency'),
-                $request->input('amount'),
-                $request->user()->id,
-            );
-
-            return response()->json([
-                'message' => '兑换成功',
-                'data' => $result,
-            ]);
-        } catch (\DomainException $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
-    }
-
-    /**
-     * 跨币种兑换
-     */
-    public function crossExchangeCurrency(Request $request): JsonResponse
-    {
-        $request->validate([
-            'student_id' => 'required|integer',
-            'from_currency' => 'required|string|in:science,reading,class_point',
-            'to_currency' => 'required|string|in:science,reading,class_point',
-            'amount' => 'required|integer|min:1',
-        ]);
-
-        try {
-            $result = app(CurrencyService::class)->crossExchange(
-                $request->input('student_id'),
-                $request->input('from_currency'),
-                $request->input('to_currency'),
-                $request->input('amount'),
-                $request->user()->id,
-            );
-
-            return response()->json([
-                'message' => '兑换成功',
-                'data' => $result,
-            ]);
-        } catch (\DomainException $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
-    }
-}
+            ['label' => '重点关注学生', 'prompt' => '请分析班上�

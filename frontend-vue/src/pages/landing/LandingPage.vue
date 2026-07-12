@@ -4,50 +4,24 @@ import LoginPanel from './LoginPanel.vue'
 </script>
 
 <template>
-  <div class="layout">
-    <div class="left">
-      <LeftIntro />
-    </div>
-    <div class="right">
-      <LoginPanel />
+  <div class="landing-wrapper">
+    <div class="layout">
+      <div class="left">
+        <LeftIntro />
+      </div>
+      <div class="right">
+        <LoginPanel />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 * { box-sizing: border-box }
-.layout {
-  display: flex;
-  min-height: 100vh;
-  background: #fff;
-  color: #1d1d1f;
-  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-.left {
-  flex: 1;
-  max-height: 100vh;
-  overflow-y: auto;
-  position: relative;
-  background: #fbfbfd;
-}
-.left::-webkit-scrollbar { width: 4px }
-.left::-webkit-scrollbar-thumb { background: #d2d2d7; border-radius: 4px }
-.right {
-  flex: 0 0 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px;
-  background: #fff;
-  border-left: 1px solid #f0f0f3;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-}
+.landing-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #fbfbfd }
+.layout { display: flex; width: 100%; max-width: 1100px; height: 90vh; max-height: 760px; background: #fff; color: #1d1d1f; font-family: 'Noto Sans SC',-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif; -webkit-font-smoothing: antialiased; border-radius: 24px; box-shadow: 0 8px 60px rgba(0,0,0,.06); overflow: hidden }
+.left { flex: 1; height: 100%; position: relative; background: #fbfbfd; overflow: hidden; border-radius: 24px 0 0 24px }
+.right { flex: 0 0 400px; display: flex; align-items: center; justify-content: center; padding: 32px; background: #fff; border-left: 1px solid #f0f0f3; border-radius: 0 24px 24px 0; height: 100% }
 @media (max-width: 768px) {
-  .layout { flex-direction: column }
-  .left { max-height: none; overflow: visible }
-  .right { flex: none; position: static; height: auto; border-left: none; border-top: 1px solid #f0f0f3; padding: 32px 24px }
-}
-</style>
+  .landing-wrapper { align-items: stretch }
+  .layout {

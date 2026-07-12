@@ -11,7 +11,8 @@ class Attendance extends Model
 {
     protected $fillable = [
         'class_id', 'student_id', 'teacher_id',
-        'date', 'status', 'sign_in_at', 'remark',
+        'date', 'status', 'source', 'remark', 'leave_record_id',
+        'sign_in_at',
     ];
 
     protected $casts = [
@@ -34,9 +35,11 @@ class Attendance extends Model
         return $this->belongsTo(User::class, 'teacher_id');
     }
 
-    /**
-     * 考勤状态
-     */
+    public function leaveRecord(): BelongsTo
+    {
+        return $this->belongsTo(WechatWorkLeaveRecord::class, 'leave_record_id');
+    }
+
     public static function getStatuses(): array
     {
         return [
@@ -44,6 +47,15 @@ class Attendance extends Model
             'late'     => '迟到',
             'leave'    => '请假',
             'absent'   => '缺勤',
+        ];
+    }
+
+    public static function getSources(): array
+    {
+        return [
+            'auto'         => '自动',
+            'wechat_work'  => '企业微信',
+            'manual'       => '手动标记',
         ];
     }
 
@@ -57,12 +69,4 @@ class Attendance extends Model
 
         return [
             'present' => $records->where('status', 'present')->count(),
-            'late'     => $records->where('status', 'late')->count(),
-            'leave'    => $records->where('status', 'leave')->count(),
-            'absent'   => $records->where('status', 'absent')->count(),
-            'rate'     => $records->count() > 0
-                ? round($records->whereIn('status', ['present', 'late'])->count() / $records->count() * 100, 1)
-                : 0,
-        ];
-    }
-}
+            'late'     => $records->where('status', 

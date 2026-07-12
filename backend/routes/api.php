@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ParentController;
 use App\Http\Controllers\Api\SchoolAdminController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\TeacherController;
+use App\Http\Controllers\Api\WechatWorkWebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -176,6 +177,8 @@ Route::prefix('v1')->group(function () {
             Route::get('today', [TeacherController::class, 'getTodayAttendance']);
             Route::post('start', [TeacherController::class, 'startAttendance']);
             Route::put('{studentId}', [TeacherController::class, 'setAttendance']);
+            Route::post('{studentId}/mark-leave', [TeacherController::class, 'markManualLeave']);
+            Route::post('{studentId}/mark-absent', [TeacherController::class, 'markManualAbsent']);
             Route::get('summary', [TeacherController::class, 'attendanceSummary']);
         });
 
@@ -256,6 +259,12 @@ Route::prefix('v1')->group(function () {
         Route::get('evolution-stages', [StudentController::class, 'evolutionStages']);
         Route::get('score-categories', [StudentController::class, 'scoreCategories']);
     });
+
+    // ===== 企业微信 Webhook =====
+    Route::prefix('wechat-work')->group(function () {
+        Route::get('callback', [WechatWorkWebhookController::class, 'verify']);
+        Route::post('callback', [WechatWorkWebhookController::class, 'receive']);
+    });
 }); // End API v1 prefix
 
 // 向后兼容：v1 之前的路由也映射到 v1
@@ -265,11 +274,4 @@ Route::prefix('auth')->group(function () {
     Route::post('parent/login', [AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
     Route::post('teacher/login/{platform}', [AuthController::class, 'teacherLoginWithWechat']);
 });
-Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
-    Route::get('school', [SchoolAdminController::class, 'getSchool']);
-    Route::put('school', [SchoolAdminController::class, 'updateSchool']);
-    Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
-    Route::get('classes', [SchoolAdminController::class, 'index']);
-    Route::get('students', [SchoolAdminController::class, 'listStudents']);
-    Route::get('reports/overview', [SchoolAdminController::class, 'schoolOverview']);
-});
+Route::prefix('admin')->middl

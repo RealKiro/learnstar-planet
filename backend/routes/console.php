@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+// ===== 企业微信请假同步 =====
+// 工作日早上 7:50 自动从企微拉取当日请假数据
+Schedule::command('attendance:sync-wechat-leave')
+    ->t
