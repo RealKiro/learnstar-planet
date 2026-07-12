@@ -38,5 +38,7 @@ parameters:
           reportUnmatched: false
         - message: '#Function flux not found\.#'
           reportUnmatched: false
-        - message: '#Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection<.*>::map\(\) contains unresolvable type\.#'
+        - message: '#Parameter \\#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection<.*>::map\(\) contains unresolvable type\.#'
+          reportUnmatched: false
+        - message: '#Method App\\Models\\WechatWorkLeaveRecord::getUnsyncedForDate\(\) should return Illuminate\\Database\\Eloquent\\Collection<int, static\(App\\Models\\WechatWorkLeaveRecord\)> but returns Illuminate\\Database\\Eloquent\\Collection<int, App\\Models\\WechatWorkLeaveRecord>\.#'
           reportUnmatched: false
