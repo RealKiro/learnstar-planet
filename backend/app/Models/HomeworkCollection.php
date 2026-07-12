@@ -13,7 +13,7 @@ class HomeworkCollection extends Model
     protected $fillable = [
         'class_id', 'teacher_id', 'title',
         'deadline', 'description', 'status',
-        'submit_types',  // JSON: ["qrcode","upload","online"]
+        'submit_types', 'qr_code_token',
     ];
 
     protected $casts = [

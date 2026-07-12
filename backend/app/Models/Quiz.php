@@ -83,7 +83,7 @@ class QuestionBank extends Model
 {
     protected $fillable = [
         'school_id', 'teacher_id', 'title',
-        'subject', 'question_count', 'used_count',
+        'subject', 'question_count', 'used_count', 'is_public',
     ];
 
     public function questions(): HasMany
