@@ -131,82 +131,132 @@ function handleThirdPartyLogin(platform: string) {
 }
 </script>
 <template>
-<div class="layout">
-<div class="left">
-<div class="left-glow left-glow--top"></div>
-<div class="left-glow left-glow--bottom"></div>
-<div class="left-content">
-<transition name="fade" mode="out-in">
-<div :key="currentSlide" class="slide">
-<div class="badge"><span class="badge-dot"></span>{{ slides[currentSlide].badge }}</div>
-<div class="slide-icon">{{ slides[currentSlide].icon }}</div>
-<h1 class="slide-title">{{ slides[currentSlide].title }}<br><span class="slide-gradient">{{ slides[currentSlide].highlight }}</span></h1>
-<p class="slide-desc">{{ slides[currentSlide].desc }}</p>
-</div>
-</transition>
-<div class="dots">
-<button v-for="(s, i) in slides" :key="i" :class="['dot', { 'dot--active': currentSlide === i }]" @click="goToSlide(i)"></button>
-</div>
-<div class="left-footer"><a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="left-link">GitHub</a><span class="left-sep">MIT 开源许可证</span></div>
-</div>
-<div class="features">
-<h2 class="features-title">12 大功能模块</h2>
-<p class="features-sub">覆盖班级管理全场景，全部免费</p>
-<div class="feature-grid">
-<div v-for="f in features" :key="f.title" class="feat">
-<span class="feat-icon">{{ f.icon }}</span>
-<div><div class="feat-name">{{ f.title }}</div><div class="feat-desc">{{ f.desc }}</div></div>
-</div>
-</div>
-<h2 class="features-title" style="margin-top:48px">11 阶宠物进化</h2>
-<p class="features-sub">积分变经验，从星尘到银河</p>
-<div class="evo">
-<div v-for="(s, i) in stages" :key="s.name" style="display:flex;align-items:center;gap:2px">
-<span v-if="i > 0" class="evo-arrow">→</span>
-<div class="evo-item"><span class="evo-emoji">{{ s.emoji }}</span><span class="evo-name">{{ s.name }}</span></div>
-</div>
-</div>
-<div class="cta-box">
-<div class="cta-icon">🚀</div>
-<h3>加入开源社区</h3>
-<p>项目完全开源，欢迎 Star / Fork / Issue / PR</p>
-<div class="cta-links">
-<a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="cta-btn cta-btn--dark">⭐ 给个 Star</a>
-<a href="https://github.com/RealKiro/learnstar-planet/issues" target="_blank" class="cta-btn cta-btn--ghost">提交 Issue</a>
-</div>
-</div>
-<footer class="foot"><a href="https://github.com/RealKiro/learnstar-planet" target="_blank">学趣星球</a> · MIT 开源许可证 · 自托管 · 完全免费</footer>
-</div>
-</div>
-<div class="right">
-<div class="login-card">
-<div class="login-header"><span class="login-icon">🌌</span><h1 class="login-brand">学趣星球</h1></div>
-<div class="login-tabs">
-<button v-for="t in (['teacher', 'admin', 'parent'] as const)" :key="t" :class="['login-tab', { 'login-tab--active': loginType === t }]" @click="loginType = t">{{ t === 'teacher' ? '👩‍🏫 教师' : t === 'admin' ? '🔧 管理员' : '👨‍👩‍👧 家长' }}</button>
-</div>
-<div v-if="loginType === 'teacher'" class="login-form">
-<div class="field"><label>账号</label><input v-model="teacherUsername" placeholder="教师账号" @keydown.enter="focusTeacherPwd" /></div>
-<div class="field"><label>密码</label><input ref="teacherPwdRef" v-model="teacherPassword" type="password" placeholder="输入密码" @keydown.enter="handleTeacherLogin" /></div>
-<button class="btn-login" :disabled="loading" @click="handleTeacherLogin">{{ loading ? '登录中...' : '登录' }}</button>
-<div class="social"><div class="social-label"><span></span> 扫码快捷登录 <span></span></div>
-<div class="social-btns">
-<button v-for="p in platforms" :key="p.key" @click="handleThirdPartyLogin(p.key)"><span :style="{ background: p.color }">{{ p.icon }}</span>{{ p.label }}</button>
-</div></div>
-</div>
-<div v-if="loginType === 'admin'" class="login-form">
-<div class="field"><label>账号</label><input v-model="adminUsername" placeholder="管理员账号" @keydown.enter="focusAdminPwd" /></div>
-<div class="field"><label>密码</label><input ref="adminPwdRef" v-model="adminPassword" type="password" placeholder="输入密码" @keydown.enter="handleAdminLogin" /></div>
-<button class="btn-login btn-login--amber" :disabled="loading" @click="handleAdminLogin">{{ loading ? '登录中...' : '登录' }}</button>
-</div>
-<div v-if="loginType === 'parent'" class="login-form">
-<div class="field"><label>账号</label><input v-model="parentUsername" placeholder="家长账号" @keydown.enter="focusParentPwd" /></div>
-<div class="field"><label>密码</label><input ref="parentPwdRef" v-model="parentPassword" type="password" placeholder="输入密码" @keydown.enter="handleParentLogin" /></div>
-<button class="btn-login btn-login--green" :disabled="loading" @click="handleParentLogin">{{ loading ? '登录中...' : '登录' }}</button>
-</div>
-</div>
-</div>
-</div>
+  <div class="layout">
+    <div class="left">
+      <div class="left-glow left-glow--top"></div>
+      <div class="left-glow left-glow--bottom"></div>
+      <div class="left-content">
+        <transition name="fade" mode="out-in">
+          <div :key="currentSlide" class="slide">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              {{ slides[currentSlide].badge }}
+            </div>
+            <div class="slide-icon">{{ slides[currentSlide].icon }}</div>
+            <h1 class="slide-title">
+              {{ slides[currentSlide].title }}
+              <br />
+              <span class="slide-gradient">{{ slides[currentSlide].highlight }}</span>
+            </h1>
+            <p class="slide-desc">{{ slides[currentSlide].desc }}</p>
+          </div>
+        </transition>
+        <div class="dots">
+          <button v-for="(s, i) in slides" :key="i" :class="['dot', { 'dot--active': currentSlide === i }]" @click="goToSlide(i)"></button>
+        </div>
+        <div class="left-footer">
+          <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="left-link">GitHub</a>
+          <span class="left-sep">MIT</span>
+        </div>
+      </div>
+      <div class="features">
+        <h2 class="features-title">12 大功能模块</h2>
+        <p class="features-sub">覆盖班级管理全场景，全部免费</p>
+        <div class="feature-grid">
+          <div v-for="f in features" :key="f.title" class="feat">
+            <span class="feat-icon">{{ f.icon }}</span>
+            <div>
+              <div class="feat-name">{{ f.title }}</div>
+              <div class="feat-desc">{{ f.desc }}</div>
+            </div>
+          </div>
+        </div>
+        <h2 class="features-title" style="margin-top:48px">11 阶宠物进化</h2>
+        <p class="features-sub">积分变经验，从星尘到银河</p>
+        <div class="evo">
+          <div v-for="(s, i) in stages" :key="s.name" style="display:flex;align-items:center;gap:2px">
+            <span v-if="i > 0" class="evo-arrow">&rarr;</span>
+            <div class="evo-item">
+              <span class="evo-emoji">{{ s.emoji }}</span>
+              <span class="evo-name">{{ s.name }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="cta-box">
+          <div class="cta-icon">🚀</div>
+          <h3>加入开源社区</h3>
+          <p>项目完全开源，欢迎 Star / Fork / Issue / PR</p>
+          <div class="cta-links">
+            <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="cta-btn cta-btn--dark">Star</a>
+            <a href="https://github.com/RealKiro/learnstar-planet/issues" target="_blank" class="cta-btn cta-btn--ghost">Issue</a>
+          </div>
+        </div>
+        <footer class="foot">
+          <a href="https://github.com/RealKiro/learnstar-planet" target="_blank">学趣星球</a>
+           · MIT · 自托管 · 完全免费
+        </footer>
+      </div>
+    </div>
+    <div class="right">
+      <div class="login-card">
+        <div class="login-header">
+          <span class="login-icon">🌌</span>
+          <h1 class="login-brand">学趣星球</h1>
+        </div>
+        <div class="login-tabs">
+          <button v-for="t in (['teacher', 'admin', 'parent'] as const)" :key="t" :class="['login-tab', { 'login-tab--active': loginType === t }]" @click="loginType = t">
+            {{ t === 'teacher' ? '教师' : t === 'admin' ? '管理员' : '家长' }}
+          </button>
+        </div>
+        <div v-if="loginType === 'teacher'" class="login-form">
+          <div class="field">
+            <label>账号</label>
+            <input v-model="teacherUsername" placeholder="教师账号" @keydown.enter="focusTeacherPwd" />
+          </div>
+          <div class="field">
+            <label>密码</label>
+            <input ref="teacherPwdRef" v-model="teacherPassword" type="password" placeholder="输入密码" @keydown.enter="handleTeacherLogin" />
+          </div>
+          <button class="btn-login" :disabled="loading" @click="handleTeacherLogin">{{ loading ? '...' : '登录' }}</button>
+          <div class="social">
+            <div class="social-label">
+              <span></span> 扫码登录 <span></span>
+            </div>
+            <div class="social-btns">
+              <button v-for="p in platforms" :key="p.key" @click="handleThirdPartyLogin(p.key)">
+                <span :style="{ background: p.color }">{{ p.icon }}</span>
+                {{ p.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-if="loginType === 'admin'" class="login-form">
+          <div class="field">
+            <label>账号</label>
+            <input v-model="adminUsername" placeholder="管理员账号" @keydown.enter="focusAdminPwd" />
+          </div>
+          <div class="field">
+            <label>密码</label>
+            <input ref="adminPwdRef" v-model="adminPassword" type="password" placeholder="输入密码" @keydown.enter="handleAdminLogin" />
+          </div>
+          <button class="btn-login btn-login--amber" :disabled="loading" @click="handleAdminLogin">{{ loading ? '...' : '登录' }}</button>
+        </div>
+        <div v-if="loginType === 'parent'" class="login-form">
+          <div class="field">
+            <label>账号</label>
+            <input v-model="parentUsername" placeholder="家长账号" @keydown.enter="focusParentPwd" />
+          </div>
+          <div class="field">
+            <label>密码</label>
+            <input ref="parentPwdRef" v-model="parentPassword" type="password" placeholder="输入密码" @keydown.enter="handleParentLogin" />
+          </div>
+          <button class="btn-login btn-login--green" :disabled="loading" @click="handleParentLogin">{{ loading ? '...' : '登录' }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
 <style scoped>
 /* ================================================================
    LANDING PAGE — 左右分栏
