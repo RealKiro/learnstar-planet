@@ -143,6 +143,7 @@ class CurrencyService
         $fromWallet = Wallet::getOrCreate($studentId, $from);
         if ($fromWallet->balance < $amount) {
             $fromLabel = Wallet::currencies()[$from] ?? $from;
+
             throw new \DomainException($fromLabel . '余额不足，当前余额：' . $fromWallet->balance);
         }
 
@@ -193,6 +194,7 @@ class CurrencyService
 
         if ($wallet->balance < $amount) {
             $currencyLabel = Wallet::currencies()[$currency] ?? $currency;
+
             throw new \DomainException($currencyLabel . '余额不足，当前余额：' . $wallet->balance);
         }
 
@@ -209,4 +211,3 @@ class CurrencyService
             ]);
         });
     }
-}
