@@ -1066,12 +1066,14 @@ class TeacherController extends Controller
         $hw = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->findOrFail($id);
 
         return response()->json(['data' => $hw->submissions()->with('student')->get()->map(function ($s) {
-            'student_name' => $s->student?->name,
-            'student_no' => $s->student?->student_no,
-            'submitted_at' => $s->submitted_at?->toDateTimeString(),
-            'content' => $s->content,
-            'file_urls' => $s->file_urls,
-        ])]);
+            return [
+                'student_name' => $s->student?->name,
+                'student_no' => $s->student?->student_no,
+                'submitted_at' => $s->submitted_at?->toDateTimeString(),
+                'content' => $s->content,
+                'file_urls' => $s->file_urls,
+            ];
+        })]);
     }
 
     public function getHomeworkQrCode(Request $request, int $id): JsonResponse
@@ -1178,9 +1180,11 @@ class TeacherController extends Controller
             'max_score' => $subs->max('score'),
             'min_score' => $subs->min('score'),
             'submissions' => $subs->map(function ($s) {
-                'student_name' => $s->student?->name,
-                'score' => $s->score,
-            ]),
+                return [
+                    'student_name' => $s->student?->name,
+                    'score' => $s->score,
+                ];
+            }),
         ]]);
     }
 
@@ -1255,12 +1259,14 @@ class TeacherController extends Controller
         $bank = \App\Models\QuestionBank::where('teacher_id', $teacher->id)->orWhere('is_public', true)->findOrFail($id);
 
         return response()->json(['data' => $bank->questions()->get()->map(function ($q) {
-            'id' => $q->id,
-            'type' => $q->type,
-            'content' => $q->content,
-            'options' => $q->options,
-            'points' => $q->points,
-        ])]);
+            return [
+                'id' => $q->id,
+                'type' => $q->type,
+                'content' => $q->content,
+                'options' => $q->options,
+                'points' => $q->points,
+            ];
+        })]);
     }
 
     // ============================================================
@@ -1477,8 +1483,4 @@ class TeacherController extends Controller
 
             return response()->json([
                 'message' => '兑换成功',
-                'data' => $result,
-            ]);
-        } catch (\DomainException $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
+           
