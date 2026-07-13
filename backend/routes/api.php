@@ -62,7 +62,10 @@ Route::prefix('v1')->group(function () {
     // ===== 学校管理员 =====
     Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
         Route::get('school', [SchoolAdminController::class, 'getSchool']);
+        Route::post('teachers', [SchoolAdminController::class, 'createTeacher']);
         Route::post('teachers/batch-create', [SchoolAdminController::class, 'batchCreateTeachers']);
+        Route::post('teachers/import', [SchoolAdminController::class, 'importTeachers']);
+        Route::get('teachers/template-csv', [SchoolAdminController::class, 'downloadTeacherTemplate']);
         Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
         Route::put('teachers/{id}', [SchoolAdminController::class, 'updateTeacher']);
         Route::post('teachers/{id}/reset-password', [SchoolAdminController::class, 'resetTeacherPassword']);
@@ -77,6 +80,7 @@ Route::prefix('v1')->group(function () {
         Route::put('classes/{id}', [SchoolAdminController::class, 'update']);
         Route::delete('classes/{id}', [SchoolAdminController::class, 'destroy']);
         Route::post('classes/{id}/assign-teacher', [SchoolAdminController::class, 'assignClassTeacher']);
+        Route::put('teachers/{id}/classes', [SchoolAdminController::class, 'assignTeacherClasses']);
         Route::delete('classes/{id}/remove-teacher', [SchoolAdminController::class, 'removeClassTeacher']);
         // 学生管理
         Route::post('students/import', [SchoolAdminController::class, 'importStudents']);

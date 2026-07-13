@@ -10,6 +10,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property int $id
+ * @property int $school_id
+ * @property string $role
+ * @property string $username
+ * @property string $name
+ * @property string|null $nickname
+ * @property string|null $subject
+ * @property string|null $grade_team
+ * @property string|null $avatar_path
+ * @property string|null $phone
+ * @property string|null $email
+ * @property string $status
+ * @property \Illuminate\Support\Carbon|null $last_login_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property bool $password_changed
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -22,6 +40,8 @@ class User extends Authenticatable
         'password',          // 管理员分配的初始密码
         'name',
         'nickname',          // 昵称，默认 = name 的拼音
+        'subject',           // 科目，如：语文、数学、英语
+        'grade_team',        // 所属年级团队，如：三年级团队
         'avatar_path',
         'phone',
         'email',

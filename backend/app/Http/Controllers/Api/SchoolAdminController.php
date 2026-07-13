@@ -83,6 +83,78 @@ class SchoolAdminController extends Controller
     // ===== 教师管理 =====
 
     /**
+     * 单独创建教师账号（可选同时分配班级和角色）
+     */
+    public function createTeacher(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:50',
+            'nickname' => 'nullable|string|max:80',
+            'subject' => 'nullable|string|max:50',
+            'grade_team' => 'nullable|string|max:50',
+            'phone' => 'nullable|string|max:30',
+            'email' => 'nullable|email|max:100',
+            'username' => 'nullable|string|max:50',
+            'password' => 'required|string|min:6|max:50',
+            'assignments' => 'nullable|array',
+            'assignments.*.class_id' => 'required|integer|exists:class_rooms,id',
+            'assignments.*.role' => 'required|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
+            'assignments.*.subject' => 'nullable|string|max:50',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $school = $request->user()->school;
+        if (!$school instanceof \App\Models\School) {
+            return response()->json(['message' => '未找到学校'], 404);
+        }
+
+        $teacherData = $request->only([
+            'name', 'nickname', 'subject', 'grade_team', 'phone', 'email', 'username', 'password',
+        ]);
+        $teacherData['password'] = $teacherData['password'] ?? \Illuminate\Support\Str::random(10);
+
+        $created = $this->authService->createTeacherAccounts($school, [$teacherData]);
+        $teacher = $created[0] ?? null;
+
+        if ($teacher) {
+            $assignmentsInput = $request->input('assignments', []);
+            $assigned = [];
+            foreach ($assignmentsInput as $assignment) {
+                $classId = (int) $assignment['class_id'];
+                $role = $assignment['role'];
+
+                ClassRoomTeacher::updateOrCreate(
+                    ['class_room_id' => $classId, 'user_id' => $teacher['id']],
+                    ['role' => $role, 'subject' => $assignment['subject'] ?? null],
+                );
+
+                if ($role === 'head_teacher') {
+                    ClassRoom::where('id', $classId)
+                        ->where('school_id', $school->id)
+                        ->update(['teacher_id' => $teacher['id']]);
+                }
+
+                $classRoom = ClassRoom::find($classId);
+                $assigned[] = [
+                    'class_id' => $classId,
+                    'class_name' => $classRoom?->name,
+                    'role' => $role,
+                    'subject' => $assignment['subject'] ?? null,
+                ];
+            }
+            $teacher['assignments'] = $assigned;
+        }
+
+        return response()->json([
+            'message' => '已创建教师「' . ($teacher['name'] ?? '') . '」',
+            'data' => $teacher,
+        ], 201);
+    }
+
+    /**
      * 批量创建教师账号
      */
     public function batchCreateTeachers(Request $request): JsonResponse
@@ -1439,3 +1511,4 @@ class SchoolAdminController extends Controller
         ]);
     }
 }
+       
