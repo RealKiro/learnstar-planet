@@ -16,19 +16,16 @@ const data = ref<DisplayData | null>(null)
 const scoreAnim = ref<Record<number, { dir: 'up'|'down'; amt: number }>>({})
 const scorePending = ref<Record<number, boolean>>({})
 
-// 左侧面板 tab
-const sideTab = ref<'rank'|'shop'>('rank')
+// 面板（弹出覆盖层）
+const showPanel = ref<'rank'|'shop'|null>(null)
 
-// 排行
 const ranking = ref<{ rank: number; id: number; name: string; score: number; no: string }[]>([])
 const rankLoading = ref(false)
-// 商城
 interface ShopItemType { id: number; name: string; description?: string; cost_score: number; stock: number; category: string }
 const shopItems = ref<ShopItemType[]>([])
 const shopLoading = ref(false)
 const redeemTarget = ref<{ id: number; name: string } | null>(null)
 const redeemMsg = ref('')
-// 转赠
 const transferTarget = ref<{ id: number; name: string } | null>(null)
 const transferAmt = ref(1)
 const transferMsg = ref('')
@@ -99,99 +96,96 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
       </div>
     </Transition>
 
-    <!-- 顶栏 -->
+    <!-- 顶栏（半透明悬浮） -->
     <header class="h">
       <div class="hl">
         <h1 class="ht">{{ data?.class_name || '--' }}</h1>
         <span class="hm">{{ data?.grade }} · {{ data?.student_count }}人</span>
         <span class="sd" :class="{ o: sseState.connected }"></span>
       </div>
-      <button class="hx" @click="confirmExit">✕ 退出大屏</button>
+      <div class="hr">
+        <button class="hb" @click="showPanel = 'rank'" title="排行榜">🏆</button>
+        <button class="hb" @click="showPanel = 'shop'" title="积分商城">🛍️</button>
+        <button class="hx" @click="confirmExit">✕ 退出</button>
+      </div>
     </header>
 
-    <!-- 主体：左右布局 -->
+    <!-- 全屏 5×5 萌宠网格 -->
     <main v-if="!loading && data" class="body">
-
-      <!-- 左侧面板：排行榜 / 商城 -->
-      <aside class="panel">
-        <div class="panel-tabs">
-          <button class="pt" :class="{ a: sideTab === 'rank' }" @click="sideTab = 'rank'">🏆 排行榜</button>
-          <button class="pt" :class="{ a: sideTab === 'shop' }" @click="sideTab = 'shop'">🛍️ 积分商城</button>
-        </div>
-
-        <!-- 排行榜 -->
-        <div v-if="sideTab === 'rank'" class="panel-body">
-          <div v-if="rankLoading" class="st2"><p>加载中…</p></div>
-          <div v-else class="rank-l">
-            <div v-for="(r, i) in ranking" :key="r.id" class="rank-i" :class="{ top: i < 3 }">
-              <span class="rank-no">{{ ['🥇','🥈','🥉'][i] || '# ' + r.rank }}</span>
-              <span class="rank-n">{{ r.name }}</span>
-              <span class="rank-s">{{ r.score }}</span>
-              <button class="rank-btn" @click="transferTarget = { id: r.id, name: r.name }; transferAmt = 1; transferMsg = ''">转赠</button>
-            </div>
-            <button class="panel-r" @click="loadRanking">🔄 刷新</button>
+      <div v-for="(s, i) in gridSlots" :key="i" class="c"
+        :class="{ e: !s, su: s && scoreAnim[s.student_id]?.dir === 'up', sd: s && scoreAnim[s.student_id]?.dir === 'down' }">
+        <template v-if="s">
+          <div class="cp" :class="{ b: scoreAnim[s.student_id]?.dir === 'up', sh: scoreAnim[s.student_id]?.dir === 'down' }">
+            <span class="ce">{{ s.has_pet ? s.emoji : '🥚' }}</span>
+            <Transition name="f">
+              <span v-if="scoreAnim[s.student_id]" class="cf" :class="scoreAnim[s.student_id].dir">
+                {{ scoreAnim[s.student_id].dir === 'up' ? '+' : '-' }}{{ scoreAnim[s.student_id].amt }}
+              </span>
+            </Transition>
           </div>
-          <div v-if="transferTarget" class="panel-tr">
-            <span>转赠给 <b>{{ transferTarget.name }}</b></span>
-            <div class="panel-tr-row">
-              <input v-model.number="transferAmt" type="number" min="1" max="100" class="panel-in">
-              <button class="panel-go" @click="doTransfer">确认</button>
+          <div class="ci"><span class="cn">{{ s.student_name }}</span><span class="cs">{{ s.total_score }}分</span></div>
+          <div class="cex"><div class="cef" :style="{ width: Math.min(100, (s.experience / Math.max(1, s.exp_max)) * 100) + '%' }"></div></div>
+          <div class="ca">
+            <button class="ca- ca-m" @click.stop="qScore(s.student_id, -1)" :disabled="scorePending[s.student_id]">−1</button>
+            <button class="ca- ca-m3" @click.stop="qScore(s.student_id, -3)" :disabled="scorePending[s.student_id]">−3</button>
+            <button class="ca- ca-p1" @click.stop="qScore(s.student_id, 1)" :disabled="scorePending[s.student_id]">+1</button>
+            <button class="ca- ca-p3" @click.stop="qScore(s.student_id, 3)" :disabled="scorePending[s.student_id]">+3</button>
+          </div>
+        </template>
+        <div v-else class="ce2"></div>
+      </div>
+    </main>
+
+    <div v-if="loading" class="st2"><div class="sp">🌌</div><p>连接中…</p></div>
+    <div v-else-if="loadError" class="st2"><p>{{ loadError }}</p><button class="sbtn" @click="loadData">重试</button></div>
+
+    <!-- ===== 排行榜覆盖层 ===== -->
+    <Transition name="fade">
+      <div v-if="showPanel === 'rank'" class="ov" @click.self="showPanel = null">
+        <div class="ov-bd">
+          <div class="ov-h"><span>🏆</span> 排行榜<button class="ov-x" @click="showPanel = null">✕</button></div>
+          <div class="ov-l">
+            <div v-for="(r, i) in ranking" :key="r.id" class="ov-i" :class="{ top: i < 3 }">
+              <span class="ov-no">{{ ['🥇','🥈','🥉'][i] || '#' + r.rank }}</span>
+              <span class="ov-n">{{ r.name }}</span>
+              <span class="ov-s">{{ r.score }}分</span>
+              <button class="ov-btn" @click="transferTarget = { id: r.id, name: r.name }; transferAmt = 1; transferMsg = ''">转赠</button>
             </div>
-            <p v-if="transferMsg" class="panel-msg" :class="{ ok: transferMsg.startsWith('✅') }">{{ transferMsg }}</p>
+          </div>
+          <button class="ov-r" @click="loadRanking">🔄 刷新</button>
+          <div v-if="transferTarget" class="ov-tr">
+            <span>转赠给 <b>{{ transferTarget.name }}</b>：</span>
+            <input v-model.number="transferAmt" type="number" min="1" max="100" class="ov-in">
+            <button class="ov-go" @click="doTransfer">确认</button>
+            <p v-if="transferMsg" class="ov-msg" :class="{ ok: transferMsg.startsWith('✅') }">{{ transferMsg }}</p>
           </div>
         </div>
+      </div>
+    </Transition>
 
-        <!-- 商城 -->
-        <div v-if="sideTab === 'shop'" class="panel-body">
-          <div class="panel-sel">
-            <select v-model="redeemTarget" class="panel-in panel-in--sel">
+    <!-- ===== 商城覆盖层 ===== -->
+    <Transition name="fade">
+      <div v-if="showPanel === 'shop'" class="ov" @click.self="showPanel = null">
+        <div class="ov-bd">
+          <div class="ov-h"><span>🛍️</span> 积分商城<button class="ov-x" @click="showPanel = null">✕</button></div>
+          <div class="ov-sel">
+            <select v-model="redeemTarget" class="ov-in ov-in--sel">
               <option :value="null">兑换给…</option>
               <option v-for="p in data?.pets || []" :key="p.student_id" :value="{ id: p.student_id, name: p.student_name }">{{ p.student_name }}（{{ p.total_score }}分）</option>
             </select>
           </div>
-          <div v-if="shopLoading" class="st2"><p>加载中…</p></div>
-          <div v-else class="rank-l">
-            <div v-for="item in shopItems" :key="item.id" class="rank-i">
-              <span class="rank-no">{{ item.category === 'privilege' ? '👑' : item.category === 'physical' ? '🎁' : '⭐' }}</span>
-              <div class="rank-n"><div class="rank-inn">{{ item.name }}</div><div class="rank-id">{{ item.description || '' }}</div></div>
-              <span class="rank-s rank-s--g">{{ item.cost_score }}</span>
-              <button class="rank-btn rank-btn--go" :disabled="!redeemTarget" @click="doRedeem(item)">兑换</button>
+          <div class="ov-l">
+            <div v-for="item in shopItems" :key="item.id" class="ov-i">
+              <span class="ov-ic">{{ item.category === 'privilege' ? '👑' : item.category === 'physical' ? '🎁' : '⭐' }}</span>
+              <div class="ov-ib"><div>{{ item.name }}</div><div class="ov-id">{{ item.description || '' }}</div></div>
+              <span class="ov-pr">{{ item.cost_score }}分</span>
+              <button class="ov-go" :disabled="!redeemTarget" @click="doRedeem(item)">兑换</button>
             </div>
-            <button class="panel-r" @click="loadShop">🔄 刷新</button>
           </div>
-          <p v-if="redeemMsg" class="panel-msg" :class="{ ok: redeemMsg.startsWith('✅') }">{{ redeemMsg }}</p>
-        </div>
-      </aside>
-
-      <!-- 右侧：5×5 萌宠教室 -->
-      <div class="grid">
-        <div v-for="(s, i) in gridSlots" :key="i" class="c"
-          :class="{ e: !s, su: s && scoreAnim[s.student_id]?.dir === 'up', sd: s && scoreAnim[s.student_id]?.dir === 'down' }">
-          <template v-if="s">
-            <div class="cp" :class="{ b: scoreAnim[s.student_id]?.dir === 'up', sh: scoreAnim[s.student_id]?.dir === 'down' }">
-              <span class="ce">{{ s.has_pet ? s.emoji : '🥚' }}</span>
-              <Transition name="f">
-                <span v-if="scoreAnim[s.student_id]" class="cf" :class="scoreAnim[s.student_id].dir">
-                  {{ scoreAnim[s.student_id].dir === 'up' ? '+' : '-' }}{{ scoreAnim[s.student_id].amt }}
-                </span>
-              </Transition>
-            </div>
-            <div class="ci"><span class="cn">{{ s.student_name }}</span><span class="cs">{{ s.total_score }}分</span></div>
-            <div class="cex"><div class="cef" :style="{ width: Math.min(100, (s.experience / Math.max(1, s.exp_max)) * 100) + '%' }"></div></div>
-            <div class="ca">
-              <button class="ca- ca-m" @click.stop="qScore(s.student_id, -1)" :disabled="scorePending[s.student_id]">−1</button>
-              <button class="ca- ca-m3" @click.stop="qScore(s.student_id, -3)" :disabled="scorePending[s.student_id]">−3</button>
-              <button class="ca- ca-p1" @click.stop="qScore(s.student_id, 1)" :disabled="scorePending[s.student_id]">+1</button>
-              <button class="ca- ca-p3" @click.stop="qScore(s.student_id, 3)" :disabled="scorePending[s.student_id]">+3</button>
-            </div>
-          </template>
-          <div v-else class="ce2"></div>
+          <p v-if="redeemMsg" class="ov-msg" :class="{ ok: redeemMsg.startsWith('✅') }">{{ redeemMsg }}</p>
         </div>
       </div>
-    </main>
-
-    <div v-if="loading" class="st2 st2--f"><div class="sp">🌌</div><p>连接中…</p></div>
-    <div v-else-if="loadError" class="st2 st2--f"><p>{{ loadError }}</p><button class="sbtn" @click="loadData">重试</button></div>
+    </Transition>
   </div>
 </template>
 
@@ -199,135 +193,138 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 .sc {
   height: 100vh; overflow: hidden;
   background: linear-gradient(135deg,#0c0a20,#1a1040 30%,#0d1b2a 70%,#0a1628);
-  color: #e8e6f0;
-  font-family: "PingFang SC","Noto Sans SC",-apple-system,sans-serif;
-  user-select: none; display: flex; flex-direction: column;
+  color: #e8e6f0; user-select: none;
+  display: flex; flex-direction: column; position: relative;
 }
 
-/* 顶栏 */
+/* ===== 顶栏（悬浮效果） ===== */
 .h {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,.05); flex-shrink: 0;
+  padding: 10px 24px;
+  background: linear-gradient(to bottom, rgba(12,10,32,.8), transparent);
+  pointer-events: none;
 }
-.hl { display: flex; align-items: center; gap: 12px; }
-.ht { font-size: 22px; font-weight: 700; margin: 0; color: #f0ecff; }
-.hm { font-size: 13px; color: rgba(200,190,240,.5); }
-.sd { width: 7px; height: 7px; border-radius: 50%; background: #64748b; }
+.hl { display: flex; align-items: center; gap: 10px; pointer-events: auto; }
+.ht { font-size: 18px; font-weight: 700; margin: 0; color: #f0ecff; text-shadow: 0 2px 8px rgba(0,0,0,.5); }
+.hm { font-size: 12px; color: rgba(200,190,240,.5); text-shadow: 0 2px 4px rgba(0,0,0,.5); }
+.sd { width: 6px; height: 6px; border-radius: 50%; background: #64748b; }
 .sd.o { background: #4ade80; box-shadow: 0 0 8px rgba(74,222,128,.5); }
+.hr { display: flex; align-items: center; gap: 6px; pointer-events: auto; }
+.hb {
+  width: 34px; height: 34px; border-radius: 8px; border: none;
+  background: rgba(0,0,0,.3); backdrop-filter: blur(8px);
+  color: rgba(255,255,255,.7); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.hb:hover { background: rgba(0,0,0,.5); }
 .hx {
-  padding: 8px 20px; border-radius: 10px; border: 1px solid rgba(248,113,113,.3);
-  background: rgba(248,113,113,.1); color: #fca5a5; font-size: 14px; font-weight: 600;
-  cursor: pointer; font-family: inherit; transition: all .15s;
+  padding: 6px 14px; border-radius: 8px; border: 1px solid rgba(248,113,113,.3);
+  background: rgba(0,0,0,.3); backdrop-filter: blur(8px);
+  color: #fca5a5; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
 }
-.hx:hover { background: rgba(248,113,113,.2); color: #fff; }
+.hx:hover { background: rgba(248,113,113,.15); }
 
-/* 主体 */
-.body { flex: 1; display: flex; gap: 0; min-height: 0; }
-
-/* ===== 左侧面板 ===== */
-.panel {
-  width: 320px; flex-shrink: 0;
-  display: flex; flex-direction: column;
-  border-right: 1px solid rgba(255,255,255,.04);
-  padding: 16px 16px 12px;
-}
-.panel-tabs { display: flex; gap: 4px; margin-bottom: 12px; }
-.pt {
-  flex: 1; padding: 8px; border: none; border-radius: 8px;
-  background: rgba(255,255,255,.03); color: rgba(200,190,240,.4);
-  font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;
-}
-.pt.a { background: rgba(124,58,237,.2); color: #c4b5fd; }
-.pt:hover { background: rgba(255,255,255,.06); }
-
-.panel-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0; }
-.panel-body::-webkit-scrollbar { width: 4px; }
-.panel-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 2px; }
-
-.rank-l { display: flex; flex-direction: column; gap: 4px; }
-.rank-i { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.03); }
-.rank-i.top { background: rgba(255,255,255,.05); }
-.rank-no { font-size: 16px; width: 32px; text-align: center; flex-shrink: 0; }
-.rank-n { flex: 1; font-weight: 500; font-size: 13px; overflow: hidden; }
-.rank-inn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rank-id { font-size: 10px; color: rgba(200,190,240,.35); }
-.rank-s { font-weight: 700; font-size: 13px; color: #a78bfa; }
-.rank-s--g { color: #fbbf24; }
-.rank-btn {
-  padding: 3px 8px; border-radius: 5px; border: 1px solid rgba(255,255,255,.06);
-  background: transparent; color: rgba(200,190,240,.4); font-size: 10px; cursor: pointer; font-family: inherit; white-space: nowrap;
-}
-.rank-btn:hover { background: rgba(255,255,255,.06); color: #e8e6f0; }
-.rank-btn--go { border: none; background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; font-weight: 600; }
-.rank-btn--go:disabled { opacity: .3; cursor: not-allowed; }
-.rank-btn--go:hover:not(:disabled) { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
-.panel-r { margin-top: 8px; padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,.04); background: transparent; color: rgba(200,190,240,.35); font-size: 11px; cursor: pointer; font-family: inherit; }
-.panel-r:hover { background: rgba(255,255,255,.04); }
-
-.panel-sel { margin-bottom: 10px; }
-.panel-in { padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.06); color: #e8e6f0; font-size: 12px; font-family: inherit; }
-.panel-in--sel { width: 100%; }
-.panel-tr { margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: rgba(255,255,255,.03); font-size: 12px; }
-.panel-tr-row { display: flex; gap: 6px; margin-top: 6px; }
-.panel-tr-row .panel-in { width: 60px; }
-.panel-go { padding: 4px 12px; border-radius: 6px; border: none; background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
-.panel-msg { font-size: 11px; margin: 4px 0 0; color: #f87171; }
-.panel-msg.ok { color: #4ade80; }
-
-/* ===== 右侧：5×5 萌宠网格 ===== */
-.grid {
-  flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
-  padding: 24px 32px; align-content: center;
+/* ===== 全屏 5×5 网格 ===== */
+.body {
+  flex: 1; display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px; padding: 60px 16px 12px;
+  align-content: center;
+  min-height: 0;
 }
 
 .c {
-  border-radius: 18px;
-  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
-  display: flex; flex-direction: column; align-items: center;
-  padding: 16px 8px 10px; position: relative;
-  transition: transform .15s, border-color .15s; min-width: 0;
+  border-radius: 20px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.04);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 8px 6px; position: relative;
+  transition: transform .15s, border-color .15s;
+  aspect-ratio: auto;
 }
 .c.e { background: transparent; border-style: dashed; border-color: rgba(255,255,255,.03); }
 .ce2 { width: 100%; height: 100%; }
-.c.su { border-color: rgba(74,222,128,.2); }
-.c.sd { border-color: rgba(248,113,113,.2); }
+.c.su { border-color: rgba(74,222,128,.15); }
+.c.sd { border-color: rgba(248,113,113,.15); }
 
-.cp { position: relative; display: flex; align-items: center; justify-content: center; margin: 6px 0; }
-.ce { font-size: 72px; line-height: 1; filter: drop-shadow(0 0 10px rgba(180,140,255,.25)); }
+.cp { position: relative; display: flex; align-items: center; justify-content: center; flex: 1; min-height: 0; }
+.ce { font-size: min(12vw, 110px); line-height: 1; filter: drop-shadow(0 0 12px rgba(180,140,255,.2)); }
 .cp.b .ce { animation: bounce .45s cubic-bezier(.28,1.33,.64,1) 2; }
 .cp.sh .ce { animation: shake .35s ease-in-out 2; }
 
-.cf { position: absolute; top: 0; right: -4px; font-size: 16px; font-weight: 700; padding: 2px 6px; border-radius: 6px; pointer-events: none; }
+.cf {
+  position: absolute; top: -2px; right: -6px;
+  font-size: min(2.5vw, 18px); font-weight: 700;
+  padding: 1px 5px; border-radius: 5px; pointer-events: none;
+}
 .cf.up { color: #4ade80; background: rgba(74,222,128,.15); }
 .cf.down { color: #f87171; background: rgba(248,113,113,.15); }
 
-.ci { display: flex; align-items: center; gap: 6px; margin: 6px 0 2px; }
-.cn { font-size: 15px; font-weight: 600; color: rgba(220,210,250,.85); max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.cs { font-size: 14px; font-weight: 700; color: rgba(200,190,240,.55); }
+.ci { display: flex; align-items: center; gap: 4px; margin: 4px 0 2px; }
+.cn { font-size: min(2vw, 15px); font-weight: 600; color: rgba(220,210,250,.8); max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cs { font-size: min(1.8vw, 13px); font-weight: 700; color: rgba(200,190,240,.5); }
 
-.cex { width: 80%; height: 3px; background: rgba(255,255,255,.06); border-radius: 2px; margin: 2px 0 8px; overflow: hidden; }
+.cex { width: 75%; height: 3px; background: rgba(255,255,255,.04); border-radius: 2px; margin: 2px 0 4px; overflow: hidden; }
 .cef { height: 100%; background: linear-gradient(90deg,#7c3aed,#a78bfa); transition: width .5s; }
 
-.ca { display: flex; gap: 4px; width: 100%; }
-.ca- { flex: 1; padding: 6px 0; border: none; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all .1s; font-family: inherit; line-height: 1; }
-.ca-:disabled { opacity: .3; cursor: not-allowed; }
+.ca { display: flex; gap: 3px; width: 100%; margin-top: auto; }
+.ca- { flex: 1; padding: 4px 0; border: none; border-radius: 5px; font-size: min(1.6vw, 13px); font-weight: 700; cursor: pointer; transition: all .1s; font-family: inherit; line-height: 1; }
+.ca-:disabled { opacity: .25; cursor: not-allowed; }
 .ca-p1 { background: rgba(74,222,128,.18); color: #4ade80; }
-.ca-p3 { background: rgba(74,222,128,.12); color: #4ade80; }
+.ca-p3 { background: rgba(74,222,128,.1); color: #4ade80; }
 .ca-p1:hover:not(:disabled) { background: rgba(74,222,128,.3); }
 .ca-p3:hover:not(:disabled) { background: rgba(74,222,128,.2); }
 .ca-m { background: rgba(248,113,113,.15); color: #f87171; }
-.ca-m3 { background: rgba(248,113,113,.1); color: #f87171; }
+.ca-m3 { background: rgba(248,113,113,.08); color: #f87171; }
 .ca-m:hover:not(:disabled) { background: rgba(248,113,113,.25); }
-.ca-m3:hover:not(:disabled) { background: rgba(248,113,113,.18); }
+.ca-m3:hover:not(:disabled) { background: rgba(248,113,113,.15); }
 
-/* 加载 */
-.st2 { text-align: center; color: rgba(200,190,240,.5); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
-.st2--f { flex: 1; }
+/* ===== 覆盖层面板 ===== */
+.ov {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(5,2,20,.55); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+}
+.ov-bd {
+  width: 480px; max-width: 90vw; max-height: 75vh;
+  background: linear-gradient(145deg,#1a1040,#0d1b2a);
+  border: 1px solid rgba(255,255,255,.08); border-radius: 20px;
+  padding: 24px; overflow-y: auto;
+}
+.ov-h { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+.ov-x { margin-left: auto; width: 28px; height: 28px; border-radius: 7px; border: 1px solid rgba(255,255,255,.06); background: transparent; color: rgba(200,190,240,.5); cursor: pointer; font-size: 13px; }
+.ov-x:hover { background: rgba(255,255,255,.06); }
+.ov-l { display: flex; flex-direction: column; gap: 4px; }
+.ov-i { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.03); }
+.ov-i.top { background: rgba(255,255,255,.05); }
+.ov-no { font-size: 16px; width: 32px; text-align: center; flex-shrink: 0; }
+.ov-n { flex: 1; font-weight: 500; font-size: 13px; }
+.ov-s { font-weight: 700; font-size: 13px; color: #a78bfa; }
+.ov-btn { padding: 3px 8px; border-radius: 5px; border: 1px solid rgba(255,255,255,.06); background: transparent; color: rgba(200,190,240,.4); font-size: 10px; cursor: pointer; font-family: inherit; }
+.ov-btn:hover { background: rgba(255,255,255,.06); color: #e8e6f0; }
+.ov-r { margin-top: 10px; padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,.04); background: transparent; color: rgba(200,190,240,.35); font-size: 11px; cursor: pointer; font-family: inherit; }
+.ov-ic { font-size: 22px; }
+.ov-ib { flex: 1; font-size: 13px; }
+.ov-id { font-size: 10px; color: rgba(200,190,240,.35); }
+.ov-pr { font-weight: 700; font-size: 14px; color: #fbbf24; white-space: nowrap; }
+.ov-in { padding: 5px 8px; border-radius: 5px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.06); color: #e8e6f0; font-size: 12px; font-family: inherit; width: 50px; }
+.ov-in--sel { width: 100%; }
+.ov-go { padding: 5px 14px; border-radius: 6px; border: none; background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.ov-go:disabled { opacity: .3; cursor: not-allowed; }
+.ov-go:hover:not(:disabled) { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
+.ov-msg { font-size: 11px; margin-top: 6px; color: #f87171; }
+.ov-msg.ok { color: #4ade80; }
+.ov-tr { margin-top: 8px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; }
+.ov-sel { margin-bottom: 10px; }
+
+.st2 { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: rgba(200,190,240,.5); gap: 8px; }
 .sp { font-size: 48px; animation: spin 2s linear infinite; }
 .sbtn { padding: 6px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04); color: rgba(200,190,240,.7); cursor: pointer; font-size: 13px; font-family: inherit; }
 
 /* 广播 */
-.bc { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; }
+.bc { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; }
 .bc.banner { align-items: flex-start; padding-top: 30px; background: rgba(10,5,30,.6); backdrop-filter: blur(8px); }
 .bc.popup { background: rgba(10,5,30,.75); backdrop-filter: blur(12px); }
 .bc.fullscreen { background: rgba(10,5,30,.92); backdrop-filter: blur(20px); }
@@ -338,8 +335,8 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 .bc-fill { height: 100%; background: linear-gradient(90deg,#7c3aed,#a78bfa); animation: shrink linear forwards; }
 
 @keyframes shrink { from { width: 100% } to { width: 0% } }
-@keyframes bounce { 0%,100%{transform:translateY(0)} 30%{transform:translateY(-8px) scale(1.12)} 60%{transform:translateY(-3px) scale(1.05)} }
-@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-3px)} 75%{transform:translateX(3px)} }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 30%{transform:translateY(-10px) scale(1.15)} 60%{transform:translateY(-4px) scale(1.06)} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
 @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
 @keyframes popIn { from { opacity: 0; transform: scale(.9) translateY(20px) } to { opacity: 1; transform: scale(1) translateY(0) } }
 .pop-enter-active { animation: popIn .35s ease-out }
@@ -348,4 +345,6 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 .f-leave-active { transition: all .15s ease-in }
 .f-enter-from { opacity: 0; transform: translateY(6px) }
 .f-leave-to { opacity: 0; transform: translateY(-8px) }
+.fade-enter-active, .fade-leave-active { transition: opacity .2s ease }
+.fade-enter-from, .fade-leave-to { opacity: 0 }
 </style>
