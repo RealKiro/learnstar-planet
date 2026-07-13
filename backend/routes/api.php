@@ -101,6 +101,9 @@ Route::prefix('v1')->group(function () {
         Route::get('exchange-rates', [SchoolAdminController::class, 'listExchangeRates']);
         Route::post('exchange-rates', [SchoolAdminController::class, 'createExchangeRate']);
         Route::put('exchange-rates/{id}', [SchoolAdminController::class, 'updateExchangeRate']);
+        // 班级大屏码
+        Route::get('classes/{classId}/display-code', [SchoolAdminController::class, 'getDisplayCode']);
+        Route::post('classes/{classId}/display-code/refresh', [SchoolAdminController::class, 'refreshDisplayCode']);
     });
 
     // ===== 教师 =====

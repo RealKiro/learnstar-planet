@@ -7,6 +7,7 @@ import type { ApiResponse, ClassRoom } from '@/types'
 const toast = useToastStore()
 const classes = ref<ClassRoom[]>([])
 const loading = ref(true)
+const displayCodeLoading = ref<Record<number, boolean>>({})
 
 const gradeOptions = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
 
@@ -123,6 +124,34 @@ async function deleteClass(cls: ClassRoom) {
     classes.value = classes.value.filter(c => c.id !== cls.id)
     toast.show('已删除班级：' + cls.name, 'success')
   } catch { /* handled */ }
+}
+
+// ===== 班级大屏码 =====
+
+async function generateDisplayCode(cls: ClassRoom) {
+  displayCodeLoading.value[cls.id] = true
+  try {
+    const res = await apiPost<{ data: { code: string } }>(`/api/v1/admin/classes/${cls.id}/display-code/refresh`)
+    cls.display_code = res.data.code
+    toast.show(`大屏码已生成：${res.data.code}`, 'success')
+  } catch { /* handled */ }
+  finally { displayCodeLoading.value[cls.id] = false }
+}
+
+async function copyDisplayCode(cls: ClassRoom) {
+  if (!cls.display_code) return
+  try {
+    await navigator.clipboard.writeText(cls.display_code)
+    toast.show('已复制：' + cls.display_code, 'success')
+  } catch {
+    const ta = document.createElement('textarea')
+    ta.value = cls.display_code
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    document.body.removeChild(ta)
+    toast.show('已复制', 'success')
+  }
 }
 
 async function updatePetSeries(cls: ClassRoom, series: string) {
@@ -329,7 +358,7 @@ async function submitAssignTeacher() {
             :key="c.id"
             :style="{
               display: 'grid',
-              gridTemplateColumns: '1fr auto auto auto auto',
+              gridTemplateColumns: '1fr auto auto auto auto auto',
               alignItems: 'center',
               padding: '12px 20px',
               borderBottom: i < group.classes.length - 1 ? '1px solid var(--color-border)' : 'none',
@@ -349,6 +378,17 @@ async function submitAssignTeacher() {
                 <div style="font-weight:600;font-size:14px;">{{ c.name }}</div>
                 <div v-if="c.teacher_name" style="font-size:12px;color:var(--color-text-secondary);">{{ c.teacher_name }}</div>
               </div>
+            </div>
+            <!-- 大屏码 -->
+            <div style="display:flex;align-items:center;gap:6px;margin-right:16px;min-width:120px;">
+              <template v-if="c.display_code">
+                <code style="font-size:12px;font-weight:600;color:var(--color-primary);background:rgba(79,70,229,0.06);padding:3px 8px;border-radius:6px;letter-spacing:0.05em;">{{ c.display_code }}</code>
+                <button class="btn btn-sm" style="padding:2px 6px;font-size:10px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;" @click.stop="copyDisplayCode(c)">📋</button>
+                <button class="btn btn-sm" style="padding:2px 6px;font-size:10px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]">🔄</button>
+              </template>
+              <button v-else class="btn btn-sm" style="font-size:11px;padding:2px 10px;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]">
+                {{ displayCodeLoading[c.id] ? '...' : '🖥️ 生成大屏码' }}
+              </button>
             </div>
             <select
               :value="(c as any).settings?.pet_series || 'all'"

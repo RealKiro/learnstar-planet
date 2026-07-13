@@ -11,6 +11,7 @@ use App\Models\Score;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\AuthService;
+use App\Services\DisplayEventService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -439,6 +440,7 @@ class SchoolAdminController extends Controller
                 'teacher_name' => $c->teacher?->name,
                 'student_count' => $c->students->count(),
                 'max_students' => $c->max_students,
+                'display_code' => $c->display_code,
                 'status' => $c->status,
                 'created_at' => $c->created_at?->toDateTimeString(),
             ];
@@ -1465,5 +1467,79 @@ class SchoolAdminController extends Controller
                 'assignments' => $synced,
             ],
         ]);
+    }
+
+    // ============================================================
+    // 班级大屏码管理（管理员）
+    // ============================================================
+
+    /**
+     * 获取/生成班级大屏码
+     */
+    public function getDisplayCode(Request $request, int $classId): JsonResponse
+    {
+        $school = $request->user()->school;
+        $classRoom = ClassRoom::where('school_id', $school->id)->findOrFail($classId);
+
+        if (empty($classRoom->display_code)) {
+            $classRoom->display_code = $this->generateDisplayCode($classRoom);
+            $classRoom->display_code_updated_at = now();
+            $classRoom->save();
+        }
+
+        return response()->json(['data' => [
+            'code' => $classRoom->display_code,
+            'class_name' => $classRoom->name,
+            'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
+            'student_count' => Student::where('class_id', $classId)->where('status', 'active')->count(),
+        ]]);
+    }
+
+    /**
+     * 刷新班级大屏码
+     */
+    public function refreshDisplayCode(Request $request, int $classId): JsonResponse
+    {
+        $school = $request->user()->school;
+        $classRoom = ClassRoom::where('school_id', $school->id)->findOrFail($classId);
+
+        $classRoom->display_code = $this->generateDisplayCode($classRoom);
+        $classRoom->display_code_updated_at = now();
+        $classRoom->save();
+
+        // 通知大屏刷新
+        try {
+            app(DisplayEventService::class)->publish($classId, 'refresh', [
+                'new_code' => $classRoom->display_code,
+            ]);
+        } catch (\Throwable $e) {
+            logger()->warning('Display event publish failed: ' . $e->getMessage());
+        }
+
+        return response()->json(['data' => [
+            'code' => $classRoom->display_code,
+            'class_name' => $classRoom->name,
+            'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
+        ]]);
+    }
+
+    /**
+     * 生成班级大屏码
+     */
+    private function generateDisplayCode(ClassRoom $classRoom): string
+    {
+        $grade = $classRoom->grade ?? '0';
+        $name = $classRoom->name ?? '';
+        $classNo = '0';
+        if (preg_match('/（(\d+)）班/', $name, $m)) {
+            $classNo = $m[1];
+        }
+        $random = strtoupper(\Illuminate\Support\Str::random(4));
+        $code = "{$grade}-{$classNo}-{$random}";
+        $existing = ClassRoom::where('display_code', $code)->where('id', '!=', $classRoom->id)->exists();
+        if ($existing) {
+            $code = "{$grade}-{$classNo}-" . strtoupper(\Illuminate\Support\Str::random(4));
+        }
+        return $code;
     }
 }

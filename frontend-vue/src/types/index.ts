@@ -31,6 +31,7 @@ export interface ClassRoom {
   teacher_id?: number
   teacher_name?: string
   student_count: number
+  display_code?: string
 }
 
 export interface ScoreRule {
