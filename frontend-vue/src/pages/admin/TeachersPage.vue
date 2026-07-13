@@ -49,9 +49,14 @@ const showCreateModal = ref(false)
 const createForm = ref({ name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' })
 const createAssignments = ref<{ class_id: number | null; role: Role; subject: string }[]>([])
 const createLoading = ref(false)
+const createGradeFilter = ref('')
+const filteredCreateClasses = computed(() => {
+  if (!createGradeFilter.value) return classes.value
+  return classes.value.filter(c => c.grade === createGradeFilter.value)
+})
 function openCreateModal() {
   createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
-  createAssignments.value = []; showCreateModal.value = true
+  createAssignments.value = []; createGradeFilter.value = ''; showCreateModal.value = true
 }
 function addCreateAssignment() { createAssignments.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
 function removeCreateAssignment(idx: number) { createAssignments.value.splice(idx, 1) }
@@ -89,12 +94,17 @@ const showAssignModal = ref(false)
 const assignTarget = ref<Teacher | null>(null)
 const assignList = ref<{ class_id: number | null; role: Role; subject: string }[]>([])
 const assignLoading = ref(false)
+const assignGradeFilter = ref('')
+const filteredAssignClasses = computed(() => {
+  if (!assignGradeFilter.value) return classes.value
+  return classes.value.filter(c => c.grade === assignGradeFilter.value)
+})
 function openAssignModal(t: Teacher) {
   assignTarget.value = t
   assignList.value = t.assignments.length > 0
     ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '' }))
     : [{ class_id: null, role: 'subject_teacher', subject: '' }]
-  showAssignModal.value = true
+  assignGradeFilter.value = ''; showAssignModal.value = true
 }
 function addAssignRow() { assignList.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
 function removeAssignRow(idx: number) { assignList.value.splice(idx, 1) }
@@ -257,13 +267,19 @@ onMounted(refreshTeachers)
           <div class="assign-section">
             <div class="assign-section-header">
               <span class="assign-section-title">创建时分配班级（可选）</span>
-              <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addCreateAssignment">+ 添加班级</button>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <select v-model="createGradeFilter" class="form-input" style="width:110px;padding:4px 8px;font-size:11px;">
+                  <option value="">全部年级</option>
+                  <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
+                </select>
+                <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addCreateAssignment">+ 添加班级</button>
+              </div>
             </div>
             <div v-if="createAssignments.length === 0" style="color:#9ca3af;font-size:13px;padding:8px 0;">暂不分配，后续可在教师卡片中点击 &#x1F3EB; 按钮分配</div>
             <div v-for="(a, i) in createAssignments" :key="i" class="assign-row">
               <select v-model="a.class_id" class="form-input" style="flex:2;min-width:140px;">
                 <option :value="null">请选择班级</option>
-                <option v-for="c in classes" :key="c.id" :value="c.id">{{ c.name }}</option>
+                <option v-for="c in filteredCreateClasses" :key="c.id" :value="c.id">{{ c.name }}</option>
               </select>
               <select v-model="a.role" class="form-input" style="flex:1;min-width:100px;">
                 <option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option>
@@ -329,12 +345,18 @@ onMounted(refreshTeachers)
         <div class="modal-body">
           <div class="assign-section-header">
             <span class="assign-section-title">班级 &amp; 角色</span>
-            <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addAssignRow">+ 添加一行</button>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <select v-model="assignGradeFilter" class="form-input" style="width:110px;padding:4px 8px;font-size:11px;">
+                <option value="">全部年级</option>
+                <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
+              </select>
+              <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addAssignRow">+ 添加一行</button>
+            </div>
           </div>
           <div v-for="(a, i) in assignList" :key="i" class="assign-row">
             <select v-model="a.class_id" class="form-input" style="flex:2;min-width:140px;">
               <option :value="null">请选择班级</option>
-              <option v-for="c in classes" :key="c.id" :value="c.id">{{ c.name }} {{ c.grade ? '(' + c.grade + ')' : '' }}</option>
+              <option v-for="c in filteredAssignClasses" :key="c.id" :value="c.id">{{ c.name }}</option>
             </select>
             <select v-model="a.role" class="form-input" style="flex:1;min-width:100px;">
               <option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option>
