@@ -105,6 +105,13 @@ Route::prefix('v1')->group(function () {
 
     // ===== 教师 =====
     Route::prefix('teacher')->middleware(['auth:sanctum', 'role:teacher'])->group(function () {
+        // Mode management
+        Route::get('mode', [TeacherController::class, 'getMode']);
+        Route::post('mode', [TeacherController::class, 'setMode']);
+        // Classroom display
+        Route::get('classroom-display', [TeacherController::class, 'classroomDisplay']);
+        Route::get('classroom-messages', [TeacherController::class, 'pollClassroomMessages']);
+        Route::post('classroom-messages', [TeacherController::class, 'sendClassroomMessage']);
         Route::get('my-classes', [TeacherController::class, 'myClasses']);
         Route::post('switch-class', [TeacherController::class, 'switchClass']);
         Route::get('dashboard', [TeacherController::class, 'dashboard']);

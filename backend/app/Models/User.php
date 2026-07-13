@@ -42,6 +42,7 @@ class User extends Authenticatable
         'nickname',          // 昵称，默认 = name 的拼音
         'subject',           // 科目，如：语文、数学、英语
         'grade_team',        // 所属年级团队，如：三年级团队
+        'settings',         // JSON: 用户级配置
         'avatar_path',
         'phone',
         'email',
@@ -60,6 +61,7 @@ class User extends Authenticatable
         'last_login_at' => 'datetime',
         'role' => 'string',
         'status' => 'string',
+        'settings' => 'array',
     ];
 
     // ========== 查询作用域 ==========

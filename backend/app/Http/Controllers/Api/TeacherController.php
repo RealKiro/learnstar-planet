@@ -64,6 +64,271 @@ class TeacherController extends Controller
     }
 
     // ============================================================
+    // Mode Management: classroom_display | teacher_manage
+    // ============================================================
+
+    public function getMode(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $mode = $teacher->getSetting('display_mode', 'teacher_manage');
+        $activeClassId = $teacher->getSetting('active_class_id', null);
+
+        return response()->json(['data' => [
+            'mode' => $mode,
+            'active_class_id' => $activeClassId,
+        ]]);
+    }
+
+    public function setMode(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $request->validate([
+            'mode' => 'required|string|in:classroom_display,teacher_manage',
+            'class_id' => 'nullable|integer',
+        ]);
+
+        $mode = $request->input('mode');
+        $teacher->setSetting('display_mode', $mode);
+
+        if ($classId = $request->input('class_id')) {
+            $isAssigned = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+                ->where('class_room_id', $classId)
+                ->exists();
+            if ($isAssigned) {
+                $teacher->setSetting('active_class_id', $classId);
+            }
+        }
+
+        return response()->json([
+            'message' => '已切换为' . ($mode === 'classroom_display' ? '班级大屏' : '教师管理') . '模式',
+            'data' => [
+                'mode' => $mode,
+                'active_class_id' => $teacher->getSetting('active_class_id'),
+            ],
+        ]);
+    }
+
+    // ============================================================
+    // Classroom Display (大屏模式)
+    // ============================================================
+
+    public function classroomDisplay(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classId = $request->input('class_id', $teacher->getSetting('active_class_id'));
+
+        if (!$classId) {
+            return response()->json(['message' => '请先选择班级'], 400);
+        }
+
+        $isAssigned = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->where('class_room_id', $classId)
+            ->exists();
+        if (!$isAssigned) {
+            return response()->json(['message' => '您未被分配到此班级'], 403);
+        }
+
+        // Load class room
+        $classRoom = ClassRoom::with(['students' => function ($q) {
+            $q->where('status', 'active')->with('pet');
+        }])->findOrFail($classId);
+
+        // Pet overview for all students
+        $pets = $classRoom->students->map(function (Student $s) {
+            $pet = $s->pet;
+            $stage = $pet ? $pet->currentStage() : ['emoji' => '\ud83e\udd14', 'name' => '未孵化', 'title' => ''];
+
+            return [
+                'student_id' => $s->id,
+                'student_name' => $s->name,
+                'total_score' => $s->total_score,
+                'has_pet' => $pet !== null,
+                'pet_name' => $pet?->name,
+                'pet_type' => $pet?->type,
+                'level' => $pet?->level ?? 0,
+                'experience' => $pet?->experience ?? 0,
+                'mood' => $pet?->mood ?? 0,
+                'emoji' => $stage['emoji'],
+                'stage_name' => $stage['name'],
+            ];
+        })->values();
+
+        // Active broadcasts for this class (not expired)
+        $broadcasts = \App\Models\Broadcast::where('class_id', $classId)
+            ->whereIn('status', ['pending', 'sent'])
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get()
+            ->map(fn ($b) => [
+                'id' => $b->id,
+                'content' => $b->content,
+                'type' => $b->type,
+                'display_seconds' => $b->display_seconds,
+                'voice_enabled' => $b->voice_enabled,
+                'created_at' => $b->created_at?->diffForHumans(),
+            ]);
+
+        // Recent notices (last 7 days, published)
+        $notices = Notice::where('class_id', $classId)
+            ->where('is_published', true)
+            ->where('published_at', '>=', now()->subDays(7))
+            ->orderBy('published_at', 'desc')
+            ->take(3)
+            ->get()
+            ->map(fn ($n) => [
+                'id' => $n->id,
+                'title' => $n->title,
+                'content' => $n->content,
+                'type' => $n->type,
+                'published_at' => $n->published_at?->diffForHumans(),
+            ]);
+
+        // Recent scores feed
+        $recentScores = Score::where('class_id', $classId)
+            ->where('created_at', '>=', now()->subHours(4))
+            ->with('student:id,name')
+            ->orderBy('created_at', 'desc')
+            ->take(20)
+            ->get()
+            ->map(fn (Score $s) => [
+                'student_name' => $s->student?->name,
+                'amount' => $s->amount,
+                'reason' => $s->reason,
+                'time' => $s->created_at?->diffForHumans(),
+            ]);
+
+        return response()->json(['data' => [
+            'class_name' => $classRoom->name,
+            'grade' => $classRoom->grade,
+            'student_count' => $classRoom->students->count(),
+            'pets' => $pets,
+            'broadcasts' => $broadcasts,
+            'notices' => $notices,
+            'recent_scores' => $recentScores,
+        ]]);
+    }
+
+    // ============================================================
+    // Unified Classroom Messaging (merged broadcast + notice)
+    // ============================================================
+
+    /**
+     * Send a classroom message (broadcast or notice)
+     * type=banner|popup|fullscreen goes to broadcast table
+     * type=info|homework|event|urgent goes to notice table
+     */
+    public function sendClassroomMessage(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->getAccessibleClassIds($teacher);
+        $classId = (int) $request->input('class_id', $classIds[0] ?? 0);
+
+        if (!in_array($classId, $classIds)) {
+            return response()->json(['message' => '无权限'], 403);
+        }
+
+        $request->validate([
+            'class_id' => 'required|integer',
+            'content' => 'required|string|max:500',
+            'title' => 'nullable|string|max:200',
+            'type' => 'required|string|in:banner,popup,fullscreen,info,homework,event,urgent',
+            'display_seconds' => 'nullable|integer|min:3|max:300',
+            'voice' => 'nullable|boolean',
+        ]);
+
+        $type = $request->input('type');
+        $content = $request->input('content');
+
+        // Broadcast types: banner, popup, fullscreen
+        if (in_array($type, ['banner', 'popup', 'fullscreen'])) {
+            $broadcast = \App\Models\Broadcast::create([
+                'school_id' => $teacher->school_id,
+                'class_id' => $classId,
+                'teacher_id' => $teacher->id,
+                'content' => $content,
+                'type' => $type,
+                'voice_enabled' => $request->boolean('voice', true),
+                'display_seconds' => (int) $request->input('display_seconds', 10),
+                'status' => 'sent',
+                'sent_at' => now(),
+            ]);
+
+            return response()->json([
+                'message' => '广播已发送',
+                'data' => ['id' => $broadcast->id, 'type' => 'broadcast'],
+            ]);
+        }
+
+        // Notice types: info, homework, event, urgent
+        $notice = Notice::create([
+            'class_id' => $classId,
+            'school_id' => $teacher->school_id,
+            'title' => $request->input('title', $type === 'urgent' ? '\u7d27\u6025\u901a\u77e5' : '\u901a\u77e5'),
+            'content' => $content,
+            'type' => $type,
+            'published_by' => $teacher->id,
+            'is_published' => true,
+            'published_at' => now(),
+        ]);
+
+        return response()->json([
+            'message' => '通知已发布',
+            'data' => ['id' => $notice->id, 'type' => 'notice'],
+        ]);
+    }
+
+    /**
+     * Poll classroom messages for display mode
+     */
+    public function pollClassroomMessages(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classId = $request->input('class_id', $teacher->getSetting('active_class_id'));
+
+        if (!$classId) {
+            return response()->json(['message' => '\u8bf7\u5148\u9009\u62e9\u73ed\u7ea7'], 400);
+        }
+
+        $since = $request->input('since');
+        $sinceTime = $since ? \Carbon\Carbon::parse($since) : now()->subMinutes(5);
+
+        $broadcasts = \App\Models\Broadcast::where('class_id', $classId)
+            ->where('created_at', '>=', $sinceTime)
+            ->whereIn('status', ['sent'])
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get()
+            ->map(fn ($b) => [
+                'id' => $b->id,
+                'content' => $b->content,
+                'type' => $b->type,
+                'display_seconds' => $b->display_seconds,
+                'voice_enabled' => $b->voice_enabled,
+                'created_at' => $b->created_at?->toIso8601String(),
+            ]);
+
+        $notices = Notice::where('class_id', $classId)
+            ->where('is_published', true)
+            ->where('published_at', '>=', $sinceTime)
+            ->orderBy('published_at', 'desc')
+            ->take(3)
+            ->get()
+            ->map(fn ($n) => [
+                'id' => $n->id,
+                'title' => $n->title,
+                'content' => $n->content,
+                'type' => $n->type,
+                'published_at' => $n->published_at?->toIso8601String(),
+            ]);
+
+        return response()->json(['data' => [
+            'broadcasts' => $broadcasts,
+            'notices' => $notices,
+            'polled_at' => now()->toIso8601String(),
+        ]]);
+    }
+
+    // ============================================================
     // Dashboard
     // ============================================================
 
