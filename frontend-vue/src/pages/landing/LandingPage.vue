@@ -102,7 +102,7 @@ function goLogin(role: string) {
             <p v-if="codeError" class="card-error">{{ codeError }}</p>
           </form>
 
-          <div class="card-footnote">向班主任获取班级码</div>
+          <div class="card-footnote">班级码由管理员统一分配</div>
         </div>
       </div>
 
@@ -243,6 +243,7 @@ function goLogin(role: string) {
   background: linear-gradient(135deg,#5E5CE6,#818CF8); color: #fff;
   font-size: 15px; font-weight: 600; cursor: pointer;
   transition: all .2s; white-space: nowrap; font-family: inherit;
+  flex-shrink: 0;
 }
 .card-btn:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 4px 14px rgba(94,92,230,.25); }
 .card-btn:disabled { opacity: .35; cursor: not-allowed; }
