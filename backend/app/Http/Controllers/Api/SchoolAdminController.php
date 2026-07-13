@@ -344,7 +344,6 @@ class SchoolAdminController extends Controller
         }
 
         $school = $request->user()->school;
-        $class = ClassRoom::create([
 
         // 检查班级名称是否已存在
         $name = $request->input('name');
@@ -352,6 +351,7 @@ class SchoolAdminController extends Controller
             return response()->json(['message' => '班级「' . $name . '」已存在'], 409);
         }
 
+        $class = ClassRoom::create([
             'school_id' => $school->id,
             'name' => $request->input('name'),
             'grade' => $request->input('grade'),
@@ -394,13 +394,12 @@ class SchoolAdminController extends Controller
             $classNum = $existingCount + $i;
             $name = $grade . '（' . $classNum . '）班';
 
-            $class = ClassRoom::create([
-
             // 跳过已存在的同名班级
             if (ClassRoom::where('school_id', $school->id)->where('name', $name)->where('status', 'active')->exists()) {
                 continue;
             }
 
+            $class = ClassRoom::create([
                 'school_id' => $school->id,
                 'name' => $name,
                 'grade' => $grade,
