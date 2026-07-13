@@ -55,4 +55,81 @@ class ClassRoom extends Model
 
             // 转换中文数字: 一 → 1
             if (isset(self::CHINESE_NUMBERS[$num])) {
-                re
+                return $grade . '（' . self::CHINESE_NUMBERS[$num] . '）班';
+            }
+
+            // 已经是阿拉伯数字: 1 → 1（加括号）
+            if (is_numeric($num)) {
+                return $grade . '（' . (int) $num . '）班';
+            }
+        }
+
+        return $name;
+    }
+
+    protected $fillable = [
+        'school_id',
+        'name',            // 如：三年级（2）班
+        'grade',           // 年级
+        'year',            // 学年
+        'teacher_id',      // 班主任
+        'max_students',    // 0 = 不限制（全免费）
+        'settings',        // JSON: 班级级配置
+        'status',
+    ];
+
+    protected $casts = [
+        'settings' => 'array',
+        'max_students' => 'integer',
+        'status' => 'string',
+    ];
+
+    // ========== 查询作用域 ==========
+
+    /** @param \Illuminate\Database\Eloquent\Builder $query */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    /** @param \Illuminate\Database\Eloquent\Builder $query */
+    public function scopeBySchool($query, int $schoolId)
+    {
+        return $query->where('school_id', $schoolId);
+    }
+
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class);
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class, 'class_id');
+    }
+
+    public function pets(): HasMany
+    {
+        return $this->hasMany(Pet::class);
+    }
+
+    public function notices(): HasMany
+    {
+        return $this->hasMany(Notice::class);
+    }
+
+    public function scoreRules(): HasMany
+    {
+        return $this->hasMany(ScoreRule::class);
+    }
+
+    public function shopItems(): HasMany
+    {
+        return $this->hasMany(ShopItem::class);
+    }
+}

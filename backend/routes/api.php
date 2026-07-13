@@ -270,4 +270,5 @@ Route::prefix('v1')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('teacher/login', [App\Http\Controllers\Api\AuthController::class, 'teacherLoginWithCredentials'])->middleware('throttle:6,1');
     Route::post('admin/login', [App\Http\Controllers\Api\AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
-    Route::post('parent/login', [App\Http\Controllers\Api\AuthControll
+    Route::post('parent/login', [App\Http\Controllers\Api\AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
+});
