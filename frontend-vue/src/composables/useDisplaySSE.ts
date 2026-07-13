@@ -68,7 +68,7 @@ export interface DisplayState {
  * - 轮询降级 /api/v1/display/poll
  * - 组件卸载时清理连接
  */
-export function useDisplaySSE(token: string, classId: number) {
+export function useDisplaySSE() {
   const state = ref<DisplayState>({
     connected: false,
     polling: false,
@@ -86,12 +86,17 @@ export function useDisplaySSE(token: string, classId: number) {
   let pollTimer: ReturnType<typeof setInterval> | null = null
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null
   let isDestroyed = false
+  let currentToken = ''
+  let currentClassId = 0
 
   // ---- SSE 连接 ----
 
-  function connect() {
+  function connect(token: string, classId: number) {
     if (isDestroyed) return
     closeConnection()
+
+    currentToken = token
+    currentClassId = classId
 
     const baseUrl = import.meta.env.VITE_API_BASE || ''
     const url = `${baseUrl}/api/v1/display/sse?token=${encodeURIComponent(token)}`
@@ -203,7 +208,7 @@ export function useDisplaySSE(token: string, classId: number) {
           server_time: string
         }
       }>('/api/v1/display/poll', {
-        params: { token, class_id: classId, last_event_id: lastEventId },
+        params: { token: currentToken, class_id: currentClassId, last_event_id: lastEventId },
       })
 
       const events = res.data?.events || []

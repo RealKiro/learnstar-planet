@@ -50,7 +50,7 @@ const {
   notices,
   petUpdates,
   connect: connectSSE,
-} = useDisplaySSE(token.value, classInfo.value?.id || 0)
+} = useDisplaySSE()
 
 // Token 过期监听
 onMounted(() => {
@@ -88,7 +88,7 @@ async function loadInitialData() {
     loading.value = false
 
     // 加载完成后连接 SSE
-    connectSSE()
+    connectSSE(token.value, classInfo.value!.id)
   } catch (e: any) {
     if (e?.response?.status === 401) {
       sessionStorage.removeItem('display_token')
