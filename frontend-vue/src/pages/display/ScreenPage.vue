@@ -17,10 +17,14 @@ const scoreAnim = ref<Record<number, { dir: 'up'|'down'; amt: number }>>({})
 const scorePending = ref<Record<number, boolean>>({})
 // 每个格子可自定义加减分值
 const cellAmts = ref<Record<number, number>>({})
+const editingAmt = ref<number | null>(null)
+const editVal = ref('1')
 function getAmt(sid: number): number { return cellAmts.value[sid] || 1 }
-function changeAmt(sid: number) {
-  const v = prompt('输入加减分值（1-10）：', String(getAmt(sid)))
-  if (v !== null) { const n = parseInt(v); if (n >= 1 && n <= 10) cellAmts.value[sid] = n }
+function startEdit(sid: number) { editingAmt.value = sid; editVal.value = String(getAmt(sid)) }
+function saveEdit(sid: number) {
+  const n = parseInt(editVal.value)
+  if (n >= 1 && n <= 10) cellAmts.value[sid] = n
+  editingAmt.value = null
 }
 
 // 面板（弹出覆盖层）
@@ -124,7 +128,7 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
         :style="s?.color ? { '--pcolor': s.color } : undefined">
         <template v-if="s">
           <div class="cp" :class="{ b: scoreAnim[s.student_id]?.dir === 'up', sh: scoreAnim[s.student_id]?.dir === 'down' }">
-            <img v-if="s.has_pet && s.image" :src="s.image" class="pi" alt="">
+            <img v-if="s.has_pet && s.image" :src="s.image" class="pi" alt="" @error="$event.target.style.display='none'">
             <span v-else class="ce">{{ s.has_pet ? s.emoji : '🥚' }}</span>
             <Transition name="f">
               <span v-if="scoreAnim[s.student_id]" class="cf" :class="scoreAnim[s.student_id].dir">
@@ -136,7 +140,8 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
           <div class="cex"><div class="cef" :style="{ width: Math.min(100, (s.experience / Math.max(1, s.exp_max)) * 100) + '%' }"></div></div>
           <div class="ca">
             <button class="ca-btn ca-m" @click.stop="qScore(s.student_id, -getAmt(s.student_id))" :disabled="scorePending[s.student_id]">−</button>
-            <span class="ca-num" @click.stop="changeAmt(s.student_id)">{{ getAmt(s.student_id) }}</span>
+            <input v-if="editingAmt === s.student_id" v-model="editVal" class="ca-in" @blur="saveEdit(s.student_id)" @keydown.enter="saveEdit(s.student_id)" @click.stop autofocus>
+            <span v-else class="ca-num" @click.stop="startEdit(s.student_id)">{{ getAmt(s.student_id) }}</span>
             <button class="ca-btn ca-p" @click.stop="qScore(s.student_id, getAmt(s.student_id))" :disabled="scorePending[s.student_id]">+</button>
           </div>
           <button class="sb sb-l" @click.stop="qScore(s.student_id, -getAmt(s.student_id))" :disabled="scorePending[s.student_id]">−</button>
@@ -250,7 +255,7 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
   background: rgba(255,255,255,.03);
   border: 2px solid rgba(255,255,255,.04);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 6px; position: relative;
+  padding: 6px 10px; position: relative;
   transition: transform .2s cubic-bezier(.175,.885,.32,1.27), border-color .2s, background .2s;
   min-height: 0; overflow: hidden;
 }
@@ -314,6 +319,7 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 .ca-m:hover:not(:disabled) { background: rgba(248,113,113,.25); }
 .ca-num { flex: 1; text-align: center; font-size: min(1.6vw, 14px); font-weight: 700; color: rgba(200,190,240,.7); cursor: pointer; padding: 4px 0; border-radius: 5px; transition: background .15s; user-select: none; }
 .ca-num:hover { background: rgba(255,255,255,.06); }
+.ca-in { width: 100%; text-align: center; font-size: min(1.6vw, 14px); font-weight: 700; color: #fff; background: rgba(124,58,237,.3); border: 1px solid rgba(124,58,237,.5); border-radius: 5px; padding: 3px 0; outline: none; font-family: inherit; }
 
 /* ===== 覆盖层面板 ===== */
 .ov {
