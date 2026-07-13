@@ -278,6 +278,7 @@ Route::prefix('v1')->group(function () {
         Route::get('initial-data', [\App\Http\Controllers\Api\DisplayController::class, 'initialData']);
         Route::get('sse', [\App\Http\Controllers\Api\DisplayController::class, 'sse']);
         Route::get('poll', [\App\Http\Controllers\Api\DisplayController::class, 'poll']);
+        Route::post('quick-score', [\App\Http\Controllers\Api\DisplayController::class, 'quickScore']);
     });
 
     // ===== 班级大屏 - 教师端管理（需教师登录） =====

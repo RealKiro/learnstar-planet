@@ -7,10 +7,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Broadcast;
 use App\Models\ClassRoom;
+use App\Models\ClassRoomTeacher;
 use App\Models\Pet;
 use App\Models\Score;
 use App\Models\Student;
+use App\Models\User;
 use App\Services\DisplayEventService;
+use App\Services\ScoreService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -40,6 +43,7 @@ class DisplayController extends Controller
 
     public function __construct(
         private readonly DisplayEventService $eventService,
+        private readonly ScoreService $scoreService,
     ) {
     }
 
@@ -525,5 +529,50 @@ class DisplayController extends Controller
         $stage['exp_max'] = ($level + 1) * 100;
 
         return $stage;
+    }
+
+    // ============================================================
+    // 大屏快捷加减分
+    // ============================================================
+
+    public function quickScore(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token 无效或已过期'], 401);
+        }
+
+        $request->validate([
+            'student_id' => 'required|integer',
+            'amount' => 'required|integer|in:-5,-3,-1,1,3,5',
+        ]);
+
+        $studentId = (int) $request->input('student_id');
+        $amount = (int) $request->input('amount');
+        $classId = $classInfo['class_id'];
+
+        $student = Student::where('class_id', $classId)->find($studentId);
+        if (!$student) {
+            return response()->json(['message' => '学生不存在'], 404);
+        }
+
+        $teacherId = ClassRoom::where('id', $classId)->value('teacher_id');
+        if (!$teacherId) {
+            $teacherId = ClassRoomTeacher::where('class_room_id', $classId)->value('user_id');
+        }
+        if (!$teacherId) {
+            $teacherId = User::where('role', 'teacher')->where('school_id', $student->classRoom?->school_id ?? 0)->value('id');
+        }
+
+        try {
+            $this->scoreService->giveScore($student, $amount, '课堂表现', $teacherId ?: 1);
+            return response()->json(['data' => [
+                'student_id' => $student->id,
+                'amount' => $amount,
+                'total_score' => $student->fresh()->total_score,
+            ]]);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => '操作失败'], 500);
+        }
     }
 }
