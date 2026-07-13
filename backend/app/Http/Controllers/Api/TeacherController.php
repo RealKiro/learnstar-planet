@@ -71,7 +71,7 @@ class TeacherController extends Controller
     public function getMode(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $mode = $teacher->getSetting('display_mode', 'teacher_manage');
+        $mode = $teacher->getSetting('display_mode', 'classroom_display');
         $activeClassId = $teacher->getSetting('active_class_id', null);
 
         return response()->json(['data' => [
