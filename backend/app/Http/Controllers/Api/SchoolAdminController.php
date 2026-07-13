@@ -1235,7 +1235,7 @@ class SchoolAdminController extends Controller
 
     private function detectCsvDelimiter(string $line): string
     {
-        $candidates = [chr(9), ",", ";"];
+        $candidates = [chr(9), ',', ';'];
         $best = ',';
         $bestCount = 0;
 
