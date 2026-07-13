@@ -500,7 +500,7 @@ class DisplayController extends Controller
     {
         return $students->map(function (Student $s): array {
             $pet = $s->pet;
-            $stage = $this->getPetStageInfo($pet->level ?? 0);
+            $stage = $this->getPetStageInfo($pet->level ?? 0, $pet->type ?? null);
 
             return [
                 'student_id' => $s->id,
@@ -526,9 +526,13 @@ class DisplayController extends Controller
     /**
      * 获取宠物阶段信息（复用 Pet 模型定义）
      */
-    private function getPetStageInfo(int $level): array
+    private function getPetStageInfo(int $level, ?string $petType = null): array
     {
-        $stages = Pet::evolutionStages();
+        if ($petType) {
+            $stages = Pet::evolutionStagesForType($petType);
+        } else {
+            $stages = Pet::evolutionStages();
+        }
         $stage = $stages[min($level, 10)] ?? $stages[0];
         $stage['exp_max'] = ($level + 1) * 100;
 
