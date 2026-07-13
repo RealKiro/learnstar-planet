@@ -279,6 +279,10 @@ Route::prefix('v1')->group(function () {
         Route::get('sse', [\App\Http\Controllers\Api\DisplayController::class, 'sse']);
         Route::get('poll', [\App\Http\Controllers\Api\DisplayController::class, 'poll']);
         Route::post('quick-score', [\App\Http\Controllers\Api\DisplayController::class, 'quickScore']);
+        Route::get('leaderboard', [\App\Http\Controllers\Api\DisplayController::class, 'quickLeaderboard']);
+        Route::get('shop-items', [\App\Http\Controllers\Api\DisplayController::class, 'quickShopItems']);
+        Route::post('redeem', [\App\Http\Controllers\Api\DisplayController::class, 'quickRedeem']);
+        Route::post('transfer', [\App\Http\Controllers\Api\DisplayController::class, 'quickTransfer']);
     });
 
     // ===== 班级大屏 - 教师端管理（需教师登录） =====

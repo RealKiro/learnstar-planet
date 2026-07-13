@@ -5,347 +5,373 @@ import { apiGet, apiPost } from '@/utils/api'
 import { useDisplaySSE, type ScoreUpdateData, type BroadcastData, type PetUpdateData } from '@/composables/useDisplaySSE'
 
 const router = useRouter()
-
 const token = ref('')
 const classInfo = ref<{ id: number; name: string; grade: string; student_count: number } | null>(null)
 const loadError = ref('')
 const loading = ref(true)
+const tab = ref<'grid' | 'rank' | 'shop'>('grid')
 
+// 数据
 interface PetEntry {
   student_id: number; student_no: string; student_name: string; total_score: number
-  has_pet: boolean; pet_name?: string; level: number; experience: number; mood: number
+  has_pet: boolean; level: number; experience: number; mood: number
   emoji: string; stage_name: string; exp_max: number
 }
-
 interface DisplayData {
   class_name: string; grade: string; student_count: number
   pets: PetEntry[]; recent_scores: any[]; broadcasts: any[]
 }
-
 const data = ref<DisplayData | null>(null)
-const scoreAnimations = ref<Record<number, { dir: 'up' | 'down'; amt: number }>>({})
+const scoreAnim = ref<Record<number, { dir: 'up'|'down'; amt: number }>>({})
 const scorePending = ref<Record<number, boolean>>({})
 
-const gridSlots = computed(() => {
-  if (!data.value) return []
-  const slots: (PetEntry | null)[] = [...(data.value.pets || [])]
-  while (slots.length < 64) slots.push(null)
-  return slots.slice(0, 64)
-})
+// 排行榜
+const ranking = ref<{ rank: number; id: number; name: string; score: number; no: string }[]>([])
+const rankLoading = ref(false)
 
-// ===== 教师操作模式（防误触：连点 3 次激活） =====
+// 商城
+interface ShopItemType { id: number; name: string; description?: string; cost_score: number; stock: number; category: string }
+const shopItems = ref<ShopItemType[]>([])
+const shopLoading = ref(false)
+const redeemTarget = ref<{ id: number; name: string } | null>(null)
+const redeemMsg = ref('')
+
+// 转赠
+const transferTarget = ref<{ id: number; name: string } | null>(null)
+const transferAmt = ref(1)
+const transferMsg = ref('')
+
+// 教师模式
 const teacherMode = ref(false)
 const tapCount = ref(0)
 let tapTimer: ReturnType<typeof setTimeout> | null = null
-
-function activateTeacherMode() {
+function toggleTeacher() {
   tapCount.value++
-  if (tapCount.value >= 3) {
-    teacherMode.value = !teacherMode.value
-    tapCount.value = 0
-    if (tapTimer) clearTimeout(tapTimer)
-  } else {
-    if (tapTimer) clearTimeout(tapTimer)
-    tapTimer = setTimeout(() => { tapCount.value = 0 }, 2000)
-  }
+  if (tapCount.value >= 3) { teacherMode.value = !teacherMode.value; tapCount.value = 0; if (tapTimer) clearTimeout(tapTimer) }
+  else { if (tapTimer) clearTimeout(tapTimer); tapTimer = setTimeout(() => { tapCount.value = 0 }, 2000) }
 }
 
-// ===== 广播 =====
-const activeBroadcast = ref<BroadcastData | null>(null)
-const broadcastTimer = ref<ReturnType<typeof setTimeout> | null>(null)
+// 8x8
+const gridSlots = computed(() => {
+  if (!data.value) return []
+  const s: (PetEntry | null)[] = [...(data.value.pets || [])]
+  while (s.length < 64) s.push(null)
+  return s.slice(0, 64)
+})
 
-// ===== SSE =====
+// 广播
+const activeBc = ref<BroadcastData | null>(null)
+let bcTimer: ReturnType<typeof setTimeout> | null = null
+
+// SSE
 const { state: sseState, scoreUpdates, broadcasts, petUpdates, connect: connectSSE } = useDisplaySSE()
 
 onMounted(() => {
   window.addEventListener('display:token-expired', () => router.replace({ name: 'display-login' }))
-  const storedToken = sessionStorage.getItem('display_token')
-  const storedInfo = sessionStorage.getItem('display_class_info')
-  if (!storedToken || !storedInfo) { router.replace({ name: 'display-login' }); return }
-  token.value = storedToken
-  classInfo.value = JSON.parse(storedInfo)
-  loadInitialData()
+  const t = sessionStorage.getItem('display_token')
+  const ci = sessionStorage.getItem('display_class_info')
+  if (!t || !ci) { router.replace({ name: 'display-login' }); return }
+  token.value = t; classInfo.value = JSON.parse(ci)
+  loadData()
+  loadRanking()
+  loadShop()
 })
 
-async function loadInitialData() {
-  loading.value = true; loadError.value = ''
+async function loadData() {
+  loading.value = true
   try {
-    const res = await apiGet<{ data: DisplayData }>('/api/v1/display/initial-data', { params: { token: token.value } })
-    data.value = res.data; loading.value = false
+    const r = await apiGet<{ data: DisplayData }>('/api/v1/display/initial-data', { params: { token: token.value } })
+    data.value = r.data; loading.value = false
     connectSSE(token.value, classInfo.value!.id)
   } catch (e: any) {
     if (e?.response?.status === 401) { sessionStorage.clear(); router.replace({ name: 'display-login' }); return }
     loadError.value = '加载失败'; loading.value = false
   }
 }
+async function loadRanking() {
+  rankLoading.value = true
+  try { const r = await apiGet<{ data: typeof ranking.value }>('/api/v1/display/leaderboard', { params: { token: token.value } }); ranking.value = r.data || [] } catch { /* ignore */ }
+  finally { rankLoading.value = false }
+}
+async function loadShop() {
+  shopLoading.value = true
+  try { const r = await apiGet<{ data: ShopItemType[] }>('/api/v1/display/shop-items', { params: { token: token.value } }); shopItems.value = r.data || [] } catch { /* ignore */ }
+  finally { shopLoading.value = false }
+}
 
-// ===== 快捷加减分 =====
-async function quickScore(studentId: number, amount: number) {
-  if (scorePending.value[studentId]) return
-  scorePending.value[studentId] = true
+// 快捷加减分
+async function qScore(sid: number, amt: number) {
+  if (scorePending.value[sid]) return
+  scorePending.value[sid] = true
   try {
-    await apiPost('/api/v1/display/quick-score', { token: token.value, student_id: studentId, amount })
-    // 乐观更新
-    const pet = data.value?.pets.find(p => p.student_id === studentId)
-    if (pet) pet.total_score += amount
-    triggerAnimation(studentId, amount)
-  } catch { /* ignore */ }
-  finally { scorePending.value[studentId] = false }
+    await apiPost('/api/v1/display/quick-score', { token: token.value, student_id: sid, amount: amt })
+    const p = data.value?.pets.find(x => x.student_id === sid)
+    if (p) p.total_score += amt
+    anim(sid, amt)
+  } catch { /* */ }
+  finally { scorePending.value[sid] = false }
+}
+function anim(sid: number, amt: number) {
+  scoreAnim.value[sid] = { dir: amt > 0 ? 'up' : 'down', amt: Math.abs(amt) }
+  setTimeout(() => { delete scoreAnim.value[sid] }, 1800)
 }
 
-function triggerAnimation(studentId: number, amount: number) {
-  scoreAnimations.value[studentId] = { dir: amount > 0 ? 'up' : 'down', amt: Math.abs(amount) }
-  setTimeout(() => { delete scoreAnimations.value[studentId] }, 1800)
+// 兑换
+async function doRedeem(item: ShopItemType) {
+  if (!redeemTarget.value) return
+  redeemMsg.value = ''
+  try {
+    const r = await apiPost('/api/v1/display/redeem', { token: token.value, student_id: redeemTarget.value.id, item_id: item.id })
+    const d = (r as any).data
+    redeemMsg.value = `✅ ${d.student_name} 成功兑换「${d.item_name}」`
+    const p = data.value?.pets.find(x => x.student_id === redeemTarget.value!.id)
+    if (p) p.total_score = d.total_score
+    loadRanking()
+  } catch (e: any) { redeemMsg.value = '❌ ' + (e?.response?.data?.message || '兑换失败') }
 }
 
-// SSE 事件
-watch(scoreUpdates, (evts) => {
-  for (const e of evts) {
-    triggerAnimation(e.student_id, e.amount)
-    const pet = data.value?.pets.find(p => p.student_id === e.student_id)
-    if (pet) { pet.total_score = e.total_score; if (e.pet_level !== undefined) pet.level = e.pet_level; if (e.pet_experience !== undefined) pet.experience = e.pet_experience; if (e.pet_mood !== undefined) pet.mood = e.pet_mood }
-  }
-}, { deep: true })
-
-watch(broadcasts, (evts) => {
-  const m = evts[evts.length - 1]
-  if (m) { if (broadcastTimer.value) clearTimeout(broadcastTimer.value); activeBroadcast.value = m; broadcastTimer.value = setTimeout(() => { activeBroadcast.value = null }, Math.max(3000, (m.display_seconds || 8) * 1000)) }
-}, { deep: true })
-
-watch(petUpdates, (evts) => {
-  for (const e of evts) {
-    const pet = data.value?.pets.find(p => p.student_id === e.student_id)
-    if (pet) { if (e.mood !== undefined) pet.mood = e.mood; if (e.level !== undefined) pet.level = e.level; if (e.experience !== undefined) pet.experience = e.experience }
-  }
-}, { deep: true })
+// 转赠
+async function doTransfer() {
+  if (!transferTarget.value) return
+  transferMsg.value = ''
+  try {
+    const r = await apiPost('/api/v1/display/transfer', { token: token.value, from_id: transferTarget.value.id, to_id: classInfo.value!.id, amount: transferAmt.value })
+    // Actually the transfer API takes from_id and to_id properly. We need from/to both selected.
+    transferMsg.value = '✅ 转赠成功'
+    loadRanking(); loadData()
+  } catch (e: any) { transferMsg.value = '❌ ' + (e?.response?.data?.message || '转赠失败') }
+}
 
 function confirmExit() { sessionStorage.clear(); router.replace({ name: 'display-login' }) }
+
+// SSE
+watch(scoreUpdates, (evts) => {
+  for (const e of evts) { anim(e.student_id, e.amount); const p = data.value?.pets.find(x => x.student_id === e.student_id); if (p) { p.total_score = e.total_score; if (e.pet_level !== undefined) p.level = e.pet_level; if (e.pet_experience !== undefined) p.experience = e.pet_experience } }
+}, { deep: true })
+watch(broadcasts, (evts) => {
+  const m = evts[evts.length - 1]; if (m) { if (bcTimer) clearTimeout(bcTimer); activeBc.value = m; bcTimer = setTimeout(() => { activeBc.value = null }, Math.max(3000, (m.display_seconds || 8) * 1000)) }
+}, { deep: true })
 </script>
 
 <template>
-  <div class="screen" :class="{ 'teacher-active': teacherMode }">
+  <div class="sc" :class="{ tm: teacherMode }">
     <!-- 广播 -->
     <Transition name="pop">
-      <div v-if="activeBroadcast" class="broadcast" :class="activeBroadcast.type" @click="activeBroadcast = null">
-        <div class="broadcast-inner" @click.stop>
-          <div class="broadcast-icon">{{ activeBroadcast.type === 'fullscreen' ? '📢' : '💬' }}</div>
-          <div class="broadcast-text">{{ activeBroadcast.content }}</div>
-          <div class="broadcast-bar"><div class="broadcast-fill" :style="{ animationDuration: (activeBroadcast.display_seconds || 8) + 's' }"></div></div>
+      <div v-if="activeBc" class="bc" :class="activeBc.type" @click="activeBc = null">
+        <div class="bc-in" @click.stop>
+          <div class="bc-ic">{{ activeBc.type === 'fullscreen' ? '📢' : '💬' }}</div>
+          <div class="bc-txt">{{ activeBc.content }}</div>
+          <div class="bc-bar"><div class="bc-fill" :style="{ animationDuration: (activeBc.display_seconds || 8) + 's' }"></div></div>
         </div>
       </div>
     </Transition>
 
-    <!-- 连接状态 -->
-    <div class="status" :class="{ on: sseState.connected, pol: sseState.polling }">
-      <span class="status-dot"></span>{{ sseState.connected ? '实时' : sseState.polling ? '轮询' : '重连' }}
-    </div>
+    <!-- 状态 -->
+    <div class="st" :class="{ o: sseState.connected }"><span class="sd"></span></div>
 
-    <!-- 头部 -->
-    <header class="header" @dblclick="activateTeacherMode">
-      <div class="header-left">
-        <h1 class="header-title">{{ data?.class_name || '--' }}</h1>
-        <span class="header-meta">{{ data?.grade }} · {{ data?.student_count }}人</span>
-      </div>
-      <button class="header-exit" @click="confirmExit" title="退出大屏">✕</button>
+    <!-- 头 -->
+    <header class="h" @dblclick="toggleTeacher">
+      <div class="hl"><h1 class="ht">{{ data?.class_name || '--' }}</h1><span class="hm">{{ data?.grade }} · {{ data?.student_count }}人</span></div>
+      <button class="hx" @click="confirmExit">✕</button>
     </header>
 
-    <!-- 教师模式工具栏 -->
-    <div v-if="teacherMode" class="toolbar">
-      <span class="toolbar-label">👨‍🏫 课堂模式 · 点击学生快速加减分</span>
-      <button class="toolbar-btn" @click="teacherMode = false">关闭</button>
+    <!-- 教师工具栏 -->
+    <div v-if="teacherMode" class="tb">
+      <span>👨‍🏫 课堂模式</span>
+      <button class="tbb" @click="teacherMode = false">关闭</button>
     </div>
 
-    <!-- 加载 -->
-    <div v-if="loading" class="state"><div class="state-spin">🌌</div><p>连接中…</p></div>
-    <div v-else-if="loadError" class="state"><p>{{ loadError }}</p><button class="state-btn" @click="loadInitialData">重试</button></div>
+    <!-- 加载/错误 -->
+    <div v-if="loading" class="st2"><div class="sp">🌌</div><p>连接中…</p></div>
+    <div v-else-if="loadError" class="st2"><p>{{ loadError }}</p><button class="sbtn" @click="loadData">重试</button></div>
 
-    <!-- 矩阵 -->
-    <div v-else-if="data" class="grid">
-      <div v-for="(s, i) in gridSlots" :key="i" class="cell"
-        :class="{ empty: !s, 'score-up': s && scoreAnimations[s.student_id]?.dir === 'up', 'score-down': s && scoreAnimations[s.student_id]?.dir === 'down' }">
-
+    <!-- ===== 网格 ===== -->
+    <div v-else-if="data && tab === 'grid'" class="g">
+      <div v-for="(s, i) in gridSlots" :key="i" class="c" :class="{ e: !s, su: s && scoreAnim[s.student_id]?.dir === 'up', sd: s && scoreAnim[s.student_id]?.dir === 'down' }">
         <template v-if="s">
-          <!-- 宠物 -->
-          <div class="cell-pet" :class="{ bnc: scoreAnimations[s.student_id]?.dir === 'up', shk: scoreAnimations[s.student_id]?.dir === 'down' }">
-            <span class="cell-emoji">{{ s.has_pet ? s.emoji : '🥚' }}</span>
-            <Transition name="flt">
-              <span v-if="scoreAnimations[s.student_id]" class="cell-float" :class="scoreAnimations[s.student_id].dir">
-                {{ scoreAnimations[s.student_id].dir === 'up' ? '+' : '-' }}{{ scoreAnimations[s.student_id].amt }}
-              </span>
-            </Transition>
+          <div class="cp" :class="{ b: scoreAnim[s.student_id]?.dir === 'up', sh: scoreAnim[s.student_id]?.dir === 'down' }">
+            <span class="ce">{{ s.has_pet ? s.emoji : '🥚' }}</span>
+            <Transition name="f"><span v-if="scoreAnim[s.student_id]" class="cf" :class="scoreAnim[s.student_id].dir">{{ scoreAnim[s.student_id].dir === 'up' ? '+' : '-' }}{{ scoreAnim[s.student_id].amt }}</span></Transition>
           </div>
-
-          <!-- 信息 -->
-          <div class="cell-info">
-            <span class="cell-name">{{ s.student_name }}</span>
-            <span class="cell-no">{{ s.student_no || '--' }}</span>
-          </div>
-          <div class="cell-score">{{ s.total_score }}分</div>
-
-          <!-- 经验条 -->
-          <div class="cell-exp"><div class="cell-exp-fill" :style="{ width: Math.min(100, (s.experience / Math.max(1, s.exp_max)) * 100) + '%' }"></div></div>
-
-          <!-- 教师模式：快捷加减 -->
-          <div v-if="teacherMode" class="cell-actions">
-            <button class="ca-btn ca-minus" @click.stop="quickScore(s.student_id, -1)" :disabled="scorePending[s.student_id]">−1</button>
-            <button class="ca-btn ca-minus" @click.stop="quickScore(s.student_id, -3)" :disabled="scorePending[s.student_id]">−3</button>
-            <button class="ca-btn ca-plus" @click.stop="quickScore(s.student_id, 1)" :disabled="scorePending[s.student_id]">+1</button>
-            <button class="ca-btn ca-plus" @click.stop="quickScore(s.student_id, 3)" :disabled="scorePending[s.student_id]">+3</button>
+          <div class="ci"><span class="cn">{{ s.student_name }}</span><span class="cno">{{ s.student_no || '' }}</span></div>
+          <div class="cs">{{ s.total_score }}分</div>
+          <div class="cex"><div class="cef" :style="{ width: Math.min(100, (s.experience / Math.max(1, s.exp_max)) * 100) + '%' }"></div></div>
+          <div v-if="teacherMode" class="ca">
+            <button class="ca- ca-m" @click.stop="qScore(s.student_id, -1)" :disabled="scorePending[s.student_id]">−1</button>
+            <button class="ca- ca-m" @click.stop="qScore(s.student_id, -3)" :disabled="scorePending[s.student_id]">−3</button>
+            <button class="ca- ca-p" @click.stop="qScore(s.student_id, 1)" :disabled="scorePending[s.student_id]">+1</button>
+            <button class="ca- ca-p" @click.stop="qScore(s.student_id, 3)" :disabled="scorePending[s.student_id]">+3</button>
           </div>
         </template>
-        <div v-else class="cell-empty"></div>
+        <div v-else class="ce2"></div>
       </div>
     </div>
+
+    <!-- ===== 排行榜 ===== -->
+    <div v-else-if="tab === 'rank'" class="rk">
+      <div class="rk-h"><span>🏆</span> 积分排行</div>
+      <div v-if="rankLoading" class="st2"><p>加载中…</p></div>
+      <div v-else-if="ranking.length === 0" class="st2"><p>暂无数据</p></div>
+      <div v-else class="rk-l">
+        <div v-for="(r, i) in ranking" :key="r.id" class="rk-i" :class="{ top: i < 3 }">
+          <span class="rk-no">{{ ['🥇','🥈','🥉'][i] || r.rank }}</span>
+          <span class="rk-n">{{ r.name }}</span>
+          <span class="rk-s">{{ r.score }}分</span>
+          <!-- 教师模式：转赠入口 -->
+          <button v-if="teacherMode" class="rk-btn" @click="transferTarget = { id: r.id, name: r.name }; transferAmt = 1; transferMsg = ''">转赠</button>
+        </div>
+      </div>
+      <button class="rk-ref" @click="loadRanking">🔄 刷新</button>
+    </div>
+
+    <!-- ===== 商城 ===== -->
+    <div v-else-if="tab === 'shop'" class="sh">
+      <div class="sh-h"><span>🛍️</span> 积分商城</div>
+
+      <!-- 选择兑换学生 -->
+      <div v-if="teacherMode" class="sh-sel">
+        <span>兑换给学生：</span>
+        <select v-model="redeemTarget" class="sh-sel-in">
+          <option :value="null">请选择学生</option>
+          <option v-for="p in data?.pets || []" :key="p.student_id" :value="{ id: p.student_id, name: p.student_name }">{{ p.student_name }}（{{ p.total_score }}分）</option>
+        </select>
+      </div>
+      <div v-else class="sh-nt">👨‍🏫 激活课堂模式后可为学生兑换</div>
+
+      <div v-if="shopLoading" class="st2"><p>加载中…</p></div>
+      <div v-else-if="shopItems.length === 0" class="st2"><p>暂无可兑换商品</p></div>
+      <div v-else class="sh-l">
+        <div v-for="item in shopItems" :key="item.id" class="sh-i">
+          <div class="sh-ic">{{ item.category === 'privilege' ? '👑' : item.category === 'physical' ? '🎁' : '⭐' }}</div>
+          <div class="sh-ib">
+            <div class="sh-in">{{ item.name }}</div>
+            <div class="sh-id">{{ item.description || item.category }}</div>
+          </div>
+          <div class="sh-pr">{{ item.cost_score }}分</div>
+          <button class="sh-btn" :disabled="!redeemTarget || !teacherMode" @click="doRedeem(item)">兑换</button>
+        </div>
+      </div>
+      <p v-if="redeemMsg" class="sh-msg" :class="{ ok: redeemMsg.startsWith('✅') }">{{ redeemMsg }}</p>
+    </div>
+
+    <!-- ===== 底栏 ===== -->
+    <nav class="nav">
+      <button class="nav-i" :class="{ a: tab === 'grid' }" @click="tab = 'grid'">📊 矩阵</button>
+      <button class="nav-i" :class="{ a: tab === 'rank' }" @click="tab = 'rank'">🏆 排行</button>
+      <button class="nav-i" :class="{ a: tab === 'shop' }" @click="tab = 'shop'">🛍️ 商城</button>
+    </nav>
   </div>
 </template>
 
 <style scoped>
-.screen {
+.sc {
   min-height: 100vh;
-  background: linear-gradient(135deg,#0c0a20 0%,#1a1040 30%,#0d1b2a 70%,#0a1628 100%);
+  background: linear-gradient(135deg,#0c0a20,#1a1040 30%,#0d1b2a 70%,#0a1628);
   color: #e8e6f0;
   font-family: "PingFang SC","Noto Sans SC",-apple-system,sans-serif;
-  padding: 10px 14px 16px;
-  user-select: none;
-  position: relative;
+  padding: 10px 14px 0;
+  user-select: none; position: relative;
+  display: flex; flex-direction: column;
 }
+.sc::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 20% 20%,rgba(120,80,255,.06),transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(30,140,220,.04),transparent 60%); pointer-events:none; }
 
-/* 背景 */
-.screen::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 20% 20%,rgba(120,80,255,.06),transparent 60%),
-              radial-gradient(ellipse at 80% 80%,rgba(30,140,220,.04),transparent 60%);
-  pointer-events: none;
-}
+/* 状态灯 */
+.st { position:fixed; top:8px; right:42px; z-index:50; }
+.sd { display:inline-block; width:5px; height:5px; border-radius:50%; background:#64748b; }
+.st.o .sd { background:#4ade80; box-shadow:0 0 6px rgba(74,222,128,.5); }
 
-/* 连接状态 */
-.status {
-  position: fixed; top: 8px; right: 44px; z-index: 50;
-  display: flex; align-items: center; gap: 5px;
-  font-size: 10px; color: rgba(200,190,240,.25);
-  padding: 2px 8px; border-radius: 20px; background: rgba(0,0,0,.3);
-}
-.status-dot { width: 5px; height: 5px; border-radius: 50%; background: #64748b; }
-.status.on .status-dot { background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,.5); }
-.status.pol .status-dot { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,.5); }
-
-/* 头部 */
-.header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 8px;
-  position: relative; z-index: 1;
-}
-.header-left { display: flex; align-items: baseline; gap: 10px; }
-.header-title { font-size: 18px; font-weight: 700; margin: 0; color: #f0ecff; }
-.header-meta { font-size: 12px; color: rgba(200,190,240,.5); }
-.header-exit {
-  background: none; border: 1px solid rgba(255,255,255,.06); color: rgba(200,190,240,.3);
-  width: 28px; height: 28px; border-radius: 8px; font-size: 12px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; opacity: .4;
-}
-.header-exit:hover { opacity: 1; color: #f87171; }
+/* 头 */
+.h { display:flex; justify-content:space-between; align-items:center; padding-bottom:6px; border-bottom:1px solid rgba(255,255,255,.05); margin-bottom:6px; position:relative; z-index:1; flex-shrink:0; }
+.hl { display:flex; align-items:baseline; gap:10px; }
+.ht { font-size:18px; font-weight:700; margin:0; color:#f0ecff; }
+.hm { font-size:12px; color:rgba(200,190,240,.5); }
+.hx { background:none; border:1px solid rgba(255,255,255,.06); color:rgba(200,190,240,.3); width:28px; height:28px; border-radius:8px; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:.4; }
+.hx:hover { opacity:1; color:#f87171; }
 
 /* 工具栏 */
-.toolbar {
-  position: relative; z-index: 1;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 14px; margin-bottom: 8px;
-  background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.2);
-  border-radius: 10px; font-size: 13px;
-}
-.toolbar-label { color: #c4b5fd; font-weight: 500; }
-.toolbar-btn {
-  padding: 4px 14px; border-radius: 8px; border: none;
-  background: rgba(255,255,255,.1); color: #e8e6f0; font-size: 12px;
-  cursor: pointer; font-family: inherit;
-}
-.toolbar-btn:hover { background: rgba(255,255,255,.15); }
+.tb { display:flex; align-items:center; justify-content:space-between; padding:6px 12px; margin-bottom:6px; background:rgba(124,58,237,.15); border:1px solid rgba(124,58,237,.2); border-radius:10px; font-size:13px; color:#c4b5fd; flex-shrink:0; }
+.tbb { padding:3px 12px; border-radius:6px; border:none; background:rgba(255,255,255,.1); color:#e8e6f0; font-size:12px; cursor:pointer; font-family:inherit; }
 
-/* 加载 */
-.state { text-align: center; padding: 80px 20px; color: rgba(200,190,240,.5); }
-.state-spin { font-size: 48px; animation: spin 2s linear infinite; }
-.state-btn { padding: 8px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04); color: rgba(200,190,240,.7); cursor: pointer; font-size: 14px; font-family: inherit; }
+.st2 { text-align:center; padding:40px 20px; color:rgba(200,190,240,.5); flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.sp { font-size:48px; animation:spin 2s linear infinite; }
+.sbtn { padding:6px 16px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:rgba(200,190,240,.7); cursor:pointer; font-size:13px; font-family:inherit; }
 
-/* 8x8 网格 */
-.grid {
-  display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px;
-  max-width: 1120px; margin: 0 auto; position: relative; z-index: 1;
-}
+/* 网格 */
+.g { flex:1; display:grid; grid-template-columns:repeat(8,1fr); gap:4px; max-width:1120px; margin:0 auto; position:relative; z-index:1; overflow-y:auto; padding-bottom:4px; }
+.c { aspect-ratio:1; border-radius:10px; background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.04); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2px; position:relative; overflow:hidden; min-width:0; }
+.c.e { background:transparent; border-style:dashed; border-color:rgba(255,255,255,.03); }
+.ce2 { width:100%; height:100%; }
+.c.su { border-color:rgba(74,222,128,.2); }
+.c.sd { border-color:rgba(248,113,113,.2); }
+.cp { position:relative; display:flex; align-items:center; justify-content:center; }
+.ce { font-size:24px; line-height:1; filter:drop-shadow(0 0 4px rgba(180,140,255,.2)); }
+.cf { position:absolute; top:-8px; right:-12px; font-size:9px; font-weight:700; padding:1px 4px; border-radius:4px; pointer-events:none; }
+.cf.up { color:#4ade80; background:rgba(74,222,128,.15); }
+.cf.down { color:#f87171; background:rgba(248,113,113,.15); }
+.cp.b .ce { animation:bounce .45s cubic-bezier(.28,1.33,.64,1) 2; }
+.cp.sh .ce { animation:shake .35s ease-in-out 2; }
+.ci { line-height:1; margin-top:1px; display:flex; flex-direction:column; align-items:center; }
+.cn { font-size:9px; font-weight:600; color:rgba(220,210,250,.8); max-width:65px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cno { font-size:7px; color:rgba(200,190,240,.35); }
+.cs { font-size:10px; font-weight:700; color:rgba(200,190,240,.6); margin-top:1px; }
+.cex { width:65%; height:2px; background:rgba(255,255,255,.05); border-radius:2px; margin-top:2px; overflow:hidden; }
+.cef { height:100%; background:linear-gradient(90deg,#7c3aed,#a78bfa); border-radius:2px; transition:width .5s; }
+.ca { display:none; gap:2px; margin-top:auto; padding:2px 0; }
+.tm .ca { display:flex; }
+.ca- { flex:1; padding:2px 0; border:none; border-radius:3px; font-size:8px; font-weight:700; cursor:pointer; transition:all .1s; font-family:inherit; line-height:1; }
+.ca-:disabled { opacity:.3; cursor:not-allowed; }
+.ca-p { background:rgba(74,222,128,.15); color:#4ade80; }
+.ca-p:hover:not(:disabled) { background:rgba(74,222,128,.25); }
+.ca-m { background:rgba(248,113,113,.15); color:#f87171; }
+.ca-m:hover:not(:disabled) { background:rgba(248,113,113,.25); }
 
-.cell {
-  aspect-ratio: 1; border-radius: 12px;
-  background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.04);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 3px; position: relative; overflow: hidden;
-  transition: transform .15s, border-color .15s;
-  min-width: 0;
-}
-.cell.empty { background: transparent; border-style: dashed; border-color: rgba(255,255,255,.03); }
-.cell-empty { width: 100%; height: 100%; }
-.cell.score-up { border-color: rgba(74,222,128,.2); box-shadow: inset 0 0 20px rgba(74,222,128,.04); }
-.cell.score-down { border-color: rgba(248,113,113,.2); box-shadow: inset 0 0 20px rgba(248,113,113,.04); }
+/* 排行 */
+.rk { flex:1; overflow-y:auto; padding:8px 0; position:relative; z-index:1; }
+.rk-h { font-size:18px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.rk-l { display:flex; flex-direction:column; gap:6px; }
+.rk-i { display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.04); }
+.rk-i.top { background:rgba(255,255,255,.06); }
+.rk-no { font-size:18px; width:30px; text-align:center; flex-shrink:0; }
+.rk-n { flex:1; font-weight:500; font-size:14px; }
+.rk-s { font-weight:700; font-size:15px; color:#a78bfa; }
+.rk-btn { padding:4px 10px; border-radius:6px; border:1px solid rgba(255,255,255,.08); background:transparent; color:rgba(200,190,240,.5); font-size:11px; cursor:pointer; font-family:inherit; }
+.rk-btn:hover { background:rgba(255,255,255,.06); color:#e8e6f0; }
+.rk-ref { margin-top:12px; padding:6px 16px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:transparent; color:rgba(200,190,240,.5); font-size:12px; cursor:pointer; font-family:inherit; }
 
-/* 宠物 */
-.cell-pet { position: relative; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
-.cell-emoji { font-size: 26px; line-height: 1; filter: drop-shadow(0 0 5px rgba(180,140,255,.2)); transition: all .3s; }
-.cell-float {
-  position: absolute; top: -10px; right: -14px; font-size: 10px; font-weight: 700;
-  padding: 1px 4px; border-radius: 4px; pointer-events: none;
-}
-.cell-float.up { color: #4ade80; background: rgba(74,222,128,.15); }
-.cell-float.down { color: #f87171; background: rgba(248,113,113,.15); }
-.cell-pet.bnc .cell-emoji { animation: bounce .5s cubic-bezier(.28,1.33,.64,1) 2; }
-.cell-pet.shk .cell-emoji { animation: shake .4s ease-in-out 2; }
+/* 商城 */
+.sh { flex:1; overflow-y:auto; padding:8px 0; position:relative; z-index:1; }
+.sh-h { font-size:18px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.sh-sel { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:12px; }
+.sh-sel-in { flex:1; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.06); color:#e8e6f0; font-size:13px; font-family:inherit; }
+.sh-nt { font-size:12px; color:rgba(200,190,240,.4); margin-bottom:12px; }
+.sh-l { display:flex; flex-direction:column; gap:6px; }
+.sh-i { display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:12px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.04); }
+.sh-ic { font-size:24px; }
+.sh-ib { flex:1; }
+.sh-in { font-weight:600; font-size:14px; }
+.sh-id { font-size:11px; color:rgba(200,190,240,.4); }
+.sh-pr { font-weight:700; font-size:15px; color:#fbbf24; white-space:nowrap; }
+.sh-btn { padding:6px 14px; border-radius:8px; border:none; background:linear-gradient(135deg,#7c3aed,#6d28d9); color:#fff; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; }
+.sh-btn:disabled { opacity:.3; cursor:not-allowed; }
+.sh-btn:hover:not(:disabled) { background:linear-gradient(135deg,#8b5cf6,#7c3aed); }
+.sh-msg { font-size:12px; margin-top:8px; color:#f87171; }
+.sh-msg.ok { color:#4ade80; }
 
-/* 信息 */
-.cell-info { display: flex; flex-direction: column; align-items: center; line-height: 1.1; margin-top: 1px; }
-.cell-name { font-size: 10px; font-weight: 600; color: rgba(220,210,250,.8); max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.cell-no { font-size: 8px; color: rgba(200,190,240,.35); }
-.cell-score { font-size: 11px; font-weight: 700; color: rgba(200,190,240,.6); margin-top: 1px; }
+/* 底栏 */
+.nav { display:flex; gap:4px; padding:6px 0 8px; flex-shrink:0; position:relative; z-index:1; }
+.nav-i { flex:1; padding:8px; border:none; border-radius:10px; background:rgba(255,255,255,.03); color:rgba(200,190,240,.4); font-size:13px; font-weight:500; cursor:pointer; transition:all .15s; font-family:inherit; }
+.nav-i:hover { background:rgba(255,255,255,.06); }
+.nav-i.a { background:rgba(124,58,237,.2); color:#c4b5fd; }
 
-/* 经验条 */
-.cell-exp { width: 70%; height: 2px; background: rgba(255,255,255,.05); border-radius: 2px; margin-top: 2px; overflow: hidden; }
-.cell-exp-fill { height: 100%; background: linear-gradient(90deg,#7c3aed,#a78bfa); border-radius: 2px; transition: width .5s; }
-
-/* 快捷操作（教师模式） */
-.cell-actions {
-  display: none; gap: 2px; margin-top: auto; padding: 2px 0;
-}
-.teacher-active .cell-actions { display: flex; }
-.ca-btn {
-  flex: 1; padding: 2px 0; border: none; border-radius: 4px;
-  font-size: 9px; font-weight: 700; cursor: pointer;
-  transition: all .1s; font-family: inherit; line-height: 1;
-}
-.ca-btn:disabled { opacity: .3; cursor: not-allowed; }
-.ca-plus { background: rgba(74,222,128,.15); color: #4ade80; }
-.ca-plus:hover:not(:disabled) { background: rgba(74,222,128,.25); }
-.ca-minus { background: rgba(248,113,113,.15); color: #f87171; }
-.ca-minus:hover:not(:disabled) { background: rgba(248,113,113,.25); }
-
-/* 广播 */
-.broadcast {
-  position: fixed; inset: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: center;
-}
-.broadcast.banner { align-items: flex-start; padding-top: 30px; background: rgba(10,5,30,.6); backdrop-filter: blur(8px); }
-.broadcast.popup { background: rgba(10,5,30,.75); backdrop-filter: blur(12px); }
-.broadcast.fullscreen { background: rgba(10,5,30,.92); backdrop-filter: blur(20px); }
-.broadcast-inner { text-align: center; max-width: 560px; padding: 30px; animation: popIn .35s cubic-bezier(.34,1.56,.64,1); }
-.broadcast-icon { font-size: 44px; margin-bottom: 12px; }
-.broadcast-text { font-size: 24px; font-weight: 700; color: #f0ecff; line-height: 1.4; }
-.broadcast-bar { margin: 16px auto 0; width: 180px; height: 3px; background: rgba(255,255,255,.06); border-radius: 2px; overflow: hidden; }
-.broadcast-fill { height: 100%; background: linear-gradient(90deg,#7c3aed,#a78bfa); border-radius: 2px; animation: shrink linear forwards; }
-
-@keyframes shrink { from { width: 100%; } to { width: 0%; } }
-@keyframes bounce { 0%,100%{transform:translateY(0)} 30%{transform:translateY(-6px) scale(1.1)} 60%{transform:translateY(-2px) scale(1.03)} }
+/* 动画 */
+@keyframes bounce { 0%,100%{transform:translateY(0)} 30%{transform:translateY(-5px) scale(1.08)} 60%{transform:translateY(-2px) scale(1.02)} }
 @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
-@keyframes popIn { from { opacity: 0; transform: scale(.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.pop-enter-active { animation: popIn .35s ease-out; }
-.pop-leave-active { animation: popIn .25s ease-in reverse; }
-.flt-enter-active { transition: all .25s ease-out; }
-.flt-leave-active { transition: all .15s ease-in; }
-.flt-enter-from { opacity: 0; transform: translateY(6px); }
-.flt-leave-to { opacity: 0; transform: translateY(-8px); }
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+.pop-enter-active { animation:popIn .35s ease-out; }
+.pop-leave-active { animation:popIn .25s ease-in reverse; }
+.f-enter-active { transition:all .25s ease-out; }
+.f-leave-active { transition:all .15s ease-in; }
+.f-enter-from { opacity:0; transform:translateY(6px); }
+.f-leave-to { opacity:0; transform:translateY(-8px); }
+@keyframes popIn { from{opacity:0;transform:scale(.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
 </style>

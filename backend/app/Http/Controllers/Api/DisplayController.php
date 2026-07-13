@@ -10,6 +10,8 @@ use App\Models\ClassRoom;
 use App\Models\ClassRoomTeacher;
 use App\Models\Pet;
 use App\Models\Score;
+use App\Models\ShopItem;
+use App\Models\ShopRedemption;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\DisplayEventService;
@@ -547,32 +549,127 @@ class DisplayController extends Controller
             'amount' => 'required|integer|in:-5,-3,-1,1,3,5',
         ]);
 
-        $studentId = (int) $request->input('student_id');
+        $student = Student::where('class_id', $classInfo['class_id'])->find((int) $request->input('student_id'));
+        if (!$student) return response()->json(['message' => '学生不存在'], 404);
+
         $amount = (int) $request->input('amount');
-        $classId = $classInfo['class_id'];
-
-        $student = Student::where('class_id', $classId)->find($studentId);
-        if (!$student) {
-            return response()->json(['message' => '学生不存在'], 404);
-        }
-
-        $teacherId = ClassRoom::where('id', $classId)->value('teacher_id');
-        if (!$teacherId) {
-            $teacherId = ClassRoomTeacher::where('class_room_id', $classId)->value('user_id');
-        }
-        if (!$teacherId) {
-            $teacherId = User::where('role', 'teacher')->where('school_id', $student->classRoom?->school_id ?? 0)->value('id');
-        }
+        $teacherId = $this->getClassTeacherId($classInfo['class_id']);
 
         try {
             $this->scoreService->giveScore($student, $amount, '课堂表现', $teacherId ?: 1);
-            return response()->json(['data' => [
-                'student_id' => $student->id,
-                'amount' => $amount,
-                'total_score' => $student->fresh()->total_score,
-            ]]);
+            return response()->json(['data' => ['total_score' => $student->fresh()->total_score]]);
         } catch (\Throwable $e) {
             return response()->json(['message' => '操作失败'], 500);
         }
+    }
+
+    // ============================================================
+    // 大屏排行榜
+    // ============================================================
+
+    public function quickLeaderboard(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) return response()->json(['message' => 'Token无效'], 401);
+
+        $students = Student::where('class_id', $classInfo['class_id'])
+            ->where('status', 'active')
+            ->orderBy('total_score', 'desc')
+            ->take(20)
+            ->get(['id', 'name', 'total_score', 'student_no']);
+
+        $data = [];
+        foreach ($students as $i => $s) {
+            $data[] = ['rank' => $i + 1, 'id' => $s->id, 'name' => $s->name, 'score' => $s->total_score, 'no' => $s->student_no];
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    // ============================================================
+    // 大屏商品列表
+    // ============================================================
+
+    public function quickShopItems(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) return response()->json(['message' => 'Token无效'], 401);
+
+        $items = ShopItem::where('class_id', $classInfo['class_id'])
+            ->where('is_active', true)
+            ->get(['id', 'name', 'description', 'cost_score', 'stock', 'category']);
+
+        return response()->json(['data' => $items]);
+    }
+
+    // ============================================================
+    // 大屏快捷兑换（教师操作，学生扣分）
+    // ============================================================
+
+    public function quickRedeem(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) return response()->json(['message' => 'Token无效'], 401);
+
+        $request->validate(['student_id' => 'required|integer', 'item_id' => 'required|integer']);
+
+        $classId = $classInfo['class_id'];
+        $student = Student::where('class_id', $classId)->find((int) $request->input('student_id'));
+        $item = ShopItem::where('class_id', $classId)->where('is_active', true)->find((int) $request->input('item_id'));
+        if (!$student || !$item) return response()->json(['message' => '学生或商品不存在'], 404);
+        if ($student->total_score < $item->cost_score) return response()->json(['message' => '积分不足'], 400);
+
+        $teacherId = $this->getClassTeacherId($classId);
+
+        try {
+            $this->scoreService->spendScore($student, $item->cost_score, '兑换：' . $item->name, $teacherId ?: 1);
+            ShopRedemption::create([
+                'student_id' => $student->id, 'shop_item_id' => $item->id, 'class_id' => $classId,
+                'cost' => $item->cost_score, 'status' => 'approved', 'approved_by' => $teacherId, 'approved_at' => now(),
+            ]);
+            return response()->json(['data' => ['student_name' => $student->name, 'item_name' => $item->name, 'cost' => $item->cost_score, 'total_score' => $student->fresh()->total_score]]);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => '兑换失败'], 500);
+        }
+    }
+
+    // ============================================================
+    // 学生间积分转赠（鼓励互助）
+    // ============================================================
+
+    public function quickTransfer(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) return response()->json(['message' => 'Token无效'], 401);
+
+        $request->validate(['from_id' => 'required|integer', 'to_id' => 'required|integer|different:from_id', 'amount' => 'required|integer|min:1|max:100']);
+
+        $classId = $classInfo['class_id'];
+        $from = Student::where('class_id', $classId)->find((int) $request->input('from_id'));
+        $to = Student::where('class_id', $classId)->find((int) $request->input('to_id'));
+        $amount = (int) $request->input('amount');
+
+        if (!$from || !$to) return response()->json(['message' => '学生不存在'], 404);
+        if ($from->total_score < $amount) return response()->json(['message' => '积分不足'], 400);
+
+        $teacherId = $this->getClassTeacherId($classId);
+        try {
+            $this->scoreService->giveScore($from, -$amount, '转赠给 ' . $to->name, $teacherId ?: 1);
+            $this->scoreService->giveScore($to, $amount, '来自 ' . $from->name . ' 的转赠', $teacherId ?: 1);
+            return response()->json(['data' => ['from_name' => $from->name, 'to_name' => $to->name, 'amount' => $amount]]);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => '转赠失败'], 500);
+        }
+    }
+
+    // ============================================================
+    // 辅助
+    // ============================================================
+
+    private function getClassTeacherId(int $classId): ?int
+    {
+        $id = ClassRoom::where('id', $classId)->value('teacher_id');
+        if (!$id) $id = ClassRoomTeacher::where('class_room_id', $classId)->value('user_id');
+        if (!$id) $id = User::where('role', 'teacher')->value('id');
+        return $id;
     }
 }
