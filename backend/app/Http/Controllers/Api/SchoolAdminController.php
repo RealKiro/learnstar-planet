@@ -1107,8 +1107,6 @@ class SchoolAdminController extends Controller
 
     /**
      * 批量将教师分配到多个班级
-     *
-     * @param  array  $assignments  [{"class_id": 1, "role": "head_teacher"}, ...]
      */
     public function assignTeacherClasses(Request $request, int $id): JsonResponse
     {
