@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\ClassRoomTeacher;
+use App\Models\Pet;
 use App\Models\Score;
 use App\Models\Student;
 use App\Models\User;
@@ -709,6 +710,7 @@ class SchoolAdminController extends Controller
                 'total_score' => 0,
                 'status' => 'active',
             ]);
+            $this->assignDefaultPet($student);
             $created[] = ['id' => $student->id, 'name' => $student->name, 'class_name' => $className, 'gender' => $student->gender];
         }
 
@@ -822,9 +824,10 @@ class SchoolAdminController extends Controller
             'total_score' => 0,
             'status' => 'active',
         ]);
+        $this->assignDefaultPet($student);
 
         return response()->json([
-            'message' => '学生「' . $student->name . '」已添加',
+            'message' => '学生「' . $student->name . '」已添加，已自动分配萌宠',
             'data' => $student,
         ], 201);
     }
@@ -1534,6 +1537,25 @@ class SchoolAdminController extends Controller
             'class_name' => $classRoom->name,
             'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
         ]]);
+    }
+
+    /**
+     * 自动分配默认宠物（新生）
+     */
+    private function assignDefaultPet(Student $student): void
+    {
+        $cuteTypes = ['orange_cat', 'husky', 'shiba', 'guinea_pig', 'hamster', 'bunny', 'parrot', 'hedgehog', 'chinchilla', 'teacup_pig', 'sugar_glider', 'alpaca'];
+        $type = $cuteTypes[array_rand($cuteTypes)];
+
+        Pet::create([
+            'student_id' => $student->id,
+            'class_id' => $student->class_id,
+            'name' => $student->name . '的萌宠',
+            'type' => $type,
+            'level' => 0,
+            'experience' => 0,
+            'mood' => 80,
+        ]);
     }
 
     /**

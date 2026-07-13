@@ -213,7 +213,7 @@ class Pet extends Model
 
     public function experienceForNextLevel(): int
     {
-        return ($this->level + 1) * 100;
+        return ($this->level + 1) * 10;
     }
 
     public function canLevelUp(): bool

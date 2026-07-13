@@ -15,6 +15,13 @@ interface DisplayData { class_name: string; grade: string; student_count: number
 const data = ref<DisplayData | null>(null)
 const scoreAnim = ref<Record<number, { dir: 'up'|'down'; amt: number }>>({})
 const scorePending = ref<Record<number, boolean>>({})
+// 每个格子可自定义加减分值
+const cellAmts = ref<Record<number, number>>({})
+function getAmt(sid: number): number { return cellAmts.value[sid] || 1 }
+function changeAmt(sid: number) {
+  const v = prompt('输入加减分值（1-10）：', String(getAmt(sid)))
+  if (v !== null) { const n = parseInt(v); if (n >= 1 && n <= 10) cellAmts.value[sid] = n }
+}
 
 // 面板（弹出覆盖层）
 const showPanel = ref<'rank'|'shop'|null>(null)
@@ -125,17 +132,15 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
               </span>
             </Transition>
           </div>
-          <div class="ci"><span class="cn">{{ s.student_name }}</span><span class="cs">{{ s.total_score }}分</span></div>
+          <div class="ci"><span class="cn">{{ s.student_name }}</span><span class="cs">{{ s.total_score }}<span class="cl">成长</span></span></div>
           <div class="cex"><div class="cef" :style="{ width: Math.min(100, (s.experience / Math.max(1, s.exp_max)) * 100) + '%' }"></div></div>
           <div class="ca">
-            <button class="ca- ca-m" @click.stop="qScore(s.student_id, -1)" :disabled="scorePending[s.student_id]">−1</button>
-            <button class="ca- ca-m3" @click.stop="qScore(s.student_id, -3)" :disabled="scorePending[s.student_id]">−3</button>
-            <button class="ca- ca-p1" @click.stop="qScore(s.student_id, 1)" :disabled="scorePending[s.student_id]">+1</button>
-            <button class="ca- ca-p3" @click.stop="qScore(s.student_id, 3)" :disabled="scorePending[s.student_id]">+3</button>
+            <button class="ca-btn ca-m" @click.stop="qScore(s.student_id, -getAmt(s.student_id))" :disabled="scorePending[s.student_id]">−</button>
+            <span class="ca-num" @click.stop="changeAmt(s.student_id)">{{ getAmt(s.student_id) }}</span>
+            <button class="ca-btn ca-p" @click.stop="qScore(s.student_id, getAmt(s.student_id))" :disabled="scorePending[s.student_id]">+</button>
           </div>
-          <!-- 悬浮侧边快捷按钮 -->
-          <button class="sb sb-l" @click.stop="qScore(s.student_id, -1)" :disabled="scorePending[s.student_id]">−</button>
-          <button class="sb sb-r" @click.stop="qScore(s.student_id, 1)" :disabled="scorePending[s.student_id]">+</button>
+          <button class="sb sb-l" @click.stop="qScore(s.student_id, -getAmt(s.student_id))" :disabled="scorePending[s.student_id]">−</button>
+          <button class="sb sb-r" @click.stop="qScore(s.student_id, getAmt(s.student_id))" :disabled="scorePending[s.student_id]">+</button>
         </template>
         <div v-else class="ce2"></div>
       </div>
@@ -217,16 +222,16 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 .sd.o { background: #4ade80; box-shadow: 0 0 8px rgba(74,222,128,.5); }
 .hr { display: flex; align-items: center; gap: 6px; pointer-events: auto; }
 .hb {
-  width: 34px; height: 34px; border-radius: 8px; border: none;
+  width: 68px; height: 68px; border-radius: 14px; border: none;
   background: rgba(0,0,0,.3); backdrop-filter: blur(8px);
-  color: rgba(255,255,255,.7); font-size: 16px;
+  color: rgba(255,255,255,.7); font-size: 28px;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
 .hb:hover { background: rgba(0,0,0,.5); }
 .hx {
-  padding: 6px 14px; border-radius: 8px; border: 1px solid rgba(248,113,113,.3);
+  padding: 14px 30px; border-radius: 14px; border: 1px solid rgba(248,113,113,.3);
   background: rgba(0,0,0,.3); backdrop-filter: blur(8px);
-  color: #fca5a5; font-size: 12px; font-weight: 600;
+  color: #fca5a5; font-size: 18px; font-weight: 600;
   cursor: pointer; font-family: inherit;
 }
 .hx:hover { background: rgba(248,113,113,.15); }
@@ -295,21 +300,20 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 .ci { display: flex; align-items: center; gap: 4px; margin: 4px 0 2px; }
 .cn { font-size: min(2vw, 15px); font-weight: 600; color: rgba(220,210,250,.8); max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cs { font-size: min(1.8vw, 13px); font-weight: 700; color: rgba(200,190,240,.5); }
+.cl { font-size: 9px; font-weight: 400; color: rgba(200,190,240,.3); margin-left: 2px; }
 
 .cex { width: 75%; height: 3px; background: rgba(255,255,255,.04); border-radius: 2px; margin: 2px 0 4px; overflow: hidden; }
 .cef { height: 100%; background: linear-gradient(90deg,#7c3aed,#a78bfa); transition: width .5s; }
 
-.ca { display: flex; gap: 3px; width: 100%; margin-top: auto; }
-.ca- { flex: 1; padding: 4px 0; border: none; border-radius: 5px; font-size: min(1.6vw, 13px); font-weight: 700; cursor: pointer; transition: all .1s; font-family: inherit; line-height: 1; }
-.ca-:disabled { opacity: .25; cursor: not-allowed; }
-.ca-p1 { background: rgba(74,222,128,.18); color: #4ade80; }
-.ca-p3 { background: rgba(74,222,128,.1); color: #4ade80; }
-.ca-p1:hover:not(:disabled) { background: rgba(74,222,128,.3); }
-.ca-p3:hover:not(:disabled) { background: rgba(74,222,128,.2); }
+.ca { display: flex; align-items: center; gap: 2px; width: 100%; margin-top: auto; }
+.ca-btn { width: 30px; padding: 5px 0; border: none; border-radius: 5px; font-size: min(1.6vw, 13px); font-weight: 700; cursor: pointer; transition: all .1s; font-family: inherit; line-height: 1; flex-shrink: 0; }
+.ca-btn:disabled { opacity: .25; cursor: not-allowed; }
+.ca-p { background: rgba(74,222,128,.18); color: #4ade80; }
+.ca-p:hover:not(:disabled) { background: rgba(74,222,128,.3); }
 .ca-m { background: rgba(248,113,113,.15); color: #f87171; }
-.ca-m3 { background: rgba(248,113,113,.08); color: #f87171; }
 .ca-m:hover:not(:disabled) { background: rgba(248,113,113,.25); }
-.ca-m3:hover:not(:disabled) { background: rgba(248,113,113,.15); }
+.ca-num { flex: 1; text-align: center; font-size: min(1.6vw, 14px); font-weight: 700; color: rgba(200,190,240,.7); cursor: pointer; padding: 4px 0; border-radius: 5px; transition: background .15s; user-select: none; }
+.ca-num:hover { background: rgba(255,255,255,.06); }
 
 /* ===== 覆盖层面板 ===== */
 .ov {

@@ -226,6 +226,24 @@ class DisplayController extends Controller
             ->orderByRaw('CAST(student_no AS UNSIGNED) ASC, id ASC')
             ->get();
 
+        // 没有宠物的学生自动分配一只（兼容旧数据）
+        $cuteTypes = ['orange_cat', 'husky', 'shiba', 'guinea_pig', 'hamster', 'bunny', 'parrot', 'hedgehog', 'chinchilla', 'teacup_pig', 'sugar_glider', 'alpaca'];
+        foreach ($students as $s) {
+            if (!$s->pet) {
+                $type = $cuteTypes[array_rand($cuteTypes)];
+                $s->pet()->create([
+                    'student_id' => $s->id,
+                    'class_id' => $s->class_id,
+                    'name' => $s->name . '的萌宠',
+                    'type' => $type,
+                    'level' => 0,
+                    'experience' => 0,
+                    'mood' => 80,
+                ]);
+                $s->load('pet');
+            }
+        }
+
         $pets = $this->formatPets($students);
 
         $recentScores = Score::where('class_id', $classId)
@@ -534,7 +552,7 @@ class DisplayController extends Controller
             $stages = Pet::evolutionStages();
         }
         $stage = $stages[min($level, 10)] ?? $stages[0];
-        $stage['exp_max'] = ($level + 1) * 100;
+        $stage['exp_max'] = ($level + 1) * 10;
 
         return $stage;
     }
