@@ -559,6 +559,7 @@ class DisplayController extends Controller
 
         try {
             $this->scoreService->giveScore($student, $amount, '课堂表现', $teacherId ?: 1);
+
             return response()->json(['data' => ['total_score' => $student->fresh()->total_score]]);
         } catch (\Throwable $e) {
             return response()->json(['message' => '操作失败'], 500);
@@ -670,6 +671,7 @@ class DisplayController extends Controller
         }
 
         $teacherId = $this->getClassTeacherId($classId);
+        
         try {
             $this->scoreService->giveScore($from, -$amount, '转赠给 ' . $to->name, $teacherId ?: 1);
             $this->scoreService->giveScore($to, $amount, '来自 ' . $from->name . ' 的转赠', $teacherId ?: 1);
