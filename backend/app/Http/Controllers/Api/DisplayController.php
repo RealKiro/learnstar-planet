@@ -550,7 +550,9 @@ class DisplayController extends Controller
         ]);
 
         $student = Student::where('class_id', $classInfo['class_id'])->find((int) $request->input('student_id'));
-        if (!$student) return response()->json(['message' => '学生不存在'], 404);
+        if (!$student) {
+            return response()->json(['message' => '学生不存在'], 404);
+        }
 
         $amount = (int) $request->input('amount');
         $teacherId = $this->getClassTeacherId($classInfo['class_id']);
@@ -570,7 +572,9 @@ class DisplayController extends Controller
     public function quickLeaderboard(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);
-        if (!$classInfo) return response()->json(['message' => 'Token无效'], 401);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效'], 401);
+        }
 
         $students = Student::where('class_id', $classInfo['class_id'])
             ->where('status', 'active')
@@ -592,7 +596,8 @@ class DisplayController extends Controller
     public function quickShopItems(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);
-        if (!$classInfo) return response()->json(['message' => 'Token无效'], 401);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效'], 401);
 
         $items = ShopItem::where('class_id', $classInfo['class_id'])
             ->where('is_active', true)
@@ -608,15 +613,18 @@ class DisplayController extends Controller
     public function quickRedeem(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);
-        if (!$classInfo) return response()->json(['message' => 'Token无效'], 401);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效'], 401);
 
         $request->validate(['student_id' => 'required|integer', 'item_id' => 'required|integer']);
 
         $classId = $classInfo['class_id'];
         $student = Student::where('class_id', $classId)->find((int) $request->input('student_id'));
         $item = ShopItem::where('class_id', $classId)->where('is_active', true)->find((int) $request->input('item_id'));
-        if (!$student || !$item) return response()->json(['message' => '学生或商品不存在'], 404);
-        if ($student->total_score < $item->cost_score) return response()->json(['message' => '积分不足'], 400);
+        if (!$student || !$item) {
+            return response()->json(['message' => '学生或商品不存在'], 404);
+        if ($student->total_score < $item->cost_score) {
+            return response()->json(['message' => '积分不足'], 400);
 
         $teacherId = $this->getClassTeacherId($classId);
 
@@ -639,7 +647,8 @@ class DisplayController extends Controller
     public function quickTransfer(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);
-        if (!$classInfo) return response()->json(['message' => 'Token无效'], 401);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效'], 401);
 
         $request->validate(['from_id' => 'required|integer', 'to_id' => 'required|integer|different:from_id', 'amount' => 'required|integer|min:1|max:100']);
 
@@ -648,8 +657,10 @@ class DisplayController extends Controller
         $to = Student::where('class_id', $classId)->find((int) $request->input('to_id'));
         $amount = (int) $request->input('amount');
 
-        if (!$from || !$to) return response()->json(['message' => '学生不存在'], 404);
-        if ($from->total_score < $amount) return response()->json(['message' => '积分不足'], 400);
+        if (!$from || !$to) {
+            return response()->json(['message' => '学生不存在'], 404);
+        if ($from->total_score < $amount) {
+            return response()->json(['message' => '积分不足'], 400);
 
         $teacherId = $this->getClassTeacherId($classId);
         try {
@@ -668,8 +679,13 @@ class DisplayController extends Controller
     private function getClassTeacherId(int $classId): ?int
     {
         $id = ClassRoom::where('id', $classId)->value('teacher_id');
-        if (!$id) $id = ClassRoomTeacher::where('class_room_id', $classId)->value('user_id');
-        if (!$id) $id = User::where('role', 'teacher')->value('id');
+        if (!$id) {
+            $id = ClassRoomTeacher::where('class_room_id', $classId)->value('user_id');
+        }
+        if (!$id) {
+            $id = User::where('role', 'teacher')->value('id');
+        }
+
         return $id;
     }
 }
