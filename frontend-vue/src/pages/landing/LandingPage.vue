@@ -34,12 +34,6 @@ function goToDisplay() {
   router.push({ name: 'display-login', query: { code: displayCode.value } })
 }
 
-function onCodeInput(e: Event) {
-  const input = e.target as HTMLInputElement
-  displayCode.value = input.value.toUpperCase().replace(/[^0-9A-Z-]/g, '')
-  codeError.value = ''
-}
-
 function goLogin(role: string) {
   router.push({ name: 'login', query: { role } })
 }
