@@ -1467,4 +1467,3 @@ class SchoolAdminController extends Controller
         ]);
     }
 }
-       
