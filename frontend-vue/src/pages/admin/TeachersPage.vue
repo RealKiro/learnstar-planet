@@ -209,4 +209,4 @@ onMounted(refreshTeachers)
           <input v-model="searchQuery" class="form-input filter-search" placeholder="搜索姓名 / 账号..." />
         </div>
         <div class="view-toggle">
-          <button :class="{ active: viewMode === 'card' }" @click="viewMode = 'card'" title="卡片视图"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect 
+          <button :class="{ active: viewMode === 'card' }" @click="viewMode = 'card'" title="卡片视图"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></button>
