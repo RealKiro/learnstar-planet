@@ -235,4 +235,24 @@ class User extends Authenticatable
     {
         return $this->role === 'parent';
     }
+
+    // ========== Settings helper ==========
+
+    /**
+     * @return mixed
+     */
+    public function getSetting(string $key, mixed $default = null): mixed
+    {
+        $settings = $this->settings ?? [];
+
+        return $settings[$key] ?? $default;
+    }
+
+    public function setSetting(string $key, mixed $value): void
+    {
+        $settings = $this->settings ?? [];
+        $settings[$key] = $value;
+        $this->settings = $settings;
+        $this->save();
+    }
 }
