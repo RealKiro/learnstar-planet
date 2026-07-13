@@ -1099,4 +1099,6 @@ class SchoolAdminController extends Controller
 
         $rate->update($request->only(['rate', 'is_active']));
 
-        return response()->json(['message' => '汇率已更新', 'd
+        return response()->json(['message' => '汇率已更新', 'data' => $rate->fresh()]);
+    }
+}
