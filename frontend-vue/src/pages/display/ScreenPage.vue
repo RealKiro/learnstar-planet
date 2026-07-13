@@ -55,8 +55,8 @@ function toggleTeacher() {
 const gridSlots = computed(() => {
   if (!data.value) return []
   const s: (PetEntry | null)[] = [...(data.value.pets || [])]
-  while (s.length < 64) s.push(null)
-  return s.slice(0, 64)
+  while (s.length < 25) s.push(null)
+  return s.slice(0, 25)
 })
 
 // 广播
@@ -297,7 +297,7 @@ watch(broadcasts, (evts) => {
 .sbtn { padding:6px 16px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:rgba(200,190,240,.7); cursor:pointer; font-size:13px; font-family:inherit; }
 
 /* 网格 */
-.g { flex:1; display:grid; grid-template-columns:repeat(8,1fr); gap:4px; max-width:1120px; margin:0 auto; position:relative; z-index:1; overflow-y:auto; padding-bottom:4px; }
+.g { flex:1; display:grid; grid-template-columns:repeat(5,1fr); gap:5px; max-width:960px; margin:0 auto; position:relative; z-index:1; overflow-y:auto; padding-bottom:4px; }
 .c { aspect-ratio:1; border-radius:10px; background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.04); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2px; position:relative; overflow:hidden; min-width:0; }
 .c.e { background:transparent; border-style:dashed; border-color:rgba(255,255,255,.03); }
 .ce2 { width:100%; height:100%; }

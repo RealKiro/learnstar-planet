@@ -587,6 +587,7 @@ class DisplayController extends Controller
         foreach ($students as $i => $s) {
             $data[] = ['rank' => $i + 1, 'id' => $s->id, 'name' => $s->name, 'score' => $s->total_score, 'no' => $s->student_no];
         }
+
         return response()->json(['data' => $data]);
     }
 
@@ -639,6 +640,7 @@ class DisplayController extends Controller
                 'student_id' => $student->id, 'shop_item_id' => $item->id, 'class_id' => $classId,
                 'cost' => $item->cost_score, 'status' => 'approved', 'approved_by' => $teacherId, 'approved_at' => now(),
             ]);
+
             return response()->json(['data' => ['student_name' => $student->name, 'item_name' => $item->name, 'cost' => $item->cost_score, 'total_score' => $student->fresh()->total_score]]);
         } catch (\Throwable $e) {
             return response()->json(['message' => '兑换失败'], 500);
@@ -671,10 +673,11 @@ class DisplayController extends Controller
         }
 
         $teacherId = $this->getClassTeacherId($classId);
-        
+
         try {
             $this->scoreService->giveScore($from, -$amount, '转赠给 ' . $to->name, $teacherId ?: 1);
             $this->scoreService->giveScore($to, $amount, '来自 ' . $from->name . ' 的转赠', $teacherId ?: 1);
+
             return response()->json(['data' => ['from_name' => $from->name, 'to_name' => $to->name, 'amount' => $amount]]);
         } catch (\Throwable $e) {
             return response()->json(['message' => '转赠失败'], 500);
