@@ -1,205 +1,212 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { apiGet, apiPost, apiDelete } from '@/utils/api'
+import { ref, onMounted, computed } from 'vue'
+import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import { avatarGradient, platformLabel } from '@/utils/constants'
-import type { ApiResponse } from '@/types'
-
-const toast = useToastStore()
 
 interface Teacher {
-  id: number
-  name: string
-  username: string
-  nickname?: string
-  phone?: string
-  email?: string
-  avatar_path?: string
-  status: string
-  bindings: string[]
-  class_names: string[]
+  id: number; name: string; username: string; nickname?: string
+  subject?: string; grade_team?: string; phone?: string; email?: string
+  avatar_path?: string; status: string; bindings: string[]
+  assignments: Assignment[]; class_names: string[]
 }
-
-interface CreatedTeacher {
-  username: string
-  name: string
-  initial_password: string
+interface Assignment { class_id: number; class_name?: string; grade?: string; role: string; subject?: string }
+interface ClassRoom { id: number; name: string; grade?: string }
+type Role = 'head_teacher' | 'co_teacher' | 'subject_teacher' | 'grade_lead' | 'admin_director'
+const roleLabel: Record<Role, string> = {
+  head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任教师',
+  grade_lead: '年级首席', admin_director: '分管行政',
 }
+const roleColors: Record<Role, string> = {
+  head_teacher: '#7c3aed', co_teacher: '#2563eb', subject_teacher: '#059669',
+  grade_lead: '#d97706', admin_director: '#dc2626',
+}
+const grades = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
+const subjects = ['语文', '数学', '英语', '科学', '道德与法治', '体育', '音乐', '美术', '信息技术', '综合实践']
 
+const toast = useToastStore()
 const teachers = ref<Teacher[]>([])
+const classes = ref<ClassRoom[]>([])
 const loading = ref(true)
 
-// 批量创建弹窗状态
-const showBatchModal = ref(false)
-const batchText = ref('')
-const batchLoading = ref(false)
-const createdTeachers = ref<CreatedTeacher[]>([])
+// ──── 卡片列表／表格视图 ────
+const viewMode = ref<'card' | 'table'>('card')
 
-onMounted(async () => {
-  try {
-    const res = await apiGet<ApiResponse<Teacher[]>>('/api/v1/admin/teachers')
-    teachers.value = res.data || []
-  } catch { teachers.value = [] }
-  finally { loading.value = false }
+// ──── 筛选 ────
+const filterGrade = ref('')
+const filterRole = ref('')
+const searchQuery = ref('')
+
+const filteredTeachers = computed(() => {
+  let list = teachers.value
+  if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase()
+    list = list.filter(t => t.name.includes(q) || t.username.includes(q) || (t.nickname && t.nickname.includes(q)))
+  }
+  if (filterGrade.value) {
+    list = list.filter(t => t.grade_team === filterGrade.value)
+  }
+  if (filterRole.value) {
+    list = list.filter(t => t.assignments.some(a => a.role === filterRole.value))
+  }
+  return list
 })
 
-async function resetPwd(teacher: Teacher) {
-  const pwd = prompt(`为「${teacher.name}」设置新密码（留空自动生成）：`)
+// ──── 单个创建弹窗 ────
+const showCreateModal = ref(false)
+const createForm = ref({ name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' })
+const createAssignments = ref<{ class_id: number | null; role: Role; subject: string }[]>([])
+const createLoading = ref(false)
+
+function openCreateModal() {
+  createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
+  createAssignments.value = []
+  showCreateModal.value = true
+}
+function addCreateAssignment() {
+  createAssignments.value.push({ class_id: null, role: 'subject_teacher', subject: '' })
+}
+function removeCreateAssignment(idx: number) { createAssignments.value.splice(idx, 1) }
+async function submitCreate() {
+  createLoading.value = true
   try {
-    await apiPost(`/api/v1/admin/teachers/${teacher.id}/reset-password`, { password: pwd || undefined })
-    toast.show('密码已重置', 'success')
-  } catch { /* handled */ }
+    const payload: any = { ...createForm.value }
+    if (createAssignments.value.length > 0 && createAssignments.value.every(a => a.class_id)) {
+      payload.assignments = createAssignments.value.map(a => ({
+        class_id: a.class_id, role: a.role, subject: a.subject || undefined,
+      }))
+    }
+    await apiPost('/api/v1/admin/teachers', payload)
+    toast.show('教师创建成功', 'success')
+    showCreateModal.value = false
+    await refreshTeachers()
+  } finally { createLoading.value = false }
 }
 
-async function deleteTeacher(teacher: Teacher) {
-  if (!confirm(`确定删除教师「${teacher.name}」？\n该教师关联的班级将被解除班主任。`)) return
-  try {
-    await apiDelete(`/api/v1/admin/teachers/${teacher.id}`)
-    teachers.value = teachers.value.filter(t => t.id !== teacher.id)
-    toast.show('已删除教师：' + teacher.name, 'success')
-  } catch { /* handled */ }
-}
-
-function openBatchModal() {
-  batchText.value = ''
-  createdTeachers.value = []
-  showBatchModal.value = true
-}
-
-function downloadTemplate() {
-  const csv = '姓名,密码,手机号,邮箱\n张老师,,13800138001,zhang@example.com\n李老师,,13800138002\n'
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'teachers_template.csv'
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
-async function submitBatchCreate() {
-  const lines = batchText.value.trim().split('\n').filter(l => l.trim())
-  if (lines.length === 0) {
-    toast.show('请输入至少一位教师信息', 'error')
-    return
+// ──── 编辑教师弹窗 ────
+const showEditModal = ref(false)
+const editTarget = ref<Teacher | null>(null)
+const editForm = ref({ name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '' })
+function openEditModal(t: Teacher) {
+  editTarget.value = t
+  editForm.value = {
+    name: t.name, nickname: t.nickname || '',
+    subject: t.subject || '', grade_team: t.grade_team || '',
+    phone: t.phone || '', email: t.email || '',
   }
-
-  const teachersData = lines.map(line => {
-    const [name, password, phone, email] = line.split(',').map(s => s?.trim() || '')
-    const t: Record<string, string> = { name }
-    if (password) t.password = password
-    if (phone) t.phone = phone
-    if (email) t.email = email
-    return t
-  })
-
-  batchLoading.value = true
-  try {
-    const res = await apiPost<ApiResponse<CreatedTeacher[]>>('/api/v1/admin/teachers/batch-create', {
-      teachers: teachersData,
-    })
-    createdTeachers.value = (res as unknown as { data: CreatedTeacher[] }).data || []
-    toast.show(`成功创建 ${createdTeachers.value.length} 个教师账号`, 'success')
-    // 刷新列表
-    const listRes = await apiGet<ApiResponse<Teacher[]>>('/api/v1/admin/teachers')
-    teachers.value = listRes.data || []
-  } catch { /* handled */ }
-  finally { batchLoading.value = false }
+  showEditModal.value = true
 }
+async function submitEdit() {
+  if (!editTarget.value) return
+  try {
+    await apiPut(`/api/v1/admin/teachers/${editTarget.value.id}`, editForm.value)
+    toast.show('教师信息已更新', 'success')
+    showEditModal.value = false
+    await refreshTeachers()
+  } catch { /* handled */ }
+}
+
+// ──── 分配班级弹窗 ────
+const showAssignModal = ref(false)
+const assignTarget = ref<Teacher | null>(null)
+const assignList = ref<{ class_id: number | null; role: Role; subject: string }[]>([])
+const assignLoading = ref(false)
+function openAssignModal(t: Teacher) {
+  assignTarget.value = t
+  assignList.value = t.assignments.length > 0
+    ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '' }))
+    : [{ class_id: null, role: 'subject_teacher', subject: '' }]
+  showAssignModal.value = true
+}
+function addAssignRow() { assignList.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
+function removeAssignRow(idx: number) { assignList.value.splice(idx, 1) }
+async function submitAssign() {
+  if (!assignTarget.value) return
+  assignLoading.value = true
+  try {
+    const payload = {
+      assignments: assignList.value
+        .filter(a => a.class_id)
+        .map(a => ({ class_id: a.class_id, role: a.role, subject: a.subject || undefined })),
+    }
+    await apiPut(`/api/v1/admin/teachers/${assignTarget.value.id}/classes`, payload)
+    toast.show('班级分配已更新', 'success')
+    showAssignModal.value = false
+    await refreshTeachers()
+  } finally { assignLoading.value = false }
+}
+
+// ──── CSV 导入弹窗 ────
+const showImportModal = ref(false)
+const importFile = ref<File | null>(null)
+const importPreview = ref<any[]>([])
+const importDryRun = ref(true)
+const importLoading = ref(false)
+function openImportModal() { importFile.value = null; importPreview.value = []; importDryRun.value = true; showImportModal.value = true }
+function onFileChange(e: Event) { importFile.value = (e.target as HTMLInputElement).files?.[0] || null; importPreview.value = [] }
+async function uploadImport(isDry: boolean) {
+  if (!importFile.value) return toast.show('请选择文件', 'error')
+  importLoading.value = true; importDryRun.value = isDry
+  try {
+    const fd = new FormData(); fd.append('file', importFile.value); fd.append('dry_run', isDry ? '1' : '0')
+    const res = await apiPost<{ preview?: any[]; created?: any[]; total: number; message: string }>('/api/v1/admin/teachers/import', fd)
+    if (isDry && res.preview) {
+      importPreview.value = res.preview
+      toast.show(`预览：${res.total} 条数据，确认无误后点击"确认导入"`)
+    } else {
+      toast.show(res.message || '导入完成', 'success')
+      showImportModal.value = false
+      await refreshTeachers()
+    }
+  } finally { importLoading.value = false }
+}
+
+// ──── 其他 ────
+async function refreshTeachers() {
+  loading.value = true
+  try {
+    const [tRes, cRes] = await Promise.all([
+      apiGet<{ data: Teacher[] }>('/api/v1/admin/teachers'),
+      apiGet<{ data: ClassRoom[] }>('/api/v1/admin/classes'),
+    ])
+    teachers.value = tRes.data || []
+    classes.value = cRes.data || []
+  } finally { loading.value = false }
+}
+function downloadTemplate() { window.open('/api/v1/admin/teachers/template-csv', '_blank') }
+async function resetPwd(t: Teacher) {
+  const pwd = prompt(`为「${t.name}」设置新密码（留空自动生成）：`)
+  try { await apiPost(`/api/v1/admin/teachers/${t.id}/reset-password`, { password: pwd || undefined }); toast.show('密码已重置', 'success') } catch {}
+}
+async function deleteTeacher(t: Teacher) {
+  if (!confirm(`确定删除教师「${t.name}」？`)) return
+  try { await apiDelete(`/api/v1/admin/teachers/${t.id}`); teachers.value = teachers.value.filter(x => x.id !== t.id); toast.show('已删除', 'success') } catch {}
+}
+function classById(id: number) { return classes.value.find(c => c.id === id) }
+
+onMounted(refreshTeachers)
 </script>
 
 <template>
-  <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">账号管理</p>
-        <h2 style="font-size:24px;font-weight:700;">教师账号</h2>
+  <div class="teachers-admin" style="max-width:1400px;margin:0 auto;padding:0 4px;">
+    <!-- ──── 顶部工具栏 ──── -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="section-badge">账号管理</div>
+        <h2 class="page-title">教师账号</h2>
+        <span class="count-badge">{{ teachers.length }} 人</span>
       </div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="downloadTemplate">📥 下载模板</button>
-        <button class="btn btn-sm btn-primary" @click="openBatchModal">+ 批量创建</button>
-      </div>
-    </div>
-
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
-
-    <div v-else-if="teachers.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">👨‍🏫</div>
-      <p>暂无教师账号</p>
-    </div>
-
-    <div v-else style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;">
-      <div v-for="t in teachers" :key="t.id" class="card"
-        style="display:flex;align-items:center;gap:16px;padding:16px 24px;transition:transform 0.25s;"
-        @mouseenter="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'"
-        @mouseleave="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = ''">
-        <div :style="{ width:'48px', height:'48px', borderRadius:'14px', background: avatarGradient(t.name), color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, fontSize:'18px' }">
-          {{ t.nickname?.[0] || t.name[0] }}
+      <div class="toolbar-actions">
+        <div class="filter-group">
+          <select v-model="filterGrade" class="form-input filter-select">
+            <option value="">全部年级</option>
+            <option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option>
+          </select>
+          <select v-model="filterRole" class="form-input filter-select">
+            <option value="">全部角色</option>
+            <option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option>
+          </select>
+          <input v-model="searchQuery" class="form-input filter-search" placeholder="搜索姓名 / 账号..." />
         </div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-weight:600;font-size:15px;">
-            {{ t.name }}
-            <span v-if="t.nickname && t.nickname !== t.name" style="color:var(--color-text-secondary);font-size:12px;">@{{ t.nickname }}</span>
-          </div>
-          <div style="font-size:12px;color:var(--color-text-secondary);">{{ t.username }}{{ t.phone ? ' · ' + t.phone : '' }}</div>
-          <div style="display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;">
-            <span v-for="b in t.bindings" :key="b" style="font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(79,70,229,0.06);color:var(--color-primary);font-weight:500;">{{ platformLabel(b) }}</span>
-            <span v-for="c in t.class_names" :key="c" style="font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(245,158,11,0.1);color:#F59E0B;">🏫 {{ c }}</span>
-          </div>
-        </div>
-        <div style="display:flex;gap:6px;flex-shrink:0;">
-          <button class="btn btn-sm" style="background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border);" @click="resetPwd(t)">重置密码</button>
-          <button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1px solid #fecaca;" @click="deleteTeacher(t)">删除</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 批量创建弹窗 -->
-    <div v-if="showBatchModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.self="showBatchModal = false">
-      <div class="card" style="width:90%;max-width:560px;max-height:85vh;overflow-y:auto;padding:32px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-          <h3 style="font-size:18px;font-weight:700;">批量创建教师账号</h3>
-          <button class="btn btn-sm" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showBatchModal = false">×</button>
-        </div>
-
-        <!-- 创建结果 -->
-        <div v-if="createdTeachers.length > 0">
-          <p style="color:var(--color-text-secondary);font-size:13px;margin-bottom:12px;">已创建 {{ createdTeachers.length }} 个账号，请记录初始密码：</p>
-          <div class="data-table" style="margin-bottom:16px;">
-            <table>
-              <thead><tr><th>姓名</th><th>账号</th><th>初始密码</th></tr></thead>
-              <tbody>
-                <tr v-for="t in createdTeachers" :key="t.username">
-                  <td style="font-weight:600;">{{ t.name }}</td>
-                  <td>{{ t.username }}</td>
-                  <td style="font-family:monospace;font-weight:600;color:var(--color-primary);">{{ t.initial_password }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <button class="btn btn-primary" style="width:100%;" @click="showBatchModal = false">我已记录</button>
-        </div>
-
-        <!-- 输入表单 -->
-        <div v-else>
-          <p style="color:var(--color-text-secondary);font-size:13px;margin-bottom:12px;">
-            每行一位教师，格式：<code>姓名,密码,手机号,邮箱</code><br>
-            密码留空自动随机生成，手机号和邮箱可选
-          </p>
-          <textarea
-            v-model="batchText"
-            class="form-input"
-            style="width:100%;min-height:140px;font-family:monospace;margin-bottom:16px;"
-            placeholder="张老师,,13800138001,zhang@example.com&#10;李老师,,13800138002&#10;王老师,"
-          ></textarea>
-          <div style="display:flex;gap:8px;justify-content:flex-end;">
-            <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showBatchModal = false">取消</button>
-            <button class="btn btn-sm btn-primary" :disabled="batchLoading" @click="submitBatchCreate">
-              {{ batchLoading ? '创建中...' : '创建账号' }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
+        <div class="view-toggle">
+          <button :class="{ active: viewMode === 'card' }" @click="viewMode = 'card'" title="卡片视图"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect 
