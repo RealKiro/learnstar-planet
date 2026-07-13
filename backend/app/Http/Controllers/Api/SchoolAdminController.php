@@ -1103,6 +1103,184 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => '汇率已更新', 'data' => $rate->fresh()]);
     }
 
+    // ===== CSV 批量导入教师 =====
+
+    /**
+     * CSV/Excel 批量导入教师（预览 + 创建）
+     *
+     * Accepts multipart/form-data with a 'file' field (.csv, .xlsx, .xls)
+     * CSV columns: 姓名, 昵称, 所属年级团队, 科目, 手机号, 邮箱, 账号, 密码
+     */
+    public function importTeachers(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|mimes:csv,txt,xlsx,xls|max:10240',
+            'dry_run' => 'boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '文件上传失败', 'errors' => $validator->errors()], 422);
+        }
+
+        $school = $request->user()->school;
+        $file = $request->file('file');
+        $dryRun = $request->boolean('dry_run', true);
+
+        $rows = $this->parseTeacherFile($file);
+
+        $preview = [];
+        $errors = [];
+
+        foreach ($rows as $idx => $row) {
+            $lineNum = $idx + 2;
+
+            $name = trim($row['name'] ?? $row['姓名'] ?? '');
+            if ($name === '') {
+                continue;
+            }
+
+            $teacherData = [
+                'name'       => $name,
+                'nickname'   => trim($row['nickname'] ?? $row['昵称'] ?? ''),
+                'grade_team' => trim($row['grade_team'] ?? $row['所属年级团队'] ?? ''),
+                'subject'    => trim($row['subject'] ?? $row['科目'] ?? ''),
+                'phone'      => trim($row['phone'] ?? $row['手机号'] ?? ''),
+                'email'      => trim($row['email'] ?? $row['邮箱'] ?? ''),
+                'username'   => trim($row['username'] ?? $row['账号'] ?? ''),
+                'password'   => trim($row['password'] ?? $row['密码'] ?? ''),
+            ];
+
+            $preview[] = $teacherData;
+        }
+
+        if (!$dryRun) {
+            $created = [];
+            foreach ($preview as $teacherData) {
+                $teacherData['password'] = $teacherData['password'] ?: \Illuminate\Support\Str::random(10);
+                $result = $this->authService->createTeacherAccounts($school, [$teacherData]);
+                $created[] = $result[0] ?? null;
+            }
+
+            return response()->json([
+                'message' => '已导入 ' . count($created) . ' 名教师',
+                'total' => count($created),
+                'created' => $created,
+            ]);
+        }
+
+        return response()->json([
+            'message' => '预览模式：共 ' . count($preview) . ' 条数据，确认后传 dry_run=false 执行导入',
+            'total' => count($preview),
+            'preview' => $preview,
+            'errors' => $errors,
+        ]);
+    }
+
+    /**
+     * Parse CSV/Excel file into array of rows (first row = header)
+     */
+    private function parseTeacherFile(mixed $file): array
+    {
+        $ext = strtolower($file->getClientOriginalExtension());
+
+        if (in_array($ext, ['xlsx', 'xls'])) {
+            return $this->parseExcelFile($file->getPathname());
+        }
+
+        $path = $file->getPathname();
+        $raw = file_get_contents($path);
+
+        if ($raw === false || $raw === '') {
+            return [];
+        }
+
+        $enc = mb_detect_encoding($raw, ['UTF-8', 'GBK', 'GB2312', 'BIG5'], true);
+        if ($enc && $enc !== 'UTF-8') {
+            $raw = mb_convert_encoding($raw, 'UTF-8', $enc);
+        }
+
+        $raw = ltrim($raw, "ï»¿");
+
+        $lines = explode("
+", $raw);
+        $rows = [];
+        $delimiter = null;
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '') {
+                continue;
+            }
+
+            if ($delimiter === null) {
+                $delimiter = $this->detectCsvDelimiter($line);
+            }
+
+            $cols = str_getcsv($line, $delimiter);
+            $rows[] = $cols;
+        }
+
+        if (empty($rows)) {
+            return [];
+        }
+
+        $header = array_shift($rows);
+        $result = [];
+        foreach ($rows as $cols) {
+            $row = [];
+            foreach ($header as $i => $key) {
+                $row[$key] = $cols[$i] ?? '';
+            }
+            $result[] = $row;
+        }
+
+        return $result;
+    }
+
+    private function detectCsvDelimiter(string $line): string
+    {
+        $candidates = ["	", ',', ';'];
+        $best = ',';
+        $bestCount = 0;
+
+        foreach ($candidates as $d) {
+            $count = substr_count($line, $d);
+            if ($count > $bestCount) {
+                $bestCount = $count;
+                $best = $d;
+            }
+        }
+
+        return $best;
+    }
+
+    private function parseExcelFile(string $path): array
+    {
+        if (!class_exists('PhpOffice\PhpSpreadsheet\IOFactory')) {
+            return [];
+        }
+
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $data = $worksheet->toArray();
+
+        if (empty($data)) {
+            return [];
+        }
+
+        $header = array_shift($data);
+        $result = [];
+        foreach ($data as $row) {
+            $item = [];
+            foreach ($header as $i => $key) {
+                $item[$key] = $row[$i] ?? '';
+            }
+            $result[] = $item;
+        }
+
+        return $result;
+    }
+
     // ===== 批量教师班级分配 =====
 
     /**
@@ -1119,7 +1297,8 @@ class SchoolAdminController extends Controller
         $validator = Validator::make($request->all(), [
             'assignments' => 'required|array|min:1',
             'assignments.*.class_id' => 'required|integer|exists:class_rooms,id',
-            'assignments.*.role' => 'required|string|in:head_teacher,co_teacher',
+            'assignments.*.role' => 'required|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
+            'assignments.*.subject' => 'nullable|string|max:50',
         ]);
 
         if ($validator->fails()) {
@@ -1135,9 +1314,14 @@ class SchoolAdminController extends Controller
 
             $classRoom = ClassRoom::where('school_id', $school->id)->findOrFail($classId);
 
+            $updateData = ['role' => $role];
+            if (isset($item['subject'])) {
+                $updateData['subject'] = $item['subject'];
+            }
+
             $assignment = ClassRoomTeacher::updateOrCreate(
                 ['class_room_id' => $classId, 'user_id' => $teacher->id],
-                ['role' => $role],
+                $updateData,
             );
 
             if ($role === 'head_teacher') {
@@ -1149,6 +1333,7 @@ class SchoolAdminController extends Controller
                 'class_id' => $classId,
                 'class_name' => $classRoom->name,
                 'role' => $assignment->role,
+                'subject' => $assignment->subject,
             ];
         }
 
