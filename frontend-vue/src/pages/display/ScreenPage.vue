@@ -10,7 +10,7 @@ const classInfo = ref<{ id: number; name: string; grade: string; student_count: 
 const loadError = ref('')
 const loading = ref(true)
 
-interface PetEntry { student_id: number; student_no: string; student_name: string; total_score: number; has_pet: boolean; level: number; experience: number; mood: number; emoji: string; stage_name: string; exp_max: number }
+interface PetEntry { student_id: number; student_no: string; student_name: string; total_score: number; has_pet: boolean; level: number; experience: number; mood: number; emoji: string; stage_name: string; exp_max: number; color: string }
 interface DisplayData { class_name: string; grade: string; student_count: number; pets: PetEntry[]; recent_scores: any[]; broadcasts: any[] }
 const data = ref<DisplayData | null>(null)
 const scoreAnim = ref<Record<number, { dir: 'up'|'down'; amt: number }>>({})
@@ -113,7 +113,8 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
     <!-- 全屏 5×5 萌宠网格 -->
     <main v-if="!loading && data" class="body">
       <div v-for="(s, i) in gridSlots" :key="i" class="c"
-        :class="{ e: !s, su: s && scoreAnim[s.student_id]?.dir === 'up', sd: s && scoreAnim[s.student_id]?.dir === 'down' }">
+        :class="{ e: !s, su: s && scoreAnim[s.student_id]?.dir === 'up', sd: s && scoreAnim[s.student_id]?.dir === 'down' }"
+        :style="s?.color ? { '--pcolor': s.color } : undefined">
         <template v-if="s">
           <div class="cp" :class="{ b: scoreAnim[s.student_id]?.dir === 'up', sh: scoreAnim[s.student_id]?.dir === 'down' }">
             <span class="ce">{{ s.has_pet ? s.emoji : '🥚' }}</span>
@@ -262,9 +263,23 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 .sb-r { right: 0; background: linear-gradient(-90deg, rgba(74,222,128,.7), transparent); border-radius: 0 14px 14px 0; }
 
 .cp { position: relative; display: flex; align-items: center; justify-content: center; flex: 1; min-height: 0; }
-.ce { font-size: min(12vw, 110px); line-height: 1; filter: drop-shadow(0 0 12px rgba(180,140,255,.2)); }
+.ce { font-size: min(12vw, 110px); line-height: 1; position: relative; z-index: 1; }
 .cp.b .ce { animation: bounce .45s cubic-bezier(.28,1.33,.64,1) 2; }
 .cp.sh .ce { animation: shake .35s ease-in-out 2; }
+
+/* 彩色光晕背景 */
+.cp::before {
+  content: ''; position: absolute;
+  width: min(14vw, 120px); height: min(14vw, 120px);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--pcolor) 20%, transparent 70%), transparent);
+  pointer-events: none; z-index: 0;
+  transition: all .3s;
+}
+.c:hover .cp::before {
+  width: min(16vw, 140px); height: min(16vw, 140px);
+  background: radial-gradient(circle, color-mix(in srgb, var(--pcolor) 35%, transparent 60%), transparent);
+}
 
 .cf {
   position: absolute; top: -2px; right: -6px;

@@ -41,17 +41,17 @@ class Pet extends Model
     public static function evolutionStages(): array
     {
         return [
-            0  => ['emoji' => '🌟', 'name' => '星尘',   'title' => '初生的光芒'],
-            1  => ['emoji' => '🌙', 'name' => '月芽',   'title' => '萌芽的灵光'],
-            2  => ['emoji' => '🌱', 'name' => '灵苗',   'title' => '生长的力量'],
-            3  => ['emoji' => '🌿', 'name' => '青藤',   'title' => '蓬勃向上'],
-            4  => ['emoji' => '🌳', 'name' => '慧树',   'title' => '枝繁叶茂'],
-            5  => ['emoji' => '🦋', 'name' => '蝶灵',   'title' => '翩然蜕变'],
-            6  => ['emoji' => '🦅', 'name' => '鹰慧',   'title' => '翱翔天际'],
-            7  => ['emoji' => '🦁', 'name' => '狮睿',   'title' => '王者风范'],
-            8  => ['emoji' => '🦄', 'name' => '灵角',   'title' => '奇幻之力'],
-            9  => ['emoji' => '✨', 'name' => '星耀',   'title' => '璀璨巅峰'],
-            10 => ['emoji' => '🌌', 'name' => '银河',   'title' => '宇宙之灵'],
+            0  => ['emoji' => '🥚', 'name' => '星尘',   'title' => '初生的光芒',   'color' => '#94a3b8'],
+            1  => ['emoji' => '🐣', 'name' => '月芽',   'title' => '萌芽的灵光',   'color' => '#c084fc'],
+            2  => ['emoji' => '🦊', 'name' => '灵苗',   'title' => '生长的力量',   'color' => '#f97316'],
+            3  => ['emoji' => '🐱', 'name' => '青藤',   'title' => '蓬勃向上',     'color' => '#22c55e'],
+            4  => ['emoji' => '🦝', 'name' => '慧树',   'title' => '枝繁叶茂',     'color' => '#14b8a6'],
+            5  => ['emoji' => '🦋', 'name' => '蝶灵',   'title' => '翩然蜕变',     'color' => '#ec4899'],
+            6  => ['emoji' => '🦉', 'name' => '鹰慧',   'title' => '翱翔天际',     'color' => '#6366f1'],
+            7  => ['emoji' => '🐉', 'name' => '龙睿',   'title' => '王者风范',     'color' => '#f59e0b'],
+            8  => ['emoji' => '🦄', 'name' => '灵角',   'title' => '奇幻之力',     'color' => '#a855f7'],
+            9  => ['emoji' => '🐲', 'name' => '星耀',   'title' => '璀璨巅峰',     'color' => '#ef4444'],
+            10 => ['emoji' => '🌟', 'name' => '银河',   'title' => '宇宙之灵',     'color' => '#fbbf24'],
         ];
     }
 
