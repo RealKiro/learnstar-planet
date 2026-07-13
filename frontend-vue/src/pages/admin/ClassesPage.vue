@@ -126,14 +126,14 @@ async function deleteClass(cls: ClassRoom) {
   } catch { /* handled */ }
 }
 
-// ===== 班级大屏码 =====
+// ===== 班级码 =====
 
 async function generateDisplayCode(cls: ClassRoom) {
   displayCodeLoading.value[cls.id] = true
   try {
     const res = await apiPost<{ data: { code: string } }>(`/api/v1/admin/classes/${cls.id}/display-code/refresh`)
     cls.display_code = res.data.code
-    toast.show(`大屏码已生成：${res.data.code}`, 'success')
+    toast.show(`班级码已生成：${res.data.code}`, 'success')
   } catch { /* handled */ }
   finally { displayCodeLoading.value[cls.id] = false }
 }
@@ -379,13 +379,13 @@ async function submitAssignTeacher() {
                 <div v-if="c.teacher_name" style="font-size:12px;color:var(--color-text-secondary);">{{ c.teacher_name }}</div>
               </div>
             </div>
-            <!-- 大屏码 -->
+            <!-- 班级码 -->
             <div style="display:flex;align-items:center;gap:8px;margin-right:16px;min-width:130px;">
               <span style="font-size:11px;color:var(--color-text-secondary);white-space:nowrap;">🖥️</span>
               <code style="font-size:13px;font-weight:700;color:var(--color-primary);background:rgba(79,70,229,0.06);padding:3px 10px;border-radius:6px;letter-spacing:0.08em;font-family:'SF Mono',monospace;">{{ c.display_code || '--' }}</code>
               <div style="display:flex;gap:2px;">
-                <button v-if="c.display_code" class="btn btn-sm" style="padding:3px 7px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="copyDisplayCode(c)" title="复制大屏码">📋</button>
-                <button class="btn btn-sm" style="padding:3px 7px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]" title="刷新旧码立即失效">🔄</button>
+                <button v-if="c.display_code" class="btn btn-sm" style="padding:3px 7px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="copyDisplayCode(c)" title="复制班级码">📋</button>
+                <button class="btn btn-sm" style="padding:3px 7px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]" title="刷新班级码旧码失效">🔄</button>
               </div>
             </div>
             <select

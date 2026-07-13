@@ -119,7 +119,7 @@ class DisplayController extends Controller
             'code' => $classRoom->display_code,
             'class_name' => $classRoom->name,
             'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
-            'message' => '大屏码已刷新，旧码已失效',
+            'message' => '班级码已刷新，旧码已失效',
         ]]);
     }
 

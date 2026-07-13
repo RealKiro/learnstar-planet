@@ -106,13 +106,13 @@ async function handleLogin() {
 
       <!-- 登录表单 -->
       <form v-else class="login-form" @submit.prevent="handleLogin">
-        <div class="input-label">班级大屏码</div>
+        <div class="input-label">班级码</div>
         <div class="code-input-wrapper">
           <input
             v-model="code"
             type="text"
             class="code-input"
-            placeholder="3-1-A7K2"
+            placeholder="如 LS301"
             maxlength="12"
             autocomplete="off"
             autocorrect="off"
