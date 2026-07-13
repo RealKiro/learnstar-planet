@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\Notice;
+use App\Models\Pet;
 use App\Models\Score;
 use App\Models\ScoreRule;
 use App\Models\ShopItem;
@@ -145,9 +146,9 @@ class TeacherController extends Controller
                 'has_pet' => $pet !== null,
                 'pet_name' => $pet?->name,
                 'pet_type' => $pet?->type,
-                'level' => $pet?->level ?? 0,
-                'experience' => $pet?->experience ?? 0,
-                'mood' => $pet?->mood ?? 0,
+                'level' => $pet->level ?? 0,
+                'experience' => $pet->experience ?? 0,
+                'mood' => $pet->mood ?? 0,
                 'emoji' => $stage['emoji'],
                 'stage_name' => $stage['name'],
             ];
@@ -698,7 +699,7 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
 
-        $pets = \App\Models\Pet::whereIn('class_id', $classIds)
+        $pets = Pet::whereIn('class_id', $classIds)
             ->with('student:id,name')
             ->get()
             /** @phpstan-ignore-next-line argument.unresolvableType */
@@ -1243,7 +1244,7 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
 
-        $pets = \App\Models\Pet::whereIn('class_id', $classIds)->get();
+        $pets = Pet::whereIn('class_id', $classIds)->get();
         $distribution = $pets->groupBy('level')
             ->map(fn ($group, $level) => [
                 'level' => (int) $level,
