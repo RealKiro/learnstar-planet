@@ -9,6 +9,7 @@ use App\Models\Score;
 use App\Models\ScoreLog;
 use App\Models\ScoreRule;
 use App\Models\Student;
+use App\Services\DisplayEventService;
 use Illuminate\Support\Facades\DB;
 
 class ScoreService
@@ -50,6 +51,28 @@ class ScoreService
 
             // 广播积分变化事件（实时推送给家长端）
             event(new ScoreChanged($student->id, $amount, $reason));
+
+            // 推送给班级大屏（SSE 实时更新）
+            try {
+                app(DisplayEventService::class)->publish(
+                    $student->class_id,
+                    'score_update',
+                    [
+                        'student_id' => $student->id,
+                        'student_name' => $student->name,
+                        'student_no' => $student->student_no,
+                        'amount' => $amount,
+                        'reason' => $reason,
+                        'total_score' => $student->total_score,
+                        'pet_level' => $student->pet?->level,
+                        'pet_experience' => $student->pet?->experience,
+                        'pet_mood' => $student->pet?->mood,
+                    ]
+                );
+            } catch (\Throwable $e) {
+                // 大屏事件推送失败不影响主流程
+                logger()->warning('Display event publish failed: ' . $e->getMessage());
+            }
 
             return $score;
         });
@@ -98,6 +121,28 @@ class ScoreService
             }
 
             event(new ScoreChanged($student->id, -$amount, $reason));
+
+            // 推送给班级大屏
+            try {
+                app(DisplayEventService::class)->publish(
+                    $student->class_id,
+                    'score_update',
+                    [
+                        'student_id' => $student->id,
+                        'student_name' => $student->name,
+                        'student_no' => $student->student_no,
+                        'amount' => -$amount,
+                        'reason' => '兑换消耗：' . $reason,
+                        'total_score' => $student->total_score,
+                        'pet_level' => $student->pet?->level,
+                        'pet_experience' => $student->pet?->experience,
+                        'pet_mood' => $student->pet?->mood,
+                        'is_spend' => true,
+                    ]
+                );
+            } catch (\Throwable $e) {
+                logger()->warning('Display event publish failed: ' . $e->getMessage());
+            }
 
             return $score;
         });

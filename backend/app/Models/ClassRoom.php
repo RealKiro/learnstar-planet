@@ -74,6 +74,8 @@ class ClassRoom extends Model
         'year',            // 学年
         'teacher_id',      // 班主任
         'max_students',    // 0 = 不限制（全免费）
+        'display_code',    // 班级大屏码
+        'display_code_updated_at',
         'settings',        // JSON: 班级级配置
         'status',
     ];
@@ -81,6 +83,7 @@ class ClassRoom extends Model
     protected $casts = [
         'settings' => 'array',
         'max_students' => 'integer',
+        'display_code_updated_at' => 'datetime',
         'status' => 'string',
     ];
 

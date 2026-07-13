@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
 import { apiPost } from '@/utils/api'
 import type { ApiResponse, User } from '@/types'
 
+const props = withDefaults(defineProps<{ initialRole?: string }>(), { initialRole: 'teacher' })
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const toast = useToastStore()
 
-const loginType = ref<'teacher' | 'admin' | 'parent'>('teacher')
+const loginType = ref<'teacher' | 'admin' | 'parent'>((props.initialRole as 'teacher' | 'admin' | 'parent') || 'teacher')
 const teacherUsername = ref('')
 const teacherPassword = ref('')
 const adminUsername = ref('')
@@ -129,6 +132,15 @@ function goToSlide(i: number) {
 
 <template>
   <div class="login-page">
+    <!-- 顶部导航 -->
+    <nav class="login-topnav">
+      <button class="topnav-back" @click="router.push({ name: 'landing' })">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        返回首页
+      </button>
+      <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="topnav-link">GitHub</a>
+    </nav>
+
     <div class="intro">
       <div class="intro-orb intro-orb--top"></div>
       <div class="intro-orb intro-orb--bottom"></div>
@@ -229,11 +241,28 @@ function goToSlide(i: number) {
   display: flex;
   justify-content: center;
   min-height: 100vh;
+  padding-top: 60px;
   background: #FFFFFF;
   color: #1D1D1F;
   font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   -webkit-font-smoothing: antialiased;
+  position: relative;
 }
+.login-topnav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 32px; max-width: 1100px; margin: 0 auto; width: 100%; box-sizing: border-box;
+  background: rgba(255,255,255,.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+.topnav-back {
+  display: flex; align-items: center; gap: 6px; padding: 6px 14px; border: none; border-radius: 9999px;
+  background: transparent; color: #6E6E73; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all .2s; font-family: inherit;
+}
+.topnav-back:hover { background: rgba(0,0,0,.04); color: #1D1D1F; }
+.topnav-link { color: #AEAEB2; font-size: 13px; text-decoration: none; transition: color .2s; }
+.topnav-link:hover { color: #6E6E73; }
 .intro {
   flex: 1;
   max-width: 680px;

@@ -38,6 +38,9 @@ const navItems = [
   { section: '设置', items: [
     { page: 'teacher-settings', label: '账号设置', icon: '⚙️' },
   ]},
+  { section: '大屏', items: [
+    { page: 'teacher-classroom', label: '班级大屏', icon: '🖥️' },
+  ]},
 ]
 </script>
 

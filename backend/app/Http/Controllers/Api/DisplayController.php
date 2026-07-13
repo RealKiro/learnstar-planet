@@ -1,0 +1,525 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Broadcast;
+use App\Models\ClassRoom;
+use App\Models\Notice;
+use App\Models\Pet;
+use App\Models\Score;
+use App\Models\Student;
+use App\Services\DisplayEventService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
+/**
+ * DisplayController — 班级大屏单独入口
+ *
+ * 职责：
+ * 1. 教师端：生成/刷新班级大屏码
+ * 2. 显示端：班级码 → Token 认证
+ * 3. 显示端：SSE 长连接 + 轮询降级
+ * 4. 显示端：初始全量数据加载
+ *
+ * 与教师管理模式完全解耦，不依赖 auth:sanctum 中间件。
+ */
+class DisplayController extends Controller
+{
+    private const TOKEN_PREFIX = 'display:token:';
+    private const TOKEN_TTL = 86400; // 24 小时
+    private const CODE_LOCK_PREFIX = 'display:code_lock:';
+    private const MAX_LOGIN_ATTEMPTS = 5;
+    private const LOCKOUT_MINUTES = 15;
+    private const SSE_HEARTBEAT_INTERVAL = 10; // 秒
+    private const SSE_MAX_EXECUTION = 55; // 最大执行秒数（略小于 PHP/Nginx 超时）
+
+    public function __construct(
+        private readonly DisplayEventService $eventService,
+    ) {}
+
+    // ============================================================
+    // 教师端 API — 班级大屏码管理
+    // ============================================================
+
+    /**
+     * 获取或创建当前班级的大屏码
+     */
+    public function getDisplayCode(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classId = (int) $request->input('class_id', $teacher->getSetting('active_class_id'));
+
+        if (!$classId) {
+            return response()->json(['message' => '请先选择班级'], 400);
+        }
+
+        $classRoom = ClassRoom::findOrFail($classId);
+
+        // 首次访问时自动生成班级码
+        if (empty($classRoom->display_code)) {
+            $classRoom->display_code = $this->generateDisplayCode($classRoom);
+            $classRoom->display_code_updated_at = now();
+            $classRoom->save();
+
+            // 缓存班级码 → 班级 ID 映射
+            $this->cacheCodeMapping($classRoom->display_code, $classRoom->id);
+        }
+
+        return response()->json(['data' => [
+            'code' => $classRoom->display_code,
+            'class_name' => $classRoom->name,
+            'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
+            'student_count' => Student::where('class_id', $classId)
+                ->where('status', 'active')
+                ->count(),
+        ]]);
+    }
+
+    /**
+     * 刷新班级大屏码（旧码立即失效）
+     */
+    public function refreshDisplayCode(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classId = (int) $request->input('class_id', $teacher->getSetting('active_class_id'));
+
+        if (!$classId) {
+            return response()->json(['message' => '请先选择班级'], 400);
+        }
+
+        $classRoom = ClassRoom::findOrFail($classId);
+
+        // 清除旧码缓存
+        if (!empty($classRoom->display_code)) {
+            Cache::forget(DisplayEventService::codeCacheKey($classRoom->display_code));
+        }
+
+        // 生成新码
+        $oldCode = $classRoom->display_code;
+        $classRoom->display_code = $this->generateDisplayCode($classRoom);
+        $classRoom->display_code_updated_at = now();
+        $classRoom->save();
+
+        // 缓存新码映射
+        $this->cacheCodeMapping($classRoom->display_code, $classRoom->id);
+
+        // 发送 refresh 事件通知当前大屏刷新
+        $this->eventService->publish($classId, 'refresh', [
+            'old_code' => $oldCode,
+            'new_code' => $classRoom->display_code,
+        ]);
+
+        return response()->json(['data' => [
+            'code' => $classRoom->display_code,
+            'class_name' => $classRoom->name,
+            'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
+            'message' => '大屏码已刷新，旧码已失效',
+        ]]);
+    }
+
+    // ============================================================
+    // 显示端 API — 班级码登录
+    // ============================================================
+
+    /**
+     * 班级码登录，返回 SSE Token
+     */
+    public function login(Request $request): JsonResponse
+    {
+        $request->validate([
+            'code' => 'required|string|max:12',
+        ]);
+
+        $code = strtoupper(trim($request->input('code')));
+
+        // 暴力破解防护
+        $lockKey = self::CODE_LOCK_PREFIX . $code;
+        $attempts = (int) Cache::get($lockKey, 0);
+
+        if ($attempts >= self::MAX_LOGIN_ATTEMPTS) {
+            return response()->json([
+                'message' => '尝试次数过多，请 ' . self::LOCKOUT_MINUTES . ' 分钟后再试',
+            ], 429);
+        }
+
+        // 查找班级码（先查缓存，再查 DB）
+        $classId = $this->resolveCodeToClassId($code);
+
+        if (!$classId) {
+            Cache::put($lockKey, $attempts + 1, now()->addMinutes(self::LOCKOUT_MINUTES));
+            return response()->json(['message' => '班级码无效，请检查后重试'], 404);
+        }
+
+        // 重置尝试计数
+        Cache::forget($lockKey);
+
+        $classRoom = ClassRoom::find($classId);
+        if (!$classRoom) {
+            return response()->json(['message' => '班级不存在'], 404);
+        }
+
+        // 生成显示端 Token
+        $token = 'disp_' . Str::random(32);
+        $tokenKey = self::TOKEN_PREFIX . $token;
+
+        Cache::put($tokenKey, [
+            'class_id' => $classId,
+            'class_name' => $classRoom->name,
+            'grade' => $classRoom->grade,
+            'created_at' => now()->toIso8601String(),
+        ], now()->addSeconds(self::TOKEN_TTL));
+
+        // 获取班级统计数据
+        $studentCount = Student::where('class_id', $classId)
+            ->where('status', 'active')
+            ->count();
+
+        return response()->json(['data' => [
+            'token' => $token,
+            'expires_in' => self::TOKEN_TTL,
+            'class_info' => [
+                'id' => $classId,
+                'name' => $classRoom->name,
+                'grade' => $classRoom->grade,
+                'student_count' => $studentCount,
+            ],
+        ]]);
+    }
+
+    // ============================================================
+    // 显示端 API — 初始全量数据
+    // ============================================================
+
+    /**
+     * 获取大屏初始全量数据（连接 SSE 前先调用一次）
+     */
+    public function initialData(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token 无效或已过期'], 401);
+        }
+
+        $classId = $classInfo['class_id'];
+        $classRoom = ClassRoom::find($classId);
+
+        if (!$classRoom) {
+            return response()->json(['message' => '班级不存在'], 404);
+        }
+
+        $students = Student::where('class_id', $classId)
+            ->where('status', 'active')
+            ->with('pet')
+            ->orderByRaw('CAST(student_no AS UNSIGNED) ASC, id ASC')
+            ->get();
+
+        $pets = $this->formatPets($students);
+
+        $recentScores = Score::where('class_id', $classId)
+            ->where('created_at', '>=', now()->subHours(4))
+            ->with('student:id,name')
+            ->orderBy('created_at', 'desc')
+            ->take(20)
+            ->get()
+            ->map(fn (Score $s) => [
+                'student_name' => $s->student?->name,
+                'amount' => $s->amount,
+                'reason' => $s->reason,
+                'time' => $s->created_at?->diffForHumans(),
+            ]);
+
+        // 活跃广播（尚未过期的）
+        $broadcasts = Broadcast::where('class_id', $classId)
+            ->whereIn('status', ['pending', 'sent'])
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get()
+            ->map(fn ($b) => [
+                'id' => $b->id,
+                'content' => $b->content,
+                'type' => $b->type,
+                'display_seconds' => $b->display_seconds,
+                'voice_enabled' => $b->voice_enabled,
+                'created_at' => $b->created_at?->diffForHumans(),
+            ]);
+
+        return response()->json(['data' => [
+            'class_name' => $classRoom->name,
+            'grade' => $classRoom->grade,
+            'student_count' => $students->count(),
+            'pets' => $pets,
+            'recent_scores' => $recentScores,
+            'broadcasts' => $broadcasts,
+            'server_time' => now()->toIso8601String(),
+        ]]);
+    }
+
+    // ============================================================
+    // 显示端 API — SSE 长连接（核心）
+    // ============================================================
+
+    /**
+     * SSE 端点：浏览器建立长连接，实时接收事件推送
+     *
+     * 实现原理:
+     * 1. 在 PHP 中循环，每次休眠 1-2 秒后检查 Cache 中是否有新事件
+     * 2. 有新事件则立即推送
+     * 3. 每 10 秒发一次心跳保持连接
+     * 4. 最大运行 55 秒后优雅断开，浏览器自动重连
+     * 5. EventSource 内置重连机制
+     */
+    public function sse(Request $request): StreamedResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            // Token 无效，返回 401 事件让前端跳转到登录页
+            $response = new StreamedResponse(function () {
+                echo "event: error\n";
+                echo "data: {\"code\":401,\"message\":\"Token无效或已过期\"}\n\n";
+                ob_flush();
+                flush();
+            });
+            $response->headers->set('Content-Type', 'text/event-stream');
+            $response->headers->set('Cache-Control', 'no-cache');
+            $response->headers->set('X-Accel-Buffering', 'no');
+            return $response;
+        }
+
+        $classId = $classInfo['class_id'];
+        $lastEventId = (int) ($request->input('last_event_id', 0));
+
+        $response = new StreamedResponse(function () use ($classId, &$lastEventId) {
+            // 关闭输出缓冲
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
+
+            $startTime = time();
+            $lastHeartbeat = 0;
+
+            while (true) {
+                // 检查是否超时
+                $elapsed = time() - $startTime;
+                if ($elapsed >= self::SSE_MAX_EXECUTION) {
+                    break;
+                }
+
+                // 消费新事件
+                $events = $this->eventService->consume($classId, $lastEventId);
+
+                foreach ($events as $event) {
+                    $eventId = $event['id'] ?? 0;
+                    $eventType = $event['type'] ?? 'unknown';
+                    $eventData = json_encode($event['data'] ?? [], JSON_UNESCAPED_UNICODE);
+
+                    echo "id: {$eventId}\n";
+                    echo "event: {$eventType}\n";
+                    echo "data: {$eventData}\n\n";
+
+                    $lastEventId = max($lastEventId, $eventId);
+                }
+
+                // 心跳（保持连接活跃）
+                if (time() - $lastHeartbeat >= self::SSE_HEARTBEAT_INTERVAL) {
+                    echo "event: heartbeat\n";
+                    echo "data: {\"time\":\"" . now()->toIso8601String() . "\"}\n\n";
+                    $lastHeartbeat = time();
+                }
+
+                ob_flush();
+                flush();
+
+                // 休眠一小段时间以减少 CPU 占用
+                if (empty($events)) {
+                    usleep(2_000_000); // 2 秒
+                } else {
+                    usleep(500_000); // 有事件时加快响应
+                }
+            }
+
+            // 优雅关闭：发送重连指示
+            echo "event: reconnect\n";
+            echo "data: {}\n\n";
+            ob_flush();
+            flush();
+        });
+
+        // SSE 必需的头
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('Cache-Control', 'no-cache');
+        $response->headers->set('Connection', 'keep-alive');
+        $response->headers->set('X-Accel-Buffering', 'no'); // 禁用 Nginx 缓冲
+
+        return $response;
+    }
+
+    // ============================================================
+    // 显示端 API — 轮询降级（SSE 不可用时的备选）
+    // ============================================================
+
+    /**
+     * 轮询降级端点：当 SSE 连接失败 3 次后使用
+     */
+    public function poll(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token 无效或已过期'], 401);
+        }
+
+        $classId = $classInfo['class_id'];
+        $lastEventId = (int) ($request->input('last_event_id', 0));
+
+        $events = $this->eventService->consume($classId, $lastEventId ?: null);
+
+        $maxId = $lastEventId;
+        foreach ($events as $e) {
+            if (($e['id'] ?? 0) > $maxId) {
+                $maxId = $e['id'];
+            }
+        }
+
+        return response()->json([
+            'data' => [
+                'events' => $events,
+                'last_event_id' => $maxId,
+                'server_time' => now()->toIso8601String(),
+            ],
+        ]);
+    }
+
+    // ============================================================
+    // 内部辅助
+    // ============================================================
+
+    /**
+     * 生成班级大屏码
+     * 格式: {年级缩写}-{班号}-{4位随机码}
+     * 例如: 3-1-A7K2
+     */
+    private function generateDisplayCode(ClassRoom $classRoom): string
+    {
+        $grade = $classRoom->grade ?? '0';
+        $name = $classRoom->name ?? '';
+
+        // 从班级名提取班号: "三年级（1）班" → "1"
+        $classNo = '0';
+        if (preg_match('/（(\d+)）班/', $name, $m)) {
+            $classNo = $m[1];
+        }
+
+        $random = strtoupper(Str::random(4));
+
+        // 确保不重复
+        $code = "{$grade}-{$classNo}-{$random}";
+        $existing = ClassRoom::where('display_code', $code)->where('id', '!=', $classRoom->id)->exists();
+        if ($existing) {
+            $code = "{$grade}-{$classNo}-" . strtoupper(Str::random(4));
+        }
+
+        return $code;
+    }
+
+    /**
+     * 缓存班级码 → 班级 ID 映射
+     */
+    private function cacheCodeMapping(string $code, int $classId): void
+    {
+        Cache::put(
+            DisplayEventService::codeCacheKey($code),
+            $classId,
+            now()->addDays(30)
+        );
+    }
+
+    /**
+     * 解析班级码 → 班级 ID
+     * 先查缓存，再查 DB
+     */
+    private function resolveCodeToClassId(string $code): ?int
+    {
+        $cacheKey = DisplayEventService::codeCacheKey($code);
+        $classId = Cache::get($cacheKey);
+
+        if ($classId) {
+            return (int) $classId;
+        }
+
+        // 缓存未命中，查数据库
+        $classRoom = ClassRoom::where('display_code', $code)->first();
+        if ($classRoom) {
+            $this->cacheCodeMapping($code, $classRoom->id);
+            return $classRoom->id;
+        }
+
+        return null;
+    }
+
+    /**
+     * 验证请求中的 SSE Token
+     */
+    private function validateToken(Request $request): ?array
+    {
+        // 优先从 query 参数取，其次从 Authorization header 取
+        $token = $request->input('token', '');
+        if (empty($token)) {
+            $bearer = $request->bearerToken();
+            if ($bearer && str_starts_with($bearer, 'disp_')) {
+                $token = $bearer;
+            }
+        }
+
+        if (empty($token) || !str_starts_with($token, 'disp_')) {
+            return null;
+        }
+
+        $data = Cache::get(self::TOKEN_PREFIX . $token);
+        return $data ?: null;
+    }
+
+    /**
+     * 格式化学生宠物数据（复用 ClassroomDisplay 逻辑）
+     */
+    private function formatPets($students): array
+    {
+        return $students->map(function (Student $s): array {
+            $pet = $s->pet;
+            $stage = $this->getPetStageInfo($pet?->level ?? 0);
+
+            return [
+                'student_id' => $s->id,
+                'student_no' => $s->student_no ?? '',
+                'student_name' => $s->name,
+                'total_score' => $s->total_score,
+                'has_pet' => $pet !== null,
+                'pet_name' => $pet?->name,
+                'pet_type' => $pet?->type,
+                'level' => $pet->level ?? 0,
+                'experience' => $pet->experience ?? 0,
+                'mood' => $pet?->mood ?? 50,
+                'emoji' => $stage['emoji'] ?? '🌟',
+                'stage_name' => $stage['name'] ?? '未孵化',
+                'stage_title' => $stage['title'] ?? '',
+                'exp_max' => $stage['exp_max'] ?? 100,
+            ];
+        })->values()->toArray();
+    }
+
+    /**
+     * 获取宠物阶段信息（复用 Pet 模型定义）
+     */
+    private function getPetStageInfo(int $level): array
+    {
+        $stages = Pet::evolutionStages();
+        $stage = $stages[min($level, 10)] ?? $stages[0];
+        $stage['exp_max'] = ($level + 1) * 100;
+
+        return $stage;
+    }
+}

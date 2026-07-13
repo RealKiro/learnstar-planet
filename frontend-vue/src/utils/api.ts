@@ -26,6 +26,11 @@ instance.interceptors.response.use(
     const toast = useToastStore()
 
     if (error.response?.status === 401) {
+      // 班级大屏显示端有自己的 Token 管理，不触发 auth store 的 401 处理
+      const isDisplayPath = (error.config?.url || '').startsWith('/api/v1/display/')
+      if (isDisplayPath) {
+        return Promise.reject(error)
+      }
       const authStore = useAuthStore()
       authStore.logout()
       toast.show('登录已过期，请重新登录', 'error')

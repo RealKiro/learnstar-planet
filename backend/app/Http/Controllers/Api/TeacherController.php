@@ -15,6 +15,7 @@ use App\Models\ShopRedemption;
 use App\Models\Student;
 use App\Models\Wallet;
 use App\Services\CurrencyService;
+use App\Services\DisplayEventService;
 use App\Services\LeaderboardService;
 use App\Services\ScoreService;
 use Illuminate\Http\JsonResponse;
@@ -260,6 +261,20 @@ class TeacherController extends Controller
                 'sent_at' => now(),
             ]);
 
+            // 推送给班级大屏
+            try {
+                app(DisplayEventService::class)->publish($classId, 'broadcast', [
+                    'id' => $broadcast->id,
+                    'type' => $broadcast->type,
+                    'content' => $broadcast->content,
+                    'display_seconds' => $broadcast->display_seconds,
+                    'voice_enabled' => $broadcast->voice_enabled,
+                    'created_at' => $broadcast->created_at?->toIso8601String(),
+                ]);
+            } catch (\Throwable $e) {
+                logger()->warning('Display broadcast publish failed: ' . $e->getMessage());
+            }
+
             return response()->json([
                 'message' => '广播已发送',
                 'data' => ['id' => $broadcast->id, 'type' => 'broadcast'],
@@ -277,6 +292,19 @@ class TeacherController extends Controller
             'is_published' => true,
             'published_at' => now(),
         ]);
+
+        // 推送给班级大屏
+        try {
+            app(DisplayEventService::class)->publish($classId, 'notice', [
+                'id' => $notice->id,
+                'title' => $notice->title,
+                'content' => $notice->content,
+                'type' => $notice->type,
+                'published_at' => $notice->published_at?->toIso8601String(),
+            ]);
+        } catch (\Throwable $e) {
+            logger()->warning('Display notice publish failed: ' . $e->getMessage());
+        }
 
         return response()->json([
             'message' => '通知已发布',
@@ -763,6 +791,20 @@ class TeacherController extends Controller
 
         $pet->feed();
         $this->leaderboardService->updatePetLevel($student->class_id, $student->id, $pet->level);
+
+        // 推送给班级大屏
+        try {
+            app(DisplayEventService::class)->publish($student->class_id, 'pet_update', [
+                'student_id' => $student->id,
+                'student_name' => $student->name,
+                'type' => 'feed',
+                'mood' => $pet->mood,
+                'level' => $pet->level,
+                'experience' => $pet->experience,
+            ]);
+        } catch (\Throwable $e) {
+            logger()->warning('Display pet event failed: ' . $e->getMessage());
+        }
 
         return response()->json(['message' => "已喂养「{$pet->name}」", 'data' => [
             'mood' => $pet->mood,

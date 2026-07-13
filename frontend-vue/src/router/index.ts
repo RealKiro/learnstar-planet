@@ -11,7 +11,9 @@ const router = createRouter({
     },
     {
       path: '/login',
-      redirect: { path: '/', hash: '#login-section' },
+      name: 'login',
+      component: () => import('@/pages/auth/LoginPage.vue'),
+      props: (route) => ({ initialRole: route.query.role || 'teacher' }),
     },
     {
       path: '/teacher',
@@ -20,6 +22,7 @@ const router = createRouter({
       children: [
         { path: '', redirect: { name: 'teacher-dashboard' } },
         { path: 'dashboard', name: 'teacher-dashboard', component: () => import('@/pages/teacher/DashboardPage.vue') },
+        { path: 'classroom', name: 'teacher-classroom', component: () => import('@/pages/teacher/ClassroomDisplay.vue') },
         { path: 'students', name: 'teacher-students', component: () => import('@/pages/teacher/StudentsPage.vue') },
         { path: 'pets', name: 'teacher-pets', component: () => import('@/pages/teacher/PetsPage.vue') },
         { path: 'scores', name: 'teacher-scores', component: () => import('@/pages/teacher/ScoresPage.vue') },
@@ -66,6 +69,14 @@ const router = createRouter({
         { path: 'growth', name: 'parent-growth', component: () => import('@/pages/parent/GrowthPage.vue') },
         { path: 'ranking', name: 'parent-ranking', component: () => import('@/pages/parent/RankingPage.vue') },
         { path: 'notices', name: 'parent-notices', component: () => import('@/pages/parent/NoticesPage.vue') },
+      ],
+    },
+    // ===== 班级大屏（无认证，使用班级码 Token） =====
+    {
+      path: '/display',
+      children: [
+        { path: '', name: 'display-login', component: () => import('@/pages/display/LoginPage.vue') },
+        { path: 'screen', name: 'display-screen', component: () => import('@/pages/display/ScreenPage.vue') },
       ],
     },
 	],

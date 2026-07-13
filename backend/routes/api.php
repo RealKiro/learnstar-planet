@@ -268,6 +268,23 @@ Route::prefix('v1')->group(function () {
         });
     });
 
+    // ===== 班级大屏 - 显示端（无 auth 中间件，使用 Token 认证） =====
+    Route::prefix('display')->group(function () {
+        Route::post('login', [\App\Http\Controllers\Api\DisplayController::class, 'login'])
+            ->middleware('throttle:10,1');
+        Route::get('initial-data', [\App\Http\Controllers\Api\DisplayController::class, 'initialData']);
+        Route::get('sse', [\App\Http\Controllers\Api\DisplayController::class, 'sse']);
+        Route::get('poll', [\App\Http\Controllers\Api\DisplayController::class, 'poll']);
+    });
+
+    // ===== 班级大屏 - 教师端管理（需教师登录） =====
+    Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
+        Route::prefix('teacher')->group(function () {
+            Route::get('display-code', [\App\Http\Controllers\Api\DisplayController::class, 'getDisplayCode']);
+            Route::post('display-code/refresh', [\App\Http\Controllers\Api\DisplayController::class, 'refreshDisplayCode']);
+        });
+    });
+
     // ===== 公共接口 =====
     Route::prefix('common')->group(function () {
         Route::get('pet-types', [StudentController::class, 'petTypes']);
