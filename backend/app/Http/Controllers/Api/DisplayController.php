@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Broadcast;
 use App\Models\ClassRoom;
-use App\Models\Notice;
 use App\Models\Pet;
 use App\Models\Score;
 use App\Models\Student;
@@ -41,7 +40,8 @@ class DisplayController extends Controller
 
     public function __construct(
         private readonly DisplayEventService $eventService,
-    ) {}
+    ) {
+    }
 
     // ============================================================
     // 教师端 API — 班级大屏码管理
@@ -328,7 +328,7 @@ class DisplayController extends Controller
                 // 心跳（保持连接活跃）
                 if (time() - $lastHeartbeat >= self::SSE_HEARTBEAT_INTERVAL) {
                     echo "event: heartbeat\n";
-                    echo "data: {\"time\":\"" . now()->toIso8601String() . "\"}\n\n";
+                    echo 'data: {"time":"' . now()->toIso8601String() . "\"}\n\n";
                     $lastHeartbeat = time();
                 }
 
