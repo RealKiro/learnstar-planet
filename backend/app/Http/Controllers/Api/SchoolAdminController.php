@@ -1192,30 +1192,32 @@ class SchoolAdminController extends Controller
             $raw = mb_convert_encoding($raw, 'UTF-8', $enc);
         }
 
-        $raw = ltrim($raw, "ï»¿");
-
-        $lines = preg_split('/
-||
-/', $raw);
-        $rows = [];
-        $delimiter = null;
-
-        foreach ($lines as $line) {
-            $line = trim($line);
-            if ($line === '') {
-                continue;
-            }
-
-            if ($delimiter === null) {
-                $delimiter = $this->detectCsvDelimiter($line);
-            }
-
-            $cols = str_getcsv($line, $delimiter);
-            $rows[] = $cols;
+        $bom = chr(0xEF) . chr(0xBB) . chr(0xBF);
+        if (str_starts_with($raw, $bom)) {
+            $raw = substr($raw, 3);
         }
 
-        if (empty($rows)) {
+        $lines = [];
+        $fh = @fopen($path, 'r');
+        if ($fh !== false) {
+            while (($line = fgets($fh)) !== false) {
+                $line = trim($line);
+                if ($line !== '') {
+                    $lines[] = $line;
+                }
+            }
+            fclose($fh);
+        }
+
+        if (empty($lines)) {
             return [];
+        }
+
+        $delimiter = $this->detectCsvDelimiter($lines[0]);
+        $rows = [];
+        foreach ($lines as $line) {
+            $cols = str_getcsv($line, $delimiter);
+            $rows[] = $cols;
         }
 
         $header = array_shift($rows);
@@ -1233,7 +1235,7 @@ class SchoolAdminController extends Controller
 
     private function detectCsvDelimiter(string $line): string
     {
-        $candidates = ["	", ",", ";"];
+        $candidates = [chr(9), ",", ";"];
         $best = ',';
         $bestCount = 0;
 
