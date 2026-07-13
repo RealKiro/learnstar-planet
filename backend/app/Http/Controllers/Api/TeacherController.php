@@ -86,6 +86,7 @@ class TeacherController extends Controller
         $request->validate([
             'mode' => 'required|string|in:classroom_display,teacher_manage',
             'class_id' => 'nullable|integer',
+            'password' => 'required_unless:mode,classroom_display|string|nullable',
         ]);
 
         $mode = $request->input('mode');
@@ -136,6 +137,7 @@ class TeacherController extends Controller
         $students = Student::where('class_id', $classId)
             ->where('status', 'active')
             ->with('pet')
+            ->orderByRaw('CAST(student_no AS UNSIGNED) ASC, id ASC')
             ->get();
 
         // Pet overview for all students
