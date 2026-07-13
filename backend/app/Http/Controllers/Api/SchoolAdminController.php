@@ -90,12 +90,14 @@ class SchoolAdminController extends Controller
         $validator = Validator::make($request->all(), [
             'teachers' => 'required|array|min:1',
             'teachers.*.name' => 'required|string|max:50',
+            'teachers.*.nickname' => 'nullable|string|max:80',
+            'teachers.*.subject' => 'nullable|string|max:50',
             'teachers.*.phone' => 'nullable|string|max:30',
             'teachers.*.email' => 'nullable|email|max:100',
             'teachers.*.username' => 'nullable|string|max:50',
             'teachers.*.password' => 'required|string|min:6|max:50',
             'class_id' => 'nullable|integer|exists:class_rooms,id',
-            'class_role' => 'nullable|string|in:teacher,co_teacher,subject_teacher',
+            'class_role' => 'nullable|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
         ]);
 
         if ($validator->fails()) {
@@ -493,7 +495,7 @@ class SchoolAdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'teacher_id' => 'required|integer|exists:users,id',
-            'role' => 'nullable|string|in:teacher,co_teacher,subject_teacher',
+            'role' => 'nullable|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
         ]);
 
         if ($validator->fails()) {
@@ -1107,9 +1109,6 @@ class SchoolAdminController extends Controller
 
     /**
      * CSV/Excel 批量导入教师（预览 + 创建）
-     *
-     * Accepts multipart/form-data with a 'file' field (.csv, .xlsx, .xls)
-     * CSV columns: 姓名, 昵称, 所属年级团队, 科目, 手机号, 邮箱, 账号, 密码
      */
     public function importTeachers(Request $request): JsonResponse
     {
@@ -1132,8 +1131,6 @@ class SchoolAdminController extends Controller
         $errors = [];
 
         foreach ($rows as $idx => $row) {
-            $lineNum = $idx + 2;
-
             $name = trim($row['name'] ?? $row['姓名'] ?? '');
             if ($name === '') {
                 continue;
@@ -1169,16 +1166,12 @@ class SchoolAdminController extends Controller
         }
 
         return response()->json([
-            'message' => '预览模式：共 ' . count($preview) . ' 条数据，确认后传 dry_run=false 执行导入',
+            'message' => '预览模式：共 ' . count($preview) . ' 条数据',
             'total' => count($preview),
             'preview' => $preview,
-            'errors' => $errors,
         ]);
     }
 
-    /**
-     * Parse CSV/Excel file into array of rows (first row = header)
-     */
     private function parseTeacherFile(mixed $file): array
     {
         $ext = strtolower($file->getClientOriginalExtension());
@@ -1201,8 +1194,9 @@ class SchoolAdminController extends Controller
 
         $raw = ltrim($raw, "ï»¿");
 
-        $lines = explode("
-", $raw);
+        $lines = preg_split('/
+||
+/', $raw);
         $rows = [];
         $delimiter = null;
 
@@ -1239,7 +1233,7 @@ class SchoolAdminController extends Controller
 
     private function detectCsvDelimiter(string $line): string
     {
-        $candidates = ["	", ',', ';'];
+        $candidates = ["	", ",", ";"];
         $best = ',';
         $bestCount = 0;
 
