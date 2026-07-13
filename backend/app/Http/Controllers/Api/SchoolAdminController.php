@@ -151,6 +151,7 @@ class SchoolAdminController extends Controller
                 'class_name' => $a->classRoom?->name,
                 'grade' => $a->classRoom?->grade,
                 'role' => $a->role,
+                'subject' => $a->subject,
             ])->values()->toArray();
 
             return [
@@ -158,6 +159,7 @@ class SchoolAdminController extends Controller
                 'username' => $t->username,
                 'name' => $t->name,
                 'nickname' => $t->nickname,
+                'subject' => $t->subject,
                 'avatar_path' => $t->avatar_path,
                 'phone' => $t->phone,
                 'email' => $t->email,
@@ -195,7 +197,7 @@ class SchoolAdminController extends Controller
             return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
         }
 
-        $teacher->fill($request->only(['name', 'phone', 'email', 'status']));
+        $teacher->fill($request->only(['name', 'nickname', 'subject', 'phone', 'email', 'status']));
         $teacher->save();
 
         return response()->json(['message' => '更新成功', 'data' => $teacher->fresh()]);
@@ -505,9 +507,13 @@ class SchoolAdminController extends Controller
         $school = $request->user()->school;
         $class = ClassRoom::where('school_id', $school->id)->findOrFail($id);
         $teacherId = (int) $request->input('teacher_id');
-        $role = $request->input('role', 'teacher');
+        $role = $request->input('role', 'subject_teacher');
 
-        if ($role === 'teacher') {
+        User::where('school_id', $school->id)
+            ->where('role', 'teacher')
+            ->findOrFail($teacherId);
+
+        if ($role === 'head_teacher') {
             $class->teacher_id = $teacherId;
             $class->save();
         }
