@@ -10,7 +10,7 @@ const classInfo = ref<{ id: number; name: string; grade: string; student_count: 
 const loadError = ref('')
 const loading = ref(true)
 
-interface PetEntry { student_id: number; student_no: string; student_name: string; total_score: number; has_pet: boolean; level: number; experience: number; mood: number; emoji: string; stage_name: string; exp_max: number; color: string }
+interface PetEntry { student_id: number; student_no: string; student_name: string; total_score: number; has_pet: boolean; level: number; experience: number; mood: number; emoji: string; stage_name: string; exp_max: number; color: string; image?: string }
 interface DisplayData { class_name: string; grade: string; student_count: number; pets: PetEntry[]; recent_scores: any[]; broadcasts: any[] }
 const data = ref<DisplayData | null>(null)
 const scoreAnim = ref<Record<number, { dir: 'up'|'down'; amt: number }>>({})
@@ -117,7 +117,8 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
         :style="s?.color ? { '--pcolor': s.color } : undefined">
         <template v-if="s">
           <div class="cp" :class="{ b: scoreAnim[s.student_id]?.dir === 'up', sh: scoreAnim[s.student_id]?.dir === 'down' }">
-            <span class="ce">{{ s.has_pet ? s.emoji : '🥚' }}</span>
+            <img v-if="s.has_pet && s.image" :src="s.image" class="pi" alt="">
+            <span v-else class="ce">{{ s.has_pet ? s.emoji : '🥚' }}</span>
             <Transition name="f">
               <span v-if="scoreAnim[s.student_id]" class="cf" :class="scoreAnim[s.student_id].dir">
                 {{ scoreAnim[s.student_id].dir === 'up' ? '+' : '-' }}{{ scoreAnim[s.student_id].amt }}
@@ -264,8 +265,10 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 
 .cp { position: relative; display: flex; align-items: center; justify-content: center; flex: 1; min-height: 0; }
 .ce { font-size: min(12vw, 110px); line-height: 1; position: relative; z-index: 1; }
-.cp.b .ce { animation: bounce .45s cubic-bezier(.28,1.33,.64,1) 2; }
-.cp.sh .ce { animation: shake .35s ease-in-out 2; }
+.pi { width: min(12vw, 110px); height: min(12vw, 110px); object-fit: contain; position: relative; z-index: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,.15)); transition: transform .3s; }
+.c:hover .pi { transform: scale(1.1) rotate(-3deg); }
+.cp.b .ce, .cp.b .pi { animation: bounce .45s cubic-bezier(.28,1.33,.64,1) 2; }
+.cp.sh .ce, .cp.sh .pi { animation: shake .35s ease-in-out 2; }
 
 /* 彩色光晕背景 */
 .cp::before {

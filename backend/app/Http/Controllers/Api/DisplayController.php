@@ -518,6 +518,7 @@ class DisplayController extends Controller
                 'stage_title' => $stage['title'] ?? '',
                 'exp_max' => $stage['exp_max'] ?? 100,
                 'color' => $stage['color'] ?? '#94a3b8',
+                'image' => $stage['image'] ?? null,
             ];
         })->values()->toArray();
     }

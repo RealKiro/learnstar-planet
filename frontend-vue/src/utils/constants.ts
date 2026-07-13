@@ -1,15 +1,15 @@
 export const PET_EVOLUTION_STAGES = [
-  { level: 0, emoji: '🌟', name: '星尘' },
-  { level: 1, emoji: '🌙', name: '月芽' },
-  { level: 2, emoji: '🌱', name: '灵苗' },
-  { level: 3, emoji: '🌿', name: '青藤' },
-  { level: 4, emoji: '🌳', name: '慧树' },
-  { level: 5, emoji: '🦋', name: '蝶灵' },
-  { level: 6, emoji: '🦅', name: '鹰慧' },
-  { level: 7, emoji: '🦁', name: '狮睿' },
-  { level: 8, emoji: '🦄', name: '灵角' },
-  { level: 9, emoji: '✨', name: '星耀' },
-  { level: 10, emoji: '🌌', name: '银河' },
+  { level: 0, emoji: '🥚', name: '宠物蛋' },
+  { level: 1, emoji: '🐣', name: '绒绒雏鸟' },
+  { level: 2, emoji: '🐥', name: '黄毛小鸭' },
+  { level: 3, emoji: '🐰', name: '绒耳萌兔' },
+  { level: 4, emoji: '🦊', name: '机灵小狐' },
+  { level: 5, emoji: '🐱', name: '优雅萌猫' },
+  { level: 6, emoji: '🐶', name: '忠诚幼犬' },
+  { level: 7, emoji: '🦁', name: '威风小狮' },
+  { level: 8, emoji: '🐯', name: '勇猛虎崽' },
+  { level: 9, emoji: '🦄', name: '神圣灵兽' },
+  { level: 10, emoji: '🐉', name: '东方神龙' },
 ]
 
 export function getStageName(level: number): string {

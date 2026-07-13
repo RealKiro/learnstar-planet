@@ -41,17 +41,17 @@ class Pet extends Model
     public static function evolutionStages(): array
     {
         return [
-            0  => ['emoji' => '🥚', 'name' => '星尘',   'title' => '初生的光芒',   'color' => '#94a3b8'],
-            1  => ['emoji' => '🐣', 'name' => '月芽',   'title' => '萌芽的灵光',   'color' => '#c084fc'],
-            2  => ['emoji' => '🦊', 'name' => '灵苗',   'title' => '生长的力量',   'color' => '#f97316'],
-            3  => ['emoji' => '🐱', 'name' => '青藤',   'title' => '蓬勃向上',     'color' => '#22c55e'],
-            4  => ['emoji' => '🦝', 'name' => '慧树',   'title' => '枝繁叶茂',     'color' => '#14b8a6'],
-            5  => ['emoji' => '🦋', 'name' => '蝶灵',   'title' => '翩然蜕变',     'color' => '#ec4899'],
-            6  => ['emoji' => '🦉', 'name' => '鹰慧',   'title' => '翱翔天际',     'color' => '#6366f1'],
-            7  => ['emoji' => '🐉', 'name' => '龙睿',   'title' => '王者风范',     'color' => '#f59e0b'],
-            8  => ['emoji' => '🦄', 'name' => '灵角',   'title' => '奇幻之力',     'color' => '#a855f7'],
-            9  => ['emoji' => '🐲', 'name' => '星耀',   'title' => '璀璨巅峰',     'color' => '#ef4444'],
-            10 => ['emoji' => '🌟', 'name' => '银河',   'title' => '宇宙之灵',     'color' => '#fbbf24'],
+            0  => ['emoji' => '🥚', 'name' => '宠物蛋',   'title' => '等待破壳',  'color' => '#94a3b8', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=egg&backgroundColor=b8c5d6'],
+            1  => ['emoji' => '🐣', 'name' => '绒绒雏鸟', 'title' => '破壳新生',  'color' => '#fcd34d', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=chick&backgroundColor=fef3c7'],
+            2  => ['emoji' => '🐥', 'name' => '黄毛小鸭', 'title' => '蹒跚学步',  'color' => '#fbbf24', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=duck&backgroundColor=fef3c7'],
+            3  => ['emoji' => '🐰', 'name' => '绒耳萌兔', 'title' => '活泼好动',  'color' => '#f472b6', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=rabbit&backgroundColor=fce7f3'],
+            4  => ['emoji' => '🦊', 'name' => '机灵小狐', 'title' => '机智灵敏',  'color' => '#fb923c', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=fox&backgroundColor=fff7ed'],
+            5  => ['emoji' => '🐱', 'name' => '优雅萌猫', 'title' => '优雅从容',  'color' => '#a78bfa', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=cat&backgroundColor=f5f3ff'],
+            6  => ['emoji' => '🐶', 'name' => '忠诚幼犬', 'title' => '忠诚守护',  'color' => '#60a5fa', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=dog&backgroundColor=eff6ff'],
+            7  => ['emoji' => '🦁', 'name' => '威风小狮', 'title' => '王者气度',  'color' => '#f59e0b', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=lion&backgroundColor=fef3c7'],
+            8  => ['emoji' => '🐯', 'name' => '勇猛虎崽', 'title' => '勇往直前',  'color' => '#f97316', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=tiger&backgroundColor=fff7ed'],
+            9  => ['emoji' => '🦄', 'name' => '神圣灵兽', 'title' => '超凡脱俗',  'color' => '#c084fc', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=unicorn&backgroundColor=f5f3ff'],
+            10 => ['emoji' => '🐉', 'name' => '东方神龙', 'title' => '至尊无上',  'color' => '#ef4444', 'image' => 'https://api.dicebear.com/9.x/icons/svg?seed=dragon&backgroundColor=fef2f2'],
         ];
     }
 
