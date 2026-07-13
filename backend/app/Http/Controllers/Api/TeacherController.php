@@ -129,13 +129,17 @@ class TeacherController extends Controller
             return response()->json(['message' => '您未被分配到此班级'], 403);
         }
 
-        // Load class room
-        $classRoom = ClassRoom::with(['students' => function ($q) {
-            $q->where('status', 'active')->with('pet');
-        }])->findOrFail($classId);
+        // Load class room with active students
+        $classRoom = ClassRoom::findOrFail($classId);
+
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Student> $students */
+        $students = Student::where('class_id', $classId)
+            ->where('status', 'active')
+            ->with('pet')
+            ->get();
 
         // Pet overview for all students
-        $pets = $classRoom->students->map(function (Student $s): array {
+        $pets = $students->map(function (Student $s): array {
             $pet = $s->pet;
             $stage = $pet ? $pet->currentStage() : ['emoji' => '\ud83e\udd14', 'name' => '未孵化', 'title' => ''];
 
@@ -201,7 +205,7 @@ class TeacherController extends Controller
         return response()->json(['data' => [
             'class_name' => $classRoom->name,
             'grade' => $classRoom->grade,
-            'student_count' => $classRoom->students->count(),
+            'student_count' => $students->count(),
             'pets' => $pets,
             'broadcasts' => $broadcasts,
             'notices' => $notices,
