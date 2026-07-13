@@ -37,7 +37,7 @@ class TeacherController extends Controller
         $assignments = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->with('classRoom:id,name,grade')
             ->get()
-            ->map(fn($a) => [
+            ->map(fn ($a) => [
                 'class_id' => $a->class_room_id,
                 'class_name' => $a->classRoom?->name,
                 'grade' => $a->classRoom?->grade,
