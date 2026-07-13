@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
+use App\Models\ClassRoomTeacher;
 use App\Models\Score;
 use App\Models\Student;
 use App\Models\User;
@@ -115,7 +116,7 @@ class SchoolAdminController extends Controller
             if ($classRoom) {
                 foreach ($created as $teacher) {
                     if (!empty($teacher['id'])) {
-                        \App\Models\ClassRoomTeacher::updateOrCreate(
+                        ClassRoomTeacher::updateOrCreate(
                             ['class_room_id' => $classId, 'user_id' => $teacher['id']],
                             ['role' => $classRole],
                         );
@@ -509,7 +510,7 @@ class SchoolAdminController extends Controller
             $class->save();
         }
 
-        \App\Models\ClassRoomTeacher::updateOrCreate(
+        ClassRoomTeacher::updateOrCreate(
             ['class_room_id' => $class->id, 'user_id' => $teacherId],
             ['role' => $role],
         );
@@ -533,7 +534,7 @@ class SchoolAdminController extends Controller
         $school = $request->user()->school;
         $class = ClassRoom::where('school_id', $school->id)->findOrFail($id);
 
-        \App\Models\ClassRoomTeacher::where('class_room_id', $class->id)
+        ClassRoomTeacher::where('class_room_id', $class->id)
             ->where('user_id', (int) $request->input('teacher_id'))
             ->delete();
 
@@ -1100,5 +1101,66 @@ class SchoolAdminController extends Controller
         $rate->update($request->only(['rate', 'is_active']));
 
         return response()->json(['message' => '汇率已更新', 'data' => $rate->fresh()]);
+    }
+
+    // ===== 批量教师班级分配 =====
+
+    /**
+     * 批量将教师分配到多个班级
+     *
+     * @param  array  $assignments  [{"class_id": 1, "role": "head_teacher"}, ...]
+     */
+    public function assignTeacherClasses(Request $request, int $id): JsonResponse
+    {
+        $school = $request->user()->school;
+
+        $teacher = User::where('school_id', $school->id)
+            ->where('role', 'teacher')
+            ->findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'assignments' => 'required|array|min:1',
+            'assignments.*.class_id' => 'required|integer|exists:class_rooms,id',
+            'assignments.*.role' => 'required|string|in:head_teacher,co_teacher',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $reqAssignments = $request->input('assignments');
+        $synced = [];
+
+        foreach ($reqAssignments as $item) {
+            $classId = (int) $item['class_id'];
+            $role = $item['role'];
+
+            $classRoom = ClassRoom::where('school_id', $school->id)->findOrFail($classId);
+
+            $assignment = ClassRoomTeacher::updateOrCreate(
+                ['class_room_id' => $classId, 'user_id' => $teacher->id],
+                ['role' => $role],
+            );
+
+            if ($role === 'head_teacher') {
+                $classRoom->teacher_id = $teacher->id;
+                $classRoom->save();
+            }
+
+            $synced[] = [
+                'class_id' => $classId,
+                'class_name' => $classRoom->name,
+                'role' => $assignment->role,
+            ];
+        }
+
+        return response()->json([
+            'message' => '已为教师「' . $teacher->name . '」分配 ' . count($synced) . ' 个班级',
+            'data' => [
+                'teacher_id' => $teacher->id,
+                'teacher_name' => $teacher->name,
+                'assignments' => $synced,
+            ],
+        ]);
     }
 }
