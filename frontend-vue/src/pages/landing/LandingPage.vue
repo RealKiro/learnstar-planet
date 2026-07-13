@@ -2,12 +2,14 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { apiPost } from '@/utils/api'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
 const displayCode = ref('')
 const codeError = ref('')
+const loading = ref(false)
 
 onMounted(() => {
   if (authStore.isLoggedIn) {
@@ -29,9 +31,23 @@ function onCodeInput(e: Event) {
   codeError.value = ''
 }
 
-function goToDisplay() {
-  if (!displayCode.value.trim()) { codeError.value = '请输入班级码'; return }
-  router.push({ name: 'display-login', query: { code: displayCode.value } })
+async function goToDisplay() {
+  const code = displayCode.value.trim()
+  if (!code) { codeError.value = '请输入班级码'; return }
+  if (code.length < 3) { codeError.value = '班级码不正确'; return }
+  loading.value = true
+  codeError.value = ''
+  try {
+    const res = await apiPost<{ data: { token: string; class_info: { id: number; name: string } } }>(
+      '/api/v1/display/login', { code }
+    )
+    sessionStorage.setItem('display_token', res.data.token)
+    sessionStorage.setItem('display_class_info', JSON.stringify(res.data.class_info))
+    router.replace({ name: 'display-screen' })
+  } catch {
+    codeError.value = '班级码无效，请检查后重试'
+    loading.value = false
+  }
 }
 
 function goLogin(role: string) {
@@ -47,7 +63,6 @@ function goLogin(role: string) {
       <div class="bg-orb bg-orb--3"></div>
     </div>
 
-    <!-- 顶部 -->
     <header class="header">
       <div class="header-brand">
         <span class="header-logo">🌌</span>
@@ -63,42 +78,32 @@ function goLogin(role: string) {
       </div>
     </header>
 
-    <!-- 主体 -->
     <main class="main">
       <div class="card">
-        <div class="card-glow"></div>
-
-        <!-- 顶部徽章 -->
         <div class="card-badge">
           <span class="card-badge-dot"></span>
           MIT 开源 · 完全免费 · 自托管
         </div>
 
-        <!-- 标题 -->
         <h1 class="card-heading">
-          让每个孩子的努力
-          <br>
+          让每个孩子的努力<br>
           <span class="card-heading-grad">都被看见</span>
         </h1>
 
-        <!-- 分割 -->
         <div class="card-divider"></div>
 
-        <!-- 大屏入口 -->
         <div class="card-body">
           <div class="card-body-icon">🖥️</div>
           <div class="card-body-title">班级大屏</div>
-          <div class="card-body-desc">教室触摸屏展示 · 实时积分变化 · 宠物矩阵</div>
+          <div class="card-body-desc">教室触摸屏展示 · 实时积分 · 宠物矩阵</div>
 
           <form class="card-form" @submit.prevent="goToDisplay">
-            <div class="card-form-row">
-              <input v-model="displayCode" type="text" class="card-input"
-                placeholder="输入班级码" maxlength="12" autocomplete="off"
-                @input="onCodeInput">
-              <button type="submit" class="card-btn" :disabled="displayCode.length < 4">
-                进入
-              </button>
-            </div>
+            <input v-model="displayCode" type="text" class="card-input"
+              placeholder="输入班级码" maxlength="12" autocomplete="off"
+              @input="onCodeInput">
+            <button type="submit" class="card-btn" :disabled="loading || displayCode.length < 3">
+              {{ loading ? '验证中...' : '进入大屏' }}
+            </button>
             <p v-if="codeError" class="card-error">{{ codeError }}</p>
           </form>
 
@@ -106,7 +111,6 @@ function goLogin(role: string) {
         </div>
       </div>
 
-      <!-- 底部功能标签 -->
       <div class="tags">
         <span>积分激励</span>
         <span>宠物进化</span>
@@ -119,10 +123,6 @@ function goLogin(role: string) {
 </template>
 
 <style scoped>
-/* ============================================================
-   学趣星球 — 首页
-   ============================================================ */
-
 .page {
   height: 100vh; overflow: hidden;
   background: #F5F5F7;
@@ -134,7 +134,6 @@ function goLogin(role: string) {
   position: relative;
 }
 
-/* ===== 背景 ===== */
 .bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .bg-orb {
   position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15;
@@ -146,7 +145,7 @@ function goLogin(role: string) {
 @keyframes d2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,40px)} }
 @keyframes d3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,20px) scale(1.15)} }
 
-/* ===== 顶栏 ===== */
+/* 顶栏 */
 .header {
   position: relative; z-index: 10;
   display: flex; align-items: center; justify-content: space-between;
@@ -168,7 +167,7 @@ function goLogin(role: string) {
 .header-link--icon { display: flex; align-items: center; padding: 6px; color: #AEAEB2; }
 .header-link--icon:hover { color: #6E6E73; }
 
-/* ===== 主体 ===== */
+/* 主体 */
 .main {
   position: relative; z-index: 1; isolation: isolate;
   flex: 1;
@@ -179,23 +178,15 @@ function goLogin(role: string) {
   min-height: 0;
 }
 
-/* ===== 卡片 ===== */
+/* 卡片 */
 .card {
   width: 100%; position: relative;
   background: #FFFFFF;
   border-radius: 24px;
   box-shadow: 0 2px 20px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.02);
   padding: 36px 32px 32px;
-  overflow: hidden;
 }
 
-.card-glow {
-  position: absolute; width: 240px; height: 240px;
-  background: radial-gradient(circle at 30% 20%, rgba(120,80,255,.06), transparent 70%);
-  top: -60px; right: -60px; border-radius: 50%; pointer-events: none;
-}
-
-/* 徽章 */
 .card-badge {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 12px;
@@ -204,7 +195,6 @@ function goLogin(role: string) {
 }
 .card-badge-dot { width: 5px; height: 5px; background: #34C759; border-radius: 50%; flex-shrink: 0; }
 
-/* 标题 */
 .card-heading {
   font-size: 34px; font-weight: 800; line-height: 1.15;
   letter-spacing: -.025em; margin: 0 0 24px;
@@ -215,55 +205,46 @@ function goLogin(role: string) {
   background-clip: text;
 }
 
-/* 分割线 */
-.card-divider {
-  height: 1px; background: #F0F0F0; margin-bottom: 24px;
-}
+.card-divider { height: 1px; background: #F0F0F0; margin-bottom: 24px; }
 
-/* 大屏入口 */
 .card-body { text-align: center; }
 .card-body-icon { font-size: 32px; margin-bottom: 8px; }
 .card-body-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
 .card-body-desc { font-size: 13px; color: #8E8E93; margin-bottom: 20px; }
 
-/* 输入 */
-.card-form-row { display: flex; gap: 8px; }
+/* 输入 — 上下布局，按钮在输入框下方 */
+.card-form { display: flex; flex-direction: column; gap: 10px; }
 .card-input {
-  flex: 1; padding: 12px 16px; border-radius: 12px;
+  width: 100%; padding: 14px 16px; border-radius: 12px;
   border: 1.5px solid #E5E5EA;
   background: #F5F5F7; color: #1D1D1F;
-  font-size: 20px; font-weight: 600; letter-spacing: .1em;
+  font-size: 22px; font-weight: 600; letter-spacing: .12em;
   outline: none; transition: all .2s;
   font-family: 'SF Mono', 'SF Pro Text', 'Noto Sans SC', monospace;
   text-align: center;
+  box-sizing: border-box;
 }
 .card-input::placeholder { color: #AEAEB2; font-weight: 400; letter-spacing: 0; font-size: 16px; }
 .card-input:focus { border-color: #5E5CE6; background: #fff; box-shadow: 0 0 0 3px rgba(94,92,230,.1); }
 .card-btn {
-  padding: 12px 24px; border-radius: 12px; border: none;
+  width: 100%; padding: 14px; border-radius: 12px; border: none;
   background: linear-gradient(135deg,#5E5CE6,#818CF8); color: #fff;
-  font-size: 15px; font-weight: 600; cursor: pointer;
-  transition: all .2s; white-space: nowrap; font-family: inherit;
-  flex-shrink: 0;
+  font-size: 16px; font-weight: 600; cursor: pointer;
+  transition: all .2s; font-family: inherit;
 }
-.card-btn:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 4px 14px rgba(94,92,230,.25); }
-.card-btn:disabled { opacity: .35; cursor: not-allowed; }
-.card-error { color: #EF4444; font-size: 12px; margin: 8px 0 0; text-align: left; }
+.card-btn:hover:not(:disabled) { transform: scale(1.01); box-shadow: 0 4px 14px rgba(94,92,230,.25); }
+.card-btn:disabled { opacity: .35; cursor: not-allowed; transform: none !important; }
+.card-error { color: #EF4444; font-size: 13px; margin: 0; }
 .card-footnote { font-size: 12px; color: #AEAEB2; margin-top: 14px; }
 
-/* ===== 底部标签 ===== */
-.tags {
-  margin-top: 24px;
-  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-  font-size: 11px; color: #AEAEB2;
-}
+/* 底部 */
+.tags { margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; font-size: 11px; color: #AEAEB2; }
 
-/* ===== 响应式 ===== */
 @media (max-width: 768px) {
   .header { padding: 14px 20px; }
   .main { padding: 0 16px 20px; }
   .card { padding: 28px 24px 28px; border-radius: 20px; }
   .card-heading { font-size: 28px; }
-  .card-input { font-size: 18px; }
+  .card-input { font-size: 20px; }
 }
 </style>
