@@ -1211,9 +1211,9 @@ class SchoolAdminController extends Controller
             $created = [];
             foreach ($preview as $teacherData) {
                 $teachAssignments = null;
-                $className = $teacherData['_row_class_name'] ?? '';
-                $classRole  = $teacherData['_row_class_role'] ?? '';
-                $classSubject = $teacherData['_row_class_subject'] ?? '';
+                $className = (string) $teacherData['_row_class_name'];
+                $classRole  = (string) $teacherData['_row_class_role'];
+                $classSubject = (string) $teacherData['_row_class_subject'];
                 unset($teacherData['_row_class_name'], $teacherData['_row_class_role'], $teacherData['_row_class_subject']);
 
                 if ($className !== '') {
