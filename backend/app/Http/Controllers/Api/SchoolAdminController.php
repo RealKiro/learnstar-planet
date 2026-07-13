@@ -144,11 +144,11 @@ class SchoolAdminController extends Controller
         $teachers = $teacherUsers->map(function (User $t) {
             $bindings = $t->thirdPartyBindings->pluck('platform')->toArray();
             $assignments = $t->classRoomAssignments->map(fn ($a) => [
-                'class_id' => $a->class_room_id,
+                'class_id' => (int) $a->class_room_id,
                 'class_name' => $a->classRoom?->name,
                 'grade' => $a->classRoom?->grade,
                 'role' => $a->role,
-            ])->values();
+            ])->values()->toArray();
 
             return [
                 'id' => $t->id,
@@ -163,7 +163,7 @@ class SchoolAdminController extends Controller
                 'last_login_at' => $t->last_login_at?->toDateTimeString(),
                 'bindings' => $bindings,
                 'assignments' => $assignments,
-                'class_names' => $assignments->pluck('class_name')->values(),
+                'class_names' => $assignments ? array_column($assignments, 'class_name') : [],
                 'created_at' => $t->created_at?->toDateTimeString(),
             ];
         });
@@ -1099,6 +1099,4 @@ class SchoolAdminController extends Controller
 
         $rate->update($request->only(['rate', 'is_active']));
 
-        return response()->json(['message' => '汇率已更新', 'data' => $rate->fresh()]);
-    }
-}
+        return response()->json(['message' => '汇率已更新', 'd
