@@ -208,7 +208,7 @@ function downloadStudentTemplate() {
     </div>
 
     <!-- 批量添加班级弹窗 -->
-    <div v-if="showBatchClassModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.self="showBatchClassModal = false">
+    <div v-if="showBatchClassModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
       <div class="card" style="width:90%;max-width:420px;padding:32px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
           <h3 style="font-size:18px;font-weight:700;">批量添加班级</h3>
@@ -236,7 +236,7 @@ function downloadStudentTemplate() {
     </div>
 
     <!-- 单个添加班级弹窗 -->
-    <div v-if="showSingleClassModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.self="showSingleClassModal = false">
+    <div v-if="showSingleClassModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
       <div class="card" style="width:90%;max-width:420px;padding:32px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
           <h3 style="font-size:18px;font-weight:700;">添加班级</h3>
@@ -313,3 +313,4 @@ function downloadStudentTemplate() {
     </div>
   </div>
 </template>
+                                                                                     

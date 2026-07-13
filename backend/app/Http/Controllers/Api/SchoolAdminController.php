@@ -365,7 +365,7 @@ class SchoolAdminController extends Controller
         $validator = Validator::make($request->all(), [
             'grade' => 'required|string|max:50',
             'count' => 'required|integer|min:1|max:20',
-            'year' => 'nullable|string|max:20',
+            'year' => 'nullable|max:20',
         ]);
 
         if ($validator->fails()) {
