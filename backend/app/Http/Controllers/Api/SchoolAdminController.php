@@ -334,7 +334,7 @@ class SchoolAdminController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
             'grade' => 'nullable|string|max:50',
-            'year' => 'nullable|string|max:20',
+            'year' => 'nullable|max:20',
             'teacher_id' => 'nullable|integer|exists:users,id',
             'max_students' => 'nullable|integer|min:0',
         ]);
@@ -345,6 +345,13 @@ class SchoolAdminController extends Controller
 
         $school = $request->user()->school;
         $class = ClassRoom::create([
+
+        // 检查班级名称是否已存在
+        $name = $request->input('name');
+        if (ClassRoom::where('school_id', $school->id)->where('name', $name)->where('status', 'active')->exists()) {
+            return response()->json(['message' => '班级「' . $name . '」已存在'], 409);
+        }
+
             'school_id' => $school->id,
             'name' => $request->input('name'),
             'grade' => $request->input('grade'),
@@ -388,6 +395,12 @@ class SchoolAdminController extends Controller
             $name = $grade . '（' . $classNum . '）班';
 
             $class = ClassRoom::create([
+
+            // 跳过已存在的同名班级
+            if (ClassRoom::where('school_id', $school->id)->where('name', $name)->where('status', 'active')->exists()) {
+                continue;
+            }
+
                 'school_id' => $school->id,
                 'name' => $name,
                 'grade' => $grade,
