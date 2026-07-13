@@ -494,7 +494,7 @@ class DisplayController extends Controller
     {
         return $students->map(function (Student $s): array {
             $pet = $s->pet;
-            $stage = $this->getPetStageInfo($pet?->level ?? 0);
+            $stage = $this->getPetStageInfo($pet->level ?? 0);
 
             return [
                 'student_id' => $s->id,
@@ -506,7 +506,7 @@ class DisplayController extends Controller
                 'pet_type' => $pet?->type,
                 'level' => $pet->level ?? 0,
                 'experience' => $pet->experience ?? 0,
-                'mood' => $pet?->mood ?? 50,
+                'mood' => $pet->mood ?? 50,
                 'emoji' => $stage['emoji'] ?? '🌟',
                 'stage_name' => $stage['name'] ?? '未孵化',
                 'stage_title' => $stage['title'] ?? '',
