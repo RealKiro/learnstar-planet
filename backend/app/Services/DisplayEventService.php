@@ -90,6 +90,7 @@ class DisplayEventService
         $id = Cache::get($key, 0);
         $id++;
         Cache::put($key, $id, now()->addSeconds(self::CACHE_TTL));
+
         return $id;
     }
 

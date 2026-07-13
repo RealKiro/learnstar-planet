@@ -153,6 +153,7 @@ class DisplayController extends Controller
 
         if (!$classId) {
             Cache::put($lockKey, $attempts + 1, now()->addMinutes(self::LOCKOUT_MINUTES));
+
             return response()->json(['message' => '班级码无效，请检查后重试'], 404);
         }
 
@@ -288,6 +289,7 @@ class DisplayController extends Controller
             $response->headers->set('Content-Type', 'text/event-stream');
             $response->headers->set('Cache-Control', 'no-cache');
             $response->headers->set('X-Accel-Buffering', 'no');
+
             return $response;
         }
 
@@ -455,6 +457,7 @@ class DisplayController extends Controller
         $classRoom = ClassRoom::where('display_code', $code)->first();
         if ($classRoom) {
             $this->cacheCodeMapping($code, $classRoom->id);
+
             return $classRoom->id;
         }
 
@@ -480,6 +483,7 @@ class DisplayController extends Controller
         }
 
         $data = Cache::get(self::TOKEN_PREFIX . $token);
+
         return $data ?: null;
     }
 

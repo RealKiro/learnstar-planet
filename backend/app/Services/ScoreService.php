@@ -9,7 +9,6 @@ use App\Models\Score;
 use App\Models\ScoreLog;
 use App\Models\ScoreRule;
 use App\Models\Student;
-use App\Services\DisplayEventService;
 use Illuminate\Support\Facades\DB;
 
 class ScoreService
@@ -54,7 +53,7 @@ class ScoreService
 
             // 推送给班级大屏（SSE 实时更新）
             try {
-                app(DisplayEventService::class)->publish(
+                app(\App\Services\DisplayEventService::class)->publish(
                     $student->class_id,
                     'score_update',
                     [
@@ -124,7 +123,7 @@ class ScoreService
 
             // 推送给班级大屏
             try {
-                app(DisplayEventService::class)->publish(
+                app(\App\Services\DisplayEventService::class)->publish(
                     $student->class_id,
                     'score_update',
                     [
