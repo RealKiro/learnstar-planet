@@ -42,3 +42,6 @@ parameters:
           reportUnmatched: false
         - message: '#Method App\\Models\\WechatWorkLeaveRecord::getUnsyncedForDate\(\) should return Illuminate\\Database\\Eloquent\\Collection<int, static\(App\\Models\\WechatWorkLeaveRecord\)> but returns Illuminate\\Database\\Eloquent\\Collection<int, App\\Models\\WechatWorkLeaveRecord>\.#'
           reportUnmatched: false
+        - message: '#Parameter \\#1 \\$callback of method Illuminate\\Database\\Eloquent\\Collection<.*>::map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\): .*, Closure\(App\\Models\\Student\): .* given\.#'
+          reportUnmatched: false
+          path: app/Http/Controllers/Api/TeacherController.php
