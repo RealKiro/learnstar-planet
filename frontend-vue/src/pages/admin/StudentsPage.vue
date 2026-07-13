@@ -13,20 +13,42 @@ const loading = ref(true)
 const filterClassId = ref<number | ''>('')
 const selectedIds = ref<number[]>([])
 
+const gradeOptions = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
+
 // 新增/编辑弹窗
 const showEditModal = ref(false)
 const isEditing = ref(false)
 const modalLoading = ref(false)
 const editingId = ref<number | null>(null)
 const form = ref({ name: '', class_id: '' as number | '', gender: '男', student_no: '' })
+// 级联选择
+const formGrade = ref('一年级')
+const formClassId = ref<number | ''>('')
 
 // 批量调班弹窗
 const showMoveModal = ref(false)
+const targetGrade = ref('一年级')
 const targetClassId = ref<number | ''>('')
 
 const allSelected = computed(() =>
   students.value.length > 0 && selectedIds.value.length === students.value.length,
 )
+
+// 按年级分组班级（用于级联下拉）
+const classesByGrade = computed(() => {
+  const map = new Map<string, ClassRoom[]>()
+  for (const g of gradeOptions) map.set(g, [])
+  for (const c of classes.value) {
+    const grade = c.grade || '未分年级'
+    if (!map.has(grade)) map.set(grade, [])
+    map.get(grade)!.push(c)
+  }
+  return map
+})
+
+const formClassOptions = computed(() => classesByGrade.value.get(formGrade.value) || [])
+
+const targetClassOptions = computed(() => classesByGrade.value.get(targetGrade.value) || [])
 
 onMounted(async () => {
   await Promise.all([loadClasses(), loadStudents()])
@@ -52,12 +74,18 @@ async function loadStudents() {
   finally { loading.value = false }
 }
 
+function getClassFromId(id: number | '') {
+  return classes.value.find(c => c.id === id)
+}
+
 function openAddModal() {
   isEditing.value = false
   editingId.value = null
+  formGrade.value = '一年级'
+  formClassId.value = ''
   form.value = {
     name: '',
-    class_id: filterClassId.value !== '' ? filterClassId.value : (classes.value[0]?.id ?? ''),
+    class_id: '' as number | '',
     gender: '男',
     student_no: '',
   }
@@ -67,6 +95,14 @@ function openAddModal() {
 function openEditModal(s: Student) {
   isEditing.value = true
   editingId.value = s.id
+  const cls = classes.value.find(c => c.id === s.class_id)
+  if (cls) {
+    formGrade.value = cls.grade || '一年级'
+    formClassId.value = s.class_id
+  } else {
+    formGrade.value = '一年级'
+    formClassId.value = ''
+  }
   form.value = {
     name: s.name,
     class_id: s.class_id,
@@ -76,9 +112,27 @@ function openEditModal(s: Student) {
   showEditModal.value = true
 }
 
+function onFormClassChange(clasId: number | '') {
+  form.class_id = clasId
+}
+
+function onTargetClassChange(clasId: number | '') {
+  targetClassId.value = clasId
+}
+
+function onFormGradeChange() {
+  formClassId.value = ''
+  form.class_id = ''
+}
+
+function onTargetGradeChange() {
+  targetClassId.value = ''
+}
+
 async function submitForm() {
   if (!form.value.name.trim()) { toast.show('请填写学生姓名', 'error'); return }
-  if (form.value.class_id === '') { toast.show('请选择班级', 'error'); return }
+  if (!formClassId.value) { toast.show('请选择班级', 'error'); return }
+  form.value.class_id = formClassId.value as number
   modalLoading.value = true
   const payload = {
     name: form.value.name.trim(),
@@ -134,6 +188,7 @@ async function batchDelete() {
 
 function openMoveModal() {
   if (selectedIds.value.length === 0) { toast.show('请先选择学生', 'error'); return }
+  targetGrade.value = '一年级'
   targetClassId.value = ''
   showMoveModal.value = true
 }
@@ -205,8 +260,8 @@ async function submitMove() {
             </td>
             <td style="font-family:monospace;color:var(--color-text-secondary);">{{ s.student_no || '-' }}</td>
             <td>{{ s.gender || '-' }}</td>
-            <td>{{ s.class_name || '-' }}</td>
-            <td><span v-if="s.class_grade" style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(79,70,229,0.08);color:var(--color-primary);">{{ s.class_grade }}</span><span v-else>-</span></td>
+            <td>{{ s.class_name || getClassFromId(s.class_id)?.name || '-' }}</td>
+            <td><span v-if="s.class_grade || getClassFromId(s.class_id)?.grade" style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(79,70,229,0.08);color:var(--color-primary);">{{ s.class_grade || getClassFromId(s.class_id)?.grade }}</span><span v-else>-</span></td>
             <td style="font-weight:600;color:var(--color-accent);">{{ s.total_score }}</td>
             <td>
               <div style="display:flex;gap:4px;">
@@ -220,7 +275,7 @@ async function submitMove() {
     </div>
 
     <!-- 新增/编辑弹窗 -->
-    <div v-if="showEditModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.self="showEditModal = false">
+    <div v-if="showEditModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
       <div class="card" style="width:90%;max-width:420px;padding:32px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
           <h3 style="font-size:18px;font-weight:700;">{{ isEditing ? '编辑学生' : '添加学生' }}</h3>
@@ -231,10 +286,16 @@ async function submitMove() {
           <input v-model="form.name" class="form-input" placeholder="如：张小明" @keydown.enter="submitForm">
         </div>
         <div class="form-group">
+          <label>年级</label>
+          <select v-model="formGrade" class="form-select" @change="onFormGradeChange">
+            <option v-for="g in gradeOptions" :key="g" :value="g">{{ g }}</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label>班级</label>
-          <select v-model="form.class_id" class="form-select">
+          <select v-model="formClassId" class="form-select" @change="onFormClassChange(formClassId as number)">
             <option value="" disabled>请选择班级</option>
-            <option v-for="c in classes" :key="c.id" :value="c.id">{{ c.name }}</option>
+            <option v-for="c in formClassOptions" :key="c.id" :value="c.id">{{ c.name }}</option>
           </select>
         </div>
         <div class="form-group">
@@ -256,7 +317,7 @@ async function submitMove() {
     </div>
 
     <!-- 批量调班弹窗 -->
-    <div v-if="showMoveModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.self="showMoveModal = false">
+    <div v-if="showMoveModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
       <div class="card" style="width:90%;max-width:420px;padding:32px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
           <h3 style="font-size:18px;font-weight:700;">批量调班</h3>
@@ -264,10 +325,16 @@ async function submitMove() {
         </div>
         <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px;">将选中的 <b style="color:var(--color-primary);">{{ selectedIds.length }}</b> 名学生调入以下班级：</p>
         <div class="form-group">
+          <label>年级</label>
+          <select v-model="targetGrade" class="form-select" @change="onTargetGradeChange">
+            <option v-for="g in gradeOptions" :key="g" :value="g">{{ g }}</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label>目标班级</label>
-          <select v-model="targetClassId" class="form-select">
+          <select v-model="targetClassId" class="form-select" @change="onTargetClassChange(targetClassId as number)">
             <option value="" disabled>请选择目标班级</option>
-            <option v-for="c in classes" :key="c.id" :value="c.id">{{ c.name }}</option>
+            <option v-for="c in targetClassOptions" :key="c.id" :value="c.id">{{ c.name }}</option>
           </select>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">

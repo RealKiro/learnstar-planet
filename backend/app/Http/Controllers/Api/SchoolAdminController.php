@@ -591,8 +591,16 @@ class SchoolAdminController extends Controller
         $perPage = (int) ($request->input('per_page') ?? 50);
         $students = $query->orderBy('id', 'desc')->paginate($perPage);
 
+        $data = $students->map(function ($s) {
+            $arr = $s->toArray();
+            $arr['class_name'] = $s->classRoom->name ?? null;
+            $arr['class_grade'] = $s->classRoom->grade ?? null;
+
+            return $arr;
+        })->values();
+
         return response()->json([
-            'data' => $students->items(),
+            'data' => $data,
             'meta' => [
                 'current_page' => $students->currentPage(),
                 'last_page' => $students->lastPage(),
@@ -934,10 +942,16 @@ class SchoolAdminController extends Controller
             ->get()
             ->groupBy('grade')
             ->map(function ($classes, $grade) {
+                $classIds = $classes->pluck('id');
+                $totalScore = (int) \App\Models\Score::whereIn('class_id', $classIds)->sum('amount');
+                $studentCount = $classes->sum('students_count');
+
                 return [
                     'grade' => $grade ?: '未分年级',
                     'class_count' => $classes->count(),
-                    'student_count' => $classes->sum('students_count'),
+                    'student_count' => $studentCount,
+                    'avg_score' => $studentCount > 0 ? round($totalScore / $studentCount, 1) : 0.0,
+                    'total_score' => $totalScore,
                 ];
             })->values();
 

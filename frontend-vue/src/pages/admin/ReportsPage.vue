@@ -17,9 +17,9 @@ onMounted(async () => {
       apiGet<ApiResponse<Array<{ grade: string; class_count: number; student_count: number; avg_score: number; total_score: number }>>>('/api/v1/admin/reports/by-grade'),
       apiGet<ApiResponse<Array<{ class_name: string; grade: string; student_count: number; avg_score: number; total_score: number; teacher_name: string }>>>('/api/v1/admin/reports/by-class'),
     ])
-    overview.value = (ovRes as unknown as { data: SchoolOverview }).data
-    byGrade.value = (gradeRes as unknown as { data: typeof byGrade.value }).data || []
-    byClass.value = (classRes as unknown as { data: typeof byClass.value }).data || []
+    overview.value = ovRes.data
+    byGrade.value = gradeRes.data || []
+    byClass.value = classRes.data || []
   } catch { overview.value = null; byGrade.value = []; byClass.value = [] }
   finally { loading.value = false }
 })
@@ -69,12 +69,11 @@ onMounted(async () => {
         </span>
       </div>
 
-      <!-- 按年级汇总 + 条形图 -->
+      <!-- 按年级汇总 -->
       <div class="card" style="margin-top:24px;">
         <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">按年级汇总</h3>
         <div v-if="byGrade.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">暂无数据</div>
         <template v-else>
-          <!-- 条形图 -->
           <div style="margin-bottom:20px;">
             <div v-for="g in byGrade" :key="g.grade" style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
               <span style="width:60px;font-size:13px;font-weight:600;flex-shrink:0;">{{ g.grade }}</span>
@@ -84,7 +83,6 @@ onMounted(async () => {
               <span style="width:80px;font-size:12px;color:var(--color-text-secondary);text-align:right;flex-shrink:0;">{{ g.total_score.toLocaleString() }} 分</span>
             </div>
           </div>
-          <!-- 表格 -->
           <div class="data-table">
             <table>
               <thead><tr><th>年级</th><th>班级数</th><th>学生数</th><th>平均分</th><th>总积分</th></tr></thead>
