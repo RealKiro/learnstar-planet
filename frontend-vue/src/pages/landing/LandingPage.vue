@@ -23,16 +23,15 @@ onMounted(() => {
   }
 })
 
-function formatCode(e: Event) {
+function onCodeInput(e: Event) {
   const input = e.target as HTMLInputElement
   displayCode.value = input.value.toUpperCase().replace(/[^0-9A-Z-]/g, '')
   codeError.value = ''
 }
 
 function goToDisplay() {
-  const code = displayCode.value.trim()
-  if (code.length < 6) { codeError.value = '请输入完整的班级码'; return }
-  router.push({ name: 'display-login', query: { code } })
+  if (!displayCode.value.trim()) { codeError.value = '请输入班级码'; return }
+  router.push({ name: 'display-login', query: { code: displayCode.value } })
 }
 
 function goLogin(role: string) {
@@ -41,204 +40,228 @@ function goLogin(role: string) {
 </script>
 
 <template>
-  <div class="home">
-    <div class="home-bg">
-      <div class="home-bg-orb home-bg-orb--1"></div>
-      <div class="home-bg-orb home-bg-orb--2"></div>
-      <div class="home-bg-orb home-bg-orb--3"></div>
+  <div class="page">
+    <div class="bg">
+      <div class="bg-orb bg-orb--1"></div>
+      <div class="bg-orb bg-orb--2"></div>
+      <div class="bg-orb bg-orb--3"></div>
     </div>
 
-    <!-- 顶部导航：唯一登录入口，不再重复 -->
-    <nav class="home-nav">
-      <div class="nav-brand">
-        <span class="nav-logo">🌌</span>
-        <span class="nav-name">学趣星球</span>
+    <!-- 顶部 -->
+    <header class="header">
+      <div class="header-brand">
+        <span class="header-logo">🌌</span>
+        <span class="header-name">学趣星球</span>
       </div>
-      <div class="nav-actions">
-        <button class="nav-link" @click="goLogin('teacher')">教师登录</button>
-        <button class="nav-link" @click="goLogin('admin')">管理员</button>
-        <button class="nav-link" @click="goLogin('parent')">家长</button>
-        <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="nav-link nav-link--icon" title="GitHub">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      <div class="header-links">
+        <button class="header-link" @click="goLogin('teacher')">教师登录</button>
+        <button class="header-link header-link--dim" @click="goLogin('admin')">管理员</button>
+        <button class="header-link header-link--dim" @click="goLogin('parent')">家长</button>
+        <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="header-link header-link--icon" title="GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         </a>
       </div>
-    </nav>
+    </header>
 
-    <!-- 一屏显示，不滚动 -->
-    <main class="home-main">
-      <div class="hero">
-        <div class="hero-badge">
-          <span class="hero-badge-dot"></span>
+    <!-- 主体 -->
+    <main class="main">
+      <div class="card">
+        <div class="card-glow"></div>
+
+        <!-- 顶部徽章 -->
+        <div class="card-badge">
+          <span class="card-badge-dot"></span>
           MIT 开源 · 完全免费 · 自托管
         </div>
-        <h1 class="hero-title">
-          让每个孩子的努力<br>
-          <span class="hero-title-grad">都被看见</span>
-        </h1>
-      </div>
 
-      <!-- 唯一核心操作：大屏 -->
-      <div class="display-card">
-        <div class="display-card-glow"></div>
-        <div class="display-card-bg"></div>
-        <div class="display-card-content">
-          <div class="display-icon">🖥️</div>
-          <div class="display-text">
-            <h2 class="display-title">班级大屏</h2>
-            <p class="display-desc">教室触摸屏展示 · 实时积分 · 宠物矩阵</p>
-          </div>
-          <form class="display-form" @submit.prevent="goToDisplay">
-            <div class="display-input-row">
-              <input v-model="displayCode" type="text" class="display-input"
+        <!-- 标题 -->
+        <h1 class="card-heading">
+          让每个孩子的努力
+          <br>
+          <span class="card-heading-grad">都被看见</span>
+        </h1>
+
+        <!-- 分割 -->
+        <div class="card-divider"></div>
+
+        <!-- 大屏入口 -->
+        <div class="card-body">
+          <div class="card-body-icon">🖥️</div>
+          <div class="card-body-title">班级大屏</div>
+          <div class="card-body-desc">教室触摸屏展示 · 实时积分变化 · 宠物矩阵</div>
+
+          <form class="card-form" @submit.prevent="goToDisplay">
+            <div class="card-form-row">
+              <input v-model="displayCode" type="text" class="card-input"
                 placeholder="输入班级码" maxlength="12" autocomplete="off"
-                @input="formatCode">
-              <button type="submit" class="display-btn" :disabled="displayCode.length < 6">
+                @input="onCodeInput">
+              <button type="submit" class="card-btn" :disabled="displayCode.length < 6">
                 进入
               </button>
             </div>
-            <p v-if="codeError" class="display-error">{{ codeError }}</p>
-            <p class="display-hint">向班主任获取班级码</p>
+            <p v-if="codeError" class="card-error">{{ codeError }}</p>
           </form>
+
+          <div class="card-footnote">向班主任获取班级码</div>
         </div>
       </div>
 
-      <div class="footer-meta">
-        <span>积分激励</span><span class="dot">·</span>
-        <span>宠物进化</span><span class="dot">·</span>
-        <span>排行榜</span><span class="dot">·</span>
-        <span>实时广播</span><span class="dot">·</span>
-        <span>AI 助教</span><span class="dot">·</span>
-        <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="footer-link">GitHub</a>
+      <!-- 底部功能标签 -->
+      <div class="tags">
+        <span>积分激励</span>
+        <span>宠物进化</span>
+        <span>排行榜</span>
+        <span>实时广播</span>
+        <span>AI 助教</span>
       </div>
     </main>
   </div>
 </template>
 
 <style scoped>
-.home {
+/* ============================================================
+   学趣星球 — 首页
+   ============================================================ */
+
+.page {
   height: 100vh; overflow: hidden;
-  background: #FBFBFD; color: #1D1D1F;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
-    'Helvetica Neue', 'Noto Sans SC', sans-serif;
+  background: #F5F5F7;
+  color: #1D1D1F;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+    'SF Pro Text', 'Helvetica Neue', 'Noto Sans SC', sans-serif;
   -webkit-font-smoothing: antialiased;
   display: flex; flex-direction: column;
+  position: relative;
 }
 
-/* 动态渐变背景 */
-.home-bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-.home-bg-orb {
-  position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.18;
+/* ===== 背景 ===== */
+.bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.bg-orb {
+  position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15;
 }
-.home-bg-orb--1 { width: 600px; height: 600px; background: #C7D2FE; top: -200px; right: -150px; animation: orb1 20s ease-in-out infinite; }
-.home-bg-orb--2 { width: 450px; height: 450px; background: #A7F3D0; bottom: -150px; left: -100px; animation: orb2 25s ease-in-out infinite; }
-.home-bg-orb--3 { width: 300px; height: 300px; background: #FDE68A; top: 40%; left: 50%; animation: orb3 18s ease-in-out infinite; }
-@keyframes orb1 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(50px,-40px)} 66%{transform:translate(-20px,30px)} }
-@keyframes orb2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-60px,-50px)} }
-@keyframes orb3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(40px,30px) scale(1.1)} }
+.bg-orb--1 { width: 500px; height: 500px; background: #C7D2FE; top: -150px; right: -100px; animation: d1 18s ease-in-out infinite; }
+.bg-orb--2 { width: 400px; height: 400px; background: #A7F3D0; bottom: -120px; left: -80px; animation: d2 22s ease-in-out infinite; }
+.bg-orb--3 { width: 250px; height: 250px; background: #FDE68A; top: 50%; left: 60%; animation: d3 15s ease-in-out infinite; }
+@keyframes d1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-30px)} }
+@keyframes d2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,40px)} }
+@keyframes d3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,20px) scale(1.15)} }
 
-/* 导航 */
-.home-nav {
+/* ===== 顶栏 ===== */
+.header {
   position: relative; z-index: 10;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 32px; max-width: 680px; margin: 0 auto; width: 100%; box-sizing: border-box;
-  flex-shrink: 0;
+  padding: 18px 32px; max-width: 520px; margin: 0 auto; width: 100%;
+  box-sizing: border-box; flex-shrink: 0;
 }
-.nav-brand { display: flex; align-items: center; gap: 10px; }
-.nav-logo { font-size: 28px; }
-.nav-name { font-size: 17px; font-weight: 700; color: #1D1D1F; }
-.nav-actions { display: flex; align-items: center; gap: 2px; }
-.nav-link {
-  padding: 8px 14px; border: none; border-radius: 9999px; background: transparent;
+.header-brand { display: flex; align-items: center; gap: 8px; }
+.header-logo { font-size: 24px; line-height: 1; }
+.header-name { font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+.header-links { display: flex; align-items: center; gap: 2px; }
+.header-link {
+  padding: 6px 12px; border: none; border-radius: 6px; background: transparent;
   color: #6E6E73; font-size: 13px; font-weight: 500; cursor: pointer;
   transition: all .2s; text-decoration: none; font-family: inherit;
 }
-.nav-link:hover { background: rgba(0,0,0,.04); color: #1D1D1F; }
-.nav-link--icon { display: flex; align-items: center; padding: 8px; color: #AEAEB2; }
-.nav-link--icon:hover { color: #1D1D1F; }
+.header-link:hover { background: rgba(0,0,0,.04); color: #1D1D1F; }
+.header-link--dim { color: #AEAEB2; font-size: 12px; }
+.header-link--dim:hover { color: #6E6E73; }
+.header-link--icon { display: flex; align-items: center; padding: 6px; color: #AEAEB2; }
+.header-link--icon:hover { color: #6E6E73; }
 
-/* 主内容 - 垂直居中，一屏显示 */
-.home-main {
+/* ===== 主体 ===== */
+.main {
   position: relative; z-index: 1; flex: 1;
-  max-width: 480px; width: 100%; margin: 0 auto;
-  padding: 0 32px 20px; box-sizing: border-box;
+  max-width: 420px; width: 100%; margin: 0 auto;
+  padding: 0 24px 24px; box-sizing: border-box;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   min-height: 0;
 }
 
-/* Hero - 紧凑 */
-.hero { text-align: center; margin-bottom: 32px; }
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 5px 14px; background: rgba(255,255,255,.8);
-  backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,.06);
-  border-radius: 9999px; font-size: 12px; color: #6E6E73; margin-bottom: 20px;
+/* ===== 卡片 ===== */
+.card {
+  width: 100%; position: relative;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 2px 20px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.02);
+  padding: 36px 32px 32px;
+  overflow: hidden;
 }
-.hero-badge-dot { width: 6px; height: 6px; background: #34C759; border-radius: 50%; }
-.hero-title { font-size: 40px; font-weight: 800; line-height: 1.15; letter-spacing: -.03em; margin: 0; }
-.hero-title-grad { background: linear-gradient(135deg,#5E5CE6,#FF375F,#FF9F0A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-/* 大屏卡片 - 深色，占据主体 */
-.display-card {
-  width: 100%; position: relative; overflow: hidden;
-  border-radius: 20px; cursor: default;
-  background: linear-gradient(145deg,#1a1a2e,#16213e);
-}
-.display-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 30% 20%,rgba(120,80,255,.25),transparent 60%),
-              radial-gradient(ellipse at 70% 80%,rgba(30,140,220,.15),transparent 60%);
-  pointer-events: none;
-}
-.display-card-glow {
-  position: absolute; width: 200px; height: 200px;
-  background: radial-gradient(circle,rgba(120,80,255,.1),transparent);
+.card-glow {
+  position: absolute; width: 240px; height: 240px;
+  background: radial-gradient(circle at 30% 20%, rgba(120,80,255,.06), transparent 70%);
   top: -60px; right: -60px; border-radius: 50%; pointer-events: none;
 }
-.display-card-content { padding: 28px; position: relative; z-index: 1; }
-.display-icon { font-size: 36px; margin-bottom: 8px; }
-.display-text { margin-bottom: 20px; }
-.display-title { font-size: 20px; font-weight: 700; color: #fff; margin: 0 0 4px; }
-.display-desc { font-size: 13px; color: rgba(255,255,255,.55); margin: 0; }
+
+/* 徽章 */
+.card-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  background: #F5F5F7; border-radius: 9999px;
+  font-size: 11px; color: #8E8E93; margin-bottom: 20px;
+}
+.card-badge-dot { width: 5px; height: 5px; background: #34C759; border-radius: 50%; flex-shrink: 0; }
+
+/* 标题 */
+.card-heading {
+  font-size: 34px; font-weight: 800; line-height: 1.15;
+  letter-spacing: -.025em; margin: 0 0 24px;
+}
+.card-heading-grad {
+  background: linear-gradient(135deg,#5E5CE6,#FF375F,#FF9F0A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 分割线 */
+.card-divider {
+  height: 1px; background: #F0F0F0; margin-bottom: 24px;
+}
+
+/* 大屏入口 */
+.card-body { text-align: center; }
+.card-body-icon { font-size: 32px; margin-bottom: 8px; }
+.card-body-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.card-body-desc { font-size: 13px; color: #8E8E93; margin-bottom: 20px; }
 
 /* 输入 */
-.display-input-row { display: flex; gap: 8px; }
-.display-input {
+.card-form-row { display: flex; gap: 8px; }
+.card-input {
   flex: 1; padding: 12px 16px; border-radius: 12px;
-  border: 1.5px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.06); color: #fff;
-  font-size: 18px; font-weight: 600; letter-spacing: .12em;
+  border: 1.5px solid #E5E5EA;
+  background: #F5F5F7; color: #1D1D1F;
+  font-size: 20px; font-weight: 600; letter-spacing: .1em;
   outline: none; transition: all .2s;
   font-family: 'SF Mono', 'SF Pro Text', 'Noto Sans SC', monospace;
+  text-align: center;
 }
-.display-input::placeholder { color: rgba(255,255,255,.25); font-weight: 400; letter-spacing: 0; font-size: 15px; }
-.display-input:focus { border-color: rgba(120,80,255,.5); box-shadow: 0 0 0 3px rgba(120,80,255,.12); }
-.display-btn {
+.card-input::placeholder { color: #AEAEB2; font-weight: 400; letter-spacing: 0; font-size: 16px; }
+.card-input:focus { border-color: #5E5CE6; background: #fff; box-shadow: 0 0 0 3px rgba(94,92,230,.1); }
+.card-btn {
   padding: 12px 24px; border-radius: 12px; border: none;
-  background: linear-gradient(135deg,#7C3AED,#6D28D9); color: #fff;
+  background: linear-gradient(135deg,#5E5CE6,#818CF8); color: #fff;
   font-size: 15px; font-weight: 600; cursor: pointer;
   transition: all .2s; white-space: nowrap; font-family: inherit;
 }
-.display-btn:hover:not(:disabled) { background: linear-gradient(135deg,#8B5CF6,#7C3AED); transform: scale(1.02); }
-.display-btn:disabled { opacity: .4; cursor: not-allowed; }
-.display-error { color: #FCA5A5; font-size: 12px; margin: 8px 0 0; }
-.display-hint { font-size: 12px; color: rgba(255,255,255,.3); margin: 10px 0 0; }
+.card-btn:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 4px 14px rgba(94,92,230,.25); }
+.card-btn:disabled { opacity: .35; cursor: not-allowed; }
+.card-error { color: #EF4444; font-size: 12px; margin: 8px 0 0; text-align: left; }
+.card-footnote { font-size: 12px; color: #AEAEB2; margin-top: 14px; }
 
-/* 底部 */
-.footer-meta {
-  margin-top: 28px; display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: #8E8E93; flex-wrap: wrap; justify-content: center;
+/* ===== 底部标签 ===== */
+.tags {
+  margin-top: 24px;
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+  font-size: 11px; color: #AEAEB2;
 }
-.dot { color: #C7C7CC; }
-.footer-link { color: #8E8E93; text-decoration: none; transition: color .2s; }
-.footer-link:hover { color: #1D1D1F; }
 
+/* ===== 响应式 ===== */
 @media (max-width: 768px) {
-  .home-nav { padding: 14px 20px; }
-  .home-main { padding: 0 20px 16px; max-width: 100%; }
-  .hero-title { font-size: 32px; }
-  .hero { margin-bottom: 24px; }
-  .display-card-content { padding: 22px; }
-  .display-input { font-size: 16px; }
+  .header { padding: 14px 20px; }
+  .main { padding: 0 16px 20px; }
+  .card { padding: 28px 24px 28px; border-radius: 20px; }
+  .card-heading { font-size: 28px; }
+  .card-input { font-size: 18px; }
 }
 </style>
