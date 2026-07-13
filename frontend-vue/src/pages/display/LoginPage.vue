@@ -39,7 +39,7 @@ function handlePaste(event: ClipboardEvent) {
 }
 
 async function handleLogin() {
-  if (code.value.length < 6) {
+  if (code.value.length < 4) {
     error.value = '请输入完整的班级码'
     return
   }
@@ -131,7 +131,7 @@ async function handleLogin() {
         <button
           type="submit"
           class="login-btn"
-          :disabled="loading || code.length < 6"
+          :disabled="loading || code.length < 4"
         >
           <span v-if="loading" class="btn-loading">⏳</span>
           <span v-else>进入大屏</span>

@@ -34,6 +34,12 @@ function goToDisplay() {
   router.push({ name: 'display-login', query: { code: displayCode.value } })
 }
 
+function onCodeInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  displayCode.value = input.value.toUpperCase().replace(/[^0-9A-Z-]/g, '')
+  codeError.value = ''
+}
+
 function goLogin(role: string) {
   router.push({ name: 'login', query: { role } })
 }
@@ -95,7 +101,7 @@ function goLogin(role: string) {
               <input v-model="displayCode" type="text" class="card-input"
                 placeholder="输入班级码" maxlength="12" autocomplete="off"
                 @input="onCodeInput">
-              <button type="submit" class="card-btn" :disabled="displayCode.length < 6">
+              <button type="submit" class="card-btn" :disabled="displayCode.length < 4">
                 进入
               </button>
             </div>
@@ -170,7 +176,8 @@ function goLogin(role: string) {
 
 /* ===== 主体 ===== */
 .main {
-  position: relative; z-index: 1; flex: 1;
+  position: relative; z-index: 1; isolation: isolate;
+  flex: 1;
   max-width: 420px; width: 100%; margin: 0 auto;
   padding: 0 24px 24px; box-sizing: border-box;
   display: flex; flex-direction: column;
