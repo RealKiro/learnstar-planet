@@ -509,6 +509,21 @@ class TeacherController extends Controller
             ->with('pet')
             ->findOrFail($request->input('student_id'));
 
+        if (!$student->pet) {
+            $types = array_keys(Pet::petTypes());
+            $randomType = $types[array_rand($types)];
+            $randomName = Pet::petTypes()[$randomType];
+            $student->pet()->create([
+                'class_id' => $student->class_id,
+                'type' => $randomType,
+                'name' => $randomName,
+                'level' => 0,
+                'experience' => 0,
+                'mood' => 80,
+            ]);
+            $student->refresh()->load('pet');
+        }
+
         $amount = (int) $request->input('points');
         $score = $this->scoreService->giveScore(
             $student,
@@ -517,7 +532,12 @@ class TeacherController extends Controller
             $teacher->id,
         );
 
-        if ($amount > 0 && $student->pet) {
+        if ($student->pet) {
+            if ($amount > 0) {
+                $student->pet->addExperience(abs($amount));
+            } else {
+                $student->pet->removeExperience(abs($amount));
+            }
             $this->leaderboardService->updateTotalScore($student->class_id, $student->id, $student->total_score);
         }
 
@@ -813,6 +833,87 @@ class TeacherController extends Controller
         $data = $this->leaderboardService->getPetLevelLeaderboard($classId, $limit);
 
         return response()->json(['data' => $data]);
+    }
+
+    // ============================================================
+    // Pet Switching & Auto-Assignment
+    // ============================================================
+
+    public function switchPet(Request $request, int $studentId): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->getAccessibleClassIds($teacher);
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
+
+        $request->validate([
+            'pet_type' => 'required|string|max:50',
+            'pet_name' => 'nullable|string|max:20',
+        ]);
+
+        $petType = $request->input('pet_type');
+        $petName = $request->input('pet_name', $petType);
+
+        if (!in_array($petType, array_keys(Pet::petTypes()))) {
+            return response()->json(['message' => '无效的宠物类型'], 422);
+        }
+
+        $pet = $student->pet;
+        $switchCost = 5;
+
+        if ($pet) {
+            $pet->experience = max(0, $pet->experience - $switchCost);
+            $pet->type = $petType;
+            $pet->name = $petName;
+            $pet->save();
+
+            return response()->json([
+                'message' => '宠物已切换为「' . $petName . '」（扣除 ' . $switchCost . ' 成长值）',
+                'data' => [
+                    'pet_name' => $pet->name,
+                    'pet_type' => $pet->type,
+                    'level' => $pet->level,
+                    'experience' => $pet->experience,
+                    'cost' => $switchCost,
+                ],
+            ]);
+        }
+
+        $pet = Pet::create([
+            'student_id' => $student->id,
+            'class_id' => $student->class_id,
+            'name' => $petName,
+            'type' => $petType,
+            'level' => 0,
+            'experience' => 0,
+            'mood' => 80,
+        ]);
+
+        return response()->json([
+            'message' => '已为您分配宠物「' . $petName . '」',
+            'data' => [
+                'pet_name' => $pet->name,
+                'pet_type' => $pet->type,
+                'level' => $pet->level,
+                'experience' => $pet->experience,
+            ],
+        ]);
+    }
+
+    public function getPetTypes(): JsonResponse
+    {
+        $categories = Pet::petCategories();
+        $allTypes = Pet::petTypes();
+        $result = [];
+
+        foreach ($categories as $catKey => $catName) {
+            $types = [];
+            foreach (Pet::petTypesBySeries($catKey) as $typeKey => $typeName) {
+                $types[] = ['key' => $typeKey, 'name' => $typeName];
+            }
+            $result[] = ['category' => $catKey, 'category_name' => $catName, 'pets' => $types];
+        }
+
+        return response()->json(['data' => $result]);
     }
 
     // ============================================================

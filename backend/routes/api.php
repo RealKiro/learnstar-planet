@@ -134,8 +134,10 @@ Route::prefix('v1')->group(function () {
 
         // ===== 宠物园 =====
         Route::prefix('pets')->group(function () {
+            Route::get('types', [TeacherController::class, 'getPetTypes']);
             Route::get('class-overview', [TeacherController::class, 'classPetsOverview']);
             Route::get('{studentId}', [TeacherController::class, 'getPet']);
+            Route::post('{studentId}/switch', [TeacherController::class, 'switchPet']);
             Route::post('{studentId}/feed', [TeacherController::class, 'feedPet']);
             Route::post('{studentId}/rename', [TeacherController::class, 'renamePet']);
         });
