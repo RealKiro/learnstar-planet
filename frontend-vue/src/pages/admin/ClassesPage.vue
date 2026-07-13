@@ -379,16 +379,11 @@ async function submitAssignTeacher() {
                 <div v-if="c.teacher_name" style="font-size:12px;color:var(--color-text-secondary);">{{ c.teacher_name }}</div>
               </div>
             </div>
-            <!-- 大屏码 -->
+            <!-- 大屏码（后端自动生成，无需手动创建） -->
             <div style="display:flex;align-items:center;gap:6px;margin-right:16px;min-width:120px;">
-              <template v-if="c.display_code">
-                <code style="font-size:12px;font-weight:600;color:var(--color-primary);background:rgba(79,70,229,0.06);padding:3px 8px;border-radius:6px;letter-spacing:0.05em;">{{ c.display_code }}</code>
-                <button class="btn btn-sm" style="padding:2px 6px;font-size:10px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;" @click.stop="copyDisplayCode(c)">📋</button>
-                <button class="btn btn-sm" style="padding:2px 6px;font-size:10px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]">🔄</button>
-              </template>
-              <button v-else class="btn btn-sm" style="font-size:11px;padding:2px 10px;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]">
-                {{ displayCodeLoading[c.id] ? '...' : '🖥️ 生成大屏码' }}
-              </button>
+              <code style="font-size:12px;font-weight:600;color:var(--color-primary);background:rgba(79,70,229,0.06);padding:3px 8px;border-radius:6px;letter-spacing:0.05em;">{{ c.display_code || '--' }}</code>
+              <button v-if="c.display_code" class="btn btn-sm" style="padding:2px 6px;font-size:10px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;" @click.stop="copyDisplayCode(c)">📋</button>
+              <button class="btn btn-sm" style="padding:2px 6px;font-size:10px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]">🔄</button>
             </div>
             <select
               :value="(c as any).settings?.pet_series || 'all'"
