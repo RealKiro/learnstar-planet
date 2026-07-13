@@ -143,7 +143,7 @@ class SchoolAdminController extends Controller
 
         $teachers = $teacherUsers->map(function (User $t) {
             $bindings = $t->thirdPartyBindings->pluck('platform')->toArray();
-            $assignments = $t->classRoomAssignments->map(fn($a) => [
+            $assignments = $t->classRoomAssignments->map(fn ($a) => [
                 'class_id' => $a->class_room_id,
                 'class_name' => $a->classRoom?->name,
                 'grade' => $a->classRoom?->grade,
