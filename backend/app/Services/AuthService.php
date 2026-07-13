@@ -30,7 +30,7 @@ class AuthService
             $name = $teacher['name'];
 
             // username 默认 = name
-            $username = $teacher['username'] ?? $this->uniqueUsername($name, $school);
+            $username = $teacher['username'] ?? $this->generateTeacherUsername($name, $school);
             // nickname 默认 = name 的拼音
             $nickname = $teacher['nickname'] ?? $this->uniqueNickname($name, $school);
             // 头像: 调用方若传入则使用(第三方首次登录场景),否则留空
@@ -73,6 +73,35 @@ class AuthService
     public function uniqueUsername(string $base, School $school): string
     {
         return $this->makeUnique($base, function (string $candidate) use ($school) {
+            return User::where('school_id', $school->id)
+                ->where('username', $candidate)
+                ->exists();
+        });
+    }
+
+    /**
+     * 教师账号自动生成：姓名拼音首字母 + 数字后缀，全校唯一
+     */
+    public function generateTeacherUsername(string $name, School $school): string
+    {
+        $pinyin = PinyinService::toPinyin($name);
+        if ($pinyin === '') {
+            $initials = strtolower(preg_replace('/[^a-zA-Z]/', '', $name));
+        } else {
+            $words = explode(' ', $pinyin);
+            $initials = '';
+            foreach ($words as $w) {
+                if ($w !== '') {
+                    $initials .= $w[0];
+                }
+            }
+        }
+
+        if ($initials === '') {
+            $initials = 't' . random_int(100, 999);
+        }
+
+        return $this->makeUnique($initials, function (string $candidate) use ($school) {
             return User::where('school_id', $school->id)
                 ->where('username', $candidate)
                 ->exists();
