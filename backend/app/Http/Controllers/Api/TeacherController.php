@@ -135,7 +135,7 @@ class TeacherController extends Controller
         }])->findOrFail($classId);
 
         // Pet overview for all students
-        $pets = $classRoom->students->map(function (Student $s) {
+        $pets = $classRoom->students->map(function (Student $s): array {
             $pet = $s->pet;
             $stage = $pet ? $pet->currentStage() : ['emoji' => '\ud83e\udd14', 'name' => '未孵化', 'title' => ''];
 
