@@ -10,6 +10,7 @@ use App\Models\Score;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\AuthService;
+use App\Models\ClassRoomTeacher;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
