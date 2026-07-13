@@ -61,6 +61,7 @@ Route::prefix('v1')->group(function () {
 
     // ===== 学校管理员 =====
     Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
+        Route::get('school', [SchoolAdminController::class, 'getSchool']);
         Route::post('teachers/batch-create', [SchoolAdminController::class, 'batchCreateTeachers']);
         Route::get('teachers', [SchoolAdminController::class, 'listTeachers']);
         Route::put('teachers/{id}', [SchoolAdminController::class, 'updateTeacher']);
@@ -269,5 +270,4 @@ Route::prefix('v1')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('teacher/login', [App\Http\Controllers\Api\AuthController::class, 'teacherLoginWithCredentials'])->middleware('throttle:6,1');
     Route::post('admin/login', [App\Http\Controllers\Api\AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
-    Route::post('parent/login', [App\Http\Controllers\Api\AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
-});
+    Route::post('parent/login', [App\Http\Controllers\Api\AuthControll
