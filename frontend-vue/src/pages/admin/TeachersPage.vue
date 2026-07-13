@@ -206,8 +206,7 @@ onMounted(refreshTeachers)
             </div>
             <div class="card-tags">
               <span v-for="b in t.bindings" :key="b" class="tag binding">{{ platformLabel(b) }}</span>
-              <span v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="tag" :style="{ background: roleColors[a.role as Role] + '16', color: roleColors[a.role as Role], borderColor: roleColors[a.role as Role] + '33' }">
-                {{ roleLabel[a.role as Role] }} &middot; {{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
+              <span v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="tag" :style="{ background: roleColors[a.role as Role] + '16', color: roleColors[a.role as Role], borderColor: roleColors[a.role as Role] + '33' }">{{ roleLabel[a.role as Role] }} &middot; {{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
             </div>
           </div>
         </div>
