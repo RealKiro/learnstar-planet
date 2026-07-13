@@ -492,6 +492,7 @@ class SchoolAdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'teacher_id' => 'required|integer|exists:users,id',
+            'role' => 'nullable|string|in:teacher,co_teacher,subject_teacher',
         ]);
 
         if ($validator->fails()) {
@@ -500,10 +501,48 @@ class SchoolAdminController extends Controller
 
         $school = $request->user()->school;
         $class = ClassRoom::where('school_id', $school->id)->findOrFail($id);
-        $class->teacher_id = $request->input('teacher_id');
-        $class->save();
+        $teacherId = (int) $request->input('teacher_id');
+        $role = $request->input('role', 'teacher');
 
-        return response()->json(['message' => '班主任已分配', 'data' => $class->fresh()]);
+        if ($role === 'teacher') {
+            $class->teacher_id = $teacherId;
+            $class->save();
+        }
+
+        \App\Models\ClassRoomTeacher::updateOrCreate(
+            ['class_room_id' => $class->id, 'user_id' => $teacherId],
+            ['role' => $role],
+        );
+
+        return response()->json(['message' => '教师已分配', 'data' => $class->fresh()]);
+    }
+
+    /**
+     * 移除班级教师关联
+     */
+    public function removeClassTeacher(Request $request, int $id): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'teacher_id' => 'required|integer|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误'], 422);
+        }
+
+        $school = $request->user()->school;
+        $class = ClassRoom::where('school_id', $school->id)->findOrFail($id);
+
+        \App\Models\ClassRoomTeacher::where('class_room_id', $class->id)
+            ->where('user_id', (int) $request->input('teacher_id'))
+            ->delete();
+
+        if ($class->teacher_id === (int) $request->input('teacher_id')) {
+            $class->teacher_id = null;
+            $class->save();
+        }
+
+        return response()->json(['message' => '教师已从班级移除']);
     }
 
     /**

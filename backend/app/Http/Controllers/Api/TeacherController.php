@@ -34,7 +34,7 @@ class TeacherController extends Controller
     public function myClasses(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $assignments = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+        $assignments = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->with('classRoom:id,name,grade')
             ->get()
             ->map(fn($a) => [
@@ -52,7 +52,7 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classId = (int) $request->input('class_id');
 
-        $isAssigned = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+        $isAssigned = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->where('class_room_id', $classId)
             ->exists();
 
@@ -70,7 +70,7 @@ class TeacherController extends Controller
     public function dashboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->pluck('class_room_id');
 
         if ($classIds->isEmpty()) {
@@ -133,7 +133,7 @@ class TeacherController extends Controller
     public function listStudents(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->pluck('class_room_id');
 
         $query = Student::whereIn('class_id', $classIds)
@@ -502,7 +502,7 @@ class TeacherController extends Controller
     public function totalLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->pluck('class_room_id');
 
         if ($classIds->isEmpty()) {
@@ -519,7 +519,7 @@ class TeacherController extends Controller
     public function weeklyLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->pluck('class_room_id');
 
         if ($classIds->isEmpty()) {
@@ -536,7 +536,7 @@ class TeacherController extends Controller
     public function petLevelLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->pluck('class_room_id');
 
         if ($classIds->isEmpty()) {
