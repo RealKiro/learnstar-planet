@@ -131,6 +131,9 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
             <button class="ca- ca-p1" @click.stop="qScore(s.student_id, 1)" :disabled="scorePending[s.student_id]">+1</button>
             <button class="ca- ca-p3" @click.stop="qScore(s.student_id, 3)" :disabled="scorePending[s.student_id]">+3</button>
           </div>
+          <!-- 悬浮侧边快捷按钮 -->
+          <button class="sb sb-l" @click.stop="qScore(s.student_id, -1)" :disabled="scorePending[s.student_id]">−</button>
+          <button class="sb sb-r" @click.stop="qScore(s.student_id, 1)" :disabled="scorePending[s.student_id]">+</button>
         </template>
         <div v-else class="ce2"></div>
       </div>
@@ -236,18 +239,27 @@ watch(broadcasts, (evts) => { const m = evts[evts.length - 1]; if (m) { if (bcTi
 }
 
 .c {
-  border-radius: 20px;
-  background: rgba(255,255,255,.025);
-  border: 1px solid rgba(255,255,255,.04);
+  border-radius: 16px;
+  background: rgba(255,255,255,.03);
+  border: 2px solid rgba(255,255,255,.04);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 8px 6px; position: relative;
-  transition: transform .15s, border-color .15s;
-  aspect-ratio: auto;
+  padding: 6px; position: relative;
+  transition: transform .2s cubic-bezier(.175,.885,.32,1.27), border-color .2s, background .2s;
+  min-height: 0; overflow: hidden;
 }
+.c:hover { transform: scale(1.03) translateY(-3px); background: rgba(255,255,255,.06); border-color: rgba(124,58,237,.15); }
 .c.e { background: transparent; border-style: dashed; border-color: rgba(255,255,255,.03); }
+.c.e:hover { transform: none; background: transparent; }
 .ce2 { width: 100%; height: 100%; }
-.c.su { border-color: rgba(74,222,128,.15); }
-.c.sd { border-color: rgba(248,113,113,.15); }
+.c.su { border-color: rgba(74,222,128,.2); }
+.c.sd { border-color: rgba(248,113,113,.2); }
+
+/* 侧边加减按钮（悬停显示，类似参考文件） */
+.sb { position: absolute; top: 0; bottom: 0; width: 22px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; opacity: 0; transition: all .2s ease; z-index: 5; color: #fff; }
+.c:hover .sb { opacity: .5; }
+.sb:hover { opacity: 1 !important; width: 26px; }
+.sb-l { left: 0; background: linear-gradient(90deg, rgba(248,113,113,.7), transparent); border-radius: 14px 0 0 14px; }
+.sb-r { right: 0; background: linear-gradient(-90deg, rgba(74,222,128,.7), transparent); border-radius: 0 14px 14px 0; }
 
 .cp { position: relative; display: flex; align-items: center; justify-content: center; flex: 1; min-height: 0; }
 .ce { font-size: min(12vw, 110px); line-height: 1; filter: drop-shadow(0 0 12px rgba(180,140,255,.2)); }
