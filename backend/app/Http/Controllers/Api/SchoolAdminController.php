@@ -1217,10 +1217,11 @@ class SchoolAdminController extends Controller
             // BOM for Excel UTF-8 compatibility
             fwrite($fp, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
-            fputcsv($fp, ['姓名', '昵称', '所属年级团队', '科目', '手机号', '邮箱', '账号', '密码', '班级', '角色', '班级科目']);
-            fputcsv($fp, ['name', 'nickname', 'grade_team', 'subject', 'phone', 'email', 'username', 'password', 'class_name', 'class_role', 'class_subject']);
-            fputcsv($fp, ['张老师', '', '三年级团队', '语文', '13800138000', '', '', 'abc123', '三年级（1）班', 'head_teacher', '语文']);
-            fputcsv($fp, ['李老师', '', '三年级团队', '数学', '', '', '', '', '三年级（1）班', 'co_teacher', '数学']);
+            fputcsv($fp, ['姓名', '年级团队', '科目', '密码', '手机号']);
+            fputcsv($fp, ['name', 'grade_team', 'subject', 'password', 'phone']);
+            // 密码默认为 star123456，不填亦可
+            fputcsv($fp, ['张老师', '三年级团队', '语文', 'star123456', '13800138000']);
+            fputcsv($fp, ['李老师', '三年级团队', '数学', '', '']);
 
             fclose($fp);
         }, 'teacher_import_template.csv', $headers);
@@ -1264,16 +1265,10 @@ class SchoolAdminController extends Controller
 
             $teacherData = [
                 'name'       => $name,
-                'nickname'   => trim($row['nickname'] ?? $row['昵称'] ?? ''),
-                'grade_team' => trim($row['grade_team'] ?? $row['所属年级团队'] ?? ''),
+                'grade_team' => trim($row['grade_team'] ?? $row['年级团队'] ?? $row['所属年级团队'] ?? ''),
                 'subject'    => trim($row['subject'] ?? $row['科目'] ?? ''),
-                'phone'      => trim($row['phone'] ?? $row['手机号'] ?? ''),
-                'email'      => trim($row['email'] ?? $row['邮箱'] ?? ''),
-                'username'   => trim($row['username'] ?? $row['账号'] ?? ''),
                 'password'   => trim($row['password'] ?? $row['密码'] ?? ''),
-                '_row_class_name' => trim($row['class_name'] ?? $row['班级'] ?? ''),
-                '_row_class_role'  => trim($row['class_role'] ?? $row['角色'] ?? ''),
-                '_row_class_subject' => trim($row['class_subject'] ?? $row['班级科目'] ?? ''),
+                'phone'      => trim($row['phone'] ?? $row['手机号'] ?? ''),
             ];
 
             $preview[] = $teacherData;
@@ -1282,48 +1277,9 @@ class SchoolAdminController extends Controller
         if (!$dryRun) {
             $created = [];
             foreach ($preview as $teacherData) {
-                $teachAssignments = null;
-                $className = (string) $teacherData['_row_class_name'];
-                $classRole  = (string) $teacherData['_row_class_role'];
-                $classSubject = (string) $teacherData['_row_class_subject'];
-                unset($teacherData['_row_class_name'], $teacherData['_row_class_role'], $teacherData['_row_class_subject']);
-
-                if ($className !== '') {
-                    $classRoom = ClassRoom::where('school_id', $school->id)
-                        ->where('name', $className)
-                        ->first();
-                    if ($classRoom && $classRole !== '') {
-                        $teachAssignments = [[
-                            'class_id' => $classRoom->id,
-                            'role' => $classRole,
-                            'subject' => $classSubject ?: null,
-                        ]];
-                    }
-                }
-
-                if ($teachAssignments) {
-                    $teacherData['assignments'] = $teachAssignments;
-                }
-
-                $teacherData['password'] = $teacherData['password'] ?: \Illuminate\Support\Str::random(10);
+                $teacherData['password'] = $teacherData['password'] ?: 'star123456';
                 $result = $this->authService->createTeacherAccounts($school, [$teacherData]);
-                $createdTeacher = $result[0] ?? null;
-
-                if ($createdTeacher && $teachAssignments) {
-                    foreach ($teachAssignments as $a) {
-                        ClassRoomTeacher::updateOrCreate(
-                            ['class_room_id' => (int) $a['class_id'], 'user_id' => $createdTeacher['id']],
-                            ['role' => $a['role'], 'subject' => $a['subject'] ?? null],
-                        );
-                        if ($a['role'] === 'head_teacher') {
-                            ClassRoom::where('id', (int) $a['class_id'])
-                                ->where('school_id', $school->id)
-                                ->update(['teacher_id' => $createdTeacher['id']]);
-                        }
-                    }
-                }
-
-                $created[] = $createdTeacher;
+                $created[] = $result[0] ?? null;
             }
 
             return response()->json([
