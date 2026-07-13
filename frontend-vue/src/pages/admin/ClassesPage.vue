@@ -380,12 +380,12 @@ async function submitAssignTeacher() {
               </div>
             </div>
             <!-- 班级码 -->
-            <div style="display:flex;align-items:center;gap:8px;margin-right:16px;min-width:130px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-right:16px;padding:4px 10px 4px 8px;border:1px solid rgba(79,70,229,0.12);border-radius:8px;background:rgba(79,70,229,0.02);min-width:140px;">
               <span style="font-size:11px;color:var(--color-text-secondary);white-space:nowrap;">🖥️</span>
-              <code style="font-size:13px;font-weight:700;color:var(--color-primary);background:rgba(79,70,229,0.06);padding:3px 10px;border-radius:6px;letter-spacing:0.08em;font-family:'SF Mono',monospace;">{{ c.display_code || '--' }}</code>
-              <div style="display:flex;gap:2px;">
-                <button v-if="c.display_code" class="btn btn-sm" style="padding:3px 7px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="copyDisplayCode(c)" title="复制班级码">📋</button>
-                <button class="btn btn-sm" style="padding:3px 7px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]" title="刷新班级码旧码失效">🔄</button>
+              <code style="font-size:13px;font-weight:700;color:var(--color-primary);letter-spacing:0.08em;font-family:'SF Mono',monospace;">{{ c.display_code || '--' }}</code>
+              <div style="display:flex;gap:2px;margin-left:auto;">
+                <button v-if="c.display_code" class="btn btn-sm" style="padding:2px 6px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="copyDisplayCode(c)" title="复制班级码">📋</button>
+                <button class="btn btn-sm" style="padding:2px 6px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]" title="刷新班级码旧码失效">🔄</button>
               </div>
             </div>
             <select
