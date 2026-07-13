@@ -424,7 +424,8 @@ class SchoolAdminController extends Controller
 
         /** @var \Illuminate\Database\Eloquent\Collection<int, ClassRoom> $allClasses */
         $allClasses = ClassRoom::where('school_id', $school->id)
-            ->with(['teacher', 'students'])
+            ->with('teacher')
+            ->withCount('students')
             ->orderBy('grade')
             ->orderBy('name')
             ->get();
@@ -433,7 +434,6 @@ class SchoolAdminController extends Controller
         foreach ($allClasses as $c) {
             // 没有班级码的自动补一个（兼容旧数据）
             if (empty($c->display_code)) {
-                $school = $request->user()->school;
                 $classNo = 0;
                 if (preg_match('/（(\d+)）班/', $c->name ?? '', $m)) {
                     $classNo = (int) $m[1];
@@ -449,7 +449,7 @@ class SchoolAdminController extends Controller
                 'year' => $c->year,
                 'teacher_id' => $c->teacher_id,
                 'teacher_name' => $c->teacher?->name,
-                'student_count' => $c->students->count(),
+                'student_count' => $c->students_count,
                 'max_students' => $c->max_students,
                 'display_code' => $c->display_code,
                 'status' => $c->status,
