@@ -170,11 +170,33 @@ function showBroadcast(msg: BroadcastData) {
   }, duration)
 }
 
-// ===== 退出 =====
-function handleExit() {
+// ===== 退出（防误触：连续点 3 次才弹出确认） =====
+const showExitConfirm = ref(false)
+const exitTapCount = ref(0)
+let exitTapTimer: ReturnType<typeof setTimeout> | null = null
+
+function handleExitTap() {
+  exitTapCount.value++
+  if (exitTapCount.value >= 3) {
+    showExitConfirm.value = true
+    exitTapCount.value = 0
+    if (exitTapTimer) clearTimeout(exitTapTimer)
+  } else {
+    if (exitTapTimer) clearTimeout(exitTapTimer)
+    exitTapTimer = setTimeout(() => { exitTapCount.value = 0 }, 2000)
+  }
+}
+
+function confirmExit() {
+  showExitConfirm.value = false
   sessionStorage.removeItem('display_token')
   sessionStorage.removeItem('display_class_info')
   router.replace({ name: 'display-login' })
+}
+
+function cancelExit() {
+  showExitConfirm.value = false
+  exitTapCount.value = 0
 }
 </script>
 
@@ -193,7 +215,7 @@ function handleExit() {
       <div class="error-icon">⚠️</div>
       <p>{{ loadError }}</p>
       <button class="retry-btn" @click="loadInitialData">重试</button>
-      <button class="exit-btn" @click="handleExit">返回登录</button>
+      <button class="exit-btn" @click="confirmExit">返回登录</button>
     </div>
 
     <!-- ===== 大屏主体 ===== -->
@@ -228,10 +250,25 @@ function handleExit() {
           <h1 class="class-name">{{ data.class_name }}</h1>
           <span class="class-meta">{{ data.grade }} · {{ data.student_count }}人</span>
         </div>
-        <button class="exit-screen-btn" @click="handleExit" title="退出大屏">
+        <button class="exit-screen-btn" @click="handleExitTap" title="连续点击3次退出(防误触)">
           ✕
         </button>
       </div>
+
+      <!-- 退出确认弹窗 -->
+      <Transition name="fade">
+        <div v-if="showExitConfirm" class="exit-overlay" @click.self="cancelExit">
+          <div class="exit-modal">
+            <div class="exit-modal-icon">🚪</div>
+            <h3 class="exit-modal-title">退出大屏？</h3>
+            <p class="exit-modal-desc">退出后需要重新输入班级码</p>
+            <div class="exit-modal-actions">
+              <button class="exit-modal-btn exit-modal-btn--cancel" @click="cancelExit">取消</button>
+              <button class="exit-modal-btn exit-modal-btn--confirm" @click="confirmExit">确认退出</button>
+            </div>
+          </div>
+        </div>
+      </Transition>
 
       <!-- 8x8 宠物矩阵 -->
       <div v-if="data.pets.length === 0" class="empty-state">
@@ -712,4 +749,26 @@ function handleExit() {
 .float-up-leave-active { transition: all 0.2s ease-in; }
 .float-up-enter-from { opacity: 0; transform: translateY(8px); }
 .float-up-leave-to { opacity: 0; transform: translateY(-12px); }
-</style>
+
+/* ===== 退出确认弹窗 ===== */
+.exit-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(5,2,20,.85); backdrop-filter: blur(16px);
+  display: flex; align-items: center; justify-content: center;
+}
+.exit-modal {
+  background: linear-gradient(135deg,#1a1040,#0d1b2a);
+  border: 1px solid rgba(255,255,255,.08); border-radius: 20px;
+  padding: 36px 40px; text-align: center; max-width: 320px; width: 85%;
+}
+.exit-modal-icon { font-size: 40px; margin-bottom: 12px; }
+.exit-modal-title { font-size: 18px; font-weight: 700; color: #e8e0f8; margin: 0 0 8px; }
+.exit-modal-desc { font-size: 13px; color: rgba(200,190,240,.5); margin: 0 0 24px; }
+.exit-modal-actions { display: flex; gap: 10px; }
+.exit-modal-btn { flex:1; padding:12px; border-radius:12px; border:none; font-size:14px; font-weight:600; cursor:pointer; transition:all .15s; font-family:inherit; }
+.exit-modal-btn--cancel { background:rgba(255,255,255,.06); color:rgba(200,190,240,.7); }
+.exit-modal-btn--cancel:hover { background:rgba(255,255,255,.1); }
+.exit-modal-btn--confirm { background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; }
+.exit-modal-btn--confirm:hover { background:linear-gradient(135deg,#f87171,#ef4444); }
+.fade-enter-active,.fade-leave-active { transition:opacity .25s ease; }
+.fade-enter-from,.fade-leave-to { opacity:0; }
