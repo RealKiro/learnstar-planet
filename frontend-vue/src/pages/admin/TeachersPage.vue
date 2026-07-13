@@ -267,13 +267,15 @@ onMounted(refreshTeachers)
           <div class="assign-section">
             <div class="assign-section-header">
               <span class="assign-section-title">创建时分配班级（可选）</span>
-              <div style="display:flex;align-items:center;gap:8px;">
-                <select v-model="createGradeFilter" class="form-input" style="width:110px;padding:4px 8px;font-size:11px;">
-                  <option value="">全部年级</option>
-                  <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
-                </select>
-                <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addCreateAssignment">+ 添加班级</button>
-              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">筛选年级：</span>
+              <select v-model="createGradeFilter" class="form-input" style="width:120px;padding:5px 10px;font-size:12px;">
+                <option value="">全部年级</option>
+                <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
+              </select>
+              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">选择班级：</span>
+              <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addCreateAssignment">+ 添加一行</button>
             </div>
             <div v-if="createAssignments.length === 0" style="color:#9ca3af;font-size:13px;padding:8px 0;">暂不分配，后续可在教师卡片中点击 &#x1F3EB; 按钮分配</div>
             <div v-for="(a, i) in createAssignments" :key="i" class="assign-row">
@@ -344,14 +346,16 @@ onMounted(refreshTeachers)
         <div class="modal-header"><h3>为「{{ assignTarget?.name }}」分配班级与角色</h3><button class="close-btn" @click="showAssignModal = false">&times;</button></div>
         <div class="modal-body">
           <div class="assign-section-header">
-            <span class="assign-section-title">班级 &amp; 角色</span>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <select v-model="assignGradeFilter" class="form-input" style="width:110px;padding:4px 8px;font-size:11px;">
-                <option value="">全部年级</option>
-                <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
-              </select>
-              <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addAssignRow">+ 添加一行</button>
-            </div>
+            <span class="assign-section-title">分配班级配置</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <span style="font-size:12px;color:#6b7280;white-space:nowrap;">筛选年级：</span>
+            <select v-model="assignGradeFilter" class="form-input" style="width:120px;padding:5px 10px;font-size:12px;">
+              <option value="">全部年级</option>
+              <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
+            </select>
+            <span style="font-size:12px;color:#6b7280;white-space:nowrap;">选择班级：</span>
+            <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addAssignRow">+ 添加一行</button>
           </div>
           <div v-for="(a, i) in assignList" :key="i" class="assign-row">
             <select v-model="a.class_id" class="form-input" style="flex:2;min-width:140px;">
