@@ -10,14 +10,19 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('subject', 50)->nullable()->after('nickname')->comment('科目');
+            if (!Schema::hasColumn('users', 'subject')) {
+                $table->string('subject', 50)->nullable()->after('nickname')->comment('科目');
+            }
+            if (!Schema::hasColumn('users', 'grade_team')) {
+                $table->string('grade_team', 50)->nullable()->after('subject')->comment('所属年级团队');
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('subject');
+            $table->dropColumn(['subject', 'grade_team']);
         });
     }
 };

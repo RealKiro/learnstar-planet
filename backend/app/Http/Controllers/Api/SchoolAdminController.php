@@ -92,12 +92,15 @@ class SchoolAdminController extends Controller
             'teachers.*.name' => 'required|string|max:50',
             'teachers.*.nickname' => 'nullable|string|max:80',
             'teachers.*.subject' => 'nullable|string|max:50',
+            'teachers.*.grade_team' => 'nullable|string|max:50',
             'teachers.*.phone' => 'nullable|string|max:30',
             'teachers.*.email' => 'nullable|email|max:100',
             'teachers.*.username' => 'nullable|string|max:50',
             'teachers.*.password' => 'required|string|min:6|max:50',
-            'class_id' => 'nullable|integer|exists:class_rooms,id',
-            'class_role' => 'nullable|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
+            'teachers.*.assignments' => 'nullable|array',
+            'teachers.*.assignments.*.class_id' => 'required|integer|exists:class_rooms,id',
+            'teachers.*.assignments.*.role' => 'required|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
+            'teachers.*.assignments.*.subject' => 'nullable|string|max:50',
         ]);
 
         if ($validator->fails()) {
@@ -108,21 +111,33 @@ class SchoolAdminController extends Controller
         if (!$school instanceof \App\Models\School) {
             return response()->json(['message' => '未找到学校'], 404);
         }
+
         $teachers = $request->input('teachers');
-        $classId = $request->input('class_id');
-        $classRole = $request->input('class_role', 'subject_teacher');
         $created = $this->authService->createTeacherAccounts($school, $teachers);
 
-        if ($classId) {
-            $classRoom = ClassRoom::where('school_id', $school->id)->find($classId);
-            if ($classRoom) {
-                foreach ($created as $teacher) {
-                    if (!empty($teacher['id'])) {
-                        ClassRoomTeacher::updateOrCreate(
-                            ['class_room_id' => $classId, 'user_id' => $teacher['id']],
-                            ['role' => $classRole],
-                        );
-                    }
+        foreach ($created as $teacher) {
+            if (empty($teacher['id'])) {
+                continue;
+            }
+
+            $teacherInput = collect($teachers)->firstWhere('name', $teacher['name']);
+            if (!$teacherInput || empty($teacherInput['assignments'])) {
+                continue;
+            }
+
+            foreach ($teacherInput['assignments'] as $assignment) {
+                ClassRoomTeacher::updateOrCreate(
+                    ['class_room_id' => (int) $assignment['class_id'], 'user_id' => $teacher['id']],
+                    [
+                        'role' => $assignment['role'],
+                        'subject' => $assignment['subject'] ?? null,
+                    ],
+                );
+
+                if ($assignment['role'] === 'head_teacher') {
+                    ClassRoom::where('id', (int) $assignment['class_id'])
+                        ->where('school_id', $school->id)
+                        ->update(['teacher_id' => $teacher['id']]);
                 }
             }
         }
@@ -160,6 +175,7 @@ class SchoolAdminController extends Controller
                 'name' => $t->name,
                 'nickname' => $t->nickname,
                 'subject' => $t->subject,
+                'grade_team' => $t->grade_team,
                 'avatar_path' => $t->avatar_path,
                 'phone' => $t->phone,
                 'email' => $t->email,
@@ -1111,6 +1127,33 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => '汇率已更新', 'data' => $rate->fresh()]);
     }
 
+    // ===== 教师导入模板下载 =====
+
+    /**
+     * 下载教师批量导入的 CSV 模板
+     */
+    public function downloadTeacherTemplate(): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="teacher_import_template.csv"',
+        ];
+
+        return response()->streamDownload(function () {
+            $fp = fopen('php://output', 'w');
+
+            // BOM for Excel UTF-8 compatibility
+            fwrite($fp, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            fputcsv($fp, ['姓名', '昵称', '所属年级团队', '科目', '手机号', '邮箱', '账号', '密码', '班级', '角色', '班级科目']);
+            fputcsv($fp, ['name', 'nickname', 'grade_team', 'subject', 'phone', 'email', 'username', 'password', 'class_name', 'class_role', 'class_subject']);
+            fputcsv($fp, ['张老师', '', '三年级团队', '语文', '13800138000', '', '', 'abc123', '三年级（1）班', 'head_teacher', '语文']);
+            fputcsv($fp, ['李老师', '', '三年级团队', '数学', '', '', '', '', '三年级（1）班', 'co_teacher', '数学']);
+
+            fclose($fp);
+        }, 'teacher_import_template.csv', $headers);
+    }
+
     // ===== CSV 批量导入教师 =====
 
     /**
@@ -1156,6 +1199,9 @@ class SchoolAdminController extends Controller
                 'email'      => trim($row['email'] ?? $row['邮箱'] ?? ''),
                 'username'   => trim($row['username'] ?? $row['账号'] ?? ''),
                 'password'   => trim($row['password'] ?? $row['密码'] ?? ''),
+                '_row_class_name' => trim($row['class_name'] ?? $row['班级'] ?? ''),
+                '_row_class_role'  => trim($row['class_role'] ?? $row['角色'] ?? ''),
+                '_row_class_subject' => trim($row['class_subject'] ?? $row['班级科目'] ?? ''),
             ];
 
             $preview[] = $teacherData;
@@ -1164,9 +1210,48 @@ class SchoolAdminController extends Controller
         if (!$dryRun) {
             $created = [];
             foreach ($preview as $teacherData) {
+                $teachAssignments = null;
+                $className = $teacherData['_row_class_name'] ?? '';
+                $classRole  = $teacherData['_row_class_role'] ?? '';
+                $classSubject = $teacherData['_row_class_subject'] ?? '';
+                unset($teacherData['_row_class_name'], $teacherData['_row_class_role'], $teacherData['_row_class_subject']);
+
+                if ($className !== '') {
+                    $classRoom = ClassRoom::where('school_id', $school->id)
+                        ->where('name', $className)
+                        ->first();
+                    if ($classRoom && $classRole !== '') {
+                        $teachAssignments = [[
+                            'class_id' => $classRoom->id,
+                            'role' => $classRole,
+                            'subject' => $classSubject ?: null,
+                        ]];
+                    }
+                }
+
+                if ($teachAssignments) {
+                    $teacherData['assignments'] = $teachAssignments;
+                }
+
                 $teacherData['password'] = $teacherData['password'] ?: \Illuminate\Support\Str::random(10);
                 $result = $this->authService->createTeacherAccounts($school, [$teacherData]);
-                $created[] = $result[0] ?? null;
+                $createdTeacher = $result[0] ?? null;
+
+                if ($createdTeacher && $teachAssignments) {
+                    foreach ($teachAssignments as $a) {
+                        ClassRoomTeacher::updateOrCreate(
+                            ['class_room_id' => (int) $a['class_id'], 'user_id' => $createdTeacher['id']],
+                            ['role' => $a['role'], 'subject' => $a['subject'] ?? null],
+                        );
+                        if ($a['role'] === 'head_teacher') {
+                            ClassRoom::where('id', (int) $a['class_id'])
+                                ->where('school_id', $school->id)
+                                ->update(['teacher_id' => $createdTeacher['id']]);
+                        }
+                    }
+                }
+
+                $created[] = $createdTeacher;
             }
 
             return response()->json([
