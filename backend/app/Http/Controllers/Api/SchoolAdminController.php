@@ -93,6 +93,8 @@ class SchoolAdminController extends Controller
             'teachers.*.email' => 'nullable|email|max:100',
             'teachers.*.username' => 'nullable|string|max:50',
             'teachers.*.password' => 'required|string|min:6|max:50',
+            'class_id' => 'nullable|integer|exists:class_rooms,id',
+            'class_role' => 'nullable|string|in:teacher,co_teacher,subject_teacher',
         ]);
 
         if ($validator->fails()) {
@@ -103,7 +105,24 @@ class SchoolAdminController extends Controller
         if (!$school instanceof \App\Models\School) {
             return response()->json(['message' => '未找到学校'], 404);
         }
-        $created = $this->authService->createTeacherAccounts($school, $request->input('teachers'));
+        $teachers = $request->input('teachers');
+        $classId = $request->input('class_id');
+        $classRole = $request->input('class_role', 'subject_teacher');
+        $created = $this->authService->createTeacherAccounts($school, $teachers);
+
+        if ($classId) {
+            $classRoom = ClassRoom::where('school_id', $school->id)->find($classId);
+            if ($classRoom) {
+                foreach ($created as $teacher) {
+                    if (!empty($teacher['id'])) {
+                        \App\Models\ClassRoomTeacher::updateOrCreate(
+                            ['class_room_id' => $classId, 'user_id' => $teacher['id']],
+                            ['role' => $classRole],
+                        );
+                    }
+                }
+            }
+        }
 
         return response()->json(['data' => $created]);
     }
@@ -118,13 +137,18 @@ class SchoolAdminController extends Controller
         /** @var \Illuminate\Database\Eloquent\Collection<int, User> $teacherUsers */
         $teacherUsers = User::where('school_id', $school->id)
             ->where('role', 'teacher')
-            ->with(['thirdPartyBindings', 'classesAsTeacher'])
+            ->with(['thirdPartyBindings', 'classRoomAssignments.classRoom'])
             ->orderBy('created_at', 'desc')
             ->get();
 
         $teachers = $teacherUsers->map(function (User $t) {
             $bindings = $t->thirdPartyBindings->pluck('platform')->toArray();
-            $classes = $t->classesAsTeacher->pluck('name')->toArray();
+            $assignments = $t->classRoomAssignments->map(fn($a) => [
+                'class_id' => $a->class_room_id,
+                'class_name' => $a->classRoom?->name,
+                'grade' => $a->classRoom?->grade,
+                'role' => $a->role,
+            ])->values();
 
             return [
                 'id' => $t->id,
@@ -138,7 +162,8 @@ class SchoolAdminController extends Controller
                 'password_changed' => $t->password_changed,
                 'last_login_at' => $t->last_login_at?->toDateTimeString(),
                 'bindings' => $bindings,
-                'class_names' => $classes,
+                'assignments' => $assignments,
+                'class_names' => $assignments->pluck('class_name')->values(),
                 'created_at' => $t->created_at?->toDateTimeString(),
             ];
         });

@@ -28,13 +28,50 @@ class TeacherController extends Controller
     }
 
     // ============================================================
+    // 我的班级
+    // ============================================================
+
+    public function myClasses(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $assignments = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->with('classRoom:id,name,grade')
+            ->get()
+            ->map(fn($a) => [
+                'class_id' => $a->class_room_id,
+                'class_name' => $a->classRoom?->name,
+                'grade' => $a->classRoom?->grade,
+                'role' => $a->role,
+            ]);
+
+        return response()->json(['data' => $assignments]);
+    }
+
+    public function switchClass(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classId = (int) $request->input('class_id');
+
+        $isAssigned = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->where('class_room_id', $classId)
+            ->exists();
+
+        if (!$isAssigned) {
+            return response()->json(['message' => '您未被分配到此班级'], 403);
+        }
+
+        return response()->json(['message' => '已切换', 'data' => ['active_class_id' => $classId]]);
+    }
+
+    // ============================================================
     // Dashboard
     // ============================================================
 
     public function dashboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => [
@@ -96,7 +133,8 @@ class TeacherController extends Controller
     public function listStudents(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
 
         $query = Student::whereIn('class_id', $classIds)
             ->with('classRoom:id,name,grade');
@@ -464,7 +502,8 @@ class TeacherController extends Controller
     public function totalLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => []]);
@@ -480,7 +519,8 @@ class TeacherController extends Controller
     public function weeklyLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => []]);
@@ -496,7 +536,8 @@ class TeacherController extends Controller
     public function petLevelLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = \\App\\Models\\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => []]);

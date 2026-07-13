@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\ClassRoomTeacher;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -71,6 +72,11 @@ class User extends Authenticatable
     public function classesAsTeacher(): HasMany
     {
         return $this->hasMany(ClassRoom::class, 'teacher_id');
+    }
+
+    public function classRoomAssignments(): HasMany
+    {
+        return $this->hasMany(ClassRoomTeacher::class);
     }
 
     public function children(): HasMany
