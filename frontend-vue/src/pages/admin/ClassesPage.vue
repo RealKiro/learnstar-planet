@@ -235,6 +235,37 @@ function downloadStudentTemplate() {
   a.click()
   URL.revokeObjectURL(url)
 }
+
+// 分配班主任弹窗
+const showAssignTeacherModal = ref(false)
+const assigningClass = ref<ClassRoom | null>(null)
+const teacherList = ref<Array<{ id: number; name: string }>>([])
+const selectedTeacherId = ref<number | ''>('')
+const assignTeacherLoading = ref(false)
+
+async function openAssignTeacherModal(cls: ClassRoom) {
+  assigningClass.value = cls
+  selectedTeacherId.value = cls.teacher_id || ''
+  try {
+    const res = await apiGet<ApiResponse<Array<{ id: number; name: string }>>>('/api/v1/admin/teachers')
+    teacherList.value = res.data || []
+  } catch { teacherList.value = [] }
+  showAssignTeacherModal.value = true
+}
+
+async function submitAssignTeacher() {
+  if (!assigningClass.value || selectedTeacherId.value === '') return
+  assignTeacherLoading.value = true
+  try {
+    await apiPost(`/api/v1/admin/classes/${assigningClass.value.id}/assign-teacher`, {
+      teacher_id: selectedTeacherId.value,
+    })
+    toast.show(`已为「${assigningClass.value.name}」分配班主任`, 'success')
+    showAssignTeacherModal.value = false
+    await reloadClasses()
+  } catch { /* handled */ }
+  finally { assignTeacherLoading.value = false }
+}
 </script>
 
 <template>
@@ -330,6 +361,7 @@ function downloadStudentTemplate() {
             <span style="margin-right:16px;font-weight:600;font-size:13px;color:var(--color-text-secondary);min-width:60px;text-align:right;">{{ c.student_count }} 人</span>
             <div style="display:flex;gap:6px;">
               <button class="btn btn-sm" style="background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border);font-size:12px;" @click="openImportModal(c.name)">导入</button>
+              <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);font-size:12px;" @click="openAssignTeacherModal(c)">👨‍🏫 班主任</button>
               <button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1px solid #fecaca;font-size:12px;" @click="deleteClass(c)">删除</button>
             </div>
           </div>
@@ -390,6 +422,34 @@ function downloadStudentTemplate() {
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showSingleClassModal = false">取消</button>
           <button class="btn btn-sm btn-primary" :disabled="modalLoading" @click="submitSingleClass">{{ modalLoading ? '创建中...' : '创建' }}</button>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- 分配班主任弹窗 -->
+    <div v-if="showAssignTeacherModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
+      <div class="card" style="width:90%;max-width:420px;padding:32px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <h3 style="font-size:18px;font-weight:700;">分配班主任</h3>
+          <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showAssignTeacherModal = false">×</button>
+        </div>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
+          为 <b>{{ assigningClass?.name }}</b> 分配班主任
+        </p>
+        <div class="form-group">
+          <label>班主任</label>
+          <select v-model="selectedTeacherId" class="form-select">
+            <option value="">不分配（解除班主任）</option>
+            <option v-for="t in teacherList" :key="t.id" :value="t.id">{{ t.name }}</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showAssignTeacherModal = false">取消</button>
+          <button class="btn btn-sm btn-primary" :disabled="assignTeacherLoading" @click="submitAssignTeacher">
+            {{ assignTeacherLoading ? '保存中...' : '保存' }}
+          </button>
         </div>
       </div>
     </div>
