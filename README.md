@@ -1,689 +1,261 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+  <img src="https://img.shields.io/github/stars/RealKiro/learnstar-planet?style=social" alt="GitHub stars">
+  <img src="https://img.shields.io/badge/PHP-8.3-777BB4?logo=php" alt="PHP 8.3">
+  <img src="https://img.shields.io/badge/Laravel-11-F9322C?logo=laravel" alt="Laravel 11">
+  <img src="https://img.shields.io/badge/Vue-3-4FC08D?logo=vue.js" alt="Vue 3">
+  <img src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker" alt="Docker">
+</p>
+
 # 🌌 学趣星球 (LearnStar Planet)
 
-> 开源版班级管理系统 - 积分激励 · 宠物养成 · AI助教 · 全免费
+<h3 align="center">开源班级管理系统 · 积分激励 · 宠物养成 · AI 助教</h3>
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/RealKiro/learnstar-planet?style=social)](https://github.com/RealKiro/learnstar-planet)
-
----
-
-## 📖 目录
-
-- [项目介绍](#项目介绍)
-- [功能特性](#功能特性)
-- [快速部署](#快速部署)
-- [配置说明](#配置说明)
-- [FAQ](#faq)
-- [贡献指南](#贡献指南)
+<p align="center">
+  <b>全免费</b> · <b>自托管</b> · <b>多端适配</b> · <b>MIT 开源</b>
+</p>
 
 ---
 
-## 项目介绍
-
-**学趣星球**是一款开源的班级管理与学生激励系统，旨在为教师提供一个有趣、高效、免费的工具，通过**积分激励**、**宠物养成**、**AI助教**等创新功能，提升学生学习积极性。
-
-### 🎯 设计理念
-
-- **全免费**：无任何付费功能，所有功能完全开放
-- **易部署**：支持 Docker 一键部署，预构建镜像
-- **多端适配**：Web、微信小程序、PWA
-- **多数据库**：MySQL、PostgreSQL、SQLite、MariaDB
-- **AI 赋能**：集成通义千问等 AI 平台 + MCP Server 实现 QQ/微信机器人自然语言管理班级
-
-### 🆚 与原版对比
-
-| 功能 | 原版班宠星球 | 学趣星球 |
-|------|--------------|----------|
-| **费用** | VIP 收费 | 💯 全免费 |
-| **源码** | 闭源 | 💯 开源 |
-| **部署** | 仅云端 | 💯 自托管+云端 |
-| **AI 功能** | 无 | 💯 有（可选） |
-| **多数据库** | 仅 MySQL | 💯 4 种数据库 |
-| **版权** | 商业版权 | 💯 MIT 许可证 |
-
----
-
-## 功能特性
-
-### 🎓 教师端
-
-#### 核心功能
-- **积分管理系统**：自定义积分规则、批量/单个打分、积分排行榜
-- **宠物养成系统**：班级宠物、学生领养、宠物进化、互动玩法
-- **通知公告系统**：发布通知、已读统计、紧急通知弹窗
-
-#### 教室小喇叭（新增）
-- 📢 **实时广播**：顶部横幅/弹窗/全屏三种模式
-- ✅ **智能考勤**：一键点名、4种状态（到/迟/缺/事）
-- 📷 **扫码收作业**：生成二维码、进度跟踪
-- 📝 **在线答题**：题库管理、自动判分
-- 📊 **成绩管理**：成绩录入、统计分析、分布图
-- 🤖 **AI 助教**：智能问答、学习建议（需配置 API Key）
-
-#### 管理功能
-- **学校/班级管理**：创建学校、分配班级、管理教师
-- **账号管理**：批量创建账号、重置密码（无自注册）
-- **数据导出**：积分记录、考勤记录、成绩报表
-
-### 👨👩👧 家长端
-
-- **积分查看**：实时查看孩子积分变动
-- **宠物查看**：查看孩子领养的宠物状态
-- **通知接收**：接收教师发布的通知
-- **成绩查看**：查看孩子考试成绩
-
-### 🔐 第三方登录
-
-教师账号支持绑定以下平台，绑定后可快捷登录：
-- 个人微信扫码登录
-- 企业微信扫码登录
-- QQ 扫码登录
-- 人人通空间（账号密码 / 客户端扫码登录）
-
----
-
-## 技术架构
-
-### 后端
-- **框架**：Laravel 11
-- **API**：RESTful API
-- **缓存**：Redis（排行榜用 ZSET 实现）
-- **数据库**：MySQL / PostgreSQL / SQLite / MariaDB
-
-### 前端
-- **Web 端**：Vue 3 + Vite + TypeScript（Docker 构建时自动编译，无需手动操作）
-- **小程序**：微信小程序原生开发
-- **PWA**：支持离线访问
-
-### 部署
-- **容器化**：Docker + Docker Compose
-- **CI/CD**：GitHub Actions + Gitee Go
-- **镜像**：GitHub Container Registry (GHCR)
-
----
-
-## 快速部署
-
-> 💡 **推荐方式**：Fork 本仓库后自行构建镜像（方式一），完全掌控代码和部署流程，免费使用 GitHub Actions 构建镜像并推送到你的 GHCR 命名空间。
-
----
-
-### 🔧 方式一：Fork 仓库后自行构建镜像（推荐 ✅）
-
-适合需要在原项目基础上做定制开发，或希望完全掌控部署流程的用户。Fork 后 GitHub Actions 会自动构建 Docker 镜像并推送到你的 GHCR，无需本地配置构建环境。
-
-#### 1. Fork 仓库
-
-1. 访问 [learnstar-planet 仓库](https://github.com/RealKiro/learnstar-planet)
-2. 点击右上角 **Fork** 按钮，将仓库 Fork 到你的 GitHub 账号下
-
-#### 2. 启用 GitHub Actions
-
-1. 进入你 Fork 后的仓库页面
-2. 点击 **Actions** 标签页
-3. 如果提示需要启用 Workflows，点击 **I understand my workflows, go ahead and enable them**
-4. 确认以下工作流已就绪：
-   - `Build & Push Docker Images` — 自动构建并推送 Docker 镜像
-   - `CI - Test & Lint` — 代码质量检查
-
-#### 3. 确认仓库权限
-
-GitHub Actions 构建镜像需要 `packages: write` 权限，本仓库的工作流已内置配置：
-
-1. 进入 **Settings → Actions → General**
-2. 在 **Workflow permissions** 下选择 **Read and write permissions**
-3. 勾选 **Allow GitHub Actions to create and approve pull requests**（可选）
-4. 点击 **Save**
-
-#### 4. 触发镜像构建
-
-**方式 A — 推送代码自动构建**（修改代码后推送即可）：
+## ✨ 快速体验
 
 ```bash
-# 克隆你 Fork 的仓库
-git clone https://github.com/YOUR_USERNAME/learnstar-planet.git
+# 一分钟部署
+git clone https://github.com/RealKiro/learnstar-planet.git
+cd learnstar-planet
+cp .env.example .env
+docker-compose up -d
+```
+
+浏览器打开 `http://localhost:8080`，输入班级码进入教室端，或使用管理员账号登录。
+
+---
+
+## 📋 目录
+
+- [核心功能](#-核心功能)
+- [快速部署](#-快速部署)
+- [系统架构](#-系统架构)
+- [前后端联调](#-前后端联调)
+- [开发指南](#-开发指南)
+- [FAQ](#-faq)
+- [贡献指南](#-贡献指南)
+
+---
+
+## 🎯 核心功能
+
+### 🏠 班级总览
+| 功能 | 说明 |
+|------|------|
+| 班级之星 | 展示积分最高的学生及其宠物 |
+| 实时动态 | 全班最新加分/进化消息滚动 |
+| TOP5 排行 | 前五名学生积分排名与进度条 |
+
+### ✏️ 课堂评价
+| 功能 | 说明 |
+|------|------|
+| 积分加减 | 卡片式学生网格，点击 +/− 选择行为原因 |
+| 自定义步长 | 点击中间数字可编辑加减分值 |
+| 快捷规则 | 一键全班按规则加减分 |
+| 宠物切换 | 学生自选宠物（首次免费，后续扣20积分） |
+
+### 🏆 年级战场
+| 功能 | 说明 |
+|------|------|
+| 跨班 PK | 同年级各班积分排行榜（进度条 + 详细数据） |
+| 本班战力 | 总积分、平均等级、巅峰人数、周增长 |
+| 发起挑战 | 班级间 PK 挑战机制 |
+
+### 📚 宠物图鉴
+| 功能 | 说明 |
+|------|------|
+| 54 物种 | 8 大系列、54 种宠物、12 级进化 |
+| 专属诗文 | 每物种 6 阶段专属七言律诗 + 进化台词 |
+| 系列切换 | 全班投票选择系列（每人扣 20 积分） |
+
+### 🔧 高级功能（教师账号）
+| 功能 | 说明 |
+|------|------|
+| 实时广播 | 顶部横幅/弹窗/全屏三种广播模式 |
+| 智能考勤 | 一键点名，4 种考勤状态 |
+| 扫码收作业 | 生成二维码，学生扫码提交 |
+| 在线答题 | 题库管理，自动判分 |
+| 成绩管理 | 成绩录入、统计分析 |
+| AI 助教 | 集成通义千问/Qwen/DeepSeek |
+| 积分商城 | 学生兑换奖品 |
+| 多币种 | 积分/金币等多币种支持 |
+
+---
+
+## 🚀 快速部署
+
+### 方式一：Docker 一键部署（推荐）
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/RealKiro/learnstar-planet.git
 cd learnstar-planet
 
-# 做你的修改后提交推送
-git add .
-git commit -m "feat: my custom changes"
-git push origin main
-```
-
-推送后 GitHub Actions 会自动触发构建，镜像将推送到：
-```
-ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
-```
-
-**方式 B — 手动触发构建**：
-
-1. 进入 **Actions → Build & Push Docker Images**
-2. 点击 **Run workflow** → 选择 `main` 分支 → 点击 **Run workflow**
-3. 等待构建完成（通常 5-10 分钟），可在 Actions 页面查看进度
-
-#### 5. （可选）设置镜像为公开
-
-默认情况下，GHCR 镜像是私有仓库。如需免登录拉取：
-
-1. 访问 [GitHub Packages](https://github.com/YOUR_USERNAME?tab=packages)
-2. 点击 `learnstar-planet/backend` 包
-3. 进入 **Package settings**
-4. 在 **Danger Zone → Change visibility** 中选择 **Public**
-
-#### 6. 部署
-
-**Using Docker Run（快速启动，需自备数据库）**
-
-```bash
-# 拉取镜像
-docker pull ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
-
-# 创建 .env 文件（参考 .env.example，配置你的数据库地址）
-# 启动容器（映射端口 8080）
-docker run -d -p 8080:8080 --name learnstar-planet \
-  --env-file .env \
-  ghcr.io/YOUR_USERNAME/learnstar-planet/backend:latest
-
-# 初始化数据库（自动创建管理员账号：admin / admin123456）
-docker exec learnstar-planet php artisan migrate --force
-docker exec learnstar-planet php artisan db:seed --class=AdminUserSeeder --force
-```
-
-**Using Docker Compose（推荐，全自动，含数据库）**
-
-```bash
-# 下载配置文件
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/learnstar-planet/main/docker-compose.yml
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/learnstar-planet/main/.env.example
+# 2. 配置环境变量
 cp .env.example .env
+# 编辑 .env，修改 APP_URL 和数据库密码（可选）
 
-# 编辑 .env
-nano .env
-```
-
-**必改项**：
-```env
-# 改为你的 GitHub 用户名（用于拉取你自行构建的镜像）
-GITHUB_USERNAME=YOUR_USERNAME
-
-# 用户浏览器访问地址（协议+IP/域名，不带端口）
-#   本机测试：http://localhost
-#   局域网：http://192.168.1.100
-APP_URL=http://your-server-ip
-
-# 宿主机访问端口（容器内部固定为 8080）
-# 如果 8080 被占用，改成 8081/8090/9000 等
-APP_PORT=8080
-
-# 应用数据库账号密码
-DB_PASSWORD=your_secure_password
-
-# MySQL root 密码（数据库维护用，建议和 DB_PASSWORD 不同）
-MYSQL_ROOT_PASSWORD=your_root_password
-
-# 后台管理员账号（首次部署自动创建）
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin123456
-```
-
-> ⚠️ **关于数据库配置**（重要）：
-> - `DB_PASSWORD` 是 **Laravel 应用**连接数据库时用的密码（对应 `DB_USERNAME=learnstar`）
-> - `MYSQL_ROOT_PASSWORD` 是 **MySQL root 管理员**密码，用于数据库维护、备份、紧急恢复
-> - 这两个密码**建议不同**，不要把 root 密码泄露给应用
-> - `DB_PORT=3306` 是**容器内部**端口，一般不需要改
-> - `MYSQL_PORT` 是**宿主机**暴露给外部工具（如 Navicat/DBeaver）的端口，如果 3306 被占用，可改成 `3307`/`3308`
->
-> 示例：宿主机 MySQL 端口改成 3307 后，Navicat 连接时主机填 `你的IP`，端口填 `3307`，但 `DB_PORT` 仍然保持 `3306`
-
-```bash
-# 启动服务（自动拉取镜像、启动应用+数据库+Redis、并自动创建管理员）
+# 3. 启动服务
 docker-compose up -d
 
-# 查看运行状态
+# 4. 查看运行状态
 docker-compose ps
-
-# 如果需要手动初始化数据库（自动创建管理员账号：admin / admin123456）
-docker-compose exec app php artisan migrate --force
-docker-compose exec app php artisan db:seed --class=AdminUserSeeder --force
 ```
 
-#### 7. 后续更新
+启动后访问：
+- **教室端**：`http://localhost:8080` — 输入班级码（如 `LS301`）
+- **教师端**：`http://localhost:8080/login` — 管理员/教师登录
 
-当你修改代码并推送后，GitHub Actions 会自动重新构建镜像：
+### 方式二：手动部署
+
+**后端（Laravel 11）：**
+```bash
+cd backend
+composer install
+php artisan migrate
+php artisan db:seed --class=AdminUserSeeder
+php artisan serve
+```
+
+**前端（Vue 3）：**
+```bash
+cd frontend-vue
+npm install
+npm run dev       # 开发服务器 http://localhost:5173
+npm run build     # 生产构建
+```
+
+---
+
+## 🏗 系统架构
+
+```
+learnstar-planet/
+├── frontend-vue/          # Vue 3 + Vite + TypeScript SPA
+│   └── src/
+│       ├── pages/         # 页面组件
+│       │   ├── teacher/   # 教师端（完整功能）
+│       │   ├── classroom/ # 教室端（班级码登录，4大核心模块）
+│       │   ├── parent/    # 家长端
+│       │   └── landing/   # 首页/登录页
+│       ├── layouts/       # 布局组件
+│       ├── components/    # 通用组件
+│       ├── services/      # API 服务层
+│       ├── stores/        # Pinia 状态管理
+│       └── utils/         # 工具函数
+├── backend/               # Laravel 11 API
+│   ├── app/
+│   │   ├── Models/        # 17 个 Eloquent 模型
+│   │   ├── Http/Controllers/Api/  # API 控制器
+│   │   ├── Services/      # 业务服务层
+│   │   └── Http/Requests/ # 表单验证
+│   └── routes/api.php     # ~130 个 API 端点
+├── mini-program/          # 微信小程序
+├── pwa/                   # PWA 配置
+├── mcp-server/            # MCP AI 机器人服务器
+└── docker-compose.yml     # Docker 编排
+```
+
+---
+
+## 🔗 前后端联调
+
+### API 路径规范
+
+```
+/api/v1/{role}/{resource}/{action}
+```
+
+| 角色 | 前缀 | 认证 | 适用场景 |
+|------|------|------|---------|
+| 认证 | `/auth` | 部分需要 | 登录/登出/第三方绑定 |
+| 教师 | `/teacher` | Bearer Token | 全部管理功能 |
+| 管理员 | `/admin` | Bearer Token | 学校级管理 |
+| 家长 | `/parent` | Bearer Token | 查看孩子数据 |
+| 大屏 | `/display` | 班级码 Token | 教室端 4 大模块 |
+| 公共 | `/common` | 无 | 宠物类型等公开数据 |
+
+### 权限分级
+
+| 登录方式 | 访问范围 | 侧边栏 |
+|---------|---------|--------|
+| **班级码** | 4 大核心模块 | 教室端侧边栏 |
+| **教师账号** | 全部功能 | 教师端侧边栏 |
+
+> 📖 完整 API 文档见 [`docs/api-reference.md`](docs/api-reference.md)
+
+---
+
+## 🛠 开发指南
+
+### 常用命令
 
 ```bash
-# 拉取最新镜像
-docker-compose pull
+# 前端
+cd frontend-vue
+npm run dev         # 开发模式
+npm run typecheck   # TypeScript 类型检查
+npm run build       # 生产构建
 
-# 重启服务
-docker-compose up -d
-
-# 运行数据库迁移（如有）
-docker-compose exec app php artisan migrate --force
+# 后端
+cd backend
+php artisan test                    # 运行测试
+vendor/bin/phpstan analyse          # PHPStan 静态分析
+vendor/bin/php-cs-fixer fix         # CS Fixer
 ```
 
-> 💡 **提示**：如果上游仓库有更新，可以通过 GitHub 的 **Sync fork** 功能同步最新代码，同步后推送即可触发重新构建。
+### 环境变量
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `APP_DEBUG` | `false` | 调试模式 |
+| `INITIALIZATION_SETTINGS` | `false` | 测试模式（与 DEBUG 配合重置积分） |
+| `DB_CONNECTION` | `mysql` | 数据库类型 |
+| `AI_PROVIDER` | 空 | AI 服务商 |
 
 ---
 
-### 📦 方式二：使用预构建镜像（快速试用）
+## ❓ FAQ
 
-适合快速体验项目，或暂时不想 Fork 仓库的用户。直接用官方预构建镜像，5 分钟内完成部署。
+**Q: 如何获取班级码？**  
+A: 管理员登录后台 → 班级管理 → 查看/刷新班级码。
 
-#### 1. 下载配置文件
+**Q: 学生如何登录？**  
+A: 首页输入班级码即可进入教室端，无需账号密码。
 
-```bash
-# 下载 docker-compose.yml 和 .env.example
-curl -O https://raw.githubusercontent.com/RealKiro/learnstar-planet/main/docker-compose.yml
-curl -O https://raw.githubusercontent.com/RealKiro/learnstar-planet/main/.env.example
-```
+**Q: 如何切换数据库类型？**  
+A: 修改 `.env` 中的 `DB_CONNECTION`，参考 `.env.example` 中的注释。
 
-#### 2. 修改配置
-
-```bash
-# 复制 .env.example 为 .env
-cp .env.example .env
-
-# 编辑 .env，修改以下配置
-nano .env
-```
-
-**必改项**：
-```env
-# 用户浏览器访问地址（协议+IP/域名，不带端口）
-#   本机测试：http://localhost
-#   局域网：http://192.168.1.100
-APP_URL=http://your-server-ip
-
-# 宿主机访问端口（容器内部固定为 8080）
-APP_PORT=8080
-
-# 应用数据库账号密码
-DB_PASSWORD=your_secure_password
-
-# MySQL root 密码（建议和 DB_PASSWORD 不同）
-MYSQL_ROOT_PASSWORD=your_root_password
-
-# 后台管理员账号
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin123456
-```
-
-> 💡 **提示**：`GITHUB_USERNAME=realkiro` 已预置为源作者用户名，用于拉取官方预构建镜像，无需修改。
-
-> ⚠️ **关于端口和地址**（重要）：
-> - `APP_URL` 填协议+IP/域名，**不带端口**（端口由 `APP_PORT` 单独控制）
-> - 容器内部端口固定为 8080，`APP_PORT` 是宿主机映射端口
-> - 如果 `APP_PORT=80`，容器启动时自动省略端口号
-
-> ⚠️ **关于数据库配置**（重要）：
-> - `DB_PASSWORD` 是 **Laravel 应用**连接数据库时用的密码（对应 `DB_USERNAME=learnstar`）
-> - `MYSQL_ROOT_PASSWORD` 是 **MySQL root 管理员**密码，用于数据库维护、备份、紧急恢复
-> - 这两个密码**建议不同**，不要把 root 密码泄露给应用
-> - `DB_PORT=3306` 是**容器内部**端口，一般不需要改
-> - `MYSQL_PORT` 是**宿主机**暴露给外部工具（如 Navicat/DBeaver）的端口，如果 3306 被占用，可改成 `3307`/`3308`
->
-> 示例：宿主机 MySQL 端口改成 3307 后，Navicat 连接时主机填 `你的IP`，端口填 `3307`，但 `DB_PORT` 仍然保持 `3306`
-
-> ⚠️ **关于 APP_URL**：
-> - 这是 Laravel 生成绝对 URL 用的（邮件链接、API 返回的 URL 等），必须填**其他设备访问你时用的地址**
-> - **不要**填 Docker 容器内部 IP（如 `172.17.0.x`），局域网其他设备无法访问该地址
-> - 群晖/飞牛 NAS 部署：填 NAS 的局域网 IP + APP_PORT，如 `http://192.168.1.100:8080`
-
-**可选项**（让 AI 助教可用）：
-```env
-AI_PROVIDER=qwen
-AI_API_KEY=your_qwen_api_key
-```
-
-#### 3. 启动服务
-
-```bash
-# 启动（包含应用+数据库+Redis，会自动运行迁移并创建管理员账号）
-docker-compose up -d
-
-# 查看运行状态
-docker-compose ps
-
-# 查看日志
-docker-compose logs -f app
-```
-
-> 💡 **默认管理员**：`admin` / `admin123456`，可在 `.env` 中通过 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 修改。
-
-#### 4. 初始化数据库
-
-```bash
-# 运行数据库迁移（启动脚本已自动执行，也可手动执行）
-docker-compose exec app php artisan migrate --force
-
-# 创建默认管理员账号（默认：admin / admin123456）
-docker-compose exec app php artisan db:seed --class=AdminUserSeeder --force
-```
-
-> 💡 **提示**：管理员账号可在 `.env` 中通过 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 自定义。如果账号已存在，重复执行不会修改密码。
-
-#### 5. 访问应用
-
-打开浏览器，访问：`http://your-server-ip`
+**Q: AI 功能如何使用？**  
+A: 配置 `AI_PROVIDER` 和 `AI_API_KEY`，支持 qwen/openai/deepseek/moonshot。
 
 ---
 
-### 🗄️ 方式三：使用外部数据库（适合已有数据库的用户）
+## 🤝 贡献指南
 
-如果你已经有外部 MySQL/MariaDB/PostgreSQL 或 Redis，可以跳过内置容器：
-
-#### 1. 修改 `.env`
-
-```env
-# 修改为你的外部数据库地址
-DB_HOST=your_mysql_host
-DB_PORT=3306
-DB_DATABASE=learnstar
-DB_USERNAME=learnstar_user
-DB_PASSWORD=your_password
-
-# 修改为你的外部 Redis 地址
-REDIS_HOST=your_redis_host
-REDIS_PORT=6379
-REDIS_PASSWORD=
-```
-
-#### 2. 启动服务（只启动应用，跳过内置 MySQL/Redis）
-
-```bash
-# --no-deps 跳过内置 mysql/redis 依赖，直接启动 app
-docker-compose up -d app --no-deps
-```
-
----
-
-### 🐳 方式四：本地构建镜像（适合开发者）
-
-```bash
-# 1. Fork 本仓库
-# 2. 克隆到本地
-git clone https://github.com/YOUR_USERNAME/learnstar-planet.git
-cd learnstar-planet
-
-# 3. 构建镜像
-docker build -t learnstar-planet:latest ./backend
-
-# 4. 修改 docker-compose.yml 中的 image 为本地镜像
-# image: learnstar-planet:latest
-
-# 5. 启动
-docker-compose up -d
-```
-
----
-
-## 配置说明
-
-### 🤖 AI 功能配置（可选）
-
-AI 助教功能需要配置 API Key，支持以下平台：
-
-| 平台 | 获取 API Key | 推荐模型 | 价格 |
-|------|-------------|----------|------|
-| **通义千问**（推荐） | [阿里云百炼](https://dashscope.aliyuncs.com/) | `qwen-turbo`（¥0.002/1k tokens） | 便宜 |
-| **OpenAI** | [OpenAI Platform](https://platform.openai.com/) | `gpt-4o-mini` | 需翻墙 |
-| **DeepSeek** | [DeepSeek 平台](https://platform.deepseek.com/) | `deepseek-chat` | 便宜 |
-| **月之暗面** | [Moonshot 平台](https://platform.moonshot.cn/) | `moonshot-v1-8k` | 中等 |
-
-**配置步骤**（以通义千问为例）：
-
-1. 访问 [阿里云百炼控制台](https://dashscope.aliyuncs.com/)
-2. 注册/登录（需实名认证）
-3. 点击 **API Key 管理** → **创建 API Key**
-4. 复制 API Key，修改 `.env`：
-   ```env
-   AI_PROVIDER=qwen
-   AI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxx
-   AI_API_BASE=https://dashscope.aliyuncs.com/api/v1
-   AI_MODEL=qwen-turbo
-   ```
-5. 重启服务：`docker-compose restart app`
-
-**没有 API Key？** 没关系！所有核心功能都可以正常使用，AI 功能会在配置后自动启用。
-
----
-
-### 🔐 第三方登录配置（可选）
-
-#### 个人微信扫码登录
-
-1. 访问 [微信开放平台](https://open.weixin.qq.com/)
-2. 注册开发者账号（需企业资质并通过审核）
-3. 创建**网站应用**，获取 **AppID** 和 **AppSecret**
-4. 配置**授权回调域名**（填写你的域名）
-5. 修改 `.env`：
-   ```env
-   WECHAT_OPEN_APPID=wx1234567890abcdef
-   WECHAT_OPEN_SECRET=xxxxxxxxxxxxxxxxxxxxxx
-   ```
-
-#### 企业微信扫码登录
-
-1. 访问 [企业微信管理后台](https://work.weixin.qq.com/)
-2. 进入 **应用管理** → **创建应用**
-3. 获取 **CorpID**、**AgentID**、**Secret**
-4. 配置**网页授权及JS-SDK**中的可信域名
-5. 修改 `.env`：
-   ```env
-   WECHAT_WORK_CORPID=ww1234567890abcdef
-   WECHAT_WORK_AGENTID=1000002
-   WECHAT_WORK_SECRET=xxxxxxxxxxxxxxxxxxxxxx
-   ```
-
-#### QQ 扫码登录
-
-1. 访问 [QQ 互联平台](https://connect.qq.com/)
-2. 注册开发者账号并创建**网站应用**
-3. 获取 **App ID** 和 **App Key**
-4. 配置**回调地址**（填写 `https://你的域名/auth/qq/callback`）
-5. 修改 `.env`：
-   ```env
-   QQ_APP_ID=1012345678
-   QQ_APP_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   QQ_REDIRECT_URI=https://your-domain.com/auth/qq/callback
-   ```
-
-#### 人人通空间登录
-
-人人通空间支持两种登录方式：**账号密码登录**与**客户端扫码登录**。
-
-1. 联系当地教育主管部门或人人通空间服务方，申请接入权限
-2. 获取 **应用 ID（AppKey）** 和 **应用密钥（AppSecret）**
-3. 配置**回调地址**（填写 `https://你的域名/auth/rrt/callback`）
-4. 修改 `.env`：
-   ```env
-   RRT_APP_KEY=rrt1234567890abcdef
-   RRT_APP_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   RRT_REDIRECT_URI=https://your-domain.com/auth/rrt/callback
-   ```
-
----
-
-### 🗄️ 数据库选择
-
-| 数据库 | 适用场景 | 配置方法 |
-|--------|----------|----------|
-| **MySQL 8.0+**（推荐） | 中大型部署（1000+ 学生） | `DB_CONNECTION=mysql` |
-| **MariaDB 10.3+** | MySQL 替代品，完全兼容 | `DB_CONNECTION=mysql` |
-| **PostgreSQL 14+** | 需要高级功能（JSONB、全文搜索） | `DB_CONNECTION=pgsql` |
-| **SQLite 3.8+** | 小型部署（< 500 学生） | `DB_CONNECTION=sqlite` |
-
-#### 使用 SQLite（最简单）
-
-```bash
-# 1. 修改 .env
-DB_CONNECTION=sqlite
-# 同时将缓存改为 file（SQLite 部署通常无 Redis）
-CACHE_DRIVER=file
-SESSION_DRIVER=file
-QUEUE_CONNECTION=database
-
-# 2. 启动（跳过内置 MySQL/Redis）
-docker-compose up -d app --no-deps
-
-# 3. 运行迁移
-docker-compose exec app php artisan migrate --force
-```
-
----
-
-## FAQ
-
-### Q1：我没有服务器，能部署吗？
-
-**A**：可以！以下免费/低成本方案供参考：
-
-| 平台 | 类型 | 价格 | 适用场景 |
-|------|------|------|----------|
-| **Fly.io** | 容器托管 | 免费额度 3 个小型 VM | 小型部署 |
-| **Railway** | PaaS | $5/月 免费额度 | 快速部署 |
-| **Render** | PaaS | 免费版（休眠） | 测试环境 |
-| **阿里云轻量** | VPS | ¥60/月 | 生产环境（推荐） |
-| **腾讯云轻量** | VPS | ¥50/月 | 生产环境（推荐） |
-
----
-
-### Q2：AI 助教功能一定要配置吗？
-
-**A**：不是必须的。所有核心功能（积分、宠物、考勤、广播等）都可以独立使用。AI 功能只是增强体验，会在配置 API Key 后自动启用。
-
----
-
-### Q3：第三方登录一定要配置吗？
-
-**A**：不是必须的。你可以使用账号密码登录。第三方登录只是提供更便捷的登录方式。
-
----
-
-### Q4：数据库和 Redis 一定要单独部署吗？
-
-**A**：不是必须的。Docker Compose 会启动数据库和 Redis 容器，适合小型部署。当学生数超过 1000 人时，建议将它们单独部署到更高性能的服务器。
-
----
-
-### Q5：如何升级到新版本？
-
-**A**：
-
-```bash
-# 1. 拉取最新镜像
-docker-compose pull
-
-# 2. 重新启动
-docker-compose up -d
-
-# 3. 运行数据库迁移（如果有）
-docker-compose exec app php artisan migrate --force
-```
-
----
-
-### Q6：忘记管理员密码怎么办？
-
-**A**：
-
-```bash
-# 通过命令行重置
-docker-compose exec app php artisan admin:reset-password --username=admin
-# 会提示输入新密码
-```
-
----
-
-### Q7：如何备份数据？
-
-**A**：
-
-```bash
-# 备份 MySQL 数据库
-docker-compose exec mysql mysqldump -u root -p learnstar > backup_$(date +%Y%m%d).sql
-
-# 备份上传的文件
-docker-compose exec app tar -czf /tmp/uploads_backup.tar.gz /var/www/html/storage/app/uploads
-docker cp learnstar-app:/tmp/uploads_backup.tar.gz ./
-```
-
----
-
-### Q8：出现 500 错误怎么办？
-
-**A**：
-
-```bash
-# 1. 查看日志
-docker-compose logs app
-
-# 2. 查看 Laravel 日志
-docker-compose exec app tail -100 storage/logs/laravel.log
-
-# 3. 常见原因：
-#    - .env 配置错误（检查数据库/Redis 连接）
-#    - 数据库迁移未运行
-#    - 文件权限问题（运行 chmod -R 777 storage）
-```
-
----
-
-### Q9：可以商用吗？需要付费吗？
-
-**A**：本项目采用 **MIT 许可证**，你可以自由使用、修改、商用，无需支付任何费用。但请保留原作者版权声明。
-
----
-
-## 贡献指南
-
-我们欢迎任何形式的贡献！
-
-### 🐛 报告 Bug
-
-请在 [GitHub Issues](https://github.com/RealKiro/learnstar-planet/issues) 中提交 Bug 报告，包含以下信息：
-- 问题描述
-- 复现步骤
-- 预期行为
-- 实际行为
-- 截图（如有）
-
-### 💡 功能建议
-
-请在 [GitHub Discussions](https://github.com/RealKiro/learnstar-planet/discussions) 中发起功能讨论。
-
-### 🔧 提交代码
+欢迎贡献！请遵循以下步骤：
 
 1. Fork 本仓库
-2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交你的修改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开一个 Pull Request
+2. 创建特性分支: `git checkout -b feature/my-feature`
+3. 提交变更: `git commit -am 'feat: add my feature'`
+4. 推送: `git push origin feature/my-feature`
+5. 提交 Pull Request
 
-### 📝 代码规范
-
-- PHP：遵循 PSR-12 规范
-- JavaScript：使用 ESLint 检查
-- 提交信息：使用约定式提交（Conventional Commits）
-
----
-
-## 许可证
-
-本项目采用 **MIT 许可证** - 查看 [LICENSE](LICENSE) 文件了解详情。
+### 代码规范
+- PHP: PSR-12
+- TypeScript: ESLint
+- 提交信息: Conventional Commits
 
 ---
 
-## 联系我们
+## 📄 许可证
 
-- 📖 **文档**：[查看完整文档](https://github.com/RealKiro/learnstar-planet/wiki)
-- 🐛 **Bug 反馈**：[提交 Issue](https://github.com/RealKiro/learnstar-planet/issues)
-- 💬 **社区讨论**：[GitHub Discussions](https://github.com/RealKiro/learnstar-planet/discussions)
-- 📧 **邮件支持**：support@yourdomain.com（需自行设置）
+[MIT License](LICENSE) © 2024 RealKiro
 
----
-
-**祝你使用愉快！** 🎉
-
-如有问题，欢迎随时反馈。
+> 全免费、开源、可自由使用和修改
