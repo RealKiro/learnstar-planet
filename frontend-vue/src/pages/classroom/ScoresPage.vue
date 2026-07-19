@@ -121,6 +121,17 @@ onMounted(async () => {
     <div v-if="loading" style="text-align:center;padding:60px;color:var(--md-text-secondary);">加载中...</div>
 
     <template v-else>
+      <!-- 首次使用欢迎提示 -->
+      <div v-if="students.some(s => !s.pet_name)" style="margin-bottom:16px;padding:14px 20px;background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(244,114,182,0.05));border:1px solid rgba(167,139,250,0.15);border-radius:var(--md-radius);">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:24px;">🎉</span>
+          <div>
+            <div style="font-weight:700;font-size:15px;">欢迎来到学趣星球！</div>
+            <div style="font-size:13px;color:var(--md-text-secondary);">点击学生卡片上的宠物 emoji，可以免费选择你的第一只宠物 🆓</div>
+          </div>
+        </div>
+      </div>
+
       <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
         <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.06);border-radius:30px;flex:1;min-width:200px;max-width:360px;">
           <span>🔍</span>
@@ -191,31 +202,34 @@ onMounted(async () => {
         :style="{ left: f.x + 'px', top: f.y + 'px', color: f.color }">{{ f.text }}</div>
     </Teleport>
 
-      <!-- 宠物选择器 -->
+      <!-- 宠物选择器（展示所有物种） -->
       <Transition name="fade">
         <div v-if="showPetPicker && petPickerStudent" @click.self="showPetPicker = false"
           style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:300;">
-          <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:24px 28px;max-width:480px;width:90%;max-height:75vh;overflow-y:auto;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
+          <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:24px 28px;max-width:520px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
               <span style="font-size:28px;">{{ petPickerStudent.pet_emoji }}</span>
               <div>
                 <div style="font-size:16px;font-weight:700;">{{ petPickerStudent.name }} · 选择宠物</div>
-                <div style="font-size:12px;color:var(--md-text-secondary);">首次免费，后续切换扣20积分 · 保留当前等级</div>
+                <div style="font-size:12px;color:var(--md-text-secondary);">{{ petPickerStudent.pet_name ? '后续切换扣20积分 · 保留等级' : '🎉 首次免费选择！' }}</div>
               </div>
               <button @click="showPetPicker = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;">✕</button>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;">
-              <button v-for="series in allSeriesList" :key="series.id" @click="switchPet(series.species[0]?.id)"
-                :disabled="switchingPet"
-                style="padding:10px 6px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;transition:0.15s;font-family:inherit;"
-                :style="petPickerStudent.pet_species === series.species[0]?.id ? 'border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08);' : ''"
-                @mouseenter="(e)=>(e.target as HTMLElement).style.background='rgba(255,255,255,0.06)'"
-                @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent.pet_species === series.species[0]?.id ? 'rgba(167,139,250,0.08)' : 'rgba(255,255,255,0.02)'">
-                <div style="font-size:24px;margin-bottom:4px;">{{ series.emoji }}</div>
-                <div style="font-size:11px;font-weight:600;color:var(--md-text);">{{ series.species[0]?.name || series.name }}</div>
-              </button>
+            <div v-for="series in allSeriesList" :key="series.id" style="margin-bottom:12px;">
+              <div style="font-size:12px;font-weight:600;color:var(--md-text-secondary);margin-bottom:6px;padding-left:4px;">{{ series.emoji }} {{ series.name }}</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;">
+                <button v-for="sp in series.species" :key="sp.id" @click="switchPet(sp.id)"
+                  :disabled="switchingPet"
+                  style="padding:8px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;transition:0.15s;font-family:inherit;"
+                  :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08);' : ''"
+                  @mouseenter="(e)=>(e.target as HTMLElement).style.background='rgba(255,255,255,0.06)'"
+                  @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent.pet_species === sp.id ? 'rgba(167,139,250,0.08)' : 'rgba(255,255,255,0.02)'">
+                  <div style="font-size:22px;margin-bottom:2px;">{{ getSpeciesEmoji(sp.id) }}</div>
+                  <div style="font-size:10px;font-weight:500;color:var(--md-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ sp.name }}</div>
+                </button>
+              </div>
             </div>
-            <button @click="showPetPicker = false" style="width:100%;margin-top:14px;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">取消</button>
+            <button @click="showPetPicker = false" style="width:100%;margin-top:8px;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">取消</button>
           </div>
         </div>
       </Transition>
