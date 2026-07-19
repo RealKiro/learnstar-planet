@@ -37,7 +37,6 @@ function goHome() {
         <div class="brand">
           <span>🐾</span> 宠物星球
         </div>
-        <button v-if="props.showLogout" class="btn-exit" @click="emit('logout')">✕ 退出</button>
       </div>
 
       <div class="nav-list">
@@ -56,6 +55,11 @@ function goHome() {
       <!-- 侧边栏底部扩展区（系列选择器等） -->
       <div v-if="$slots['sidebar-extra']" class="series-selector">
         <slot name="sidebar-extra" />
+      </div>
+
+      <!-- 底部：退出按钮 -->
+      <div class="sidebar-footer">
+        <button v-if="props.showLogout" class="exit-btn" @click="emit('logout')">✕ 退出登录</button>
       </div>
     </nav>
 
@@ -119,22 +123,15 @@ function goHome() {
   -webkit-text-fill-color: initial;
 }
 
-.btn-exit {
-  background: rgba(255, 100, 100, 0.1);
-  border: 1px solid rgba(255, 100, 100, 0.15);
-  color: #fca5a5;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: 0.2s;
-  font-weight: 500;
-  font-family: inherit;
+.sidebar-footer { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
+.exit-btn {
+  width: 100%; padding: 10px; border-radius: var(--md-radius);
+  border: 1px solid rgba(255,100,100,0.15);
+  background: rgba(255,100,100,0.08); color: #fca5a5;
+  font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: 0.2s; font-family: inherit;
 }
-
-.btn-exit:hover {
-  background: rgba(255, 100, 100, 0.2);
-}
+.exit-btn:hover { background: rgba(255,100,100,0.15); }
 
 /* 导航列表 */
 .nav-list {

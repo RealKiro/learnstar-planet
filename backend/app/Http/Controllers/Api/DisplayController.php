@@ -761,11 +761,12 @@ class DisplayController extends Controller
 
         $starStudent = $sorted->first();
         $recentNews = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
-            ->with('student:id,name')->orderBy('created_at', 'desc')->take(5)->get()
+            ->with('student:id,name')->orderBy('created_at', 'desc')->take(20)->get()
             ->map(fn ($s) => [
-                'icon' => '🎉',
+                'icon' => $s->amount > 0 ? '🎉' : '📝',
                 'text' => ($s->student->name ?? '同学') . ' ' . ($s->amount > 0 ? '+' . $s->amount : $s->amount) . '分 — ' . ($s->reason ?? ''),
-            ]);
+            ])
+            ->unique('text')->take(5)->values();
 
         return response()->json(['data' => [
             'class_name' => $class->name,
@@ -848,11 +849,13 @@ class DisplayController extends Controller
             }
         }
 
+        $teacherId = $this->getClassTeacherId($classId) ?? 1;
         \App\Models\Score::create([
             'student_id' => $student->id,
             'class_id' => $classId,
             'amount' => $amount,
             'reason' => $reason,
+            'given_by' => $teacherId,
         ]);
 
         return response()->json([
