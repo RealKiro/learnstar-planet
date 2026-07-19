@@ -932,6 +932,7 @@ class DisplayController extends Controller
         if ($insufficient->isNotEmpty()) {
             $names = $insufficient->take(3)->pluck('name')->implode('、');
             $more = $insufficient->count() > 3 ? '等' . $insufficient->count() . '人' : '';
+
             return response()->json([
                 'message' => "积分不足：{$names}{$more} 每人需要 {$costPerStudent} 积分",
             ], 400);
