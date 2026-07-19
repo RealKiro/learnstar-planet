@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { apiGet } from '@/utils/api'
+import { useToastStore } from '@/stores/toast'
 import { getStageEmoji, getStageName } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
+import axios from 'axios'
+
+const toast = useToastStore()
 
 interface ScoreTrend { labels: string[]; datasets: { label: string; data: number[] }[] }
 interface PetDist { stage_name: string; count: number; percentage: number }
 interface StudentProgress { student_id: number; student_name: string; scores: number[]; trend: 'up'|'down'|'stable'; change: number }
 
+interface ClassOption { class_id: number; class_name: string }
+
 const loading = ref(true)
+const exporting = ref(false)
 const scoreTrend = ref<ScoreTrend | null>(null)
 const petDist = ref<PetDist[]>([])
 const studentProgress = ref<StudentProgress[]>([])
+const myClasses = ref<ClassOption[]>([])
+const selectedClassId = ref<number | null>(null)
 
 const maxTrendValue = computed(() => {
   const all = scoreTrend.value?.datasets.flatMap(d => d.data) ?? []
@@ -21,13 +30,43 @@ const maxTrendValue = computed(() => {
 const trendArrow = (t: string) => t === 'up' ? '↑' : t === 'down' ? '↓' : '→'
 const trendColor = (t: string) => t === 'up' ? 'var(--color-accent)' : t === 'down' ? 'var(--color-danger)' : 'var(--color-text-secondary)'
 
+async function exportFile(type: string) {
+  if (!selectedClassId.value) { toast.show('请先选择班级', 'error'); return }
+  exporting.value = true
+  try {
+    const token = localStorage.getItem('auth_token')
+    const url = `/api/v1/teacher/reports/export/${type}?class_id=${selectedClassId.value}`
+    const res = await axios.get(url, {
+      responseType: 'blob',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+    // 下载文件
+    const disposition = res.headers['content-disposition'] || ''
+    const match = disposition.match(/filename\*?=(?:UTF-8'')?([^;]+)/)
+    const filename = match ? decodeURIComponent(match[1]) : `${type}.xlsx`
+    const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+    const urlObj = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = urlObj; a.download = filename
+    document.body.appendChild(a); a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(urlObj)
+    toast.show(`导出成功：${filename}`, 'success')
+  } catch {
+    toast.show('导出失败', 'error')
+  } finally { exporting.value = false }
+}
+
 onMounted(async () => {
   try {
-    const [trendRes, petRes, progressRes] = await Promise.all([
+    const [clsRes, trendRes, petRes, progressRes] = await Promise.all([
+      apiGet<{ data: ClassOption[] }>('/api/v1/teacher/my-classes'),
       apiGet<ApiResponse<ScoreTrend>>('/api/v1/teacher/reports/score-trend'),
       apiGet<ApiResponse<PetDist[]>>('/api/v1/teacher/reports/pet-distribution'),
       apiGet<ApiResponse<StudentProgress[]>>('/api/v1/teacher/reports/student-progress'),
     ])
+    myClasses.value = clsRes.data || []
+    if (myClasses.value.length > 0) selectedClassId.value = myClasses.value[0].class_id
     scoreTrend.value = trendRes.data || null
     petDist.value = petRes.data || []
     studentProgress.value = progressRes.data || []
@@ -43,8 +82,22 @@ function stageLevel(name: string): number {
 
 <template>
   <div>
-    <div style="margin-bottom:24px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <h2 style="font-size:24px;font-weight:700;">数据报表</h2>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <select v-model.number="selectedClassId" class="form-select" style="width:auto;padding:6px 12px;">
+          <option v-for="c in myClasses" :key="c.class_id" :value="c.class_id">{{ c.class_name }}</option>
+        </select>
+        <button class="btn btn-sm btn-primary" :disabled="exporting" @click="exportFile('scores')">
+          {{ exporting ? '导出中...' : '📥 导出积分' }}
+        </button>
+        <button class="btn btn-sm btn-primary" :disabled="exporting" @click="exportFile('pets')">
+          {{ exporting ? '导出中...' : '📥 导出宠物' }}
+        </button>
+        <button class="btn btn-sm btn-primary" :disabled="exporting" @click="exportFile('attendance')">
+          {{ exporting ? '导出中...' : '📥 导出考勤' }}
+        </button>
+      </div>
     </div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>

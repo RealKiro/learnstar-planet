@@ -1591,13 +1591,47 @@ class TeacherController extends Controller
         ]]);
     }
 
-    public function exportReport(Request $request, string $type): JsonResponse
+    public function exportReport(Request $request, string $type)
     {
-        return response()->json(['message' => "导出类型 {$type} 暂不支持，请使用前端导出功能"]);
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classId = (int) $request->input('class_id', $classIds->first() ?? 0);
+
+        if (!in_array($classId, $classIds->toArray())) {
+            return response()->json(['message' => '无权限'], 403);
+        }
+
+        $class = ClassRoom::find($classId);
+        $className = $class?->name ?? '未知班级';
+        $fileName = $className . '-' . now()->format('Ymd-His');
+
+        switch ($type) {
+            case 'scores':
+                return \Maatwebsite\Excel\Facades\Excel::download(
+                    new \App\Exports\ScoresExport($classId, $className),
+                    $fileName . '-积分报表.xlsx'
+                );
+
+            case 'pets':
+                return \Maatwebsite\Excel\Facades\Excel::download(
+                    new \App\Exports\PetsExport($classId, $className),
+                    $fileName . '-宠物报表.xlsx'
+                );
+
+            case 'attendance':
+                $date = $request->input('date');
+                return \Maatwebsite\Excel\Facades\Excel::download(
+                    new \App\Exports\AttendanceExport($classId, $className, $date),
+                    $fileName . '-考勤报表.xlsx'
+                );
+
+            default:
+                return response()->json(['message' => "导出类型 {$type} 不支持，可选: scores, pets, attendance"]);
+        }
     }
 
     // ============================================================
-    // Remaining stubs (broadcasts, attendance, homework, quizzes, grades, AI)
+    // Broadcasts
     // ============================================================
 
     public function listBroadcasts(Request $request): JsonResponse
