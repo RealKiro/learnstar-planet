@@ -511,6 +511,7 @@ class DisplayController extends Controller
         // 2. class_ 开头 → AuthController::classLogin 统一 token
         if (str_starts_with($token, 'disp_')) {
             $data = Cache::get(self::TOKEN_PREFIX . $token);
+
             return $data ?: null;
         }
 
@@ -519,6 +520,7 @@ class DisplayController extends Controller
             if ($classId) {
                 return ['class_id' => $classId];
             }
+
             return null;
         }
 
