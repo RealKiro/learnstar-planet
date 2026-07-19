@@ -1040,10 +1040,11 @@ class TeacherController extends Controller
 
         // 记录挑战到缓存（7天有效期）
         $challengeKey = 'pk_challenge:' . $myClassId . ':' . $targetClassId;
+        $challengerClass = \App\Models\ClassRoom::find($myClassId);
         \Illuminate\Support\Facades\Cache::put($challengeKey, [
             'challenger_class_id' => $myClassId,
             'target_class_id' => $targetClassId,
-            'challenger_name' => \App\Models\ClassRoom::find($myClassId)?->name ?? '未知',
+            'challenger_name' => ($challengerClass ? $challengerClass->name : '未知'),
             'target_name' => $targetClass->name,
             'challenged_at' => now()->toDateTimeString(),
             'expires_at' => now()->addDays(7)->toDateTimeString(),

@@ -45,11 +45,15 @@ async function goToDisplay() {
   if (!code) { codeError.value = '请输入班级码'; return }
   loading.value = true; codeError.value = ''
   try {
-    const res = await apiPost<{ data: { token: string; class_info: { id: number; name: string } } }>(
-      '/api/v1/display/login', { code }
+    const res = await apiPost<{ data: { token: string; class_id: number; class_name: string; student_count: number } }>(
+      '/api/v1/auth/class/login', { class_code: code }
     )
     sessionStorage.setItem('display_token', res.data.token)
-    sessionStorage.setItem('display_class_info', JSON.stringify(res.data.class_info))
+    sessionStorage.setItem('display_class_info', JSON.stringify({
+      id: res.data.class_id,
+      name: res.data.class_name,
+      student_count: res.data.student_count,
+    }))
     router.replace({ name: 'display-screen' })
   } catch { codeError.value = '班级码无效，请检查后重试'; loading.value = false }
 }

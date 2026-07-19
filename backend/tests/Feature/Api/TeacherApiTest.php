@@ -19,7 +19,7 @@ class TeacherApiTest extends TestCase
     /** @test */
     public function teacher_login_endpoint_exists(): void
     {
-        $response = $this->postJson('/api/auth/teacher/login', []);
+        $response = $this->postJson('/api/v1/auth/teacher/login', []);
 
         // 422 = validation error (endpoint exists, input invalid)
         // 404 = endpoint doesn't exist
@@ -29,7 +29,7 @@ class TeacherApiTest extends TestCase
     /** @test */
     public function teacher_login_with_invalid_credentials_returns_error(): void
     {
-        $response = $this->postJson('/api/auth/teacher/login', [
+        $response = $this->postJson('/api/v1/auth/teacher/login', [
             'username' => 'nonexistent_user',
             'password' => 'wrong_password',
         ]);
@@ -46,7 +46,7 @@ class TeacherApiTest extends TestCase
         $endpoints = [
             ['GET', '/api/v1/teacher/students'],
             ['GET', '/api/v1/teacher/leaderboard/total'],
-            ['GET', '/api/v1/teacher/pets/class-overview'],
+            ['GET', '/api/v1/teacher/pets/overview'],
         ];
 
         foreach ($endpoints as [$method, $uri]) {
