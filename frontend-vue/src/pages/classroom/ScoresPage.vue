@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { getSpeciesEmoji } from '@/utils/petData'
+import { getSpeciesEmoji, getSpeciesBySeries, PET_SERIES, getSeriesName } from '@/utils/petData'
+import { useToastStore } from '@/stores/toast'
+
+const toast = useToastStore()
 
 interface StudentEntry {
   id: number; name: string; student_no: string; total_score: number
@@ -15,10 +18,46 @@ const searchQuery = ref('')
 const showModal = ref(false)
 const modalStudent = ref<StudentEntry | null>(null)
 const modalType = ref<'add' | 'sub'>('add')
+const stepValues = ref<Record<number, number>>({})
+const editingStep = ref<number | null>(null)
+const editInput = ref('1')
 const reasonsAdd = ['📖 举手发言', '✅ 作业优秀', '🤝 帮助同学', '🧹 遵守纪律', '🏆 挑战难题']
 const reasonsSub = ['⚠️ 上课走神', '📕 作业缺交', '🗣️ 打扰课堂', '🏃 追逐打闹']
 const floatTexts = ref<Array<{ id: number; x: number; y: number; text: string; color: string }>>([])
 let floatId = 0
+
+// 宠物切换
+const showPetPicker = ref(false)
+const petPickerStudent = ref<StudentEntry | null>(null)
+const switchingPet = ref(false)
+const allSeriesList = PET_SERIES
+
+function openPetPicker(s: StudentEntry) {
+  petPickerStudent.value = s
+  showPetPicker.value = true
+}
+
+async function switchPet(speciesId: string) {
+  const s = petPickerStudent.value
+  if (!s || switchingPet.value) return
+  switchingPet.value = true
+  try {
+    const res = await apiPost<{ data: { pet_emoji: string; total_score: number; cost: number } }>(
+      '/api/v1/display/pets/switch', { token: token.value, student_id: s.id, pet_species: speciesId }
+    )
+    s.pet_species = speciesId
+    s.pet_emoji = res.data.pet_emoji
+    s.total_score = res.data.total_score
+    toast.show(res.data.cost > 0 ? `已切换，扣除${res.data.cost}积分` : '🎉 首次切换免费！', 'success')
+    showPetPicker.value = false
+  } catch (e: any) {
+    toast.show(e?.response?.data?.message || '切换失败', 'error')
+  } finally {
+    switchingPet.value = false
+  }
+}
+
+function getStep(sid: number) { return stepValues.value[sid] || 1 }
 
 const filtered = computed(() => {
   if (!searchQuery.value) return students.value
@@ -29,9 +68,21 @@ function openModal(s: StudentEntry, type: 'add' | 'sub') {
   modalStudent.value = s; modalType.value = type; showModal.value = true
 }
 
+function startEdit(sid: number) {
+  editingStep.value = sid
+  editInput.value = String(getStep(sid))
+}
+
+function saveEdit(sid: number) {
+  const val = parseInt(editInput.value)
+  if (val >= 1 && val <= 100) stepValues.value[sid] = val
+  editingStep.value = null
+}
+
 async function executeAction(reason: string) {
   const s = modalStudent.value; if (!s) return
-  const points = modalType.value === 'add' ? 1 : -1
+  const step = getStep(s.id)
+  const points = modalType.value === 'add' ? step : -step
   try {
     await apiPost('/api/v1/display/scores/give', { token: token.value, student_id: s.id, points, reason })
     s.total_score = Math.max(0, s.total_score + points)
@@ -52,7 +103,10 @@ onMounted(async () => {
   if (!token.value) return
   try {
     const res = await apiGet<{ data: StudentEntry[] }>('/api/v1/display/students', { params: { token: token.value } })
-    students.value = res.data || []
+    students.value = (res.data || []).map(s => ({
+      ...s,
+      pet_emoji: s.pet_species ? getSpeciesEmoji(s.pet_species) : '🥚',
+    }))
   } catch { /* ignore */ } finally { loading.value = false }
 })
 </script>
@@ -61,7 +115,7 @@ onMounted(async () => {
   <div>
     <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:20px;">
       <h2 style="font-size:24px;font-weight:700;margin:0;">✏️ 课堂评价</h2>
-      <span style="font-size:13px;color:var(--md-text-secondary);">点击 +/− 选择行为原因</span>
+      <span style="font-size:13px;color:var(--md-text-secondary);">点击数字修改步长</span>
     </div>
 
     <div v-if="loading" style="text-align:center;padding:60px;color:var(--md-text-secondary);">加载中...</div>
@@ -85,18 +139,26 @@ onMounted(async () => {
             <span style="font-size:16px;font-weight:700;">{{ s.name }}</span>
             <span style="font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:rgba(255,215,0,0.12);color:var(--md-gold);">Lv.{{ s.pet_level }}</span>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
-            <span style="font-size:20px;">{{ s.pet_species ? getSpeciesEmoji(s.pet_species) : '🥚' }}</span>
-            <span style="font-size:13px;color:var(--md-text-secondary);">{{ s.pet_name || '未孵化' }}</span>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;" @click="openPetPicker(s)" title="点击切换宠物">
+            <span style="font-size:28px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.15)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">{{ s.pet_emoji }}</span>
+            <span style="font-size:13px;color:var(--md-text-secondary);border-bottom:1px dashed rgba(255,255,255,0.15);">{{ s.pet_name || '未孵化' }}</span>
+            <span style="font-size:10px;color:rgba(167,139,250,0.4);margin-left:auto;">换宠</span>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--md-text-secondary);margin-bottom:6px;">
             <span>⭐ 积分</span>
             <span style="font-size:18px;font-weight:800;color:var(--md-text);">{{ s.total_score }}</span>
           </div>
-          <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);">
+          <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);">
             <button @click="openModal(s, 'sub')"
               style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.04);color:#fca5a5;font-size:20px;font-weight:700;cursor:pointer;transition:0.15s;">−</button>
-            <span style="font-size:18px;font-weight:700;min-width:28px;text-align:center;">1</span>
+            <!-- 可编辑步长 -->
+            <input v-if="editingStep === s.id" v-model="editInput" type="number" min="1" max="100"
+              @blur="saveEdit(s.id)" @keydown.enter="saveEdit(s.id)" autofocus
+              style="width:40px;text-align:center;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;color:#fff;font-size:16px;font-weight:700;outline:none;font-family:inherit;">
+            <span v-else @click="startEdit(s.id)"
+              style="font-size:18px;font-weight:700;min-width:32px;text-align:center;cursor:pointer;padding:2px 4px;border-radius:8px;transition:background 0.15s;user-select:none;"
+              @mouseenter="(e) => (e.target as HTMLElement).style.background='rgba(255,255,255,0.06)'"
+              @mouseleave="(e) => (e.target as HTMLElement).style.background=''">{{ getStep(s.id) }}</span>
             <button @click="openModal(s, 'add')"
               style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(16,185,129,0.2);background:rgba(16,185,129,0.04);color:#6ee7b7;font-size:20px;font-weight:700;cursor:pointer;transition:0.15s;">+</button>
           </div>
@@ -111,7 +173,7 @@ onMounted(async () => {
           style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:300;">
           <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:28px 32px;max-width:420px;width:90%;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
             <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">{{ modalType === 'add' ? '🌟 选择加分行为' : '⚠️ 选择减分原因' }}</h3>
-            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:20px;">为 <strong style="color:#fff;">{{ modalStudent.name }}</strong> 选择原因（每次1分）</p>
+            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:20px;">为 <strong style="color:#fff;">{{ modalStudent.name }}</strong> 选择原因（每次<strong style="color:var(--md-gold);">{{ getStep(modalStudent.id) }}</strong>分）</p>
             <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
               <button v-for="r in (modalType === 'add' ? reasonsAdd : reasonsSub)" :key="r" @click="executeAction(r)"
                 style="padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);color:#fff;font-size:15px;text-align:left;cursor:pointer;transition:0.15s;font-family:inherit;">
@@ -124,11 +186,39 @@ onMounted(async () => {
         </div>
       </Transition>
 
-      <!-- Floating score text -->
       <div v-for="f in floatTexts" :key="f.id"
         style="position:fixed;pointer-events:none;font-size:24px;font-weight:800;z-index:999;animation:floatUp 1.2s ease-out forwards;"
         :style="{ left: f.x + 'px', top: f.y + 'px', color: f.color }">{{ f.text }}</div>
     </Teleport>
+
+      <!-- 宠物选择器 -->
+      <Transition name="fade">
+        <div v-if="showPetPicker && petPickerStudent" @click.self="showPetPicker = false"
+          style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:300;">
+          <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:24px 28px;max-width:480px;width:90%;max-height:75vh;overflow-y:auto;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+              <span style="font-size:28px;">{{ petPickerStudent.pet_emoji }}</span>
+              <div>
+                <div style="font-size:16px;font-weight:700;">{{ petPickerStudent.name }} · 选择宠物</div>
+                <div style="font-size:12px;color:var(--md-text-secondary);">首次免费，后续切换扣20积分 · 保留当前等级</div>
+              </div>
+              <button @click="showPetPicker = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;">✕</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;">
+              <button v-for="series in allSeriesList" :key="series.id" @click="switchPet(series.species[0]?.id)"
+                :disabled="switchingPet"
+                style="padding:10px 6px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;transition:0.15s;font-family:inherit;"
+                :style="petPickerStudent.pet_species === series.species[0]?.id ? 'border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08);' : ''"
+                @mouseenter="(e)=>(e.target as HTMLElement).style.background='rgba(255,255,255,0.06)'"
+                @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent.pet_species === series.species[0]?.id ? 'rgba(167,139,250,0.08)' : 'rgba(255,255,255,0.02)'">
+                <div style="font-size:24px;margin-bottom:4px;">{{ series.emoji }}</div>
+                <div style="font-size:11px;font-weight:600;color:var(--md-text);">{{ series.species[0]?.name || series.name }}</div>
+              </button>
+            </div>
+            <button @click="showPetPicker = false" style="width:100%;margin-top:14px;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">取消</button>
+          </div>
+        </div>
+      </Transition>
 
     <style>
       @keyframes popIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }

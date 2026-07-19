@@ -81,7 +81,7 @@ onUnmounted(() => clearInterval(timer))
         <label style="font-size:13px;color:var(--md-text-secondary);">🏷️ 系列</label>
         <select v-model="currentSeries"
           style="padding:8px 14px;border-radius:var(--md-radius);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:#fff;font-size:14px;font-weight:500;outline:none;cursor:pointer;font-family:inherit;">
-          <option v-for="s in allSeries" :key="s.id" :value="s.id">{{ s.emoji }} {{ s.name }}</option>
+          <option v-for="s in allSeries" :key="s.id" :value="s.id" style="background:#1a1a2e;color:#f1f1f1;">{{ s.emoji }} {{ s.name }}</option>
         </select>
         <button @click="switchSeries" :disabled="switching"
           style="padding:8px 18px;border-radius:30px;border:none;background:rgba(167,139,250,0.15);color:var(--md-primary-light);font-size:13px;font-weight:600;cursor:pointer;transition:0.15s;font-family:inherit;">

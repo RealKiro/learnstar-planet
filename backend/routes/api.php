@@ -280,6 +280,7 @@ Route::prefix('v1')->group(function () {
         Route::post('scores/give', [DisplayController::class, 'classroomGiveScore']);
         Route::get('pets/overview', [DisplayController::class, 'classroomPetsOverview']);
         Route::post('switch-series', [DisplayController::class, 'classroomSwitchSeries']);
+        Route::post('pets/switch', [DisplayController::class, 'classroomSwitchPet']);
     });
 
     // ===== 6. 公共接口 =====

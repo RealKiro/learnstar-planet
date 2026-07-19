@@ -960,6 +960,88 @@ class DisplayController extends Controller
         ]);
     }
 
+    /**
+     * 教室端 · 学生自行切换宠物（首次免费，后续扣20积分）
+     */
+    public function classroomSwitchPet(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+
+        $request->validate([
+            'student_id' => 'required|integer',
+            'pet_species' => 'required|string|max:50',
+        ]);
+
+        $classId = $classInfo['class_id'];
+        $student = Student::where('class_id', $classId)->findOrFail((int) $request->input('student_id'));
+        $newSpecies = $request->input('pet_species');
+
+        $pet = $student->pet;
+
+        if ($pet) {
+            // 检查是否首次切换
+            $switchCount = (int) Cache::get("pet_switch_count:{$pet->id}", 0);
+
+            if ($switchCount > 0) {
+                // 后续切换扣20积分
+                $cost = 20;
+                if ($student->total_score < $cost) {
+                    return response()->json(['message' => "积分不足，切换需要 {$cost} 积分"], 400);
+                }
+                $student->total_score -= $cost;
+                $student->save();
+            }
+
+            // 保留等级和经验，只换种类
+            $pet->type = $newSpecies;
+            $pet->save();
+
+            Cache::put("pet_switch_count:{$pet->id}", $switchCount + 1, now()->addYears(1));
+
+            $stage = $pet->currentStage();
+
+            return response()->json([
+                'message' => $switchCount === 0 ? '✅ 首次切换免费！' : "✅ 已切换，扣除 {$cost} 积分",
+                'data' => [
+                    'pet_emoji' => $stage['emoji'] ?? '🐾',
+                    'pet_name' => $pet->name,
+                    'pet_species' => $newSpecies,
+                    'total_score' => $student->fresh()->total_score,
+                    'switch_count' => $switchCount + 1,
+                    'cost' => $switchCount > 0 ? $cost : 0,
+                ],
+            ]);
+        }
+
+        // 无宠物：创建新宠物
+        $pet = Pet::create([
+            'student_id' => $student->id,
+            'class_id' => $classId,
+            'name' => $student->name . '的伙伴',
+            'type' => $newSpecies,
+            'level' => 0,
+            'experience' => 0,
+            'mood' => 80,
+        ]);
+
+        $stage = $pet->currentStage();
+
+        return response()->json([
+            'message' => '🎉 新宠物已诞生！',
+            'data' => [
+                'pet_emoji' => $stage['emoji'] ?? '🐾',
+                'pet_name' => $pet->name,
+                'pet_species' => $newSpecies,
+                'total_score' => $student->total_score,
+                'switch_count' => 0,
+                'cost' => 0,
+            ],
+        ]);
+    }
+
     // ============================================================
     // 辅助
     // ============================================================
