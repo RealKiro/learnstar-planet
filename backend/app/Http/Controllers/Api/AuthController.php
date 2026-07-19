@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClassRoom;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -119,6 +121,37 @@ class AuthController extends Controller
                     'role' => $user->role,
                     'school_id' => $user->school_id,
                 ],
+            ],
+        ]);
+    }
+
+    /**
+     * 班级码登录（学生端/班级大屏统一入口）
+     */
+    public function classLogin(Request $request): JsonResponse
+    {
+        $request->validate([
+            'class_code' => 'required|string|max:20',
+        ]);
+
+        $classCode = $request->input('class_code');
+        $class = ClassRoom::where('display_code', $classCode)->first();
+
+        if (!$class) {
+            return response()->json(['message' => '班级码无效，请核对后重试'], 401);
+        }
+
+        $token = 'class_' . $classCode . '_' . Str::random(32);
+
+        \Illuminate\Support\Facades\Cache::put('class_token:' . $token, $class->id, now()->addHours(24));
+
+        return response()->json([
+            'data' => [
+                'token' => $token,
+                'class_id' => $class->id,
+                'class_name' => $class->name,
+                'grade' => $class->grade,
+                'student_count' => $class->students()->where('status', 'active')->count(),
             ],
         ]);
     }

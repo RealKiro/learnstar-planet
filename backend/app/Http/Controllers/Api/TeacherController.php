@@ -885,6 +885,235 @@ class TeacherController extends Controller
     }
 
     // ============================================================
+    // 年级战场 (PK)
+    // ============================================================
+
+    /**
+     * 获取同年级各班 PK 排行榜
+     */
+    public function pkLeaderboard(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
+
+        if ($classIds->isEmpty()) {
+            return response()->json(['data' => []]);
+        }
+
+        // 获取当前教师的班级
+        $myClass = \App\Models\ClassRoom::find($classIds->first());
+        if (!$myClass) {
+            return response()->json(['data' => []]);
+        }
+
+        // 查找同年级的所有班级
+        $gradeClasses = \App\Models\ClassRoom::where('grade', $myClass->grade)
+            ->where('status', 'active')
+            ->get();
+
+        // 获取所有班级的学生数据和宠物数据
+        $pkData = $gradeClasses->map(function ($class) use ($myClass) {
+            $students = \App\Models\Student::where('class_id', $class->id)
+                ->where('status', 'active')
+                ->with('pet')
+                ->get();
+
+            $totalScore = $students->sum('total_score');
+            $count = $students->count();
+            $avgLevel = $count > 0 ? $students->avg(function ($s) {
+                return $s->pet ? $s->pet->level : 0;
+            }) : 0;
+            $peakCount = $students->filter(function ($s) {
+                return $s->pet && $s->pet->level >= 8;
+            })->count();
+
+            // 本周增长
+            $weekStart = now()->startOfWeek();
+            $weeklyScore = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
+                ->where('created_at', '>=', $weekStart)
+                ->sum('amount');
+
+            return [
+                'name' => $class->name,
+                'totalScore' => (int) $totalScore,
+                'studentCount' => $count,
+                'avgLevel' => round($avgLevel, 1),
+                'peakCount' => $peakCount,
+                'weekGrowth' => (int) $weeklyScore,
+                'isOwn' => $class->id === $myClass->id,
+            ];
+        })->sortByDesc('totalScore')->values();
+
+        return response()->json(['data' => $pkData]);
+    }
+
+    /**
+     * 获取本班 PK 统计数据
+     */
+    public function myPkStats(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
+
+        if ($classIds->isEmpty()) {
+            return response()->json(['data' => [
+                'totalScore' => 0, 'avgLevel' => 0, 'peakCount' => 0, 'weekGrowth' => 0, 'rank' => 0,
+            ]]);
+        }
+
+        $classId = $classIds->first();
+        $students = \App\Models\Student::where('class_id', $classId)
+            ->where('status', 'active')
+            ->with('pet')
+            ->get();
+
+        $totalScore = $students->sum('total_score');
+        $count = $students->count();
+        $avgLevel = $count > 0 ? $students->avg(function ($s) {
+            return $s->pet ? $s->pet->level : 0;
+        }) : 0;
+        $peakCount = $students->filter(function ($s) {
+            return $s->pet && $s->pet->level >= 8;
+        })->count();
+
+        $weekStart = now()->startOfWeek();
+        $weeklyScore = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
+            ->where('created_at', '>=', $weekStart)
+            ->sum('amount');
+
+        // 计算排名（同年级内）
+        $myClass = \App\Models\ClassRoom::find($classId);
+        $rank = 0;
+        if ($myClass) {
+            $allClasses = \App\Models\ClassRoom::where('grade', $myClass->grade)
+                ->where('status', 'active')
+                ->get();
+
+            $classScores = [];
+            foreach ($allClasses as $c) {
+                $cStudents = \App\Models\Student::where('class_id', $c->id)
+                    ->where('status', 'active')->get();
+                $classScores[$c->id] = $cStudents->sum('total_score');
+            }
+            arsort($classScores);
+            $rank = array_search($classId, array_keys($classScores), true);
+            if ($rank !== false) $rank++;
+        }
+
+        return response()->json(['data' => [
+            'totalScore' => (int) $totalScore,
+            'avgLevel' => round($avgLevel, 1),
+            'peakCount' => $peakCount,
+            'weekGrowth' => (int) $weeklyScore,
+            'rank' => $rank,
+        ]]);
+    }
+
+    /**
+     * 发起 PK 挑战（记录挑战事件）
+     */
+    public function challengePk(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
+
+        $request->validate([
+            'target_class_id' => 'required|integer',
+        ]);
+
+        $targetClassId = (int) $request->input('target_class_id');
+        $myClassId = $classIds->first();
+
+        if (!$myClassId || $myClassId === $targetClassId) {
+            return response()->json(['message' => '无效的挑战目标'], 400);
+        }
+
+        $targetClass = \App\Models\ClassRoom::find($targetClassId);
+        if (!$targetClass) {
+            return response()->json(['message' => '目标班级不存在'], 404);
+        }
+
+        // 记录挑战到缓存（7天有效期）
+        $challengeKey = 'pk_challenge:' . $myClassId . ':' . $targetClassId;
+        \Illuminate\Support\Facades\Cache::put($challengeKey, [
+            'challenger_class_id' => $myClassId,
+            'target_class_id' => $targetClassId,
+            'challenger_name' => \App\Models\ClassRoom::find($myClassId)?->name ?? '未知',
+            'target_name' => $targetClass->name,
+            'challenged_at' => now()->toDateTimeString(),
+            'expires_at' => now()->addDays(7)->toDateTimeString(),
+            'status' => 'active',
+        ], now()->addDays(7));
+
+        return response()->json([
+            'message' => '🚀 挑战已发起！',
+            'data' => [
+                'target_class' => $targetClass->name,
+                'expires_at' => now()->addDays(7)->toDateTimeString(),
+            ],
+        ]);
+    }
+
+    /**
+     * 切换班级宠物系列
+     */
+    public function switchSeries(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
+
+        $request->validate([
+            'series_id' => 'required|string|max:50',
+        ]);
+
+        $seriesId = $request->input('series_id');
+        $validSeries = ['myth', 'pokemon', 'national', 'mecha', 'magic', 'prehistoric', 'constellation', 'folklore'];
+
+        if (!in_array($seriesId, $validSeries, true)) {
+            return response()->json(['message' => '无效的系列ID，可选值：' . implode(', ', $validSeries)], 422);
+        }
+
+        if ($classIds->isEmpty()) {
+            return response()->json(['message' => '没有可管理的班级'], 400);
+        }
+
+        $classId = $classIds->first();
+        $class = \App\Models\ClassRoom::findOrFail($classId);
+        $settings = $class->settings ?? [];
+        $settings['pet_series'] = $seriesId;
+        $class->settings = $settings;
+        $class->save();
+
+        // 刷新所有学生的宠物为新的系列（保留等级和经验）
+        $students = \App\Models\Student::where('class_id', $classId)
+            ->where('status', 'active')
+            ->with('pet')
+            ->get();
+
+        $updatedCount = 0;
+        foreach ($students as $student) {
+            if ($student->pet) {
+                $student->pet->type = $seriesId . '_' . $student->pet->type;
+                $student->pet->save();
+                $updatedCount++;
+            }
+        }
+
+        return response()->json([
+            'message' => "已切换系列为「{$seriesId}」，已更新 {$updatedCount} 只宠物",
+            'data' => [
+                'series_id' => $seriesId,
+                'class_id' => $classId,
+                'updated_pets' => $updatedCount,
+            ],
+        ]);
+    }
+
+    // ============================================================
     // Pet Switching & Auto-Assignment
     // ============================================================
 

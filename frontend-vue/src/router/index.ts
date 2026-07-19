@@ -13,7 +13,7 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('@/pages/auth/LoginPage.vue'),
-      props: (route) => ({ initialRole: route.query.role || 'teacher' }),
+      props: (route) => ({ initialRole: route.query.role || 'teacher', mode: route.query.mode || 'account' }),
     },
     {
       path: '/teacher',
@@ -77,7 +77,11 @@ const router = createRouter({
     {
       path: '/display',
       children: [
-        { path: '', name: 'display-login', component: () => import('@/pages/display/LoginPage.vue') },
+        // /display/login 重定向到统一 /login 入口
+        { path: 'login', redirect: '/login?mode=code' },
+        // /display/code 同样重定向
+        { path: 'code', redirect: '/login?mode=code' },
+        // 大屏显示页保持不变
         { path: 'screen', name: 'display-screen', component: () => import('@/pages/display/ScreenPage.vue') },
       ],
     },

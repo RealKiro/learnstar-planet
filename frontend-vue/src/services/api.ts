@@ -35,9 +35,9 @@ export const authApi = {
   login: (data: LoginRequest) =>
     apiPost<ApiResponse<LoginResponse>>('/api/v1/auth/teacher/login', data),
 
-  /** 班级码登录（班级大屏/演示用） */
+  /** 班级码登录（学生端/班级大屏统一入口） */
   classLogin: (classCode: string) =>
-    apiPost<ApiResponse<{ token: string; class_name: string; grade: string }>>('/api/v1/auth/class/login', { class_code: classCode }),
+    apiPost<ApiResponse<{ token: string; class_id: number; class_name: string; grade: string; student_count: number }>>('/api/v1/auth/class/login', { class_code: classCode }),
 
   logout: () => apiPost('/api/v1/auth/logout'),
   changePassword: (data: { old_password: string; new_password: string }) =>
@@ -200,7 +200,7 @@ export const pkApi = {
 
   /** 发起PK挑战 */
   challenge: (targetClassId: number) =>
-    apiPost('/api/v1/teacher/pk/challenge', { target_class_id: targetClassId }),
+    apiPost<ApiResponse<{ target_class: string; expires_at: string }>>('/api/v1/teacher/pk/challenge', { target_class_id: targetClassId }),
 }
 
 // ============================================================

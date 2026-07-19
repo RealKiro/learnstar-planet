@@ -7,19 +7,22 @@ import { useToastStore } from '@/stores/toast'
 import { apiPost } from '@/utils/api'
 import type { ApiResponse, User } from '@/types'
 
-const props = withDefaults(defineProps<{ initialRole?: string }>(), { initialRole: 'teacher' })
+const props = withDefaults(defineProps<{ initialRole?: string; mode?: string }>(), { initialRole: 'teacher', mode: 'account' })
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const toast = useToastStore()
 
-const loginType = ref<'teacher' | 'admin' | 'parent'>((props.initialRole as 'teacher' | 'admin' | 'parent') || 'teacher')
+const loginType = ref<'teacher' | 'admin' | 'parent' | 'class'>((props.mode === 'code' ? 'class' : props.initialRole) as 'teacher' | 'admin' | 'parent' | 'class')
 const teacherUsername = ref('')
 const teacherPassword = ref('')
 const adminUsername = ref('')
 const adminPassword = ref('')
 const parentUsername = ref('')
 const parentPassword = ref('')
+const classCode = ref('')
+const classCodeError = ref('')
+const classInfo = ref<{ class_name: string; student_count: number } | null>(null)
 const loading = ref(false)
 
 const teacherPwdRef = ref<HTMLInputElement>()
@@ -76,6 +79,29 @@ async function handleParentLogin() {
     toast.show('登录成功', 'success')
     router.replace({ name: 'parent-home' })
   } catch { /* handled */ } finally { loading.value = false }
+}
+
+async function handleClassLogin() {
+  if (!classCode.value.trim()) { toast.show('请输入班级码', 'error'); return }
+  loading.value = true
+  classCodeError.value = ''
+  try {
+    const res = await apiPost<ApiResponse<{ token: string; class_id: number; class_name: string; grade: string; student_count: number }>>('/api/v1/auth/class/login', {
+      class_code: classCode.value.trim(),
+    })
+    sessionStorage.setItem('display_token', res.data.token)
+    sessionStorage.setItem('display_class_info', JSON.stringify({
+      id: res.data.class_id,
+      name: res.data.class_name,
+      grade: res.data.grade,
+      student_count: res.data.student_count,
+    }))
+    classInfo.value = { class_name: res.data.class_name, student_count: res.data.student_count }
+    toast.show(`欢迎进入 ${res.data.class_name}`, 'success')
+    setTimeout(() => router.push({ name: 'display-screen' }), 1500)
+  } catch (e: any) {
+    classCodeError.value = e?.response?.data?.message || '班级码无效，请核对后重试'
+  } finally { loading.value = false }
 }
 
 const platforms = [
@@ -181,10 +207,10 @@ function goToSlide(i: number) {
         </div>
         <div class="login-tabs">
           <button
-            v-for="t in (['teacher', 'admin', 'parent'] as const)" :key="t"
+            v-for="t in (['teacher', 'admin', 'parent', 'class'] as const)" :key="t"
             :class="['login-tab', { 'login-tab--active': loginType === t }]"
             @click="loginType = t"
-          >{{ t === 'teacher' ? '教师' : t === 'admin' ? '管理员' : '家长' }}</button>
+          >{{ t === 'teacher' ? '教师' : t === 'admin' ? '管理员' : t === 'parent' ? '家长' : '🔑 班级码' }}</button>
         </div>
 
         <div v-if="loginType === 'teacher'" class="login-form">
@@ -230,6 +256,34 @@ function goToSlide(i: number) {
             <input ref="parentPwdRef" v-model="parentPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleParentLogin">
           </div>
           <button class="login-submit login-submit--green" :disabled="loading" @click="handleParentLogin">{{ loading ? '登录中...' : '登录' }}</button>
+        </div>
+
+        <!-- 班级码登录（学生端/大屏入口） -->
+        <div v-if="loginType === 'class'" class="login-form">
+          <div v-if="classInfo" class="class-login-success">
+            <div class="success-icon">✅</div>
+            <h3>欢迎进入 {{ classInfo.class_name }}！</h3>
+            <p>{{ classInfo.student_count }} 位同学</p>
+            <p class="success-hint">即将进入班级大屏...</p>
+          </div>
+          <template v-else>
+            <div class="form-group">
+              <label>班级码</label>
+              <input
+                v-model="classCode"
+                class="form-input"
+                placeholder="请向班主任获取班级码"
+                maxlength="12"
+                autocomplete="off"
+                @keydown.enter="handleClassLogin"
+              />
+            </div>
+            <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 LS301</p>
+            <div v-if="classCodeError" class="error-msg" style="color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px;">{{ classCodeError }}</div>
+            <button class="login-submit login-submit--purple" :disabled="loading || classCode.length < 3" @click="handleClassLogin">
+              {{ loading ? '⏳ 验证中...' : '🚀 进入班级' }}
+            </button>
+          </template>
         </div>
       </div>
     </div>

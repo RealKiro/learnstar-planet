@@ -37,6 +37,9 @@ Route::prefix('v1')->group(function () {
         // 家长账号密码登录
         Route::post('parent/login', [AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
 
+        // 班级码登录（学生端/大屏通用，无速率硬限制）
+        Route::post('class/login', [AuthController::class, 'classLogin'])->middleware('throttle:10,1');
+
         // 第三方扫码登录（仅教师可用）
         Route::post('teacher/login/wechat', [AuthController::class, 'teacherLoginWithWechat']);
         Route::post('teacher/login/wechat-work', [AuthController::class, 'teacherLoginWithWechatWork']);
@@ -150,6 +153,18 @@ Route::prefix('v1')->group(function () {
             Route::get('total', [TeacherController::class, 'totalLeaderboard']);
             Route::get('weekly', [TeacherController::class, 'weeklyLeaderboard']);
             Route::get('pet-level', [TeacherController::class, 'petLevelLeaderboard']);
+            Route::get('pk', [TeacherController::class, 'pkLeaderboard']);
+            Route::get('my-stats', [TeacherController::class, 'myPkStats']);
+        });
+
+        // ===== 年级战场 =====
+        Route::prefix('pk')->group(function () {
+            Route::post('challenge', [TeacherController::class, 'challengePk']);
+        });
+
+        // ===== 班级配置 =====
+        Route::prefix('class')->group(function () {
+            Route::post('switch-series', [TeacherController::class, 'switchSeries']);
         });
 
         // ===== 积分商城 =====
