@@ -925,7 +925,7 @@ class DisplayController extends Controller
                 ->where('status', 'active')->with('pet')->get();
             $totalScore = $students->sum('total_score');
             $count = $students->count();
-            $avgLevel = $count > 0 ? $students->avg(fn ($s) => $s->pet?->level ?? 0) : 0;
+            $avgLevel = $count > 0 ? $students->avg(fn ($s) => $s->pet->level ?? 0) : 0;
             $peakCount = $students->filter(fn ($s) => $s->pet && $s->pet->level >= 8)->count();
             $weekStart = now()->startOfWeek();
             $weeklyScore = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
