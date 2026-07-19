@@ -29,7 +29,7 @@ onMounted(() => {
   <div class="app-shell">
     <nav class="sidebar">
       <div class="logo">
-        <div class="brand"><span>🐾</span> 宠物星球</div>
+        <div class="brand"><span>🌌</span> 学趣星球</div>
       </div>
 
       <div class="class-badge" v-if="classInfo">

@@ -279,6 +279,7 @@ Route::prefix('v1')->group(function () {
         Route::get('students', [DisplayController::class, 'classroomStudents']);
         Route::post('scores/give', [DisplayController::class, 'classroomGiveScore']);
         Route::get('pets/overview', [DisplayController::class, 'classroomPetsOverview']);
+        Route::post('switch-series', [DisplayController::class, 'classroomSwitchSeries']);
     });
 
     // ===== 6. 公共接口 =====

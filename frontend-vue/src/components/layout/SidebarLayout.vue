@@ -35,7 +35,7 @@ function goHome() {
     <nav class="sidebar">
       <div class="logo">
         <div class="brand">
-          <span>🐾</span> 宠物星球
+          <span>🌌</span> 学趣星球
         </div>
       </div>
 

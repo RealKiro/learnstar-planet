@@ -897,6 +897,68 @@ class DisplayController extends Controller
         return response()->json(['data' => $pets]);
     }
 
+    /**
+     * 教室端 · 切换宠物系列（每人扣除20积分）
+     */
+    public function classroomSwitchSeries(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+
+        $request->validate(['series_id' => 'required|string|max:50']);
+        $seriesId = $request->input('series_id');
+        $validSeries = ['myth', 'pokemon', 'national', 'mecha', 'magic', 'prehistoric', 'constellation', 'folklore'];
+
+        if (!in_array($seriesId, $validSeries, true)) {
+            return response()->json(['message' => '无效的系列ID'], 422);
+        }
+
+        $classId = $classInfo['class_id'];
+        $class = ClassRoom::findOrFail($classId);
+
+        // 计算扣除总额：每人20积分
+        $costPerStudent = 20;
+        $students = Student::where('class_id', $classId)->where('status', 'active')->get();
+        $activeCount = $students->count();
+
+        if ($activeCount === 0) {
+            return response()->json(['message' => '班级没有活跃学生'], 400);
+        }
+
+        // 检查每个学生积分是否足够
+        $insufficient = $students->filter(fn ($s) => $s->total_score < $costPerStudent);
+        if ($insufficient->isNotEmpty()) {
+            $names = $insufficient->take(3)->pluck('name')->implode('、');
+            $more = $insufficient->count() > 3 ? '等' . $insufficient->count() . '人' : '';
+            return response()->json([
+                'message' => "积分不足：{$names}{$more} 每人需要 {$costPerStudent} 积分",
+            ], 400);
+        }
+
+        // 扣除每个学生20积分
+        foreach ($students as $student) {
+            $student->total_score -= $costPerStudent;
+            $student->save();
+        }
+
+        // 更新班级配置
+        $settings = $class->settings ?? [];
+        $settings['pet_series'] = $seriesId;
+        $class->settings = $settings;
+        $class->save();
+
+        return response()->json([
+            'message' => "已切换至「{$seriesId}」系列，全班 {$activeCount} 人各扣除 {$costPerStudent} 积分",
+            'data' => [
+                'series_id' => $seriesId,
+                'cost_per_student' => $costPerStudent,
+                'affected_students' => $activeCount,
+            ],
+        ]);
+    }
+
     // ============================================================
     // 辅助
     // ============================================================

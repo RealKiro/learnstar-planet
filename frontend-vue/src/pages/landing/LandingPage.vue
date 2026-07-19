@@ -95,7 +95,7 @@ onUnmounted(() => clearInterval(slideTimer))
       <section class="right">
         <div class="panel">
           <div class="panel-icon">🐾</div>
-          <h2 class="panel-title">班级宠物星球</h2>
+          <h2 class="panel-title">学趣星球</h2>
           <p class="panel-desc">输入班级码，进入你的班级</p>
 
           <form class="panel-form" @submit.prevent="goToClassroom">
