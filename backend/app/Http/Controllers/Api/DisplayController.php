@@ -497,18 +497,32 @@ class DisplayController extends Controller
         $token = $request->input('token', '');
         if (empty($token)) {
             $bearer = $request->bearerToken();
-            if ($bearer && str_starts_with($bearer, 'disp_')) {
+            if ($bearer && (str_starts_with($bearer, 'disp_') || str_starts_with($bearer, 'class_'))) {
                 $token = $bearer;
             }
         }
 
-        if (empty($token) || !str_starts_with($token, 'disp_')) {
+        if (empty($token)) {
             return null;
         }
 
-        $data = Cache::get(self::TOKEN_PREFIX . $token);
+        // 兼容两种 token 格式：
+        // 1. disp_ 开头 → DisplayController 传统 token
+        // 2. class_ 开头 → AuthController::classLogin 统一 token
+        if (str_starts_with($token, 'disp_')) {
+            $data = Cache::get(self::TOKEN_PREFIX . $token);
+            return $data ?: null;
+        }
 
-        return $data ?: null;
+        if (str_starts_with($token, 'class_')) {
+            $classId = Cache::get('class_token:' . $token);
+            if ($classId) {
+                return ['class_id' => $classId];
+            }
+            return null;
+        }
+
+        return null;
     }
 
     /**
