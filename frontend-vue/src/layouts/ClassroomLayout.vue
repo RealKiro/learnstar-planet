@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { apiPost } from '@/utils/api'
+import { apiPost, apiGet } from '@/utils/api'
 import { getAllSeries, getSeriesName } from '@/utils/petData'
 
 const router = useRouter()
@@ -27,6 +27,82 @@ const allSeries = getAllSeries()
 function navigate(name: string) { router.push({ name }) }
 function goToLogin() { sessionStorage.clear(); router.push({ name: 'login', query: { mode: 'code' } }) }
 
+// ===== 广播/通知接收 =====
+const currentBroadcast = ref<{
+  id: number; type: string; content: string; display_seconds: number; created_at: string
+} | null>(null)
+
+const currentNotice = ref<{
+  id: number; title: string; content: string; type: string; published_at: string
+} | null>(null)
+
+const lastEventId = ref(0)
+let pollTimer: ReturnType<typeof setInterval> | null = null
+
+async function pollEvents() {
+  const token = sessionStorage.getItem('class_token')
+  if (!token) return
+
+  try {
+    const res = await apiGet<{ data: { events: Array<{ id: number; type: string; data: any }>; last_event_id: number } }>(
+      '/api/v1/display/poll',
+      { params: { token, last_event_id: lastEventId.value } }
+    )
+    const events = res.data?.events || []
+    if (events.length === 0) return
+
+    let maxId = lastEventId.value
+    for (const ev of events) {
+      if (ev.id > maxId) maxId = ev.id
+
+      if (ev.type === 'broadcast' && ev.data) {
+        showBroadcast(ev.data)
+      } else if (ev.type === 'notice' && ev.data) {
+        showNotice(ev.data)
+      }
+    }
+    lastEventId.value = maxId
+  } catch { /* polling fails silently */ }
+}
+
+function showBroadcast(data: any) {
+  currentBroadcast.value = {
+    id: data.id,
+    type: data.type || 'banner',
+    content: data.content || '',
+    display_seconds: data.display_seconds || 10,
+    created_at: data.created_at || '',
+  }
+  // 自动关闭
+  const sec = (data.display_seconds || 10) * 1000
+  if (sec > 0) {
+    setTimeout(() => {
+      if (currentBroadcast.value?.id === data.id) {
+        currentBroadcast.value = null
+      }
+    }, sec)
+  }
+}
+
+function showNotice(data: any) {
+  currentNotice.value = {
+    id: data.id,
+    title: data.title || '',
+    content: data.content || '',
+    type: data.type || 'info',
+    published_at: data.published_at || '',
+  }
+  // 通知停留 15 秒后自动关闭
+  setTimeout(() => {
+    if (currentNotice.value?.id === data.id) {
+      currentNotice.value = null
+    }
+  }, 15000)
+}
+
+function dismissBroadcast() { currentBroadcast.value = null }
+function dismissNotice() { currentNotice.value = null }
+
 async function confirmVote() {
   voting.value = true
   const token = sessionStorage.getItem('class_token') || ''
@@ -45,6 +121,20 @@ onMounted(() => {
   if (sessionStorage.getItem('class_series')) {
     showVoteModal.value = false
   }
+
+  // 启动事件轮询
+  lastEventId.value = parseInt(sessionStorage.getItem('last_event_id') || '0', 10)
+  pollTimer = setInterval(pollEvents, 5000)
+  // 立即轮询一次
+  pollEvents()
+})
+
+onUnmounted(() => {
+  if (pollTimer) {
+    clearInterval(pollTimer)
+    pollTimer = null
+  }
+  sessionStorage.setItem('last_event_id', String(lastEventId.value))
 })
 </script>
 
@@ -90,6 +180,63 @@ onMounted(() => {
               现在去为每位同学免费选择宠物吧！
             </p>
           </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- ===== 广播覆盖层 ===== -->
+
+    <!-- 全屏广播 -->
+    <Transition name="fade">
+      <div v-if="currentBroadcast && currentBroadcast.type === 'fullscreen'"
+        @click="dismissBroadcast"
+        style="position:fixed;inset:0;z-index:900;background:rgba(5,2,20,0.92);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:center;padding:40px;cursor:pointer;">
+        <div style="max-width:700px;text-align:center;">
+          <div style="font-size:64px;margin-bottom:20px;">📡</div>
+          <div style="font-size:32px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:12px;">{{ currentBroadcast.content }}</div>
+          <div style="font-size:14px;color:var(--md-text-secondary);">点击任意位置关闭</div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- 弹窗广播 -->
+    <Transition name="pop">
+      <div v-if="currentBroadcast && currentBroadcast.type === 'popup'"
+        @click.self="dismissBroadcast"
+        style="position:fixed;inset:0;z-index:900;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:var(--md-surface-2);border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:32px 28px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+          <div style="font-size:40px;margin-bottom:12px;text-align:center;">📢</div>
+          <div style="font-size:20px;font-weight:700;color:#fff;text-align:center;margin-bottom:16px;line-height:1.5;">{{ currentBroadcast.content }}</div>
+          <button @click="dismissBroadcast"
+            style="width:100%;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.05);color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">
+            我知道了
+          </button>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- 横幅广播 -->
+    <Transition name="slide-down">
+      <div v-if="currentBroadcast && currentBroadcast.type === 'banner'"
+        @click="dismissBroadcast"
+        style="position:fixed;top:0;left:0;right:0;z-index:900;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));padding:12px 24px;text-align:center;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+        <span style="color:#fff;font-size:16px;font-weight:600;">📢 {{ currentBroadcast.content }}</span>
+        <span style="color:rgba(255,255,255,0.5);font-size:12px;margin-left:12px;">点击关闭</span>
+      </div>
+    </Transition>
+
+    <!-- 通知提示 -->
+    <Transition name="slide-down">
+      <div v-if="currentNotice"
+        style="position:fixed;top:60px;right:20px;z-index:900;max-width:380px;background:var(--md-surface-2);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+        <div style="display:flex;align-items:flex-start;gap:12px;">
+          <span style="font-size:24px;">📋</span>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;">{{ currentNotice.title }}</div>
+            <div style="font-size:13px;color:var(--md-text-secondary);line-height:1.5;">{{ currentNotice.content }}</div>
+          </div>
+          <button @click="dismissNotice"
+            style="width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.3);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
         </div>
       </div>
     </Transition>
@@ -152,6 +299,20 @@ onMounted(() => {
 .exit-btn:hover { background: rgba(255,100,100,0.15); }
 
 .main-content { flex: 1; padding: 28px 32px 40px; max-width: calc(100% - var(--md-sidebar-width)); overflow-x: hidden; }
+
+/* 过渡动画 */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+.pop-enter-active { transition: all 0.25s ease-out; }
+.pop-leave-active { transition: all 0.15s ease-in; }
+.pop-enter-from { opacity: 0; transform: scale(0.9); }
+.pop-leave-to { opacity: 0; transform: scale(0.95); }
+
+.slide-down-enter-active { transition: all 0.3s ease-out; }
+.slide-down-leave-active { transition: all 0.2s ease-in; }
+.slide-down-enter-from { opacity: 0; transform: translateY(-100%); }
+.slide-down-leave-to { opacity: 0; transform: translateY(-100%); }
 
 @media (max-width: 768px) {
   .sidebar { width: 100%; height: auto; position: sticky; flex-direction: row; flex-wrap: wrap; padding: 12px 16px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Broadcast;
 use App\Models\ClassRoom;
 use App\Models\ClassRoomTeacher;
+use App\Models\DisplayLoginLog;
 use App\Models\Pet;
 use App\Models\Score;
 use App\Models\ShopItem;
@@ -179,8 +180,21 @@ class DisplayController extends Controller
             'class_id' => $classId,
             'class_name' => $classRoom->name,
             'grade' => $classRoom->grade,
+            'ip' => $request->ip(),
             'created_at' => now()->toIso8601String(),
         ], now()->addSeconds(self::TOKEN_TTL));
+
+        // 记录登录日志（含 IP 地址）
+        try {
+            DisplayLoginLog::create([
+                'class_id' => $classId,
+                'class_code' => $code,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+        } catch (\Throwable $e) {
+            logger()->warning('Failed to record display login log: ' . $e->getMessage());
+        }
 
         // 获取班级统计数据
         $studentCount = Student::where('class_id', $classId)

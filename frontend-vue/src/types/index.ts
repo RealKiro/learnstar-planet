@@ -111,7 +111,7 @@ export interface Notice {
   id: number
   title: string
   content: string
-  type: 'info' | 'homework' | 'event' | 'urgent'
+  type: 'info' | 'event' | 'urgent'
   is_published: boolean
   read_count?: number
   created_at: string
@@ -133,27 +133,6 @@ export interface Attendance {
   student_name: string
   status: 'present' | 'late' | 'leave' | 'absent'
   check_in_time?: string
-}
-
-export interface Homework {
-  id: number
-  title: string
-  deadline: string
-  submission_count: number
-  total_students: number
-  status: 'active' | 'closed'
-  qr_token?: string
-}
-
-export interface Quiz {
-  id: number
-  title: string
-  subject: string
-  question_count: number
-  time_limit?: number
-  is_active: boolean
-  submission_count: number
-  total_students: number
 }
 
 export interface GradeEntry {

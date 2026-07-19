@@ -12,10 +12,14 @@ const bcVoice = ref(true)
 const bcLoop = ref(false)
 const bcDuration = ref(10)
 
+// 目标班级选择
+const myClasses = ref<Array<{ class_id: number; class_name: string; grade: string }>>([])
+const selectedClassIds = ref<number[]>([])
+const selectAll = ref(true)
+
 const broadcasts = ref<Array<{ id: number; content: string; type: string; voice: boolean; created_at: string }>>([])
 
 const templates = [
-  { label: '📚 收作业提醒', text: '请同学们准备上交数学作业' },
   { label: '🤫 自习课开始', text: '请保持安静，自习课开始' },
   { label: '👁️ 眼保健操', text: '眼保健操时间到了，请同学们开始做操' },
   { label: '🔔 下课提醒', text: '下课时间到，请注意安全' },
@@ -25,24 +29,40 @@ const templates = [
 
 onMounted(async () => {
   try {
-    const res = await apiGet<ApiResponse<typeof broadcasts.value>>('/api/v1/teacher/broadcasts')
-    broadcasts.value = res.data || []
+    const [clsRes, bcRes] = await Promise.all([
+      apiGet<{ data: Array<{ class_id: number; class_name: string; grade: string }> }>('/api/v1/teacher/my-classes'),
+      apiGet<ApiResponse<typeof broadcasts.value>>('/api/v1/teacher/broadcasts'),
+    ])
+    myClasses.value = clsRes.data || []
+    broadcasts.value = bcRes.data || []
+    // 默认全选
+    selectedClassIds.value = myClasses.value.map(c => c.class_id)
   } catch { /* handled */ }
 })
 
+function toggleAll() {
+  selectAll.value = !selectAll.value
+  selectedClassIds.value = selectAll.value
+    ? myClasses.value.map(c => c.class_id)
+    : []
+}
+
 async function sendBroadcast() {
   if (!bcContent.value.trim()) { toast.show('请输入广播内容', 'error'); return }
+  if (selectedClassIds.value.length === 0) { toast.show('请选择至少一个目标班级', 'error'); return }
+
   try {
     await apiPost('/api/v1/teacher/broadcasts', {
       content: bcContent.value.trim(),
       type: bcType.value,
+      class_ids: selectedClassIds.value,
       voice: bcVoice.value,
       loop: bcLoop.value,
       duration: bcDuration.value,
     })
-    toast.show(`📡 广播已发送（${bcType.value === 'banner' ? '顶部横幅' : bcType.value === 'popup' ? '弹窗提示' : '全屏展示'}）`, 'success')
+    toast.show(`📡 广播已发送至 ${selectedClassIds.value.length} 个班级`, 'success')
     bcContent.value = ''
-    // Reload list
+    // 刷新记录
     const res = await apiGet<ApiResponse<typeof broadcasts.value>>('/api/v1/teacher/broadcasts')
     broadcasts.value = res.data || []
   } catch { /* handled */ }
@@ -82,6 +102,27 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
           placeholder="输入要发送到教室的内容..."></textarea>
       </div>
 
+      <!-- 目标班级选择 -->
+      <div style="margin-bottom:16px;" v-if="myClasses.length > 0">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--color-text-secondary);">
+          发送至班级（{{ selectedClassIds.length }}/{{ myClasses.length }}）
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--color-border);"
+            :style="selectAll ? { border:'1px solid var(--color-accent)', background:'rgba(79,70,229,0.08)' } : {}">
+            <input type="checkbox" :checked="selectAll" @change="toggleAll" style="accent-color:var(--color-accent);">
+            全部班级
+          </label>
+          <label v-for="c in myClasses" :key="c.class_id"
+            style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--color-border);"
+            :style="selectedClassIds.includes(c.class_id) ? { border:'1px solid var(--color-accent)', background:'rgba(79,70,229,0.08)' } : {}">
+            <input type="checkbox" :value="c.class_id" v-model="selectedClassIds"
+              style="accent-color:var(--color-accent);" @change="selectAll = false">
+            {{ c.class_name }}
+          </label>
+        </div>
+      </div>
+
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
         <label style="display:flex;align-items:center;gap:4px;font-size:14px;cursor:pointer;">
           <input v-model="bcVoice" type="checkbox"> 🔊 语音播报
@@ -99,7 +140,9 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
         </label>
       </div>
 
-      <button class="btn btn-primary" style="width:auto;" @click="sendBroadcast">📡 立即发送到教室</button>
+      <button class="btn btn-primary" style="width:auto;" @click="sendBroadcast">
+        📡 发送至 {{ selectedClassIds.length }} 个班级
+      </button>
     </div>
 
     <!-- 快捷模板 -->

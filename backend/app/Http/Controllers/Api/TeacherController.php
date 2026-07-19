@@ -1613,24 +1613,60 @@ class TeacherController extends Controller
     public function sendBroadcast(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $accessibleClassIds = $this->getAccessibleClassIds($teacher);
+
         $request->validate([
             'content' => 'required|string|max:500',
             'type' => 'nullable|string|in:banner,popup,fullscreen',
+            'class_ids' => 'nullable|array',
+            'class_ids.*' => 'integer|exists:class_rooms,id',
             'voice' => 'nullable|boolean',
             'loop' => 'nullable|boolean',
             'duration' => 'nullable|integer|min:0|max:300',
         ]);
-        $broadcast = \App\Models\Broadcast::create([
-            'class_id' => $classIds->first(),
-            'content' => $request->input('content'),
-            'type' => $request->input('type', 'banner'),
-            'voice' => $request->boolean('voice', true),
-            'loop' => $request->boolean('loop', false),
-            'display_seconds' => (int) $request->input('duration', 10),
-        ]);
 
-        return response()->json(['message' => '广播已发送', 'data' => $broadcast]);
+        // 确定目标班级：未指定则发送给教师所有可访问班级
+        $targetIds = $request->input('class_ids', $accessibleClassIds);
+        $targetIds = array_intersect($targetIds, $accessibleClassIds);
+
+        if (empty($targetIds)) {
+            return response()->json(['message' => '没有可发送的班级'], 400);
+        }
+
+        $sent = 0;
+        foreach ($targetIds as $classId) {
+            $broadcast = \App\Models\Broadcast::create([
+                'class_id' => $classId,
+                'content' => $request->input('content'),
+                'type' => $request->input('type', 'banner'),
+                'voice_enabled' => $request->boolean('voice', true),
+                'loop_enabled' => $request->boolean('loop', false),
+                'display_seconds' => (int) $request->input('duration', 10),
+                'status' => 'sent',
+                'sent_at' => now(),
+            ]);
+
+            // 推送事件到班级大屏
+            try {
+                app(DisplayEventService::class)->publish($classId, 'broadcast', [
+                    'id' => $broadcast->id,
+                    'type' => $broadcast->type,
+                    'content' => $broadcast->content,
+                    'display_seconds' => $broadcast->display_seconds,
+                    'voice_enabled' => $broadcast->voice_enabled,
+                    'created_at' => $broadcast->created_at?->toIso8601String(),
+                ]);
+            } catch (\Throwable $e) {
+                logger()->warning('Broadcast event publish failed for class ' . $classId . ': ' . $e->getMessage());
+            }
+
+            $sent++;
+        }
+
+        return response()->json([
+            'message' => "广播已发送至 {$sent} 个班级",
+            'data' => ['sent_count' => $sent],
+        ]);
     }
 
     public function getBroadcast(Request $request, int $id): JsonResponse
@@ -1761,287 +1797,6 @@ class TeacherController extends Controller
         $relatedClassIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)->pluck('class_room_id')->toArray();
 
         return array_values(array_unique(array_merge($ownClassIds, $relatedClassIds)));
-    }
-
-    // ============================================================
-    // Homework
-    // ============================================================
-
-    public function listHomework(Request $request): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-
-        $homework = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)
-            ->withCount('submissions')
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(fn ($h) => [
-                'id' => $h->id,
-                'title' => $h->title,
-                'deadline' => $h->deadline?->toDateTimeString(),
-                'status' => $h->deadline && $h->deadline->isPast() ? 'closed' : 'active',
-                'submission_count' => $h->submissions_count,
-                'total_students' => Student::where('class_id', $h->class_id)->count(),
-            ]);
-
-        return response()->json(['data' => $homework]);
-    }
-
-    public function createHomework(Request $request): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-
-        $request->validate([
-            'title' => 'required|string|max:200',
-            'deadline' => 'nullable|date',
-            'description' => 'nullable|string',
-        ]);
-
-        $hw = \App\Models\HomeworkCollection::create([
-            'class_id' => $classIds->first(),
-            'teacher_id' => $teacher->id,
-            'title' => $request->input('title'),
-            'deadline' => $request->input('deadline'),
-            'description' => $request->input('description'),
-            'status' => 'active',
-            'qr_code_token' => \Illuminate\Support\Str::random(16),
-        ]);
-
-        return response()->json(['message' => '作业已创建', 'data' => ['id' => $hw->id, 'qr_token' => $hw->qr_code_token]], 201);
-    }
-
-    public function getHomework(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $hw = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->with('submissions.student')->findOrFail($id);
-
-        return response()->json(['data' => [
-            'id' => $hw->id,
-            'title' => $hw->title,
-            'deadline' => $hw->deadline?->toDateTimeString(),
-            'description' => $hw->description,
-            'status' => $hw->deadline && $hw->deadline->isPast() ? 'closed' : 'active',
-            'submissions' => $hw->submissions->map(fn ($s) => [
-                'student_name' => $s->student?->name,
-                'submitted_at' => $s->submitted_at?->toDateTimeString(),
-            ]),
-        ]]);
-    }
-
-    public function closeHomework(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->findOrFail($id)->update(['status' => 'closed', 'deadline' => now()]);
-
-        return response()->json(['message' => '作业已关闭']);
-    }
-
-    public function getHomeworkSubmissions(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $hw = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->findOrFail($id);
-
-        return response()->json(['data' => $hw->submissions()->with('student')->get()->map(fn ($s) => [
-            'student_name' => $s->student?->name,
-            'student_no' => $s->student?->student_no,
-            'submitted_at' => $s->submitted_at?->toDateTimeString(),
-            'content' => $s->content,
-            'file_urls' => $s->file_urls,
-        ])]);
-    }
-
-    public function getHomeworkQrCode(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $hw = \App\Models\HomeworkCollection::whereIn('class_id', $classIds)->findOrFail($id);
-
-        return response()->json(['data' => [
-            'qr_url' => url("/api/v1/common/homework-submit/{$hw->qr_code_token}"),
-            'token' => $hw->qr_code_token,
-        ]]);
-    }
-
-    // ============================================================
-    // Quizzes
-    // ============================================================
-
-    public function listQuizzes(Request $request): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-
-        return response()->json(['data' => \App\Models\Quiz::whereIn('class_id', $classIds)
-            ->withCount('submissions')
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(fn ($q) => [
-                'id' => $q->id,
-                'title' => $q->title,
-                'time_limit' => $q->time_limit,
-                'status' => $q->status,
-                'is_active' => $q->status === 'active',
-                'submission_count' => $q->submissions_count,
-            ])]);
-    }
-
-    public function createQuiz(Request $request): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-
-        $request->validate([
-            'title' => 'required|string|max:200',
-            'question_bank_id' => 'nullable|integer',
-            'time_limit' => 'nullable|integer|min:0',
-            'subject' => 'nullable|string|max:50',
-            'auto_grade' => 'nullable|boolean',
-        ]);
-
-        $quiz = \App\Models\Quiz::create([
-            'class_id' => $classIds->first(),
-            'teacher_id' => $teacher->id,
-            'title' => $request->input('title'),
-            'question_bank_id' => $request->input('question_bank_id'),
-            'time_limit' => $request->input('time_limit', 0),
-            'subject' => $request->input('subject', ''),
-            'auto_grade' => $request->boolean('auto_grade', true),
-            'status' => 'draft',
-        ]);
-
-        return response()->json(['message' => '测验已创建', 'data' => ['id' => $quiz->id]], 201);
-    }
-
-    public function startQuiz(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        \App\Models\Quiz::whereIn('class_id', $classIds)->findOrFail($id)->update([
-            'status' => 'active',
-            'started_at' => now(),
-        ]);
-
-        return response()->json(['message' => '测验已开始']);
-    }
-
-    public function stopQuiz(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $quiz = \App\Models\Quiz::whereIn('class_id', $classIds)->findOrFail($id);
-        $quiz->update([
-            'status' => 'finished',
-            'ended_at' => now(),
-        ]);
-
-        return response()->json(['message' => '测验已结束', 'data' => [
-            'submissions' => $quiz->submissions()->count(),
-            'avg_score' => round((float) $quiz->submissions()->avg('score'), 1),
-        ]]);
-    }
-
-    public function getQuizStats(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
-        $quiz = \App\Models\Quiz::whereIn('class_id', $classIds)->findOrFail($id);
-        $subs = $quiz->submissions()->with('student')->get();
-
-        return response()->json(['data' => [
-            'title' => $quiz->title,
-            'total' => $subs->count(),
-            'avg_score' => round((float) $subs->avg('score'), 1),
-            'max_score' => $subs->max('score'),
-            'min_score' => $subs->min('score'),
-            'submissions' => $subs->map(fn ($s) => [
-                'student_name' => $s->student?->name,
-                'score' => $s->score,
-            ]),
-        ]]);
-    }
-
-    // ============================================================
-    // Question Banks
-    // ============================================================
-
-    public function listQuestionBanks(Request $request): JsonResponse
-    {
-        $teacher = $request->user();
-
-        return response()->json(['data' => \App\Models\QuestionBank::where('teacher_id', $teacher->id)
-            ->orWhere('is_public', true)
-            ->withCount('questions')
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(fn ($b) => [
-                'id' => $b->id,
-                'title' => $b->title,
-                'subject' => $b->subject,
-                'is_public' => $b->is_public,
-                'question_count' => $b->questions_count,
-            ])]);
-    }
-
-    public function createQuestionBank(Request $request): JsonResponse
-    {
-        $request->validate([
-            'title' => 'required|string|max:200',
-            'subject' => 'nullable|string|max:50',
-            'is_public' => 'nullable|boolean',
-        ]);
-
-        $bank = \App\Models\QuestionBank::create([
-            'teacher_id' => $request->user()->id,
-            'title' => $request->input('title'),
-            'subject' => $request->input('subject', ''),
-            'is_public' => $request->boolean('is_public', false),
-        ]);
-
-        return response()->json(['message' => '题库已创建', 'data' => ['id' => $bank->id]], 201);
-    }
-
-    public function addQuestion(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $bank = \App\Models\QuestionBank::where('teacher_id', $teacher->id)->findOrFail($id);
-
-        $request->validate([
-            'type' => 'required|string|in:single,multiple,fill,truefalse,short',
-            'content' => 'required|string',
-            'options' => 'nullable|array',
-            'answer' => 'required|string',
-            'points' => 'nullable|integer|min:1',
-        ]);
-
-        $q = \App\Models\Question::create([
-            'question_bank_id' => $bank->id,
-            'type' => $request->input('type'),
-            'content' => $request->input('content'),
-            'options' => $request->input('options'),
-            'answer' => $request->input('answer'),
-            'points' => $request->input('points', 5),
-        ]);
-
-        return response()->json(['message' => '题目已添加', 'data' => ['id' => $q->id]], 201);
-    }
-
-    public function getQuestions(Request $request, int $id): JsonResponse
-    {
-        $teacher = $request->user();
-        $bank = \App\Models\QuestionBank::where('teacher_id', $teacher->id)->orWhere('is_public', true)->findOrFail($id);
-
-        return response()->json(['data' => $bank->questions()->get()->map(fn ($q) => [
-            'id' => $q->id,
-            'type' => $q->type,
-            'content' => $q->content,
-            'options' => $q->options,
-            'points' => $q->points,
-        ])]);
     }
 
     // ============================================================

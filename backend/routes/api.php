@@ -91,6 +91,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [SchoolAdminController::class, 'createExchangeRate']);
             Route::put('{id}', [SchoolAdminController::class, 'updateExchangeRate']);
         });
+        Route::get('display-login-logs', [SchoolAdminController::class, 'displayLoginLogs']);
     });
 
     // ===== 3. 教师端 =====
@@ -191,30 +192,6 @@ Route::prefix('v1')->group(function () {
             Route::post('{studentId}/mark-leave', [TeacherController::class, 'markManualLeave']);
             Route::post('{studentId}/mark-absent', [TeacherController::class, 'markManualAbsent']);
             Route::get('summary', [TeacherController::class, 'attendanceSummary']);
-        });
-
-        Route::prefix('homework')->group(function () {
-            Route::get('/', [TeacherController::class, 'listHomework']);
-            Route::post('/', [TeacherController::class, 'createHomework']);
-            Route::get('{id}', [TeacherController::class, 'getHomework']);
-            Route::put('{id}/close', [TeacherController::class, 'closeHomework']);
-            Route::get('{id}/submissions', [TeacherController::class, 'getHomeworkSubmissions']);
-            Route::get('{id}/qr-code', [TeacherController::class, 'getHomeworkQrCode']);
-        });
-
-        Route::prefix('quizzes')->group(function () {
-            Route::get('/', [TeacherController::class, 'listQuizzes']);
-            Route::post('/', [TeacherController::class, 'createQuiz']);
-            Route::post('{id}/start', [TeacherController::class, 'startQuiz']);
-            Route::post('{id}/stop', [TeacherController::class, 'stopQuiz']);
-            Route::get('{id}/stats', [TeacherController::class, 'getQuizStats']);
-        });
-
-        Route::prefix('question-banks')->group(function () {
-            Route::get('/', [TeacherController::class, 'listQuestionBanks']);
-            Route::post('/', [TeacherController::class, 'createQuestionBank']);
-            Route::post('{id}/questions', [TeacherController::class, 'addQuestion']);
-            Route::get('{id}/questions', [TeacherController::class, 'getQuestions']);
         });
 
         Route::prefix('grades')->group(function () {

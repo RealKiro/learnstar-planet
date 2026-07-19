@@ -17,7 +17,7 @@ onMounted(async () => {
   }
 })
 
-const typeLabels: Record<string, string> = { info: '通知', homework: '作业', event: '活动', urgent: '紧急' }
+const typeLabels: Record<string, string> = { info: '通知', event: '活动', urgent: '紧急' }
 </script>
 
 <template>
@@ -41,8 +41,8 @@ const typeLabels: Record<string, string> = { info: '通知', homework: '作业',
         @mouseleave="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.background = ''">
         <span :style="{
           padding:'4px 8px', borderRadius:'4px', fontSize:'11px', fontWeight:600, whiteSpace:'nowrap',
-          background: { info:'rgba(59,130,246,0.1)', homework:'rgba(79,70,229,0.1)', event:'rgba(16,185,129,0.1)', urgent:'rgba(239,68,68,0.1)' }[n.type] || 'rgba(100,116,139,0.1)',
-          color: { info:'#3B82F6', homework:'#4F46E5', event:'#10B981', urgent:'#EF4444' }[n.type] || '#64748B',
+          background: { info:'rgba(59,130,246,0.1)', event:'rgba(16,185,129,0.1)', urgent:'rgba(239,68,68,0.1)' }[n.type] || 'rgba(100,116,139,0.1)',
+          color: { info:'#3B82F6', event:'#10B981', urgent:'#EF4444' }[n.type] || '#64748B',
         }">{{ typeLabels[n.type] || n.type }}</span>
         <div style="flex:1;">
           <div style="font-weight:500;font-size:14px;">{{ n.title }}</div>

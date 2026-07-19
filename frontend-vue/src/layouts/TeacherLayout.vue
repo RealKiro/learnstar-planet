@@ -29,8 +29,6 @@ const navItems = [
   { section: '工具', items: [
     { page: 'teacher-broadcast', label: '实时广播', icon: '📡' },
     { page: 'teacher-attendance', label: '智能考勤', icon: '✅' },
-    { page: 'teacher-homework', label: '扫码收作业', icon: '📱' },
-    { page: 'teacher-quiz', label: '在线答题', icon: '📝' },
     { page: 'teacher-grades', label: '成绩管理', icon: '📊' },
     { page: 'teacher-notices', label: '班级通知', icon: '📢' },
     { page: 'teacher-reports', label: '数据报表', icon: '📈' },
