@@ -39,7 +39,7 @@ const gridSlots = computed(() => {
 
 async function loadDisplay() {
   try {
-    const res = await apiGet<{ data: DisplayData }>('/api/v1/teacher/classroom-display')
+    const res = await apiGet<{ data: DisplayData }>('/api/v1/teacher/classroom/display')
     const prev = data.value
     data.value = res.data
 
@@ -70,7 +70,7 @@ async function loadDisplay() {
 
 async function pollMessages() {
   try {
-    const res = await apiGet<{ data: { broadcasts: any[]; notices: any[] } }>('/api/v1/teacher/classroom-messages')
+    const res = await apiGet<{ data: { broadcasts: any[]; notices: any[] } }>('/api/v1/teacher/classroom/messages')
     const msgs = [...(res.data?.broadcasts || []), ...(res.data?.notices || [])]
     if (msgs.length > 0) {
       const msg = msgs[0]

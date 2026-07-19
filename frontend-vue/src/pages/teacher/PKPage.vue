@@ -65,7 +65,7 @@ onMounted(async () => {
   try {
     const [sRes, pkRes] = await Promise.all([
       apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=100'),
-      apiGet<ApiResponse<ClassPKData[]>>('/api/v1/teacher/leaderboard/pk'),
+      apiGet<ApiResponse<ClassPKData[]>>('/api/v1/teacher/pk/leaderboard'),
     ])
     students.value = sRes.data || []
     classes.value = pkRes.data || []

@@ -72,7 +72,7 @@ const sortedPets = computed(() => {
 async function loadPets() {
   loading.value = true
   try {
-    const res = await apiGet<ApiResponse<Pet[]>>('/api/v1/teacher/pets/class-overview')
+    const res = await apiGet<ApiResponse<Pet[]>>('/api/v1/teacher/pets/overview')
     const rawPets = res.data || []
     // 扩展宠物数据
     pets.value = rawPets.map(p => {
