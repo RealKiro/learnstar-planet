@@ -28,6 +28,7 @@ const router = createRouter({
         { path: 'scores', name: 'teacher-scores', component: () => import('@/pages/teacher/ScoresPage.vue') },
         { path: 'rules', name: 'teacher-rules', component: () => import('@/pages/teacher/RulesPage.vue') },
         { path: 'leaderboard', name: 'teacher-leaderboard', component: () => import('@/pages/teacher/LeaderboardPage.vue') },
+        { path: 'pk', name: 'teacher-pk', component: () => import('@/pages/teacher/PKPage.vue') },
         { path: 'shop', name: 'teacher-shop', component: () => import('@/pages/teacher/ShopPage.vue') },
         { path: 'exchange', name: 'teacher-exchange', component: () => import('@/pages/teacher/ExchangeCenterPage.vue') },
         { path: 'broadcast', name: 'teacher-broadcast', component: () => import('@/pages/teacher/BroadcastPage.vue') },
