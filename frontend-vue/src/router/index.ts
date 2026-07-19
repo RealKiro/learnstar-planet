@@ -67,6 +67,7 @@ const router = createRouter({
         { path: 'home', name: 'parent-home', component: () => import('@/pages/parent/HomePage.vue') },
         { path: 'scores', name: 'parent-scores', component: () => import('@/pages/parent/ScoresPage.vue') },
         { path: 'growth', name: 'parent-growth', component: () => import('@/pages/parent/GrowthPage.vue') },
+        { path: 'pet', name: 'parent-pet', component: () => import('@/pages/parent/PetDetailPage.vue') },
         { path: 'ranking', name: 'parent-ranking', component: () => import('@/pages/parent/RankingPage.vue') },
         { path: 'notices', name: 'parent-notices', component: () => import('@/pages/parent/NoticesPage.vue') },
       ],

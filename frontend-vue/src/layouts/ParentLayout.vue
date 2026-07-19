@@ -16,6 +16,7 @@ const navItems = [
     { page: 'parent-home', label: '孩子概览', icon: '🏠' },
   ]},
   { section: '成长详情', items: [
+    { page: 'parent-pet', label: '宠物详情', icon: '🌟' },
     { page: 'parent-scores', label: '积分明细', icon: '⭐' },
     { page: 'parent-growth', label: '成长日志', icon: '📝' },
     { page: 'parent-ranking', label: '班级排名', icon: '🏆' },

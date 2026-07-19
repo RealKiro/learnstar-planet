@@ -55,11 +55,38 @@ export interface Pet {
   stage_name?: string
 }
 
+/** 扩展的宠物详情（含可视化所需数据） */
+export interface PetDetail extends Pet {
+  /** 系列 ID */
+  seriesId?: string
+  /** 系列名称 */
+  seriesName?: string
+  /** 当前等级名称（如"衔烛之苗"） */
+  levelName?: string
+  /** 当前等级描述 */
+  levelDescription?: string
+  /** 阶段分类 */
+  stage?: 'egg' | 'baby' | 'growing' | 'mature' | 'legendary'
+  /** 所需累计积分 */
+  requiredScore?: number
+  /** 学生头像 */
+  student_avatar?: string
+  /** 今日已获得积分 */
+  todayScore?: number
+  /** 连击天数 */
+  streakDays?: number
+}
+
 export interface LeaderboardEntry {
   rank: number
   student_id: number
   student_name: string
   score: number | string
+  /** 宠物相关扩展 */
+  pet_name?: string
+  pet_level?: number
+  pet_species?: string
+  pet_emoji?: string
 }
 
 export interface ShopItem {

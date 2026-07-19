@@ -1,3 +1,6 @@
+import { getPetLevelName, getPetLevelDescription, getLevelStage, getLevelTitle, getSpeciesEmoji } from './petData'
+
+/** @deprecated 使用 petData 中的 12 级系统替代 */
 export const PET_EVOLUTION_STAGES = [
   { level: 0, emoji: '🥚', name: '宠物蛋' },
   { level: 1, emoji: '🐣', name: '绒绒雏鸟' },
@@ -12,15 +15,47 @@ export const PET_EVOLUTION_STAGES = [
   { level: 10, emoji: '🐉', name: '东方神龙' },
 ]
 
+/** @deprecated 使用 petData 中的函数替代 */
 export function getStageName(level: number): string {
   if (level < 0 || level >= PET_EVOLUTION_STAGES.length) return '星尘'
   return PET_EVOLUTION_STAGES[level].name
 }
 
+/** @deprecated 使用 petData 中的函数替代 */
 export function getStageEmoji(level: number): string {
   if (level < 0 || level >= PET_EVOLUTION_STAGES.length) return '🌟'
   return PET_EVOLUTION_STAGES[level].emoji
 }
+
+/** 新版：获取宠物当前阶段名称（基于物种和等级） */
+export function getPetStageName(speciesId: string, level: number): string {
+  return getPetLevelName(speciesId, level) || getLevelTitle(level) || `Lv.${level}`
+}
+
+/** 新版：获取宠物描述 */
+export function getPetStageDescription(speciesId: string, level: number): string {
+  return getPetLevelDescription(speciesId, level) || ''
+}
+
+/** 新版：获取等级通用称谓 */
+export function getStageTitle(level: number): string {
+  return getLevelTitle(level)
+}
+
+/** 新版：获取宠物外观 Emoji */
+export function getPetEmoji(speciesId: string, level: number): string {
+  if (level <= 1) return '🥚'
+  if (level <= 3) return '🐣'
+  if (level <= 5) return getSpeciesEmoji(speciesId)
+  return getSpeciesEmoji(speciesId)
+}
+
+/** 新版：获取等级阶段分类 */
+export function getPetStage(level: number): string {
+  return getLevelStage(level)
+}
+
+// ===== 以下为原有工具函数（保留不变） =====
 
 export function escapeHtml(text: string): string {
   return text
@@ -28,7 +63,7 @@ export function escapeHtml(text: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
+    .replace(/'/g, '&#039;')
 }
 
 export function avatarGradient(name: string): string {
