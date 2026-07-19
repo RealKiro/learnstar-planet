@@ -112,7 +112,36 @@ const platforms = [
 ]
 
 function handleThirdPartyLogin(platform: string) {
-  toast.show('正在打开' + (platforms.find(p => p.key === platform)?.label || platform) + '扫码...', 'success')
+  const label = platforms.find(p => p.key === platform)?.label || platform
+  toast.show(`正在打开${label}扫码...`, 'success')
+
+  // 构建 OAuth 回调地址
+  const callbackUrl = `${window.location.origin}/auth/callback?platform=${platform}`
+  let oauthUrl = ''
+
+  switch (platform) {
+    case 'wechat':
+      oauthUrl = `https://open.weixin.qq.com/connect/qrconnect?appid=YOUR_WECHAT_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&scope=snsapi_login&state=${platform}`
+      break
+    case 'wechat_work':
+      oauthUrl = `https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=YOUR_WECHAT_WORK_CORPID&agentid=YOUR_AGENTID&redirect_uri=${encodeURIComponent(callbackUrl)}&state=${platform}`
+      break
+    case 'qq':
+      oauthUrl = `https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=YOUR_QQ_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&state=${platform}`
+      break
+    case 'renren':
+      toast.show('人人通登录需要管理员在后台配置', 'info')
+      return
+  }
+
+  if (oauthUrl) {
+    // 打开 OAuth 窗口（弹出或当前页跳转）
+    const w = 600, h = 500
+    const left = (screen.width - w) / 2
+    const top = (screen.height - h) / 2
+    window.open(oauthUrl, platform,
+      `width=${w},height=${h},left=${left},top=${top},menubar=no,toolbar=no,status=no,scrollbars=yes`)
+  }
 }
 
 const slides = [

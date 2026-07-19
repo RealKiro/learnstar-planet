@@ -16,6 +16,11 @@ const router = createRouter({
       props: (route) => ({ initialRole: route.query.role || 'teacher', mode: route.query.mode || 'account' }),
     },
     {
+      path: '/auth/callback',
+      name: 'oauth-callback',
+      component: () => import('@/pages/auth/OAuthCallbackPage.vue'),
+    },
+    {
       path: '/teacher',
       component: () => import('@/layouts/TeacherLayout.vue'),
       meta: { requiresAuth: true, role: 'teacher' },
