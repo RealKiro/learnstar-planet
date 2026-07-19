@@ -5,7 +5,7 @@ import type { ApiResponse } from '@/types'
 
 interface ChatMessage { role: 'user' | 'assistant'; content: string }
 interface AICommand { label: string; prompt: string }
-interface Usage { count: number; limit: number; reset_at?: string }
+interface Usage { configured: boolean; provider: string; model: string }
 
 
 const loading = ref(true)
@@ -46,7 +46,8 @@ async function send(prompt?: string) {
     const res = await apiPost<ApiResponse<{ reply: string }>>('/api/v1/teacher/ai/chat', { message: content })
     const reply = (res as unknown as { data: { reply: string } }).data?.reply ?? '暂无回复'
     messages.value.push({ role: 'assistant', content: reply })
-    if (reply.includes('需要配置') || reply.includes('未配置')) showHint.value = true
+    // 检查配置状态
+    if (reply.includes('需要配置') || reply.includes('未配置') || reply.includes('未配置')) showHint.value = true
     // 刷新用量
     const usageRes = await apiGet<ApiResponse<Usage>>('/api/v1/teacher/ai/usage')
     usage.value = usageRes.data || null
@@ -67,8 +68,8 @@ function useCommand(cmd: AICommand) {
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <h2 style="font-size:24px;font-weight:700;">AI 助手</h2>
       <div v-if="usage" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--color-text-secondary);background:var(--color-bg);padding:6px 12px;border-radius:var(--radius-sm);">
-        <span>用量</span>
-        <span style="font-weight:700;color:var(--color-primary);">{{ usage.count }}/{{ usage.limit }}</span>
+        <span :style="{ color: usage.configured ? 'var(--color-accent)' : '#EF4444' }">{{ usage.configured ? '✅ 已配置' : '❌ 未配置' }}</span>
+        <span v-if="usage.configured" style="color:var(--color-text-secondary);">| {{ usage.provider }} · {{ usage.model }}</span>
       </div>
     </div>
 
@@ -76,9 +77,17 @@ function useCommand(cmd: AICommand) {
 
     <div v-else class="card" style="display:flex;flex-direction:column;height:calc(100vh - 200px);min-height:400px;">
       <!-- 配置提示 -->
-      <div v-if="showHint" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:13px;color:#92400e;display:flex;align-items:center;gap:8px;">
-        <span>⚠️</span>
-        <span>AI 功能尚未配置，当前为占位回复。请联系管理员配置 AI 服务。</span>
+      <div v-if="showHint" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:13px;color:#92400e;display:flex;flex-direction:column;gap:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span>⚠️</span>
+          <span>AI 功能尚未配置</span>
+        </div>
+        <div style="font-size:12px;padding-left:24px;color:#b45309;line-height:1.6;">
+          在 .env 中配置以下环境变量即可使用：<br>
+          AI_PROVIDER=deepseek（支持 deepseek / openai / qwen / moonshot）<br>
+          AI_API_KEY=你申请的 API Key<br>
+          配置后重启容器生效。
+        </div>
       </div>
 
       <!-- 消息列表 -->

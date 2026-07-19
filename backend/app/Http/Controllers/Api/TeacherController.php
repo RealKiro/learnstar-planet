@@ -1944,7 +1944,13 @@ class TeacherController extends Controller
     {
         $request->validate(['message' => 'required|string|max:2000']);
 
-        return response()->json(['data' => ['reply' => 'AI 助教功能需要配置 AI_PROVIDER 和 AI_API_KEY 环境变量。']]);
+        $ai = new \App\Services\AIService();
+        $reply = $ai->chat(
+            $request->input('message'),
+            $request->input('history', [])
+        );
+
+        return response()->json(['data' => ['reply' => $reply]]);
     }
 
     public function getAiCommands(Request $request): JsonResponse
@@ -1952,6 +1958,18 @@ class TeacherController extends Controller
         return response()->json(['data' => [
             ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈'],
             ['label' => '重点关注学生', 'prompt' => '请分析班上学情'],
+        ]]);
+    }
+
+    public function getAiUsage(Request $request): JsonResponse
+    {
+        $ai = new \App\Services\AIService();
+        $info = $ai->getUsageInfo();
+
+        return response()->json(['data' => [
+            'configured' => $info['configured'],
+            'provider' => $info['provider'],
+            'model' => $info['model'],
         ]]);
     }
 }
