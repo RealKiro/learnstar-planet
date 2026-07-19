@@ -898,6 +898,54 @@ class DisplayController extends Controller
     }
 
     /**
+     * 教室端 · PK 排行榜（同年级各班）
+     */
+    public function classroomPKLeaderboard(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+
+        $classId = $classInfo['class_id'];
+        $myClass = ClassRoom::find($classId);
+        if (!$myClass || !$myClass->grade) {
+            return response()->json(['data' => []]);
+        }
+
+        $gradeClasses = ClassRoom::where('grade', $myClass->grade)
+            ->where('status', 'active')->get();
+
+        if ($gradeClasses->isEmpty()) {
+            return response()->json(['data' => []]);
+        }
+
+        $pkData = $gradeClasses->map(function ($class) use ($myClass) {
+            $students = Student::where('class_id', $class->id)
+                ->where('status', 'active')->with('pet')->get();
+            $totalScore = $students->sum('total_score');
+            $count = $students->count();
+            $avgLevel = $count > 0 ? $students->avg(fn ($s) => $s->pet?->level ?? 0) : 0;
+            $peakCount = $students->filter(fn ($s) => $s->pet && $s->pet->level >= 8)->count();
+            $weekStart = now()->startOfWeek();
+            $weeklyScore = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
+                ->where('created_at', '>=', $weekStart)->sum('amount');
+
+            return [
+                'name' => $class->name,
+                'totalScore' => (int) $totalScore,
+                'studentCount' => $count,
+                'avgLevel' => round($avgLevel, 1),
+                'peakCount' => $peakCount,
+                'weekGrowth' => (int) $weeklyScore,
+                'isOwn' => $class->id === $myClass->id,
+            ];
+        })->sortByDesc('totalScore')->values();
+
+        return response()->json(['data' => $pkData]);
+    }
+
+    /**
      * 教室端 · 切换宠物系列（每人扣除20积分）
      */
     public function classroomSwitchSeries(Request $request): JsonResponse

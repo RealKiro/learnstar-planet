@@ -281,6 +281,7 @@ Route::prefix('v1')->group(function () {
         Route::get('pets/overview', [DisplayController::class, 'classroomPetsOverview']);
         Route::post('switch-series', [DisplayController::class, 'classroomSwitchSeries']);
         Route::post('pets/switch', [DisplayController::class, 'classroomSwitchPet']);
+        Route::get('pk/leaderboard', [DisplayController::class, 'classroomPKLeaderboard']);
     });
 
     // ===== 6. 公共接口 =====

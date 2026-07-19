@@ -1,10 +1,26 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { getSpeciesEmoji, getSpeciesBySeries, PET_SERIES, getSeriesName } from '@/utils/petData'
+import { getSpeciesEmoji, getSpeciesBySeries, PET_SERIES, getSeriesName, getPetLevelName, getLevelRequiredScore } from '@/utils/petData'
 import { useToastStore } from '@/stores/toast'
 
 const toast = useToastStore()
+
+// 等级所需积分常量
+const LEVEL_SCORES = [0, 0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450, 99999]
+
+function nextLevelProgress(score: number, level: number): { current: number; next: number; remaining: number; percent: number } {
+  const cur = LEVEL_SCORES[level] || 0
+  const next = LEVEL_SCORES[Math.min(level + 1, 12)] || 450
+  const exp = score - cur
+  const range = next - cur
+  return {
+    current: exp,
+    next: range,
+    remaining: Math.max(0, range - exp),
+    percent: Math.min(100, Math.round((exp / range) * 100)),
+  }
+}
 
 interface StudentEntry {
   id: number; name: string; student_no: string; total_score: number
@@ -37,9 +53,18 @@ function openPetPicker(s: StudentEntry) {
   showPetPicker.value = true
 }
 
-async function switchPet(speciesId: string) {
+const confirmSwitch = ref<{ speciesId: string; name: string } | null>(null)
+
+function requestSwitch(speciesId: string, name: string) {
+  confirmSwitch.value = { speciesId, name }
+}
+
+async function executeSwitch() {
+  if (!confirmSwitch.value) return
   const s = petPickerStudent.value
   if (!s || switchingPet.value) return
+  const speciesId = confirmSwitch.value.speciesId
+  confirmSwitch.value = null
   switchingPet.value = true
   try {
     const res = await apiPost<{ data: { pet_emoji: string; total_score: number; cost: number } }>(
@@ -155,9 +180,18 @@ onMounted(async () => {
             <span style="font-size:13px;color:var(--md-text-secondary);border-bottom:1px dashed rgba(255,255,255,0.15);">{{ s.pet_name || '未孵化' }}</span>
             <span style="font-size:10px;color:rgba(167,139,250,0.4);margin-left:auto;">换宠</span>
           </div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--md-text-secondary);margin-bottom:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--md-text-secondary);margin-bottom:4px;">
             <span>⭐ 积分</span>
             <span style="font-size:18px;font-weight:800;color:var(--md-text);">{{ s.total_score }}</span>
+          </div>
+          <!-- 距离下一级进度 -->
+          <div v-if="s.pet_level > 0" style="margin-bottom:6px;">
+            <div style="height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-bottom:2px;">
+              <div :style="{ width: nextLevelProgress(s.total_score, s.pet_level).percent + '%', height:'100%', background:'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'2px' }"></div>
+            </div>
+            <div style="font-size:10px;color:var(--md-text-secondary);text-align:right;">
+              距 Lv.{{ s.pet_level + 1 }} 还差 <strong style="color:var(--md-gold);">{{ nextLevelProgress(s.total_score, s.pet_level).remaining }}</strong> 分
+            </div>
           </div>
           <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);">
             <button @click="openModal(s, 'sub')"
@@ -202,6 +236,25 @@ onMounted(async () => {
         :style="{ left: f.x + 'px', top: f.y + 'px', color: f.color }">{{ f.text }}</div>
     </Teleport>
 
+      <!-- 切换确认对话框 -->
+      <Transition name="fade">
+        <div v-if="confirmSwitch" @click.self="confirmSwitch = null"
+          style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:301;">
+          <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:28px 32px;max-width:380px;width:90%;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;text-align:center;">
+            <div style="font-size:36px;margin-bottom:12px;">🔄</div>
+            <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">确认切换宠物？</h3>
+            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:16px;">
+              将切换为 <strong style="color:var(--md-primary-light);">{{ confirmSwitch.name }}</strong>
+              <br><span style="font-size:12px;">{{ petPickerStudent?.pet_name ? '扣除20积分 · 保留当前等级' : '🎉 首次免费' }}</span>
+            </p>
+            <div style="display:flex;gap:10px;">
+              <button @click="confirmSwitch = null" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消</button>
+              <button @click="executeSwitch" :disabled="switchingPet" style="flex:1;padding:10px;border-radius:10px;border:none;background:rgba(167,139,250,0.15);color:var(--md-primary-light);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">确认切换</button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+
       <!-- 宠物选择器（展示所有物种） -->
       <Transition name="fade">
         <div v-if="showPetPicker && petPickerStudent" @click.self="showPetPicker = false"
@@ -218,7 +271,7 @@ onMounted(async () => {
             <div v-for="series in allSeriesList" :key="series.id" style="margin-bottom:12px;">
               <div style="font-size:12px;font-weight:600;color:var(--md-text-secondary);margin-bottom:6px;padding-left:4px;">{{ series.emoji }} {{ series.name }}</div>
               <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;">
-                <button v-for="sp in series.species" :key="sp.id" @click="switchPet(sp.id)"
+                <button v-for="sp in series.species" :key="sp.id" @click="requestSwitch(sp.id, sp.name)"
                   :disabled="switchingPet"
                   style="padding:8px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;transition:0.15s;font-family:inherit;"
                   :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08);' : ''"

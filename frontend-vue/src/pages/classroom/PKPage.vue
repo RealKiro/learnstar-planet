@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { apiGet } from '@/utils/api'
 
 interface ClassPK {
   name: string; totalScore: number; studentCount: number
@@ -8,26 +9,40 @@ interface ClassPK {
 
 const classes = ref<ClassPK[]>([])
 const loading = ref(true)
+const token = ref('')
 const myScore = ref(0)
 const myRank = ref(0)
+const error = ref('')
 
 const maxScore = computed(() => Math.max(...classes.value.map(c => c.totalScore), 1))
+const gapToFirst = computed(() => {
+  const first = classes.value[0]
+  if (!first || first.isOwn) return 0
+  return first.totalScore - myScore.value
+})
+const rankBadge = computed(() => {
+  const r = myRank.value
+  if (r === 1) return '🥇'
+  if (r === 2) return '🥈'
+  if (r === 3) return '🥉'
+  return `#${r}`
+})
 
 function getMedal(idx: number) { return ['🥇','🥈','🥉'][idx] || `#${idx+1}` }
 
 onMounted(async () => {
-  const token = sessionStorage.getItem('class_token') || ''
+  token.value = sessionStorage.getItem('class_token') || ''
+  if (!token.value) { loading.value = false; return }
   try {
-    // 演示数据
-    classes.value = [
-      { name: '三（2）班', totalScore: 4200, studentCount: 45, avgLevel: 7.2, peakCount: 8, weekGrowth: 156, isOwn: false },
-      { name: '三（1）班', totalScore: 3840, studentCount: 42, avgLevel: 6.5, peakCount: 5, weekGrowth: 128, isOwn: true },
-      { name: '三（3）班', totalScore: 3500, studentCount: 43, avgLevel: 5.8, peakCount: 4, weekGrowth: 95, isOwn: false },
-      { name: '三（4）班', totalScore: 3100, studentCount: 41, avgLevel: 5.2, peakCount: 3, weekGrowth: 82, isOwn: false },
-      { name: '三（5）班', totalScore: 2800, studentCount: 40, avgLevel: 4.8, peakCount: 2, weekGrowth: 70, isOwn: false },
-    ]
-    myScore.value = 3840
-    myRank.value = 2
+    const res = await apiGet<{ data: ClassPK[] }>('/api/v1/display/pk/leaderboard', { params: { token: token.value } })
+    classes.value = res.data || []
+    const mine = classes.value.find(c => c.isOwn)
+    if (mine) {
+      myScore.value = mine.totalScore
+      myRank.value = classes.value.indexOf(mine) + 1
+    }
+  } catch (e: any) {
+    error.value = e?.response?.data?.message || '加载失败'
   } finally { loading.value = false }
 })
 </script>
@@ -39,12 +54,18 @@ onMounted(async () => {
         <h2 style="font-size:26px;font-weight:700;margin:0;">🏆 年级战场</h2>
         <span style="font-size:14px;color:var(--md-text-secondary);">同年级大比拼</span>
       </div>
-      <div style="padding:6px 20px;border-radius:30px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.15);color:#F59E0B;font-size:15px;font-weight:700;">🏅 当前排名: #{{ myRank }}</div>
+      <div v-if="!loading && !error" style="padding:6px 20px;border-radius:30px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.15);color:#F59E0B;font-size:15px;font-weight:700;">
+        {{ rankBadge }} 当前排名: #{{ myRank }}
+      </div>
     </div>
 
     <div v-if="loading" style="text-align:center;padding:60px;color:var(--md-text-secondary);">加载中...</div>
+    <div v-else-if="error" style="text-align:center;padding:60px;color:#fca5a5;">
+      <p>{{ error }}</p>
+      <p style="font-size:13px;color:var(--md-text-secondary);margin-top:8px;">请确保班级有同年级的其他班级数据</p>
+    </div>
 
-    <template v-else>
+    <template v-else-if="classes.length > 0">
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
         <div v-for="(cls, idx) in classes" :key="cls.name"
           :style="{
@@ -84,12 +105,19 @@ onMounted(async () => {
         </div>
         <div style="background:rgba(255,255,255,0.02);border-radius:var(--md-radius);padding:20px 24px;border:1px solid rgba(255,255,255,0.04);">
           <h4 style="font-size:14px;color:var(--md-text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">⚔️ 挑战建议</h4>
-          <div style="font-size:15px;color:var(--md-text-secondary);line-height:1.6;">
-            💪 距离第1名还差 <strong style="color:#F59E0B;font-size:18px;">360</strong> 分！<br>
+          <div v-if="gapToFirst > 0" style="font-size:15px;color:var(--md-text-secondary);line-height:1.6;">
+            💪 距离第1名还差 <strong style="color:#F59E0B;font-size:18px;">{{ gapToFirst.toLocaleString() }}</strong> 分！<br>
             <span style="font-size:13px;opacity:0.7;">继续鼓励学生举手发言和完成作业！</span>
+          </div>
+          <div v-else style="font-size:15px;color:#10B981;line-height:1.6;">
+            🎉 太棒了！本班目前位列年级第 {{ myRank }}！
           </div>
         </div>
       </div>
     </template>
+
+    <div v-else style="text-align:center;padding:60px;color:var(--md-text-secondary);">
+      📭 暂无同年级其他班级数据
+    </div>
   </div>
 </template>
