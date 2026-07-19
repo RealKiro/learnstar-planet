@@ -14,34 +14,27 @@ const currentSeries = ref('myth')
 const switching = ref(false)
 
 const navItems = [
-  { section: '🏠 班级总览', items: [
+  { section: '概览', items: [
     { page: 'teacher-dashboard', label: '班级总览', icon: '🏠' },
   ]},
-  { section: '✏️ 课堂评价', items: [
+  { section: '课堂评价', items: [
     { page: 'teacher-scores', label: '课堂评价', icon: '✏️' },
     { page: 'teacher-rules', label: '积分规则', icon: '📋' },
     { page: 'teacher-pets', label: '宠物花园', icon: '🌟' },
   ]},
-  { section: '🏆 年级战场', items: [
+  { section: '年级战场', items: [
     { page: 'teacher-pk', label: '年级PK', icon: '🏆' },
     { page: 'teacher-leaderboard', label: '排行榜', icon: '📊' },
   ]},
-  { section: '📚 宠物图鉴', items: [
-    { page: 'teacher-pets', label: '进化图鉴', icon: '📚' },
-  ]},
-  { section: '课堂工具', items: [
+  { section: '工具', items: [
     { page: 'teacher-broadcast', label: '实时广播', icon: '📡' },
     { page: 'teacher-attendance', label: '智能考勤', icon: '✅' },
     { page: 'teacher-homework', label: '扫码收作业', icon: '📱' },
     { page: 'teacher-quiz', label: '在线答题', icon: '📝' },
-    { page: 'teacher-ai', label: 'AI助教', icon: '🤖' },
-  ]},
-  { section: '学业与沟通', items: [
     { page: 'teacher-grades', label: '成绩管理', icon: '📊' },
     { page: 'teacher-notices', label: '班级通知', icon: '📢' },
     { page: 'teacher-reports', label: '数据报表', icon: '📈' },
-  ]},
-  { section: '运营', items: [
+    { page: 'teacher-ai', label: 'AI助教', icon: '🤖' },
     { page: 'teacher-shop', label: '积分商城', icon: '🛍️' },
     { page: 'teacher-exchange', label: '兑换中心', icon: '🔄' },
   ]},
