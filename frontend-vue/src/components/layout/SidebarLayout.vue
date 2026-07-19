@@ -80,6 +80,11 @@ function goHome() {
         </div>
       </nav>
 
+      <!-- 侧边栏底部扩展区（系列选择器等） -->
+      <div v-if="$slots['sidebar-extra']" class="sidebar-extra">
+        <slot name="sidebar-extra" />
+      </div>
+
       <!-- 底部 -->
       <div class="sidebar-footer">
         <button v-if="props.showLogout" class="footer-btn" @click="emit('logout')">
@@ -310,6 +315,13 @@ function goHome() {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Sidebar extra (series selector etc) */
+.sidebar-extra {
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border);
+  margin-top: auto;
 }
 
 /* Footer */

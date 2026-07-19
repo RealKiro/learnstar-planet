@@ -132,9 +132,9 @@ export const scoreApi = {
     apiPost('/api/v1/teacher/scores/batch-give', data),
 
   /** 获取积分记录 */
-  getHistory: (params: { student_id?: number; page?: number }) =>
+  getHistory: (studentId: number) =>
     apiGet<ApiResponse<{ id: number; points: number; reason: string; created_at: string; balance_after: number }[]>>(
-      '/api/v1/teacher/scores/history', { params }),
+      `/api/v1/teacher/scores/history/${studentId}`),
 }
 
 // ============================================================

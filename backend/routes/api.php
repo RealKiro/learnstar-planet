@@ -147,6 +147,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('class')->group(function () {
+            Route::get('/', [TeacherController::class, 'classInfo']);
             Route::post('switch-series', [TeacherController::class, 'switchSeries']);
         });
 

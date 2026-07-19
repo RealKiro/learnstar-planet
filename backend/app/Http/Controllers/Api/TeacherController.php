@@ -1061,6 +1061,38 @@ class TeacherController extends Controller
     }
 
     /**
+     * 获取当前班级信息（含总积分、设置、宠物系列等）
+     */
+    public function classInfo(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id');
+
+        if ($classIds->isEmpty()) {
+            return response()->json(['message' => '没有可管理的班级'], 400);
+        }
+
+        $classId = $classIds->first();
+        $class = \App\Models\ClassRoom::findOrFail($classId);
+
+        $totalScore = \App\Models\Student::where('class_id', $classId)
+            ->where('status', 'active')
+            ->sum('total_score');
+
+        return response()->json(['data' => [
+            'id' => $class->id,
+            'name' => $class->name,
+            'grade' => $class->grade,
+            'student_count' => \App\Models\Student::where('class_id', $classId)->where('status', 'active')->count(),
+            'total_score' => (int) $totalScore,
+            'class_points' => (int) ($class->settings['class_points'] ?? 0),
+            'settings' => $class->settings,
+            'display_code' => $class->display_code,
+        ]]);
+    }
+
+    /**
      * 切换班级宠物系列
      */
     public function switchSeries(Request $request): JsonResponse
