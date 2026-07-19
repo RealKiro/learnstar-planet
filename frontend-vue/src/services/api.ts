@@ -150,7 +150,7 @@ export interface FeedPetRequest {
 export const petApi = {
   /** 获取全班宠物概览 */
   getClassOverview: () =>
-    apiGet<ApiResponse<Pet[]>>('/api/v1/teacher/pets/class-overview'),
+    apiGet<ApiResponse<Pet[]>>('/api/v1/teacher/pets/overview'),
 
   /** 获取单个宠物详情 */
   getPetDetail: (petId: number) =>
@@ -191,12 +191,12 @@ export interface ClassPKData {
 export const pkApi = {
   /** 获取同年级各班PK数据 */
   getLeaderboard: () =>
-    apiGet<ApiResponse<ClassPKData[]>>('/api/v1/teacher/leaderboard/pk'),
+    apiGet<ApiResponse<ClassPKData[]>>('/api/v1/teacher/pk/leaderboard'),
 
   /** 获取本班战力详情 */
   getMyStats: () =>
     apiGet<ApiResponse<{ totalScore: number; avgLevel: number; peakCount: number; weekGrowth: number; rank: number }>>(
-      '/api/v1/teacher/leaderboard/my-stats'),
+      '/api/v1/teacher/pk/my-stats'),
 
   /** 发起PK挑战 */
   challenge: (targetClassId: number) =>

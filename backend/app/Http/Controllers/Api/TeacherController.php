@@ -999,7 +999,9 @@ class TeacherController extends Controller
             }
             arsort($classScores);
             $rank = array_search($classId, array_keys($classScores), true);
-            if ($rank !== false) $rank++;
+            if ($rank !== false) {
+                $rank++;
+            }
         }
 
         return response()->json(['data' => [
