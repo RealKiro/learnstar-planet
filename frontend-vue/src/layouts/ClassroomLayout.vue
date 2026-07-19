@@ -94,8 +94,6 @@ onMounted(() => {
       </div>
     </Transition>
 
-<template>
-  <div class="app-shell">
     <nav class="sidebar">
       <div class="logo">
         <div class="brand"><span>🌌</span> 学趣星球</div>
