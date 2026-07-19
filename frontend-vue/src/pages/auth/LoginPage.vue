@@ -160,10 +160,6 @@ function goToSlide(i: number) {
   <div class="login-page">
     <!-- 顶部导航 -->
     <nav class="login-topnav">
-      <button class="topnav-back" @click="router.push({ name: 'landing' })">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-        返回首页
-      </button>
       <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="topnav-link">GitHub</a>
     </nav>
 
@@ -309,13 +305,7 @@ function goToSlide(i: number) {
   background: rgba(255,255,255,.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(0,0,0,.04);
 }
-.topnav-back {
-  display: flex; align-items: center; gap: 6px; padding: 6px 14px; border: none; border-radius: 9999px;
-  background: transparent; color: #6E6E73; font-size: 13px; font-weight: 500;
-  cursor: pointer; transition: all .2s; font-family: inherit;
-}
-.topnav-back:hover { background: rgba(0,0,0,.04); color: #1D1D1F; }
-.topnav-link { color: #AEAEB2; font-size: 13px; text-decoration: none; transition: color .2s; }
+.topnav-link { color: #AEAEB2; font-size: 13px; text-decoration: none; transition: color .2s; margin-left: auto; }
 .topnav-link:hover { color: #6E6E73; }
 .intro {
   flex: 1;
