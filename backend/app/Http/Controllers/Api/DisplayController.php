@@ -984,6 +984,7 @@ class DisplayController extends Controller
         if ($pet) {
             // 检查是否首次切换
             $switchCount = (int) Cache::get("pet_switch_count:{$pet->id}", 0);
+            $cost = 0;
 
             if ($switchCount > 0) {
                 // 后续切换扣20积分
