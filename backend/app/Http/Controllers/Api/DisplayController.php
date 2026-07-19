@@ -747,16 +747,16 @@ class DisplayController extends Controller
         $students = Student::where('class_id', $classId)->where('status', 'active')->with('pet')->get();
         $totalScore = $students->sum('total_score');
         $count = $students->count();
-        $avgLevel = $count > 0 ? round($students->avg(fn ($s) => $s->pet?->level ?? 0), 1) : 0;
+        $avgLevel = $count > 0 ? round($students->avg(fn ($s) => $s->pet->level ?? 0), 1) : 0;
         $peakCount = $students->filter(fn ($s) => $s->pet && $s->pet->level >= 10)->count();
 
         $sorted = $students->sortByDesc('total_score')->values();
         $top5 = $sorted->take(5)->map(fn ($s) => [
             'name' => $s->name,
             'score' => $s->total_score,
-            'pet_name' => $s->pet?->name ?? '',
-            'pet_species' => $s->pet?->type ?? '',
-            'pet_level' => $s->pet?->level ?? 0,
+            'pet_name' => $s->pet->name ?? '',
+            'pet_species' => $s->pet->type ?? '',
+            'pet_level' => $s->pet->level ?? 0,
         ]);
 
         $starStudent = $sorted->first();
@@ -764,7 +764,7 @@ class DisplayController extends Controller
             ->with('student:id,name')->orderBy('created_at', 'desc')->take(5)->get()
             ->map(fn ($s) => [
                 'icon' => '🎉',
-                'text' => ($s->student?->name ?? '同学') . ' ' . ($s->amount > 0 ? '+' . $s->amount : $s->amount) . '分 — ' . ($s->reason ?? ''),
+                'text' => ($s->student->name ?? '同学') . ' ' . ($s->amount > 0 ? '+' . $s->amount : $s->amount) . '分 — ' . ($s->reason ?? ''),
             ]);
 
         return response()->json(['data' => [
@@ -778,9 +778,9 @@ class DisplayController extends Controller
                 ->where('created_at', '>=', now()->startOfWeek())->sum('amount'),
             'star_student' => $starStudent ? [
                 'name' => $starStudent->name,
-                'pet_name' => $starStudent->pet?->name ?? '',
-                'pet_species' => $starStudent->pet?->type ?? '',
-                'pet_level' => $starStudent->pet?->level ?? 0,
+                'pet_name' => $starStudent->pet->name ?? '',
+                'pet_species' => $starStudent->pet->type ?? '',
+                'pet_level' => $starStudent->pet->level ?? 0,
                 'score' => $starStudent->total_score,
             ] : null,
             'top5' => $top5,
@@ -807,9 +807,9 @@ class DisplayController extends Controller
                 'name' => $s->name,
                 'student_no' => $s->student_no,
                 'total_score' => $s->total_score,
-                'pet_name' => $s->pet?->name ?? '',
-                'pet_species' => $s->pet?->type ?? '',
-                'pet_level' => $s->pet?->level ?? 0,
+                'pet_name' => $s->pet->name ?? '',
+                'pet_species' => $s->pet->type ?? '',
+                'pet_level' => $s->pet->level ?? 0,
                 'pet_emoji' => $s->pet ? ($s->pet->currentStage()['emoji'] ?? '🥚') : '🥚',
             ]);
 
@@ -881,7 +881,7 @@ class DisplayController extends Controller
             ->map(fn (Pet $p) => [
                 'id' => $p->id,
                 'student_id' => $p->student_id,
-                'student_name' => $p->student?->name,
+                'student_name' => $p->student->name,
                 'name' => $p->name,
                 'species' => $p->species,
                 'level' => $p->level,
