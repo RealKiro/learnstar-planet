@@ -747,11 +747,11 @@ class DisplayController extends Controller
         $students = Student::where('class_id', $classId)->where('status', 'active')->with('pet')->get();
         $totalScore = $students->sum('total_score');
         $count = $students->count();
-        $avgLevel = $count > 0 ? round($students->avg(fn($s) => $s->pet?->level ?? 0), 1) : 0;
-        $peakCount = $students->filter(fn($s) => $s->pet && $s->pet->level >= 10)->count();
+        $avgLevel = $count > 0 ? round($students->avg(fn ($s) => $s->pet?->level ?? 0), 1) : 0;
+        $peakCount = $students->filter(fn ($s) => $s->pet && $s->pet->level >= 10)->count();
 
         $sorted = $students->sortByDesc('total_score')->values();
-        $top5 = $sorted->take(5)->map(fn($s) => [
+        $top5 = $sorted->take(5)->map(fn ($s) => [
             'name' => $s->name,
             'score' => $s->total_score,
             'pet_name' => $s->pet?->name ?? '',
@@ -762,7 +762,7 @@ class DisplayController extends Controller
         $starStudent = $sorted->first();
         $recentNews = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
             ->with('student:id,name')->orderBy('created_at', 'desc')->take(5)->get()
-            ->map(fn($s) => [
+            ->map(fn ($s) => [
                 'icon' => '🎉',
                 'text' => ($s->student?->name ?? '同学') . ' ' . ($s->amount > 0 ? '+' . $s->amount : $s->amount) . '分 — ' . ($s->reason ?? ''),
             ]);
@@ -802,7 +802,7 @@ class DisplayController extends Controller
             ->where('status', 'active')
             ->with('pet')
             ->get()
-            ->map(fn(Student $s) => [
+            ->map(fn (Student $s) => [
                 'id' => $s->id,
                 'name' => $s->name,
                 'student_no' => $s->student_no,
@@ -878,7 +878,7 @@ class DisplayController extends Controller
         $pets = Pet::where('class_id', $classInfo['class_id'])
             ->with('student:id,name')
             ->get()
-            ->map(fn(Pet $p) => [
+            ->map(fn (Pet $p) => [
                 'id' => $p->id,
                 'student_id' => $p->student_id,
                 'student_name' => $p->student?->name,

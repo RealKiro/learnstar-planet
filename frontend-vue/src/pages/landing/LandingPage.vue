@@ -1,38 +1,22 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 import { apiPost } from '@/utils/api'
 
 const router = useRouter()
-const authStore = useAuthStore()
-
-// 班级码
 const displayCode = ref('')
-const codeError = ref('')
 const loading = ref(false)
+const codeError = ref('')
 
-// 幻灯片
 const slides = [
-  { icon: '🌌', title: '让每个孩子的努力', highlight: '都被看见', desc: '积分激励 · 宠物养成 · AI 助教\n开源班级管理系统，数据完全自主掌控' },
-  { icon: '⚡', title: '覆盖班级管理', highlight: '全场景', desc: '积分规则 · 宠物进化 · 排行榜 · 通知\n考勤 · 作业 · 答题 · 成绩 · 商城 · 广播' },
-  { icon: '🌟', title: '11 阶宠物进化', highlight: '驱动成长', desc: '星尘 → 月芽 → 灵苗 → 青藤 → 慧树\n→ 蝶灵 → 鹰慧 → 狮睿 → 灵角 → 星耀 → 银河' },
+  { icon: '🌌', title: '让每个孩子的努力', highlight: '都被看见', desc: '积分激励 宠物养成 AI 助教 多端同步' },
+  { icon: '⚡', title: '覆盖班级管理', highlight: '全场景', desc: '积分规则 宠物进化 排行榜 通知公告' },
+  { icon: '🌟', title: '积分变经验', highlight: '驱动成长', desc: '12级宠物进化，从卵到传说' },
+  { icon: '🐳', title: 'Docker 一键部署', highlight: '自由选择', desc: '4种数据库支持，数据完全自主掌控' },
 ]
+
 const currentSlide = ref(0)
 let slideTimer: ReturnType<typeof setInterval>
-
-onMounted(() => {
-  if (authStore.isLoggedIn) {
-    if (authStore.isAdmin) router.replace({ name: 'admin-dashboard' })
-    else if (authStore.isTeacher) router.replace({ name: 'teacher-dashboard' })
-    else if (authStore.isParent) router.replace({ name: 'parent-home' })
-  }
-  slideTimer = setInterval(() => { currentSlide.value = (currentSlide.value + 1) % slides.length }, 4000)
-  const params = new URLSearchParams(window.location.search)
-  const code = params.get('code')
-  if (code) { displayCode.value = code.toUpperCase(); goToDisplay() }
-})
-onUnmounted(() => clearInterval(slideTimer))
 
 function onCodeInput(e: Event) {
   const input = e.target as HTMLInputElement
@@ -40,39 +24,45 @@ function onCodeInput(e: Event) {
   codeError.value = ''
 }
 
-async function goToDisplay() {
+async function goToClassroom() {
   const code = displayCode.value.trim()
   if (!code) { codeError.value = '请输入班级码'; return }
   loading.value = true; codeError.value = ''
   try {
-    const res = await apiPost<{ data: { token: string; class_id: number; class_name: string; student_count: number } }>(
+    const res = await apiPost<{ data: { token: string; class_id: number; class_name: string; grade: string; student_count: number } }>(
       '/api/v1/auth/class/login', { class_code: code }
     )
     sessionStorage.setItem('class_token', res.data.token)
     sessionStorage.setItem('class_info', JSON.stringify({
-      id: res.data.class_id,
-      name: res.data.class_name,
-      student_count: res.data.student_count,
+      id: res.data.class_id, name: res.data.class_name, grade: res.data.grade, student_count: res.data.student_count,
     }))
     router.replace({ name: 'classroom-overview' })
   } catch { codeError.value = '班级码无效，请检查后重试'; loading.value = false }
 }
 
 function goLogin(role: string) { router.push({ name: 'login', query: { role } }) }
+
+onMounted(() => {
+  slideTimer = setInterval(() => { currentSlide.value = (currentSlide.value + 1) % slides.length }, 5000)
+  const params = new URLSearchParams(window.location.search)
+  const code = params.get('code')
+  if (code) { displayCode.value = code.toUpperCase(); goToClassroom() }
+})
+onUnmounted(() => clearInterval(slideTimer))
 </script>
 
 <template>
   <div class="home">
-    <!-- 背景光晕 -->
     <div class="bg">
       <div class="bg-orb bg-orb--1"></div>
       <div class="bg-orb bg-orb--2"></div>
     </div>
 
+    <!-- 顶部导航 -->
     <header class="topbar">
       <div class="topbar-brand">🌌 学趣星球</div>
       <div class="topbar-links">
-        <button class="topbar-btn" @click="goLogin('teacher')">教师登录</button>
+        <button class="topbar-btn topbar-btn--dim" @click="goLogin('teacher')">教师登录</button>
         <button class="topbar-btn topbar-btn--dim" @click="goLogin('admin')">管理员</button>
         <button class="topbar-btn topbar-btn--dim" @click="goLogin('parent')">家长</button>
         <a href="https://github.com/RealKiro/learnstar-planet" target="_blank" class="topbar-link" title="GitHub">
@@ -82,7 +72,7 @@ function goLogin(role: string) { router.push({ name: 'login', query: { role } })
     </header>
 
     <main class="main">
-      <!-- 左侧：幻灯片介绍 -->
+      <!-- 左侧：产品介绍轮播 -->
       <section class="left">
         <div class="slide-stage">
           <Transition name="slide" mode="out-in">
@@ -101,30 +91,30 @@ function goLogin(role: string) { router.push({ name: 'login', query: { role } })
         </div>
       </section>
 
-      <!-- 右侧：登录选择 -->
+      <!-- 右侧：班级码登录卡片 -->
       <section class="right">
         <div class="panel">
-          <div class="panel-icon">🌌</div>
-          <h2 class="panel-title">进入学趣星球</h2>
-          <p class="panel-desc">选择登录方式</p>
+          <div class="panel-icon">🐾</div>
+          <h2 class="panel-title">班级宠物星球</h2>
+          <p class="panel-desc">输入班级码，进入你的班级</p>
 
-          <div class="panel-buttons">
-            <button class="panel-btn panel-btn--primary" @click="goLogin('teacher')">
-              👨‍🏫 教师登录
+          <form class="panel-form" @submit.prevent="goToClassroom">
+            <input v-model="displayCode" type="text" class="panel-input"
+              placeholder="输入班级码" maxlength="12" autocomplete="off" @input="onCodeInput">
+            <button type="submit" class="panel-btn" :disabled="loading || displayCode.length < 3">
+              {{ loading ? '⏳ 验证中…' : '🚀 进入班级' }}
             </button>
-            <button class="panel-btn panel-btn--outline" @click="goLogin('parent')">
-              👨‍👩‍👧‍👦 家长登录
-            </button>
-            <button class="panel-btn panel-btn--ghost" @click="router.push({ name: 'login', query: { mode: 'code' } })">
-              🔑 班级码登录
-            </button>
-          </div>
+            <p v-if="codeError" class="panel-error">{{ codeError }}</p>
+          </form>
 
-          <div class="panel-features">
-            <span>⭐ 积分激励</span>
-            <span>🌟 宠物进化</span>
-            <span>🏆 排行榜</span>
-            <span>📢 实时广播</span>
+          <p class="panel-footnote">班级码由班主任统一分配</p>
+
+          <div class="panel-divider"><span>其他登录方式</span></div>
+
+          <div class="panel-alt">
+            <button class="panel-alt-btn" @click="goLogin('teacher')">👨‍🏫 教师</button>
+            <button class="panel-alt-btn" @click="goLogin('parent')">👨‍👩‍👧‍👦 家长</button>
+            <button class="panel-alt-btn" @click="goLogin('admin')">⚙️ 管理</button>
           </div>
         </div>
       </section>
@@ -134,133 +124,106 @@ function goLogin(role: string) { router.push({ name: 'login', query: { role } })
 
 <style scoped>
 .home {
-  height: 100vh; overflow: hidden;
-  background: #FBFBFD; color: #1D1D1F;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
-    'Helvetica Neue', 'Noto Sans SC', sans-serif;
+  min-height: 100vh; display: flex; flex-direction: column;
+  background: #FBFBFD; color: #1D1D1F; position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Noto Sans SC', sans-serif;
   -webkit-font-smoothing: antialiased;
-  display: flex; flex-direction: column;
-  position: relative;
 }
 
-/* ===== 背景 ===== */
+/* 背景 */
 .bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-.bg-orb {
-  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
-}
-.bg-orb--1 { width: 600px; height: 600px; background: #C7D2FE; top: -200px; right: -100px; animation: f1 20s ease infinite; }
-.bg-orb--2 { width: 500px; height: 500px; background: #A7F3D0; bottom: -150px; left: -80px; animation: f2 25s ease infinite; }
-@keyframes f1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(50px,-40px)} }
-@keyframes f2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-60px,50px)} }
+.bg-orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.25; }
+.bg-orb--1 { width: 500px; height: 500px; background: #C7D2FE; top: -200px; right: -100px; animation: orbFloat 12s ease-in-out infinite; }
+.bg-orb--2 { width: 350px; height: 350px; background: #A7F3D0; bottom: -100px; left: -50px; animation: orbFloat 15s ease-in-out infinite reverse; }
+@keyframes orbFloat { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,-30px); } }
 
-/* ===== 顶栏 ===== */
+/* 顶栏 */
 .topbar {
-  position: relative; z-index: 10;
+  position: relative; z-index: 1;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 40px; flex-shrink: 0;
+  padding: 12px 32px; max-width: 1100px; margin: 0 auto; width: 100%; box-sizing: border-box;
 }
-.topbar-brand { font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.topbar-links { display: flex; align-items: center; gap: 4px; }
+.topbar-brand { font-size: 20px; font-weight: 700; background: linear-gradient(135deg,#5E5CE6,#FF375F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.topbar-links { display: flex; align-items: center; gap: 8px; }
 .topbar-btn {
-  padding: 6px 14px; border: none; border-radius: 6px; background: transparent;
-  color: #6E6E73; font-size: 13px; font-weight: 500; cursor: pointer;
-  transition: all .2s; font-family: inherit;
+  padding: 6px 14px; border: 1px solid #E5E5EA; border-radius: 9999px;
+  background: #FFFFFF; color: #6E6E73; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all .2s; font-family: inherit;
 }
-.topbar-btn:hover { background: rgba(0,0,0,.04); color: #1D1D1F; }
-.topbar-btn--dim { color: #AEAEB2; font-size: 12px; }
-.topbar-btn--dim:hover { color: #6E6E73; }
-.topbar-link { display: flex; align-items: center; padding: 6px; color: #AEAEB2; cursor: pointer; }
+.topbar-btn:hover { background: #F5F5F7; color: #1D1D1F; }
+.topbar-btn--dim { background: transparent; border-color: transparent; color: #86868B; }
+.topbar-btn--dim:hover { background: rgba(0,0,0,.04); }
+.topbar-link { color: #AEAEB2; padding: 4px; transition: color .2s; display: flex; }
 .topbar-link:hover { color: #6E6E73; }
 
-/* ===== 左右主体 ===== */
+/* 主内容 */
 .main {
-  position: relative; z-index: 1; isolation: isolate;
-  flex: 1; min-height: 0;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0 40px 40px; gap: 60px;
+  flex: 1; display: flex; max-width: 1100px; margin: 0 auto; width: 100%;
+  padding: 20px 32px 40px; position: relative; z-index: 1;
 }
 
-/* ===== 左侧 ===== */
-.left {
-  flex: 1; max-width: 520px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-
-.slide-stage { width: 100%; text-align: center; }
-.slide-card { padding: 20px 0; }
-.slide-icon { font-size: 64px; margin-bottom: 20px; }
-.slide-title {
-  font-size: 44px; font-weight: 800; line-height: 1.15;
-  letter-spacing: -.03em; margin: 0 0 16px;
-}
-.slide-highlight {
-  background: linear-gradient(135deg,#5E5CE6,#FF375F,#FF9F0A);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* 左侧 */
+.left { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 64px 48px 0; }
+.slide-stage { max-width: 480px; width: 100%; }
+.slide-card { }
+.slide-icon { font-size: 56px; margin-bottom: 20px; }
+.slide-title { font-size: 40px; font-weight: 900; line-height: 1.2; letter-spacing: -1px; margin-bottom: 20px; }
+.slide-highlight { background: linear-gradient(135deg,#5E5CE6,#FF375F,#FF9F0A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .slide-desc { font-size: 16px; color: #86868B; line-height: 1.7; white-space: pre-line; }
+.dots { display: flex; gap: 8px; margin-top: 44px; }
+.dot { height: 8px; width: 8px; border-radius: 4px; border: none; cursor: pointer; background: #D2D2D7; transition: all 0.3s; }
+.dot.active { width: 32px; background: linear-gradient(135deg,#5E5CE6,#818CF8); }
 
-.slide-enter-active, .slide-leave-active { transition: all .4s cubic-bezier(.4,0,.2,1); }
-.slide-enter-from { opacity: 0; transform: translateX(30px); }
-.slide-leave-to { opacity: 0; transform: translateX(-30px); }
+/* 右侧 */
+.right { flex: 0 0 380px; display: flex; align-items: center; }
+.panel { width: 100%; padding: 36px 32px; background: #FFFFFF; border-radius: 20px; border: 1px solid #F0F0F3; box-shadow: 0 8px 30px rgba(0,0,0,.04); text-align: center; }
+.panel-icon { font-size: 48px; margin-bottom: 8px; }
+.panel-title { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.panel-desc { font-size: 14px; color: #86868B; margin-bottom: 24px; }
 
-.dots { display: flex; gap: 8px; justify-content: center; margin-top: 32px; }
-.dot {
-  width: 8px; height: 8px; border-radius: 50%; border: none; background: #D2D2D7;
-  cursor: pointer; padding: 0; transition: all .3s;
-}
-.dot.active { width: 28px; border-radius: 4px; background: linear-gradient(135deg,#5E5CE6,#818CF8); }
-
-/* ===== 右侧面板 ===== */
-.right { flex: 0 0 380px; }
-
-.panel {
-  background: #FFFFFF;
-  border-radius: 24px;
-  box-shadow: 0 4px 30px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.03);
-  padding: 36px 32px;
-  text-align: center;
-}
-.panel-icon { font-size: 36px; margin-bottom: 10px; }
-.panel-title { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
-.panel-desc { font-size: 13px; color: #8E8E93; margin: 0 0 24px; }
-
-.panel-form { display: flex; flex-direction: column; gap: 10px; }
+.panel-form { display: flex; flex-direction: column; gap: 12px; }
 .panel-input {
-  width: 100%; padding: 14px 16px; border-radius: 12px;
-  border: 1.5px solid #E5E5EA;
-  background: #F5F5F7; color: #1D1D1F;
-  font-size: 24px; font-weight: 600; letter-spacing: .12em;
-  outline: none; transition: all .2s; text-align: center;
-  font-family: 'SF Mono', 'SF Pro Text', 'Noto Sans SC', monospace;
-  box-sizing: border-box;
+  width: 100%; padding: 14px 18px;
+  background: #F5F5F7; border: 1px solid #E5E5EA; border-radius: 12px;
+  color: #1D1D1F; font-size: 24px; font-weight: 700;
+  text-align: center; letter-spacing: 0.1em;
+  outline: none; transition: all 0.2s;
 }
+.panel-input:focus { border-color: #5E5CE6; background: #FFFFFF; box-shadow: 0 0 0 3px rgba(94,92,230,0.12); }
 .panel-input::placeholder { color: #AEAEB2; font-weight: 400; font-size: 16px; letter-spacing: 0; }
-.panel-input:focus { border-color: #5E5CE6; background: #fff; box-shadow: 0 0 0 3px rgba(94,92,230,.1); }
+
 .panel-btn {
-  width: 100%; padding: 14px; border-radius: 12px; border: none;
-  background: linear-gradient(135deg,#5E5CE6,#818CF8); color: #fff;
+  width: 100%; padding: 14px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg,#5E5CE6,#818CF8); color: #FFFFFF;
   font-size: 16px; font-weight: 600; cursor: pointer;
-  transition: all .2s; font-family: inherit;
+  box-shadow: 0 4px 14px rgba(94,92,230,0.2); transition: all 0.3s;
 }
-.panel-btn:hover:not(:disabled) { box-shadow: 0 4px 14px rgba(94,92,230,.25); }
-.panel-btn:disabled { opacity: .35; cursor: not-allowed; }
-.panel-error { color: #EF4444; font-size: 13px; margin: 0; }
-.panel-footnote { font-size: 12px; color: #AEAEB2; margin-top: 14px; }
+.panel-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(94,92,230,0.3); }
+.panel-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.panel-features {
-  margin-top: 24px; padding-top: 20px; border-top: 1px solid #F0F0F0;
-  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-  font-size: 11px; color: #AEAEB2;
+.panel-error { color: #EF4444; font-size: 13px; padding: 8px; background: rgba(239,68,68,0.06); border-radius: 8px; }
+.panel-footnote { font-size: 12px; color: #AEAEB2; margin-top: 16px; }
+
+.panel-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0 14px; color: #AEAEB2; font-size: 12px; }
+.panel-divider::before, .panel-divider::after { content: ''; flex: 1; height: 1px; background: #E5E5EA; }
+
+.panel-alt { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.panel-alt-btn {
+  padding: 10px 8px; border: 1px solid #E5E5EA; border-radius: 10px;
+  background: #F5F5F7; color: #6E6E73; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
 }
+.panel-alt-btn:hover { background: #FFFFFF; border-color: #D2D2D7; color: #1D1D1F; }
 
-/* ===== 响应式 ===== */
-@media (max-width: 860px) {
-  .main { flex-direction: column; padding: 0 20px 24px; gap: 24px; }
-  .left { max-width: 100%; }
-  .slide-title { font-size: 32px; }
-  .slide-icon { font-size: 48px; margin-bottom: 12px; }
-  .right { flex: none; width: 100%; max-width: 400px; }
-  .panel { padding: 28px 24px; }
+.slide-enter-active { transition: all 0.4s ease; }
+.slide-leave-active { transition: all 0.3s ease; }
+.slide-enter-from { opacity: 0; transform: translateX(20px); }
+.slide-leave-to { opacity: 0; transform: translateX(-20px); }
+
+@media (max-width: 768px) {
+  .main { flex-direction: column; padding: 16px; }
+  .left { display: none; }
+  .right { flex: 1; }
+  .panel { box-shadow: none; border-color: transparent; }
 }
 </style>
