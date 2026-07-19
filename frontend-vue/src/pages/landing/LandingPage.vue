@@ -48,13 +48,13 @@ async function goToDisplay() {
     const res = await apiPost<{ data: { token: string; class_id: number; class_name: string; student_count: number } }>(
       '/api/v1/auth/class/login', { class_code: code }
     )
-    sessionStorage.setItem('display_token', res.data.token)
-    sessionStorage.setItem('display_class_info', JSON.stringify({
+    sessionStorage.setItem('class_token', res.data.token)
+    sessionStorage.setItem('class_info', JSON.stringify({
       id: res.data.class_id,
       name: res.data.class_name,
       student_count: res.data.student_count,
     }))
-    router.replace({ name: 'display-screen' })
+    router.replace({ name: 'classroom-overview' })
   } catch { codeError.value = '班级码无效，请检查后重试'; loading.value = false }
 }
 
@@ -101,31 +101,30 @@ function goLogin(role: string) { router.push({ name: 'login', query: { role } })
         </div>
       </section>
 
-      <!-- 右侧：班级码登录 -->
+      <!-- 右侧：登录选择 -->
       <section class="right">
         <div class="panel">
-          <div class="panel-icon">🖥️</div>
-          <h2 class="panel-title">班级大屏</h2>
-          <p class="panel-desc">教室触摸屏 · 实时积分 · 宠物矩阵</p>
+          <div class="panel-icon">🌌</div>
+          <h2 class="panel-title">进入学趣星球</h2>
+          <p class="panel-desc">选择登录方式</p>
 
-          <form class="panel-form" @submit.prevent="goToDisplay">
-            <input v-model="displayCode" type="text" class="panel-input"
-              placeholder="输入班级码" maxlength="12" autocomplete="off"
-              @input="onCodeInput">
-            <button type="submit" class="panel-btn" :disabled="loading || displayCode.length < 3">
-              {{ loading ? '验证中…' : '进入大屏' }}
+          <div class="panel-buttons">
+            <button class="panel-btn panel-btn--primary" @click="goLogin('teacher')">
+              👨‍🏫 教师登录
             </button>
-            <p v-if="codeError" class="panel-error">{{ codeError }}</p>
-          </form>
-
-          <p class="panel-footnote">班级码由管理员统一分配</p>
+            <button class="panel-btn panel-btn--outline" @click="goLogin('parent')">
+              👨‍👩‍👧‍👦 家长登录
+            </button>
+            <button class="panel-btn panel-btn--ghost" @click="router.push({ name: 'login', query: { mode: 'code' } })">
+              🔑 班级码登录
+            </button>
+          </div>
 
           <div class="panel-features">
             <span>⭐ 积分激励</span>
             <span>🌟 宠物进化</span>
             <span>🏆 排行榜</span>
             <span>📢 实时广播</span>
-            <span>🤖 AI 助教</span>
           </div>
         </div>
       </section>

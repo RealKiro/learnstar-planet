@@ -89,8 +89,8 @@ async function handleClassLogin() {
     const res = await apiPost<ApiResponse<{ token: string; class_id: number; class_name: string; grade: string; student_count: number }>>('/api/v1/auth/class/login', {
       class_code: classCode.value.trim(),
     })
-    sessionStorage.setItem('display_token', res.data.token)
-    sessionStorage.setItem('display_class_info', JSON.stringify({
+    sessionStorage.setItem('class_token', res.data.token)
+    sessionStorage.setItem('class_info', JSON.stringify({
       id: res.data.class_id,
       name: res.data.class_name,
       grade: res.data.grade,
@@ -98,7 +98,7 @@ async function handleClassLogin() {
     }))
     classInfo.value = { class_name: res.data.class_name, student_count: res.data.student_count }
     toast.show(`欢迎进入 ${res.data.class_name}`, 'success')
-    setTimeout(() => router.push({ name: 'display-screen' }), 1500)
+    setTimeout(() => router.push({ name: 'classroom-overview' }), 1500)
   } catch (e: any) {
     classCodeError.value = e?.response?.data?.message || '班级码无效，请核对后重试'
   } finally { loading.value = false }

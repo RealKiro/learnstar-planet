@@ -77,12 +77,21 @@ const router = createRouter({
     {
       path: '/display',
       children: [
-        // /display/login 重定向到统一 /login 入口
         { path: 'login', redirect: '/login?mode=code' },
-        // /display/code 同样重定向
         { path: 'code', redirect: '/login?mode=code' },
-        // 大屏显示页保持不变
-        { path: 'screen', name: 'display-screen', component: () => import('@/pages/display/ScreenPage.vue') },
+      ],
+    },
+
+    // ===== 班级教室端（班级码登录，无需教师账号，展示设计文档4大核心模块） =====
+    {
+      path: '/classroom',
+      component: () => import('@/layouts/ClassroomLayout.vue'),
+      children: [
+        { path: '', redirect: { name: 'classroom-overview' } },
+        { path: 'overview', name: 'classroom-overview', component: () => import('@/pages/classroom/OverviewPage.vue') },
+        { path: 'scores', name: 'classroom-scores', component: () => import('@/pages/classroom/ScoresPage.vue') },
+        { path: 'pk', name: 'classroom-pk', component: () => import('@/pages/classroom/PKPage.vue') },
+        { path: 'pokedex', name: 'classroom-pokedex', component: () => import('@/pages/classroom/PokedexPage.vue') },
       ],
     },
 	],

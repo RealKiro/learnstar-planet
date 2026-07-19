@@ -725,6 +725,176 @@ class DisplayController extends Controller
     }
 
     // ============================================================
+    // 教室端 API（设计文档4大模块，班级码Token）
+    // ============================================================
+
+    /**
+     * 教室端 · 班级总览
+     */
+    public function classroomDashboard(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+
+        $classId = $classInfo['class_id'];
+        $class = ClassRoom::find($classId);
+        if (!$class) {
+            return response()->json(['message' => '班级不存在'], 404);
+        }
+
+        $students = Student::where('class_id', $classId)->where('status', 'active')->with('pet')->get();
+        $totalScore = $students->sum('total_score');
+        $count = $students->count();
+        $avgLevel = $count > 0 ? round($students->avg(fn($s) => $s->pet?->level ?? 0), 1) : 0;
+        $peakCount = $students->filter(fn($s) => $s->pet && $s->pet->level >= 10)->count();
+
+        $sorted = $students->sortByDesc('total_score')->values();
+        $top5 = $sorted->take(5)->map(fn($s) => [
+            'name' => $s->name,
+            'score' => $s->total_score,
+            'pet_name' => $s->pet?->name ?? '',
+            'pet_species' => $s->pet?->type ?? '',
+            'pet_level' => $s->pet?->level ?? 0,
+        ]);
+
+        $starStudent = $sorted->first();
+        $recentNews = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
+            ->with('student:id,name')->orderBy('created_at', 'desc')->take(5)->get()
+            ->map(fn($s) => [
+                'icon' => '🎉',
+                'text' => ($s->student?->name ?? '同学') . ' ' . ($s->amount > 0 ? '+' . $s->amount : $s->amount) . '分 — ' . ($s->reason ?? ''),
+            ]);
+
+        return response()->json(['data' => [
+            'class_name' => $class->name,
+            'grade' => $class->grade,
+            'student_count' => $count,
+            'total_score' => (int) $totalScore,
+            'avg_pet_level' => $avgLevel,
+            'peak_count' => $peakCount,
+            'weekly_score' => (int) \App\Models\Score::whereIn('student_id', $students->pluck('id'))
+                ->where('created_at', '>=', now()->startOfWeek())->sum('amount'),
+            'star_student' => $starStudent ? [
+                'name' => $starStudent->name,
+                'pet_name' => $starStudent->pet?->name ?? '',
+                'pet_species' => $starStudent->pet?->type ?? '',
+                'pet_level' => $starStudent->pet?->level ?? 0,
+                'score' => $starStudent->total_score,
+            ] : null,
+            'top5' => $top5,
+            'recent_news' => $recentNews,
+        ]]);
+    }
+
+    /**
+     * 教室端 · 学生列表（含宠物信息）
+     */
+    public function classroomStudents(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+
+        $students = Student::where('class_id', $classInfo['class_id'])
+            ->where('status', 'active')
+            ->with('pet')
+            ->get()
+            ->map(fn(Student $s) => [
+                'id' => $s->id,
+                'name' => $s->name,
+                'student_no' => $s->student_no,
+                'total_score' => $s->total_score,
+                'pet_name' => $s->pet?->name ?? '',
+                'pet_species' => $s->pet?->type ?? '',
+                'pet_level' => $s->pet?->level ?? 0,
+                'pet_emoji' => $s->pet ? ($s->pet->currentStage()['emoji'] ?? '🥚') : '🥚',
+            ]);
+
+        return response()->json(['data' => $students]);
+    }
+
+    /**
+     * 教室端 · 加减分
+     */
+    public function classroomGiveScore(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+
+        $request->validate([
+            'student_id' => 'required|integer',
+            'points' => 'required|integer|not_in:0',
+            'reason' => 'nullable|string|max:200',
+        ]);
+
+        $classId = $classInfo['class_id'];
+        $student = Student::where('class_id', $classId)->findOrFail((int) $request->input('student_id'));
+        $amount = (int) $request->input('points');
+        $reason = $request->input('reason', '课堂评价');
+
+        $student->total_score = max(0, $student->total_score + $amount);
+        $student->save();
+
+        if ($student->pet) {
+            if ($amount > 0) {
+                $student->pet->addExperience($amount);
+            } else {
+                $student->pet->removeExperience(abs($amount));
+            }
+        }
+
+        \App\Models\Score::create([
+            'student_id' => $student->id,
+            'class_id' => $classId,
+            'amount' => $amount,
+            'reason' => $reason,
+        ]);
+
+        return response()->json([
+            'message' => ($amount > 0 ? '加' : '减') . '分成功',
+            'data' => [
+                'student_name' => $student->name,
+                'points' => $amount,
+                'new_score' => $student->fresh()->total_score,
+            ],
+        ]);
+    }
+
+    /**
+     * 教室端 · 宠物概览
+     */
+    public function classroomPetsOverview(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+
+        $pets = Pet::where('class_id', $classInfo['class_id'])
+            ->with('student:id,name')
+            ->get()
+            ->map(fn(Pet $p) => [
+                'id' => $p->id,
+                'student_id' => $p->student_id,
+                'student_name' => $p->student?->name,
+                'name' => $p->name,
+                'species' => $p->species,
+                'level' => $p->level,
+                'exp' => $p->exp,
+                'mood' => $p->mood,
+                'stage_name' => $p->currentStage()['name'] ?? '',
+                'emoji' => $p->currentStage()['emoji'] ?? '🐾',
+            ]);
+
+        return response()->json(['data' => $pets]);
+    }
+
+    // ============================================================
     // 辅助
     // ============================================================
 

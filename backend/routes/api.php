@@ -262,7 +262,7 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    // ===== 5. 班级大屏 (班级码 Token) =====
+    // ===== 5. 班级大屏 / 教室端 (班级码 Token) =====
     Route::prefix('display')->group(function () {
         Route::post('login', [DisplayController::class, 'login'])->middleware('throttle:10,1');
         Route::get('initial-data', [DisplayController::class, 'initialData']);
@@ -273,6 +273,12 @@ Route::prefix('v1')->group(function () {
         Route::get('shop-items', [DisplayController::class, 'quickShopItems']);
         Route::post('redeem', [DisplayController::class, 'quickRedeem']);
         Route::post('transfer', [DisplayController::class, 'quickTransfer']);
+
+        // 教室端 API（班级码Token，对应设计文档4大模块）
+        Route::get('dashboard', [DisplayController::class, 'classroomDashboard']);
+        Route::get('students', [DisplayController::class, 'classroomStudents']);
+        Route::post('scores/give', [DisplayController::class, 'classroomGiveScore']);
+        Route::get('pets/overview', [DisplayController::class, 'classroomPetsOverview']);
     });
 
     // ===== 6. 公共接口 =====
