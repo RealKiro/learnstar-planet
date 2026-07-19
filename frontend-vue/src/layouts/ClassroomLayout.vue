@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { apiPost } from '@/utils/api'
+import { getAllSeries, getSeriesName } from '@/utils/petData'
 
 const router = useRouter()
 const route = useRoute()
 
 const classInfo = ref<{ id: number; name: string; student_count?: number } | null>(null)
+const showVoteModal = ref(true)
+const voteSeries = ref('myth')
+const voting = ref(false)
+const voteDone = ref(false)
 
 const activeNav = computed(() => String(route.name))
 
@@ -16,14 +22,77 @@ const navItems = [
   { page: 'classroom-pokedex', label: '宠物图鉴', icon: '📚' },
 ]
 
+const allSeries = getAllSeries()
+
 function navigate(name: string) { router.push({ name }) }
 function goToLogin() { sessionStorage.clear(); router.push({ name: 'login', query: { mode: 'code' } }) }
+
+async function confirmVote() {
+  voting.value = true
+  const token = sessionStorage.getItem('class_token') || ''
+  try {
+    await apiPost('/api/v1/display/switch-series', { token, series_id: voteSeries.value })
+    voteDone.value = true
+    sessionStorage.setItem('class_series', voteSeries.value)
+    setTimeout(() => { showVoteModal.value = false }, 2000)
+  } catch { /* ignore */ } finally { voting.value = false }
+}
 
 onMounted(() => {
   const ci = sessionStorage.getItem('class_info')
   if (ci) classInfo.value = JSON.parse(ci)
+  // 如果已有系列配置则不弹投票
+  if (sessionStorage.getItem('class_series')) {
+    showVoteModal.value = false
+  }
 })
 </script>
+
+<template>
+  <div class="app-shell">
+    <!-- 首次使用投票弹窗 -->
+    <Transition name="fade">
+      <div v-if="showVoteModal" @click.self="() => {}"
+        style="position:fixed;inset:0;z-index:999;background:rgba(5,2,20,0.9);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:linear-gradient(180deg,#1a1040,#0d1b2a);border:1px solid rgba(255,255,255,0.08);border-radius:24px;max-width:520px;width:100%;padding:36px 32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+          <div v-if="!voteDone">
+            <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+            <h2 style="font-size:24px;font-weight:700;margin-bottom:8px;">欢迎来到学趣星球！</h2>
+            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:20px;">
+              请全班投票选择你们喜欢的宠物类别<br>
+              <span style="font-size:12px;opacity:0.7;">选定后每人可免费选择一只心仪的宠物</span>
+            </p>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;max-height:320px;overflow-y:auto;">
+              <button v-for="s in allSeries" :key="s.id" @click="voteSeries = s.id"
+                :style="{
+                  padding:'16px 12px', borderRadius:'16px', cursor:'pointer', transition:'0.2s', fontFamily:'inherit',
+                  border: voteSeries === s.id ? '2px solid var(--md-primary)' : '1px solid rgba(255,255,255,0.06)',
+                  background: voteSeries === s.id ? 'rgba(167,139,250,0.1)' : 'rgba(255,255,255,0.02)',
+                  color: voteSeries === s.id ? 'var(--md-primary-light)' : 'var(--md-text)',
+                }">
+                <div style="font-size:32px;margin-bottom:6px;">{{ s.emoji }}</div>
+                <div style="font-size:14px;font-weight:600;">{{ s.name }}</div>
+                <div style="font-size:11px;color:var(--md-text-secondary);margin-top:2px;">{{ s.species.length }}种宠物</div>
+              </button>
+            </div>
+            <button @click="confirmVote" :disabled="voting"
+              style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;">
+              {{ voting ? '投票中...' : '✅ 选择「' + getSeriesName(voteSeries) + '」系列' }}
+            </button>
+          </div>
+          <div v-else>
+            <div style="font-size:64px;margin-bottom:16px;">🎊</div>
+            <h2 style="font-size:22px;font-weight:700;margin-bottom:8px;">选择成功！</h2>
+            <p style="font-size:14px;color:var(--md-text-secondary);">
+              已选定「{{ getSeriesName(voteSeries) }}」系列
+            </p>
+            <p style="font-size:13px;color:var(--md-gold);margin-top:8px;">
+              现在去为每位同学免费选择宠物吧！
+            </p>
+          </div>
+        </div>
+      </div>
+    </Transition>
 
 <template>
   <div class="app-shell">

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { getSpeciesEmoji, getSpeciesBySeries, PET_SERIES, getSeriesName, getPetLevelName, getLevelRequiredScore } from '@/utils/petData'
+import { getSpeciesEmoji, getSpeciesBySeries, PET_SERIES, getSeriesName, getPetLevelName, getLevelRequiredScore, getPetLevelDescription } from '@/utils/petData'
+import { getPoems, getEvoLines, STAGE_NAMES } from '@/utils/petHandbookData'
 import { useToastStore } from '@/stores/toast'
 
 const toast = useToastStore()
@@ -54,6 +55,43 @@ function openPetPicker(s: StudentEntry) {
 }
 
 const confirmSwitch = ref<{ speciesId: string; name: string } | null>(null)
+
+// 宠物详情弹窗
+const showPetDetail = ref(false)
+const detailStudent = ref<StudentEntry | null>(null)
+
+function openPetDetail(s: StudentEntry) {
+  detailStudent.value = s
+  showPetDetail.value = true
+}
+
+function detailStageIndex(level: number): number {
+  if (level <= 1) return 0
+  if (level <= 2) return 1
+  if (level <= 5) return 2
+  if (level <= 8) return 3
+  if (level <= 10) return 4
+  return 5
+}
+
+function getPetStageNames(level: number): string {
+  const names = ['新生之卵', '幼年期', '成长期', '成熟期', '巅峰期', '涅槃']
+  return names[detailStageIndex(level)] || ''
+}
+
+function getPetDetailPoems(speciesId: string, level: number): string {
+  const species = PET_SERIES.flatMap(s => s.species).find(sp => sp.id === speciesId)
+  if (!species) return ''
+  const poems = getPoems(species.name)
+  return poems[detailStageIndex(level)] || ''
+}
+
+function getPetDetailEvo(speciesId: string, level: number): string {
+  const species = PET_SERIES.flatMap(s => s.species).find(sp => sp.id === speciesId)
+  if (!species) return ''
+  const evos = getEvoLines(species.name)
+  return evos[detailStageIndex(level)] || ''
+}
 
 function requestSwitch(speciesId: string, name: string) {
   confirmSwitch.value = { speciesId, name }
@@ -175,7 +213,7 @@ onMounted(async () => {
             <span style="font-size:16px;font-weight:700;">{{ s.name }}</span>
             <span style="font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:rgba(255,215,0,0.12);color:var(--md-gold);">Lv.{{ s.pet_level }}</span>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;" @click="openPetPicker(s)" title="点击切换宠物">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;" @click="openPetDetail(s)" title="点击查看宠物详情">
             <span style="font-size:28px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.15)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">{{ s.pet_emoji }}</span>
             <span style="font-size:13px;color:var(--md-text-secondary);border-bottom:1px dashed rgba(255,255,255,0.15);">{{ s.pet_name || '未孵化' }}</span>
             <span style="font-size:10px;color:rgba(167,139,250,0.4);margin-left:auto;">换宠</span>
@@ -250,6 +288,59 @@ onMounted(async () => {
             <div style="display:flex;gap:10px;">
               <button @click="confirmSwitch = null" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消</button>
               <button @click="executeSwitch" :disabled="switchingPet" style="flex:1;padding:10px;border-radius:10px;border:none;background:rgba(167,139,250,0.15);color:var(--md-primary-light);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">确认切换</button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+
+      <!-- 宠物详情弹窗 -->
+      <Transition name="fade">
+        <div v-if="showPetDetail && detailStudent" @click.self="showPetDetail = false"
+          style="position:fixed;inset:0;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;z-index:300;padding:20px;">
+          <div style="background:linear-gradient(180deg,#1a1040,#0d1b2a);border:1px solid rgba(255,255,255,0.08);border-radius:24px;max-width:480px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+              <span style="font-size:48px;">{{ detailStudent.pet_emoji }}</span>
+              <div>
+                <div style="font-size:20px;font-weight:700;">{{ getPetLevelName(detailStudent.pet_species, detailStudent.pet_level) || detailStudent.pet_name }}</div>
+                <div style="font-size:13px;color:var(--md-text-secondary);">
+                  Lv.{{ detailStudent.pet_level }} · {{ getPetStageNames(detailStudent.pet_level) }}
+                </div>
+              </div>
+              <button @click="showPetDetail = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;font-size:14px;">✕</button>
+            </div>
+
+            <!-- 阶段描述 -->
+            <div style="padding:14px 16px;background:rgba(255,255,255,0.03);border-radius:12px;border-left:3px solid var(--md-primary);margin-bottom:12px;">
+              <div style="font-size:11px;color:var(--md-text-secondary);font-weight:600;margin-bottom:4px;">📋 {{ getPetStageNames(detailStudent.pet_level) }} · {{ getPetLevelName(detailStudent.pet_species, detailStudent.pet_level) }}</div>
+              <div style="font-size:13px;color:var(--md-text-secondary);line-height:1.6;">{{ getPetLevelDescription(detailStudent.pet_species, detailStudent.pet_level) }}</div>
+            </div>
+
+            <!-- 进化台词 -->
+            <div v-if="getPetDetailEvo(detailStudent.pet_species, detailStudent.pet_level)" style="padding:12px 16px;background:rgba(245,158,11,0.06);border-radius:12px;border-left:3px solid #F59E0B;margin-bottom:12px;">
+              <div style="font-size:11px;color:rgba(245,158,11,0.6);font-weight:600;margin-bottom:4px;">💬 进化台词</div>
+              <div style="font-size:15px;color:#fcd34d;font-style:italic;">{{ getPetDetailEvo(detailStudent.pet_species, detailStudent.pet_level) }}</div>
+            </div>
+
+            <!-- 诗文 -->
+            <div v-if="getPetDetailPoems(detailStudent.pet_species, detailStudent.pet_level)" style="padding:14px 16px;background:rgba(139,92,246,0.06);border-radius:12px;border-left:3px solid #8B5CF6;margin-bottom:16px;">
+              <div style="font-size:11px;color:rgba(139,92,246,0.6);font-weight:600;margin-bottom:4px;">📜 专属诗文</div>
+              <div style="font-size:13px;color:#c4b5fd;line-height:1.8;white-space:pre-line;">{{ getPetDetailPoems(detailStudent.pet_species, detailStudent.pet_level) }}</div>
+            </div>
+
+            <!-- 进度条 -->
+            <div style="margin-bottom:16px;">
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--md-text-secondary);margin-bottom:4px;">
+                <span>升级进度</span>
+                <span>距 Lv.{{ detailStudent.pet_level + 1 }} 还差 <strong style="color:var(--md-gold);">{{ nextLevelProgress(detailStudent.total_score, detailStudent.pet_level).remaining }}</strong> 分</span>
+              </div>
+              <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;">
+                <div :style="{ width: nextLevelProgress(detailStudent.total_score, detailStudent.pet_level).percent + '%', height:'100%', background:'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'3px' }"></div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px;">
+              <button @click="showPetDetail = false; openPetPicker(detailStudent)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(167,139,250,0.15);background:rgba(167,139,250,0.08);color:var(--md-primary-light);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">🔄 切换宠物</button>
+              <button @click="showPetDetail = false" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">关闭</button>
             </div>
           </div>
         </div>
