@@ -23,11 +23,12 @@ const navItems = [
 ]
 
 const allSeries = getAllSeries()
+const lastEventId = ref(0)
 
 function navigate(name: string) { router.push({ name }) }
 function goToLogin() { sessionStorage.clear(); router.push({ name: 'login', query: { mode: 'code' } }) }
 
-// ===== 广播/通知接收 =====
+// ===== 广播/通知接收（SSE + 轮询降级） =====
 const currentBroadcast = ref<{
   id: number; type: string; content: string; display_seconds: number; created_at: string
 } | null>(null)
@@ -36,32 +37,76 @@ const currentNotice = ref<{
   id: number; title: string; content: string; type: string; published_at: string
 } | null>(null)
 
-const lastEventId = ref(0)
+let eventSource: EventSource | null = null
 let pollTimer: ReturnType<typeof setInterval> | null = null
+let sseFailedCount = 0
+const MAX_SSE_RETRIES = 3
+
+function handleEvent(type: string, data: any) {
+  if (type === 'broadcast' && data) {
+    showBroadcast(data)
+  } else if (type === 'notice' && data) {
+    showNotice(data)
+  }
+}
+
+function startSSE() {
+  const token = sessionStorage.getItem('class_token')
+  if (!token) return
+
+  // 关闭旧连接
+  if (eventSource) { eventSource.close(); eventSource = null }
+
+  eventSource = new EventSource(`/api/v1/display/sse?token=${token}&last_event_id=${lastEventId.value}`)
+
+  eventSource.addEventListener('broadcast', (e: MessageEvent) => {
+    try { handleEvent('broadcast', JSON.parse(e.data)) } catch { /* ignore */ }
+  })
+
+  eventSource.addEventListener('notice', (e: MessageEvent) => {
+    try { handleEvent('notice', JSON.parse(e.data)) } catch { /* ignore */ }
+  })
+
+  // 通用事件处理（兼容非命名事件）
+  eventSource.onmessage = (e: MessageEvent) => {
+    try {
+      const parsed = JSON.parse(e.data)
+      if (parsed.type) handleEvent(parsed.type, parsed.data || parsed)
+    } catch { /* ignore */ }
+  }
+
+  eventSource.onerror = () => {
+    sseFailedCount++
+    if (eventSource) { eventSource.close(); eventSource = null }
+    // SSE 失败超过阈值，降级为轮询
+    if (sseFailedCount >= MAX_SSE_RETRIES && !pollTimer) {
+      startPolling()
+    }
+  }
+}
+
+function startPolling() {
+  if (pollTimer) return
+  pollTimer = setInterval(pollEvents, 5000)
+  pollEvents()
+}
 
 async function pollEvents() {
   const token = sessionStorage.getItem('class_token')
   if (!token) return
 
   try {
-    const res = await apiGet<{ data: { events: Array<{ id: number; type: string; data: any }>; last_event_id: number } }>(
+    const res = await apiGet<{ data: { events: Array<{ id: number; type: string; data: any }>; last_event_id?: number } }>(
       '/api/v1/display/poll',
       { params: { token, last_event_id: lastEventId.value } }
     )
     const events = res.data?.events || []
     if (events.length === 0) return
 
-    let maxId = lastEventId.value
     for (const ev of events) {
-      if (ev.id > maxId) maxId = ev.id
-
-      if (ev.type === 'broadcast' && ev.data) {
-        showBroadcast(ev.data)
-      } else if (ev.type === 'notice' && ev.data) {
-        showNotice(ev.data)
-      }
+      if (ev.id && ev.id > lastEventId.value) lastEventId.value = ev.id
+      if (ev.data) handleEvent(ev.type, ev.data)
     }
-    lastEventId.value = maxId
   } catch { /* polling fails silently */ }
 }
 
@@ -122,18 +167,14 @@ onMounted(() => {
     showVoteModal.value = false
   }
 
-  // 启动事件轮询
+  // 启动 SSE 连接（优先），失败 3 次后降级为轮询
   lastEventId.value = parseInt(sessionStorage.getItem('last_event_id') || '0', 10)
-  pollTimer = setInterval(pollEvents, 5000)
-  // 立即轮询一次
-  pollEvents()
+  startSSE()
 })
 
 onUnmounted(() => {
-  if (pollTimer) {
-    clearInterval(pollTimer)
-    pollTimer = null
-  }
+  if (eventSource) { eventSource.close(); eventSource = null }
+  if (pollTimer) { clearInterval(pollTimer); pollTimer = null }
   sessionStorage.setItem('last_event_id', String(lastEventId.value))
 })
 </script>
