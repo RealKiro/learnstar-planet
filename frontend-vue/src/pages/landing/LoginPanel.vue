@@ -46,13 +46,13 @@ async function doLogin() {
     var url = ''
     var routeName = ''
     if (loginType.value === 'teacher') {
-      url = '/api/auth/teacher/login'
+      url = '/api/v1/auth/teacher/login'
       routeName = 'teacher-dashboard'
     } else if (loginType.value === 'admin') {
-      url = '/api/auth/admin/login'
+      url = '/api/v1/auth/admin/login'
       routeName = 'admin-dashboard'
     } else {
-      url = '/api/auth/parent/login'
+      url = '/api/v1/auth/parent/login'
       routeName = 'parent-home'
     }
     var res = await apiPost(url, { username: u, password: p })

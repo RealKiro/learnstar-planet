@@ -40,7 +40,7 @@ async function handleTeacherLogin() {
   if (!teacherUsername.value.trim() || !teacherPassword.value) { toast.show('请输入账号和密码', 'error'); return }
   loading.value = true
   try {
-    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/auth/teacher/login', {
+    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/teacher/login', {
       username: teacherUsername.value.trim(), password: teacherPassword.value,
     })
     teacherAttempts = 0
@@ -59,7 +59,7 @@ async function handleAdminLogin() {
   if (!adminUsername.value.trim() || !adminPassword.value) { toast.show('请输入账号和密码', 'error'); return }
   loading.value = true
   try {
-    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/auth/admin/login', {
+    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/admin/login', {
       username: adminUsername.value.trim(), password: adminPassword.value,
     })
     authStore.setAuth(res.data.token, res.data.user)
@@ -72,7 +72,7 @@ async function handleParentLogin() {
   if (!parentUsername.value.trim() || !parentPassword.value) { toast.show('请输入账号和密码', 'error'); return }
   loading.value = true
   try {
-    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/auth/parent/login', {
+    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/parent/login', {
       username: parentUsername.value.trim(), password: parentPassword.value,
     })
     authStore.setAuth(res.data.token, res.data.user)
