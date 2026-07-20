@@ -164,7 +164,7 @@ onMounted(loadData)
       </div>
 
       <!-- 模型配置 -->
-      <div v-if="activeTab === 'settings' && settings" class="card" style="max-width:640px;padding:24px;">
+      <div v-if="activeTab === 'settings'" class="card" style="max-width:640px;padding:24px;">
         <div class="form-group">
           <label>AI 提供商</label>
           <select v-model="settings.provider" class="form-input">

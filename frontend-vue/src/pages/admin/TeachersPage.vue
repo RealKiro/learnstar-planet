@@ -118,9 +118,12 @@ async function submitEdit() {
 
 const showAssignModal = ref(false)
 const assignTarget = ref<Teacher | null>(null)
-const assignList = ref<{ class_id: number | null; role: Role; subject: string }[]>([])
+const assignList = ref<{ class_id: number | null; role: Role; subject: string; class_name?: string }[]>([])
 const assignLoading = ref(false)
 const assignGradeFilter = ref('')
+const newAssignClassId = ref<number | null>(null)
+const newAssignRole = ref<Role>('subject_teacher')
+const newAssignSubject = ref('')
 const filteredAssignClasses = computed(() => {
   if (!assignGradeFilter.value) return classes.value
   return classes.value.filter(c => c.grade === assignGradeFilter.value)
@@ -128,20 +131,30 @@ const filteredAssignClasses = computed(() => {
 function openAssignModal(t: Teacher) {
   assignTarget.value = t
   assignList.value = t.assignments.length > 0
-    ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '' }))
-    : [{ class_id: null, role: 'subject_teacher', subject: '' }]
-  assignGradeFilter.value = ''; showAssignModal.value = true
+    ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '', class_name: a.class_name }))
+    : []
+  assignGradeFilter.value = ''; newAssignClassId.value = null; newAssignRole.value = 'subject_teacher'; newAssignSubject.value = ''
+  showAssignModal.value = true
 }
-function addAssignRow() { assignList.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
+function addAssignRowNew() {
+  if (!newAssignClassId.value) return
+  const cls = classes.value.find(c => c.id === newAssignClassId.value)
+  if (!cls) return
+  if (assignList.value.some(a => a.class_id === cls.id)) { toast.show('该班级已添加', 'info'); return }
+  assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role: newAssignRole.value, subject: newAssignSubject.value || '默认科目' })
+  newAssignClassId.value = null; newAssignSubject.value = ''
+}
 function removeAssignRow(idx: number) { assignList.value.splice(idx, 1) }
 async function submitAssign() {
   if (!assignTarget.value) return
   assignLoading.value = true
   try {
-    const payload = { assignments: assignList.value.filter(a => a.class_id).map(a => ({ class_id: a.class_id, role: a.role, subject: a.subject || undefined })) }
+    const payload = { assignments: assignList.value.filter(a => a.class_id).map(a => ({ class_id: a.class_id, role: a.role, subject: a.subject === '默认科目' ? undefined : a.subject || undefined })) }
     await apiPut(`/api/v1/admin/teachers/${assignTarget.value.id}/classes`, payload)
     toast.show('班级分配已更新', 'success')
     showAssignModal.value = false; await refreshTeachers()
+  } catch (e: any) {
+    toast.show(e?.response?.data?.message || '保存失败', 'error')
   } finally { assignLoading.value = false }
 }
 
@@ -346,43 +359,44 @@ onMounted(refreshTeachers)
   </Teleport>
 
   <Teleport to="body">
-    <div v-if="showAssignModal" class="modal-overlay" >
-      <div class="modal-panel" style="max-width:620px;">
-        <div class="modal-header"><h3>为「{{ assignTarget?.name }}」分配班级与角色</h3><button class="close-btn" @click="showAssignModal = false">&times;</button></div>
-        <div class="modal-body">
-          <div class="assign-section-header">
-            <span class="assign-section-title">分配班级配置</span>
+    <Transition name="overlay">
+      <div v-if="showAssignModal" @click="showAssignModal = false" style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:flex-end;">
+        <Transition name="drawer">
+          <div v-if="showAssignModal" @click.stop style="width:540px;max-width:100vw;max-height:90vh;margin:20px;border-radius:16px;background:var(--color-bg-card);border:1px solid var(--color-border);box-shadow:-8px 8px 32px rgba(0,0,0,0.12);display:flex;flex-direction:column;overflow:hidden;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--color-border);flex-shrink:0;">
+              <h2 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🏫 分配班级 — {{ assignTarget?.name }}</h2>
+              <button @click="showAssignModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
+            </div>
+            <div style="overflow-y:auto;padding:16px 20px;">
+              <!-- 选择器 -->
+              <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:12px;">
+                <div style="flex:1;" class="form-group"><label>年级</label><select v-model="assignGradeFilter" class="form-input"><option value="">全部年级</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
+                <div style="flex:1;" class="form-group"><label>班级</label><select v-model="newAssignClassId" class="form-input"><option :value="null">请选择班级</option><option v-for="c in filteredAssignClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
+                <div style="flex:1;" class="form-group"><label>角色</label><select v-model="newAssignRole" class="form-input"><option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option></select></div>
+                <div style="flex:1;" class="form-group"><label>科目</label><select v-model="newAssignSubject" class="form-input"><option value="">默认</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+                <button @click="addAssignRowNew" :disabled="!newAssignClassId" style="padding:8px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;">➕ 添加</button>
+              </div>
+
+              <!-- 已分配列表 -->
+              <div style="margin-bottom:8px;">
+                <div style="font-size:13px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📋 已分配班级（{{ assignList.length }}）</div>
+                <div v-if="assignList.length === 0" style="padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);background:var(--color-bg);border-radius:8px;">暂未分配班级</div>
+                <div v-for="(a, i) in assignList" :key="i" style="display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;background:var(--color-bg);border-radius:8px;font-size:13px;">
+                  <span style="flex:1;font-weight:500;color:var(--color-text);">{{ a.class_name || shortClassName(classById(a.class_id)?.name) }}</span>
+                  <span style="color:var(--color-text-secondary);font-size:12px;">{{ roleLabel[a.role as Role] || a.role }}</span>
+                  <span style="color:var(--color-text-secondary);font-size:12px;">{{ a.subject || '默认科目' }}</span>
+                  <button @click="removeAssignRow(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:2px;font-size:16px;">✕</button>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--color-border);flex-shrink:0;">
+              <button @click="showAssignModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
+              <button @click="submitAssign" :disabled="assignLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">{{ assignLoading ? '保存中...' : '保存分配' }}</button>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-            <span style="font-size:12px;color:#6b7280;white-space:nowrap;">筛选年级：</span>
-            <select v-model="assignGradeFilter" class="form-input" style="width:120px;padding:5px 10px;font-size:12px;">
-              <option value="">全部年级</option>
-              <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
-            </select>
-            <span style="font-size:12px;color:#6b7280;white-space:nowrap;">选择班级：</span>
-            <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addAssignRow">+ 添加一行</button>
-          </div>
-          <div v-for="(a, i) in assignList" :key="i" class="assign-row">
-            <select v-model="a.class_id" class="form-input" style="flex:2;min-width:140px;">
-              <option :value="null">请选择班级</option>
-              <option v-for="c in filteredAssignClasses" :key="c.id" :value="c.id">{{ c.name }}</option>
-            </select>
-            <select v-model="a.role" class="form-input" style="flex:1;min-width:100px;">
-              <option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option>
-            </select>
-            <select v-model="a.subject" class="form-input" style="flex:1;min-width:90px;">
-              <option value="">默认科目</option>
-              <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
-            </select>
-            <button class="btn btn-xs" style="background:#fee2e2;color:#dc2626;border:none;flex-shrink:0;" @click="removeAssignRow(i)">&#x2715;</button>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);" @click="showAssignModal = false">取消</button>
-          <button class="btn btn-primary" :disabled="assignLoading" @click="submitAssign">{{ assignLoading ? '保存中...' : '保存分配' }}</button>
-        </div>
+        </Transition>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 
   <Teleport to="body">
