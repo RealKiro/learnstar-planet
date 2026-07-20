@@ -19,6 +19,29 @@ interface School {
 const loading = ref(true)
 const saving = ref(false)
 const demoLoading = ref(false)
+const logoFile = ref<File | null>(null)
+const logoPreview = ref('')
+const logoUploading = ref(false)
+
+function onLogoChange(e: Event) {
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (file) { logoFile.value = file; logoPreview.value = URL.createObjectURL(file) }
+}
+
+async function uploadLogo() {
+  if (!logoFile.value) return
+  logoUploading.value = true
+  try {
+    const fd = new FormData()
+    fd.append('logo', logoFile.value)
+    const res = await fetch('/api/v1/admin/school/logo', { method: 'POST', body: fd, headers: { 'Authorization':  } })
+    const data = await res.json()
+    toast.show(data.message || 'LOGO 已上传', res.ok ? 'success' : 'error')
+  } catch { toast.show('上传失败', 'error') }
+  finally { logoUploading.value = false }
+}
+
+
 const form = ref({ name: '', address: '', contact_phone: '', contact_email: '' })
 const schoolCode = ref('')
 const schoolStatus = ref('')
@@ -147,6 +170,24 @@ async function cleanDemo() {
         <button class="btn btn-sm btn-primary" :disabled="saving" @click="save">{{ saving ? '保存中...' : '保存设置' }}</button>
       </div>
     </div>
+    <!-- LOGO 上传 -->
+    <div class="card" style="max-width:640px;padding:32px;margin-top:24px;">
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🏫 学校 LOGO</h3>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">支持 JPEG、PNG、GIF、WebP，最大 2MB</p>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:80px;height:80px;border-radius:12px;border:1px solid var(--color-border);overflow:hidden;flex-shrink:0;background:var(--color-bg);display:flex;align-items:center;justify-content:center;font-size:32px;">
+          <img v-if="logoPreview" :src="logoPreview" style="width:100%;height:100%;object-fit:cover;" />
+          <span v-else>🏫</span>
+        </div>
+        <div style="flex:1;">
+          <input type="file" accept="image/jpeg,image/png,image/gif,image/webp" @change="onLogoChange" style="font-size:13px;" />
+          <button class="btn btn-sm btn-primary" :disabled="logoUploading || !logoFile" @click="uploadLogo" style="margin-top:8px;">
+            {{ logoUploading ? '上传中...' : '上传 LOGO' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- 演示数据管理 -->
     <div class="card" style="max-width:640px;padding:32px;margin-top:24px;">
       <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🧪 演示数据管理</h3>

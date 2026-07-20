@@ -1699,4 +1699,27 @@ class SchoolAdminController extends Controller
 
         return response()->json(['message' => '演示数据已清除']);
     }
+
+    /**
+     * 上传学校 LOGO
+     */
+    public function uploadLogo(Request $request): JsonResponse
+    {
+        $request->validate([
+            'logo' => 'required|image|mimes:jpeg,png,gif,webp|max:2048',
+        ]);
+
+        $school = $request->user()->school;
+        if (!$school) {
+            return response()->json(['message' => '学校不存在'], 404);
+        }
+
+        $path = $request->file('logo')->store('logos', 'public');
+
+        $school->logo_path = '/storage/' . $path;
+        $school->save();
+
+        return response()->json(['message' => 'LOGO 已上传', 'data' => ['logo_path' => $school->logo_path]]);
+    }
+
 }
