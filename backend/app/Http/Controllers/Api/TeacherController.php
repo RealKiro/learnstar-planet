@@ -1716,6 +1716,23 @@ class TeacherController extends Controller
             $sent++;
         }
 
+        // 推送到班级大屏
+            try {
+                app(DisplayEventService::class)->publish($classId, 'broadcast', [
+                    'id' => $broadcast->id,
+                    'type' => $broadcast->type,
+                    'content' => $broadcast->content,
+                    'display_seconds' => $broadcast->display_seconds,
+                    'voice_enabled' => $broadcast->voice_enabled ?? false,
+                    'created_at' => $broadcast->created_at?->toIso8601String(),
+                ]);
+            } catch (Throwable $e) {
+                Log::warning('Broadcast event publish failed: ' . $e->getMessage());
+            }
+
+            $sent++;
+        }
+
         return response()->json([
             'message' => "广播已发送至 {$sent} 个班级",
             'data' => ['sent_count' => $sent],
