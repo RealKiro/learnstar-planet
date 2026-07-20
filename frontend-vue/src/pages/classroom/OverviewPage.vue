@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { apiGet } from '@/utils/api'
 import { getSpeciesEmoji } from '@/utils/petData'
 
@@ -18,10 +18,24 @@ const token = ref('')
 onMounted(async () => {
   token.value = sessionStorage.getItem('class_token') || ''
   if (!token.value) return
+  await fetchData()
+})
+
+let pollTimer: ReturnType<typeof setInterval> | null = null
+
+async function fetchData() {
   try {
     const res = await apiGet<{ data: OverviewData }>('/api/v1/display/dashboard', { params: { token: token.value } })
     data.value = res.data
   } catch { /* ignore */ } finally { loading.value = false }
+}
+
+onMounted(() => {
+  pollTimer = setInterval(fetchData, 10000)
+})
+
+onUnmounted(() => {
+  if (pollTimer) { clearInterval(pollTimer); pollTimer = null }
 })
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { apiGet } from '@/utils/api'
 
 interface ClassPK {
@@ -30,7 +30,9 @@ const rankBadge = computed(() => {
 
 function getMedal(idx: number) { return ['🥇','🥈','🥉'][idx] || `#${idx+1}` }
 
-onMounted(async () => {
+let pollTimer: ReturnType<typeof setInterval> | null = null
+
+async function fetchPKData() {
   token.value = sessionStorage.getItem('class_token') || ''
   if (!token.value) { loading.value = false; return }
   try {
@@ -44,6 +46,15 @@ onMounted(async () => {
   } catch (e: any) {
     error.value = e?.response?.data?.message || '加载失败'
   } finally { loading.value = false }
+}
+
+onMounted(() => {
+  fetchPKData()
+  pollTimer = setInterval(fetchPKData, 15000)
+})
+
+onUnmounted(() => {
+  if (pollTimer) { clearInterval(pollTimer); pollTimer = null }
 })
 </script>
 
