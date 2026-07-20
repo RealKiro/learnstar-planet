@@ -48,11 +48,6 @@ const navItems = [
   ]},
 ]
 
-const allSeries = getAllSeries()
-
-const currentSeriesName = computed(() => getSeriesName(currentSeries.value))
-const currentSeriesColor = computed(() => SERIES_SCENES[currentSeries.value]?.primaryColor || '#6366F1')
-
 async function loadMyClasses() {
   try {
     const res = await apiGet<{ data: ClassItem[] }>('/api/v1/teacher/my-classes')
