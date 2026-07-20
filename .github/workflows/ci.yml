@@ -208,6 +208,10 @@ jobs:
         working-directory: backend
         run: composer update --no-interaction --no-progress --prefer-dist --no-scripts --ignore-platform-reqs
 
+      - name: Run PHP CS Fixer (auto-fix)
+        working-directory: backend
+        run: ./vendor/bin/php-cs-fixer fix --diff
+
       - name: Run PHP CS Fixer (check only)
         working-directory: backend
         run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
