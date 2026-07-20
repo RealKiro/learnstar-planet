@@ -57,17 +57,9 @@ const filteredTeachers = computed(() => {
 
 const showCreateModal = ref(false)
 const createForm = ref({ name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' })
-const createAssignments = ref<{ class_id: number; class_name: string; subject: string }[]>([])
-const pendingGrade = ref('')
-const pendingClassId = ref<number | null>(null)
-const pendingSubject = ref('')
+const createAssignments = ref<{ class_id: number | null; role: Role; subject: string }[]>([])
 const createLoading = ref(false)
 const createGradeFilter = ref('')
-const gradeClasses = computed(() => {
-  if (!pendingGrade.value) return []
-  return classes.value.filter(c => c.grade === pendingGrade.value)
-})
-
 const filteredCreateClasses = computed(() => {
   if (!createGradeFilter.value) return classes.value
   return classes.value.filter(c => c.grade === createGradeFilter.value)
@@ -78,15 +70,6 @@ function openCreateModal() {
   createGradeFilter.value = ''
   showCreateModal.value = true
 }
-function addAssignment() {
-  if (!pendingClassId.value) return
-  const cls = classes.value.find(c => c.id === pendingClassId.value)
-  if (!cls) return
-  createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value })
-  pendingClassId.value = null
-  pendingSubject.value = ''
-}
-
 function addCreateAssignment() { if (!createGradeFilter.value) { toast.show('请先选择具体年级', 'info'); return } createAssignments.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
 function removeCreateAssignment(idx: number) { createAssignments.value.splice(idx, 1) }
 async function submitCreate() {
@@ -94,7 +77,7 @@ async function submitCreate() {
   try {
     const payload: any = { ...createForm.value }
     if (createAssignments.value.length > 0 && createAssignments.value.every(a => a.class_id)) {
-      payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: 'subject_teacher', subject: a.subject || undefined }))
+      payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: a.role, subject: a.subject || undefined }))
     }
     await apiPost('/api/v1/admin/teachers', payload)
     toast.show('教师创建成功', 'success')
@@ -293,39 +276,17 @@ onMounted(refreshTeachers)
           </div>
           <div class="assign-section">
             <div class="assign-section-header">
-              <span class="assign-section-title">班级分配</span>
+              <span class="assign-section-title">创建时分配班级（可选）</span>
             </div>
-            <div style="display:flex;gap:8px;align-items:end;margin-bottom:10px;">
-              <div class="form-group" style="flex:1;">
-                <label style="font-size:12px;">待加入年级</label>
-                <select v-model="pendingGrade" class="form-input">
-                  <option value="">-- 选择年级 --</option>
-                  <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
-                </select>
-              </div>
-              <div class="form-group" style="flex:1;">
-                <label style="font-size:12px;">待加入班级</label>
-                <select v-model="pendingClassId" class="form-input" :disabled="!pendingGrade">
-                  <option value="">-- 选择班级 --</option>
-                  <option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ c.name }}</option>
-                </select>
-              </div>
-              <div class="form-group" style="flex:1;">
-                <label style="font-size:12px;">上课科目</label>
-                <select v-model="pendingSubject" class="form-input">
-                  <option value="">默认</option>
-                  <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
-                </select>
-              </div>
-              <button class="btn btn-sm" style="background:#ede9fe;color:#7c3aed;border:none;margin-bottom:1px;" :disabled="!pendingClassId" @click="addAssignment">+ 添加</button>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <span style="font-size:12px;color:var(--color-text-secondary);white-space:nowrap;">筛选年级：</span>
+              <select v-model="createGradeFilter" class="form-input" style="width:120px;padding:5px 10px;font-size:12px;">
+                <option value="">全部年级</option>
+                <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
+              </select>
+              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">选择班级：</span>
+              <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addCreateAssignment">+ 添加一行</button>
             </div>
-            <div v-if="createAssignments.length === 0" style="color:var(--color-text-secondary);font-size:13px;padding:4px 0;">暂未分配班级</div>
-            <div v-for="(a, i) in createAssignments" :key="i" class="assign-row" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--color-border);">
-              <span style="flex:1;font-size:14px;">{{ a.class_name }}</span>
-              <span style="flex:0.5;font-size:13px;color:var(--color-text-secondary);">{{ a.subject || '默认科目' }}</span>
-              <button class="btn btn-xs" style="background:#fee2e2;color:#dc2626;border:none;" @click="createAssignments.splice(i,1)">✕</button>
-            </div>
-          </div>v>
             <div v-if="createAssignments.length === 0" style="color:#9ca3af;font-size:13px;padding:8px 0;">暂不分配，后续可在教师卡片中点击 &#x1F3EB; 按钮分配</div>
             <div v-for="(a, i) in createAssignments" :key="i" class="assign-row">
               <select v-model="a.class_id" class="form-input" style="flex:2;min-width:140px;">
