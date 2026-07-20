@@ -1,106 +1,16 @@
 {
-  "name": "班宠星球",
-  "short_name": "班宠星球",
-  "description": "班级宠物积分管理系统 - 让每个班级都充满乐趣 | 全免费",
-  "start_url": "/",
+  "name": "学趣星球",
+  "short_name": "学趣星球",
+  "description": "开源班级管理与学生激励系统 | 积分评价 · 宠物进化 · 课堂互动",
+  "start_url": "/?source=pwa",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "background_color": "#f8fafc",
-  "theme_color": "#6366f1",
-  "categories": ["education", "utilities"],
+  "theme_color": "#4F46E5",
+  "categories": ["education"],
   "icons": [
-    {
-      "src": "/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
-  "screenshots": [
-    {
-      "src": "/icons/screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "班宠星球教师端看板"
-    },
-    {
-      "src": "/icons/screenshot-narrow.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "班宠星球家长端"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "数据看板",
-      "short_name": "看板",
-      "description": "查看班级积分统计和排行",
-      "url": "/dashboard",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "积分管理",
-      "short_name": "积分",
-      "description": "为学生加减积分",
-      "url": "/scores",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "宠物园",
-      "short_name": "宠物",
-      "description": "查看全班宠物状态",
-      "url": "/pets",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
-    }
-  ],
-  "prefer_related_applications": false,
-  "related_applications": [],
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  }
+  "prefer_related_applications": false
 }

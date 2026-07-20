@@ -62,6 +62,10 @@ RUN composer install \
 # Copy application code (需要在 octane:install 之前)
 COPY backend/ .
 
+# 创建必要目录
+RUN mkdir -p bootstrap/cache storage/framework/cache/data \
+    storage/framework/sessions storage/framework/views storage/logs
+
 # Install RoadRunner via Octane
 RUN php artisan package:discover --ansi 2>/dev/null || true \
     && php artisan octane:install --server=roadrunner --no-interaction

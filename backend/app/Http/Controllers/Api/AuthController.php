@@ -7,10 +7,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\School;
+use App\Models\ThirdPartyBinding;
 use App\Services\AuthService;
 use App\Services\WechatWorkService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -307,6 +309,20 @@ class AuthController extends Controller
      */
     public function changePassword(Request $request): JsonResponse
     {
+        $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:6|max:50',
+        ]);
+
+        $user = $request->user();
+
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return response()->json(['message' => '当前密码不正确'], 422);
+        }
+
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
         return response()->json(['message' => '密码修改成功']);
     }
 
@@ -315,7 +331,11 @@ class AuthController extends Controller
      */
     public function refreshToken(Request $request): JsonResponse
     {
-        return response()->json(['message' => 'Token已刷新']);
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
+        $token = $user->createToken('auth-token')->plainTextToken;
+
+        return response()->json(['data' => ['token' => $token]]);
     }
 
     /**
@@ -323,6 +343,31 @@ class AuthController extends Controller
      */
     public function bindThirdParty(Request $request, string $platform): JsonResponse
     {
+        $request->validate([
+            'platform_id' => 'required|string',
+            'nick' => 'nullable|string|max:80',
+            'avatar' => 'nullable|string|max:500',
+        ]);
+
+        $user = $request->user();
+
+        $existing = ThirdPartyBinding::where('platform', $platform)
+            ->where('platform_id', $request->input('platform_id'))
+            ->first();
+
+        if ($existing) {
+            return response()->json(['message' => '该第三方账号已被其他用户绑定'], 422);
+        }
+
+        ThirdPartyBinding::create([
+            'user_id' => $user->id,
+            'platform' => $platform,
+            'platform_id' => $request->input('platform_id'),
+            'platform_nick' => $request->input('nick'),
+            'platform_avatar' => $request->input('avatar'),
+            'verified_at' => now(),
+        ]);
+
         return response()->json(['message' => '绑定成功']);
     }
 
@@ -331,6 +376,12 @@ class AuthController extends Controller
      */
     public function unbindThirdParty(Request $request, string $platform): JsonResponse
     {
+        $user = $request->user();
+
+        ThirdPartyBinding::where('user_id', $user->id)
+            ->where('platform', $platform)
+            ->delete();
+
         return response()->json(['message' => '解绑成功']);
     }
 
@@ -339,6 +390,17 @@ class AuthController extends Controller
      */
     public function getBindings(Request $request): JsonResponse
     {
-        return response()->json(['data' => []]);
+        $user = $request->user();
+        $bindings = ThirdPartyBinding::where('user_id', $user->id)->get();
+
+        $platforms = ['wechat', 'wechat_work', 'qq', 'renren'];
+        $data = collect($platforms)->map(fn ($p) => [
+            'platform' => $p,
+            'label' => ThirdPartyBinding::platformLabels()[$p] ?? $p,
+            'bound' => $bindings->firstWhere('platform', $p) !== null,
+            'nick' => $bindings->firstWhere('platform', $p)?->platform_nick,
+        ]);
+
+        return response()->json(['data' => $data]);
     }
 }
