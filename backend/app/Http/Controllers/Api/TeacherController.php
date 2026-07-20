@@ -2001,9 +2001,6 @@ class TeacherController extends Controller
 
         return response()->json(['data' => ['reply' => $reply]]);
     }
-            'model' => $info['model'],
-        ]]);
-    }
 
     // ============================================================
     // 兑换中心
