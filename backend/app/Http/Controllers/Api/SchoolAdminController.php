@@ -29,7 +29,6 @@ class SchoolAdminController extends Controller
 
     // ===== 学校管理 =====
 
-
     /**
      * 获取当前管理员所在学校信息
      */
@@ -53,7 +52,6 @@ class SchoolAdminController extends Controller
             ],
         ]);
     }
-
 
     /**
      * 更新学校信息
@@ -86,7 +84,6 @@ class SchoolAdminController extends Controller
     }
 
     // ===== 教师管理 =====
-
 
     /**
      * 单独创建教师账号（可选同时分配班级和角色）
@@ -160,7 +157,6 @@ class SchoolAdminController extends Controller
         ], 201);
     }
 
-
     /**
      * 批量创建教师账号
      */
@@ -224,14 +220,12 @@ class SchoolAdminController extends Controller
         return response()->json(['data' => $created]);
     }
 
-
     /**
      * 教师列表（含绑定情况）
      */
     public function listTeachers(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-
         /** @var \Illuminate\Database\Eloquent\Collection<int, User> $teacherUsers */
         $teacherUsers = User::where('school_id', $school->id)
             ->where('role', 'teacher')
@@ -272,7 +266,6 @@ class SchoolAdminController extends Controller
         return response()->json(['data' => $teachers]);
     }
 
-
     /**
      * 更新教师信息
      */
@@ -300,7 +293,6 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => '更新成功', 'data' => $teacher->fresh()]);
     }
 
-
     /**
      * 重置教师密码
      */
@@ -322,7 +314,6 @@ class SchoolAdminController extends Controller
         ]);
     }
 
-
     /**
      * 软删除教师账号（并解除班级关联）
      */
@@ -342,7 +333,6 @@ class SchoolAdminController extends Controller
     }
 
     // ===== 家长管理 =====
-
 
     /**
      * 批量创建家长账号
@@ -378,14 +368,12 @@ class SchoolAdminController extends Controller
         return response()->json(['data' => $created]);
     }
 
-
     /**
      * 家长列表
      */
     public function listParents(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-
         /** @var \Illuminate\Database\Eloquent\Collection<int, User> $parentUsers */
         $parentUsers = User::where('school_id', $school->id)
             ->where('role', 'parent')
@@ -412,7 +400,6 @@ class SchoolAdminController extends Controller
         return response()->json(['data' => $parents]);
     }
 
-
     /**
      * 软删除家长账号
      */
@@ -434,7 +421,6 @@ class SchoolAdminController extends Controller
     public function index(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-
         /** @var \Illuminate\Database\Eloquent\Collection<int, ClassRoom> $allClasses */
         $allClasses = ClassRoom::where('school_id', $school->id)
             ->with('teacher')
@@ -508,7 +494,6 @@ class SchoolAdminController extends Controller
 
         return response()->json(['message' => '班级已创建', 'data' => $class], 201);
     }
-
 
     /**
      * 批量创建班级
@@ -643,7 +628,6 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => '教师已分配', 'data' => $class->fresh()]);
     }
 
-
     /**
      * 移除班级教师关联
      */
@@ -671,7 +655,6 @@ class SchoolAdminController extends Controller
 
         return response()->json(['message' => '教师已从班级移除']);
     }
-
 
     /**
      * 学生批量导入（按模板班级名称匹配）
@@ -745,7 +728,6 @@ class SchoolAdminController extends Controller
 
     // ===== 学生管理 =====
 
-
     /**
      * 学生列表（支持搜索、按班级/年级筛选）
      */
@@ -804,7 +786,6 @@ class SchoolAdminController extends Controller
         ]);
     }
 
-
     /**
      * 单个添加学生
      */
@@ -849,7 +830,6 @@ class SchoolAdminController extends Controller
         ], 201);
     }
 
-
     /**
      * 更新学生信息
      */
@@ -892,7 +872,6 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => '学生信息已更新', 'data' => $student->fresh()]);
     }
 
-
     /**
      * 删除学生（软删除）
      */
@@ -906,7 +885,6 @@ class SchoolAdminController extends Controller
 
         return response()->json(['message' => '学生「' . $student->name . '」已删除']);
     }
-
 
     /**
      * 批量删除学生
@@ -930,7 +908,6 @@ class SchoolAdminController extends Controller
 
         return response()->json(['message' => '已删除 ' . $count . ' 名学生']);
     }
-
 
     /**
      * 批量移动学生到其他班级
@@ -961,7 +938,6 @@ class SchoolAdminController extends Controller
     }
 
     // ===== 学年升级 =====
-
 
     /**
      * 预览学年升级（dry-run）
@@ -1024,7 +1000,6 @@ class SchoolAdminController extends Controller
             ],
         ]);
     }
-
 
     /**
      * 执行学年升级
@@ -1091,7 +1066,6 @@ class SchoolAdminController extends Controller
     }
 
     // ===== 报表 =====
-
 
     /**
      * 全校概览
@@ -1164,7 +1138,6 @@ class SchoolAdminController extends Controller
     public function reportsByClass(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-
         /** @var \Illuminate\Database\Eloquent\Collection<int, ClassRoom> $classes */
         $classes = ClassRoom::where('school_id', $school->id)
             ->with(['teacher'])
@@ -1243,7 +1216,6 @@ class SchoolAdminController extends Controller
 
     // ===== 教师导入模板下载 =====
 
-
     /**
      * 下载教师批量导入的 CSV 模板
      */
@@ -1271,7 +1243,6 @@ class SchoolAdminController extends Controller
     }
 
     // ===== CSV 批量导入教师 =====
-
 
     /**
      * CSV/Excel 批量导入教师（预览 + 创建）
@@ -1447,7 +1418,6 @@ class SchoolAdminController extends Controller
 
     // ===== 批量教师班级分配 =====
 
-
     /**
      * 批量将教师分配到多个班级
      */
@@ -1516,7 +1486,6 @@ class SchoolAdminController extends Controller
     // 班级大屏码管理（管理员）
     // ============================================================
 
-
     /**
      * 获取/生成班级大屏码
      */
@@ -1538,7 +1507,6 @@ class SchoolAdminController extends Controller
             'student_count' => Student::where('class_id', $classId)->where('status', 'active')->count(),
         ]]);
     }
-
 
     /**
      * 刷新班级大屏码
@@ -1568,7 +1536,6 @@ class SchoolAdminController extends Controller
         ]]);
     }
 
-
     /**
      * 自动分配默认宠物（新生）
      */
@@ -1588,11 +1555,9 @@ class SchoolAdminController extends Controller
         ]);
     }
 
-
     /**
      * 生成班级大屏码
      */
-
     /**
      * 自动生成班级大屏码
      * 格式: {学校码}{年级数字}{班号}
@@ -1627,7 +1592,6 @@ class SchoolAdminController extends Controller
         return $code;
     }
 
-
     /**
      * 中文年级 → 数字
      */
@@ -1653,7 +1617,6 @@ class SchoolAdminController extends Controller
         return '0';
     }
 
-
     /**
      * 刷新场景使用的老方法（保持兼容）
      */
@@ -1668,7 +1631,6 @@ class SchoolAdminController extends Controller
 
         return $this->autoGenerateDisplayCode($school->code ?? 'SCH', $grade, (int) $classNo, $classRoom);
     }
-
 
     /**
      * 查询班级码登录日志（含 IP 地址）
@@ -1710,7 +1672,6 @@ class SchoolAdminController extends Controller
         ]]);
     }
 
-
     /**
      * 生成演示数据
      */
@@ -1728,7 +1689,6 @@ class SchoolAdminController extends Controller
 
         return response()->json(['message' => '生成失败，请查看服务端日志'], 500);
     }
-
     /**
      * 清除演示数据
      */

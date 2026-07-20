@@ -166,6 +166,7 @@ class Pet extends Model
     public function currentStage(): array
     {
         $index = min((int) floor($this->level / 5), 10);
+
         return static::evolutionStagesForType($this->type)[$index] ?? static::evolutionStages()[0];
     }
 
