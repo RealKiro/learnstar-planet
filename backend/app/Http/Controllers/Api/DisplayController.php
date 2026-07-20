@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Broadcast;
 use App\Models\ClassRoom;
 use App\Models\ClassRoomTeacher;
+use Throwable;
 use App\Models\DisplayLoginLog;
 use App\Models\Pet;
 use App\Models\Score;
