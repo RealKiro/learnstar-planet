@@ -39,8 +39,8 @@ class AttendanceExport implements FromCollection, WithHeadings, WithTitle
             return [
                 'name' => $studentName,
                 'status' => $record ? $this->statusLabel($record->status) : '未记录',
-                'check_in' => $record?->check_in_time ? (string) $record->check_in_time : '',
-                'source' => $record?->source ?? '',
+                'check_in' => $record ? (string) $record->check_in_time : '',
+                'source' => $record->source ?? '',
             ];
         })->values();
     }

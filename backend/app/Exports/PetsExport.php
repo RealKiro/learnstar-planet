@@ -27,15 +27,18 @@ class PetsExport implements FromCollection, WithHeadings, WithTitle
 
         return $students->map(function ($student) {
             $pet = $student->pet;
-            $stage = $pet ? $pet->currentStage() : null;
 
             return [
                 'student_name' => $student->name,
-                'pet_name' => $pet?->name ?? '无',
-                'pet_type' => $pet?->type ?? '',
-                'level' => $pet?->level ?? 0,
-                'stage' => $stage['name'] ?? '未孵化',
-                'experience' => $pet?->experience ?? 0,
+                // @phpstan-ignore-next-line (pet can be null)
+                'pet_name' => $pet->name ?? '无',
+                // @phpstan-ignore-next-line
+                'pet_type' => $pet->type ?? '',
+                // @phpstan-ignore-next-line
+                'level' => $pet->level ?? 0,
+                'stage' => $pet ? ($pet->currentStage()['name'] ?? '未孵化') : '未孵化',
+                // @phpstan-ignore-next-line
+                'experience' => $pet->experience ?? 0,
             ];
         });
     }

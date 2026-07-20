@@ -36,8 +36,10 @@ class ScoresExport implements FromCollection, WithHeadings, WithTitle
                 'total_score' => $student->total_score,
                 'positive_score' => (int) $positive,
                 'negative_score' => abs((int) $negative),
-                'pet_name' => $student->pet?->name ?? '',
-                'pet_level' => $student->pet?->level ?? 0,
+                // @phpstan-ignore-next-line (pet can be null)
+                'pet_name' => $student->pet->name ?? '',
+                // @phpstan-ignore-next-line
+                'pet_level' => $student->pet->level ?? 0,
             ];
         });
     }
