@@ -476,6 +476,7 @@ onMounted(refreshTeachers)
 .form-group label { display:block;font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:4px; }
 .form-input { color:var(--color-text);width:100%;padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;font-size:13px;outline:none;transition:border-color 0.15s;box-sizing:border-box; }
 .form-input:focus { border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,0.08); }
+.form-input option { color:#1E293B; background:#fff; }
 .flex-2 { flex:2; }
 .flex-1 { flex:1; }
 .assign-section { margin-top:14px;padding-top:14px;border-top:1px solid #f3f4f6; }
