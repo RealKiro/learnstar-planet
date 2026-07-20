@@ -101,17 +101,6 @@ php artisan route:cache 2>/dev/null || true
 php artisan view:cache 2>/dev/null || true
 echo "✅ 缓存重建完成"
 
-# 验证 RoadRunner 二进制
-if ! command -v rr &>/dev/null && [ ! -f vendor/bin/rr ]; then
-    echo "⚠️  RoadRunner 下载中..."
-    wget -q https://github.com/roadrunner-server/roadrunner/releases/download/v2024.2.0/roadrunner-2024.2.0-linux-amd64.tar.gz \
-        && tar xzf roadrunner-2024.2.0-linux-amd64.tar.gz \
-        && mv roadrunner-2024.2.0-linux-amd64/rr /usr/local/bin/rr \
-        && chmod +x /usr/local/bin/rr \
-        && rm -rf roadrunner-2024.2.0-linux-amd64* \
-        && mkdir -p vendor/bin && ln -sf /usr/local/bin/rr vendor/bin/rr
-fi
-
 echo "🎉 学趣星球初始化完成！"
 
 # 如果使用 Redis 队列，启动后台 queue worker
@@ -123,13 +112,19 @@ else
     echo "⚡ 队列模式: sync（同步处理）"
 fi
 
-echo "  启动 RoadRunner（8 workers, 8080 端口）..."
+echo "  启动服务（8 workers, 8080 端口）..."
 
-# 启动 Octane RoadRunner 服务器（前台进程）
-exec php artisan octane:start \
-    --server=roadrunner \
-    --rr-server=/usr/local/bin/rr \
-    --host=0.0.0.0 \
-    --port=8080 \
-    --workers=8 \
-    --max-requests=500
+# 优先使用 RoadRunner，不可用时降级为 PHP 内置服务器
+if [ -f /usr/local/bin/rr ] || [ -f vendor/bin/rr ]; then
+    echo "  使用 RoadRunner（多线程高性能模式）"
+    exec php artisan octane:start \
+        --server=roadrunner \
+        --rr-server=/usr/local/bin/rr \
+        --host=0.0.0.0 \
+        --port=8080 \
+        --workers=8 \
+        --max-requests=500
+else
+    echo "  RoadRunner 二进制缺失，降级为 PHP 内置服务器（单线程模式）"
+    exec php artisan serve --host=0.0.0.0 --port=8080
+fi
