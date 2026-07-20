@@ -1602,8 +1602,7 @@ class TeacherController extends Controller
         }
 
         $class = ClassRoom::find($classId);
-        // @phpstan-ignore-next-line (class can be null)
-        $className = $class->name ?? '未知班级';
+        $className = optional($class)->name ?? '未知班级';
         $fileName = $className . '-' . now()->format('Ymd-His');
 
         switch ($type) {

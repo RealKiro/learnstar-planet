@@ -5,7 +5,6 @@ import { useRouter } from 'vue-router'
 import { apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
-import { apiPost } from '@/utils/api'
 import type { ApiResponse, User } from '@/types'
 
 const props = withDefaults(defineProps<{ initialRole?: string; mode?: string }>(), { initialRole: 'teacher', mode: 'account' })
