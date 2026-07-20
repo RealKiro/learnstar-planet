@@ -63,6 +63,9 @@ class TeacherController extends Controller
             return response()->json(['message' => '您未被分配到此班级'], 403);
         }
 
+        // 存储当前班级到用户设置，后续所有 API 都使用此班级
+        $teacher->setSetting('active_class_id', $classId);
+
         return response()->json(['message' => '已切换', 'data' => ['active_class_id' => $classId]]);
     }
 
