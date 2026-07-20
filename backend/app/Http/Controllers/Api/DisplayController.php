@@ -229,7 +229,7 @@ class DisplayController extends Controller
             return response()->json(['message' => 'Token 无效或已过期'], 401);
         }
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $classRoom = ClassRoom::find($classId);
 
         if (!$classRoom) {
