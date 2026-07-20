@@ -1,47 +1,53 @@
-# Multi-stage Dockerfile for LearnStar Planet Backend + Vue Frontend
-# Build context = learnstar-planet/ (repository root)
+# Multi-stage Dockerfile for LearnStar Planet
+# Stage 1: Build Vue frontend (Node)
+# Stage 2: PHP runtime with RoadRunner (no Nginx, no FPM, no Supervisor)
 #
-# Optimization techniques:
-# 1. --no-dev: Excludes PHPUnit/PHPStan/etc from production image
-# 2. --virtual .build-deps: Dev headers removed after compilation
-# 3. Runtime libs only: libpng instead of libpng-dev
-# 4. Node stage builds Vue SPA, output copied to public/
-# 5. No git/unzip/composer/node in final image (build-time only)
-# 6. Aggressive cache cleanup
+# Build context = learnstar-planet/ (repository root)
 
 # ============================================================
-# Stage 1: Build Vue frontend (Node)
+# Stage 1: Build Vue frontend
 # ============================================================
 FROM node:22-alpine AS frontend-builder
 
 WORKDIR /app
 
-# Copy package files and install dependencies with npm
 COPY frontend-vue/package.json frontend-vue/package-lock.json* ./
-RUN if [ -f package-lock.json ]; then \
-        npm ci; \
-    else \
-        npm install; \
-    fi
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
-# Copy source and build
 COPY frontend-vue/ ./
 RUN npm run build:ci
 
 # ============================================================
-# Stage 2: Install Composer dependencies (production only)
+# Stage 2: PHP + RoadRunner production runtime
 # ============================================================
-FROM php:8.3-cli-alpine AS composer
+FROM php:8.3-cli-alpine AS app
 
-RUN apk add --no-cache unzip \
+# Install system dependencies for PHP extensions
+RUN apk add --no-cache \
+    libpng libjpeg-turbo freetype libzip oniguruma \
+    postgresql-libs libwebp curl unzip \
     && rm -rf /var/cache/apk/*
+
+# Compile PHP extensions
+RUN apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        postgresql-dev libpng-dev libjpeg-turbo-dev \
+        freetype-dev libzip-dev oniguruma-dev libwebp-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j"$(nproc)" \
+        pdo_mysql pdo_pgsql zip gd mbstring pcntl \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del --no-cache .build-deps \
+    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/php*
+
+# Install Composer
 COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
+# Copy composer files and install production dependencies
 COPY backend/composer.json backend/composer.lock* ./
-
-# Install ONLY production dependencies
 RUN composer install \
         --no-interaction \
         --no-progress \
@@ -53,64 +59,17 @@ RUN composer install \
     && composer dump-autoload --optimize --no-scripts --no-dev \
     && rm -rf /root/.composer/cache
 
-# ============================================================
-# Stage 3: Production runtime image (minimal)
-# ============================================================
-FROM php:8.3-fpm-alpine AS app
+# Install RoadRunner via Octane
+RUN php artisan octane:install --server=roadrunner --no-interaction
 
-# Install build deps as virtual package, compile PHP extensions,
-# then remove build deps.
-RUN apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        postgresql-dev \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        freetype-dev \
-        libzip-dev \
-        oniguruma-dev \
-    && apk add --no-cache \
-        nginx \
-        supervisor \
-        curl \
-        libzip \
-        libpng \
-        libjpeg-turbo \
-        freetype \
-        oniguruma \
-        postgresql-libs \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j"$(nproc)" \
-        pdo_mysql \
-        pdo_pgsql \
-        zip \
-        gd \
-        mbstring \
-        pcntl \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && apk del --no-cache .build-deps \
-    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/php*
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy production vendor (no dev dependencies)
-COPY --from=composer /app/vendor ./vendor
-
-# Copy backend application code
+# Copy application code
 COPY backend/ .
 
-# Copy Vue frontend build output to public directory
+# Copy Vue frontend build to public directory
 COPY --from=frontend-builder /app/dist ./public
 
-# Regenerate autoload after code copy
-RUN composer dump-autoload --optimize --no-scripts --no-dev 2>/dev/null || true
-
-# Copy configuration files
-COPY backend/docker/nginx/default.conf /etc/nginx/http.d/default.conf
-COPY backend/docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY backend/docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+# Copy RoadRunner config
+COPY backend/docker/roadrunner/.rr.yaml ./
 
 # Ensure storage directories exist with proper permissions
 RUN mkdir -p storage/app/public \
@@ -119,20 +78,17 @@ RUN mkdir -p storage/app/public \
     storage/framework/views \
     storage/logs \
     bootstrap/cache \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+    && chown -R www-data:www-data /var/www/html 2>/dev/null || true \
+    && chmod -R 755 storage bootstrap/cache public
 
-# Allow Nginx to serve public/ (ensure read access)
-RUN chmod -R 755 /var/www/html/public
+# Copy entrypoint script
+COPY backend/docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
 
-# Expose port
 EXPOSE 8080
 
-# Run entrypoint (starts nginx + php-fpm + queue worker via supervisor)
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
