@@ -863,7 +863,10 @@ class DisplayController extends Controller
             }
         }
 
-        $teacherId = $this->getClassTeacherId($classId) ?? 1;
+        $teacherId = $this->getClassTeacherId($classId);
+        if (!$teacherId) {
+            $teacherId = \App\Models\User::whereIn('role', ['school_admin', 'admin'])->value('id') ?? 1;
+        }
         \App\Models\Score::create([
             'student_id' => $student->id,
             'class_id' => $classId,
