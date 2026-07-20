@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * DisplayController — 班级大屏单独入口
+use Throwable;
  *
  * 职责：
  * 1. 教师端：生成/刷新班级大屏码
