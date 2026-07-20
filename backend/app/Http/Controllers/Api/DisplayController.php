@@ -1156,4 +1156,90 @@ class DisplayController extends Controller
 
         return $id;
     }
+
+    // ============================================================
+    // AI
+    // ============================================================
+
+    /**
+     * 检查 AI 功能是否开启（班级码端）
+     */
+    public function aiSettingsCheck(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => '无效的班级码'], 401);
+        }
+
+        $classId = (int) ($classInfo['class_id'] ?? 0);
+        $classRoom = \App\Models\ClassRoom::with('school')->find($classId);
+        if (!$classRoom || !$classRoom->school) {
+            return response()->json(['data' => ['enabled' => false]]);
+        }
+
+        $setting = \App\Models\AiSetting::where('school_id', $classRoom->school_id)->first();
+
+        return response()->json([
+            'data' => [
+                'enabled' => $setting?->enabled ?? false,
+            ],
+        ]);
+    }
+
+    /**
+     * AI 对话（班级码端）
+     */
+    public function aiChat(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => '无效的班级码'], 401);
+        }
+
+        $classId = (int) ($classInfo['class_id'] ?? 0);
+        $classRoom = \App\Models\ClassRoom::with('school')->find($classId);
+        if (!$classRoom || !$classRoom->school) {
+            return response()->json(['message' => '班级不存在'], 404);
+        }
+
+        $setting = \App\Models\AiSetting::where('school_id', $classRoom->school_id)->first();
+        if (!$setting || !$setting->enabled || empty($setting->api_key)) {
+            return response()->json(['message' => 'AI 功能未开启'], 403);
+        }
+
+        $question = $request->input('question', '');
+        if (empty($question)) {
+            return response()->json(['message' => '请输入问题'], 422);
+        }
+
+        // 记录对话
+        $conversation = \App\Models\AiConversation::create([
+            'school_id' => $classRoom->school_id,
+            'class_id' => $classId,
+            'student_id' => $classInfo['student_id'] ?? null,
+            'student_name' => $classInfo['student_name'] ?? '匿名',
+            'question' => $question,
+            'status' => 'pending',
+        ]);
+
+        // 模拟 AI 回复（实际应调用对应 API）
+        $answer = '这是一个模拟回复。您的问题已记录，管理员可在 AI 中心查看对话历史。';
+        $tokensUsed = mb_strlen($question . $answer);
+
+        $conversation->update([
+            'answer' => $answer,
+            'tokens_used' => $tokensUsed,
+            'status' => 'completed',
+        ]);
+
+        // 更新总用量
+        $setting->increment('tokens_used', $tokensUsed);
+
+        return response()->json([
+            'data' => [
+                'answer' => $answer,
+                'tokens_used' => $tokensUsed,
+            ],
+        ]);
+    }
 }

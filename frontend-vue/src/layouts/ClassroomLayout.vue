@@ -12,15 +12,24 @@ const showVoteModal = ref(true)
 const voteSeries = ref('myth')
 const voting = ref(false)
 const voteDone = ref(false)
+const aiEnabled = ref(false)
 
 const activeNav = computed(() => String(route.name))
 
-const navItems = [
+const baseNavItems = [
   { page: 'classroom-overview', label: '班级总览', icon: '🏠' },
   { page: 'classroom-scores', label: '课堂评价', icon: '✏️' },
   { page: 'classroom-pk', label: '年级战场', icon: '🏆' },
   { page: 'classroom-pokedex', label: '宠物图鉴', icon: '📚' },
 ]
+
+const navItems = computed(() => {
+  const items = [...baseNavItems]
+  if (aiEnabled.value) {
+    items.push({ page: 'classroom-ai', label: 'AI 助手', icon: '🤖' })
+  }
+  return items
+})
 
 const allSeries = getAllSeries()
 const lastEventId = ref(0)
@@ -121,10 +130,22 @@ onMounted(() => {
     showVoteModal.value = false
   }
 
+  // 检查 AI 功能状态
+  checkAiStatus()
+
   // 使用轮询接收广播和通知（php artisan serve 不支持 SSE 长连接）
   lastEventId.value = parseInt(sessionStorage.getItem('last_event_id') || '0', 10)
   startPolling()
 })
+
+async function checkAiStatus() {
+  const token = sessionStorage.getItem('class_token') || ''
+  if (!token) return
+  try {
+    const res = await apiGet<{ data: { enabled: boolean } }>('/api/v1/display/ai/settings', { params: { token } })
+    aiEnabled.value = res.data?.enabled || false
+  } catch { /* ignore */ }
+}
 
 onUnmounted(() => {
   

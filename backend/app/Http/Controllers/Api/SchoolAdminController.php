@@ -1739,4 +1739,169 @@ class SchoolAdminController extends Controller
         }
     }
 
+    // ============================================================
+    // AI 中心管理
+    // ============================================================
+
+    /**
+     * 获取 AI 设置
+     */
+    public function getAiSettings(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $settings = \App\Models\AiSetting::firstOrCreate(
+            ['school_id' => $school->id],
+            [
+                'enabled' => false,
+                'provider' => 'openai',
+                'api_key' => '',
+                'api_base' => '',
+                'model' => 'gpt-3.5-turbo',
+                'max_tokens' => 2000,
+                'tokens_used' => 0,
+                'tokens_limit' => 1000000,
+            ]
+        );
+
+        return response()->json([
+            'data' => [
+                'enabled' => $settings->enabled,
+                'provider' => $settings->provider,
+                'api_key' => $settings->api_key ? substr($settings->api_key, 0, 8) . '...' : '',
+                'api_key_masked' => (bool) $settings->api_key,
+                'api_base' => $settings->api_base,
+                'model' => $settings->model,
+                'max_tokens' => $settings->max_tokens,
+                'tokens_used' => $settings->tokens_used,
+                'tokens_limit' => $settings->tokens_limit,
+            ],
+        ]);
+    }
+
+    /**
+     * 保存 AI 设置
+     */
+    public function saveAiSettings(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'enabled' => 'boolean',
+            'provider' => 'nullable|string|max:50',
+            'api_key' => 'nullable|string|max:500',
+            'api_base' => 'nullable|string|max:500',
+            'model' => 'nullable|string|max:100',
+            'max_tokens' => 'nullable|integer|min:100|max:32000',
+            'tokens_limit' => 'nullable|integer|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $settings = \App\Models\AiSetting::firstOrCreate(
+            ['school_id' => $school->id],
+            ['enabled' => false, 'provider' => 'openai']
+        );
+
+        $data = $request->only(['enabled', 'provider', 'api_key', 'api_base', 'model', 'max_tokens', 'tokens_limit']);
+        if (!empty($data['api_key'])) {
+            $settings->api_key = $data['api_key'];
+        }
+        if (isset($data['enabled'])) {
+            $settings->enabled = (bool) $data['enabled'];
+        }
+        if (isset($data['provider'])) {
+            $settings->provider = $data['provider'];
+        }
+        if (isset($data['api_base'])) {
+            $settings->api_base = $data['api_base'];
+        }
+        if (isset($data['model'])) {
+            $settings->model = $data['model'];
+        }
+        if (isset($data['max_tokens'])) {
+            $settings->max_tokens = (int) $data['max_tokens'];
+        }
+        if (isset($data['tokens_limit'])) {
+            $settings->tokens_limit = (int) $data['tokens_limit'];
+        }
+        $settings->save();
+
+        return response()->json(['message' => 'AI 设置已保存']);
+    }
+
+    /**
+     * 获取 Token 使用统计
+     */
+    public function getAiUsage(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $settings = \App\Models\AiSetting::where('school_id', $school->id)->first();
+
+        $days = (int) $request->input('days', 7);
+        $from = now()->subDays($days);
+
+        $dailyUsage = \App\Models\AiConversation::where('school_id', $school->id)
+            ->where('created_at', '>=', $from)
+            ->selectRaw('DATE(created_at) as date, SUM(tokens_used) as tokens, COUNT(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $recentLogs = \App\Models\AiConversation::where('school_id', $school->id)
+            ->where('created_at', '>=', $from)
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get()
+            ->map(fn ($log) => [
+                'id' => $log->id,
+                'student_name' => $log->student_name,
+                'class_id' => $log->class_id,
+                'question' => $log->question,
+                'answer' => $log->answer,
+                'tokens_used' => $log->tokens_used,
+                'created_at' => $log->created_at?->toDateTimeString(),
+            ]);
+
+        return response()->json([
+            'data' => [
+                'enabled' => $settings?->enabled ?? false,
+                'tokens_used' => $settings?->tokens_used ?? 0,
+                'tokens_limit' => $settings?->tokens_limit ?? 0,
+                'total_conversations' => \App\Models\AiConversation::where('school_id', $school->id)->count(),
+                'daily_usage' => $dailyUsage,
+                'recent_logs' => $recentLogs,
+            ],
+        ]);
+    }
+
+    /**
+     * 切换 AI 开关
+     */
+    public function toggleAi(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'enabled' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误'], 422);
+        }
+
+        $settings = \App\Models\AiSetting::firstOrCreate(
+            ['school_id' => $school->id],
+            ['enabled' => false, 'provider' => 'openai']
+        );
+
+        $settings->enabled = (bool) $request->input('enabled');
+        $settings->save();
+
+        return response()->json([
+            'message' => $settings->enabled ? 'AI 功能已开启' : 'AI 功能已关闭',
+            'data' => ['enabled' => $settings->enabled],
+        ]);
+    }
+
 }

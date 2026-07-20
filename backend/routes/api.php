@@ -100,6 +100,12 @@ Route::prefix('v1')->group(function () {
             Route::get('status', [SchoolAdminController::class, 'systemStatus']);
             Route::post('repair', [SchoolAdminController::class, 'systemRepair']);
         });
+        Route::prefix('ai')->group(function () {
+            Route::get('settings', [SchoolAdminController::class, 'getAiSettings']);
+            Route::put('settings', [SchoolAdminController::class, 'saveAiSettings']);
+            Route::post('toggle', [SchoolAdminController::class, 'toggleAi']);
+            Route::get('usage', [SchoolAdminController::class, 'getAiUsage']);
+        });
     });
 
     // ===== 3. 教师端 =====
@@ -259,6 +265,10 @@ Route::prefix('v1')->group(function () {
         Route::get('shop-items', [DisplayController::class, 'quickShopItems']);
         Route::post('redeem', [DisplayController::class, 'quickRedeem']);
         Route::post('transfer', [DisplayController::class, 'quickTransfer']);
+
+        // AI
+        Route::get('ai/settings', [DisplayController::class, 'aiSettingsCheck']);
+        Route::post('ai/chat', [DisplayController::class, 'aiChat']);
 
         // 教室端 API（班级码Token，对应设计文档4大模块）
         Route::get('class-settings', [DisplayController::class, 'classSettings']);
