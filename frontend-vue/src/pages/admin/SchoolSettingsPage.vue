@@ -34,7 +34,7 @@ async function uploadLogo() {
   try {
     const fd = new FormData()
     fd.append('logo', logoFile.value)
-    const res = await fetch('/api/v1/admin/school/logo', { method: 'POST', body: fd, headers: { 'Authorization':  } })
+    const res = await fetch('/api/v1/admin/school/logo', { method: 'POST', body: fd, headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token') } })
     const data = await res.json()
     toast.show(data.message || 'LOGO 已上传', res.ok ? 'success' : 'error')
   } catch { toast.show('上传失败', 'error') }
