@@ -19,15 +19,7 @@ const chatBody = ref<HTMLElement | null>(null)
 const showHint = ref(false)
 
 onMounted(async () => {
-  try {
-    const [cmdRes, usageRes] = await Promise.all([
-      apiGet<ApiResponse<AICommand[]>>('/api/v1/teacher/ai/commands'),
-      apiGet<ApiResponse<Usage>>('/api/v1/teacher/ai/usage'),
-    ])
-    commands.value = cmdRes.data || []
-    usage.value = usageRes.data || null
-  } catch { /* handled */ }
-  finally { loading.value = false }
+  loading.value = false
 })
 
 async function scrollToBottom() {

@@ -117,12 +117,12 @@ onMounted(async () => {
         <!-- 班级概况 -->
         <div class="o-card">
           <div class="o-label">📊 班级概况</div>
-          <div class="o-value">{{ data.total_score.toLocaleString() }}</div>
+          <div class="o-value">{{ (data.total_score || 0).toLocaleString() }}</div>
           <div class="o-sub">总积分 · 共 {{ data.student_count }} 人</div>
           <div class="o-stats-row">
             <div>
               <span class="stat-label">平均等级</span>
-              <strong class="stat-val">{{ data.avg_pet_level.toFixed(1) }}</strong>
+              <strong class="stat-val">{{ (data.avg_pet_level || 0).toFixed(1) }}</strong>
             </div>
             <div>
               <span class="stat-label">巅峰 Lv.10+</span>
