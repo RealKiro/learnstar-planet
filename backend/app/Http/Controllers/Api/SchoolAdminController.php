@@ -210,7 +210,7 @@ class SchoolAdminController extends Controller
         $teacherUsers = User::where('school_id', $school->id)
             ->where('role', 'teacher')
             ->with(['thirdPartyBindings', 'classRoomAssignments.classRoom'])
-            ->orderByRaw('COALESCE(grade_team, "") ASC')->orderBy('nickname')->orderBy('name')
+            ->orderByRaw('COALESCE(grade_team, '') ASC')->orderBy('nickname')->orderBy('name')
             ->get();
         $teachers = $teacherUsers->map(function (User $t) {
             $bindings = $t->thirdPartyBindings->pluck('platform')->toArray();
