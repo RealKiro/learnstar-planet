@@ -154,7 +154,8 @@ class SeedDemoData extends Command
 
     private function hasDemoData(): bool
     {
-        return School::where('code', 'DEMO')->exists();
+        // 使用 withTrashed 检查包括已软删除的记录，避免跳过清理后唯一键冲突
+        return School::withTrashed()->where('code', 'DEMO')->exists();
     }
 
     private function cleanDemoData(): void

@@ -20,7 +20,6 @@ class CleanDemoData extends Command
 
     public function handle(): int
     {
-        // 使用 withTrashed 找到可能已被软删除的学校
         $school = School::withTrashed()->where('code', 'DEMO')->first();
         if (!$school) {
             $this->info('未找到演示数据');
