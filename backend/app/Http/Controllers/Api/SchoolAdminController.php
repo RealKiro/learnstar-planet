@@ -1445,3 +1445,5 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => 'LOGO 已上传', 'data' => ['logo_path' => $school->logo_path]]);
     }
 
+
+}
