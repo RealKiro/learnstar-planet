@@ -1675,4 +1675,29 @@ class SchoolAdminController extends Controller
             'total' => $logs->total(),
         ]]);
     }
+
+    /**
+     * 生成演示数据
+     */
+    public function demoSeed(): JsonResponse
+    {
+        $exitCode = \Illuminate\Support\Facades\Artisan::call('demo:seed', ['--force' => true]);
+
+        if ($exitCode === 0) {
+            return response()->json(['message' => '演示数据已生成']);
+        }
+
+        return response()->json(['message' => '生成失败，请查看服务端日志'], 500);
+    }
+
+    /**
+     * 清除演示数据
+     */
+    public function demoClean(): JsonResponse
+    {
+        \Illuminate\Support\Facades\Artisan::call('demo:clean', ['--force' => true]);
+
+        return response()->json(['message' => '演示数据已清除']);
+    }
+
 }

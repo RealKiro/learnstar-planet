@@ -18,6 +18,7 @@ interface School {
 
 const loading = ref(true)
 const saving = ref(false)
+const demoLoading = ref(false)
 const form = ref({ name: '', address: '', contact_phone: '', contact_email: '' })
 const schoolCode = ref('')
 const schoolStatus = ref('')
@@ -54,6 +55,26 @@ async function save() {
 }
 
 async function reload() {
+
+async function seedDemo() {
+  demoLoading.value = true
+  try {
+    const res = await fetch('/api/v1/admin/demo/seed', { method: 'POST', headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}`, 'Content-Type' : 'application/json' } })
+    const data = await res.json()
+    toast.show(data.message || '演示数据已生成', res.ok ? 'success' : 'error')
+  } catch { toast.show('操作失败', 'error') }
+  finally { demoLoading.value = false }
+}
+
+async function cleanDemo() {
+  demoLoading.value = true
+  try {
+    const res = await fetch('/api/v1/admin/demo/clean', { method: 'POST', headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}`, 'Content-Type' : 'application/json' } })
+    const data = await res.json()
+    toast.show(data.message || '演示数据已清除', res.ok ? 'success' : 'error')
+  } catch { toast.show('操作失败', 'error') }
+  finally { demoLoading.value = false }
+}
   loading.value = true
   try {
     const res = await apiGet<ApiResponse<School>>('/api/v1/admin/school')
@@ -121,5 +142,20 @@ async function reload() {
         <button class="btn btn-sm btn-primary" :disabled="saving" @click="save">{{ saving ? '保存中...' : '保存设置' }}</button>
       </div>
     </div>
+    <!-- 演示数据管理 -->
+    <div class="card" style="max-width:640px;padding:32px;margin-top:24px;">
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🧪 演示数据管理</h3>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
+        生成演示数据用于测试/试用，不影响真实数据。管理员账号: demo_admin，教师账号: demo_teacher_1~4，密码统一: demo123456
+      </p>
+      <div style="display:flex;gap:12px;">
+        <button class="btn btn-sm btn-primary" :disabled="demoLoading" @click="seedDemo">
+          {{ demoLoading ? '处理中...' : '📥 生成演示数据' }}
+        </button>
+        <button class="btn btn-sm" :disabled="demoLoading" @click="cleanDemo"
+          style="background:var(--color-bg-card);color:var(--color-danger);border:1px solid rgba(239,68,68,0.2);">
+          {{ demoLoading ? '处理中...' : '🗑️ 清除演示数据' }}
+        </button>
+      </div>
+    </div>
   </div>
-</template>

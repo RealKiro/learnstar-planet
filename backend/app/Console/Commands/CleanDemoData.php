@@ -14,7 +14,7 @@ use Illuminate\Console\Command;
 
 class CleanDemoData extends Command
 {
-    protected $signature = 'demo:clean';
+    protected $signature = 'demo:clean {--force : 跳过确认提示}';
 
     protected $description = '清除所有演示数据';
 
@@ -27,7 +27,7 @@ class CleanDemoData extends Command
             return 0;
         }
 
-        if (!$this->confirm('确定要清除所有演示数据吗？此操作不可撤销。')) {
+        if (!$this->option('force') && !$this->confirm('确定要清除所有演示数据吗？此操作不可撤销。')) {
             $this->info('已取消');
 
             return 0;
