@@ -16,7 +16,9 @@ async function seedDemo() {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' }
     })
     const data = await res.json()
-    toast.show(data.message || '演示数据已生成', res.ok ? 'success' : 'error')
+    const info = data?.data?.teacher
+    const detail = info ? `（账号: ${info.username} / ${info.password}）` : ''
+    toast.show((data.message || '演示数据已生成') + detail, res.ok ? 'success' : 'error')
   } catch { toast.show('操作失败', 'error') }
   finally { demoLoading.value = false }
 }

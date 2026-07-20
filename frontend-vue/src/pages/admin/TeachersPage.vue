@@ -87,6 +87,15 @@ async function submitCreate() {
     await apiPost('/api/v1/admin/teachers', payload)
     toast.show('教师创建成功', 'success')
     showCreateModal.value = false; await refreshTeachers()
+  } catch (e: any) {
+    const msg = e?.response?.data?.message || '参数错误'
+    const errors = e?.response?.data?.errors
+    if (errors) {
+      const details = Object.values(errors).flat().join('；')
+      toast.show(msg + '：' + details, 'error')
+    } else {
+      toast.show(msg, 'error')
+    }
   } finally { createLoading.value = false }
 }
 
@@ -446,7 +455,7 @@ onMounted(refreshTeachers)
 .data-table { width:100%;border-collapse:collapse;background:var(--color-bg-card);border-radius:12px;overflow:hidden;border:1px solid var(--color-border); }
 .data-table th { background:#f9fafb;font-size:12px;font-weight:600;color:#6b7280;text-align:left;padding:10px 14px;border-bottom:1px solid #e5e7eb;white-space:nowrap; }
 .data-table td { padding:10px 14px;border-bottom:1px solid #f3f4f6;font-size:13px; }
-.modal-overlay { position:fixed;top:0;right:0;bottom:0;left:220px;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;pointer-events:none; }
+.modal-overlay { position:fixed;top:0;right:0;bottom:0;left:220px;background:transparent;display:flex;align-items:center;justify-content:center;z-index:1000;pointer-events:none; }
 .modal-overlay > * { pointer-events:auto; }
 .modal-panel { background:var(--color-bg-card);border-radius:16px;padding:28px 32px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.12); }
 .modal-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:20px; }

@@ -1501,19 +1501,46 @@ class SchoolAdminController extends Controller
     /**
      * 生成演示数据
      */
-    public function demoSeed(): JsonResponse
+    public function demoSeed(Request $request): JsonResponse
     {
         try {
-            $exitCode = \Illuminate\Support\Facades\Artisan::call('demo:seed', ['--force' => true]);
-            if ($exitCode === 0) {
-                $classes = \App\Models\ClassRoom::whereHas('school', function ($q) {
-                    $q->where('code', 'DEMO');
-                })->get(['name', 'display_code']);
-
-                return response()->json(['message' => '演示数据已生成', 'data' => ['classes' => $classes]]);
+            $school = $request->user()->school;
+            if (!$school) {
+                return response()->json(['message' => '学校不存在'], 404);
             }
 
-            return response()->json(['message' => '生成失败，请查看服务端日志'], 500);
+            // 清除之前创建的演示教师（按用户名）
+            $existing = \App\Models\User::withTrashed()
+                ->where('school_id', $school->id)
+                ->where('username', 'demo_teacher')
+                ->first();
+            if ($existing) {
+                $existing->forceDelete();
+            }
+
+            // 在本校下创建一个演示教师账号
+            $password = 'demo123';
+            $teacher = \App\Models\User::create([
+                'school_id' => $school->id,
+                'role' => 'teacher',
+                'username' => 'demo_teacher',
+                'password' => \Illuminate\Support\Facades\Hash::make($password),
+                'name' => '演示教师',
+                'nickname' => 'demo_teacher',
+                'subject' => '综合',
+                'status' => 'active',
+            ]);
+
+            return response()->json([
+                'message' => '演示数据已生成',
+                'data' => [
+                    'teacher' => [
+                        'username' => 'demo_teacher',
+                        'password' => $password,
+                        'name' => '演示教师',
+                    ],
+                ],
+            ]);
         } catch (\Throwable $e) {
             return response()->json(['message' => '操作失败: ' . $e->getMessage()], 500);
         }
