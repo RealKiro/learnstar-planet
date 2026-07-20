@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { apiGet, apiPost } from '@/utils/api'
+import { apiGet, apiPost, apiPut } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, Notice } from '@/types'
 
@@ -29,7 +29,7 @@ async function createNotice() {
       type: form.value.type,
     })
     // 自动发布
-    await apiPost(`/api/v1/teacher/notices/${res.data.id}/publish`, {})
+    await apiPut(`/api/v1/teacher/notices/${res.data.id}/publish`, {})
     toast.show('通知已发布', 'success')
     showCreate.value = false
     form.value = { title: '', content: '', type: 'info' }
