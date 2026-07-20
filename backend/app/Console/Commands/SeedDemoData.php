@@ -44,12 +44,22 @@ class SeedDemoData extends Command
         ]);
         $this->line('  ✅ 演示学校已创建');
 
+        // 创建通用演示班级码 DEMO00
+        $demoClass = ClassRoom::create([
+            'school_id' => $school->id,
+            'name' => '演示班级',
+            'grade' => '一年级',
+            'status' => 'active',
+            'display_code' => 'DEMO00',
+        ]);
+        $this->line('  ✅ 通用演示班级码 DEMO00 已创建');
+
         // 2. 创建管理员账号（演示用）
         User::create([
             'school_id' => $school->id,
             'role' => 'school_admin',
             'username' => 'demo_admin',
-            'password' => Hash::make('demo123456'),
+            'password' => Hash::make('demo123'),
             'name' => '演示管理员',
             'nickname' => 'demo_admin',
             'status' => 'active',
@@ -63,7 +73,7 @@ class SeedDemoData extends Command
             $teacher = User::create([
                 'school_id' => $school->id,
                 'role' => 'teacher',
-                'username' => 'demo_teacher_' . ($i + 1),
+                'username' => 'demo_t' . ($i + 1),
                 'password' => Hash::make('demo123456'),
                 'name' => $name,
                 'nickname' => $name,
@@ -133,9 +143,9 @@ class SeedDemoData extends Command
         $this->info('🎉 演示数据生成完成！');
         $this->info('━━━━━━━━━━━━━━━━━━━━');
         $this->info('  管理员账号: demo_admin');
-        $this->info('  教师账号:   demo_teacher_1 ~ demo_teacher_4');
-        $this->info('  密码:       demo123456');
-        $this->info('  班级码:     创建成功后在控制台可见，也可以在后台班级列表中查看');
+        $this->info('  教师账号:   demo_t1 ~ demo_t4');
+        $this->info('  密码:       demo123');
+        $this->info('  班级码:     DEMO00（通用演示码）和班级列表中各班级码');
         $this->info('━━━━━━━━━━━━━━━━━━━━');
         $this->info('提示：运行 php artisan demo:clean 可清除所有演示数据');
 

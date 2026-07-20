@@ -753,6 +753,20 @@ class DisplayController extends Controller
     /**
      * 教室端 · 班级总览
      */
+    
+    public function classSettings(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效'], 401);
+        }
+        $class = ClassRoom::find($classInfo['class_id']);
+        if (!$class) {
+            return response()->json(['data' => ['pet_series' => null]]);
+        }
+        return response()->json(['data' => ['pet_series' => $class->settings['pet_series'] ?? null]]);
+    }
+
     public function classroomDashboard(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);

@@ -255,7 +255,8 @@ Route::prefix('v1')->group(function () {
         Route::post('transfer', [DisplayController::class, 'quickTransfer']);
 
         // 教室端 API（班级码Token，对应设计文档4大模块）
-        Route::get('dashboard', [DisplayController::class, 'classroomDashboard']);
+        Route::get('class-settings', [DisplayController::class, 'classSettings']);
+            Route::get('dashboard', [DisplayController::class, 'classroomDashboard']);
         Route::get('students', [DisplayController::class, 'classroomStudents']);
         Route::post('scores/give', [DisplayController::class, 'classroomGiveScore']);
         Route::get('pets/overview', [DisplayController::class, 'classroomPetsOverview']);

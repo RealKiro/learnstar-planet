@@ -151,7 +151,7 @@ async function cleanDemo() {
     <div class="card" style="max-width:640px;padding:32px;margin-top:24px;">
       <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🧪 演示数据管理</h3>
       <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
-        生成演示数据用于测试/试用，不影响真实数据。管理员账号: demo_admin，教师账号: demo_teacher_1~4，密码统一: demo123456
+        生成演示数据用于测试/试用，不影响真实数据。管理员: demo_admin / demo123 · 教师: demo_t1~t4 / demo123 · 班级码: DEMO00
       </p>
       <div style="display:flex;gap:12px;">
         <button class="btn btn-sm btn-primary" :disabled="demoLoading" @click="seedDemo">
