@@ -1978,36 +1978,29 @@ class TeacherController extends Controller
     {
         $request->validate(['message' => 'required|string|max:2000']);
 
-        $ai = new \App\Services\AIService();
-        $reply = $ai->chat(
-            $request->input('message'),
-            $request->input('history', [])
-        );
+        $teacher = $request->user();
+        $settings = \App\Models\AiSetting::where('school_id', $teacher->school_id)->first();
+        if (!$settings || !$settings->enabled || empty($settings->api_key)) {
+            return response()->json(['data' => ['reply' => 'AI 功能未启用，请联系管理员配置']]);
+        }
+
+        try {
+            $ai = new \App\Services\AiService();
+            $result = $ai->chat(
+                provider: $settings->provider,
+                apiKey: $settings->api_key,
+                model: $settings->model,
+                question: $request->input('message'),
+                apiBase: $settings->api_base,
+                maxTokens: $settings->max_tokens,
+            );
+            $reply = $result['answer'];
+        } catch (\Throwable $e) {
+            $reply = 'AI 服务暂时不可用';
+        }
 
         return response()->json(['data' => ['reply' => $reply]]);
     }
-
-    public function getAiCommands(Request $request): JsonResponse
-    {
-        return response()->json(['data' => [
-            ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈，包括纪律、学习氛围和进步方面'],
-            ['label' => '重点关注学生', 'prompt' => '请分析班上学情，列出需要重点关注的学生特征和应对策略'],
-            ['label' => '课堂活动建议', 'prompt' => '推荐3个适合初中/小学生的课堂互动活动，增强学生参与度'],
-            ['label' => '积分奖励方案', 'prompt' => '设计一套班级积分奖励方案，包含加分项、扣分项和兑换规则'],
-            ['label' => '家长会发言稿', 'prompt' => '帮我写一段家长会发言稿，介绍班级整体情况和需要家长配合的事项'],
-            ['label' => '班会主题建议', 'prompt' => '推荐下周班会主题，适合小学/初中阶段的学生'],
-            ['label' => '分层教学建议', 'prompt' => '针对班级学生水平参差不齐的情况，给出分层教学的具体建议'],
-        ]]);
-    }
-
-    public function getAiUsage(Request $request): JsonResponse
-    {
-        $ai = new \App\Services\AIService();
-        $info = $ai->getUsageInfo();
-
-        return response()->json(['data' => [
-            'configured' => $info['configured'],
-            'provider' => $info['provider'],
             'model' => $info['model'],
         ]]);
     }
