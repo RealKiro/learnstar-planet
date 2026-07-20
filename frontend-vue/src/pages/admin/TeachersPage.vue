@@ -34,6 +34,16 @@ const filterGrade = ref('')
 const filterRole = ref('')
 const searchQuery = ref('')
 
+const teacherTeams = computed(() => {
+  const teams: Record<string, typeof teachers.value> = {}
+  teachers.value.forEach(t => {
+    const team = t.grade_team || '未分组'
+    if (!teams[team]) teams[team] = []
+    teams[team].push(t)
+  })
+  return teams
+})
+
 const filteredTeachers = computed(() => {
   let list = teachers.value
   if (searchQuery.value) {
