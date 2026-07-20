@@ -128,6 +128,7 @@ echo "  启动 RoadRunner（8 workers, 8080 端口）..."
 # 启动 Octane RoadRunner 服务器（前台进程）
 exec php artisan octane:start \
     --server=roadrunner \
+    --rr-server=/usr/local/bin/rr \
     --host=0.0.0.0 \
     --port=8080 \
     --workers=8 \
