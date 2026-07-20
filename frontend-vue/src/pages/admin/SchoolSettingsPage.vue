@@ -59,15 +59,18 @@ async function reload() {
 async function seedDemo() {
   demoLoading.value = true
   try {
-    const res = await fetch('/api/v1/admin/demo/seed', { method: 'POST', headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}`, 'Content-Type' : 'application/json' } })
+    const res = await fetch('/api/v1/admin/demo/seed', { method: 'POST', headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}`, 'Content-Type': 'application/json' } })
     const data = await res.json()
-    if (res.ok && data.data?.classes) { const codes = data.data.classes.map(c => c.name + ': ' + c.display_code).join('
-'); toast.show(data.message + '
-' + codes, 'success') } else { toast.show(data.message || '演示数据已生成', res.ok ? 'success' : 'error') }
+    if (res.ok && data.data?.classes) {
+      data.data.classes.forEach((c: { name: string; display_code: string }) => {
+        toast.show(c.name + ': ' + c.display_code, 'success')
+      })
+    } else {
+      toast.show(data.message || '演示数据已生成', res.ok ? 'success' : 'error')
+    }
   } catch { toast.show('操作失败', 'error') }
   finally { demoLoading.value = false }
 }
-
 async function cleanDemo() {
   demoLoading.value = true
   try {
