@@ -245,14 +245,13 @@ onMounted(refreshTeachers)
   >
 
   <Teleport to="body">
-    <Teleport to="body">
     <div v-if="showCreateModal" class="modal-overlay">
       <div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.06);border-radius:16px;max-width:540px;width:100%;padding:16px 20px 14px;box-shadow:0 40px 80px rgba(0,0,0,0.8);display:flex;flex-direction:column;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.04);flex-shrink:0;">
           <h2 style="font-size:14px;font-weight:700;background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0;">✨ 创建教师账号</h2>
           <button class="close-btn" :disabled="createLoading" @click="showCreateModal = false" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.3);width:22px;height:22px;border-radius:50%;font-size:11px;cursor:pointer;">✕</button>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
           <div>
             <div style="font-size:10px;font-weight:600;color:#c4b5fd;margin-bottom:3px;">📝 创建账号 <span style="background:rgba(167,139,250,0.12);padding:0 4px;border-radius:8px;font-size:7px;color:rgba(255,255,255,0.3);">必填</span></div>
             <div style="display:flex;gap:4px;">
