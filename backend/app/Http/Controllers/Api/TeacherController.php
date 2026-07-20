@@ -16,6 +16,7 @@ use App\Models\Student;
 use App\Models\Wallet;
 use App\Services\CurrencyService;
 use App\Services\DisplayEventService;
+use Illuminate\Support\Facades\Log;
 use App\Services\LeaderboardService;
 use App\Services\ScoreService;
 use Illuminate\Http\JsonResponse;
