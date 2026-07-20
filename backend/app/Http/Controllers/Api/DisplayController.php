@@ -340,7 +340,7 @@ class DisplayController extends Controller
             // 关闭输出缓冲
             if (ob_get_level()) {
                 ob_end_clean();
-        }
+            }
 
             $startTime = time();
             $lastHeartbeat = 0;
@@ -521,7 +521,7 @@ class DisplayController extends Controller
             $bearer = $request->bearerToken();
             if ($bearer && (str_starts_with($bearer, 'disp_') || str_starts_with($bearer, 'class_'))) {
                 $token = $bearer;
-        }
+            }
         }
 
         if (empty($token)) {
