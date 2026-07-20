@@ -237,7 +237,7 @@ onMounted(refreshTeachers)
       <div class="modal-panel" style="max-width:580px;">
         <div class="modal-header">
           <h3>创建教师账号</h3>
-          <button class="close-btn" @click="showCreateModal = false">&times;</button>
+          <button class="close-btn" :disabled="createLoading" @click="showCreateModal = false">&times;</button>
         </div>
         <div class="modal-body">
           <div class="form-row">
@@ -271,7 +271,7 @@ onMounted(refreshTeachers)
             <div class="form-group flex-1"><label>邮箱</label><input v-model="createForm.email" class="form-input" placeholder="选填" /></div>
           </div>
           <div class="form-group">
-            <label>初始密码 <span style="color:#9ca3af;font-size:12px;font-weight:400;">不填则默认为 star123456</span></label>
+            <label>初始密码 <span style="color:var(--color-text-secondary);font-size:12px;font-weight:400;">不填则默认为 star123456</span></label>
             <input v-model="createForm.password" class="form-input" placeholder="留空则自动随机生成" />
           </div>
           <div class="assign-section">
@@ -279,7 +279,7 @@ onMounted(refreshTeachers)
               <span class="assign-section-title">创建时分配班级（可选）</span>
             </div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">筛选年级：</span>
+              <span style="font-size:12px;color:var(--color-text-secondary);white-space:nowrap;">筛选年级：</span>
               <select v-model="createGradeFilter" class="form-input" style="width:120px;padding:5px 10px;font-size:12px;">
                 <option value="">全部年级</option>
                 <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
@@ -474,7 +474,7 @@ onMounted(refreshTeachers)
 .form-row { display:flex;gap:10px;margin-bottom:12px; }
 .form-group { flex:1; }
 .form-group label { display:block;font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:4px; }
-.form-input { width:100%;padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;font-size:13px;outline:none;transition:border-color 0.15s;box-sizing:border-box; }
+.form-input { color:var(--color-text);width:100%;padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;font-size:13px;outline:none;transition:border-color 0.15s;box-sizing:border-box; }
 .form-input:focus { border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,0.08); }
 .flex-2 { flex:2; }
 .flex-1 { flex:1; }
