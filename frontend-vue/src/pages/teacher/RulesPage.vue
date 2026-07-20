@@ -86,7 +86,6 @@ async function handleDelete(rule: ScoreRule) {
     <div v-else-if="rules.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
       <div style="font-size:48px;margin-bottom:8px;">📋</div>
       <p style="margin-bottom:16px;">暂无积分规则，点击「添加规则」创建</p>
-      <button class="btn btn-primary" style="width:auto;" @click="openAdd">添加规则</button>
     </div>
 
     <div v-else style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">

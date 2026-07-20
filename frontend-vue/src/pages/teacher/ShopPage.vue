@@ -249,7 +249,6 @@ const catLabels: Record<string, string> = { science: '🔬 科学币', reading: 
     </div>
   </div>
 </template>
-</template>
 
 <style scoped>
 .cat-btn { padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);font-family:inherit;transition:all 0.15s; }
