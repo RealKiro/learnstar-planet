@@ -29,3 +29,4 @@ class StudentResource extends JsonResource
         ];
     }
 }
+

@@ -158,7 +158,7 @@ export const petApi = {
 
   /** 投喂宠物 */
   feedPet: (data: FeedPetRequest) =>
-    apiPost<ApiResponse<{ exp_gained: number; new_level: number }>>('/api/v1/teacher/pets/feed', data),
+    apiPost<ApiResponse<{ exp_gained: number; new_level: number }>>('/api/v1/teacher/pets/${studentId}/feed', data),
 
   /** 重命名宠物 */
   renamePet: (petId: number, name: string) =>
@@ -218,7 +218,7 @@ export const leaderboardApi = {
 
   /** 宠物等级榜 */
   getPetLevel: () =>
-    apiGet<ApiResponse<LeaderboardEntry[]>>('/api/v1/teacher/leaderboard/pet'),
+    apiGet<ApiResponse<LeaderboardEntry[]>>('/api/v1/teacher/leaderboard/pet-level'),
 }
 
 // ============================================================

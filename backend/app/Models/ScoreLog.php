@@ -32,3 +32,4 @@ class ScoreLog extends Model
         return $this->belongsTo(Score::class);
     }
 }
+

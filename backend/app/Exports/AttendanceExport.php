@@ -66,3 +66,4 @@ class AttendanceExport implements FromCollection, WithHeadings, WithTitle
         };
     }
 }
+

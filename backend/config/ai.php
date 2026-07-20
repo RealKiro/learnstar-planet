@@ -10,3 +10,4 @@ return [
     'max_tokens' => (int) env('AI_MAX_TOKENS', 2000),
     'temperature' => (float) env('AI_TEMPERATURE', 0.7),
 ];
+

@@ -57,3 +57,4 @@ class AdminUserSeeder extends Seeder
         $this->command?->info("超级管理员已就绪：{$adminUsername}（密码已从 .env 同步）");
     }
 }
+

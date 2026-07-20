@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
 use App\Models\Broadcast;
 use App\Models\ClassRoom;
 use App\Models\ClassRoomTeacher;
@@ -29,6 +28,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  *
  * 职责：
  * 1. 教师端：生成/刷新班级大屏码
+use Illuminate\Support\Facades\Log;
  * 2. 显示端：班级码 → Token 认证
  * 3. 显示端：SSE 长连接 + 轮询降级
  * 4. 显示端：初始全量数据加载
@@ -1137,3 +1137,4 @@ class DisplayController extends Controller
         return $id;
     }
 }
+

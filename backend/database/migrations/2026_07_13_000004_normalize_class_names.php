@@ -21,3 +21,4 @@ return new class () extends Migration {
         // no rollback — normalization is one-way
     }
 };
+

@@ -51,3 +51,4 @@ class ScoreRulesSeeder extends Seeder
         }
     }
 }
+

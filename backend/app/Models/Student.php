@@ -114,3 +114,4 @@ class Student extends Model
         return $this->hasMany(Wallet::class);
     }
 }
+

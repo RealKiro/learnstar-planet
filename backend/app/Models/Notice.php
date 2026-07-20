@@ -50,3 +50,4 @@ class Notice extends Model
         return $this->belongsTo(User::class, 'published_by');
     }
 }
+

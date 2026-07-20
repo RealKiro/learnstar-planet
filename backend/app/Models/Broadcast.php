@@ -61,3 +61,4 @@ class Broadcast extends Model
         ];
     }
 }
+

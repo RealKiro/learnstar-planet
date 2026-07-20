@@ -49,3 +49,4 @@ class PetsExport implements FromCollection, WithHeadings, WithTitle
         return $this->className;
     }
 }
+

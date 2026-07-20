@@ -151,3 +151,4 @@ class WechatWorkWebhookController extends Controller
         return substr($d, 0, $l - $p);
     }
 }
+

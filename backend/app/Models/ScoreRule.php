@@ -82,3 +82,4 @@ class ScoreRule extends Model
             ->get();
     }
 }
+

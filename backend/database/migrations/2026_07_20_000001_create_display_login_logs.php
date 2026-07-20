@@ -28,3 +28,4 @@ return new class () extends Migration {
         Schema::dropIfExists('display_login_logs');
     }
 };
+

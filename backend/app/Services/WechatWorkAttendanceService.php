@@ -169,3 +169,4 @@ class WechatWorkAttendanceService
         return $q->first();
     }
 }
+

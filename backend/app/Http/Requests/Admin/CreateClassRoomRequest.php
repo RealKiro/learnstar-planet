@@ -22,3 +22,4 @@ class CreateClassRoomRequest extends FormRequest
         ];
     }
 }
+

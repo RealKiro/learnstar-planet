@@ -277,3 +277,4 @@ Route::prefix('v1')->group(function () {
         Route::post('callback', [WechatWorkWebhookController::class, 'receive']);
     });
 }); // End API v1
+

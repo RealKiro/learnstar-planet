@@ -72,3 +72,4 @@ class ScoreServiceTest extends TestCase
         );
     }
 }
+

@@ -14,3 +14,4 @@ namespace {
         return new \Livewire\Flux\Flux();
     }
 }
+

@@ -417,3 +417,4 @@ class ParentController extends Controller
         return $parent->children()->first();
     }
 }
+

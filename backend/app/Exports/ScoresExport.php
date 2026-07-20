@@ -52,3 +52,4 @@ class ScoresExport implements FromCollection, WithHeadings, WithTitle
         return $this->className;
     }
 }
+

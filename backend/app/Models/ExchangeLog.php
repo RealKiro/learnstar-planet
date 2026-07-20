@@ -37,3 +37,4 @@ class ExchangeLog extends Model
         return $this->belongsTo(User::class, 'operated_by');
     }
 }
+

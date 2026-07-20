@@ -46,3 +46,4 @@ class School extends Model
         return $this->hasManyThrough(Student::class, ClassRoom::class);
     }
 }
+

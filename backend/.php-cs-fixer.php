@@ -97,3 +97,4 @@ return (new PhpCsFixer\Config())
         'no_closing_tag' => true,
     ])
     ->setFinder($finder);
+

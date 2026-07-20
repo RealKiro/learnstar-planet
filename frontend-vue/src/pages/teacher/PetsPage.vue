@@ -371,7 +371,7 @@ onMounted(async () => {
               :species-id="selectedPet.species"
               :current-level="selectedPet.level"
               :current-exp="selectedPet.exp"
-              @select="(lvl) => console.log('select level', lvl)"
+              @select="(lvl) => // level selected"
             />
           </div>
 
