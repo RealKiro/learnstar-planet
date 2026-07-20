@@ -5,151 +5,102 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
-/**
- * AI 助教服务 — 对接大语言模型 API
- *
- * 支持 OpenAI 兼容接口的提供商：
- * - DeepSeek (默认, api.deepseek.com)
- * - 通义千问 (dashscope.aliyuncs.com)
- * - OpenAI (api.openai.com)
- * - 本地模型 (通过 ollama 等)
- */
-class AIService
+class AiService
 {
-    private string $provider;
-
-    private string $apiKey;
-
-    private string $apiBase;
-
-    private string $model;
-
-    private int $maxTokens;
-
-    private float $temperature;
-
-    public function __construct()
+    public function chat(string $provider, string $apiKey, string $model, string $question, ?string $apiBase = null, int $maxTokens = 2000): array
     {
-        $this->provider = config('ai.provider', '');
-        $this->apiKey = config('ai.api_key', '');
-        $this->apiBase = rtrim(config('ai.api_base', ''), '/');
-        $this->model = config('ai.model', 'deepseek-chat');
-        $this->maxTokens = (int) config('ai.max_tokens', 2000);
-        $this->temperature = (float) config('ai.temperature', 0.7);
-    }
+        $method = 'call' . str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $provider)));
 
-    /**
-     * 检查 AI 功能是否已配置
-     */
-    public function isConfigured(): bool
-    {
-        return !empty($this->provider) && !empty($this->apiKey);
-    }
-
-    /**
-     * 发送聊天消息并获取回复
-     */
-    public function chat(string $message, array $history = []): string
-    {
-        if (!$this->isConfigured()) {
-            return 'AI 助教功能未配置。请在 .env 文件中设置 AI_PROVIDER 和 AI_API_KEY。';
+        if (method_exists($this, $method)) {
+            return $this->$method($apiKey, $model, $question, $apiBase, $maxTokens);
         }
 
-        $messages = $this->buildMessages($message, $history);
-
-        try {
-            $response = Http::timeout(30)
-                ->withHeaders([
-                    'Authorization' => 'Bearer ' . $this->apiKey,
-                    'Content-Type' => 'application/json',
-                ])
-                ->post($this->getApiUrl(), [
-                    'model' => $this->model,
-                    'messages' => $messages,
-                    'max_tokens' => $this->maxTokens,
-                    'temperature' => $this->temperature,
-                    'stream' => false,
-                ]);
-
-            if ($response->successful()) {
-                $data = $response->json();
-
-                return $data['choices'][0]['message']['content'] ?? '抱歉，AI 返回了空回复。';
-            }
-
-            $status = $response->status();
-            $body = $response->body();
-            Log::warning("AI API 请求失败: status={$status}, body={$body}");
-
-            if ($status === 401) {
-                return 'AI API Key 无效，请在 .env 中检查 AI_API_KEY 配置。';
-            }
-            if ($status === 429) {
-                return 'AI 请求过于频繁，请稍后再试。';
-            }
-
-            return "AI 服务暂时不可用 (HTTP {$status})，请稍后重试。";
-        } catch (\Throwable $e) {
-            Log::error('AI API 调用异常: ' . $e->getMessage());
-
-            return 'AI 服务连接失败，请检查网络连接和 API 地址配置。';
-        }
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase, $maxTokens);
     }
 
-    /**
-     * 获取当前配置的提供商信息
-     */
-    public function getUsageInfo(): array
+    private function callOpenaiCompatible(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
     {
+        $base = $apiBase ?: 'https://api.openai.com/v1';
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Content-Type' => 'application/json',
+        ])->timeout(30)->post($base . '/chat/completions', [
+            'model' => $model,
+            'messages' => [
+                ['role' => 'system', 'content' => '你是一个学习助手，请用中文回答。'],
+                ['role' => 'user', 'content' => $question],
+            ],
+            'max_tokens' => $maxTokens,
+            'temperature' => 0.7,
+        ]);
+
+        if ($response->failed()) {
+            return ['answer' => 'AI 服务暂时不可用', 'tokens_used' => 0];
+        }
+
         return [
-            'configured' => $this->isConfigured(),
-            'provider' => $this->provider ?: '未配置',
-            'model' => $this->model,
+            'answer' => $response->json('choices.0.message.content') ?? '抱歉，无法回答。',
+            'tokens_used' => $response->json('usage.total_tokens') ?? 0,
         ];
     }
 
-    /**
-     * 构建消息列表
-     */
-    private function buildMessages(string $message, array $history): array
+    private function callClaude(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
     {
-        $systemPrompt = '你是一个班级管理系统的 AI 助教，名叫"学趣星球"。'
-            . '你帮助教师处理日常班级管理事务，如：'
-            . '积分管理、学生激励、课堂活动建议等。'
-            . '请用中文回答，语气亲切专业，回答简洁实用。';
+        $base = $apiBase ?: 'https://api.anthropic.com/v1';
+        $response = Http::withHeaders([
+            'x-api-key' => $apiKey, 'anthropic-version' => '2023-06-01',
+            'Content-Type' => 'application/json',
+        ])->timeout(30)->post($base . '/messages', [
+            'model' => $model, 'max_tokens' => $maxTokens,
+            'messages' => [['role' => 'user', 'content' => $question]],
+        ]);
 
-        $messages = [['role' => 'system', 'content' => $systemPrompt]];
-
-        // 添加历史消息（最多保留最近 10 轮）
-        $maxHistory = min(count($history), 10);
-        for ($i = count($history) - $maxHistory; $i < count($history); $i++) {
-            $messages[] = $history[$i];
+        if ($response->failed()) {
+            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0];
         }
-
-        $messages[] = ['role' => 'user', 'content' => $message];
-
-        return $messages;
+        $answer = '';
+        foreach ($response->json('content', []) as $block) {
+            if (($block['type'] ?? '') === 'text') $answer .= $block['text'] ?? '';
+        }
+        return [
+            'answer' => $answer ?: '抱歉，无法回答。',
+            'tokens_used' => ($response->json('usage.input_tokens') ?? 0) + ($response->json('usage.output_tokens') ?? 0),
+        ];
     }
 
-    /**
-     * 获取 API 地址
-     */
-    private function getApiUrl(): string
+    private function callQwen(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
     {
-        // 如果配置了完整 API 地址，直接使用
-        if ($this->apiBase) {
-            return $this->apiBase . '/chat/completions';
+        $base = $apiBase ?: 'https://dashscope.aliyuncs.com/api/v1';
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $apiKey, 'Content-Type' => 'application/json',
+        ])->timeout(30)->post($base . '/services/aigc/text-generation/generation', [
+            'model' => $model,
+            'input' => ['messages' => [
+                ['role' => 'system', 'content' => '你是一个学习助手。'],
+                ['role' => 'user', 'content' => $question],
+            ]],
+            'parameters' => ['max_tokens' => $maxTokens, 'temperature' => 0.7],
+        ]);
+        if ($response->failed()) {
+            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0];
         }
+        return [
+            'answer' => $response->json('output.text') ?? '抱歉，无法回答。',
+            'tokens_used' => $response->json('usage.total_tokens') ?? 0,
+        ];
+    }
 
-        // 按提供商返回默认地址
-        return match ($this->provider) {
-            'deepseek' => 'https://api.deepseek.com/v1/chat/completions',
-            'openai' => 'https://api.openai.com/v1/chat/completions',
-            'qwen' => 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
-            'moonshot' => 'https://api.moonshot.cn/v1/chat/completions',
-            default => 'https://api.deepseek.com/v1/chat/completions',
-        };
+    private function callDeepseek(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.deepseek.com/v1', $maxTokens);
+    }
+
+    private function callMcp(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        if (empty($apiBase)) {
+            return ['answer' => 'MCP 接口需要配置 API 地址', 'tokens_used' => 0];
+        }
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase, $maxTokens);
     }
 }

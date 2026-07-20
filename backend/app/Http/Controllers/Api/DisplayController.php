@@ -1181,7 +1181,7 @@ class DisplayController extends Controller
 
         return response()->json([
             'data' => [
-                'enabled' => $setting?->enabled ?? false,
+                'enabled' => $setting && $setting->enabled,
             ],
         ]);
     }
@@ -1222,9 +1222,23 @@ class DisplayController extends Controller
             'status' => 'pending',
         ]);
 
-        // 模拟 AI 回复（实际应调用对应 API）
-        $answer = '这是一个模拟回复。您的问题已记录，管理员可在 AI 中心查看对话历史。';
-        $tokensUsed = mb_strlen($question . $answer);
+        // 调用 AI 服务
+        try {
+            $aiService = app(\App\Services\AiService::class);
+            $result = $aiService->chat(
+                provider: $setting->provider,
+                apiKey: $setting->api_key,
+                model: $setting->model,
+                question: $question,
+                apiBase: $setting->api_base,
+                maxTokens: $setting->max_tokens,
+            );
+            $answer = $result['answer'];
+            $tokensUsed = $result['tokens_used'];
+        } catch (\Throwable $e) {
+            $answer = 'AI 服务调用失败：' . $e->getMessage();
+            $tokensUsed = 0;
+        }
 
         $conversation->update([
             'answer' => $answer,
@@ -1233,7 +1247,9 @@ class DisplayController extends Controller
         ]);
 
         // 更新总用量
-        $setting->increment('tokens_used', $tokensUsed);
+        if ($tokensUsed > 0) {
+            $setting->increment('tokens_used', $tokensUsed);
+        }
 
         return response()->json([
             'data' => [

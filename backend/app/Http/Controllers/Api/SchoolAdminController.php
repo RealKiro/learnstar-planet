@@ -1866,9 +1866,9 @@ class SchoolAdminController extends Controller
 
         return response()->json([
             'data' => [
-                'enabled' => $settings?->enabled ?? false,
-                'tokens_used' => $settings?->tokens_used ?? 0,
-                'tokens_limit' => $settings?->tokens_limit ?? 0,
+                'enabled' => $settings && $settings->enabled,
+                'tokens_used' => $settings ? $settings->tokens_used : 0,
+                'tokens_limit' => $settings ? $settings->tokens_limit : 0,
                 'total_conversations' => \App\Models\AiConversation::where('school_id', $school->id)->count(),
                 'daily_usage' => $dailyUsage,
                 'recent_logs' => $recentLogs,

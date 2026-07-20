@@ -28,12 +28,15 @@ const activeTab = ref<'settings' | 'usage' | 'logs'>('settings')
 const showApiKey = ref(false)
 
 const providers = [
-  { id: 'openai', label: 'OpenAI', models: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo'] },
-  { id: 'azure', label: 'Azure OpenAI', models: ['gpt-3.5-turbo', 'gpt-4'] },
-  { id: 'claude', label: 'Anthropic Claude', models: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus'] },
-  { id: 'qwen', label: '通义千问', models: ['qwen-turbo', 'qwen-plus', 'qwen-max'] },
-  { id: 'deepseek', label: 'DeepSeek', models: ['deepseek-chat', 'deepseek-coder'] },
-  { id: 'astrbot', label: 'AstrBot MCP', models: ['mcp-default'] },
+  { id: 'openai', label: 'OpenAI', models: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o'] },
+  { id: 'claude', label: 'Anthropic Claude', models: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus', 'claude-3-5-sonnet'] },
+  { id: 'qwen', label: '通义千问（阿里）', models: ['qwen-turbo', 'qwen-plus', 'qwen-max', 'qwen2-72b-instruct'] },
+  { id: 'deepseek', label: 'DeepSeek（深度求索）', models: ['deepseek-chat', 'deepseek-coder'] },
+  { id: 'ernie', label: '文心一言（百度）', models: ['ernie-4.0', 'ernie-3.5', 'ernie-speed'] },
+  { id: 'hunyuan', label: '混元（腾讯）', models: ['hunyuan-lite', 'hunyuan-standard', 'hunyuan-pro'] },
+  { id: 'glm', label: 'GLM（智谱）', models: ['glm-4', 'glm-4-plus', 'glm-4-air'] },
+  { id: 'spark', label: '星火（讯飞）', models: ['spark-3.0', 'spark-4.0'] },
+  { id: 'mcp', label: 'MCP 通用接口', models: ['mcp-default'] },
 ]
 
 const activeProvider = computed(() => providers.find(p => p.id === settings.value?.provider))
