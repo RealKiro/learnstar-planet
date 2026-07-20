@@ -96,6 +96,75 @@ class AiService
         return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.deepseek.com/v1', $maxTokens);
     }
 
+    /**
+     * Google Gemini
+     */
+    private function callGoogle(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        $base = $apiBase ?: 'https://generativelanguage.googleapis.com/v1';
+        $response = Http::timeout(30)->post($base . '/models/' . $model . ':generateContent?key=' . $apiKey, [
+            'contents' => [['parts' => [['text' => $question]]]],
+            'generationConfig' => ['maxOutputTokens' => $maxTokens, 'temperature' => 0.7],
+        ]);
+
+        if ($response->failed()) {
+            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0];
+        }
+        $answer = $response->json('candidates.0.content.parts.0.text') ?? '抱歉，无法回答。';
+        return [
+            'answer' => $answer,
+            'tokens_used' => ($response->json('usageMetadata.promptTokenCount') ?? 0) + ($response->json('usageMetadata.candidatesTokenCount') ?? 0),
+        ];
+    }
+
+    /**
+     * Moonshot / Kimi（月之暗面）— OpenAI 兼容
+     */
+    private function callMoonshot(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.moonshot.cn/v1', $maxTokens);
+    }
+
+    /**
+     * Grok（xAI）— OpenAI 兼容
+     */
+    private function callGrok(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.x.ai/v1', $maxTokens);
+    }
+
+    /**
+     * SiliconFlow（硅基流动）— OpenAI 兼容
+     */
+    private function callSiliconflow(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.siliconflow.cn/v1', $maxTokens);
+    }
+
+    /**
+     * NVIDIA NIM — OpenAI 兼容
+     */
+    private function callNvidia(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://integrate.api.nvidia.com/v1', $maxTokens);
+    }
+
+    /**
+     * OpenRouter — OpenAI 兼容
+     */
+    private function callOpenrouter(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://openrouter.ai/api/v1', $maxTokens);
+    }
+
+    /**
+     * ByteDance Doubao（豆包）— OpenAI 兼容（火山引擎）
+     */
+    private function callBytedance(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://ark.cn-beijing.volces.com/api/v3', $maxTokens);
+    }
+
     private function callMcp(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
     {
         if (empty($apiBase)) {

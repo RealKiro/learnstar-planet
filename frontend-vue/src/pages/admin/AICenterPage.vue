@@ -28,14 +28,21 @@ const activeTab = ref<'settings' | 'usage' | 'logs'>('settings')
 const showApiKey = ref(false)
 
 const providers = [
-  { id: 'openai', label: 'OpenAI', models: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o'] },
+  { id: 'openai', label: 'OpenAI', models: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o', 'gpt-4o-mini'] },
   { id: 'claude', label: 'Anthropic Claude', models: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus', 'claude-3-5-sonnet'] },
+  { id: 'google', label: 'Google Gemini', models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash'] },
+  { id: 'grok', label: 'xAI Grok', models: ['grok-1', 'grok-2', 'grok-2-mini'] },
+  { id: 'moonshot', label: '月之暗面 Kimi', models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'] },
+  { id: 'bytedance', label: '豆包（字节跳动）', models: ['doubao-1.5-pro', 'doubao-1.5-lite', 'doubao-pro'] },
   { id: 'qwen', label: '通义千问（阿里）', models: ['qwen-turbo', 'qwen-plus', 'qwen-max', 'qwen2-72b-instruct'] },
-  { id: 'deepseek', label: 'DeepSeek（深度求索）', models: ['deepseek-chat', 'deepseek-coder'] },
+  { id: 'deepseek', label: 'DeepSeek（深度求索）', models: ['deepseek-chat', 'deepseek-coder', 'deepseek-r1', 'deepseek-v3'] },
   { id: 'ernie', label: '文心一言（百度）', models: ['ernie-4.0', 'ernie-3.5', 'ernie-speed'] },
   { id: 'hunyuan', label: '混元（腾讯）', models: ['hunyuan-lite', 'hunyuan-standard', 'hunyuan-pro'] },
   { id: 'glm', label: 'GLM（智谱）', models: ['glm-4', 'glm-4-plus', 'glm-4-air'] },
   { id: 'spark', label: '星火（讯飞）', models: ['spark-3.0', 'spark-4.0'] },
+  { id: 'siliconflow', label: '硅基流动 (SiliconFlow)', models: ['Pro/DeepSeek-V3', 'Pro/Qwen2.5-72B', 'Pro/GLM-4-9B', 'Pro/Llama-3.3-70B'] },
+  { id: 'nvidia', label: 'NVIDIA NIM', models: ['nvidia/llama-3.1-nemotron', 'nvidia/nemotron-4', 'meta/llama-3.1-8b'] },
+  { id: 'openrouter', label: 'OpenRouter', models: ['openrouter/auto', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'google/gemini-2.0-flash'] },
   { id: 'mcp', label: 'MCP 通用接口', models: ['mcp-default'] },
 ]
 
