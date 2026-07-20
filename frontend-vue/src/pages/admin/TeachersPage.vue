@@ -253,50 +253,54 @@ onMounted(refreshTeachers)
 
 
   <Teleport to="body">
-    <div v-if="showCreateModal" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1000;background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;max-width:540px;width:92%;padding:16px 20px 14px;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--color-border);flex-shrink:0;">
+    <Transition name="drawer">
+      <div v-if="showCreateModal" style="position:fixed;top:0;right:0;bottom:0;z-index:1000;width:540px;max-width:100vw;background:var(--color-bg-card);border-left:1px solid var(--color-border);box-shadow:-8px 0 32px rgba(0,0,0,0.1);display:flex;flex-direction:column;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--color-border);flex-shrink:0;">
           <h2 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">✨ 创建教师账号</h2>
-          <button :disabled="createLoading" @click="showCreateModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:18px;cursor:pointer;padding:0;line-height:1;">✕</button>
+          <button :disabled="createLoading" @click="showCreateModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-          <div>
-            <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:6px;">📝 创建账号 <span style="font-size:10px;color:var(--color-text-secondary);">必填</span></div>
-            <div style="display:flex;gap:8px;">
-              <div style="flex:1;" class="form-group"><label>姓名 <span style="color:var(--color-danger);">*</span></label><input v-model="createForm.name" placeholder="姓名" class="form-input" /></div>
-              <div style="flex:1;" class="form-group"><label>昵称</label><input v-model="createForm.nickname" placeholder="默认拼音" class="form-input" /></div>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <div style="flex:1;" class="form-group"><label>年级团队</label><select v-model="createForm.grade_team" class="form-input"><option value="">不指定</option><option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option></select></div>
-              <div style="flex:1;" class="form-group"><label>科目</label><select v-model="createForm.subject" class="form-input"><option value="">不指定</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
-            </div>
-            <div style="display:flex;gap:8px;"><div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div><div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div></div>
-            <div class="form-group"><label>初始密码</label><input v-model="createForm.password" placeholder="留空自动生成" class="form-input" /></div>
-          </div>
-          <div>
-            <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:6px;">📚 加入班级 <span style="font-size:10px;color:var(--color-text-secondary);">可选</span></div>
-            <div style="display:flex;gap:8px;align-items:flex-end;">
-              <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
-                <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
-                <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
-                <div class="form-group" style="margin-bottom:0;"><label>科目</label><select v-model="pendingSubject" class="form-input"><option value="">请选择</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+        <div style="flex:1;overflow-y:auto;padding:16px 20px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📝 创建账号 <span style="font-size:10px;color:var(--color-text-secondary);">必填</span></div>
+              <div style="display:flex;gap:8px;">
+                <div style="flex:1;" class="form-group"><label>姓名 <span style="color:var(--color-danger);">*</span></label><input v-model="createForm.name" placeholder="姓名" class="form-input" /></div>
+                <div style="flex:1;" class="form-group"><label>昵称</label><input v-model="createForm.nickname" placeholder="默认拼音" class="form-input" /></div>
               </div>
-              <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:6px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;">➕ 添加</button>
+              <div style="display:flex;gap:8px;">
+                <div style="flex:1;" class="form-group"><label>年级团队</label><select v-model="createForm.grade_team" class="form-input"><option value="">不指定</option><option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option></select></div>
+                <div style="flex:1;" class="form-group"><label>科目</label><select v-model="createForm.subject" class="form-input"><option value="">不指定</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+              </div>
+              <div style="display:flex;gap:8px;"><div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div><div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div></div>
+              <div class="form-group"><label>初始密码</label><input v-model="createForm.password" placeholder="留空自动生成" class="form-input" /></div>
             </div>
-            <div style="font-size:11px;color:var(--color-text-secondary);margin-top:6px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent);">💡 不设置此项，后续可在「分配班级」中添加</div>
-            <div v-if="createAssignments.length > 0" style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
-              <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
-              <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;">
-                <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }} · {{ a.subject }}</span>
-                <button @click="removeClassAssignment(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;">✕</button>
+            <div>
+              <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📚 加入班级 <span style="font-size:10px;color:var(--color-text-secondary);">可选</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-end;">
+                <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
+                  <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
+                  <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
+                  <div class="form-group" style="margin-bottom:0;"><label>科目</label><select v-model="pendingSubject" class="form-input"><option value="">请选择</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+                </div>
+                <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:6px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;">➕ 添加</button>
+              </div>
+              <div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent);">💡 创建后可随时在列表中点击 🏫 按钮重新分配</div>
+              <div v-if="createAssignments.length > 0" style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
+                <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
+                <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;">
+                  <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }} · {{ a.subject }}</span>
+                  <button @click="removeClassAssignment(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;">✕</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div style="display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--color-border);">
+        <div style="display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--color-border);flex-shrink:0;">
           <button @click="showCreateModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
           <button @click="submitCreate" :disabled="createLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;box-shadow:0 2px 8px rgba(124,58,237,0.15);">{{ createLoading ? '创建中...' : '创建账号' }}</button>
         </div>
       </div>
+    </Transition>
   </Teleport>
 
 <Teleport to="body">
@@ -484,4 +488,10 @@ onMounted(refreshTeachers)
 .loading-spinner { text-align:center;padding:64px;color:#9ca3af;font-size:15px; }
 .empty-state { text-align:center;padding:64px 20px;color:#9ca3af; }
 .empty-icon { font-size:48px;margin-bottom:12px; }
+
+/* 抽屉动画 */
+.drawer-enter-active { transition: transform 0.25s ease-out; }
+.drawer-leave-active { transition: transform 0.2s ease-in; }
+.drawer-enter-from { transform: translateX(100%); }
+.drawer-leave-to { transform: translateX(100%); }
 </style>

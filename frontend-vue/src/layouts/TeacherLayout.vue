@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { apiGet, apiPost } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import { getAllSeries, getSeriesName, SERIES_SCENES } from '@/utils/petData'
 import SidebarLayout from '@/components/layout/SidebarLayout.vue'
 
+const router = useRouter()
 const authStore = useAuthStore()
 const toast = useToastStore()
+function logout() { authStore.logout(); router.replace({ name: 'landing' }) }
 
 const classTotalScore = ref(0)
 const currentSeries = ref('myth')
@@ -38,7 +41,6 @@ const navItems = [
     { page: 'teacher-ai', label: 'AI助教', icon: '🤖' },
     { page: 'teacher-shop', label: '积分商城', icon: '🛍️' },
     { page: 'teacher-exchange', label: '兑换中心', icon: '🔄' },
-    { page: 'teacher-students', label: '学生管理', icon: '👥' },
   ]},
   { section: '设置', items: [
     { page: 'teacher-settings', label: '账号设置', icon: '⚙️' },
@@ -83,7 +85,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <SidebarLayout role-label="教师端" :nav-items="navItems">
+  <SidebarLayout role-label="教师端" :nav-items="navItems" :show-logout="true" @logout="logout">
     <template #user-meta>
       <div style="font-size:12px;color:var(--color-text-secondary);">
         {{ authStore.user?.class_names?.join('、') || '教师' }}

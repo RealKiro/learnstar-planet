@@ -161,8 +161,8 @@ const catLabels: Record<string, string> = { science: '🔬 科学币', reading: 
     <!-- 分类筛选 -->
     <div style="display:flex;gap:8px;margin-bottom:16px;">
       <button v-for="c in categories" :key="c.key"
-        :style="filterCategory === c.key ? { background:'var(--color-primary)', color:'white', borderColor:'var(--color-primary)' } : {}"
-        style="padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);"
+        :style="filterCategory === c.key ? { background:'var(--color-primary)', color:'#fff', borderColor:'var(--color-primary)' } : { color: 'var(--color-text)' }"
+        style="padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
         @click="filterCategory = c.key">
         {{ c.label }}
       </button>
