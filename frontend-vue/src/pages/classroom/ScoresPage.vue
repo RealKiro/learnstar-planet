@@ -136,8 +136,8 @@ function startEdit(sid: number) {
   editInput.value = String(getStep(sid))
 }
 
-function saveEdit(sid: number) {
-  const val = parseInt(editInput.value)
+function saveEdit(sid: number, event?: Event) {
+  const val = parseInt(event ? (event.target as HTMLInputElement).value : editInput.value)
   if (val >= 1 && val <= 100) stepValues.value[sid] = val
   editingStep.value = null
 }
@@ -236,7 +236,7 @@ onMounted(async () => {
               style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.04);color:#fca5a5;font-size:20px;font-weight:700;cursor:pointer;transition:0.15s;">−</button>
             <!-- 可编辑步长 -->
             <input v-if="editingStep === s.id" v-model="editInput" type="number" min="1" max="100"
-              @blur="saveEdit(s.id)" @keydown.enter="saveEdit(s.id)" autofocus
+              @blur="saveEdit(s.id)" @keydown.enter="saveEdit(s.id, $event)" autofocus
               style="width:40px;text-align:center;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;color:#fff;font-size:16px;font-weight:700;outline:none;font-family:inherit;">
             <span v-else @click="startEdit(s.id)"
               style="font-size:18px;font-weight:700;min-width:32px;text-align:center;cursor:pointer;padding:2px 4px;border-radius:8px;transition:background 0.15s;user-select:none;"

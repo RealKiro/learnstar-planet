@@ -1,12 +1,12 @@
 #!/bin/sh
 # ============================================================
-# 学趣星球 - Docker 入口脚本（RoadRunner 版）
-# 初始化 Laravel 应用、运行迁移、启动 Octane/RoadRunner
+# 学趣星球 - Docker 入口脚本
+# 初始化 Laravel 应用、运行迁移、启动 PHP 内置服务器
 # ============================================================
 
 set -e
 
-echo "🚀 学趣星球（RoadRunner） - 启动初始化..."
+echo "🚀 学趣星球 - 启动初始化..."
 
 # 确保存储目录存在
 mkdir -p storage/app/public \
@@ -16,17 +16,13 @@ mkdir -p storage/app/public \
     storage/logs \
     bootstrap/cache
 
-# ──────────────────────────────────────────
 # 从 Docker 环境变量创建 .env 文件
-# ──────────────────────────────────────────
 if [ ! -f .env ]; then
     echo "📝 从环境变量创建 .env 文件..."
     env | grep -E "^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|MAIL_|FILESYSTEM_|AI_|WECHAT_|QQ_|RENREN_|ADMIN_|GITHUB_)" > .env
 fi
 
-# ──────────────────────────────────────────
 # 自动拼接端口到 APP_URL
-# ──────────────────────────────────────────
 if [ -n "$APP_URL" ] && [ -n "$APP_PORT" ]; then
     if ! echo "$APP_URL" | grep -qE ':[0-9]+(/.*)?$'; then
         case "$APP_PORT" in
@@ -71,7 +67,7 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
             sed -i "/^APP_KEY=/d" .env
             echo "APP_KEY=$NEW_KEY" >> .env
             export APP_KEY="$NEW_KEY"
-            echo "✅ 密钥已生成: ${NEW_KEY:0:16}..."
+            echo "✅ 密钥已生成"
         else
             echo "⚠️  密钥生成失败，请手动设置 APP_KEY"
         fi
@@ -92,6 +88,23 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
     # 创建存储链接
     echo "🔗 创建存储链接..."
     php artisan storage:link --force 2>/dev/null || true
+
+    # 初始化设置：重置积分和宠物（测试/演示环境）
+    if [ "${INITIALIZATION_SETTINGS:-false}" = "true" ]; then
+        echo "🧹 检测到 INITIALIZATION_SETTINGS=true，重置积分和宠物..."
+        php artisan tinker --execute="
+            \App\Models\Student::query()->update(['total_score' => 0]);
+            echo '已重置学生积分\n';
+            \App\Models\Score::query()->truncate();
+            echo '已清空积分记录\n';
+            \App\Models\Pet::query()->update(['level' => 0, 'experience' => 0, 'mood' => 80]);
+            echo '已重置宠物\n';
+        " 2>/dev/null || echo "⚠️  tinker 不可用，尝试直接 SQL..."
+        php artisan db:statement "UPDATE students SET total_score=0" 2>/dev/null || true
+        php artisan db:statement "DELETE FROM scores" 2>/dev/null || true
+        php artisan db:statement "UPDATE pets SET level=0, experience=0, mood=80" 2>/dev/null || true
+        echo "✅ 积分与宠物已重置"
+    fi
 fi
 
 # 优化缓存
@@ -112,6 +125,6 @@ else
     echo "⚡ 队列模式: sync（同步处理）"
 fi
 
-# 使用 PHP 内置服务器（稳定可靠，配合 APP_DEBUG 调试方便）
+# 启动 PHP 内置服务器
 echo "  启动 PHP 内置服务器（http://0.0.0.0:8080）..."
 exec php artisan serve --host=0.0.0.0 --port=8080
