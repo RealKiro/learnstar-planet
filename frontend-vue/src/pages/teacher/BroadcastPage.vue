@@ -89,11 +89,8 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
       <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">发送广播</h3>
 
       <div style="display:flex;gap:8px;margin-bottom:16px;">
-        <button v-for="t in ([['banner','📌 顶部横幅'],['popup','💬 弹窗提示'],['fullscreen','🖥️ 全屏展示']] as const)" :key="t[0]"
-          :style="bcType === t[0] ? { border:'2px solid var(--color-accent)', background:'rgba(79,70,229,0.1)', color:'var(--color-accent)' } : { color: 'var(--color-text)' }"
-          style="flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);cursor:pointer;font-weight:500;color:var(--color-text);font-size:13px;cursor:pointer;font-weight:500;"
-          @click="bcType = t[0]">
-          {{ t[1] }}
+        <button v-for="t in ([['banner','📌 顶部横幅'],['popup','💬 弹窗提示'],['fullscreen','🖥️ 全屏展示']] as const)" :key="t[0]" :class="['bc-type-btn', bcType === t[0] ? 'active' : '']" @click="bcType = t[0]">
+          :class="['"'"'bc-type-btn'"'"', bcType === t[0] ? '"'"'active'"'"' : '"'"''"'"']"
         </button>
       </div>
 
@@ -176,4 +173,9 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
       </table>
     </div>
   </div>
-</template>
+
+<style scoped>
+.bc-type-btn { flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:13px;cursor:pointer;font-weight:500;font-family:inherit; }
+.bc-type-btn:hover { border-color:var(--color-accent); }
+.bc-type-btn.active { border:2px solid var(--color-accent);background:rgba(79,70,229,0.1);color:var(--color-accent); }
+</style>

@@ -186,9 +186,26 @@ async function refreshTeachers() {
   } finally { loading.value = false }
 }
 function downloadTemplate() { window.open('/api/v1/admin/teachers/template-csv', '_blank') }
-async function resetPwd(t: Teacher) {
-  const pwd = prompt('为「' + t.name + '」设置新密码（留空自动生成）：')
-  try { await apiPost(`/api/v1/admin/teachers/${t.id}/reset-password`, { password: pwd || undefined }); toast.show('密码已重置', 'success') } catch {}
+const showResetPwdModal = ref(false)
+const resetTarget = ref<Teacher | null>(null)
+const resetPwdValue = ref('')
+const resetPwdLoading = ref(false)
+
+function openResetPwd(t: Teacher) {
+  resetTarget.value = t
+  resetPwdValue.value = ''
+  showResetPwdModal.value = true
+}
+
+async function submitResetPwd() {
+  if (!resetTarget.value) return
+  resetPwdLoading.value = true
+  try {
+    await apiPost(`/api/v1/admin/teachers/${resetTarget.value.id}/reset-password`, { password: resetPwdValue.value || undefined })
+    toast.show('密码已重置为：' + (resetPwdValue.value || '自动生成'), 'success')
+    showResetPwdModal.value = false
+  } catch { toast.show('重置失败', 'error') }
+  finally { resetPwdLoading.value = false }
 }
 async function deleteTeacher(t: Teacher) {
   if (!confirm('确定删除教师「' + t.name + '」？')) return
@@ -266,7 +283,7 @@ onMounted(refreshTeachers)
         <div class="card-actions">
           <button class="action-btn" @click="openEditModal(t)" title="编辑信息">&#x270F;&#xFE0F;</button>
           <button class="action-btn assign" @click="openAssignModal(t)" title="分配班级/角色">&#x1F3EB;</button>
-          <button class="action-btn" @click="resetPwd(t)" title="重置密码">&#x1F511;</button>
+          <button class="action-btn" @click="openResetPwd(t)" title="重置密码">&#x1F511;</button>
           <button class="action-btn danger" @click="deleteTeacher(t)" title="删除">&#x1F5D1;&#xFE0F;</button>
         </div>
       </div>
@@ -396,6 +413,24 @@ onMounted(refreshTeachers)
         <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--color-border);">
           <button @click="showAssignModal = false" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
           <button @click="submitAssign" :disabled="assignLoading" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">{{ assignLoading ? '保存中...' : '保存分配' }}</button>
+        </div>
+      </div>
+    </div>
+  </Teleport>
+
+  <!-- 重置密码弹窗 -->
+  <Teleport to="body">
+    <div v-if="showResetPwdModal" @click="showResetPwdModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+          <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🔑 重置密码 — {{ resetTarget?.name }}</h3>
+          <button @click="showResetPwdModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
+        </div>
+        <div class="form-group"><label>新密码</label><input v-model="resetPwdValue" type="text" class="form-input" placeholder="留空自动生成"></div>
+        <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;padding:8px;background:var(--color-bg);border-radius:6px;">💡 留空将自动生成随机密码</div>
+        <div style="display:flex;gap:12px;">
+          <button @click="showResetPwdModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
+          <button @click="submitResetPwd" :disabled="resetPwdLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">{{ resetPwdLoading ? '重置中...' : '确认重置' }}</button>
         </div>
       </div>
     </div>
