@@ -763,6 +763,7 @@ class DisplayController extends Controller
         if (!$class) {
             return response()->json(['data' => ['pet_series' => null]]);
         }
+
         return response()->json(['data' => ['pet_series' => $class->settings['pet_series'] ?? null]]);
     }
 
