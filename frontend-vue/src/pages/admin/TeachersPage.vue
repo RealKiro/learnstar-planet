@@ -250,7 +250,7 @@ onMounted(refreshTeachers)
   </div>
 
   <Teleport to="body">
-    <div v-if="showCreateModal" class="modal-overlay" @click.self="createLoading || (showCreateModal = false)">
+    <div v-if="showCreateModal" class="modal-overlay" >
       <div class="modal-panel" style="max-width:580px;">
         <div class="modal-header">
           <h3>创建教师账号</h3>
@@ -352,7 +352,7 @@ onMounted(refreshTeachers)
   </Teleport>
 
   <Teleport to="body">
-    <div v-if="showEditModal" class="modal-overlay" @click.self="showEditModal = false">
+    <div v-if="showEditModal" class="modal-overlay" >
       <div class="modal-panel" style="max-width:520px;">
         <div class="modal-header"><h3>编辑「{{ editTarget?.name }}」</h3><button class="close-btn" @click="showEditModal = false">&times;</button></div>
         <div class="modal-body">
@@ -390,7 +390,7 @@ onMounted(refreshTeachers)
   </Teleport>
 
   <Teleport to="body">
-    <div v-if="showAssignModal" class="modal-overlay" @click.self="showAssignModal = false">
+    <div v-if="showAssignModal" class="modal-overlay" >
       <div class="modal-panel" style="max-width:620px;">
         <div class="modal-header"><h3>为「{{ assignTarget?.name }}」分配班级与角色</h3><button class="close-btn" @click="showAssignModal = false">&times;</button></div>
         <div class="modal-body">
@@ -430,7 +430,7 @@ onMounted(refreshTeachers)
   </Teleport>
 
   <Teleport to="body">
-    <div v-if="showImportModal" class="modal-overlay" @click.self="showImportModal = false">
+    <div v-if="showImportModal" class="modal-overlay" >
       <div class="modal-panel" style="max-width:700px;max-height:90vh;overflow-y:auto;">
         <div class="modal-header"><h3>批量导入教师</h3><button class="close-btn" @click="showImportModal = false">&times;</button></div>
         <div class="modal-body">
