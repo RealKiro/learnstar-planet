@@ -102,9 +102,19 @@ php artisan view:cache 2>/dev/null || true
 echo "✅ 缓存重建完成"
 
 echo "🎉 学趣星球初始化完成！"
+
+# 如果使用 Redis 队列，启动后台 queue worker
+if [ "${QUEUE_CONNECTION:-redis}" = "redis" ] || [ "${QUEUE_CONNECTION:-redis}" = "database" ]; then
+    echo "⏳ 启动队列 worker（${QUEUE_CONNECTION:-redis}）..."
+    php artisan queue:work --queue=default --sleep=3 --tries=3 --timeout=60 &
+    echo "✅ 队列 worker 已启动"
+else
+    echo "⚡ 队列模式: sync（同步处理）"
+fi
+
 echo "  启动 RoadRunner（8 workers, 8080 端口）..."
 
-# 启动 Octane RoadRunner 服务器
+# 启动 Octane RoadRunner 服务器（前台进程）
 exec php artisan octane:start \
     --server=roadrunner \
     --host=0.0.0.0 \

@@ -59,11 +59,12 @@ RUN composer install \
     && composer dump-autoload --optimize --no-scripts --no-dev \
     && rm -rf /root/.composer/cache
 
-# Install RoadRunner via Octane
-RUN php artisan octane:install --server=roadrunner --no-interaction
-
-# Copy application code
+# Copy application code (需要在 octane:install 之前)
 COPY backend/ .
+
+# Install RoadRunner via Octane
+RUN php artisan package:discover --ansi 2>/dev/null || true \
+    && php artisan octane:install --server=roadrunner --no-interaction
 
 # Copy Vue frontend build to public directory
 COPY --from=frontend-builder /app/dist ./public

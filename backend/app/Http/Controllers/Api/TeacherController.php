@@ -1973,4 +1973,89 @@ class TeacherController extends Controller
             'model' => $info['model'],
         ]]);
     }
+
+    // ============================================================
+    // 兑换中心
+    // ============================================================
+
+    public function listWallets(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $students = Student::whereIn('class_id', $classIds)->where('status', 'active')->pluck('id');
+
+        $wallets = Wallet::whereIn('student_id', $students)
+            ->with('student:id,name')
+            ->get()
+            ->map(fn ($w) => [
+                'student_id' => $w->student_id,
+                'student_name' => $w->student?->name,
+                'currency_type' => $w->currency_type,
+                'balance' => (int) $w->balance,
+            ]);
+
+        return response()->json(['data' => $wallets]);
+    }
+
+    /**
+     * 积分兑换
+     */
+    public function exchangeCurrency(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+
+        $request->validate([
+            'student_id' => 'required|integer',
+            'to_currency' => 'required|string',
+            'amount' => 'required|integer|min:1',
+        ]);
+
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($request->input('student_id'));
+
+        try {
+            $result = app(CurrencyService::class)->exchange(
+                $student->id,
+                $request->input('to_currency'),
+                (int) $request->input('amount'),
+                $teacher->id,
+            );
+
+            return response()->json(['message' => '兑换成功', 'data' => $result]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+    }
+
+    /**
+     * 交叉兑换（币种间兑换）
+     */
+    public function crossExchangeCurrency(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+
+        $request->validate([
+            'student_id' => 'required|integer',
+            'from_currency' => 'required|string',
+            'to_currency' => 'required|string',
+            'amount' => 'required|integer|min:1',
+        ]);
+
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($request->input('student_id'));
+
+        try {
+            $result = app(CurrencyService::class)->crossExchange(
+                $student->id,
+                $request->input('from_currency'),
+                $request->input('to_currency'),
+                (int) $request->input('amount'),
+                $teacher->id,
+            );
+
+            return response()->json(['message' => '兑换成功', 'data' => $result]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+    }
 }
