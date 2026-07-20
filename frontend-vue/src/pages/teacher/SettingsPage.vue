@@ -108,11 +108,11 @@ async function changePassword() {
       <button class="btn btn-primary" style="margin-top:16px;" @click="openPwdModal">修改密码</button>
     </div>
 
-    <!-- 修改密码弹窗 -->
+    <!-- 修改密码弹窗（非模态） -->
     <Teleport to="body">
-      <div v-if="showPwdModal" @click.self="showPwdModal = false"
-        style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:var(--color-bg-card);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+      <div v-if="showPwdModal"
+        style="position:fixed;inset:0;z-index:999;background:transparent;pointer-events:none;display:flex;align-items:center;justify-content:center;padding:20px;">
+        <div style="pointer-events:auto;background:var(--color-bg-card);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
           <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">修改密码</h3>
           <div class="form-group" style="margin-bottom:12px;">
             <label>当前密码</label>
