@@ -212,6 +212,17 @@ async function deleteTeacher(t: Teacher) {
   try { await apiDelete(`/api/v1/admin/teachers/${t.id}`); teachers.value = teachers.value.filter(x => x.id !== t.id); toast.show('已删除', 'success') } catch {}
 }
 function classById(id: number) { return classes.value.find(c => c.id === id) }
+function uniqueRoles(assignments: Assignment[]): string[] {
+  return [...new Set(assignments.map(a => a.role))]
+}
+function roleTagClass(role: string): string {
+  const map: Record<string, string> = { head_teacher: 'tag-head', co_teacher: 'tag-co', subject_teacher: 'tag-subj', grade_lead: 'tag-lead', admin_director: 'tag-admin' }
+  return map[role] || 'tag-subj'
+}
+function gradeIcon(team: string): string {
+  for (const g of ['一年级','二年级','三年级','四年级','五年级','六年级']) { if (team.includes(g)) return ['🌱','🌿','🌳','📚','⭐','🎓'][['一年级','二年级','三年级','四年级','五年级','六年级'].indexOf(g)] }
+  return '📌'
+}
 function shortClassName(name: string | undefined) {
   if (!name) return ''
   const m = name.match(/（(\d+)）班/)
@@ -253,45 +264,48 @@ onMounted(refreshTeachers)
       <div class="empty-icon">&#x1F468;&#x200D;&#x1F3EB;</div><p>暂无教师</p>
     </div>
 
-    <div v-else class="card-grid">
-      <div v-for="t in filteredTeachers" :key="t.id" class="teacher-card">
-        <div class="card-header">
-          <div class="avatar" :style="{ background: avatarGradient(t.name) }">{{ t.nickname?.[0] || t.name[0] }}</div>
-          <div class="card-info">
-            <div class="card-name">{{ t.name }}<span v-if="t.nickname && t.nickname !== t.name" class="card-nick">@{{ t.nickname }}</span></div>
-            <div class="card-meta">
-              <span v-if="t.subject" class="meta-tag subject">{{ t.subject }}</span>
-              <span v-if="t.grade_team" class="meta-tag grade">{{ t.grade_team }}</span>
-              <span class="meta-tag">{{ t.username }}</span>
-              <span v-if="t.phone" class="meta-tag">{{ t.phone }}</span>
+  <Teleport to="body">
+
+    <!-- 按年级团队分组 -->
+    <template v-for="group in teacherTeams" :key="group[0]">
+      <div v-if="group[1].length > 0" style="margin-bottom:20px;">
+        <div class="grade-header">
+          <span class="grade-icon">{{ gradeIcon(group[0]) }}</span>
+          <span class="grade-name">{{ group[0] }}</span>
+          <span class="grade-count">{{ group[1].length }} 人</span>
+        </div>
+        <div class="card-grid">
+          <div v-for="t in group[1]" :key="t.id" class="teacher-card">
+            <div class="card-header">
+              <div class="avatar" :style="{ background: avatarGradient(t.name) }">{{ t.name[0] }}</div>
+              <div class="ti">
+                <div class="ti-name">{{ t.name }}</div>
+                <div class="ti-id">{{ t.username }}</div>
+              </div>
+              <div class="role-tags">
+                <span v-for="role in uniqueRoles(t.assignments)" :key="role" :class="['role-tag', roleTagClass(role)]">
+                  {{ roleLabel[role as Role] || role }}
+                </span>
+              </div>
             </div>
-            <div class="card-assign">
-              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">
-                <span v-for="b in t.bindings" :key="b" class="binding-tag">{{ platformLabel(b) }}</span>
+            <div class="assign-body">
+              <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="assign-row" :style="{ borderLeftColor: roleColors[a.role as Role] }">
+                <span class="ar-class">{{ a.class_name || classById(a.class_id)?.name || '"'"'#'"'"' + a.class_id }}</span>
+                <span class="ar-subj">{{ a.subject || '"'"'—'"'"' }}</span>
+                <span class="ar-role">{{ roleLabel[a.role as Role] || a.role }}</span>
               </div>
-              <div v-if="t.assignments.length > 0" class="assign-list">
-                <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="assign-item" :style="{ borderLeftColor: roleColors[a.role as Role] }">
-                  <span class="assign-role" :style="{ color: roleColors[a.role as Role] }">{{ roleLabel[a.role as Role] }}</span>
-                  <span class="assign-class">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
-                  <span v-if="a.subject" class="assign-subject">{{ a.subject }}</span>
-                </div>
-              </div>
-              <div v-else style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">未分配班级</div>
+              <div v-if="t.assignments.length === 0" class="ar-empty">未分配班级</div>
+            </div>
+            <div class="card-foot">
+              <button class="cf-btn cf-edit" @click="openEditModal(t)">👤 个人信息</button>
+              <button class="cf-btn cf-class" @click="openAssignModal(t)">📚 加入班级</button>
+              <button class="cf-btn cf-pwd" @click="openResetPwd(t)">🔑 修改密码</button>
+              <button class="cf-btn cf-del" @click="deleteTeacher(t)">🗑️ 删除</button>
             </div>
           </div>
         </div>
-        <div class="card-actions">
-          <button class="action-btn" @click="openEditModal(t)" title="编辑信息">&#x270F;&#xFE0F;</button>
-          <button class="action-btn assign" @click="openAssignModal(t)" title="分配班级/角色">&#x1F3EB;</button>
-          <button class="action-btn" @click="openResetPwd(t)" title="重置密码">&#x1F511;</button>
-          <button class="action-btn danger" @click="deleteTeacher(t)" title="删除">&#x1F5D1;&#xFE0F;</button>
-        </div>
       </div>
-    </div>
-  </div>
-
-
-  <Teleport to="body">
+    </template>
     <Transition name="overlay">
       <div v-if="showCreateModal" @click="showCreateModal = false" style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:flex-end;">
         <Transition name="drawer">
@@ -486,31 +500,42 @@ onMounted(refreshTeachers)
 .filter-group { display:flex;gap:6px; }
 .filter-select { width:110px;padding:6px 10px;font-size:12px; }
 .filter-search { width:150px;padding:6px 10px;font-size:12px; }
-.card-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px; }
-.teacher-card { background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;transition:box-shadow 0.2s,border-color 0.2s; }
-.teacher-card:hover { border-color:#e5e7eb;box-shadow:0 2px 12px rgba(0,0,0,0.04); }
-.card-header { display:flex;align-items:center;gap:14px;flex:1;min-width:0; }
-.avatar { width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:17px;flex-shrink:0; }
-.card-info { flex:1;min-width:0; }
-.card-name { font-weight:600;font-size:15px; }
-.card-nick { color:#9ca3af;font-size:12px;margin-left:6px; }
-.card-meta { display:flex;gap:6px;flex-wrap:wrap;margin-top:4px; }
-.meta-tag { font-size:11px;padding:1px 8px;border-radius:8px;font-weight:500; }
-.meta-tag.subject { background:#ecfdf5;color:#059669; }
-.meta-tag.grade { background:#eff6ff;color:#2563eb; }
-.meta-tag:not(.subject):not(.grade) { color:#6b7280; }
-.card-assign { margin-top:6px; }
-.binding-tag { display:inline-block;font-size:11px;padding:1px 8px;border-radius:6px;font-weight:500;background:rgba(79,70,229,0.06);color:#7c3aed;border:1px solid rgba(79,70,229,0.15); }
-.assign-list { display:flex;flex-direction:column;gap:3px;margin-top:4px; }
-.assign-item { display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:6px;border-left:3px solid;font-size:12px; }
-.assign-role { font-weight:600;font-size:11px;flex-shrink:0; }
-.assign-class { color:var(--color-text);flex:1; }
-.assign-subject { color:var(--color-text-secondary);font-size:11px; }
-.card-actions { display:flex;gap:4px;flex-shrink:0; }
-.action-btn { width:34px;height:34px;border-radius:8px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s; }
-.action-btn:hover { background:#f9fafb;border-color:#e5e7eb; }
-.action-btn.assign:hover { background:#ede9fe;border-color:#c4b5fd; }
-.action-btn.danger:hover { background:#fee2e2;border-color:#fecaca; }
+.grade-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid var(--color-border); }
+.grade-icon { font-size:18px; }
+.grade-name { font-size:17px; font-weight:700; }
+.grade-count { font-size:12px; color:var(--color-text-secondary); background:var(--color-bg); padding:0 10px; border-radius:20px; }
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:14px; }
+.teacher-card { background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; transition:all 0.25s ease; }
+.teacher-card:hover { border-color:rgba(124,58,237,0.15); box-shadow:0 8px 24px rgba(0,0,0,0.06); transform:translateY(-2px); }
+.card-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--color-border); flex-wrap:wrap; }
+.avatar { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:16px; flex-shrink:0; }
+.ti { flex:1; min-width:0; }
+.ti-name { font-weight:700; font-size:15px; }
+.ti-id { font-size:11px; color:var(--color-text-secondary); }
+.role-tags { display:flex; gap:3px; flex-wrap:wrap; margin-left:auto; }
+.role-tag { font-size:10px; font-weight:600; padding:1px 8px; border-radius:20px; border:1px solid transparent; white-space:nowrap; }
+.tag-head { background:rgba(255,215,0,0.10); color:#b8860b; border-color:rgba(255,215,0,0.08); }
+.tag-co { background:rgba(96,165,250,0.10); color:#2563eb; border-color:rgba(96,165,250,0.08); }
+.tag-subj { background:rgba(16,185,129,0.10); color:#059669; border-color:rgba(16,185,129,0.08); }
+.tag-lead { background:rgba(167,139,250,0.10); color:#7c3aed; border-color:rgba(167,139,250,0.08); }
+.tag-admin { background:rgba(244,114,182,0.10); color:#db2777; border-color:rgba(244,114,182,0.08); }
+.assign-body { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; flex:1; }
+.assign-row { display:flex; align-items:center; gap:6px; padding:4px 10px; background:var(--color-bg); border-radius:6px; border-left:3px solid; font-size:12px; }
+.ar-class { font-weight:500; color:var(--color-text); min-width:70px; }
+.ar-subj { color:var(--color-text-secondary); font-size:11px; }
+.ar-role { font-size:10px; font-weight:500; margin-left:auto; padding:1px 6px; border-radius:10px; background:rgba(255,255,255,0.04); color:var(--color-text-secondary); }
+.ar-empty { padding:6px 10px; font-size:12px; color:var(--color-text-secondary); text-align:center; background:var(--color-bg); border-radius:6px; }
+.card-foot { display:flex; gap:4px; flex-wrap:wrap; padding-top:8px; border-top:1px solid var(--color-border); }
+.cf-btn { padding:3px 12px; border-radius:20px; font-size:11px; font-weight:500; cursor:pointer; transition:0.2s; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); color:var(--color-text-secondary); display:inline-flex; align-items:center; gap:3px; height:26px; font-family:inherit; }
+.cf-btn:hover { background:rgba(255,255,255,0.08); color:var(--color-text); }
+.cf-edit { background:rgba(167,139,250,0.06); border-color:rgba(167,139,250,0.06); color:#8b5cf6; }
+.cf-edit:hover { background:rgba(167,139,250,0.12); }
+.cf-class { background:rgba(16,185,129,0.06); border-color:rgba(16,185,129,0.06); color:#059669; }
+.cf-class:hover { background:rgba(16,185,129,0.12); }
+.cf-pwd { background:rgba(251,191,36,0.06); border-color:rgba(251,191,36,0.06); color:#d97706; }
+.cf-pwd:hover { background:rgba(251,191,36,0.12); }
+.cf-del { background:rgba(239,68,68,0.06); border-color:rgba(239,68,68,0.06); color:#dc2626; }
+.cf-del:hover { background:rgba(239,68,68,0.12); }
 .data-table { width:100%;border-collapse:collapse;background:var(--color-bg-card);border-radius:12px;overflow:hidden;border:1px solid var(--color-border); }
 .data-table th { background:#f9fafb;font-size:12px;font-weight:600;color:#6b7280;text-align:left;padding:10px 14px;border-bottom:1px solid #e5e7eb;white-space:nowrap; }
 .data-table td { padding:10px 14px;border-bottom:1px solid #f3f4f6;font-size:13px; }
