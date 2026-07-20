@@ -112,19 +112,6 @@ else
     echo "⚡ 队列模式: sync（同步处理）"
 fi
 
-echo "  启动服务（8 workers, 8080 端口）..."
-
-# 优先使用 RoadRunner，不可用时降级为 PHP 内置服务器
-if [ -f /usr/local/bin/rr ] || [ -f vendor/bin/rr ]; then
-    echo "  使用 RoadRunner（多线程高性能模式）"
-    exec php artisan octane:start \
-        --server=roadrunner \
-        --rr-server=/usr/local/bin/rr \
-        --host=0.0.0.0 \
-        --port=8080 \
-        --workers=8 \
-        --max-requests=500
-else
-    echo "  RoadRunner 二进制缺失，降级为 PHP 内置服务器（单线程模式）"
-    exec php artisan serve --host=0.0.0.0 --port=8080
-fi
+# 使用 PHP 内置服务器（稳定可靠，配合 APP_DEBUG 调试方便）
+echo "  启动 PHP 内置服务器（http://0.0.0.0:8080）..."
+exec php artisan serve --host=0.0.0.0 --port=8080
