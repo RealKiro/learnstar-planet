@@ -901,6 +901,7 @@ class DisplayController extends Controller
             return response()->json(['message' => '操作失败: ' . $e->getMessage()], 500);
       
         }
+    }
 public function classroomPetsOverview(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);
