@@ -65,4 +65,3 @@ npm run build     # 生产构建
 
 ## 测试模式
 
-当 `.env` 中 `APP_DEBUG=true` 且 `INITIALIZATION_SETTINGS=true` 时，每次重建数据库后所有学生积分默认为 0，方便开发测试。
