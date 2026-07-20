@@ -173,6 +173,11 @@ async function deleteTeacher(t: Teacher) {
   try { await apiDelete(`/api/v1/admin/teachers/${t.id}`); teachers.value = teachers.value.filter(x => x.id !== t.id); toast.show('已删除', 'success') } catch {}
 }
 function classById(id: number) { return classes.value.find(c => c.id === id) }
+function shortClassName(name: string | undefined) {
+  if (!name) return ''
+  const m = name.match(/（(\d+)）班/)
+  return m ? m[1] + '班' : name
+}
 
 onMounted(refreshTeachers)
 </script>
@@ -266,12 +271,20 @@ onMounted(refreshTeachers)
             <div style="display:flex;gap:5px;align-items:center;">
               <div style="display:flex;flex-direction:column;gap:2px;flex:0 0 72px;">
                 <div><label style="font-size:8px;color:rgba(255,255,255,0.3);display:block;margin-bottom:1px;">年级</label><select v-model="pendingGrade" class="form-input" style="height:22px;font-size:10px;padding:2px 3px;"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
-                <div><label style="font-size:8px;color:rgba(255,255,255,0.3);display:block;margin-bottom:1px;">班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input" style="height:22px;font-size:10px;padding:2px 3px;"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ c.name }}</option></select></div>
+                <div><label style="font-size:8px;color:rgba(255,255,255,0.3);display:block;margin-bottom:1px;">班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input" style="height:22px;font-size:10px;padding:2px 3px;"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
                 <div><label style="font-size:8px;color:rgba(255,255,255,0.3);display:block;margin-bottom:1px;">科目</label><select v-model="pendingSubject" class="form-input" style="height:22px;font-size:10px;padding:2px 3px;"><option value="">请选择</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
               </div>
               <div style="display:flex;align-items:center;justify-content:center;flex:1;"><button @click="addClassAssignment" :disabled="!pendingClassId" style="background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.08);color:#6ee7b7;padding:0 14px;border-radius:30px;font-size:11px;cursor:pointer;font-weight:500;white-space:nowrap;height:38px;">➕ 添加</button></div>
             </div>
             <div style="font-size:8px;color:rgba(255,255,255,0.6);padding:2px 4px;background:rgba(255,255,255,0.02);border-radius:6px;border-left:2px solid rgba(167,139,250,0.1);margin:3px 0;">💡 不设置此项，后续可登录后自行加入班级</div>
+            <!-- 已添加的班级 -->
+            <div v-if="createAssignments.length > 0" style="margin-top:4px;display:flex;flex-direction:column;gap:2px;">
+              <div style="font-size:8px;color:rgba(255,255,255,0.4);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
+              <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:3px;padding:2px 6px;background:rgba(167,139,250,0.08);border-radius:4px;font-size:9px;">
+                <span style="flex:1;color:rgba(255,255,255,0.7);">{{ shortClassName(a.class_name) }} · {{ a.subject }}</span>
+                <button @click="removeClassAssignment(i)" style="background:none;border:none;color:rgba(239,68,68,0.6);cursor:pointer;padding:0;font-size:10px;">✕</button>
+              </div>
+            </div>
           </div>
         </div>
         <div style="display:flex;gap:5px;margin-top:5px;padding-top:5px;border-top:1px solid rgba(255,255,255,0.04);">
