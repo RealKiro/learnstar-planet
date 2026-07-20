@@ -160,9 +160,31 @@ class SeedDemoData extends Command
 
     private function cleanDemoData(): void
     {
-        // 使用 withTrashed 找到可能已被软删除的记录，用 forceDelete 彻底删除
+        // 第1步：清理所有 demo_ 前缀的用户（可能遗留自不同 school_id 的历史记录）
+        $demoUsernames = ['demo_admin', 'demo_t1', 'demo_t2', 'demo_t3', 'demo_t4'];
+        foreach ($demoUsernames as $username) {
+            $user = User::withTrashed()->where('username', $username)->first();
+            if ($user) {
+                // 删除此用户关联的积分记录和宠物
+                Score::where('given_by', $user->id)->forceDelete();
+                $user->forceDelete();
+            }
+        }
+
+        // 第2步：清理所有 DEMO 前缀的班级码关联的班级和学生
+        $demoClasses = ClassRoom::withTrashed()->where('display_code', 'LIKE', 'DEMO%')->get();
+        foreach ($demoClasses as $class) {
+            $studentIds = Student::withTrashed()->where('class_id', $class->id)->pluck('id');
+            Score::whereIn('student_id', $studentIds)->forceDelete();
+            Pet::whereIn('student_id', $studentIds)->forceDelete();
+            Student::withTrashed()->where('class_id', $class->id)->forceDelete();
+            $class->forceDelete();
+        }
+
+        // 第3步：清理演示学校及关联数据
         $school = School::withTrashed()->where('code', 'DEMO')->first();
         if (!$school) {
+            $this->line('  🗑️  历史残留演示数据已清除');
             return;
         }
 
