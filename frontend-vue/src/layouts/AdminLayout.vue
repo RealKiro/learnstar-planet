@@ -33,6 +33,9 @@ const navItems = [
     { page: 'admin-school', label: '学校信息', icon: '⚙️' },
     { page: 'admin-exchange-rate', label: '汇率配置', icon: '💰' },
   ]},
+  { section: '调试', items: [
+    { page: 'admin-debug', label: '高级调试', icon: '🔧' },
+  ]},
 ]
 </script>
 
