@@ -333,7 +333,7 @@ class DisplayController extends Controller
             return $response;
         }
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo["class_id"];
         $lastEventId = (int) ($request->input('last_event_id', 0));
 
         $response = new StreamedResponse(function () use ($classId, &$lastEventId) {
