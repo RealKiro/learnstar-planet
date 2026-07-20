@@ -36,6 +36,7 @@ const router = createRouter({
         { path: 'pk', name: 'teacher-pk', component: () => import('@/pages/teacher/PKPage.vue') },
         { path: 'shop', name: 'teacher-shop', component: () => import('@/pages/teacher/ShopPage.vue') },
         { path: 'exchange', name: 'teacher-exchange', component: () => import('@/pages/teacher/ExchangeCenterPage.vue') },
+        { path: 'communication', name: 'teacher-communication', component: () => import('@/pages/teacher/CommunicationPage.vue') },
         { path: 'broadcast', name: 'teacher-broadcast', component: () => import('@/pages/teacher/BroadcastPage.vue') },
         { path: 'attendance', name: 'teacher-attendance', component: () => import('@/pages/teacher/AttendancePage.vue') },
         { path: 'grades', name: 'teacher-grades', component: () => import('@/pages/teacher/GradesPage.vue') },

@@ -20,7 +20,8 @@ class CleanDemoData extends Command
 
     public function handle(): int
     {
-        $school = School::where('code', 'DEMO')->first();
+        // 使用 withTrashed 找到可能已被软删除的学校
+        $school = School::withTrashed()->where('code', 'DEMO')->first();
         if (!$school) {
             $this->info('未找到演示数据');
 
@@ -33,15 +34,16 @@ class CleanDemoData extends Command
             return 0;
         }
 
-        $classIds = ClassRoom::where('school_id', $school->id)->pluck('id');
-        $studentIds = Student::whereIn('class_id', $classIds)->pluck('id');
+        $classIds = ClassRoom::withTrashed()->where('school_id', $school->id)->pluck('id');
+        $studentIds = Student::withTrashed()->whereIn('class_id', $classIds)->pluck('id');
 
-        Score::whereIn('student_id', $studentIds)->delete();
-        Pet::whereIn('student_id', $studentIds)->delete();
-        Student::whereIn('class_id', $classIds)->delete();
-        ClassRoom::where('school_id', $school->id)->delete();
-        User::where('school_id', $school->id)->delete();
-        $school->delete();
+        // 使用 forceDelete 彻底删除，避免软删除导致的唯一索引冲突
+        Score::whereIn('student_id', $studentIds)->forceDelete();
+        Pet::whereIn('student_id', $studentIds)->forceDelete();
+        Student::withTrashed()->whereIn('class_id', $classIds)->forceDelete();
+        ClassRoom::withTrashed()->where('school_id', $school->id)->forceDelete();
+        User::withTrashed()->where('school_id', $school->id)->forceDelete();
+        $school->forceDelete();
 
         $this->info('🗑️  所有演示数据已清除');
 

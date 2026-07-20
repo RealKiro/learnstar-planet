@@ -27,10 +27,9 @@ const navItems = [
     { page: 'teacher-leaderboard', label: '排行榜', icon: '📊' },
   ]},
   { section: '工具', items: [
-    { page: 'teacher-broadcast', label: '实时广播', icon: '📡' },
+    { page: 'teacher-communication', label: '消息中心', icon: '📢' },
     { page: 'teacher-attendance', label: '智能考勤', icon: '✅' },
     { page: 'teacher-grades', label: '成绩管理', icon: '📊' },
-    { page: 'teacher-notices', label: '班级通知', icon: '📢' },
     { page: 'teacher-reports', label: '数据报表', icon: '📈' },
     { page: 'teacher-ai', label: 'AI助教', icon: '🤖' },
     { page: 'teacher-shop', label: '积分商城', icon: '🛍️' },

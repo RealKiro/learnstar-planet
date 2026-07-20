@@ -159,20 +159,21 @@ class SeedDemoData extends Command
 
     private function cleanDemoData(): void
     {
-        $school = School::where('code', 'DEMO')->first();
+        // 使用 withTrashed 找到可能已被软删除的记录，用 forceDelete 彻底删除
+        $school = School::withTrashed()->where('code', 'DEMO')->first();
         if (!$school) {
             return;
         }
 
-        $classIds = ClassRoom::where('school_id', $school->id)->pluck('id');
-        $studentIds = Student::whereIn('class_id', $classIds)->pluck('id');
+        $classIds = ClassRoom::withTrashed()->where('school_id', $school->id)->pluck('id');
+        $studentIds = Student::withTrashed()->whereIn('class_id', $classIds)->pluck('id');
 
-        Score::whereIn('student_id', $studentIds)->delete();
-        Pet::whereIn('student_id', $studentIds)->delete();
-        Student::whereIn('class_id', $classIds)->delete();
-        ClassRoom::where('school_id', $school->id)->delete();
-        User::where('school_id', $school->id)->delete();
-        $school->delete();
+        Score::whereIn('student_id', $studentIds)->forceDelete();
+        Pet::whereIn('student_id', $studentIds)->forceDelete();
+        Student::withTrashed()->whereIn('class_id', $classIds)->forceDelete();
+        ClassRoom::withTrashed()->where('school_id', $school->id)->forceDelete();
+        User::withTrashed()->where('school_id', $school->id)->forceDelete();
+        $school->forceDelete();
 
         $this->line('  🗑️  演示数据已清除');
     }

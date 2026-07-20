@@ -90,8 +90,8 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 
       <div style="display:flex;gap:8px;margin-bottom:16px;">
         <button v-for="t in ([['banner','📌 顶部横幅'],['popup','💬 弹窗提示'],['fullscreen','🖥️ 全屏展示']] as const)" :key="t[0]"
-          :style="bcType === t[0] ? { border:'2px solid var(--color-accent)', background:'rgba(79,70,229,0.1)', color:'var(--color-accent)' } : {}"
-          style="flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);font-size:13px;cursor:pointer;font-weight:500;"
+          :style="bcType === t[0] ? { border:'2px solid var(--color-accent)', background:'rgba(79,70,229,0.1)', color:'var(--color-accent)' } : { color: "var(--color-text)" }"
+          style="flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);cursor:pointer;font-weight:500;color:var(--color-text);font-size:13px;cursor:pointer;font-weight:500;"
           @click="bcType = t[0]">
           {{ t[1] }}
         </button>
