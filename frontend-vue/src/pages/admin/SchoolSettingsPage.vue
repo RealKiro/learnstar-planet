@@ -133,11 +133,11 @@ async function cleanDemo() {
     <div v-else class="card" style="max-width:640px;padding:32px;">
       <!-- 只读信息 -->
       <div style="display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:200px;padding:12px 16px;background:var(--color-bg);border-radius:10px;">
+        <div style="flex:1;min-width:200px;padding:12px 16px;background:var(--color-bg-card);border-radius:10px;">
           <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">学校编码</div>
           <div style="font-family:monospace;font-weight:600;">{{ schoolCode || '-' }}</div>
         </div>
-        <div style="flex:1;min-width:200px;padding:12px 16px;background:var(--color-bg);border-radius:10px;">
+        <div style="flex:1;min-width:200px;padding:12px 16px;background:var(--color-bg-card);border-radius:10px;">
           <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">状态</div>
           <div>
             <span style="display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(16,185,129,0.1);color:#10B981;">
@@ -175,7 +175,7 @@ async function cleanDemo() {
       <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🏫 学校 LOGO</h3>
       <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">支持 JPEG、PNG、GIF、WebP，最大 2MB</p>
       <div style="display:flex;align-items:center;gap:16px;">
-        <div style="width:80px;height:80px;border-radius:12px;border:1px solid var(--color-border);overflow:hidden;flex-shrink:0;background:var(--color-bg);display:flex;align-items:center;justify-content:center;font-size:32px;">
+        <div style="width:80px;height:80px;border-radius:12px;border:1px solid var(--color-border);overflow:hidden;flex-shrink:0;background:var(--color-bg-card);display:flex;align-items:center;justify-content:center;font-size:32px;">
           <img v-if="logoPreview" :src="logoPreview" style="width:100%;height:100%;object-fit:cover;" />
           <span v-else>🏫</span>
         </div>

@@ -56,7 +56,9 @@ const filteredCreateClasses = computed(() => {
 })
 function openCreateModal() {
   createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
-  createAssignments.value = [{ class_id: null, role: 'subject_teacher', subject: '' }]; createGradeFilter.value = ''; showCreateModal.value = true
+  // 默认列出所有班级供选择
+  createGradeFilter.value = ''
+  showCreateModal.value = true
 }
 function addCreateAssignment() { createAssignments.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
 function removeCreateAssignment(idx: number) { createAssignments.value.splice(idx, 1) }
@@ -180,8 +182,8 @@ onMounted(refreshTeachers)
           </select>
           <input v-model="searchQuery" class="form-input filter-search" placeholder="搜索姓名 / 账号..." />
         </div>
-        <button class="btn" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;font-size:13px;" @click="downloadTemplate">下载模板</button>
-        <button class="btn" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;font-size:13px;" @click="openImportModal">批量导入</button>
+        <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);font-size:13px;" @click="downloadTemplate">下载模板</button>
+        <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);font-size:13px;" @click="openImportModal">批量导入</button>
         <button class="btn btn-primary" style="font-size:13px;" @click="openCreateModal">+ 创建教师</button>
       </div>
     </div>
@@ -293,7 +295,7 @@ onMounted(refreshTeachers)
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;" @click="showCreateModal = false">取消</button>
+          <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);" @click="showCreateModal = false">取消</button>
           <button class="btn btn-primary" :disabled="createLoading" @click="submitCreate">{{ createLoading ? '创建中...' : '创建账号' }}</button>
         </div>
       </div>
@@ -331,7 +333,7 @@ onMounted(refreshTeachers)
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;" @click="showEditModal = false">取消</button>
+          <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);" @click="showEditModal = false">取消</button>
           <button class="btn btn-primary" @click="submitEdit">保存</button>
         </div>
       </div>
@@ -371,7 +373,7 @@ onMounted(refreshTeachers)
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;" @click="showAssignModal = false">取消</button>
+          <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);" @click="showAssignModal = false">取消</button>
           <button class="btn btn-primary" :disabled="assignLoading" @click="submitAssign">{{ assignLoading ? '保存中...' : '保存分配' }}</button>
         </div>
       </div>
@@ -408,7 +410,7 @@ onMounted(refreshTeachers)
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;" @click="showImportModal = false">取消</button>
+          <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);" @click="showImportModal = false">取消</button>
           <button v-if="importPreview.length === 0" class="btn btn-primary" :disabled="importLoading || !importFile" @click="uploadImport(true)">{{ importLoading ? '解析中...' : '预览数据' }}</button>
           <button v-if="importPreview.length > 0" class="btn" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d;" :disabled="importLoading" @click="uploadImport(true)">重新预览</button>
           <button v-if="importPreview.length > 0" class="btn btn-primary" :disabled="importLoading" @click="uploadImport(false)">{{ importLoading ? '导入中...' : '确认导入' }}</button>
@@ -423,7 +425,7 @@ onMounted(refreshTeachers)
 .toolbar-left { display:flex;align-items:center;gap:12px;flex-wrap:wrap; }
 .section-badge { font-size:11px;font-weight:600;color:#7c3aed;text-transform:uppercase;letter-spacing:0.05em;background:#ede9fe;padding:3px 10px;border-radius:6px; }
 .page-title { font-size:22px;font-weight:700;margin:0;line-height:1.2; }
-.count-badge { font-size:13px;color:#6b7280;background:#f3f4f6;padding:2px 10px;border-radius:10px; }
+.count-badge { font-size:13px;color:#6b7280;background:var(--color-bg);padding:2px 10px;border-radius:10px; }
 .toolbar-actions { display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
 .filter-group { display:flex;gap:6px; }
 .filter-select { width:110px;padding:6px 10px;font-size:12px; }
@@ -445,11 +447,11 @@ onMounted(refreshTeachers)
 .tag { font-size:11px;padding:2px 8px;border-radius:8px;font-weight:500;border:1px solid transparent; }
 .tag.binding { background:rgba(79,70,229,0.06);color:#7c3aed;border-color:rgba(79,70,229,0.15); }
 .card-actions { display:flex;gap:4px;flex-shrink:0; }
-.action-btn { width:34px;height:34px;border-radius:8px;border:1px solid #f3f4f6;background:white;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s; }
+.action-btn { width:34px;height:34px;border-radius:8px;border:1px solid var(--color-border);background:white;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s; }
 .action-btn:hover { background:#f9fafb;border-color:#e5e7eb; }
 .action-btn.assign:hover { background:#ede9fe;border-color:#c4b5fd; }
 .action-btn.danger:hover { background:#fee2e2;border-color:#fecaca; }
-.data-table { width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;border:1px solid #f3f4f6; }
+.data-table { width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;border:1px solid var(--color-border); }
 .data-table th { background:#f9fafb;font-size:12px;font-weight:600;color:#6b7280;text-align:left;padding:10px 14px;border-bottom:1px solid #e5e7eb;white-space:nowrap; }
 .data-table td { padding:10px 14px;border-bottom:1px solid #f3f4f6;font-size:13px; }
 .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px); }
@@ -461,21 +463,21 @@ onMounted(refreshTeachers)
 .modal-footer { display:flex;justify-content:flex-end;gap:8px; }
 .form-row { display:flex;gap:10px;margin-bottom:12px; }
 .form-group { flex:1; }
-.form-group label { display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px; }
-.form-input { width:100%;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;outline:none;transition:border-color 0.15s;box-sizing:border-box; }
+.form-group label { display:block;font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:4px; }
+.form-input { width:100%;padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;font-size:13px;outline:none;transition:border-color 0.15s;box-sizing:border-box; }
 .form-input:focus { border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,0.08); }
 .flex-2 { flex:2; }
 .flex-1 { flex:1; }
 .assign-section { margin-top:14px;padding-top:14px;border-top:1px solid #f3f4f6; }
 .assign-section-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:8px; }
-.assign-section-title { font-size:13px;font-weight:600;color:#374151; }
+.assign-section-title { font-size:13px;font-weight:600;color:var(--color-text); }
 .assign-row { display:flex;gap:6px;margin-bottom:8px;align-items:center; }
 .preview-table-wrapper { max-height:300px;overflow:auto; }
 .preview-table { width:100%;border-collapse:collapse;font-size:12px; }
-.preview-table th { background:#f9fafb;padding:6px 8px;text-align:left;border:1px solid #e5e7eb;font-size:11px;white-space:nowrap; }
-.preview-table td { padding:5px 8px;border:1px solid #f3f4f6;white-space:nowrap; }
+.preview-table th { background:#f9fafb;padding:6px 8px;text-align:left;border:1px solid var(--color-border);font-size:11px;white-space:nowrap; }
+.preview-table td { padding:5px 8px;border:1px solid var(--color-border);white-space:nowrap; }
 .column-hint { display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px; }
-.column-hint code { font-size:11px;background:#f3f4f6;padding:2px 6px;border-radius:4px; }
+.column-hint code { font-size:11px;background:var(--color-bg);padding:2px 6px;border-radius:4px; }
 .btn { padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all 0.15s; }
 .btn-primary { background:#7c3aed;color:white;border-color:#7c3aed; }
 .btn-primary:hover { background:#6d28d9; }
