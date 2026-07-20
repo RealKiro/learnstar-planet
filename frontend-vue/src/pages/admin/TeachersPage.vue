@@ -246,7 +246,7 @@ onMounted(refreshTeachers)
 
   <Teleport to="body">
     <Teleport to="body">
-    <div v-if="showCreateModal" class="modal-overlay" style="backdrop-filter:blur(10px);">
+    <div v-if="showCreateModal" class="modal-overlay">
       <div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.06);border-radius:16px;max-width:540px;width:100%;padding:16px 20px 14px;box-shadow:0 40px 80px rgba(0,0,0,0.8);display:flex;flex-direction:column;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.04);flex-shrink:0;">
           <h2 style="font-size:14px;font-weight:700;background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0;">✨ 创建教师账号</h2>
@@ -295,7 +295,7 @@ onMounted(refreshTeachers)
     </div>
   </Teleport>
 
-  <div v-if="showEditModal" class="modal-overlay" >
+  <div v-if="showEditModal" class="modal-overlay">
       <div class="modal-panel" style="max-width:520px;">
         <div class="modal-header"><h3>编辑「{{ editTarget?.name }}」</h3><button class="close-btn" @click="showEditModal = false">&times;</button></div>
         <div class="modal-body">
@@ -446,7 +446,7 @@ onMounted(refreshTeachers)
 .data-table { width:100%;border-collapse:collapse;background:var(--color-bg-card);border-radius:12px;overflow:hidden;border:1px solid var(--color-border); }
 .data-table th { background:#f9fafb;font-size:12px;font-weight:600;color:#6b7280;text-align:left;padding:10px 14px;border-bottom:1px solid #e5e7eb;white-space:nowrap; }
 .data-table td { padding:10px 14px;border-bottom:1px solid #f3f4f6;font-size:13px; }
-.modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:1000; }
+.modal-overlay { position:fixed;inset:0;background:transparent;display:flex;align-items:center;justify-content:center;z-index:1000; }
 .modal-panel { background:var(--color-bg-card);border-radius:16px;padding:28px 32px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.12); }
 .modal-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:20px; }
 .modal-header h3 { font-size:17px;font-weight:700;margin:0; }
