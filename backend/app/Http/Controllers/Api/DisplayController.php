@@ -50,7 +50,7 @@ class DisplayController extends Controller
         private readonly DisplayEventService $eventService,
         private readonly ScoreService $scoreService,
     ) {
-    }
+        }
 
     // ============================================================
     // 教师端 API — 班级大屏码管理
@@ -88,7 +88,7 @@ class DisplayController extends Controller
                 ->where('status', 'active')
                 ->count(),
         ]]);
-    }
+        }
 
     /**
      * 刷新班级大屏码（旧码立即失效）
@@ -130,7 +130,7 @@ class DisplayController extends Controller
             'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
             'message' => '班级码已刷新，旧码已失效',
         ]]);
-    }
+        }
 
     // ============================================================
     // 显示端 API — 班级码登录
@@ -213,7 +213,7 @@ class DisplayController extends Controller
                 'student_count' => $studentCount,
             ],
         ]]);
-    }
+        }
 
     // ============================================================
     // 显示端 API — 初始全量数据
@@ -299,7 +299,7 @@ class DisplayController extends Controller
             'broadcasts' => $broadcasts,
             'server_time' => now()->toIso8601String(),
         ]]);
-    }
+        }
 
     // ============================================================
     // 显示端 API — SSE 长连接（核心）
@@ -399,7 +399,7 @@ class DisplayController extends Controller
         $response->headers->set('X-Accel-Buffering', 'no'); // 禁用 Nginx 缓冲
 
         return $response;
-    }
+        }
 
     // ============================================================
     // 显示端 API — 轮询降级（SSE 不可用时的备选）
@@ -440,7 +440,7 @@ class DisplayController extends Controller
                 'server_time' => now()->toIso8601String(),
             ],
         ]);
-    }
+        }
 
     // ============================================================
     // 内部辅助
@@ -472,7 +472,7 @@ class DisplayController extends Controller
         }
 
         return $code;
-    }
+        }
 
     /**
      * 缓存班级码 → 班级 ID 映射
@@ -484,7 +484,7 @@ class DisplayController extends Controller
             $classId,
             now()->addDays(30)
         );
-    }
+        }
 
     /**
      * 解析班级码 → 班级 ID
@@ -508,7 +508,7 @@ class DisplayController extends Controller
         }
 
         return null;
-    }
+        }
 
     /**
      * 验证请求中的 SSE Token
@@ -547,7 +547,7 @@ class DisplayController extends Controller
         }
 
         return null;
-    }
+        }
 
     /**
      * 格式化学生宠物数据（复用 ClassroomDisplay 逻辑）
@@ -577,7 +577,7 @@ class DisplayController extends Controller
                 'image' => $stage['image'] ?? null,
             ];
         })->values()->toArray();
-    }
+        }
 
     /**
      * 获取宠物阶段信息（复用 Pet 模型定义）
@@ -593,7 +593,7 @@ class DisplayController extends Controller
         $stage['exp_max'] = ($level + 1) * 10;
 
         return $stage;
-    }
+        }
 
     // ============================================================
     // 大屏快捷加减分
@@ -626,7 +626,7 @@ class DisplayController extends Controller
         } catch (\Throwable $e) {
             return response()->json(['message' => '操作失败'], 500);
         }
-    }
+        }
 
     // ============================================================
     // 大屏排行榜
@@ -651,7 +651,7 @@ class DisplayController extends Controller
         }
 
         return response()->json(['data' => $data]);
-    }
+        }
 
     // ============================================================
     // 大屏商品列表
@@ -669,7 +669,7 @@ class DisplayController extends Controller
             ->get(['id', 'name', 'description', 'cost_score', 'stock', 'category']);
 
         return response()->json(['data' => $items]);
-    }
+        }
 
     // ============================================================
     // 大屏快捷兑换（教师操作，学生扣分）
@@ -707,7 +707,7 @@ class DisplayController extends Controller
         } catch (\Throwable $e) {
             return response()->json(['message' => '兑换失败'], 500);
         }
-    }
+        }
 
     // ============================================================
     // 学生间积分转赠（鼓励互助）
@@ -744,7 +744,7 @@ class DisplayController extends Controller
         } catch (\Throwable $e) {
             return response()->json(['message' => '转赠失败'], 500);
         }
-    }
+        }
 
     // ============================================================
     // 教室端 API（设计文档4大模块，班级码Token）
@@ -809,7 +809,7 @@ class DisplayController extends Controller
             'top5' => $top5,
             'recent_news' => $recentNews,
         ]]);
-    }
+        }
 
     /**
      * 教室端 · 学生列表（含宠物信息）
@@ -837,7 +837,7 @@ class DisplayController extends Controller
             ]);
 
         return response()->json(['data' => $students]);
-    }
+        }
 
     /**
      * 教室端 · 加减分
@@ -900,6 +900,7 @@ class DisplayController extends Controller
         } catch (Throwable $e) {
             return response()->json(['message' => '操作失败: ' . $e->getMessage()], 500);
       
+        }
 public function classroomPetsOverview(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);
@@ -924,7 +925,7 @@ public function classroomPetsOverview(Request $request): JsonResponse
             ]);
 
         return response()->json(['data' => $pets]);
-    }
+        }
 
     /**
      * 教室端 · PK 排行榜（同年级各班）
@@ -972,7 +973,7 @@ public function classroomPetsOverview(Request $request): JsonResponse
         })->sortByDesc('totalScore')->values();
 
         return response()->json(['data' => $pkData]);
-    }
+        }
 
     /**
      * 教室端 · 切换宠物系列（每人扣除20积分）
@@ -1035,7 +1036,7 @@ public function classroomPetsOverview(Request $request): JsonResponse
                 'affected_students' => $activeCount,
             ],
         ]);
-    }
+        }
 
     /**
      * 教室端 · 学生自行切换宠物（首次免费，后续扣20积分）
@@ -1118,7 +1119,7 @@ public function classroomPetsOverview(Request $request): JsonResponse
                 'cost' => 0,
             ],
         ]);
-    }
+        }
 
     // ============================================================
     // 辅助
@@ -1135,5 +1136,5 @@ public function classroomPetsOverview(Request $request): JsonResponse
         }
 
         return $id;
-    }
+        }
 }
