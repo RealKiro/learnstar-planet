@@ -1684,7 +1684,9 @@ class SchoolAdminController extends Controller
         $exitCode = \Illuminate\Support\Facades\Artisan::call('demo:seed', ['--force' => true]);
 
         if ($exitCode === 0) {
-            return response()->json(['message' => '演示数据已生成']);
+            
+            $classes = \App\Models\ClassRoom::whereHas('school', function ($q) { $q->where('code', 'DEMO'); })->get(['name', 'display_code']);
+            return response()->json(['message' => '演示数据已生成', 'data' => ['classes' => $classes]]);
         }
 
         return response()->json(['message' => '生成失败，请查看服务端日志'], 500);

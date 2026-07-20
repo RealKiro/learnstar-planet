@@ -238,7 +238,7 @@ onMounted(async () => {
               <div :style="{ width: nextLevelProgress(s.total_score, s.pet_level).percent + '%', height:'100%', background:'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'2px' }"></div>
             </div>
             <div style="font-size:10px;color:var(--md-text-secondary);text-align:right;">
-              距 Lv.{{ s.pet_level + 1 }} 还差 <strong style="color:var(--md-gold);">{{ nextLevelProgress(s.total_score, s.pet_level).remaining }}</strong> 分
+              <span v-if="nextLevelProgress(s.total_score, s.pet_level).remaining > 0">距 Lv.{{ s.pet_level + 1 }} 还差 <strong style="color:var(--md-gold);">{{ nextLevelProgress(s.total_score, s.pet_level).remaining }}</strong> 分</span><span v-else>✅ 已达到 Lv.{{ s.pet_level + 1 }} 条件</span>
             </div>
           </div>
           <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);">
