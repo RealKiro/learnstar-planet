@@ -294,6 +294,7 @@ onMounted(refreshTeachers)
     </div>
   </Teleport>
 
+<Teleport to="body">
   <div v-if="showEditModal" class="modal-overlay">
       <div class="modal-panel" style="max-width:520px;">
         <div class="modal-header"><h3>编辑「{{ editTarget?.name }}」</h3><button class="close-btn" @click="showEditModal = false">&times;</button></div>
