@@ -8,7 +8,7 @@ import { useToastStore } from '@/stores/toast'
 const toast = useToastStore()
 
 // 等级所需积分常量
-const LEVEL_SCORES = [0, 0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450, 99999]
+const LEVEL_SCORES = [0, 0, 15, 41, 68, 96, 125, 155, 185, 217, 250, 283, 318, 353, 390, 427, 465, 504, 545, 586, 628, 671, 715, 760, 805, 852, 900, 949, 998, 1049, 1100, 1153, 1206, 1261, 1316, 1372, 1429, 1487, 1546, 1606, 1667, 1729, 1792, 1856, 1921, 1986, 2053, 2120, 2189, 2258, 2329, 2400, 99999]
 
 function nextLevelProgress(score: number, level: number): { current: number; next: number; remaining: number; percent: number } {
   const maxLevel = LEVEL_SCORES.length - 2

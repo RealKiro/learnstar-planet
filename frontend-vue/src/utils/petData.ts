@@ -31,16 +31,16 @@ export interface PetLevel {
 
 /** 获取等级所需积分 */
 export function getLevelRequiredScore(level: number): number {
-  const scores = [0, 0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450]
+  const scores = [0, 0, 15, 41, 68, 96, 125, 155, 185, 217, 250, 283, 318, 353, 390, 427, 465, 504, 545, 586, 628, 671, 715, 760, 805, 852, 900, 949, 998, 1049, 1100, 1153, 1206, 1261, 1316, 1372, 1429, 1487, 1546, 1606, 1667, 1729, 1792, 1856, 1921, 1986, 2053, 2120, 2189, 2258, 2329, 2400]
   return scores[level] ?? 450
 }
 
 /** 判断等级阶段 */
 export function getLevelStage(level: number): PetLevel['stage'] {
-  if (level === 1) return 'egg'
-  if (level <= 4) return 'baby'
-  if (level <= 7) return 'growing'
-  if (level <= 10) return 'mature'
+  if (level <= 5) return 'egg'
+  if (level <= 15) return 'baby'
+  if (level <= 25) return 'growing'
+  if (level <= 35) return 'mature'
   return 'legendary'
 }
 
