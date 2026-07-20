@@ -108,12 +108,15 @@ async function changePassword() {
       <button class="btn btn-primary" style="margin-top:16px;" @click="openPwdModal">修改密码</button>
     </div>
 
-    <!-- 修改密码弹窗（非模态） -->
+    <!-- 修改密码弹窗 -->
     <Teleport to="body">
-      <div v-if="showPwdModal"
-        style="position:fixed;inset:0;z-index:999;background:transparent;pointer-events:none;display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="pointer-events:auto;background:var(--color-bg-card);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">修改密码</h3>
+      <div v-if="showPwdModal" @click="showPwdModal = false"
+        style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
+        <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+            <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🔑 修改密码</h3>
+            <button @click="showPwdModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
+          </div>
           <div class="form-group" style="margin-bottom:12px;">
             <label>当前密码</label>
             <input v-model="pwdForm.current_password" type="password" class="form-input" placeholder="输入当前密码">
@@ -127,7 +130,7 @@ async function changePassword() {
             <input v-model="pwdForm.confirm_password" type="password" class="form-input" placeholder="再次输入新密码">
           </div>
           <div style="display:flex;gap:12px;">
-            <button class="btn" style="flex:1;" @click="showPwdModal = false">取消</button>
+            <button class="btn" style="flex:1;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);" @click="showPwdModal = false">取消</button>
             <button class="btn btn-primary" style="flex:1;" :disabled="changingPwd" @click="changePassword">
               {{ changingPwd ? '修改中...' : '确认修改' }}
             </button>
