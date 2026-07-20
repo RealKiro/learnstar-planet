@@ -97,7 +97,7 @@ async function cleanDemo() {
   <div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">系统配置</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">系统配置</p><p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">学校信息保存在数据库，与 .env 配置文件相互独立。如需修改数据库连接、AI 接口等系统配置请编辑 .env。</p>
         <h2 style="font-size:24px;font-weight:700;">学校设置</h2>
       </div>
     </div>
