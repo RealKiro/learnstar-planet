@@ -18,30 +18,6 @@ interface School {
 
 const loading = ref(true)
 const saving = ref(false)
-const demoLoading = ref(false)
-const logoFile = ref<File | null>(null)
-const logoPreview = ref('')
-const logoUploading = ref(false)
-
-function onLogoChange(e: Event) {
-  const file = (e.target as HTMLInputElement).files?.[0]
-  if (file) { logoFile.value = file; logoPreview.value = URL.createObjectURL(file) }
-}
-
-async function uploadLogo() {
-  if (!logoFile.value) return
-  logoUploading.value = true
-  try {
-    const fd = new FormData()
-    fd.append('logo', logoFile.value)
-    const res = await fetch('/api/v1/admin/school/logo', { method: 'POST', body: fd, headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token') } })
-    const data = await res.json()
-    toast.show(data.message || 'LOGO 已上传', res.ok ? 'success' : 'error')
-  } catch { toast.show('上传失败', 'error') }
-  finally { logoUploading.value = false }
-}
-
-
 const form = ref({ name: '', address: '', contact_phone: '', contact_email: '' })
 const schoolCode = ref('')
 const schoolStatus = ref('')
@@ -78,31 +54,6 @@ async function save() {
 }
 
 async function reload() {
-
-async function seedDemo() {
-  demoLoading.value = true
-  try {
-    const res = await fetch('/api/v1/admin/demo/seed', { method: 'POST', headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}`, 'Content-Type': 'application/json' } })
-    const data = await res.json()
-    if (res.ok && data.data?.classes) {
-      data.data.classes.forEach((c: { name: string; display_code: string }) => {
-        toast.show(c.name + ': ' + c.display_code, 'success')
-      })
-    } else {
-      toast.show(data.message || '演示数据已生成', res.ok ? 'success' : 'error')
-    }
-  } catch { toast.show('操作失败', 'error') }
-  finally { demoLoading.value = false }
-}
-async function cleanDemo() {
-  demoLoading.value = true
-  try {
-    const res = await fetch('/api/v1/admin/demo/clean', { method: 'POST', headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}`, 'Content-Type' : 'application/json' } })
-    const data = await res.json()
-    toast.show(data.message || '演示数据已清除', res.ok ? 'success' : 'error')
-  } catch { toast.show('操作失败', 'error') }
-  finally { demoLoading.value = false }
-}
   loading.value = true
   try {
     const res = await apiGet<ApiResponse<School>>('/api/v1/admin/school')
@@ -117,13 +68,35 @@ async function cleanDemo() {
   } catch { /* handled */ }
   finally { loading.value = false }
 }
+
+const demoLoading = ref(false)
+
+async function seedDemo() {
+  demoLoading.value = true
+  try {
+    const res = await fetch('/api/v1/admin/demo/seed', { method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token'), 'Content-Type': 'application/json' } })
+    const data = await res.json()
+    toast.show(data.message || '演示数据已生成', res.ok ? 'success' : 'error')
+  } catch { toast.show('操作失败', 'error') }
+  finally { demoLoading.value = false }
+}
+async function cleanDemo() {
+  demoLoading.value = true
+  try {
+    const res = await fetch('/api/v1/admin/demo/clean', { method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token'), 'Content-Type': 'application/json' } })
+    const data = await res.json()
+    toast.show(data.message || '演示数据已清除', res.ok ? 'success' : 'error')
+  } catch { toast.show('操作失败', 'error') }
+  finally { demoLoading.value = false }
+}
+
 </script>
 
 <template>
   <div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">系统配置</p><p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">学校信息保存在数据库，与 .env 配置文件相互独立。如需修改数据库连接、AI 接口等系统配置请编辑 .env。</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">系统配置</p>
         <h2 style="font-size:24px;font-weight:700;">学校设置</h2>
       </div>
     </div>
@@ -133,11 +106,11 @@ async function cleanDemo() {
     <div v-else class="card" style="max-width:640px;padding:32px;">
       <!-- 只读信息 -->
       <div style="display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:200px;padding:12px 16px;background:var(--color-bg-card);border-radius:10px;">
+        <div style="flex:1;min-width:200px;padding:12px 16px;background:var(--color-bg);border-radius:10px;">
           <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">学校编码</div>
           <div style="font-family:monospace;font-weight:600;">{{ schoolCode || '-' }}</div>
         </div>
-        <div style="flex:1;min-width:200px;padding:12px 16px;background:var(--color-bg-card);border-radius:10px;">
+        <div style="flex:1;min-width:200px;padding:12px 16px;background:var(--color-bg);border-radius:10px;">
           <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">状态</div>
           <div>
             <span style="display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(16,185,129,0.1);color:#10B981;">
@@ -170,39 +143,21 @@ async function cleanDemo() {
         <button class="btn btn-sm btn-primary" :disabled="saving" @click="save">{{ saving ? '保存中...' : '保存设置' }}</button>
       </div>
     </div>
-    <!-- LOGO 上传 -->
-    <div class="card" style="max-width:640px;padding:32px;margin-top:24px;">
-      <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🏫 学校 LOGO</h3>
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">支持 JPEG、PNG、GIF、WebP，最大 2MB</p>
-      <div style="display:flex;align-items:center;gap:16px;">
-        <div style="width:80px;height:80px;border-radius:12px;border:1px solid var(--color-border);overflow:hidden;flex-shrink:0;background:var(--color-bg-card);display:flex;align-items:center;justify-content:center;font-size:32px;">
-          <img v-if="logoPreview" :src="logoPreview" style="width:100%;height:100%;object-fit:cover;" />
-          <span v-else>🏫</span>
-        </div>
-        <div style="flex:1;">
-          <input type="file" accept="image/jpeg,image/png,image/gif,image/webp" @change="onLogoChange" style="font-size:13px;" />
-          <button class="btn btn-sm btn-primary" :disabled="logoUploading || !logoFile" @click="uploadLogo" style="margin-top:8px;">
-            {{ logoUploading ? '上传中...' : '上传 LOGO' }}
-          </button>
-        </div>
-      </div>
-    </div>
+  </div>
 
     <!-- 演示数据管理 -->
     <div class="card" style="max-width:640px;padding:32px;margin-top:24px;">
       <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🧪 演示数据管理</h3>
       <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
-        生成演示数据用于测试/试用，不影响真实数据。管理员: demo_admin / demo123 · 教师: demo_t1~t4 / demo123 · 班级码: DEMO00
+        管理员: demo_admin / demo123 · 教师: demo_t1~t4 / demo123 · 班级码: DEMO00
       </p>
       <div style="display:flex;gap:12px;">
-        <button class="btn btn-sm btn-primary" :disabled="demoLoading" @click="seedDemo">
-          {{ demoLoading ? '处理中...' : '📥 生成演示数据' }}
-        </button>
+        <button class="btn btn-sm btn-primary" :disabled="demoLoading" @click="seedDemo">{{ demoLoading ? '处理中...' : '📥 生成演示数据' }}</button>
         <button class="btn btn-sm" :disabled="demoLoading" @click="cleanDemo"
           style="background:var(--color-bg-card);color:var(--color-danger);border:1px solid rgba(239,68,68,0.2);">
           {{ demoLoading ? '处理中...' : '🗑️ 清除演示数据' }}
         </button>
       </div>
     </div>
-  </div>
+
 </template>
