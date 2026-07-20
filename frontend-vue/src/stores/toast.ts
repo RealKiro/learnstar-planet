@@ -19,7 +19,7 @@ export const useToastStore = defineStore('toast', () => {
     toasts.value.push({ id, message, type })
     setTimeout(() => {
       toasts.value = toasts.value.filter(t => t.id !== id)
-    }, 3000)
+    }, 5000)
   }
 
   return { toasts, show }

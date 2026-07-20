@@ -11,7 +11,8 @@ const toastStore = useToastStore()
       :key="t.id"
       :class="['toast', `toast--${t.type}`]"
     >
-      {{ t.message }}
+      <span class="toast-icon">{{ t.type === 'success' ? '✅' : '❌' }}</span>
+      <span class="toast-msg">{{ t.message }}</span>
     </div>
   </div>
 </template>
