@@ -101,6 +101,17 @@ php artisan route:cache 2>/dev/null || true
 php artisan view:cache 2>/dev/null || true
 echo "✅ 缓存重建完成"
 
+# 验证 RoadRunner 二进制
+if ! command -v rr &>/dev/null && [ ! -f vendor/bin/rr ]; then
+    echo "⚠️  RoadRunner 下载中..."
+    wget -q https://github.com/roadrunner-server/roadrunner/releases/download/v2024.2.0/roadrunner-2024.2.0-linux-amd64.tar.gz \
+        && tar xzf roadrunner-2024.2.0-linux-amd64.tar.gz \
+        && mv roadrunner-2024.2.0-linux-amd64/rr /usr/local/bin/rr \
+        && chmod +x /usr/local/bin/rr \
+        && rm -rf roadrunner-2024.2.0-linux-amd64* \
+        && mkdir -p vendor/bin && ln -sf /usr/local/bin/rr vendor/bin/rr
+fi
+
 echo "🎉 学趣星球初始化完成！"
 
 # 如果使用 Redis 队列，启动后台 queue worker

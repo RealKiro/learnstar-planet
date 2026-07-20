@@ -73,6 +73,7 @@ RUN php artisan package:discover --ansi 2>/dev/null || true \
     && mv roadrunner-2024.2.0-linux-amd64/rr /usr/local/bin/rr \
     && chmod +x /usr/local/bin/rr \
     && rm -rf roadrunner-2024.2.0-linux-amd64* \
+    && mkdir -p vendor/bin && ln -sf /usr/local/bin/rr vendor/bin/rr \
     && php artisan vendor:publish --tag=octane-config --ansi 2>/dev/null || true
 
 # Copy Vue frontend build to public directory
