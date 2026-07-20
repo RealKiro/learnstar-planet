@@ -242,7 +242,29 @@ class Pet extends Model
         while ($this->canLevelUp()) {
             $this->levelUp();
         }
+        $this->syncLevelWithScore();
     }
+
+    /**
+     * 根据学生总积分同步宠物等级（积分=成长值，积分够了等级自动升）
+     * 阈值: 0/0/15/35/60/90/125/165/210/260/315/375/450 (Lv.0~12)
+     */
+    public function syncLevelWithScore(): void
+    {
+        $score = $this->student?->total_score ?? 0;
+        $thresholds = [0, 0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450];
+        $newLevel = 0;
+        foreach ($thresholds as $level => $threshold) {
+            if ($score >= $threshold) {
+                $newLevel = $level;
+            }
+        }
+        if ($newLevel !== $this->level) {
+            $this->level = $newLevel;
+            $this->save();
+        }
+    }
+
 
     public function removeExperience(int $amount): void
     {
@@ -257,6 +279,7 @@ class Pet extends Model
             $this->experience = 0;
             $this->save();
         }
+        $this->syncLevelWithScore();
     }
 
     public function canLevelDown(): bool
