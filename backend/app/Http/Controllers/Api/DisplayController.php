@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use App\Models\Broadcast;
 use App\Models\ClassRoom;
 use App\Models\ClassRoomTeacher;
@@ -417,10 +418,11 @@ class DisplayController extends Controller
         $lastEventId = (int) ($request->input('last_event_id', 0));
 
         $events = [];
+
         try {
             $events = $this->eventService->consume($classId, $lastEventId ?: null);
         } catch (Throwable $e) {
-            IlluminateSupportFacadesog::warning('display poll consume failed: ' . $e->getmessage());
+            Log::warning('Display poll consume failed: ' . $e->getMessage());
         }
 
         $maxId = $lastEventId;
