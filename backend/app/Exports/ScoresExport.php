@@ -16,7 +16,8 @@ class ScoresExport implements FromCollection, WithHeadings, WithTitle
     public function __construct(
         private readonly int $classId,
         private readonly string $className,
-    ) {}
+    ) {
+    }
 
     public function collection(): Collection
     {

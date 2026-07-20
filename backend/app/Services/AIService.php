@@ -19,10 +19,15 @@ use Illuminate\Support\Facades\Log;
 class AIService
 {
     private string $provider;
+
     private string $apiKey;
+
     private string $apiBase;
+
     private string $model;
+
     private int $maxTokens;
+
     private float $temperature;
 
     public function __construct()
@@ -70,6 +75,7 @@ class AIService
 
             if ($response->successful()) {
                 $data = $response->json();
+
                 return $data['choices'][0]['message']['content'] ?? '抱歉，AI 返回了空回复。';
             }
 
@@ -87,6 +93,7 @@ class AIService
             return "AI 服务暂时不可用 (HTTP {$status})，请稍后重试。";
         } catch (\Throwable $e) {
             Log::error('AI API 调用异常: ' . $e->getMessage());
+
             return 'AI 服务连接失败，请检查网络连接和 API 地址配置。';
         }
     }

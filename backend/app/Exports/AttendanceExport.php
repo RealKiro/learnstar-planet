@@ -17,7 +17,8 @@ class AttendanceExport implements FromCollection, WithHeadings, WithTitle
         private readonly int $classId,
         private readonly string $className,
         private readonly ?string $date = null,
-    ) {}
+    ) {
+    }
 
     public function collection(): Collection
     {
@@ -34,6 +35,7 @@ class AttendanceExport implements FromCollection, WithHeadings, WithTitle
 
         return $students->map(function ($studentId, $studentName) use ($records) {
             $record = $records->get($studentId);
+
             return [
                 'name' => $studentName,
                 'status' => $record ? $this->statusLabel($record->status) : '未记录',

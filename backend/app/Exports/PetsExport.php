@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Exports;
 
-use App\Models\Pet;
 use App\Models\Student;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -16,7 +15,8 @@ class PetsExport implements FromCollection, WithHeadings, WithTitle
     public function __construct(
         private readonly int $classId,
         private readonly string $className,
-    ) {}
+    ) {
+    }
 
     public function collection(): Collection
     {

@@ -1620,6 +1620,7 @@ class TeacherController extends Controller
 
             case 'attendance':
                 $date = $request->input('date');
+
                 return \Maatwebsite\Excel\Facades\Excel::download(
                     new \App\Exports\AttendanceExport($classId, $className, $date),
                     $fileName . '-考勤报表.xlsx'
