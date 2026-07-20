@@ -70,7 +70,7 @@ function openCreateModal() {
   createGradeFilter.value = ''
   showCreateModal.value = true
 }
-function addCreateAssignment() { createAssignments.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
+function addCreateAssignment() { if (!createGradeFilter.value) { toast.show('请先选择具体年级', 'info'); return } createAssignments.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
 function removeCreateAssignment(idx: number) { createAssignments.value.splice(idx, 1) }
 async function submitCreate() {
   createLoading.value = true
@@ -183,7 +183,7 @@ onMounted(refreshTeachers)
       <div class="toolbar-actions">
         <div class="filter-group">
           <select v-model="filterGrade" class="form-input filter-select">
-            <option value="">全部年级</option>
+            <option value="">-- 请选择年级 --</option>
             <option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option>
           </select>
           <select v-model="filterRole" class="form-input filter-select">
