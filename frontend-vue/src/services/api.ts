@@ -231,9 +231,6 @@ export const handbookApi = {
     apiGet<ApiResponse<any[]>>('/api/v1/common/pet-types'),
 
   /** 获取单个系列详情 */
-  getSeriesDetail: (seriesId: string) =>
-    apiGet<ApiResponse<any>>(`/api/v1/common/pet-types/${seriesId}`),
-}
 
 // ============================================================
 // 8. 班级管理模块
@@ -257,9 +254,6 @@ export const classApi = {
     apiPost('/api/v1/teacher/class/switch-series', { series_id: seriesId }),
 
   /** 获取班级当前积分 */
-  getClassScore: () =>
-    apiGet<ApiResponse<{ total_score: number; class_points: number }>>('/api/v1/teacher/class/score'),
-}
 
 // ============================================================
 // 9. 家长端 API

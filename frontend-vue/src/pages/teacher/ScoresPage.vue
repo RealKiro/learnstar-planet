@@ -160,6 +160,14 @@ function showFloatText(studentId: number, points: number) {
 }
 
 // ===== 批量规则 =====
+async function undoScore(scoreId: number) {
+  try {
+    await apiPost(`/api/v1/teacher/scores/${scoreId}/undo`, {})
+    toast.show('已撤回', 'success')
+    await loadData()
+  } catch { toast.show('撤回失败', 'error') }
+}
+
 async function handleBatchRuleScore(rule: ScoreRule) {
   if (students.value.length === 0) return
   try {
@@ -201,6 +209,23 @@ onMounted(async () => {
     loading.value = false
   }
 })
+// ===== 最近积分记录 =====
+const recentScores = ref<Array<{id: number; student_name: string; amount: number; reason: string; created_at: string}>>([])
+const historyLoading = ref(false)
+
+async function loadRecentScores() {
+  historyLoading.value = true
+  try {
+    const res = await apiGet<{ data: Array<{id: number; student_name: string; amount: number; reason: string; created_at: string}> }>('/api/v1/teacher/scores/history/0')
+    recentScores.value = (res.data || []).slice(0, 20)
+  } catch { recentScores.value = [] }
+  finally { historyLoading.value = false }
+}
+
+onMounted(() => {
+  loadRecentScores()
+})
+
 </script>
 
 <template>
@@ -392,6 +417,30 @@ onMounted(async () => {
       </div>
     </Teleport>
   </div>
+  <!-- 最近积分记录 -->
+  <div class="card" style="margin-top:24px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <h3 style="font-size:16px;font-weight:600;">📋 最近积分记录</h3>
+      <button class="btn btn-sm" :disabled="historyLoading" @click="loadRecentScores">🔄 刷新</button>
+    </div>
+    <div v-if="historyLoading" style="text-align:center;padding:24px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-else-if="recentScores.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">暂无记录</div>
+    <div v-else class="data-table">
+      <table>
+        <thead><tr><th>学生</th><th>分值</th><th>原因</th><th>时间</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr v-for="s in recentScores" :key="s.id">
+            <td style="font-weight:600;">{{ s.student_name }}</td>
+            <td :style="{ color: s.amount > 0 ? '#10B981' : '#EF4444', fontWeight: 700 }">{{ s.amount > 0 ? '+' : '' }}{{ s.amount }}</td>
+            <td style="color:var(--color-text-secondary);">{{ s.reason }}</td>
+            <td style="color:var(--color-text-secondary);font-size:13px;">{{ new Date(s.created_at).toLocaleString('zh-CN') }}</td>
+            <td><button class="btn btn-xs" style="color:var(--color-danger);" @click="undoScore(s.id)">↩ 撤回</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </template>
 
 <style scoped>
