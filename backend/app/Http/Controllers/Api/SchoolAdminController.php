@@ -1704,7 +1704,7 @@ class SchoolAdminController extends Controller
                 'data' => [
                     'version' => $version,
                     'migrations' => $migrations,
-                    'migration_count' => is_array($migrations) ? count($migrations) : 0,
+                    'migration_count' => count($migrations),
                 ],
             ]);
         } catch (\Throwable $e) {
