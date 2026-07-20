@@ -865,7 +865,8 @@ class DisplayController extends Controller
             return response()->json(['message' => '单次加减分超过 30 分，请使用教师账号登录操作'], 403);
         }
 
-        $student->total_score = max(0, $student->total_score + $amount);
+        try {
+$student->total_score = max(0, $student->total_score + $amount);
         $student->save();
 
         if ($student->pet) {
@@ -889,6 +890,9 @@ class DisplayController extends Controller
         ]);
 
         return response()->json([
+} catch (Throwable $e) {
+    return response()->json(["message" => "操作失败: " . $e->getMessage()], 500);
+}
             'message' => ($amount > 0 ? '加' : '减') . '分成功',
             'data' => [
                 'student_name' => $student->name,
