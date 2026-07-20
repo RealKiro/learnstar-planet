@@ -1478,7 +1478,7 @@ class TeacherController extends Controller
             'title' => $request->input('title'),
             'content' => $request->input('content'),
             'type' => $request->input('type', 'info'),
-            'publisher_id' => $teacher->id,
+            'published_by' => $teacher->id,
             'is_published' => false,
         ]);
 

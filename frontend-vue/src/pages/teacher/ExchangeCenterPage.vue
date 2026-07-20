@@ -57,8 +57,8 @@ async function doExchange() {
   }
   try {
     await apiPost('/api/v1/teacher/currency/exchange', {
-      student_id: selectedStudent.value.student_id,
-      to_currency: exchangeTarget.value === 'science' ? 'science_coin' : 'reading_coin',
+      student_id: selectedStudent.value.id,
+      to_currency: exchangeTarget.value,
       amount: exchangeAmount.value,
     })
     toast.show(`兑换成功：${selectedStudent.value.name} +${exchangeAmount.value} ${exchangeTarget.value === 'science' ? '科学币' : '读书币'}`, 'success')
@@ -93,7 +93,7 @@ async function doExchange() {
             <div style="font-weight:600;min-width:60px;">{{ s.name }}</div>
             <div style="flex:1;text-align:right;font-size:13px;">
               <div>⭐ {{ s.total_score }}</div>
-              <div style="color:var(--color-text-secondary);">🔬{{ getWallet(s.id, 'science_coin') }} 📚{{ getWallet(s.id, 'reading_coin') }}</div>
+              <div style="color:var(--color-text-secondary);">🔬{{ getWallet(s.id, 'science') }} 📚{{ getWallet(s.id, 'reading') }}</div>
             </div>
           </div>
           <div v-if="students.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">暂无学生数据</div>

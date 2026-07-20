@@ -66,9 +66,14 @@ COPY backend/ .
 RUN mkdir -p bootstrap/cache storage/framework/cache/data \
     storage/framework/sessions storage/framework/views storage/logs
 
-# Install RoadRunner via Octane
+# 直接下载 RoadRunner 二进制（避免 octane:install 的 composer 依赖冲突）
 RUN php artisan package:discover --ansi 2>/dev/null || true \
-    && php artisan octane:install --server=roadrunner --no-interaction
+    && wget -q https://github.com/roadrunner-server/roadrunner/releases/download/v2024.2.0/roadrunner-2024.2.0-linux-amd64.tar.gz \
+    && tar xzf roadrunner-2024.2.0-linux-amd64.tar.gz \
+    && mv roadrunner-2024.2.0-linux-amd64/rr /usr/local/bin/rr \
+    && chmod +x /usr/local/bin/rr \
+    && rm -rf roadrunner-2024.2.0-linux-amd64* \
+    && php artisan vendor:publish --tag=octane-config --ansi 2>/dev/null || true
 
 # Copy Vue frontend build to public directory
 COPY --from=frontend-builder /app/dist ./public
