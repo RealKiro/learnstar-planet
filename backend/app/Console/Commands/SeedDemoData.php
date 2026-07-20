@@ -24,8 +24,6 @@ class SeedDemoData extends Command
         if ($this->hasDemoData()) {
             if (!$this->confirm('检测到已有演示数据，是否重新生成？这会先删除现有演示数据。')) {
                 $this->info('已取消');
-
-                return 0;
             }
             $this->cleanDemoData();
         }
@@ -50,6 +48,7 @@ class SeedDemoData extends Command
             'name' => '演示管理员',
             'nickname' => 'demo_admin',
             'status' => 'active',
+                'display_code' => 'DEMO-' . str_pad((string) ($ci + 1), 2, '0', STR_PAD_LEFT) . '-' . strtoupper(IlluminateSupportStr::random(4)),
         ]);
         $this->line('  ✅ 演示管理员已创建（账号: demo_admin, 密码: demo123456）');
 
@@ -66,6 +65,7 @@ class SeedDemoData extends Command
                 'nickname' => $name,
                 'subject' => ['语文', '数学', '英语', '科学'][$i],
                 'status' => 'active',
+                'display_code' => 'DEMO-' . str_pad((string) ($ci + 1), 2, '0', STR_PAD_LEFT) . '-' . strtoupper(IlluminateSupportStr::random(4)),
             ]);
             $teachers[] = $teacher;
         }
@@ -86,6 +86,7 @@ class SeedDemoData extends Command
                 'grade' => '一年级',
                 'teacher_id' => $teachers[$ci % count($teachers)]->id,
                 'status' => 'active',
+                'display_code' => 'DEMO-' . str_pad((string) ($ci + 1), 2, '0', STR_PAD_LEFT) . '-' . strtoupper(IlluminateSupportStr::random(4)),
             ]);
 
             for ($si = 0; $si < 6; $si++) {
@@ -96,6 +97,7 @@ class SeedDemoData extends Command
                     'student_no' => 'DEMO' . str_pad((string) ($ci * 6 + $si + 1), 4, '0', STR_PAD_LEFT),
                     'total_score' => rand(20, 400),
                     'status' => 'active',
+                'display_code' => 'DEMO-' . str_pad((string) ($ci + 1), 2, '0', STR_PAD_LEFT) . '-' . strtoupper(IlluminateSupportStr::random(4)),
                 ]);
 
                 // 创建宠物
@@ -122,7 +124,7 @@ class SeedDemoData extends Command
                     ]);
                 }
             }
-            $this->line("  ✅ {$className} 已创建（6 名学生）");
+            $this->line("  ✅ {$className} 已创建（6 名学生）- 班级码: " . $class->display_code);
         }
 
         $this->info('');
@@ -131,7 +133,7 @@ class SeedDemoData extends Command
         $this->info('  管理员账号: demo_admin');
         $this->info('  教师账号:   demo_teacher_1 ~ demo_teacher_4');
         $this->info('  密码:       demo123456');
-        $this->info('  班级码:     登录后在后台查看');
+        $this->info('  班级码:     创建成功后自动生成，在后台可查看');
         $this->info('━━━━━━━━━━━━━━━━━━━━');
         $this->info('提示：运行 php artisan demo:clean 可清除所有演示数据');
 
