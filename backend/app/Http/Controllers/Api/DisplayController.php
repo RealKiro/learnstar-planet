@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 /**
  * DisplayController — 班级大屏单独入口
@@ -888,7 +889,7 @@ class DisplayController extends Controller
             'given_by' => $teacherId,
         ]);
         } catch (Throwable $e) {
-            IlluminateSupportFacadesLog::error("classroomGiveScore failed: " . $e->getMessage());
+            Log::error("classroomGiveScore failed: " . $e->getMessage());
             return response()->json(["message" => "操作失败: " . $e->getMessage()], 500);
         }
 
