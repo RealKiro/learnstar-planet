@@ -26,7 +26,7 @@ const allSeries = getAllSeries()
 const lastEventId = ref(0)
 
 function navigate(name: string) { router.push({ name }) }
-function goToLogin() { sessionStorage.clear(); router.push({ name: 'login', query: { mode: 'code' } }) }
+function goToLogin() { sessionStorage.clear(); router.push({ name: 'landing' }) }
 
 // ===== 广播/通知接收（SSE + 轮询降级） =====
 const currentBroadcast = ref<{

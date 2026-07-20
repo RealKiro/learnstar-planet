@@ -429,7 +429,7 @@ onMounted(refreshTeachers)
 .filter-select { width:110px;padding:6px 10px;font-size:12px; }
 .filter-search { width:150px;padding:6px 10px;font-size:12px; }
 .card-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px; }
-.teacher-card { background:white;border:1px solid #f3f4f6;border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;transition:box-shadow 0.2s,border-color 0.2s; }
+.teacher-card { background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;transition:box-shadow 0.2s,border-color 0.2s; }
 .teacher-card:hover { border-color:#e5e7eb;box-shadow:0 2px 12px rgba(0,0,0,0.04); }
 .card-header { display:flex;align-items:center;gap:14px;flex:1;min-width:0; }
 .avatar { width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:17px;flex-shrink:0; }
