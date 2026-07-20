@@ -8,4 +8,3 @@ use Illuminate\Support\Facades\Schedule;
 // 工作日早上 7:50 自动从企微拉取当日请假数据
 Schedule::command('attendance:sync-wechat-leave')
     ->dailyAt('07:50');
-

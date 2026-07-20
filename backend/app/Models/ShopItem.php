@@ -60,4 +60,3 @@ class ShopItem extends Model
         return $this->hasMany(ShopRedemption::class);
     }
 }
-

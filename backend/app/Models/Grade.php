@@ -88,4 +88,3 @@ class Grade extends Model
         ];
     }
 }
-

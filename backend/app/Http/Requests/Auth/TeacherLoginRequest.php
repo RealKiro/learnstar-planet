@@ -21,4 +21,3 @@ class TeacherLoginRequest extends FormRequest
         ];
     }
 }
-

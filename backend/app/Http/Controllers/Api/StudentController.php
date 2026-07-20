@@ -69,4 +69,3 @@ class StudentController extends Controller
         ]);
     }
 }
-

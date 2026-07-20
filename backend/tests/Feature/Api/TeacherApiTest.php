@@ -62,4 +62,3 @@ class TeacherApiTest extends TestCase
         }
     }
 }
-

@@ -19,4 +19,3 @@ if ($uri !== '/' && file_exists(__DIR__ . '/public' . $uri)) {
 
 // 所有其他请求交给 Laravel 处理
 require_once __DIR__ . '/public/index.php';
-

@@ -86,4 +86,3 @@ class Score extends Model
         return $this->belongsTo(User::class, 'given_by');
     }
 }
-

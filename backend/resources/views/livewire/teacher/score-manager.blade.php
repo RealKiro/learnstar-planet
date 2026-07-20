@@ -143,4 +143,3 @@
         </div>
     </flux:modal>
 </div>
-

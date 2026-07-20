@@ -23,4 +23,3 @@ class DisplayLoginLog extends Model
         return $this->belongsTo(ClassRoom::class, 'class_id');
     }
 }
-

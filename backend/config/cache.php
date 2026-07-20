@@ -63,4 +63,3 @@ return [
 
     'prefix' => Env::get('CACHE_PREFIX', 'bancxq_cache_'),
 ];
-

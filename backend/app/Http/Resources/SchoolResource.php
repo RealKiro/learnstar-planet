@@ -24,4 +24,3 @@ class SchoolResource extends JsonResource
         ];
     }
 }
-

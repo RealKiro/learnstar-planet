@@ -29,4 +29,3 @@ class SyncWechatWorkLeave extends Command
         return self::SUCCESS;
     }
 }
-

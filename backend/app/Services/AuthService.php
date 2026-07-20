@@ -511,4 +511,3 @@ class AuthService
         return $user->thirdPartyBindings()->where('platform', $platform)->delete() > 0;
     }
 }
-

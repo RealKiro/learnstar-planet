@@ -19,4 +19,3 @@ class Pinyin
         return '';
     }
 }
-

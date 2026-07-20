@@ -34,4 +34,3 @@ class BatchCreateTeachersRequest extends FormRequest
         ];
     }
 }
-

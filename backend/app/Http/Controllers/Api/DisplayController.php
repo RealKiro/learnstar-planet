@@ -1137,4 +1137,3 @@ class DisplayController extends Controller
         return $id;
     }
 }
-

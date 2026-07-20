@@ -137,4 +137,3 @@ class WechatWorkService
         return false;
     }
 }
-

@@ -292,4 +292,3 @@ class Pet extends Model
         }
     }
 }
-

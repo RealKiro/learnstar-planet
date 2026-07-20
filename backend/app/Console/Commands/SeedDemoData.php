@@ -167,4 +167,3 @@ class SeedDemoData extends Command
         $this->line('  🗑️  演示数据已清除');
     }
 }
-

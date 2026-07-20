@@ -25,4 +25,3 @@ class WechatWorkLeaveRecord extends Model
         return static::where('approve_status', 'approved')->whereNull('synced_at')->whereDate('leave_start_date', '<=', $date)->whereDate('leave_end_date', '>=', $date)->get();
     }
 }
-

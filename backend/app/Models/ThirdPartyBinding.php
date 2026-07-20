@@ -70,4 +70,3 @@ class ThirdPartyBinding extends Model
         ];
     }
 }
-

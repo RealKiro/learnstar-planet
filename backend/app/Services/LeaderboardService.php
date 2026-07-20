@@ -209,4 +209,3 @@ class LeaderboardService
         return $result;
     }
 }
-

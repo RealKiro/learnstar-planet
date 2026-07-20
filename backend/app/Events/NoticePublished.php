@@ -47,4 +47,3 @@ class NoticePublished implements ShouldBroadcastNow
         ];
     }
 }
-

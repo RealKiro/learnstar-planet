@@ -48,4 +48,3 @@ class CleanDemoData extends Command
         return 0;
     }
 }
-

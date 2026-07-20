@@ -23,4 +23,3 @@ Route::get('/{any?}', function () {
         'Content-Type' => 'text/html; charset=UTF-8',
     ]);
 })->where('any', '^(?!api/|_debugbar|telescope|horizon|nova|storage).*$');
-

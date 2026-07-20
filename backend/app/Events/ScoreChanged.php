@@ -45,4 +45,3 @@ class ScoreChanged implements ShouldBroadcastNow
         ];
     }
 }
-

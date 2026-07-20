@@ -141,4 +141,3 @@ class ScoreManager extends Component
         return view('livewire.teacher.score-manager', compact('students', 'rules'));
     }
 }
-

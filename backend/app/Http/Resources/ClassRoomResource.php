@@ -25,4 +25,3 @@ class ClassRoomResource extends JsonResource
         ];
     }
 }
-
