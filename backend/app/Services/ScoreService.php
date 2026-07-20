@@ -187,6 +187,38 @@ class ScoreService
             ->paginate($perPage);
     }
 
+    /**
+     * 撤回一条积分记录（创建等额反向记录）
+     */
+    public function undoScore(Score $originalScore, int $operatedBy): Score
+    {
+        return DB::transaction(function () use ($originalScore, $operatedBy) {
+            $student = $originalScore->student;
+
+            $undoAmount = -$originalScore->amount;
+            $undo = Score::create([
+                'student_id' => $student->id,
+                'class_id' => $originalScore->class_id,
+                'amount' => $undoAmount,
+                'reason' => '撤回操作（原：' . $originalScore->reason . '）',
+                'given_by' => $operatedBy,
+            ]);
+
+            $student->total_score = max(0, $student->total_score + $undoAmount);
+            $student->save();
+
+            if ($student->pet) {
+                if ($undoAmount > 0) {
+                    $student->pet->addExperience($undoAmount);
+                } else {
+                    $student->pet->removeExperience(abs($undoAmount));
+                }
+            }
+
+            return $undo;
+        });
+    }
+
     // ========== 班级积分统计 ==========
 
     public function getClassScoreSummary(int $classId): array

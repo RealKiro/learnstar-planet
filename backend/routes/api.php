@@ -119,6 +119,7 @@ Route::prefix('v1')->group(function () {
             Route::post('give', [TeacherController::class, 'giveScore']);
             Route::post('batch-give', [TeacherController::class, 'batchGiveScore']);
             Route::post('give-by-rule/{ruleId}', [TeacherController::class, 'giveScoreByRule']);
+            Route::post('{id}/undo', [TeacherController::class, 'undoScore']);
             Route::get('history/{studentId}', [TeacherController::class, 'scoreHistory']);
             Route::get('rules', [TeacherController::class, 'listScoreRules']);
             Route::post('rules', [TeacherController::class, 'createScoreRule']);

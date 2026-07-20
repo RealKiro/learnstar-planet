@@ -662,6 +662,24 @@ class TeacherController extends Controller
 
     // ============================================================
     // Score Rules
+
+    /**
+     * 撤回一条积分记录
+     */
+    public function undoScore(Request $request, int $id): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+
+        $score = Score::whereIn('class_id', $classIds)->findOrFail($id);
+        $undo = app(\App\Services\ScoreService::class)->undoScore($score, $teacher->id);
+
+        return response()->json([
+            'message' => '已撤回',
+            'data' => $undo,
+        ]);
+    }
+
     // ============================================================
 
     public function listScoreRules(Request $request): JsonResponse

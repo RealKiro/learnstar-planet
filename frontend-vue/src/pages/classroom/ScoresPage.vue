@@ -150,7 +150,13 @@ async function executeAction(reason: string) {
     await apiPost('/api/v1/display/scores/give', { token: token.value, student_id: s.id, points, reason })
     s.total_score = Math.max(0, s.total_score + points)
     showFloatText(s.id, points)
-  } catch { /* ignore */ }
+  } catch (e: any) {
+    showModal.value = false
+    const msg = e?.response?.data?.message || ''
+    if (msg.includes('30')) {
+      toast.show('单次超过 30 分需要教师账号登录操作', 'error')
+    }
+  }
   showModal.value = false
 }
 

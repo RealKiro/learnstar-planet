@@ -852,6 +852,11 @@ class DisplayController extends Controller
         $amount = (int) $request->input('points');
         $reason = $request->input('reason', '课堂评价');
 
+        // 班级码模式限制：单次加减分不得超过 ±30
+        if (abs($amount) >= 30) {
+            return response()->json(['message' => '单次加减分超过 30 分，请使用教师账号登录操作'], 403);
+        }
+
         $student->total_score = max(0, $student->total_score + $amount);
         $student->save();
 
