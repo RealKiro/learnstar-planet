@@ -122,6 +122,10 @@ a:hover { color: var(--md-primary-light); }
   outline: none;
   font-family: inherit;
 }
+.form-select option {
+  color: #1E293B;
+  background: #FFFFFF;
+}
 .form-select:focus {
   border-color: var(--md-primary);
 }
