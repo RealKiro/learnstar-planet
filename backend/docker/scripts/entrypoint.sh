@@ -89,23 +89,7 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
     echo "🔗 创建存储链接..."
     php artisan storage:link --force 2>/dev/null || true
 
-    # 初始化设置：重置积分和宠物（测试/演示环境）
-    if [ "${INITIALIZATION_SETTINGS:-false}" = "true" ]; then
-        echo "🧹 检测到 INITIALIZATION_SETTINGS=true，重置积分和宠物..."
-        php artisan tinker --execute="
-            \App\Models\Student::query()->update(['total_score' => 0]);
-            echo '已重置学生积分\n';
-            \App\Models\Score::query()->truncate();
-            echo '已清空积分记录\n';
-            \App\Models\Pet::query()->update(['level' => 0, 'experience' => 0, 'mood' => 80]);
-            echo '已重置宠物\n';
-        " 2>/dev/null || echo "⚠️  tinker 不可用，尝试直接 SQL..."
-        php artisan db:statement "UPDATE students SET total_score=0" 2>/dev/null || true
-        php artisan db:statement "DELETE FROM scores" 2>/dev/null || true
-        php artisan db:statement "UPDATE pets SET level=0, experience=0, mood=80" 2>/dev/null || true
-        echo "✅ 积分与宠物已重置"
     fi
-fi
 
 # 优化缓存
 echo "🧹 优化缓存..."
