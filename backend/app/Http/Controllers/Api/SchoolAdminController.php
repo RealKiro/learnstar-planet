@@ -1561,45 +1561,93 @@ class SchoolAdminController extends Controller
      */
     public function systemDiagnose(): JsonResponse
     {
-        $results = [];
+        try {
+            $results = [];
+            $db = \Illuminate\Support\Facades\DB::connection();
 
-        // 1. 检查 users 表字段
-        $usersColumns = ['nickname', 'subject', 'grade_team'];
-        foreach ($usersColumns as $col) {
-            $results[] = [
-                'item' => "users 表.{$col} 字段",
-                'status' => \Illuminate\Support\Facades\Schema::hasColumn('users', $col) ? 'ok' : 'missing',
-            ];
+            // 1. 检查 users 表字段
+            $usersColumns = ['nickname', 'subject', 'grade_team'];
+            foreach ($usersColumns as $col) {
+                try {
+                    $hasCol = $db->getSchemaBuilder()->hasColumn('users', $col);
+                    $results[] = [
+                        'item' => "users 表.{$col} 字段",
+                        'status' => $hasCol ? 'ok' : 'missing',
+                    ];
+                } catch (\Throwable $e) {
+                    $results[] = [
+                        'item' => "users 表.{$col} 字段",
+                        'status' => 'error',
+                        'detail' => $e->getMessage(),
+                    ];
+                }
+            }
+
+            // 2. 检查 class_rooms 表字段
+            $classColumns = ['display_code', 'display_code_updated_at'];
+            foreach ($classColumns as $col) {
+                try {
+                    $hasCol = $db->getSchemaBuilder()->hasColumn('class_rooms', $col);
+                    $results[] = [
+                        'item' => "class_rooms 表.{$col} 字段",
+                        'status' => $hasCol ? 'ok' : 'missing',
+                    ];
+                } catch (\Throwable $e) {
+                    $results[] = [
+                        'item' => "class_rooms 表.{$col} 字段",
+                        'status' => 'error',
+                        'detail' => $e->getMessage(),
+                    ];
+                }
+            }
+
+            // 3. 检查 class_room_teachers 表
+            try {
+                $hasTable = $db->getSchemaBuilder()->hasTable('class_room_teachers');
+                $results[] = [
+                    'item' => 'class_room_teachers 表',
+                    'status' => $hasTable ? 'ok' : 'missing',
+                ];
+            } catch (\Throwable $e) {
+                $results[] = [
+                    'item' => 'class_room_teachers 表',
+                    'status' => 'error',
+                    'detail' => $e->getMessage(),
+                ];
+            }
+
+            // 4. 检查 third_party_bindings 表
+            try {
+                $hasTable = $db->getSchemaBuilder()->hasTable('third_party_bindings');
+                $results[] = [
+                    'item' => 'third_party_bindings 表',
+                    'status' => $hasTable ? 'ok' : 'missing',
+                ];
+            } catch (\Throwable $e) {
+                $results[] = [
+                    'item' => 'third_party_bindings 表',
+                    'status' => 'error',
+                    'detail' => $e->getMessage(),
+                ];
+            }
+
+            $missingCount = count(array_filter($results, fn($r) => $r['status'] === 'missing'));
+
+            return response()->json([
+                'data' => $results,
+                'has_issues' => $missingCount > 0,
+                'message' => $missingCount > 0 ? '检测到数据库结构缺失，可执行修复' : '数据库结构完整',
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => '诊断执行异常: ' . $e->getMessage(),
+                'error' => [
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'type' => get_class($e),
+                ],
+            ], 500);
         }
-
-        // 2. 检查 class_rooms 表字段
-        $classColumns = ['display_code', 'display_code_updated_at'];
-        foreach ($classColumns as $col) {
-            $results[] = [
-                'item' => "class_rooms 表.{$col} 字段",
-                'status' => \Illuminate\Support\Facades\Schema::hasColumn('class_rooms', $col) ? 'ok' : 'missing',
-            ];
-        }
-
-        // 3. 检查 class_room_teachers 表
-        $results[] = [
-            'item' => 'class_room_teachers 表',
-            'status' => \Illuminate\Support\Facades\Schema::hasTable('class_room_teachers') ? 'ok' : 'missing',
-        ];
-
-        // 4. 检查 third_party_bindings 表
-        $results[] = [
-            'item' => 'third_party_bindings 表',
-            'status' => \Illuminate\Support\Facades\Schema::hasTable('third_party_bindings') ? 'ok' : 'missing',
-        ];
-
-        $hasIssues = collect($results)->contains('status', 'missing');
-
-        return response()->json([
-            'data' => $results,
-            'has_issues' => $hasIssues,
-            'message' => $hasIssues ? '检测到数据库结构缺失，可执行修复' : '数据库结构完整',
-        ]);
     }
 
     /**
