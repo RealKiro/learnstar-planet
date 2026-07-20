@@ -38,7 +38,8 @@ const currentNotice = ref<{
 } | null>(null)
 
 let pollTimer: ReturnType<typeof setInterval> | null = null
-    startPolling()
+
+function startPolling() {
   if (pollTimer) return
   pollTimer = setInterval(pollEvents, 5000)
   pollEvents()

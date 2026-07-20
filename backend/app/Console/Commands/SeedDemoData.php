@@ -144,7 +144,9 @@ class SeedDemoData extends Command
     private function cleanDemoData(): void
     {
         $school = School::where('code', 'DEMO')->first();
-        if (!$school) return;
+        if (!$school) {
+            return;
+        }
 
         $classIds = ClassRoom::where('school_id', $school->id)->pluck('id');
         $studentIds = Student::whereIn('class_id', $classIds)->pluck('id');
