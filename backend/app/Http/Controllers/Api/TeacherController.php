@@ -1957,8 +1957,13 @@ class TeacherController extends Controller
     public function getAiCommands(Request $request): JsonResponse
     {
         return response()->json(['data' => [
-            ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈'],
-            ['label' => '重点关注学生', 'prompt' => '请分析班上学情'],
+            ['label' => '生成班级反馈', 'prompt' => '请根据本周课堂情况生成一段班级反馈，包括纪律、学习氛围和进步方面'],
+            ['label' => '重点关注学生', 'prompt' => '请分析班上学情，列出需要重点关注的学生特征和应对策略'],
+            ['label' => '课堂活动建议', 'prompt' => '推荐3个适合初中/小学生的课堂互动活动，增强学生参与度'],
+            ['label' => '积分奖励方案', 'prompt' => '设计一套班级积分奖励方案，包含加分项、扣分项和兑换规则'],
+            ['label' => '家长会发言稿', 'prompt' => '帮我写一段家长会发言稿，介绍班级整体情况和需要家长配合的事项'],
+            ['label' => '班会主题建议', 'prompt' => '推荐下周班会主题，适合小学/初中阶段的学生'],
+            ['label' => '分层教学建议', 'prompt' => '针对班级学生水平参差不齐的情况，给出分层教学的具体建议'],
         ]]);
     }
 
