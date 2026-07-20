@@ -859,7 +859,8 @@ class DisplayController extends Controller
         $amount = (int) $request->input('points');
         $reason = $request->input('reason', '课堂评价');
 
-        // 班级码模式限制：单次加减分不得超过 ±30
+        try {
+// 班级码模式限制：单次加减分不得超过 ±30
         if (abs($amount) >= 30) {
             return response()->json(['message' => '单次加减分超过 30 分，请使用教师账号登录操作'], 403);
         }
@@ -886,6 +887,10 @@ class DisplayController extends Controller
             'reason' => $reason,
             'given_by' => $teacherId,
         ]);
+        } catch (Throwable $e) {
+            IlluminateSupportFacadesLog::error("classroomGiveScore failed: " . $e->getMessage());
+            return response()->json(["message" => "操作失败: " . $e->getMessage()], 500);
+        }
 
         return response()->json([
             'message' => ($amount > 0 ? '加' : '减') . '分成功',
