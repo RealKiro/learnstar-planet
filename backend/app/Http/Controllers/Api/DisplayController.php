@@ -753,7 +753,6 @@ class DisplayController extends Controller
     /**
      * 教室端 · 班级总览
      */
-    
     public function classSettings(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);
