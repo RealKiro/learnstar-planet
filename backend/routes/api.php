@@ -95,6 +95,10 @@ Route::prefix('v1')->group(function () {
         Route::post('demo/seed', [SchoolAdminController::class, 'demoSeed']);
         Route::post('demo/clean', [SchoolAdminController::class, 'demoClean']);
         Route::get('display-login-logs', [SchoolAdminController::class, 'displayLoginLogs']);
+        Route::prefix('system')->group(function () {
+            Route::get('diagnose', [SchoolAdminController::class, 'systemDiagnose']);
+            Route::post('repair', [SchoolAdminController::class, 'systemRepair']);
+        });
     });
 
     // ===== 3. 教师端 =====

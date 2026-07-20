@@ -1503,16 +1503,20 @@ class SchoolAdminController extends Controller
      */
     public function demoSeed(): JsonResponse
     {
-        $exitCode = \Illuminate\Support\Facades\Artisan::call('demo:seed', ['--force' => true]);
-        if ($exitCode === 0) {
-            $classes = \App\Models\ClassRoom::whereHas('school', function ($q) {
-                $q->where('code', 'DEMO');
-            })->get(['name', 'display_code']);
+        try {
+            $exitCode = \Illuminate\Support\Facades\Artisan::call('demo:seed', ['--force' => true]);
+            if ($exitCode === 0) {
+                $classes = \App\Models\ClassRoom::whereHas('school', function ($q) {
+                    $q->where('code', 'DEMO');
+                })->get(['name', 'display_code']);
 
-            return response()->json(['message' => '演示数据已生成', 'data' => ['classes' => $classes]]);
+                return response()->json(['message' => '演示数据已生成', 'data' => ['classes' => $classes]]);
+            }
+
+            return response()->json(['message' => '生成失败，请查看服务端日志'], 500);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => '操作失败: ' . $e->getMessage()], 500);
         }
-
-        return response()->json(['message' => '生成失败，请查看服务端日志'], 500);
     }
 
     /**
@@ -1520,9 +1524,13 @@ class SchoolAdminController extends Controller
      */
     public function demoClean(): JsonResponse
     {
-        \Illuminate\Support\Facades\Artisan::call('demo:clean', ['--force' => true]);
+        try {
+            \Illuminate\Support\Facades\Artisan::call('demo:clean', ['--force' => true]);
 
-        return response()->json(['message' => '演示数据已清除']);
+            return response()->json(['message' => '演示数据已清除']);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => '操作失败: ' . $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -1544,5 +1552,72 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => 'LOGO 已上传', 'data' => ['logo_path' => $school->logo_path]]);
     }
 
+    // ============================================================
+    // 系统诊断 & 修复
+    // ============================================================
+
+    /**
+     * 系统诊断：检查数据库表结构
+     */
+    public function systemDiagnose(): JsonResponse
+    {
+        $results = [];
+
+        // 1. 检查 users 表字段
+        $usersColumns = ['nickname', 'subject', 'grade_team'];
+        foreach ($usersColumns as $col) {
+            $results[] = [
+                'item' => "users 表.{$col} 字段",
+                'status' => \Illuminate\Support\Facades\Schema::hasColumn('users', $col) ? 'ok' : 'missing',
+            ];
+        }
+
+        // 2. 检查 class_rooms 表字段
+        $classColumns = ['display_code', 'display_code_updated_at'];
+        foreach ($classColumns as $col) {
+            $results[] = [
+                'item' => "class_rooms 表.{$col} 字段",
+                'status' => \Illuminate\Support\Facades\Schema::hasColumn('class_rooms', $col) ? 'ok' : 'missing',
+            ];
+        }
+
+        // 3. 检查 class_room_teachers 表
+        $results[] = [
+            'item' => 'class_room_teachers 表',
+            'status' => \Illuminate\Support\Facades\Schema::hasTable('class_room_teachers') ? 'ok' : 'missing',
+        ];
+
+        // 4. 检查 third_party_bindings 表
+        $results[] = [
+            'item' => 'third_party_bindings 表',
+            'status' => \Illuminate\Support\Facades\Schema::hasTable('third_party_bindings') ? 'ok' : 'missing',
+        ];
+
+        $hasIssues = collect($results)->contains('status', 'missing');
+
+        return response()->json([
+            'data' => $results,
+            'has_issues' => $hasIssues,
+            'message' => $hasIssues ? '检测到数据库结构缺失，可执行修复' : '数据库结构完整',
+        ]);
+    }
+
+    /**
+     * 系统修复：运行数据库迁移
+     */
+    public function systemRepair(): JsonResponse
+    {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            $output = \Illuminate\Support\Facades\Artisan::output();
+
+            return response()->json([
+                'message' => '数据库迁移已完成',
+                'output' => $output,
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => '修复失败: ' . $e->getMessage()], 500);
+        }
+    }
 
 }

@@ -71,6 +71,47 @@ async function reload() {
 
 const demoLoading = ref(false)
 
+// 系统诊断 & 修复
+const diagLoading = ref(false)
+const diagResult = ref<{ item: string; status: string }[] | null>(null)
+const diagHasIssues = ref(false)
+const repairLoading = ref(false)
+const repairDone = ref(false)
+
+async function diagnose() {
+  diagLoading.value = true
+  diagResult.value = null
+  repairDone.value = false
+  try {
+    const res = await fetch('/api/v1/admin/system/diagnose', {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token') }
+    })
+    const data = await res.json()
+    diagResult.value = data.data || []
+    diagHasIssues.value = data.has_issues || false
+    toast.show(data.message || '诊断完成', res.ok ? 'info' : 'error')
+  } catch { toast.show('诊断请求失败', 'error') }
+  finally { diagLoading.value = false }
+}
+
+async function repair() {
+  repairLoading.value = true
+  try {
+    const res = await fetch('/api/v1/admin/system/repair', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token'), 'Content-Type': 'application/json' }
+    })
+    const data = await res.json()
+    toast.show(data.message || '修复完成', res.ok ? 'success' : 'error')
+    if (res.ok) {
+      repairDone.value = true
+      // 修复后重新诊断
+      setTimeout(diagnose, 500)
+    }
+  } catch { toast.show('修复请求失败', 'error') }
+  finally { repairLoading.value = false }
+}
+
 async function seedDemo() {
   demoLoading.value = true
   try {
@@ -157,6 +198,41 @@ async function cleanDemo() {
           style="background:var(--color-bg-card);color:var(--color-danger);border:1px solid rgba(239,68,68,0.2);">
           {{ demoLoading ? '处理中...' : '🗑️ 清除演示数据' }}
         </button>
+      </div>
+    </div>
+
+    <!-- 系统诊断与修复 -->
+    <div class="card" style="max-width:640px;padding:32px;margin-top:24px;">
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🔧 系统诊断与修复</h3>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
+        检查数据库结构完整性，如果检测到缺失字段可一键修复
+      </p>
+      <div style="display:flex;gap:12px;margin-bottom:16px;">
+        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" :disabled="diagLoading" @click="diagnose">
+          {{ diagLoading ? '诊断中...' : '🔍 开始诊断' }}
+        </button>
+        <button class="btn btn-sm" :disabled="repairLoading || !diagHasIssues" @click="repair"
+          style="background:var(--color-bg-card);color:var(--color-danger);border:1px solid rgba(239,68,68,0.2);">
+          {{ repairLoading ? '修复中...' : '🛠️ 一键修复' }}
+        </button>
+      </div>
+
+      <!-- 诊断结果 -->
+      <div v-if="diagResult" style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
+        <div v-for="(r, i) in diagResult" :key="i" style="display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--color-border);font-size:13px;">
+          <span v-if="r.status === 'ok'" style="color:#10B981;">✅</span>
+          <span v-else style="color:#EF4444;">❌</span>
+          <span style="flex:1;">{{ r.item }}</span>
+          <span :style="{ color: r.status === 'ok' ? '#10B981' : '#EF4444', fontWeight: 600 }">
+            {{ r.status === 'ok' ? '正常' : '缺失' }}
+          </span>
+        </div>
+        <div v-if="repairDone" style="padding:10px 14px;background:rgba(16,185,129,0.05);font-size:13px;color:#10B981;font-weight:500;">
+          ✅ 修复已完成，数据库结构已更新
+        </div>
+      </div>
+      <div v-else-if="!diagLoading" style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;font-size:13px;color:var(--color-text-secondary);">
+        点击「开始诊断」检查系统状态
       </div>
     </div>
 
