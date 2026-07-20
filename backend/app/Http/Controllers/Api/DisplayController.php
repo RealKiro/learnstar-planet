@@ -20,6 +20,7 @@ use App\Services\ScoreService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -28,7 +29,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  *
  * 职责：
  * 1. 教师端：生成/刷新班级大屏码
-use Illuminate\Support\Facades\Log;
  * 2. 显示端：班级码 → Token 认证
  * 3. 显示端：SSE 长连接 + 轮询降级
  * 4. 显示端：初始全量数据加载
