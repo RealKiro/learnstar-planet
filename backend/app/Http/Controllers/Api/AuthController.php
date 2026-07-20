@@ -6,7 +6,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
+use App\Models\School;
 use App\Services\AuthService;
+use App\Services\WechatWorkService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -181,17 +183,37 @@ class AuthController extends Controller
 
     /**
      * 企业微信扫码登录
+     *
+     * 两种调用方式：
+     * 1. 直接传入 userid（前端已通过 JSAPI 获取）
+     * 2. 传入 code（后端自动换取 userid）
      */
     public function teacherLoginWithWechatWork(Request $request): JsonResponse
     {
         $request->validate([
-            'userid' => 'required|string',
+            'userid' => 'nullable|string',
+            'code' => 'nullable|string',
             'nick' => 'nullable|string|max:80',
             'avatar' => 'nullable|string|max:500',
         ]);
 
+        $userid = $request->input('userid');
+
+        // 如果传的是 code，先换取 userid
+        if (!$userid && $code = $request->input('code')) {
+            $school = School::first();
+            if ($school) {
+                $wechatWork = app(WechatWorkService::class);
+                $userid = $wechatWork->getUserIdByCode($school->id, $code);
+            }
+        }
+
+        if (!$userid) {
+            return response()->json(['message' => '无法获取企业微信用户身份'], 400);
+        }
+
         $result = $this->authService->loginWithWechatWork(
-            $request->input('userid'),
+            $userid,
             $request->input('nick'),
             $request->input('avatar')
         );

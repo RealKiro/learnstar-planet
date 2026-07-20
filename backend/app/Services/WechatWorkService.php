@@ -106,6 +106,26 @@ class WechatWorkService
         return ['sp_no' => $spNo,'submitter_userid' => $uid,'student_name' => $sn,'leave_type' => $lt,'leave_start' => $ls,'leave_end' => $le,'reason' => $rs,'approve_status' => $st,'approved_at' => $at];
     }
 
+    /**
+     * 通过 OAuth code 换取企业微信 UserId
+     */
+    public function getUserIdByCode(int $schoolId, string $code): ?string
+    {
+        $token = $this->getAccessToken($schoolId);
+        $r = Http::timeout(10)->get('https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo', [
+            'access_token' => $token,
+            'code' => $code,
+        ])->json();
+
+        if (isset($r['errcode']) && $r['errcode'] !== 0) {
+            Log::warning('企微 code 换取 userid 失败', $r);
+
+            return null;
+        }
+
+        return $r['UserId'] ?? $r['userid'] ?? null;
+    }
+
     private function mf(string $t, array $ks): bool
     {
         foreach ($ks as $k) {

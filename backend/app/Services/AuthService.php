@@ -292,6 +292,9 @@ class AuthService
 
     /**
      * 企业微信扫码登录
+     *
+     * 已绑定 → 直接登录
+     * 未绑定 → 自动创建教师账号（免注册），仅需企业微信 userid 和昵称
      */
     public function loginWithWechatWork(string $userid, ?string $nick = null, ?string $avatar = null): array
     {
@@ -303,18 +306,47 @@ class AuthService
             return ['status' => 'logged_in', 'user' => $user];
         }
 
-        $tempToken = Str::uuid()->toString();
-        $this->storeTempBindingContext($tempToken, [
-            'platform' => 'wechat_work',
-            'platform_id' => $userid,
-            'nick' => $nick,
-            'avatar' => $avatar,
+        // 未绑定：自动创建教师账号
+        $school = School::first();
+        if (!$school) {
+            return ['status' => 'error', 'message' => '系统尚未初始化，请先联系管理员'];
+        }
+
+        $name = $nick ?? $userid;
+        $username = $this->generateTeacherUsername($name, $school);
+        $nickname = $this->uniqueNickname($name, $school);
+        $password = str()->random(16);
+
+        $user = User::create([
+            'school_id' => $school->id,
+            'role' => 'teacher',
+            'username' => $username,
+            'password' => Hash::make($password),
+            'name' => $name,
+            'nickname' => $nickname,
+            'avatar_path' => $avatar,
+            'status' => 'active',
         ]);
 
-        return [
-            'status' => 'need_binding',
-            'temp_token' => $tempToken,
+        // 创建第三方绑定记录
+        ThirdPartyBinding::create([
+            'user_id' => $user->id,
+            'platform' => 'wechat_work',
             'platform_id' => $userid,
+            'platform_nick' => $nick,
+            'platform_avatar' => $avatar,
+            'verified_at' => now(),
+        ]);
+
+        // 生成 Sanctum Token
+        $token = $user->createToken('wechat-work-auto-register')->plainTextToken;
+        $user->last_login_at = now();
+        $user->save();
+
+        return [
+            'status' => 'logged_in',
+            'token' => $token,
+            'user' => $user,
         ];
     }
 

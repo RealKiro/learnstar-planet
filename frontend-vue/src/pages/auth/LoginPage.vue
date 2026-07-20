@@ -2,6 +2,7 @@
 import { ref, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
+import { apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
 import { apiPost } from '@/utils/api'
@@ -173,10 +174,41 @@ const slides = [
 const currentSlide = ref(0)
 let slideTimer: ReturnType<typeof setInterval>
 
+// 接收 OAuth 弹窗回调
+function handleOAuthMessage(e: MessageEvent) {
+  if (e.origin !== window.location.origin) return
+  const data = e.data
+  if (!data || data.type !== 'oauth_callback') return
+
+  const platform = data.platform
+  if (platform === 'wechat_work') {
+    handleWechatWorkOAuth(data.code)
+  }
+}
+
+async function handleWechatWorkOAuth(code: string) {
+  loading.value = true
+  try {
+    const res = await apiPost<{ data: { token: string; user: any } }>('/api/v1/auth/teacher/login/wechat-work', { code })
+    const d = res.data
+    if (d.token) {
+      const authStore = (await import('@/stores/auth')).useAuthStore()
+      const toast = (await import('@/stores/toast')).useToastStore()
+      authStore.setAuth(d.token, d.user)
+      toast.show('登录成功', 'success')
+      router.replace({ name: 'teacher-dashboard' })
+    }
+  } catch { /* handled */ } finally { loading.value = false }
+}
+
 onMounted(() => {
   slideTimer = setInterval(() => { currentSlide.value = (currentSlide.value + 1) % slides.length }, 5000)
+  window.addEventListener('message', handleOAuthMessage)
 })
-onUnmounted(() => clearInterval(slideTimer))
+onUnmounted(() => {
+  clearInterval(slideTimer)
+  window.removeEventListener('message', handleOAuthMessage)
+})
 
 function goToSlide(i: number) {
   currentSlide.value = i
