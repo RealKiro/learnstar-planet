@@ -1723,8 +1723,8 @@ class TeacherController extends Controller
                     'voice_enabled' => $broadcast->voice_enabled ?? false,
                     'created_at' => $broadcast->created_at?->toIso8601String(),
                 ]);
-            } catch (Throwable $e) {
-                IlluminateSupportFacadesLog::warning('Broadcast event publish failed: ' . $e->getMessage());
+            } catch (Throwable ) {
+                Log::warning('Broadcast event publish failed: ' . $e->getMessage());
             }
 
             $sent++;
