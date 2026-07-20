@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { apiGet } from '@/utils/api'
 import { getSpeciesEmoji } from '@/utils/petData'
 import type { ApiResponse, Student } from '@/types'
@@ -22,6 +23,9 @@ interface PKOverview {
   weekGrowth: number
   rank: number
 }
+
+const router = useRouter()
+function goToLeaderboard() { router.push({ name: 'teacher-leaderboard' }) }
 
 // ===== 数据 =====
 const students = ref<Student[]>([])
@@ -100,6 +104,7 @@ onMounted(async () => {
         <h2 class="page-title">🏆 年级战场</h2>
         <span class="page-subtitle">同年级大比拼</span>
       </div>
+        <button class="page-link-btn" @click="goToLeaderboard">📊 查看个人排名</button>
       <div class="rank-badge">
         {{ rankBadge }} 当前排名: #{{ overview.rank }}
       </div>
@@ -229,6 +234,8 @@ onMounted(async () => {
 }
 .page-title { font-size: 26px; font-weight: 700; margin: 0; }
 .page-subtitle { font-size: 14px; color: var(--color-text-secondary); }
+.page-link-btn { padding:4px 12px; border-radius:8px; border:1px solid var(--color-border); background:transparent; color:var(--color-accent); font-size:12px; font-weight:500; cursor:pointer; white-space:nowrap; transition:0.15s; font-family:inherit; }
+.page-link-btn:hover { background:rgba(79,70,229,0.08); border-color:var(--color-accent); }
 .rank-badge {
   padding: 6px 20px;
   border-radius: 30px;
