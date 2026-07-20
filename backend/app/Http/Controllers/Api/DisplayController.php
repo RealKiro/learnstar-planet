@@ -416,7 +416,12 @@ class DisplayController extends Controller
         $classId = $classInfo['class_id'];
         $lastEventId = (int) ($request->input('last_event_id', 0));
 
-        $events = $this->eventService->consume($classId, $lastEventId ?: null);
+        $events = [];
+        try {
+            $events = $this->eventService->consume($classId, $lastEventId ?: null);
+        } catch (Throwable $e) {
+            IlluminateSupportFacadesog::warning('display poll consume failed: ' . $e->getmessage());
+        }
 
         $maxId = $lastEventId;
         foreach ($events as $e) {

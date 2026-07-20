@@ -11,15 +11,19 @@ const toast = useToastStore()
 const LEVEL_SCORES = [0, 0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450, 99999]
 
 function nextLevelProgress(score: number, level: number): { current: number; next: number; remaining: number; percent: number } {
+  const maxLevel = LEVEL_SCORES.length - 2
+  if (level >= maxLevel || score >= LEVEL_SCORES[LEVEL_SCORES.length - 2]) {
+    return { current: score, next: score, remaining: 0, percent: 100 }
+  }
   const cur = LEVEL_SCORES[level] || 0
-  const next = LEVEL_SCORES[Math.min(level + 1, 12)] || 450
+  const next = LEVEL_SCORES[Math.min(level + 1, maxLevel)] || 450
   const exp = score - cur
   const range = next - cur
   return {
-    current: exp,
+    current: Math.max(0, exp),
     next: range,
     remaining: Math.max(0, range - exp),
-    percent: Math.min(100, Math.round((exp / range) * 100)),
+    percent: Math.min(100, range > 0 ? Math.round((exp / range) * 100) : 100),
   }
 }
 
