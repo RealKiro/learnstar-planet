@@ -866,46 +866,41 @@ class DisplayController extends Controller
         }
 
         try {
-$student->total_score = max(0, $student->total_score + $amount);
-        $student->save();
+            $student->total_score = max(0, $student->total_score + $amount);
+            $student->save();
 
-        if ($student->pet) {
-            if ($amount > 0) {
-                $student->pet->addExperience($amount);
-            } else {
-                $student->pet->removeExperience(abs($amount));
+            if ($student->pet) {
+                if ($amount > 0) {
+                    $student->pet->addExperience($amount);
+                } else {
+                    $student->pet->removeExperience(abs($amount));
+                }
             }
-        }
 
-        $teacherId = $this->getClassTeacherId($classId);
-        if (!$teacherId) {
-            $teacherId = \App\Models\User::whereIn('role', ['school_admin', 'admin'])->value('id') ?? 1;
-        }
-        \App\Models\Score::create([
-            'student_id' => $student->id,
-            'class_id' => $classId,
-            'amount' => $amount,
-            'reason' => $reason,
-            'given_by' => $teacherId,
-        ]);
+            $teacherId = $this->getClassTeacherId($classId);
+            if (!$teacherId) {
+                $teacherId = User::whereIn('role', ['school_admin', 'admin'])->value('id') ?? 1;
+            }
+            Score::create([
+                'student_id' => $student->id,
+                'class_id' => $classId,
+                'amount' => $amount,
+                'reason' => $reason,
+                'given_by' => $teacherId,
+            ]);
 
-        return response()->json([
-} catch (Throwable $e) {
-    return response()->json(["message" => "操作失败: " . $e->getMessage()], 500);
-}
-            'message' => ($amount > 0 ? '加' : '减') . '分成功',
-            'data' => [
-                'student_name' => $student->name,
-                'points' => $amount,
-                'new_score' => $student->fresh()->total_score,
-            ],
-        ]);
-    }
-
-    /**
-     * 教室端 · 宠物概览
-     */
-    public function classroomPetsOverview(Request $request): JsonResponse
+            return response()->json([
+                'message' => ($amount > 0 ? '加' : '减') . '分成功',
+                'data' => [
+                    'student_name' => $student->name,
+                    'points' => $amount,
+                    'new_score' => $student->fresh()->total_score,
+                ],
+            ]);
+        } catch (Throwable $e) {
+            return response()->json(['message' => '操作失败: ' . $e->getMessage()], 500);
+      
+public function classroomPetsOverview(Request $request): JsonResponse
     {
         $classInfo = $this->validateToken($request);
         if (!$classInfo) {
