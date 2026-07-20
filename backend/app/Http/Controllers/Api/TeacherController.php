@@ -1726,36 +1726,7 @@ class TeacherController extends Controller
             } catch (Throwable $e) {
                 IlluminateSupportFacadesLog::warning('Broadcast event publish failed: ' . $e->getMessage());
             }
-            $sent++;
-        }
 
-        // 推送到班级大屏
-            try {
-                app(DisplayEventService::class)->publish($classId, 'broadcast', [
-                    'id' => $broadcast->id,
-                    'type' => $broadcast->type,
-                    'content' => $broadcast->content,
-                    'display_seconds' => $broadcast->display_seconds,
-                    'voice_enabled' => $broadcast->voice_enabled ?? false,
-                    'created_at' => $broadcast->created_at?->toIso8601String(),
-                ]);
-            } catch (Throwable $e) {
-                Log::warning('Broadcast event publish failed: ' . $e->getMessage());
-            }
-
-            // 推送事件到班级大屏
-            try {
-                app(DisplayEventService::class)->publish($classId, 'broadcast', [
-                    'id' => $broadcast->id,
-                    'type' => $broadcast->type,
-                    'content' => $broadcast->content,
-                    'display_seconds' => $broadcast->display_seconds,
-                    'voice_enabled' => $broadcast->voice_enabled ?? false,
-                    'created_at' => $broadcast->created_at?->toIso8601String(),
-                ]);
-            } catch (Throwable $e) {
-                IlluminateSupportFacadesLog::warning('Broadcast event publish failed: ' . $e->getMessage());
-            }
             $sent++;
         }
 
