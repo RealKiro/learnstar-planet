@@ -209,9 +209,9 @@ learnstar-planet/
 └── docker-compose.yml     # Docker 编排
 ```
 
-## ❓ FAQ
-
 ## 🧪 安全调试模式
+
+## ❓ FAQ
 
 管理员后台一键生成演示数据（不影响真实数据）：
 
