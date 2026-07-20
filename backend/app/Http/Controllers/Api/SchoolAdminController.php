@@ -1689,6 +1689,7 @@ class SchoolAdminController extends Controller
 
         return response()->json(['message' => '生成失败，请查看服务端日志'], 500);
     }
+
     /**
      * 清除演示数据
      */
