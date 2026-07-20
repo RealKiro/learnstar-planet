@@ -84,7 +84,7 @@ async function diagnose() {
   repairDone.value = false
   try {
     const res = await fetch('/api/v1/admin/system/diagnose', {
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token') }
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
     })
     const data = await res.json()
     diagResult.value = data.data || []
@@ -99,7 +99,7 @@ async function repair() {
   try {
     const res = await fetch('/api/v1/admin/system/repair', {
       method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token'), 'Content-Type': 'application/json' }
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' }
     })
     const data = await res.json()
     toast.show(data.message || '修复完成', res.ok ? 'success' : 'error')
@@ -115,7 +115,7 @@ async function repair() {
 async function seedDemo() {
   demoLoading.value = true
   try {
-    const res = await fetch('/api/v1/admin/demo/seed', { method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token'), 'Content-Type': 'application/json' } })
+    const res = await fetch('/api/v1/admin/demo/seed', { method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' } })
     const data = await res.json()
     toast.show(data.message || '演示数据已生成', res.ok ? 'success' : 'error')
   } catch { toast.show('操作失败', 'error') }
@@ -124,7 +124,7 @@ async function seedDemo() {
 async function cleanDemo() {
   demoLoading.value = true
   try {
-    const res = await fetch('/api/v1/admin/demo/clean', { method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('auth_token'), 'Content-Type': 'application/json' } })
+    const res = await fetch('/api/v1/admin/demo/clean', { method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' } })
     const data = await res.json()
     toast.show(data.message || '演示数据已清除', res.ok ? 'success' : 'error')
   } catch { toast.show('操作失败', 'error') }

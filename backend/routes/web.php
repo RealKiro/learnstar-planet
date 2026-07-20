@@ -70,12 +70,27 @@ Route::get('/debug', function (\Illuminate\Http\Request $req) {
         }
     }
 
-    // 6. 测试 Artisan::call
+    // 6. 测试 Artisan 命令调用
     try {
         $code = \Illuminate\Support\Facades\Artisan::call('demo:clean', ['--force' => true]);
         $results[] = ['test' => 'Artisan demo:clean 调用', 'result' => "✅ 返回码: {$code}"];
     } catch (\Throwable $e) {
         $results[] = ['test' => 'Artisan demo:clean 调用', 'result' => '❌ 错误: ' . $e->getMessage()];
+    }
+
+    try {
+        $code = \Illuminate\Support\Facades\Artisan::call('demo:seed', ['--force' => true]);
+        $results[] = ['test' => 'Artisan demo:seed 调用', 'result' => "✅ 返回码: {$code}"];
+    } catch (\Throwable $e) {
+        $results[] = ['test' => 'Artisan demo:seed 调用', 'result' => '❌ 错误: ' . $e->getMessage()];
+    }
+
+    // 7. 模拟前端调用方式：带 Bearer token（读取前端实际使用的 localStorage key）
+    try {
+        $token = \Illuminate\Support\Facades\Auth::guard('sanctum')->user()?->currentAccessToken()?->token ?? 'none';
+        $results[] = ['test' => '当前认证方式', 'result' => $token !== 'none' ? '✅ 已认证' : 'ℹ️ 未登录（debug 页面无需登录）'];
+    } catch (\Throwable $e) {
+        $results[] = ['test' => '认证检查', 'result' => 'ℹ️ 未登录: ' . $e->getMessage()];
     }
 
     return response()->json(['results' => $results]);
