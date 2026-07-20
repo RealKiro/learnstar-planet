@@ -15,6 +15,7 @@ use Illuminate\Console\Command;
 class CleanDemoData extends Command
 {
     protected $signature = 'demo:clean';
+
     protected $description = '清除所有演示数据';
 
     public function handle(): int
@@ -22,11 +23,13 @@ class CleanDemoData extends Command
         $school = School::where('code', 'DEMO')->first();
         if (!$school) {
             $this->info('未找到演示数据');
+
             return 0;
         }
 
         if (!$this->confirm('确定要清除所有演示数据吗？此操作不可撤销。')) {
             $this->info('已取消');
+
             return 0;
         }
 
@@ -41,6 +44,7 @@ class CleanDemoData extends Command
         $school->delete();
 
         $this->info('🗑️  所有演示数据已清除');
+
         return 0;
     }
 }

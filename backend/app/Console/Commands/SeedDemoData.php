@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 class SeedDemoData extends Command
 {
     protected $signature = 'demo:seed';
+
     protected $description = '生成演示数据（仅用于测试/试用，不影响正式数据）';
 
     public function handle(): int
@@ -23,6 +24,7 @@ class SeedDemoData extends Command
         if ($this->hasDemoData()) {
             if (!$this->confirm('检测到已有演示数据，是否重新生成？这会先删除现有演示数据。')) {
                 $this->info('已取消');
+
                 return 0;
             }
             $this->cleanDemoData();
@@ -132,6 +134,7 @@ class SeedDemoData extends Command
         $this->info('  班级码:     登录后在后台查看');
         $this->info('━━━━━━━━━━━━━━━━━━━━');
         $this->info('提示：运行 php artisan demo:clean 可清除所有演示数据');
+
 
         return 0;
     }
