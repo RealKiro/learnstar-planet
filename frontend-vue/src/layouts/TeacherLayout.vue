@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { apiGet, apiPost } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
-import { getAllSeries, getSeriesName, SERIES_SCENES } from '@/utils/petData'
 import SidebarLayout from '@/components/layout/SidebarLayout.vue'
 
 const router = useRouter()
@@ -12,9 +11,11 @@ const authStore = useAuthStore()
 const toast = useToastStore()
 function logout() { authStore.logout(); router.replace({ name: 'landing' }) }
 
-const classTotalScore = ref(0)
-const currentSeries = ref('myth')
-const switching = ref(false)
+interface ClassItem { class_id: number; class_name: string; grade: string; role: string }
+const myClasses = ref<ClassItem[]>([])
+const activeClassId = ref<number | null>(null)
+const switchingClass = ref(false)
+const activeClass = computed(() => myClasses.value.find(c => c.class_id === activeClassId.value))
 
 const navItems = [
   { section: '概览', items: [
@@ -52,35 +53,32 @@ const allSeries = getAllSeries()
 const currentSeriesName = computed(() => getSeriesName(currentSeries.value))
 const currentSeriesColor = computed(() => SERIES_SCENES[currentSeries.value]?.primaryColor || '#6366F1')
 
-async function loadClassInfo() {
+async function loadMyClasses() {
   try {
-    const res = await apiGet<{ data: { total_score: number; class_points?: number; settings?: { pet_series?: string } } }>('/api/v1/teacher/class')
-    classTotalScore.value = res.data?.total_score || 0
-    if (res.data?.settings?.pet_series) {
-      currentSeries.value = res.data.settings.pet_series
+    const res = await apiGet<{ data: ClassItem[] }>('/api/v1/teacher/my-classes')
+    myClasses.value = res.data || []
+    if (myClasses.value.length > 0) {
+      activeClassId.value = myClasses.value[0].class_id
     }
-  } catch {
-    // 静默失败，演示数据
-    classTotalScore.value = 3840
-  }
+  } catch { /* ignore */ }
 }
 
-async function switchSeries(seriesId: string) {
-  if (seriesId === currentSeries.value) return
-  switching.value = true
+async function switchToClass(classId: number) {
+  if (classId === activeClassId.value) return
+  switchingClass.value = true
   try {
-    await apiPost('/api/v1/teacher/class/switch-series', { series_id: seriesId })
-    currentSeries.value = seriesId
-    toast.show(`已切换至「${getSeriesName(seriesId)}」系列`, 'success')
+    await apiPost('/api/v1/teacher/switch-class', { class_id: classId })
+    activeClassId.value = classId
+    toast.show(`已切换至「${myClasses.value.find(c => c.class_id === classId)?.class_name || ''}」`, 'success')
   } catch (e: any) {
     toast.show(e?.response?.data?.message || '切换失败', 'error')
   } finally {
-    switching.value = false
+    switchingClass.value = false
   }
 }
 
 onMounted(() => {
-  loadClassInfo()
+  loadMyClasses()
 })
 </script>
 
@@ -92,87 +90,40 @@ onMounted(() => {
       </div>
     </template>
 
-    <!-- 侧边栏底部：系列选择器（功能分类与版面设计.txt 版式） -->
+    <!-- 侧边栏底部：班级切换器 -->
     <template #sidebar-extra>
-      <div class="series-selector">
-        <div class="ss-label">🏷️ 班级宠物系列</div>
-        <div class="ss-info">
-          <span>班级积分</span>
-          <span class="ss-score">{{ classTotalScore.toLocaleString() }}</span>
-        </div>
-        <div class="ss-select-wrap">
+      <div class="class-switcher">
+        <div class="cs-label">📚 当前班级</div>
+        <div v-if="myClasses.length === 0" class="cs-empty">暂未分配班级</div>
+        <div v-else class="cs-select-wrap">
           <select
-            v-model="currentSeries"
-            class="ss-select"
-            :disabled="switching"
-            :style="{ '--select-accent': currentSeriesColor }"
-            @change="switchSeries(currentSeries)"
+            :value="activeClassId ?? undefined"
+            class="cs-select"
+            :disabled="switchingClass"
+            @change="switchToClass(Number(($event.target as HTMLSelectElement).value))"
           >
-            <option v-for="s in allSeries" :key="s.id" :value="s.id">
-              {{ s.emoji }} {{ s.name }}
+            <option v-for="c in myClasses" :key="c.class_id" :value="c.class_id">
+              {{ c.class_name }}
             </option>
           </select>
         </div>
-        <div class="ss-hint">切换系列将更新全班宠物外观</div>
+        <div v-if="activeClass" class="cs-info">
+          <span class="cs-role">{{ { head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任', grade_lead: '年级首席', admin_director: '分管行政' }[activeClass.role] || activeClass.role }}</span>
+          <span class="cs-grade">{{ activeClass.grade }}</span>
+        </div>
       </div>
     </template>
   </SidebarLayout>
 </template>
 
 <style scoped>
-.series-selector {
-  font-size: 12px;
-}
-.ss-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  margin-bottom: 6px;
-  letter-spacing: 0.03em;
-}
-.ss-info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  margin-bottom: 8px;
-}
-.ss-score {
-  color: var(--color-primary, #a78bfa);
-  font-weight: 700;
-  font-size: 14px;
-}
-.ss-select-wrap {
-  position: relative;
-}
-.ss-select {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 10px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-  font-size: 13px;
-  font-weight: 500;
-  outline: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  appearance: auto;
-}
-.ss-select:focus {
-  border-color: var(--select-accent, var(--color-primary));
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--select-accent, var(--color-primary)) 20%, transparent);
-}
-.ss-select:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.ss-hint {
-  font-size: 10px;
-  color: var(--color-text-secondary);
-  opacity: 0.4;
-  margin-top: 4px;
-  text-align: right;
-}
+.class-switcher { font-size: 12px; }
+.cs-label { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 6px; letter-spacing: 0.03em; }
+.cs-empty { font-size: 12px; color: var(--color-text-secondary); padding: 8px 0; text-align: center; }
+.cs-select-wrap { position: relative; }
+.cs-select { width: 100%; padding: 8px 10px; border-radius: 10px; background: var(--color-bg); border: 1px solid var(--color-border); color: var(--color-text); font-size: 13px; font-weight: 500; outline: none; cursor: pointer; font-family: inherit; appearance: auto; }
+.cs-select:disabled { opacity: 0.5; cursor: not-allowed; }
+.cs-info { display: flex; gap: 8px; justify-content: center; margin-top: 6px; font-size: 11px; }
+.cs-role { color: var(--color-primary, #a78bfa); font-weight: 600; }
+.cs-grade { color: var(--color-text-secondary); }
 </style>
