@@ -56,7 +56,7 @@ const filteredCreateClasses = computed(() => {
 })
 function openCreateModal() {
   createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
-  createAssignments.value = []; createGradeFilter.value = ''; showCreateModal.value = true
+  createAssignments.value = [{ class_id: null, role: 'subject_teacher', subject: '' }]; createGradeFilter.value = ''; showCreateModal.value = true
 }
 function addCreateAssignment() { createAssignments.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
 function removeCreateAssignment(idx: number) { createAssignments.value.splice(idx, 1) }
@@ -221,7 +221,7 @@ onMounted(refreshTeachers)
   </div>
 
   <Teleport to="body">
-    <div v-if="showCreateModal" class="modal-overlay" @click.self="showCreateModal = false">
+    <div v-if="showCreateModal" class="modal-overlay" @click.self="if(!createLoading) showCreateModal = false">
       <div class="modal-panel" style="max-width:580px;">
         <div class="modal-header">
           <h3>创建教师账号</h3>
