@@ -57,27 +57,32 @@ const filteredTeachers = computed(() => {
 
 const showCreateModal = ref(false)
 const createForm = ref({ name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' })
-const createAssignments = ref<{ class_id: number | null; role: Role; subject: string }[]>([])
+const createAssignments = ref<{ class_id: number; class_name: string; subject: string }[]>([])
 const createLoading = ref(false)
-const createGradeFilter = ref('')
-const filteredCreateClasses = computed(() => {
-  if (!createGradeFilter.value) return classes.value
-  return classes.value.filter(c => c.grade === createGradeFilter.value)
-})
+const pendingGrade = ref('')
+const pendingClassId = ref(null)
+const pendingSubject = ref('')
+const gradeClasses = computed(() => classes.value.filter(c => c.grade === pendingGrade.value))
 function openCreateModal() {
   createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
-  // 默认列出所有班级供选择
-  createGradeFilter.value = ''
+  createAssignments.value = []; pendingGrade.value = ''; pendingClassId.value = null; pendingSubject.value = ''
   showCreateModal.value = true
 }
-function addCreateAssignment() { if (!createGradeFilter.value) { toast.show('请先选择具体年级', 'info'); return } createAssignments.value.push({ class_id: null, role: 'subject_teacher', subject: '' }) }
-function removeCreateAssignment(idx: number) { createAssignments.value.splice(idx, 1) }
+function addClassAssignment() {
+  if (!pendingClassId.value || !pendingGrade.value) { toast.show('请选择年级和班级', 'info'); return }
+  const cls = classes.value.find(c => c.id === pendingClassId.value)
+  if (!cls) return
+  if (createAssignments.value.some(a => a.class_id === cls.id)) { toast.show('该班级已添加', 'info'); return }
+  createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value || '默认科目' })
+  pendingClassId.value = null; pendingSubject.value = ''
+}
+function removeClassAssignment(idx) { createAssignments.value.splice(idx, 1) }
 async function submitCreate() {
   createLoading.value = true
   try {
     const payload: any = { ...createForm.value }
     if (createAssignments.value.length > 0 && createAssignments.value.every(a => a.class_id)) {
-      payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: a.role, subject: a.subject || undefined }))
+      payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: 'subject_teacher', subject: a.subject || undefined }))
     }
     await apiPost('/api/v1/admin/teachers', payload)
     toast.show('教师创建成功', 'success')
@@ -232,88 +237,52 @@ onMounted(refreshTeachers)
     </div>
   </div>
 
+  >
+
   <Teleport to="body">
-    <div v-if="showCreateModal" class="modal-overlay" >
-      <div class="modal-panel" style="max-width:580px;">
-        <div class="modal-header">
-          <h3>创建教师账号</h3>
-          <button class="close-btn" :disabled="createLoading" @click="showCreateModal = false">&times;</button>
+    <Teleport to="body">
+    <div v-if="showCreateModal" class="modal-overlay" style="backdrop-filter:blur(10px);">
+      <div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.06);border-radius:16px;max-width:420px;width:100%;padding:12px 14px 10px;box-shadow:0 40px 80px rgba(0,0,0,0.8);display:flex;flex-direction:column;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.04);flex-shrink:0;">
+          <h2 style="font-size:14px;font-weight:700;background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0;">✨ 创建教师账号</h2>
+          <button class="close-btn" :disabled="createLoading" @click="showCreateModal = false" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.3);width:22px;height:22px;border-radius:50%;font-size:11px;cursor:pointer;">✕</button>
         </div>
-        <div class="modal-body">
-          <div class="form-row">
-            <div class="form-group flex-2">
-              <label>姓名 <span style="color:#dc2626;">*</span></label>
-              <input v-model="createForm.name" class="form-input" placeholder="请输入教师姓名" />
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div>
+            <div style="font-size:10px;font-weight:600;color:#c4b5fd;margin-bottom:3px;">📝 创建账号 <span style="background:rgba(167,139,250,0.12);padding:0 4px;border-radius:8px;font-size:7px;color:rgba(255,255,255,0.3);">必填</span></div>
+            <div style="display:flex;gap:4px;">
+              <div style="flex:1;"><label style="font-size:8px;color:rgba(255,255,255,0.35);display:block;margin-bottom:1px;">姓名 <span style="color:#f87171;">*</span></label><input v-model="createForm.name" placeholder="姓名" class="form-input" style="height:22px;font-size:10px;padding:2px 5px;" /></div>
+              <div style="flex:1;"><label style="font-size:8px;color:rgba(255,255,255,0.35);display:block;margin-bottom:1px;">昵称</label><input v-model="createForm.nickname" placeholder="默认拼音" class="form-input" style="height:22px;font-size:10px;padding:2px 5px;" /></div>
             </div>
-            <div class="form-group flex-1">
-              <label>昵称</label>
-              <input v-model="createForm.nickname" class="form-input" placeholder="默认=姓名拼音" />
+            <div style="display:flex;gap:4px;">
+              <div style="flex:1;"><label style="font-size:8px;color:rgba(255,255,255,0.35);display:block;margin-bottom:1px;">年级团队</label><select v-model="createForm.grade_team" class="form-input" style="height:22px;font-size:10px;padding:2px 5px;"><option value="">不指定</option></select></div>
+              <div style="flex:1;"><label style="font-size:8px;color:rgba(255,255,255,0.35);display:block;margin-bottom:1px;">科目</label><select v-model="createForm.subject" class="form-input" style="height:22px;font-size:10px;padding:2px 5px;"><option value="">不指定</option></select></div>
             </div>
+            <div style="display:flex;gap:4px;"><div style="flex:1;"><label style="font-size:8px;color:rgba(255,255,255,0.35);display:block;margin-bottom:1px;">手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" style="height:22px;font-size:10px;padding:2px 5px;" /></div><div style="flex:1;"><label style="font-size:8px;color:rgba(255,255,255,0.35);display:block;margin-bottom:1px;">邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" style="height:22px;font-size:10px;padding:2px 5px;" /></div></div>
+            <div><label style="font-size:8px;color:rgba(255,255,255,0.35);display:block;margin-bottom:1px;">初始密码</label><input v-model="createForm.password" placeholder="留空自动生成" class="form-input" style="height:22px;font-size:10px;padding:2px 5px;" /></div>
           </div>
-          <div class="form-row">
-            <div class="form-group flex-1">
-              <label>所属年级团队</label>
-              <select v-model="createForm.grade_team" class="form-input">
-                <option value="">不指定</option>
-                <option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option>
-              </select>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:#c4b5fd;margin-bottom:3px;">📚 加入班级 <span style="background:rgba(167,139,250,0.12);padding:0 4px;border-radius:8px;font-size:7px;color:rgba(255,255,255,0.3);">可选</span></div>
+            <div style="display:flex;gap:5px;align-items:center;">
+              <div style="display:flex;flex-direction:column;gap:2px;flex:0 0 72px;">
+                <div><label style="font-size:8px;color:rgba(255,255,255,0.3);display:block;margin-bottom:1px;">年级</label><select v-model="pendingGrade" class="form-input" style="height:22px;font-size:10px;padding:2px 3px;"><option value="">请选择</option></select></div>
+                <div><label style="font-size:8px;color:rgba(255,255,255,0.3);display:block;margin-bottom:1px;">班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input" style="height:22px;font-size:10px;padding:2px 3px;"><option :value="null">请选择</option></select></div>
+                <div><label style="font-size:8px;color:rgba(255,255,255,0.3);display:block;margin-bottom:1px;">科目</label><select v-model="pendingSubject" class="form-input" style="height:22px;font-size:10px;padding:2px 3px;"><option value="">请选择</option></select></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:center;flex:1;"><button @click="addClassAssignment" :disabled="!pendingClassId" style="background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.08);color:#6ee7b7;padding:0 14px;border-radius:30px;font-size:11px;cursor:pointer;font-weight:500;white-space:nowrap;height:38px;">➕ 添加</button></div>
             </div>
-            <div class="form-group flex-1">
-              <label>科目</label>
-              <select v-model="createForm.subject" class="form-input">
-                <option value="">不指定</option>
-                <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group flex-1"><label>手机号</label><input v-model="createForm.phone" class="form-input" placeholder="选填" /></div>
-            <div class="form-group flex-1"><label>邮箱</label><input v-model="createForm.email" class="form-input" placeholder="选填" /></div>
-          </div>
-          <div class="form-group">
-            <label>初始密码 <span style="color:var(--color-text-secondary);font-size:12px;font-weight:400;">不填则默认为 star123456</span></label>
-            <input v-model="createForm.password" class="form-input" placeholder="留空则自动随机生成" />
-          </div>
-          <div class="assign-section">
-            <div class="assign-section-header">
-              <span class="assign-section-title">创建时分配班级（可选）</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-              <span style="font-size:12px;color:var(--color-text-secondary);white-space:nowrap;">筛选年级：</span>
-              <select v-model="createGradeFilter" class="form-input" style="width:120px;padding:5px 10px;font-size:12px;">
-                <option value="">全部年级</option>
-                <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
-              </select>
-              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">选择班级：</span>
-              <button class="btn btn-xs" style="background:#ede9fe;color:#7c3aed;border:none;" @click="addCreateAssignment">+ 添加一行</button>
-            </div>
-            <div v-if="createAssignments.length === 0" style="color:#9ca3af;font-size:13px;padding:8px 0;">暂不分配，后续可在教师卡片中点击 &#x1F3EB; 按钮分配</div>
-            <div v-for="(a, i) in createAssignments" :key="i" class="assign-row">
-              <select v-model="a.class_id" class="form-input" style="flex:2;min-width:140px;">
-                <option :value="null">请选择班级</option>
-                <option v-for="c in filteredCreateClasses" :key="c.id" :value="c.id">{{ c.name }}</option>
-              </select>
-              <select v-model="a.role" class="form-input" style="flex:1;min-width:100px;">
-                <option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option>
-              </select>
-              <select v-model="a.subject" class="form-input" style="flex:1;min-width:90px;">
-                <option value="">默认科目</option>
-                <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
-              </select>
-              <button class="btn btn-xs" style="background:#fee2e2;color:#dc2626;border:none;flex-shrink:0;" @click="removeCreateAssignment(i)">&#x2715;</button>
-            </div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.6);padding:2px 4px;background:rgba(255,255,255,0.02);border-radius:6px;border-left:2px solid rgba(167,139,250,0.1);margin:3px 0;">💡 不设置此项，后续可登录后自行加入班级</div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);" @click="showCreateModal = false">取消</button>
-          <button class="btn btn-primary" :disabled="createLoading" @click="submitCreate">{{ createLoading ? '创建中...' : '创建账号' }}</button>
+        <div style="display:flex;gap:5px;margin-top:5px;padding-top:5px;border-top:1px solid rgba(255,255,255,0.04);">
+          <button @click="showCreateModal = false" style="flex:1;padding:3px 0;border-radius:30px;font-size:11px;font-weight:600;cursor:pointer;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);height:24px;">取消</button>
+          <button @click="submitCreate" :disabled="createLoading" style="flex:1;padding:3px 0;border-radius:30px;font-size:11px;font-weight:600;cursor:pointer;background:linear-gradient(135deg,#a78bfa,#f472b6);color:#fff;border:none;height:24px;box-shadow:0 2px 12px rgba(167,139,250,0.15);">{{ createLoading ? '创建中...' : '创建账号' }}</button>
         </div>
       </div>
     </div>
   </Teleport>
 
-  <Teleport to="body">
-    <div v-if="showEditModal" class="modal-overlay" >
+  <div v-if="showEditModal" class="modal-overlay" >
       <div class="modal-panel" style="max-width:520px;">
         <div class="modal-header"><h3>编辑「{{ editTarget?.name }}」</h3><button class="close-btn" @click="showEditModal = false">&times;</button></div>
         <div class="modal-body">
