@@ -1,0 +1,2 @@
+.page { padding: 16rpx; }
+.score-item { margin-bottom: 8rpx; }

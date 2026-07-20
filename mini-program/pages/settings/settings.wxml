@@ -1,0 +1,18 @@
+<view class="page">
+  <view class="card" style="margin-bottom:16rpx;">
+    <text style="font-size:32rpx;font-weight:700;">⚙️ 设置</text>
+  </view>
+  <view class="card" style="margin-bottom:12rpx;">
+    <text style="font-size:28rpx;font-weight:600;display:block;margin-bottom:8rpx;">账号信息</text>
+    <text style="font-size:26rpx;color:#64748B;display:block;" wx:if="{{userInfo}}">角色: {{role === 'teacher' ? '教师' : role === 'admin' ? '管理员' : '家长'}}</text>
+    <text style="font-size:26rpx;color:#64748B;display:block;" wx:if="{{userInfo?.name}}">姓名: {{userInfo.name}}</text>
+  </view>
+  <view class="card" style="margin-bottom:12rpx;">
+    <text style="font-size:28rpx;font-weight:600;display:block;margin-bottom:8rpx;">服务器地址</text>
+    <view style="display:flex;align-items:center;gap:8rpx;">
+      <text style="font-size:24rpx;color:#64748B;flex:1;">{{app.globalData.apiBase}}</text>
+      <view bindtap="copyApi" style="background:#F1F5F9;padding:8rpx 16rpx;border-radius:8rpx;font-size:24rpx;">复制</view>
+    </view>
+  </view>
+  <view bindtap="logout" style="margin:48rpx 16rpx;text-align:center;padding:24rpx;background:rgba(239,68,68,0.08);border-radius:16rpx;color:#EF4444;font-size:30rpx;font-weight:600;">退出登录</view>
+</view>

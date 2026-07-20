@@ -1,0 +1,26 @@
+<view class="page">
+  <view style="display:flex;gap:0;margin:16rpx;background:#F1F5F9;border-radius:12rpx;padding:4rpx;">
+    <view data-tab="shop" bindtap="switchTab" style="flex:1;text-align:center;padding:12rpx;border-radius:10rpx;font-size:26rpx;{{tab==='shop'?'background:#4F46E5;color:white;':'color:#64748B;'}}">商品</view>
+    <view data-tab="redemptions" bindtap="switchTab" style="flex:1;text-align:center;padding:12rpx;border-radius:10rpx;font-size:26rpx;{{tab==='redemptions'?'background:#4F46E5;color:white;':'color:#64748B;'}}">兑换记录</view>
+  </view>
+
+  <view wx:if="{{tab === 'shop'}}">
+    <view wx:for="{{items}}" wx:key="id" class="card" style="margin:8rpx 16rpx;">
+      <view style="display:flex;justify-content:space-between;align-items:center;">
+        <view><text style="font-weight:600;font-size:28rpx;">{{item.name}}</text><text style="font-size:24rpx;color:#64748B;display:block;">库存: {{item.stock || '不限'}}</text></view>
+        <text style="font-size:32rpx;color:#F59E0B;font-weight:700;">{{item.cost}}分</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{tab === 'redemptions'}}">
+    <view wx:for="{{redemptions}}" wx:key="id" class="card" style="margin:8rpx 16rpx;">
+      <view style="display:flex;justify-content:space-between;align-items:center;">
+        <view><text style="font-weight:600;font-size:28rpx;">{{item.student_name}} · {{item.item_name}}</text><text style="font-size:24rpx;color:#64748B;">{{item.status === 'pending' ? '待审核' : item.status === 'approved' ? '已通过' : '已拒绝'}}</text></view>
+        <view wx:if="{{item.status === 'pending'}}" data-id="{{item.id}}" bindtap="approve" style="background:#4F46E5;color:white;padding:8rpx 20rpx;border-radius:10rpx;font-size:24rpx;">通过</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" style="text-align:center;padding:48rpx;color:#64748B;">加载中...</view>
+</view>

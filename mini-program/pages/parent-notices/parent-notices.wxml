@@ -1,0 +1,10 @@
+<view class="page">
+  <view class="card"><text style="font-size:32rpx;font-weight:700;">📢 学校通知</text></view>
+  <view wx:for="{{notices}}" wx:key="id" class="card" style="margin:8rpx 16rpx;" data-id="{{item.id}}" bindtap="read">
+    <text style="font-weight:600;font-size:28rpx;">{{item.title}}</text>
+    <text style="font-size:26rpx;color:#64748B;display:block;margin-top:4rpx;">{{item.content}}</text>
+    <text style="font-size:22rpx;color:#94A3B8;display:block;margin-top:4rpx;">{{item.created_at || item.published_at}}</text>
+  </view>
+  <view wx:if="{{loading}}" style="text-align:center;padding:48rpx;color:#64748B;">加载中...</view>
+  <view wx:if="{{!loading && notices.length === 0}}" style="text-align:center;padding:48rpx;color:#64748B;">暂无通知</view>
+</view>

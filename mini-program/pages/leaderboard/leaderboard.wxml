@@ -1,0 +1,24 @@
+<view class="page">
+  <view style="display:flex;gap:0;margin:16rpx;background:#F1F5F9;border-radius:12rpx;padding:4rpx;">
+    <view wx:for="{{['total','weekly','pet']}}" wx:key="*this" data-tab="{{item}}" bindtap="switchTab"
+      style="flex:1;text-align:center;padding:12rpx;border-radius:10rpx;font-size:26rpx;font-weight:500;
+        {{tab === item ? 'background:#4F46E5;color:white;' : 'color:#64748B;'}}">
+      {{item === 'total' ? '总积分' : item === 'weekly' ? '周增长' : '宠物等级'}}
+    </view>
+  </view>
+
+  <view wx:for="{{tab === 'total' ? totalList : tab === 'weekly' ? weeklyList : petList}}" wx:key="*this" class="card" style="margin:8rpx 16rpx;">
+    <view style="display:flex;align-items:center;gap:12rpx;">
+      <text style="font-size:36rpx;font-weight:700;min-width:60rpx;text-align:center;">
+        {{medal(index + 1)}}
+      </text>
+      <text style="font-size:32rpx;">{{item.emoji || '👤'}}</text>
+      <view style="flex:1;">
+        <text style="font-weight:600;font-size:28rpx;">{{item.student_name || item.name}}</text>
+        <text style="font-size:24rpx;color:#64748B;display:block;">{{item.total_score || item.score || item.level || 0}} 分</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" style="text-align:center;padding:48rpx;color:#64748B;">加载中...</view>
+</view>

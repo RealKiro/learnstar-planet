@@ -1,0 +1,17 @@
+<view class="page">
+  <view class="card" style="margin-bottom:16rpx;">
+    <text style="font-size:32rpx;font-weight:700;">📢 班级通知</text>
+  </view>
+  <view wx:for="{{notices}}" wx:key="id" class="card" style="margin:8rpx 16rpx;">
+    <view style="display:flex;justify-content:space-between;align-items:center;">
+      <view style="flex:1;">
+        <text style="font-weight:600;font-size:28rpx;">{{item.title}}</text>
+        <text style="font-size:24rpx;color:#64748B;display:block;margin-top:4rpx;">{{item.content}}</text>
+        <text style="font-size:22rpx;color:#94A3B8;display:block;margin-top:4rpx;">{{item.created_at}}</text>
+      </view>
+      <view wx:if="{{!item.is_published}}" data-id="{{item.id}}" bindtap="publish" style="background:#4F46E5;color:white;padding:8rpx 20rpx;border-radius:10rpx;font-size:24rpx;margin-left:12rpx;">发布</view>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" style="text-align:center;padding:48rpx;color:#64748B;">加载中...</view>
+  <view wx:if="{{!loading && notices.length === 0}}" style="text-align:center;padding:48rpx;color:#64748B;">暂无通知</view>
+</view>

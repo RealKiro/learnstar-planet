@@ -1,0 +1,13 @@
+<view class="page">
+  <view class="card"><text style="font-size:32rpx;font-weight:700;">👪 家长端</text></view>
+  <view wx:for="{{children}}" wx:key="id" class="card" style="margin:8rpx 16rpx;">
+    <text style="font-weight:600;font-size:28rpx;">{{item.name}}</text>
+    <text style="font-size:24rpx;color:#64748B;display:block;">积分: {{item.score || 0}} | 排名: {{item.rank || '-'}}</text>
+    <view style="display:flex;gap:8rpx;margin-top:8rpx;">
+      <view class="btn-primary" style="flex:1;font-size:24rpx;padding:12rpx;" bindtap="wx.navigateTo({url:'/pages/parent-scores/parent-scores?student_id='+item.id})">积分</view>
+      <view class="btn-primary" style="flex:1;font-size:24rpx;padding:12rpx;" bindtap="wx.navigateTo({url:'/pages/parent-growth/parent-growth?student_id='+item.id})">成长</view>
+      <view class="btn-primary" style="flex:1;font-size:24rpx;padding:12rpx;" bindtap="wx.navigateTo({url:'/pages/parent-ranking/parent-ranking?student_id='+item.id})">排行</view>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" style="text-align:center;padding:48rpx;color:#64748B;">加载中...</view>
+</view>

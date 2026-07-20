@@ -1,0 +1,26 @@
+<view class="page">
+  <view class="card" style="margin-bottom:16rpx;">
+    <text style="font-size:32rpx;font-weight:700;">✏️ 积分管理</text>
+  </view>
+
+  <view class="card" style="margin-bottom:16rpx;" wx:if="{{rules.length > 0}}">
+    <text style="font-size:28rpx;font-weight:600;margin-bottom:12rpx;display:block;">选择积分规则</text>
+    <picker mode="selector" range="{{rules}}" range-key="name" bindchange="onRuleChange">
+      <view class="picker-box">{{selectedRule || '请选择规则'}}</view>
+    </picker>
+  </view>
+
+  <view wx:for="{{students}}" wx:key="id" class="card student-card" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="giveScore">
+    <view style="display:flex;align-items:center;gap:16rpx;">
+      <text style="font-size:40rpx;">{{item.pet_emoji || '👤'}}</text>
+      <view style="flex:1;">
+        <text style="font-weight:600;font-size:28rpx;">{{item.name}}</text>
+        <text style="font-size:24rpx;color:#64748B;display:block;">积分: {{item.total_score || 0}}</text>
+      </view>
+      <text style="color:#4F46E5;font-size:24rpx;">点击操作</text>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" style="text-align:center;padding:48rpx;color:#64748B;">加载中...</view>
+  <view wx:if="{{!loading && students.length === 0}}" style="text-align:center;padding:48rpx;color:#64748B;">暂无学生数据</view>
+</view>

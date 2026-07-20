@@ -1,0 +1,2 @@
+.page { padding: 16rpx; }
+.student-item { margin-bottom: 12rpx; }

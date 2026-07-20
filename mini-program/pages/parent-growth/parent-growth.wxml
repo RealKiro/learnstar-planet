@@ -1,0 +1,24 @@
+<view class="page">
+  <view wx:if="{{pet}}" class="page">
+    <view class="pet-hero">
+      <text class="pet-hero-emoji">{{pet.emoji || '🐣'}}</text>
+      <text class="pet-hero-stage">{{pet.name || '未孵化'}}</text>
+      <text style="font-size:28rpx;color:#64748B;">Lv.{{pet.level || 0}} {{pet.stage_name || ''}}</text>
+      <view style="margin-top:16rpx;">
+        <view class="progress-bar" style="margin-bottom:4rpx;">
+          <view class="progress-fill" style="width:{{pet.exp_percent || 0}}%;"></view>
+        </view>
+        <text style="font-size:22rpx;color:#94A3B8;">经验 {{pet.experience || 0}}/{{pet.next_level_exp || 100}}</text>
+      </view>
+      <view bindtap="feed" style="margin-top:24rpx;background:#4F46E5;color:white;padding:16rpx 48rpx;border-radius:16rpx;font-size:28rpx;display:inline-block;">🍼 喂养</view>
+    </view>
+    <view class="card" style="margin-top:16rpx;">
+      <text style="font-size:28rpx;font-weight:600;">成长记录</text>
+      <view wx:for="{{pet.growth_log || []}}" wx:key="*this" style="padding:12rpx 0;border-bottom:1rpx solid #E2E8F0;">
+        <text style="font-size:26rpx;">{{item.text}}</text>
+        <text style="font-size:22rpx;color:#94A3B8;display:block;">{{item.date}}</text>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" style="text-align:center;padding:48rpx;color:#64748B;">加载中...</view>
+</view>

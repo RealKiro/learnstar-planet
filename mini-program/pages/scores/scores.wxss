@@ -1,0 +1,3 @@
+.page { padding: 16rpx; }
+.student-card { margin-bottom: 12rpx; }
+.picker-box { padding: 20rpx; background:#F1F5F9; border-radius:12rpx; font-size:28rpx; }
