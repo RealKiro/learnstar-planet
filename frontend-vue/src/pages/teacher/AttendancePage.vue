@@ -153,11 +153,11 @@ async function confirmAbsent() {
 .source-tag.wechat_work { background: #DBEAFE; color: #1D4ED8 }
 .source-tag.manual { background: #FEF3C7; color: #92400E }
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 1000 }
-.modal-card { background: #fff; border-radius: 16px; width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,.15); overflow: hidden }
+.modal-card { background:var(--color-bg-card); border-radius: 16px; width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,.15); overflow: hidden }
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #f0f0f3 }
 .modal-header h3 { font-size: 16px; font-weight: 700; margin: 0 }
 .modal-close { background: none; border: none; font-size: 22px; color: #86868b; cursor: pointer; padding: 0; line-height: 1 }
-.modal-close:hover { color: #1d1d1f }
+.modal-close:hover { color:var(--color-text) }
 .modal-body { padding: 20px }
 .modal-footer { display: flex; gap: 8px; justify-content: flex-end; padding: 16px 20px; border-top: 1px solid #f0f0f3 }
 </style>

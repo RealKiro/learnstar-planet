@@ -457,15 +457,15 @@ onMounted(refreshTeachers)
 .tag { font-size:11px;padding:2px 8px;border-radius:8px;font-weight:500;border:1px solid transparent; }
 .tag.binding { background:rgba(79,70,229,0.06);color:#7c3aed;border-color:rgba(79,70,229,0.15); }
 .card-actions { display:flex;gap:4px;flex-shrink:0; }
-.action-btn { width:34px;height:34px;border-radius:8px;border:1px solid var(--color-border);background:white;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s; }
+.action-btn { width:34px;height:34px;border-radius:8px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s; }
 .action-btn:hover { background:#f9fafb;border-color:#e5e7eb; }
 .action-btn.assign:hover { background:#ede9fe;border-color:#c4b5fd; }
 .action-btn.danger:hover { background:#fee2e2;border-color:#fecaca; }
-.data-table { width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;border:1px solid var(--color-border); }
+.data-table { width:100%;border-collapse:collapse;background:var(--color-bg-card);border-radius:12px;overflow:hidden;border:1px solid var(--color-border); }
 .data-table th { background:#f9fafb;font-size:12px;font-weight:600;color:#6b7280;text-align:left;padding:10px 14px;border-bottom:1px solid #e5e7eb;white-space:nowrap; }
 .data-table td { padding:10px 14px;border-bottom:1px solid #f3f4f6;font-size:13px; }
 .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px); }
-.modal-panel { background:white;border-radius:16px;padding:28px 32px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.12); }
+.modal-panel { background:var(--color-bg-card);border-radius:16px;padding:28px 32px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.12); }
 .modal-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:20px; }
 .modal-header h3 { font-size:17px;font-weight:700;margin:0; }
 .close-btn { background:none;border:none;font-size:22px;cursor:pointer;color:#9ca3af;padding:0;line-height:1; }

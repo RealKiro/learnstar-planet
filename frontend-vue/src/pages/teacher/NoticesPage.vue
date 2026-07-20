@@ -52,7 +52,7 @@ const typeLabels: Record<string, string> = { info: '通知', event: '活动', ur
     <Teleport to="body">
       <div v-if="showCreate" @click.self="showCreate = false"
         style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:#fff;border-radius:16px;padding:24px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+        <div style="background:var(--color-bg-card);border-radius:16px;padding:24px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
           <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">发布通知</h3>
           <div class="form-group" style="margin-bottom:12px;">
             <label>类型</label>
