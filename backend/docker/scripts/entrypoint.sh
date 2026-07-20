@@ -85,6 +85,10 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
     php artisan db:seed --class=AdminUserSeeder --force 2>/dev/null || true
     echo "✅ 管理员账号已就绪"
 
+    # 创建内置 Demo 教师账号（首次部署，可手动删除）
+    php artisan db:seed --class=DemoTeacherSeeder --force 2>/dev/null || true
+    echo "✅ 管理员账号已就绪"
+
     # 创建存储链接
     echo "🔗 创建存储链接..."
     php artisan storage:link --force 2>/dev/null || true

@@ -902,7 +902,7 @@ class DisplayController extends Controller
             'given_by' => $teacherId,
         ]);
         } catch (Throwable $e) {
-            Log::error("classroomGiveScore failed: " . $e->getMessage());
+            Log::error('classroomGiveScore failed: ' . $e->getMessage());
             return response()->json(["message" => "操作失败: " . $e->getMessage()], 500);
         }
 
