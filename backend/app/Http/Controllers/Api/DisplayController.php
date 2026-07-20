@@ -189,7 +189,7 @@ class DisplayController extends Controller
         // 记录登录日志（含 IP 地址）
         try {
             DisplayLoginLog::create([
-                'class_id' => $classId,
+            'class_id' => $classId,
                 'class_code' => $code,
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
@@ -257,7 +257,7 @@ class DisplayController extends Controller
                     'mood' => 80,
                 ]);
                 $s->load('pet');
-            }
+        }
         }
 
         $pets = $this->formatPets($students);
@@ -270,8 +270,8 @@ class DisplayController extends Controller
             ->get()
             ->map(fn (Score $s) => [
                 'student_name' => $s->student?->name,
-                'amount' => $s->amount,
-                'reason' => $s->reason,
+            'amount' => $s->amount,
+            'reason' => $s->reason,
                 'time' => $s->created_at?->diffForHumans(),
             ]);
 
@@ -340,7 +340,7 @@ class DisplayController extends Controller
             // 关闭输出缓冲
             if (ob_get_level()) {
                 ob_end_clean();
-            }
+        }
 
             $startTime = time();
             $lastHeartbeat = 0;
@@ -380,10 +380,10 @@ class DisplayController extends Controller
                 // 休眠一小段时间以减少 CPU 占用
                 if (empty($events)) {
                     usleep(2_000_000); // 2 秒
-                } else {
+            } else {
                     usleep(500_000); // 有事件时加快响应
                 }
-            }
+        }
 
             // 优雅关闭：发送重连指示
             echo "event: reconnect\n";
@@ -430,7 +430,7 @@ class DisplayController extends Controller
         foreach ($events as $e) {
             if (($e['id'] ?? 0) > $maxId) {
                 $maxId = $e['id'];
-            }
+        }
         }
 
         return response()->json([
@@ -521,7 +521,7 @@ class DisplayController extends Controller
             $bearer = $request->bearerToken();
             if ($bearer && (str_starts_with($bearer, 'disp_') || str_starts_with($bearer, 'class_'))) {
                 $token = $bearer;
-            }
+        }
         }
 
         if (empty($token)) {
@@ -541,7 +541,7 @@ class DisplayController extends Controller
             $classId = Cache::get('class_token:' . $token);
             if ($classId) {
                 return ['class_id' => $classId];
-            }
+        }
 
             return null;
         }
@@ -559,7 +559,7 @@ class DisplayController extends Controller
             $stage = $this->getPetStageInfo($pet->level ?? 0, $pet->type ?? null);
 
             return [
-                'student_id' => $s->id,
+            'student_id' => $s->id,
                 'student_no' => $s->student_no ?? '',
                 'student_name' => $s->name,
                 'total_score' => $s->total_score,
@@ -699,7 +699,7 @@ class DisplayController extends Controller
         try {
             $this->scoreService->spendScore($student, $item->cost_score, '兑换：' . $item->name, $teacherId ?: 1);
             ShopRedemption::create([
-                'student_id' => $student->id, 'shop_item_id' => $item->id, 'class_id' => $classId,
+            'student_id' => $student->id, 'shop_item_id' => $item->id, 'class_id' => $classId,
                 'cost' => $item->cost_score, 'status' => 'approved', 'approved_by' => $teacherId, 'approved_at' => now(),
             ]);
 
@@ -887,7 +887,7 @@ class DisplayController extends Controller
                 $student->pet->addExperience($amount);
             } else {
                 $student->pet->removeExperience(abs($amount));
-            }
+        }
         }
 
         $teacherId = $this->getClassTeacherId($classId);
@@ -931,7 +931,7 @@ class DisplayController extends Controller
             ->get()
             ->map(fn (Pet $p) => [
                 'id' => $p->id,
-                'student_id' => $p->student_id,
+            'student_id' => $p->student_id,
                 'student_name' => $p->student->name,
                 'name' => $p->name,
                 'species' => $p->species,
@@ -1090,7 +1090,7 @@ class DisplayController extends Controller
                 }
                 $student->total_score -= $cost;
                 $student->save();
-            }
+        }
 
             // 保留等级和经验，只换种类
             $pet->type = $newSpecies;

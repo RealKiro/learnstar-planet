@@ -221,7 +221,7 @@ onMounted(refreshTeachers)
   </div>
 
   <Teleport to="body">
-    <div v-if="showCreateModal" class="modal-overlay" @click.self="if(!createLoading) showCreateModal = false">
+    <div v-if="showCreateModal" class="modal-overlay" @click.self="createLoading || (showCreateModal = false)">
       <div class="modal-panel" style="max-width:580px;">
         <div class="modal-header">
           <h3>创建教师账号</h3>
