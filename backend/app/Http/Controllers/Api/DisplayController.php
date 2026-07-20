@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Broadcast;
 use App\Models\ClassRoom;
 use App\Models\ClassRoomTeacher;
-use Throwable;
 use App\Models\DisplayLoginLog;
 use App\Models\Pet;
 use App\Models\Score;
@@ -31,6 +30,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * 1. 教师端：生成/刷新班级大屏码
 use Illuminate\Support\Facades\Log;
  * 2. 显示端：班级码 → Token 认证
+use Throwable;
  * 3. 显示端：SSE 长连接 + 轮询降级
  * 4. 显示端：初始全量数据加载
  *
