@@ -97,6 +97,7 @@ Route::prefix('v1')->group(function () {
         Route::get('display-login-logs', [SchoolAdminController::class, 'displayLoginLogs']);
         Route::prefix('system')->group(function () {
             Route::get('diagnose', [SchoolAdminController::class, 'systemDiagnose']);
+            Route::get('status', [SchoolAdminController::class, 'systemStatus']);
             Route::post('repair', [SchoolAdminController::class, 'systemRepair']);
         });
     });

@@ -19,8 +19,8 @@ Route::get('/debug', function (\Illuminate\Http\Request $req) {
     // 1. PHP 基本信息
     $results[] = ['test' => 'PHP 版本', 'result' => phpversion()];
     $results[] = ['test' => 'Laravel 版本', 'result' => app()->version()];
-    $results[] = ['test' => 'APP_ENV', 'result' => env('APP_ENV', '未设置')];
-    $results[] = ['test' => 'APP_DEBUG', 'result' => env('APP_DEBUG', '未设置') ? 'true' : 'false'];
+    $results[] = ['test' => 'APP_ENV', 'result' => config('app.env', '未设置')];
+    $results[] = ['test' => 'APP_DEBUG', 'result' => config('app.debug', false) ? 'true' : 'false'];
 
     // 2. 数据库连接测试
     try {
@@ -85,12 +85,12 @@ Route::get('/debug', function (\Illuminate\Http\Request $req) {
         $results[] = ['test' => 'Artisan demo:seed 调用', 'result' => '❌ 错误: ' . $e->getMessage()];
     }
 
-    // 7. 模拟前端调用方式：带 Bearer token（读取前端实际使用的 localStorage key）
+    // 7. 检查当前认证状态
     try {
-        $token = \Illuminate\Support\Facades\Auth::guard('sanctum')->user()?->currentAccessToken()?->token ?? 'none';
-        $results[] = ['test' => '当前认证方式', 'result' => $token !== 'none' ? '✅ 已认证' : 'ℹ️ 未登录（debug 页面无需登录）'];
+        $user = \Illuminate\Support\Facades\Auth::guard('sanctum')->user();
+        $results[] = ['test' => '当前认证状态', 'result' => $user ? '✅ 已登录: ' . $user->name : 'ℹ️ 未登录（debug 页面无需登录）'];
     } catch (\Throwable $e) {
-        $results[] = ['test' => '认证检查', 'result' => 'ℹ️ 未登录: ' . $e->getMessage()];
+        $results[] = ['test' => '认证检查', 'result' => 'ℹ️ 检查失败: ' . $e->getMessage()];
     }
 
     return response()->json(['results' => $results]);

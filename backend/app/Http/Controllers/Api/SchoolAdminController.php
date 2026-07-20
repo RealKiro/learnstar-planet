@@ -1668,4 +1668,48 @@ class SchoolAdminController extends Controller
         }
     }
 
+    /**
+     * 系统状态：版本信息 + 迁移记录
+     */
+    public function systemStatus(): JsonResponse
+    {
+        try {
+            // 版本信息
+            $version = [
+                'php' => phpversion(),
+                'laravel' => app()->version(),
+                'app_env' => config('app.env'),
+                'app_debug' => config('app.debug') ? 'true' : 'false',
+                'app_url' => config('app.url'),
+            ];
+
+            // 迁移记录
+            $migrations = [];
+            try {
+                $rows = \Illuminate\Support\Facades\DB::table('migrations')
+                    ->orderBy('batch')
+                    ->orderBy('id')
+                    ->get();
+                foreach ($rows as $row) {
+                    $migrations[] = [
+                        'migration' => $row->migration,
+                        'batch' => $row->batch,
+                    ];
+                }
+            } catch (\Throwable $e) {
+                $migrations = ['error' => $e->getMessage()];
+            }
+
+            return response()->json([
+                'data' => [
+                    'version' => $version,
+                    'migrations' => $migrations,
+                    'migration_count' => is_array($migrations) ? count($migrations) : 0,
+                ],
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => '获取状态失败: ' . $e->getMessage()], 500);
+        }
+    }
+
 }
