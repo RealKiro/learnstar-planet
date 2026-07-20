@@ -102,6 +102,16 @@ onMounted(async () => {
           <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:15px;">
             <span>总积分</span><span style="font-weight:700;">{{ myScore.toLocaleString() }}</span>
           </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:15px;">
+            <span>当前排名</span><span style="font-weight:700;">#{{ myRank }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:15px;">
+            <span>与第1名差距</span><span style="font-weight:700;color:#F59E0B;">{{ gapToFirst.toLocaleString() }} 分</span>
+          </div>
+          <div v-if="classes[1]" style="display:flex;justify-content:space-between;padding:8px 0;font-size:15px;">
+            <span>超越前1名需要</span>
+            <span style="font-weight:700;">{{ (classes[myRank-2]?.totalScore || 0) - myScore > 0 ? ((classes[myRank-2]?.totalScore || 0) - myScore).toLocaleString() + ' 分' : '-' }}</span>
+          </div>
         </div>
         <div style="background:rgba(255,255,255,0.02);border-radius:var(--md-radius);padding:20px 24px;border:1px solid rgba(255,255,255,0.04);">
           <h4 style="font-size:14px;color:var(--md-text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">⚔️ 挑战建议</h4>
