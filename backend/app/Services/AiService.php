@@ -165,6 +165,78 @@ class AiService
         return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://ark.cn-beijing.volces.com/api/v3', $maxTokens);
     }
 
+    // ===== 新增国内产商（OpenAI 兼容） =====
+    private function callMinimax(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.minimax.chat/v1', $maxTokens);
+    }
+    private function callBaichuan(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.baichuan-ai.com/v1', $maxTokens);
+    }
+    private function callStepfun(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.stepfun.com/v1', $maxTokens);
+    }
+    private function callLingyi(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.lingyiwanwu.com/v1', $maxTokens);
+    }
+
+    // ===== 国际产商（OpenAI 兼容） =====
+    private function callMistral(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.mistral.ai/v1', $maxTokens);
+    }
+    private function callCohere(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.cohere.ai/v1', $maxTokens);
+    }
+    private function callPerplexity(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.perplexity.ai/v1', $maxTokens);
+    }
+    private function callAi21(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.ai21.com/studio/v1', $maxTokens);
+    }
+
+    // ===== 聚合平台（OpenAI 兼容） =====
+    private function callTogether(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.together.xyz/v1', $maxTokens);
+    }
+    private function callFireworks(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.fireworks.ai/inference/v1', $maxTokens);
+    }
+    private function callGroq(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.groq.com/openai/v1', $maxTokens);
+    }
+    private function callReplicate(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.replicate.com/v1', $maxTokens);
+    }
+    private function callAnyscale(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://api.endpoints.anyscale.com/v1', $maxTokens);
+    }
+    private function callAzure(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'https://models.inference.ai.azure.com/v1', $maxTokens);
+    }
+
+    // ===== 本地自托管 =====
+    private function callOllama(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'http://localhost:11434/v1', $maxTokens);
+    }
+    private function callVllm(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
+    {
+        return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase ?: 'http://localhost:8000/v1', $maxTokens);
+    }
+
     private function callMcp(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
     {
         if (empty($apiBase)) {

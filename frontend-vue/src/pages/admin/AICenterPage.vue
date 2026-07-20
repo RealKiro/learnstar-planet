@@ -27,24 +27,49 @@ const saving = ref(false)
 const activeTab = ref<'settings' | 'usage' | 'logs'>('settings')
 const showApiKey = ref(false)
 
-const providers = [
-  { id: 'openai', label: 'OpenAI', models: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o', 'gpt-4o-mini'] },
-  { id: 'claude', label: 'Anthropic Claude', models: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus', 'claude-3-5-sonnet'] },
-  { id: 'google', label: 'Google Gemini', models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash'] },
-  { id: 'grok', label: 'xAI Grok', models: ['grok-1', 'grok-2', 'grok-2-mini'] },
-  { id: 'moonshot', label: '月之暗面 Kimi', models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'] },
-  { id: 'bytedance', label: '豆包（字节跳动）', models: ['doubao-1.5-pro', 'doubao-1.5-lite', 'doubao-pro'] },
-  { id: 'qwen', label: '通义千问（阿里）', models: ['qwen-turbo', 'qwen-plus', 'qwen-max', 'qwen2-72b-instruct'] },
-  { id: 'deepseek', label: 'DeepSeek（深度求索）', models: ['deepseek-chat', 'deepseek-coder', 'deepseek-r1', 'deepseek-v3'] },
-  { id: 'ernie', label: '文心一言（百度）', models: ['ernie-4.0', 'ernie-3.5', 'ernie-speed'] },
-  { id: 'hunyuan', label: '混元（腾讯）', models: ['hunyuan-lite', 'hunyuan-standard', 'hunyuan-pro'] },
-  { id: 'glm', label: 'GLM（智谱）', models: ['glm-4', 'glm-4-plus', 'glm-4-air'] },
-  { id: 'spark', label: '星火（讯飞）', models: ['spark-3.0', 'spark-4.0'] },
-  { id: 'siliconflow', label: '硅基流动 (SiliconFlow)', models: ['Pro/DeepSeek-V3', 'Pro/Qwen2.5-72B', 'Pro/GLM-4-9B', 'Pro/Llama-3.3-70B'] },
-  { id: 'nvidia', label: 'NVIDIA NIM', models: ['nvidia/llama-3.1-nemotron', 'nvidia/nemotron-4', 'meta/llama-3.1-8b'] },
-  { id: 'openrouter', label: 'OpenRouter', models: ['openrouter/auto', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'google/gemini-2.0-flash'] },
-  { id: 'mcp', label: 'MCP 通用接口', models: ['mcp-default'] },
+const providerGroups = [
+  { group: '🌐 国际主流', items: [
+    { id: 'openai', label: 'OpenAI', models: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o', 'gpt-4o-mini', 'o1', 'o1-mini'] },
+    { id: 'claude', label: 'Anthropic Claude', models: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus', 'claude-3-5-sonnet', 'claude-3-5-haiku'] },
+    { id: 'google', label: 'Google Gemini', models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash', 'gemini-2.0-pro'] },
+    { id: 'grok', label: 'xAI Grok', models: ['grok-1', 'grok-2', 'grok-2-mini'] },
+    { id: 'mistral', label: 'Mistral AI', models: ['mistral-large', 'mistral-small', 'ministral-3b', 'codestral'] },
+    { id: 'cohere', label: 'Cohere', models: ['command-r', 'command-r-plus', 'command-nightly'] },
+    { id: 'perplexity', label: 'Perplexity', models: ['sonar-pro', 'sonar-reasoning', 'sonar-deep-research'] },
+    { id: 'ai21', label: 'AI21 Labs', models: ['jamba-1.5', 'jamba-1.5-mini'] },
+  ]},
+  { group: '🇨🇳 国内产商', items: [
+    { id: 'qwen', label: '通义千问（阿里）', models: ['qwen-turbo', 'qwen-plus', 'qwen-max', 'qwen2-72b-instruct', 'qwen2.5-72b'] },
+    { id: 'deepseek', label: 'DeepSeek（深度求索）', models: ['deepseek-chat', 'deepseek-coder', 'deepseek-r1', 'deepseek-v3'] },
+    { id: 'moonshot', label: '月之暗面 Kimi', models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'] },
+    { id: 'bytedance', label: '豆包（字节跳动）', models: ['doubao-1.5-pro', 'doubao-1.5-lite', 'doubao-pro', 'doubao-pro-32k'] },
+    { id: 'minimax', label: 'MiniMax（稀宇）', models: ['minimax-text-01', 'minimax-abab-6.5', 'minimax-abab-5.5'] },
+    { id: 'baichuan', label: '百川智能', models: ['baichuan4', 'baichuan3-turbo', 'baichuan2-53b'] },
+    { id: 'stepfun', label: '阶跃星辰 StepFun', models: ['step-2-16k', 'step-1-32k', 'step-1-flash'] },
+    { id: 'lingyi', label: '零一万物 Yi', models: ['yi-large', 'yi-medium', 'yi-spark', 'yi-vision'] },
+    { id: 'ernie', label: '文心一言（百度）', models: ['ernie-4.0', 'ernie-3.5', 'ernie-speed', 'ernie-lite'] },
+    { id: 'hunyuan', label: '混元（腾讯）', models: ['hunyuan-lite', 'hunyuan-standard', 'hunyuan-pro'] },
+    { id: 'glm', label: 'GLM（智谱）', models: ['glm-4', 'glm-4-plus', 'glm-4-air', 'glm-4-flash'] },
+    { id: 'spark', label: '星火（讯飞）', models: ['spark-3.0', 'spark-4.0', 'spark-lite'] },
+  ]},
+  { group: '🔗 聚合平台 / 云服务', items: [
+    { id: 'openrouter', label: 'OpenRouter', models: ['openrouter/auto', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'google/gemini-2.0-flash', 'meta-llama/llama-3.3-70b'] },
+    { id: 'siliconflow', label: '硅基流动 SiliconFlow', models: ['Pro/DeepSeek-V3', 'Pro/Qwen2.5-72B', 'Pro/GLM-4-9B', 'Pro/Llama-3.3-70B'] },
+    { id: 'together', label: 'Together AI', models: ['meta-llama/Llama-3.3-70B', 'mistralai/Mixtral-8x7B', 'deepseek-ai/DeepSeek-V3'] },
+    { id: 'fireworks', label: 'Fireworks AI', models: ['accounts/fireworks/models/llama-v3', 'accounts/fireworks/models/qwen2', 'accounts/fireworks/models/deepseek-v3'] },
+    { id: 'groq', label: 'Groq（LPU）', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'mixtral-8x7b-32768', 'gemma2-9b-it'] },
+    { id: 'nvidia', label: 'NVIDIA NIM', models: ['nvidia/llama-3.1-nemotron', 'nvidia/nemotron-4', 'meta/llama-3.1-8b'] },
+    { id: 'replicate', label: 'Replicate', models: ['meta/meta-llama-3-70b-instruct', 'mistralai/mistral-7b'] },
+    { id: 'anyscale', label: 'Anyscale', models: ['meta-llama/Llama-3.3-70B', 'mistralai/Mixtral-8x22B'] },
+    { id: 'azure', label: 'Azure OpenAI', models: ['gpt-4o', 'gpt-4-turbo', 'gpt-35-turbo'] },
+  ]},
+  { group: '🏠 本地 / 自托管', items: [
+    { id: 'ollama', label: 'Ollama（本地）', models: ['llama3.2', 'qwen2.5', 'deepseek-r1', 'mistral'] },
+    { id: 'vllm', label: 'vLLM（自定义）', models: ['vllm-default'] },
+    { id: 'mcp', label: 'MCP 通用接口', models: ['mcp-default'] },
+  ]},
 ]
+const providers = providerGroups.flatMap(g => g.items)
 
 const activeProvider = computed(() => providers.find(p => p.id === settings.value?.provider))
 
@@ -143,7 +168,9 @@ onMounted(loadData)
         <div class="form-group">
           <label>AI 提供商</label>
           <select v-model="settings.provider" class="form-input">
-            <option v-for="p in providers" :key="p.id" :value="p.id">{{ p.label }}</option>
+            <optgroup v-for="g in providerGroups" :key="g.group" :label="g.group">
+              <option v-for="p in g.items" :key="p.id" :value="p.id">{{ p.label }}</option>
+            </optgroup>
           </select>
         </div>
         <div class="form-group">
