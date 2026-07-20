@@ -415,7 +415,7 @@ class DisplayController extends Controller
             return response()->json(['message' => 'Token 无效或已过期'], 401);
         }
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $lastEventId = (int) ($request->input('last_event_id', 0));
 
         $events = [];
@@ -684,7 +684,7 @@ class DisplayController extends Controller
 
         $request->validate(['student_id' => 'required|integer', 'item_id' => 'required|integer']);
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $student = Student::where('class_id', $classId)->find((int) $request->input('student_id'));
         $item = ShopItem::where('class_id', $classId)->where('is_active', true)->find((int) $request->input('item_id'));
         if (!$student || !$item) {
@@ -722,7 +722,7 @@ class DisplayController extends Controller
 
         $request->validate(['from_id' => 'required|integer', 'to_id' => 'required|integer|different:from_id', 'amount' => 'required|integer|min:1|max:100']);
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $from = Student::where('class_id', $classId)->find((int) $request->input('from_id'));
         $to = Student::where('class_id', $classId)->find((int) $request->input('to_id'));
         $amount = (int) $request->input('amount');
@@ -760,7 +760,7 @@ class DisplayController extends Controller
             return response()->json(['message' => 'Token无效或已过期'], 401);
         }
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $class = ClassRoom::find($classId);
         if (!$class) {
             return response()->json(['message' => '班级不存在'], 404);
@@ -855,7 +855,7 @@ class DisplayController extends Controller
             'reason' => 'nullable|string|max:200',
         ]);
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $student = Student::where('class_id', $classId)->findOrFail((int) $request->input('student_id'));
         $amount = (int) $request->input('points');
         $reason = $request->input('reason', '课堂评价');
@@ -942,7 +942,7 @@ class DisplayController extends Controller
             return response()->json(['message' => 'Token无效或已过期'], 401);
         }
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $myClass = ClassRoom::find($classId);
         if (!$myClass || !$myClass->grade) {
             return response()->json(['data' => []]);
@@ -998,7 +998,7 @@ class DisplayController extends Controller
             return response()->json(['message' => '无效的系列ID'], 422);
         }
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $class = ClassRoom::findOrFail($classId);
 
         // 计算扣除总额：每人20积分
@@ -1058,7 +1058,7 @@ class DisplayController extends Controller
             'pet_species' => 'required|string|max:50',
         ]);
 
-        $classId = $classInfo['class_id'];
+        $classId = (int) $classInfo['class_id'];
         $student = Student::where('class_id', $classId)->findOrFail((int) $request->input('student_id'));
         $newSpecies = $request->input('pet_species');
 
