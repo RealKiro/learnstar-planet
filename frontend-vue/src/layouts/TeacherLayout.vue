@@ -42,7 +42,6 @@ const navItems = [
   ]},
   { section: '设置', items: [
     { page: 'teacher-settings', label: '账号设置', icon: '⚙️' },
-    { page: 'teacher-classroom', label: '大屏监控', icon: '🖥️' },
   ]},
 ]
 
