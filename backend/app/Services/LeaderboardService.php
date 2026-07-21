@@ -46,45 +46,36 @@ class LeaderboardService
 
     public function getClassTotalLeaderboard(int $classId, int $limit = 20): array
     {
-        $raw = Redis::zrevrange($this->classTotalKey($classId), 0, $limit - 1, true);
-
-        if (empty($raw)) {
-            // Redis无数据时从数据库回填
-            return $this->rebuildFromClassDB($classId, 'total_score', $limit);
-        }
-
-        return $this->enrichLeaderboard($classId, $raw);
+        try {
+            $raw = Redis::zrevrange($this->classTotalKey($classId), 0, $limit - 1, true);
+            if (!empty($raw)) return $this->enrichLeaderboard($classId, $raw);
+        } catch (Throwable $e) {}
+        return $this->rebuildFromClassDB($classId, 'total_score', $limit);
     }
 
     public function getClassWeeklyLeaderboard(int $classId, int $limit = 20): array
     {
         $raw = Redis::zrevrange($this->classWeeklyKey($classId), 0, $limit - 1, true);
-
-        if (empty($raw)) {
-            // 从DB计算本周积分增量
-            return $this->buildWeeklyFromDB($classId, $limit);
-        }
-
-        return $this->enrichLeaderboard($classId, $raw);
-    }
-
-    public function getPetLevelLeaderboard(int $classId, int $limit = 20): array
+    public function getClassWeeklyLeaderboard(int $classId, int $limit = 20): array
     {
+        try {
+            $raw = Redis::zrevrange($this->classWeeklyKey($classId), 0, $limit - 1, true);
+            if (!empty($raw)) return $this->enrichLeaderboard($classId, $raw);
+        } catch (Throwable $e) {}
+        return $this->buildWeeklyFromDB($classId, $limit);
+    }
         $raw = Redis::zrevrange($this->classPetLevelKey($classId), 0, $limit - 1, true);
 
         if (empty($raw)) {
             return $this->rebuildPetLevelFromDB($classId, $limit);
-        }
-
-        return $this->enrichLeaderboard($classId, $raw, true);
-    }
-
-    // ========== 内部方法 ==========
-
-    private function enrichLeaderboard(int $classId, array $raw, bool $isPet = false): array
+    public function getPetLevelLeaderboard(int $classId, int $limit = 20): array
     {
-        $studentIds = array_keys($raw);
-        $students = Student::whereIn('id', $studentIds)->with('pet')->get()->keyBy('id');
+        try {
+            $raw = Redis::zrevrange($this->classPetLevelKey($classId), 0, $limit - 1, true);
+            if (!empty($raw)) return $this->enrichLeaderboard($classId, $raw);
+        } catch (Throwable $e) {}
+        return $this->rebuildPetLevelFromDB($classId, $limit);
+    }
 
         $result = [];
         $rank = 1;
