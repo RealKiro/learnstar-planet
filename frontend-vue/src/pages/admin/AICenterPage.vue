@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { useToastStore } from '@/stores/toast'
 
 const toast = useToastStore()
@@ -87,8 +87,16 @@ const mcpConfigs = computed({
 const newMcp = ref({ name: '', api_key: '', api_base: '', model: 'mcp-default', is_active: false })
 const showAddMcp = ref(false)
 
+const mcpErrors = reactive<Record<string, string>>({})
+function mcpClr(f: string) { delete mcpErrors[f] }
+function mcpVld(): boolean {
+  if (!newMcp.value.name.trim()) { mcpErrors.name = '请输入 MCP 连接名称'; return false }
+  if (!newMcp.value.api_base.trim()) { mcpErrors.api_base = '请输入 API 地址'; return false }
+  return true
+}
 function addMcp() {
-  if (!newMcp.value.name || !newMcp.value.api_base) { toast.show('请输入名称和API地址', 'error'); return }
+  Object.keys(mcpErrors).forEach(k => delete mcpErrors[k])
+  if (!mcpVld()) return
   if (!settings.value?.providers) settings.value.providers = []
   settings.value.providers.push({
     id: 'mcp_' + Date.now(), label: newMcp.value.name,
@@ -274,8 +282,10 @@ onMounted(loadData)
             MCP（Model Context Protocol）通用接口可以连接任意兼容 OpenAI 格式的 API 服务，如自建 vLLM、AstrBot 机器人、本地大模型等。
           </p>
           <div v-if="showAddMcp" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;background:var(--color-bg);border-radius:8px;margin-bottom:12px;">
-            <div class="form-group"><label>名称（如：我的AstrBot）</label><input v-model="newMcp.name" class="form-input" placeholder="自定义名称"></div>
-            <div class="form-group"><label>模型</label><select v-model="newMcp.model" class="form-input"><option value="mcp-default">默认</option><option value="gpt-3.5-turbo">GPT-3.5</option><option value="gpt-4o">GPT-4o</option><option value="deepseek-chat">DeepSeek</option><option value="qwen-max">通义千问</option></select></div>
+            <div class="form-group"><label>名称（如：我的AstrBot）</label><input v-model="newMcp.name" class="form-input" :style="{ borderColor: mcpErrors.name ? '#f87171' : '' }" placeholder="自定义名称"></div>
+            <div v-if="mcpErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ mcpErrors.name }}</div>
+            <div class="form-group"><label>模型</label><select v-model="newMcp.model" class="form-input" :style="{ borderColor: mcpErrors.api_base ? '#f87171' : '' }"><option value="mcp-default">默认</option><option value="gpt-3.5-turbo">GPT-3.5</option><option value="gpt-4o">GPT-4o</option><option value="deepseek-chat">DeepSeek</option><option value="qwen-max">通义千问</option></select></div>
+            <div v-if="mcpErrors.api_base" style="color:#f87171;font-size:11px;margin-top:2px;">{{ mcpErrors.api_base }}</div>
             <div class="form-group"><label>API 地址 *</label><input v-model="newMcp.api_base" class="form-input" placeholder="http://你的服务器:8000/v1"></div>
             <div class="form-group"><label>API Key（可选）</label><input v-model="newMcp.api_key" class="form-input" placeholder="如有需要"></div>
             <div style="display:flex;gap:8px;align-items:end;">

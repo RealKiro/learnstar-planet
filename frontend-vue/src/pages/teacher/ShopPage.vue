@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiDelete } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
@@ -34,6 +34,13 @@ const categories = ref([
 ])
 const showAddForm = ref(false)
 const newItem = ref({ name: '', cost: 10, stock: 0, category: 'stationery', description: '' })
+const itemErrors = reactive<Record<string, string>>({})
+function iClr(f: string) { delete itemErrors[f] }
+function iVld(field: string): boolean {
+  if (field === 'name' && !newItem.value.name.trim()) { itemErrors.name = '请填写商品名称，如"铅笔"'; return false }
+  if (field === 'cost' && (!newItem.value.cost || newItem.value.cost < 1)) { itemErrors.cost = '积分至少为 1'; return false }
+  delete itemErrors[field]; return true
+}
 
 const filteredItems = computed(() => {
   if (!filterCategory.value) return items.value
@@ -114,10 +121,7 @@ async function deleteItem(item: ShopItemExt) {
 }
 
 async function addItem() {
-  if (!newItem.value.name || newItem.value.cost < 1) {
-    toast.show('请填写商品名称和价格', 'error')
-    return
-  }
+  if (!iVld('name') | !iVld('cost')) return
   try {
     await apiPost('/api/v1/teacher/shop/items', newItem.value)
     toast.show('商品已添加', 'success')
@@ -172,8 +176,8 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
     <div v-if="showAddForm" class="card" style="margin-bottom:24px;">
       <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">添加新奖品</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div class="form-group"><label>商品名称</label><input v-model="newItem.name" class="form-input" placeholder="如：课外图书"></div>
-        <div class="form-group"><label>所需积分</label><input v-model.number="newItem.cost" type="number" min="1" class="form-input"></div>
+        <div class="form-group"><label>商品名称 <span style="color:#f87171;">*</span></label><input v-model="newItem.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')"><div v-if="itemErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.name }}</div></div>
+        <div class="form-group"><label>所需积分 <span style="color:#f87171;">*</span></label><input v-model.number="newItem.cost" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost ? '#f87171' : '' }" @blur="iVld('cost')" @input="iClr('cost')"><div v-if="itemErrors.cost" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.cost }}</div></div>
         <div class="form-group"><label>库存（0=无限）</label><input v-model.number="newItem.stock" type="number" min="0" class="form-input"></div>
         <div class="form-group">
           <label>类别</label>
