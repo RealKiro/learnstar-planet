@@ -317,8 +317,7 @@ onMounted(() => loadTeachers(true))
             <div class="assign-body">
               <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="assign-row" :style="{ borderLeftColor: roleColors[a.role as Role] }">
                 <span class="ar-class">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
-                <span class="ar-subj">{{ a.subject || '—' }}</span>
-                <span class="ar-role">{{ roleLabel[a.role as Role] || a.role }}</span>
+                <span class="ar-role" :style="{ color: roleColors[a.role as Role] }">{{ roleLabel[a.role as Role] || a.role }}</span>
               </div>
               <div v-if="t.assignments.length === 0" class="ar-empty">未分配班级</div>
             </div>
@@ -382,8 +381,9 @@ onMounted(() => loadTeachers(true))
                   <div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent);">💡 创建后可随时在列表中点击 🏫 按钮重新分配班级</div>
                   <div v-if="createAssignments.length > 0" style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
                     <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
-                    <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;">
-                      <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }} · {{ roleLabel[a.role] || a.role }}</span>
+                    <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent);">
+                      <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }}</span>
+                      <span style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ roleLabel[a.role] || a.role }}</span>
                       <button @click="removeClassAssignment(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;">✕</button>
                     </div>
                   </div>
@@ -477,7 +477,7 @@ onMounted(() => loadTeachers(true))
     <div v-if="showResetPwdModal" @click="showResetPwdModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
       <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
-          <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🔑 重置密码 — {{ resetTarget?.name }}</h3>
+          <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🔑 密码管理 — {{ resetTarget?.name }}</h3>
           <button @click="showResetPwdModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
         </div>
         <div class="form-group"><label>新密码</label>
