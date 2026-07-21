@@ -69,6 +69,9 @@ const filteredTeachers = computed(() => {
 const showCreateModal = ref(false)
 const createForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', password: '' })
 const createErrors = ref<Record<string, string>>({})
+type CreateStatus = 'idle' | 'loading' | 'success' | 'error'
+const createStatus = ref<CreateStatus>('idle')
+const createErrorMsg = ref('')
 interface CreateAssignment { class_id: number; class_name: string; subject: string; role: ClassRole }
 const createAssignments = ref<CreateAssignment[]>([])
 const createLoading = ref(false)
@@ -108,12 +111,13 @@ function removeClassAssignment(idx) { createAssignments.value.splice(idx, 1) }
 async function submitCreate() {
   // 提交前整体校验
   createErrors.value = {}
-  if (!createForm.value.name.trim()) createErrors.value.name = '请填写教师姓名'
-  if (createForm.value.password && createForm.value.password.length < 6) createErrors.value.password = '密码长度至少 6 位，建议包含字母和数字'
+  if (!createForm.value.name.trim()) { createErrors.value.name = '请填写教师姓名'; return }
+  if (createForm.value.password && createForm.value.password.length < 6) { createErrors.value.password = '密码长度至少 6 位，建议包含字母和数字'; return }
   if (Object.keys(createErrors.value).length > 0) return
+
+  createStatus.value = 'loading'
   createLoading.value = true
   try {
-    // 清理可选字段：空字符串转 null，password 为空则让后端自动生成
     const payload: Record<string, any> = { name: createForm.value.name.trim() }
     if (createForm.value.nickname) payload.nickname = createForm.value.nickname
     if (createForm.value.grade_team) payload.grade_team = createForm.value.grade_team
@@ -124,17 +128,25 @@ async function submitCreate() {
       payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: a.role || 'subject_teacher', subject: a.subject || undefined }))
     }
     await apiPost('/api/v1/admin/teachers', payload)
-    toast.show('教师创建成功', 'success', { position: 'center', duration: 2000 })
-    showCreateModal.value = false; await refreshTeachers()
+    createStatus.value = 'success'
+    setTimeout(() => {
+      showCreateModal.value = false
+      createStatus.value = 'idle'
+      refreshTeachers()
+    }, 1500)
   } catch (e: any) {
+    createStatus.value = 'error'
     const errs = e?.response?.data?.errors
     if (errs) {
       for (const [field, msgs] of Object.entries(errs)) {
         createErrors.value[field] = (msgs as string[])[0]
       }
+      createStatus.value = 'idle'
     } else {
-      const msg = e?.response?.data?.message
-      if (msg && e?.response?.status === 500) toast.show(msg, 'error')
+      createErrorMsg.value = e?.response?.data?.message || '创建失败，请重试'
+      setTimeout(() => {
+        if (createStatus.value === 'error') { createStatus.value = 'idle'; createErrorMsg.value = '' }
+      }, 3000)
     }
   } finally { createLoading.value = false }
 }
@@ -446,7 +458,8 @@ onMounted(() => loadTeachers(true))
                     <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
                     <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent);">
                       <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }}</span>
-                      <span style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }}</span>
+                      <span v-if="a.role === 'subject_teacher'" style="font-size:11px;font-weight:500;color:var(--color-text-secondary);">{{ a.subject }}</span>
+                      <span v-else style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }}</span>
                       <button @click="removeClassAssignment(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;">✕</button>
                     </div>
                   </div>
@@ -455,7 +468,13 @@ onMounted(() => loadTeachers(true))
             </div>
             <div style="display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--color-border);flex-shrink:0;">
               <button @click="showCreateModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
-              <button @click="submitCreate" :disabled="createLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;box-shadow:0 2px 8px rgba(124,58,237,0.15);">{{ createLoading ? '创建中...' : '创建账号' }}</button>
+              <button @click="submitCreate" :disabled="createStatus === 'loading'" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:#fff;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(124,58,237,0.15);"
+                :style="{ background: createStatus === 'loading' ? '#f59e0b' : createStatus === 'success' ? '#10b981' : createStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+                <span v-if="createStatus === 'idle'">创建账号</span>
+                <span v-else-if="createStatus === 'loading'">⏳ 创建中...</span>
+                <span v-else-if="createStatus === 'success'">✅ 创建成功</span>
+                <span v-else>❌ {{ createErrorMsg || '创建失败' }}</span>
+              </button>
             </div>
           </div>
         </Transition>
@@ -515,8 +534,8 @@ onMounted(() => loadTeachers(true))
           <div v-if="assignList.length === 0" style="padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);background:var(--color-bg);border-radius:8px;">暂未分配班级</div>
           <div v-for="(a, i) in assignList" :key="i" style="display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;background:var(--color-bg);border-radius:8px;font-size:13px;">
             <span style="flex:1;font-weight:500;color:var(--color-text);">{{ a.class_name || shortClassName(classById(a.class_id)?.name) }}</span>
-            <span style="color:var(--color-text-secondary);font-size:12px;">{{ classRoleLabel[a.role as ClassRole] || a.role }}</span>
-            <span style="color:var(--color-text-secondary);font-size:12px;">{{ a.subject || '默认科目' }}</span>
+            <span v-if="a.role === 'subject_teacher'" style="color:var(--color-text-secondary);font-size:12px;">{{ a.subject }}</span>
+            <span v-else style="color:var(--color-text-secondary);font-size:12px;">{{ classRoleLabel[a.role as ClassRole] || a.role }} · {{ a.subject || '默认科目' }}</span>
             <button @click="removeAssignRow(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:2px;font-size:16px;">✕</button>
           </div>
         </div>
