@@ -43,6 +43,7 @@ class AuthService
                 'role' => 'teacher',
                 'username' => $username,
                 'password' => Hash::make($initialPassword),
+                'plain_password' => $initialPassword,
                 'name' => $name,
                 'nickname' => $nickname,
                 'subject' => $teacher['subject'] ?? null,

@@ -297,12 +297,30 @@ class SchoolAdminController extends Controller
             ->findOrFail($id);
         $newPassword = $request->input('password', str()->random(8));
         $teacher->password = Hash::make($newPassword);
+        $teacher->plain_password = $newPassword;
         $teacher->password_changed = false;
         $teacher->save();
 
         return response()->json([
             'message' => '密码已重置',
             'data' => ['new_password' => $newPassword],
+        ]);
+    }
+
+    /**
+     * 查看教师密码
+     */
+    public function getTeacherPassword(Request $request, int $id): JsonResponse
+    {
+        $school = $request->user()->school;
+        $teacher = User::where('school_id', $school->id)
+            ->where('role', 'teacher')
+            ->findOrFail($id);
+
+        return response()->json([
+            'data' => [
+                'password' => $teacher->plain_password ?? '未记录，请重置密码',
+            ],
         ]);
     }
 

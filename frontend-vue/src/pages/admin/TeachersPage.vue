@@ -216,12 +216,18 @@ const resetTarget = ref<Teacher | null>(null)
 const resetPwdValue = ref('')
 const resetPwdLoading = ref(false)
 const showResetPwd = ref(false)
+const currentPwd = ref('')
 
 function openResetPwd(t: Teacher) {
   resetTarget.value = t
   resetPwdValue.value = ''
   showResetPwd.value = false
+  currentPwd.value = ''
   showResetPwdModal.value = true
+  // 加载当前密码
+  fetch('/api/v1/admin/teachers/' + t.id + '/password', {
+    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+  }).then(r => r.json()).then(d => { currentPwd.value = d.data?.password || '' }).catch(() => {})
 }
 
 async function submitResetPwd() {
@@ -475,21 +481,28 @@ onMounted(() => loadTeachers(true))
   <!-- 重置密码弹窗 -->
   <Teleport to="body">
     <div v-if="showResetPwdModal" @click="showResetPwdModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
-      <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+      <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:420px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
           <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🔑 密码管理 — {{ resetTarget?.name }}</h3>
           <button @click="showResetPwdModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
         </div>
-        <div class="form-group"><label>新密码</label>
-          <div style="display:flex;gap:6px;">
-            <input v-model="resetPwdValue" :type="showResetPwd ? 'text' : 'password'" class="form-input" placeholder="留空自动生成">
-            <button style="flex-shrink:0;padding:6px 10px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;" @click="showResetPwd = !showResetPwd" type="button">{{ showResetPwd ? '🙈' : '👁️' }}</button>
+
+        <!-- 当前密码 -->
+        <div v-if="currentPwd" style="margin-bottom:12px;padding:10px 12px;background:var(--color-bg);border-radius:8px;border:1px solid var(--color-border);">
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">当前密码</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <code style="font-size:14px;font-weight:700;color:var(--color-text);flex:1;font-family:monospace;">{{ showResetPwd ? currentPwd : '••••••••' }}</code>
+            <button style="flex-shrink:0;padding:4px 10px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;" @click="showResetPwd = !showResetPwd" type="button">{{ showResetPwd ? '🙈 隐藏' : '👁️ 显示' }}</button>
           </div>
         </div>
-        <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;padding:8px;background:var(--color-bg);border-radius:6px;">💡 输入新密码后点击确认更新。留空将自动生成随机密码，确认后显示新密码。</div>
-        <div style="display:flex;gap:12px;">
+
+        <!-- 修改密码 -->
+        <div class="form-group"><label>新密码（留空自动生成）</label>
+          <input v-model="resetPwdValue" :type="showResetPwd ? 'text' : 'password'" class="form-input" placeholder="留空自动生成">
+        </div>
+        <div style="display:flex;gap:12px;margin-top:16px;">
           <button @click="showResetPwdModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
-          <button @click="submitResetPwd" :disabled="resetPwdLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">{{ resetPwdLoading ? '重置中...' : '确认重置' }}</button>
+          <button @click="submitResetPwd" :disabled="resetPwdLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">{{ resetPwdLoading ? '更新中...' : '更新密码' }}</button>
         </div>
       </div>
     </div>

@@ -52,6 +52,7 @@ Route::prefix('v1')->group(function () {
             Route::get('template-csv', [SchoolAdminController::class, 'downloadTeacherTemplate']);
             Route::put('{id}', [SchoolAdminController::class, 'updateTeacher']);
             Route::post('{id}/reset-password', [SchoolAdminController::class, 'resetTeacherPassword']);
+            Route::get('{id}/password', [SchoolAdminController::class, 'getTeacherPassword']);
             Route::delete('{id}', [SchoolAdminController::class, 'disableTeacher']);
             Route::put('{id}/classes', [SchoolAdminController::class, 'assignTeacherClasses']);
         });
