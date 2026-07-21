@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import { avatarGradient, platformLabel } from '@/utils/constants'
+import ModalGlass from '@/components/common/ModalGlass.vue'
 
 interface Teacher {
   id: number; name: string; username: string; nickname?: string
@@ -422,17 +423,13 @@ onMounted(() => loadTeachers(true))
     </template>
   </div>
 
-  <Teleport to="body">
-    <Transition name="overlay">
-      <div v-if="showCreateModal" @click="showCreateModal = false" style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:flex-end;">
-        <Transition name="drawer">
-          <div v-if="showCreateModal" @click.stop style="width:540px;max-width:100vw;max-height:90vh;margin:20px;border-radius:16px;background:var(--color-bg-card);border:1px solid var(--color-border);box-shadow:-8px 8px 32px rgba(0,0,0,0.12);display:flex;flex-direction:column;overflow:hidden;">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--color-border);flex-shrink:0;">
-              <h2 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">✨ 创建教师账号</h2>
-              <button :disabled="createLoading" @click="showCreateModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
-            </div>
-            <div style="overflow-y:auto;padding:16px 20px;">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+  <ModalGlass :visible="showCreateModal" @update:visible="showCreateModal = $event">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);flex-shrink:0;">
+            <h2 style="font-size:18px;font-weight:700;color:var(--color-text);margin:0;">✨ 创建教师账号</h2>
+            <button :disabled="createLoading" @click="showCreateModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
+          </div>
+          <div style="overflow-y:auto;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div>
                   <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📝 创建账号 <span style="font-size:10px;color:var(--color-text-secondary);">必填</span></div>
                   <div style="display:flex;gap:8px;">
@@ -493,13 +490,10 @@ onMounted(() => loadTeachers(true))
               </button>
             </div>
           </div>
-        </Transition>
-      </div>
-    </Transition>
-  </Teleport>
+        </ModalGlass>
 
-  <Teleport to="body">
-    <div v-if="showEditModal" @click="showEditModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
+  <ModalGlass :visible="showEditModal" @update:visible="showEditModal = $event">
+          <div @click="showEditModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
       <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;max-width:520px;width:100%;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
           <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">✏️ 编辑教师信息 — {{ editTarget?.name }}</h3>
@@ -526,12 +520,10 @@ onMounted(() => loadTeachers(true))
           <button @click="submitEdit" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">保存</button>
         </div>
       </div>
-    </div>
-  </Teleport>
+    </ModalGlass>
 
-  <Teleport to="body">
-    <div v-if="showAssignModal" @click.self="showAssignModal = false" style="position:fixed;inset:0;z-index:1000;background:transparent;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-      <div @click.stop style="pointer-events:auto;background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;max-width:620px;width:92%;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+  <ModalGlass :visible="showAssignModal" @update:visible="showAssignModal = $event">
+      <div style="max-width:620px;width:100%;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
           <h2 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🏫 分配班级 — {{ assignTarget?.name }}</h2>
           <button @click="showAssignModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
@@ -564,9 +556,8 @@ onMounted(() => loadTeachers(true))
   </Teleport>
 
   <!-- 删除确认弹窗 -->
-  <Teleport to="body">
-    <div v-if="showDeleteModal" @click="showDeleteModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
-      <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+  <ModalGlass :visible="showDeleteModal" @update:visible="showDeleteModal = $event">
+      <div style="max-width:400px;width:100%;padding:4px 0;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
           <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">⚠️ 确认删除</h3>
           <button @click="showDeleteModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
@@ -591,19 +582,15 @@ onMounted(() => loadTeachers(true))
           <button @click="confirmDelete" :disabled="!deleteConfirmed || deleteConfirmName !== deleteTarget?.name" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#dc2626;border:none;color:#fff;opacity:deleteConfirmed && deleteConfirmName === deleteTarget?.name ? 1 : 0.5;">确认删除</button>
         </div>
       </div>
-    </div>
-  </Teleport>
+    </ModalGlass>
 
   <!-- 重置密码弹窗 -->
-  <Teleport to="body">
-    <div v-if="showResetPwdModal" @click="showResetPwdModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
-      <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:420px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+  <ModalGlass :visible="showResetPwdModal" @update:visible="showResetPwdModal = $event">
+      <div style="max-width:420px;width:100%;padding:4px 0;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
           <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🔑 密码管理 — {{ resetTarget?.name }}</h3>
           <button @click="showResetPwdModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
         </div>
-
-        <!-- 当前密码 -->
         <div v-if="currentPwd" style="margin-bottom:12px;padding:10px 12px;background:var(--color-bg);border-radius:8px;border:1px solid var(--color-border);">
           <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">当前密码</div>
           <div style="display:flex;align-items:center;gap:8px;">
@@ -611,8 +598,6 @@ onMounted(() => loadTeachers(true))
             <button style="flex-shrink:0;padding:4px 10px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;" @click="showResetPwd = !showResetPwd" type="button">{{ showResetPwd ? '🙈 隐藏' : '👁️ 显示' }}</button>
           </div>
         </div>
-
-        <!-- 修改密码 -->
         <div class="form-group"><label>新密码</label>
           <div style="display:flex;gap:6px;">
             <input v-model="resetPwdValue" :type="showResetPwd ? 'text' : 'password'" class="form-input" placeholder="留空自动生成" autocomplete="new-password" style="flex:1;">
@@ -628,13 +613,14 @@ onMounted(() => loadTeachers(true))
           <button @click="submitResetPwd" :disabled="resetPwdLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">{{ resetPwdLoading ? '更新中...' : '更新密码' }}</button>
         </div>
       </div>
-    </div>
-  </Teleport>
+    </ModalGlass>
 
-  <Teleport to="body">
-    <div v-if="showImportModal" class="modal-overlay" >
-      <div class="modal-panel" style="max-width:700px;max-height:90vh;overflow-y:auto;">
-        <div class="modal-header"><h3>批量导入教师</h3><button class="close-btn" @click="showImportModal = false">&times;</button></div>
+  <ModalGlass :visible="showImportModal" @update:visible="showImportModal = $event">
+      <div style="max-width:700px;width:100%;padding:4px 0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+          <h3 style="font-size:17px;font-weight:700;color:var(--color-text);margin:0;">批量导入教师</h3>
+          <button class="close-btn" @click="showImportModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
+        </div>
         <div class="modal-body">
           <div style="margin-bottom:16px;">
             <p style="font-size:13px;color:#6b7280;margin-bottom:8px;">支持 CSV / Excel 格式。模板列：</p>
@@ -670,8 +656,7 @@ onMounted(() => loadTeachers(true))
           <button v-if="importPreview.length > 0" class="btn btn-primary" :disabled="importLoading" @click="uploadImport(false)">{{ importLoading ? '导入中...' : '确认导入' }}</button>
         </div>
       </div>
-    </div>
-  </Teleport>
+    </ModalGlass>
 </template>
 
 <style scoped>
