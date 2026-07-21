@@ -87,20 +87,24 @@ async function loadStatus() {
   } catch { /* ignore */ }
   finally { statusLoading.value = false }
 }
-const logContent = ref('')
+const logEntries = ref<{ line: string; level: string }[]>([])
+const logTotal = ref(0)
 const logLines = ref(200)
+const logLevel = ref('')
 const logRefreshing = ref(false)
 const logError = ref('')
 let logTimer: ReturnType<typeof setInterval> | null = null
+const levelColors: Record<string, string> = { ERROR: '#EF4444', WARNING: '#F59E0B', INFO: '#3B82F6', DEBUG: '#6B7280', CRITICAL: '#DC2626', ALERT: '#7C3AED', EMERGENCY: '#EF4444', NOTICE: '#10B981' }
 async function loadLogs() {
   logRefreshing.value = true; logError.value = ''
   try {
-    const res = await fetch(`/api/v1/admin/system/logs?lines=${logLines.value}`, {
+    const res = await fetch(`/api/v1/admin/system/logs?lines=${logLines.value}${logLevel.value ? '&level=' + logLevel.value : ''}`, {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
     })
     const data = await res.json()
     if (!res.ok) { logError.value = data.message || '加载失败'; return }
-    logContent.value = data.data?.content || ''
+    logEntries.value = data.data?.entries || []
+    logTotal.value = data.data?.total || 0
   } catch { logError.value = '加载日志失败' }
   finally { logRefreshing.value = false }
 }
@@ -295,12 +299,27 @@ async function uploadLogo(e: Event) {
           <option :value="500">500 行</option>
           <option :value="1000">1000 行</option>
         </select>
+        <select v-model="logLevel" @change="loadLogs" style="padding:4px 8px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-size:12px;">
+          <option value="">全部等级</option>
+          <option value="ERROR">ERROR</option>
+          <option value="WARNING">WARNING</option>
+          <option value="INFO">INFO</option>
+          <option value="DEBUG">DEBUG</option>
+          <option value="CRITICAL">CRITICAL</option>
+        </select>
         <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="loadLogs" :disabled="logRefreshing">{{ logRefreshing ? '加载中...' : '🔄 刷新' }}</button>
         <button class="btn btn-sm" style="background:#7c3aed;color:#fff;border:none;" @click="startLogPolling">▶ 自动刷新</button>
         <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="stopLogPolling">⏹ 停止</button>
+        <span style="font-size:12px;color:var(--color-text-secondary);">{{ logTotal }} 条</span>
       </div>
       <div v-if="logError" style="color:#EF4444;font-size:13px;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:8px;">{{ logError }}</div>
-      <pre style="background:#0d1117;color:#e6edf3;padding:16px;border-radius:10px;font-size:12px;line-height:1.6;overflow:auto;max-height:60vh;white-space:pre-wrap;word-break:break-all;margin:0;">{{ logContent || '暂无日志' }}</pre>
+      <div style="background:#0d1117;border-radius:10px;max-height:60vh;overflow:auto;padding:8px 0;">
+        <div v-if="!logEntries.length" style="padding:16px;text-align:center;color:#8b949e;font-size:13px;">暂无日志</div>
+        <div v-for="(entry, i) in logEntries" :key="i" style="display:flex;align-items:flex-start;gap:8px;padding:2px 16px;font-family:monospace;font-size:12px;line-height:1.6;white-space:pre-wrap;word-break:break-all;">
+          <span style="flex-shrink:0;width:60px;font-weight:600;color:levelColors[entry.level] || '#8b949e';">{{ entry.level }}</span>
+          <span style="color:#e6edf3;">{{ entry.line }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>

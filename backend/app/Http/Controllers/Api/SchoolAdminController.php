@@ -1729,20 +1729,34 @@ class SchoolAdminController extends Controller
     }
 
     /**
-     * 系统实时日志
+     * 系统实时日志（支持等级筛选 + 时间逆序）
      */
     public function systemLogs(Request $request): JsonResponse
     {
         $lines = (int) $request->query('lines', 200);
+        $levelFilter = $request->query('level', '');
         $logPath = storage_path('logs/laravel.log');
         if (!file_exists($logPath)) {
-            return response()->json(['data' => ['content' => '', 'path' => $logPath, 'exists' => false]]);
+            return response()->json(['data' => ['entries' => [], 'path' => $logPath, 'exists' => false]]);
         }
         $file = file($logPath);
         $recent = array_slice($file, -$lines);
+        $entries = [];
+        foreach ($recent as $line) {
+            $line = rtrim($line, "\r\n");
+            if ($line === '') continue;
+            $level = 'INFO';
+            if (preg_match('/\.(ERROR|WARNING|INFO|DEBUG|CRITICAL|ALERT|EMERGENCY|NOTICE):/', $line, $m)) {
+                $level = $m[1];
+            }
+            if ($levelFilter && $level !== strtoupper($levelFilter)) continue;
+            $entries[] = ['line' => $line, 'level' => $level];
+        }
+        $entries = array_reverse($entries);
         return response()->json([
             'data' => [
-                'content' => implode('', $recent),
+                'entries' => $entries,
+                'total' => count($entries),
                 'path' => $logPath,
                 'exists' => true,
                 'size' => filesize($logPath),
