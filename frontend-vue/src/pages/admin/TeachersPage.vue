@@ -9,6 +9,7 @@ interface Teacher {
   subject?: string; grade_team?: string; phone?: string; email?: string
   avatar_path?: string; status: string; bindings: string[]
   assignments: Assignment[]; class_names: string[]
+  personal_role?: string
 }
 interface Assignment { class_id: number; class_name?: string; grade?: string; role: string; subject?: string }
 interface ClassRoom { id: number; name: string; grade?: string }
@@ -127,8 +128,7 @@ const editTarget = ref<Teacher | null>(null)
 const editForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', personalRole: '' as string })
 function openEditModal(t: Teacher) {
   editTarget.value = t
-  const roles = uniqueRoles(t.assignments)
-  const pRole = roles.includes('grade_lead') ? 'grade_lead' : roles.includes('admin_director') ? 'admin_director' : ''
+  const pRole = t.personal_role === 'grade_lead' ? 'grade_lead' : t.personal_role === 'admin_director' ? 'admin_director' : ''
   editForm.value = { name: t.name, nickname: t.nickname || '', grade_team: t.grade_team || '', phone: t.phone || '', email: t.email || '', personalRole: pRole }
   showEditModal.value = true
 }
@@ -333,7 +333,8 @@ onMounted(() => loadTeachers(true))
               <div class="head-body">
                 <div class="head-top">
                   <span class="head-name">{{ t.name }}</span>
-                  <span v-for="role in uniqueRoles(t.assignments)" :key="role" v-if="role === 'grade_lead' || role === 'admin_director'" :class="['head-badge', role === 'grade_lead' ? 'badge-lead' : 'badge-admin']">{{ role === 'grade_lead' ? '首席' : '主任' }}</span>
+                  <span v-if="t.personal_role === 'grade_lead'" class="head-badge badge-lead">首席</span>
+                  <span v-else-if="t.personal_role === 'admin_director'" class="head-badge badge-admin">主任</span>
                 </div>
                 <div class="head-id">{{ t.username }}</div>
               </div>

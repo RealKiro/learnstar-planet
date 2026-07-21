@@ -255,6 +255,7 @@ class SchoolAdminController extends Controller
                 'bindings' => $bindings,
                 'assignments' => $assignments,
                 'class_names' => $assignments ? array_column($assignments, 'class_name') : [],
+                'personal_role' => $t->settings['personal_role'] ?? '',
                 'created_at' => $t->created_at?->toDateTimeString(),
             ];
         });
@@ -273,14 +274,25 @@ class SchoolAdminController extends Controller
             ->findOrFail($id);
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:50',
+            'nickname' => 'nullable|string|max:80',
+            'grade_team' => 'nullable|string|max:50',
             'phone' => 'nullable|string|max:30',
             'email' => 'nullable|email|max:100',
             'status' => 'sometimes|required|in:active,disabled',
+            'personal_role' => 'nullable|string|max:30',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
         }
-        $teacher->fill($request->only(['name', 'nickname', 'subject', 'phone', 'email', 'status']));
+        $data = $request->only(['name', 'nickname', 'grade_team', 'phone', 'email', 'status']);
+        if ($request->has('personal_role')) {
+            $data['grade_team'] = $data['grade_team'] ?? $teacher->grade_team;
+            // 存储个人角色到 settings JSON
+            $settings = $teacher->settings ?: [];
+            $settings['personal_role'] = $request->input('personal_role');
+            $data['settings'] = $settings;
+        }
+        $teacher->fill($data);
         $teacher->save();
 
         return response()->json(['message' => '更新成功', 'data' => $teacher->fresh()]);
