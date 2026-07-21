@@ -315,6 +315,28 @@ onMounted(loadData)
             <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ usage.total_conversations || 0 }}</div>
           </div>
         </div>
+
+        <!-- 按供应商统计 -->
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;">各供应商用量明细</div>
+          <div style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 12px;background:var(--color-bg);font-size:11px;font-weight:600;color:var(--color-text-secondary);border-bottom:1px solid var(--color-border);">
+              <span>供应商</span><span style="text-align:right;">Token</span><span style="text-align:right;">调用</span><span style="text-align:right;">预估费用</span>
+            </div>
+            <div v-for="(val, key) in usage.by_provider || {}" :key="key" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:8px 12px;border-bottom:1px solid var(--color-border);font-size:12px;">
+              <span style="font-weight:500;">{{ key }}</span>
+              <span style="text-align:right;color:var(--color-primary);font-weight:600;">{{ (val.tokens||0).toLocaleString() }}</span>
+              <span style="text-align:right;color:var(--color-text-secondary);">{{ val.total_calls||0 }}</span>
+              <span style="text-align:right;font-weight:600;">${{ (val.estimated_cost||0).toFixed(4) }}</span>
+            </div>
+            <div v-if="!Object.keys(usage.by_provider||{}).length" style="padding:8px 12px;font-size:12px;color:var(--color-text-secondary);text-align:center;">暂无数据</div>
+          </div>
+        </div>
+
+        <div style="font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:8px 12px;border-radius:6px;margin-bottom:16px;">
+          📊 Token 用量来自每次 AI 对话的 API 响应累加。预估费用基于供应商公开定价 × 实际 Token 数计算，仅供参考。实际费用以供应商账单为准。
+        </div>
+
         <div v-if="usage.daily_usage?.length">
           <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;">近 7 日趋势</div>
           <div style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">

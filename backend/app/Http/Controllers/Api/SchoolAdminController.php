@@ -1798,6 +1798,21 @@ class SchoolAdminController extends Controller
                 'created_at' => $log->created_at?->toDateTimeString(),
             ]);
 
+        // 按供应商统计用量（从 providers 配置中读取）
+        $byProvider = [];
+        if ($settings && $settings->providers) {
+            foreach ($settings->providers as $p) {
+                $pid = $p['id'] ?? '';
+                if (!$pid) continue;
+                $byProvider[$pid] = [
+                    'tokens' => $p['tokens_used'] ?? 0,
+                    'total_calls' => $p['total_calls'] ?? 0,
+                    'estimated_cost' => $p['estimated_cost'] ?? 0,
+                    'cost_per_token' => $p['cost_per_token'] ?? 0,
+                ];
+            }
+        }
+
         return response()->json([
             'data' => [
                 'enabled' => $settings && $settings->enabled,
@@ -1805,6 +1820,7 @@ class SchoolAdminController extends Controller
                 'tokens_limit' => $settings ? $settings->tokens_limit : 0,
                 'total_conversations' => \App\Models\AiConversation::where('school_id', $school->id)->count(),
                 'daily_usage' => $dailyUsage,
+                'by_provider' => $byProvider,
                 'recent_logs' => $recentLogs,
             ],
         ]);

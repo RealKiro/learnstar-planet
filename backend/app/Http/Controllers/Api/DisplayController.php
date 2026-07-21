@@ -1240,6 +1240,7 @@ class DisplayController extends Controller
             'school_id' => $classRoom->school_id, 'class_id' => $classId,
             'student_id' => $classInfo['student_id'] ?? null,
             'student_name' => $classInfo['student_name'] ?? '匿名',
+            'provider' => $activeProvider['id'],
             'question' => $question, 'status' => 'pending',
         ]);
 
@@ -1264,6 +1265,20 @@ class DisplayController extends Controller
 
         if ($tokensUsed > 0) {
             $setting->increment('tokens_used', $tokensUsed);
+            // 更新该供应商的独立计数
+            $providers = $setting->providers ?: [];
+            foreach ($providers as &$p) {
+                if (($p['id'] ?? '') === ($activeProvider['id'] ?? '')) {
+                    $p['tokens_used'] = ($p['tokens_used'] ?? 0) + $tokensUsed;
+                    $p['total_calls'] = ($p['total_calls'] ?? 0) + 1;
+                    if ($tokensUsed > 0 && ($p['token_prices'] ?? false)) {
+                        $p['estimated_cost'] = ($p['estimated_cost'] ?? 0) + round($tokensUsed * ($p['cost_per_token'] ?? 0), 6);
+                    }
+                    break;
+                }
+            }
+            $setting->providers = $providers;
+            $setting->save();
         }
 
         return response()->json([

@@ -11,7 +11,7 @@ class AiConversation extends Model
     protected $table = 'ai_conversations';
 
     protected $fillable = [
-        'school_id', 'class_id', 'student_id', 'student_name',
+        'school_id', 'class_id', 'student_id', 'student_name', 'provider',
         'question', 'answer', 'tokens_used', 'status',
     ];
 
