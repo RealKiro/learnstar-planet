@@ -174,6 +174,8 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
     </div>
   </div>
 
+</template>
+
 <style scoped>
 .bc-type-btn { flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:13px;cursor:pointer;font-weight:500;font-family:inherit; }
 .bc-type-btn:hover { border-color:var(--color-accent); }
