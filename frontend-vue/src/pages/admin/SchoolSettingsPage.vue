@@ -233,7 +233,7 @@ async function uploadLogo(e: Event) {
         </div>
         <div v-if="repairDone" style="padding:8px 12px;font-size:13px;color:#10B981;font-weight:500;">✅ 修复已完成</div>
       </div>
-      <div v-else-if="!diagLoading" style="padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);">点击「开始诊断」检查系统状态</div>
+      <div v-else-if="diagnoseStatus === 'idle'" style="padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);">点击「开始诊断」检查系统状态</div>
     </div>
 
     <!-- 系统状态 -->

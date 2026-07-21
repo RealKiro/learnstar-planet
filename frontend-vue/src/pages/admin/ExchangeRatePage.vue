@@ -19,6 +19,9 @@ const rates = ref<Rate[]>([])
 const loading = ref(true)
 const showAddForm = ref(false)
 const newRate = ref({ name: '', from_currency: 'score', to_currency: 'science_coin', rate: 1 })
+const addRateStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const toggleRateStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const toggleRateId = ref<number | null>(null)
 
 const currencyOptions = [
   { key: 'score', label: '⭐ 积分' },
@@ -46,25 +49,36 @@ function demoRates(): Rate[] {
 
 async function addRate() {
   if (!newRate.value.name || newRate.value.rate <= 0) {
-    toast.show('请填写完整信息', 'error')
+    toast.show('请填写完整信息', 'error', { position: 'top-right' })
     return
   }
+  addRateStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/exchange-rates', newRate.value)
-    toast.show('汇率已添加', 'success')
+    addRateStatus.value = 'success'
     showAddForm.value = false
     newRate.value = { name: '', from_currency: 'score', to_currency: 'science_coin', rate: 1 }
     const res = await apiGet<ApiResponse<Rate[]>>('/api/v1/admin/exchange-rates')
     rates.value = res.data || []
-  } catch { /* handled */ }
+    setTimeout(() => { addRateStatus.value = 'idle' }, 1500)
+  } catch {
+    addRateStatus.value = 'error'
+    setTimeout(() => { addRateStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function toggleRate(rate: Rate) {
+  toggleRateStatus.value = 'loading'
+  toggleRateId.value = rate.id
   try {
     await apiPut(`/api/v1/admin/exchange-rates/${rate.id}`, { is_active: !rate.is_active })
     rate.is_active = !rate.is_active
-    toast.show(`汇率已${rate.is_active ? '启用' : '禁用'}`, 'success')
-  } catch { /* handled */ }
+    toggleRateStatus.value = 'success'
+    setTimeout(() => { toggleRateStatus.value = 'idle'; toggleRateId.value = null }, 1500)
+  } catch {
+    toggleRateStatus.value = 'error'
+    setTimeout(() => { toggleRateStatus.value = 'idle'; toggleRateId.value = null }, 3000)
+  }
 }
 
 const getCurrencyLabel = (key: string) => currencyOptions.find(c => c.key === key)?.label || key
@@ -104,7 +118,12 @@ const getCurrencyLabel = (key: string) => currencyOptions.find(c => c.key === ke
           <input v-model.number="newRate.rate" type="number" step="0.01" min="0.01" class="form-input">
         </div>
       </div>
-      <button class="btn btn-primary" style="margin-top:16px;width:auto;" @click="addRate">添加</button>
+      <button class="btn" :style="{ background: addRateStatus === 'loading' ? '#f59e0b' : addRateStatus === 'success' ? '#10b981' : addRateStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent', marginTop: '16px', width: 'auto' }" :disabled="addRateStatus !== 'idle'" @click="addRate">
+        <template v-if="addRateStatus === 'loading'">添加中...</template>
+        <template v-else-if="addRateStatus === 'success'">已添加 ✓</template>
+        <template v-else-if="addRateStatus === 'error'">添加失败 ✗</template>
+        <template v-else>添加</template>
+      </button>
     </div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
@@ -125,8 +144,13 @@ const getCurrencyLabel = (key: string) => currencyOptions.find(c => c.key === ke
               {{ r.is_active ? '✅ 启用' : '⏸ 禁用' }}
             </td>
             <td>
-              <button class="btn btn-sm" :style="r.is_active ? { color:'var(--color-danger)' } : { color:'var(--color-accent)' }"
-                @click="toggleRate(r)">{{ r.is_active ? '禁用' : '启用' }}</button>
+              <button class="btn btn-sm" :style="toggleRateId === r.id ? { background: toggleRateStatus === 'loading' ? '#f59e0b' : toggleRateStatus === 'success' ? '#10b981' : '#ef4444', color: '#fff', border: '1px solid transparent' } : { color: r.is_active ? 'var(--color-danger)' : 'var(--color-accent)' }"
+                :disabled="toggleRateId === r.id" @click="toggleRate(r)">
+                <template v-if="toggleRateId === r.id && toggleRateStatus === 'loading'">操作中...</template>
+                <template v-else-if="toggleRateId === r.id && toggleRateStatus === 'success'">已完成 ✓</template>
+                <template v-else-if="toggleRateId === r.id && toggleRateStatus === 'error'">失败 ✗</template>
+                <template v-else>{{ r.is_active ? '禁用' : '启用' }}</template>
+              </button>
             </td>
           </tr>
         </tbody>

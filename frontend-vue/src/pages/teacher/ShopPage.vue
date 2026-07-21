@@ -42,6 +42,10 @@ function iVld(field: string): boolean {
   delete itemErrors[field]; return true
 }
 
+const addStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const redeemStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const deleteStatusMap = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+
 const filteredItems = computed(() => {
   if (!filterCategory.value) return items.value
   return items.value.filter(i => (i as any).category === filterCategory.value)
@@ -98,34 +102,43 @@ function openRedeem(item: ShopItemExt) {
 
 async function submitRedeem() {
   if (!selectedStudentId.value || !selectedItem.value) {
-    toast.show('请选择学生和商品', 'error')
+    toast.show('请选择学生和商品', 'error', { position: 'top-right' })
     return
   }
+  redeemStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/shop/redemptions', {
       student_id: selectedStudentId.value,
       item_id: selectedItem.value.id,
     })
-    toast.show(`兑换请求已提交：${selectedItem.value.name}`, 'success')
-    showRedeemModal.value = false
-  } catch { /* handled */ }
+    redeemStatus.value = 'success'
+    setTimeout(() => { redeemStatus.value = 'idle'; showRedeemModal.value = false }, 1500)
+  } catch {
+    redeemStatus.value = 'error'
+    setTimeout(() => { redeemStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function deleteItem(item: ShopItemExt) {
   if (!confirm(`确定删除商品「${item.name}」？`)) return
+  deleteStatusMap.value[item.id] = 'loading'
   try {
     await apiDelete(`/api/v1/teacher/shop/items/${item.id}`)
+    deleteStatusMap.value[item.id] = 'success'
     items.value = items.value.filter(i => i.id !== item.id)
-    toast.show(`已删除 ${item.name}`, 'success')
-  } catch { /* handled */ }
+    setTimeout(() => { deleteStatusMap.value[item.id] = 'idle' }, 1500)
+  } catch {
+    deleteStatusMap.value[item.id] = 'error'
+    setTimeout(() => { deleteStatusMap.value[item.id] = 'idle' }, 3000)
+  }
 }
 
 async function addItem() {
   if (!iVld('name') | !iVld('cost')) return
+  addStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/shop/items', newItem.value)
-    toast.show('商品已添加', 'success')
-    showAddForm.value = false
+    addStatus.value = 'success'
     newItem.value = { name: '', cost: 10, stock: 0, category: 'reward', description: '' }
     const res = await apiGet<ApiResponse<ShopItemExt[]>>('/api/v1/teacher/shop/items')
     items.value = (res.data || []).map(i => ({
@@ -133,7 +146,11 @@ async function addItem() {
       category: (i as any).category || 'reward',
       description: (i as any).description || '',
     }))
-  } catch { /* handled */ }
+    setTimeout(() => { addStatus.value = 'idle'; showAddForm.value = false }, 1500)
+  } catch {
+    addStatus.value = 'error'
+    setTimeout(() => { addStatus.value = 'idle' }, 3000)
+  }
 }
 
 const catLabels: Record<string, string> = { points: '⭐ 积分充值', stationery: '✏️ 文具用品', food: '🍎 零食饮料', privilege: '🎁 特权奖励', activity: '🎪 活动参与', experience: '🎨 体验活动' }
@@ -194,7 +211,14 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
         <label>描述</label>
         <input v-model="newItem.description" class="form-input" placeholder="简短描述">
       </div>
-      <button class="btn btn-primary" style="margin-top:16px;width:auto;" @click="addItem">添加</button>
+      <button class="btn btn-primary" style="margin-top:16px;width:auto;" :disabled="addStatus !== 'idle'"
+        :style="{ background: addStatus === 'loading' ? '#f59e0b' : addStatus === 'success' ? '#10b981' : addStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+        @click="addItem">
+        <template v-if="addStatus === 'idle'">添加</template>
+        <template v-else-if="addStatus === 'loading'">添加中...</template>
+        <template v-else-if="addStatus === 'success'">✅ 已添加</template>
+        <template v-else-if="addStatus === 'error'">❌ 失败</template>
+      </button>
     </div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
@@ -209,8 +233,17 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
         style="text-align:center;padding:24px;cursor:pointer;position:relative;transition:transform 0.3s;"
         @mouseenter="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'"
         @mouseleave="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = ''">
-        <div style="position:absolute;top:8px;right:12px;cursor:pointer;font-size:14px;color:var(--color-text-secondary);"
-          @click.stop="deleteItem(item)">✕</div>
+        <div style="position:absolute;top:8px;right:12px;font-size:14px;"
+          :style="{
+            cursor: (!deleteStatusMap[item.id] || deleteStatusMap[item.id] === 'idle') ? 'pointer' : 'default',
+            color: deleteStatusMap[item.id] === 'loading' ? '#f59e0b' : deleteStatusMap[item.id] === 'success' ? '#10b981' : deleteStatusMap[item.id] === 'error' ? '#ef4444' : 'var(--color-text-secondary)'
+          }"
+          @click.stop="(!deleteStatusMap[item.id] || deleteStatusMap[item.id] === 'idle') && deleteItem(item)">
+          <template v-if="!deleteStatusMap[item.id] || deleteStatusMap[item.id] === 'idle'">✕</template>
+          <template v-else-if="deleteStatusMap[item.id] === 'loading'">⏳</template>
+          <template v-else-if="deleteStatusMap[item.id] === 'success'">✅</template>
+          <template v-else-if="deleteStatusMap[item.id] === 'error'">❌</template>
+        </div>
         <div style="font-size:48px;margin-bottom:12px;">
           {{ { '课外图书': '📖', '科学实验套装': '🔬', '免作业1天': '🎮', '班级之星徽章': '🏆', '冰淇淋奖励': '🍦', '迟到抵消券': '⏰' }[item.name] || '🎁' }}
         </div>
@@ -249,7 +282,14 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button class="btn btn-ghost" @click="showRedeemModal = false">取消</button>
-          <button class="btn btn-primary" :disabled="!selectedStudentId" @click="submitRedeem">确认兑换</button>
+          <button class="btn btn-primary" :disabled="redeemStatus !== 'idle' || !selectedStudentId"
+            :style="{ background: redeemStatus === 'loading' ? '#f59e0b' : redeemStatus === 'success' ? '#10b981' : redeemStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+            @click="submitRedeem">
+            <template v-if="redeemStatus === 'idle'">确认兑换</template>
+            <template v-else-if="redeemStatus === 'loading'">兑换中...</template>
+            <template v-else-if="redeemStatus === 'success'">✅ 已兑换</template>
+            <template v-else-if="redeemStatus === 'error'">❌ 失败</template>
+          </button>
         </div>
       </div>
     </div>

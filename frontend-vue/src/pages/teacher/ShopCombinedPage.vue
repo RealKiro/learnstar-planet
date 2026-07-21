@@ -14,6 +14,12 @@ const ratesLoading = ref(false)
 const showAddRate = ref(false)
 const newRate = ref({ name: '', from_currency: 'score', to_currency: 'science', rate: 1 })
 
+const addRateStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const toggleStatusMap = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+function getToggleStatus(id: number) {
+  return toggleStatusMap.value[id] || 'idle'
+}
+
 const currencyLabels: Record<string, string> = { score: '⭐ 积分', science: '🔬 科学币', reading: '📚 读书币', class_point: '⚽ 体育币' }
 
 async function loadRates() {
@@ -29,20 +35,34 @@ async function loadRates() {
 }
 
 async function addRate() {
-  if (!newRate.value.name || newRate.value.rate <= 0) { toast.show('请填写完整信息', 'error'); return }
+  if (!newRate.value.name || newRate.value.rate <= 0) { toast.show('请填写完整信息', 'error', { position: 'top-right' }); return }
+  addRateStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/teacher/exchange-rates', {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
       body: JSON.stringify(newRate.value),
     })
-    const data = await res.json()
-    toast.show(data.message || '汇率已添加', res.ok ? 'success' : 'error')
-    if (res.ok) { showAddRate.value = false; newRate.value = { name: '', from_currency: 'score', to_currency: 'science', rate: 1 }; loadRates() }
-  } catch { toast.show('添加失败', 'error') }
+    if (res.ok) {
+      addRateStatus.value = 'success'
+      setTimeout(() => {
+        addRateStatus.value = 'idle'
+        showAddRate.value = false
+        newRate.value = { name: '', from_currency: 'score', to_currency: 'science', rate: 1 }
+        loadRates()
+      }, 1500)
+    } else {
+      addRateStatus.value = 'error'
+      setTimeout(() => { addRateStatus.value = 'idle' }, 3000)
+    }
+  } catch {
+    addRateStatus.value = 'error'
+    setTimeout(() => { addRateStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function toggleRate(r: Rate) {
+  toggleStatusMap.value[r.id] = 'loading'
   try {
     await fetch('/api/v1/teacher/exchange-rates/' + r.id, {
       method: 'PUT',
@@ -50,8 +70,12 @@ async function toggleRate(r: Rate) {
       body: JSON.stringify({ is_active: !r.is_active }),
     })
     r.is_active = !r.is_active
-    toast.show(`汇率已${r.is_active ? '启用' : '禁用'}`, 'success')
-  } catch { toast.show('操作失败', 'error') }
+    toggleStatusMap.value[r.id] = 'success'
+    setTimeout(() => { toggleStatusMap.value[r.id] = 'idle' }, 1500)
+  } catch {
+    toggleStatusMap.value[r.id] = 'error'
+    setTimeout(() => { toggleStatusMap.value[r.id] = 'idle' }, 3000)
+  }
 }
 
 function onActiveTabChange(tab: typeof activeTab.value) {
@@ -93,7 +117,14 @@ function onActiveTabChange(tab: typeof activeTab.value) {
           <div class="form-group"><label>目标币种</label><select v-model="newRate.to_currency" class="form-input"><option v-for="(label, key) in currencyLabels" :key="key" :value="key" :disabled="key === newRate.from_currency">{{ label }}</option></select></div>
           <div class="form-group"><label>汇率 (1:?)</label><input v-model.number="newRate.rate" type="number" step="0.01" min="0.01" class="form-input"></div>
         </div>
-        <button v-if="showAddRate" class="btn btn-primary" style="margin-bottom:16px;" @click="addRate">确认添加</button>
+        <button v-if="showAddRate" class="btn btn-primary" style="margin-bottom:16px;" :disabled="addRateStatus !== 'idle'"
+          :style="{ background: addRateStatus === 'loading' ? '#f59e0b' : addRateStatus === 'success' ? '#10b981' : addRateStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+          @click="addRate">
+          <template v-if="addRateStatus === 'idle'">确认添加</template>
+          <template v-else-if="addRateStatus === 'loading'">添加中...</template>
+          <template v-else-if="addRateStatus === 'success'">✅ 已添加</template>
+          <template v-else-if="addRateStatus === 'error'">❌ 失败</template>
+        </button>
       </div>
 
       <div v-if="ratesLoading" style="text-align:center;padding:24px;color:var(--color-text-secondary);">加载中...</div>
@@ -104,8 +135,15 @@ function onActiveTabChange(tab: typeof activeTab.value) {
           <span style="color:var(--color-text-secondary);">{{ currencyLabels[r.from_currency] || r.from_currency }}</span>
           <span style="font-weight:700;">→ 1 : {{ r.rate }}</span>
           <span>{{ currencyLabels[r.to_currency] || r.to_currency }}</span>
-          <button :style="{ color: r.is_active ? 'var(--color-accent)' : 'var(--color-text-secondary)', background:'none', border:'none', cursor:'pointer', fontSize:'12px' }" @click="toggleRate(r)">
-            {{ r.is_active ? '✅ 启用' : '⏸ 禁用' }}
+          <button :style="{
+            background: getToggleStatus(r.id) === 'loading' ? '#f59e0b' : getToggleStatus(r.id) === 'success' ? '#10b981' : getToggleStatus(r.id) === 'error' ? '#ef4444' : 'none',
+            color: getToggleStatus(r.id) !== 'idle' ? 'white' : r.is_active ? 'var(--color-accent)' : 'var(--color-text-secondary)',
+            border: 'none', cursor: 'pointer', fontSize: '12px', padding: '4px 8px', borderRadius: '6px'
+          }" @click="toggleRate(r)" :disabled="getToggleStatus(r.id) !== 'idle'">
+            <template v-if="getToggleStatus(r.id) === 'idle'">{{ r.is_active ? '✅ 启用' : '⏸ 禁用' }}</template>
+            <template v-else-if="getToggleStatus(r.id) === 'loading'">处理中...</template>
+            <template v-else-if="getToggleStatus(r.id) === 'success'">✅ 成功</template>
+            <template v-else-if="getToggleStatus(r.id) === 'error'">❌ 失败</template>
           </button>
         </div>
       </div>

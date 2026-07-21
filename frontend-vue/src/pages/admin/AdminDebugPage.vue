@@ -6,14 +6,14 @@ const toast = useToastStore()
 const activeTab = ref<'demo' | 'diagnose' | 'status'>('demo')
 
 interface DiagItem { item: string; status: string; detail?: string }
-const diagLoading = ref(false)
+const diagnoseStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const diagResult = ref<DiagItem[] | null>(null)
 const diagHasIssues = ref(false)
-const repairLoading = ref(false)
+const repairStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const repairDone = ref(false)
 
 async function diagnose() {
-  diagLoading.value = true; diagResult.value = null; repairDone.value = false
+  diagnoseStatus.value = 'loading'; diagResult.value = null; repairDone.value = false
   try {
     const res = await fetch('/api/v1/admin/system/diagnose', {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
@@ -21,22 +21,24 @@ async function diagnose() {
     const data = await res.json()
     diagResult.value = data.data || []
     diagHasIssues.value = data.has_issues || false
-    toast.show(data.message || '诊断完成', res.ok ? 'info' : 'error')
-  } catch { toast.show('诊断请求失败', 'error') }
-  finally { diagLoading.value = false }
+    diagnoseStatus.value = 'success'
+    setTimeout(() => { diagnoseStatus.value = 'idle' }, 1500)
+  } catch { diagnoseStatus.value = 'error'; setTimeout(() => { diagnoseStatus.value = 'idle' }, 3000) }
 }
 async function repair() {
-  repairLoading.value = true
+  repairStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/admin/system/repair', {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' }
     })
     const data = await res.json()
-    toast.show(data.message || '修复完成', res.ok ? 'success' : 'error')
-    if (res.ok) { repairDone.value = true; setTimeout(diagnose, 500) }
-  } catch { toast.show('修复请求失败', 'error') }
-  finally { repairLoading.value = false }
+    if (!res.ok) { repairStatus.value = 'error'; setTimeout(() => { repairStatus.value = 'idle' }, 3000); return }
+    repairStatus.value = 'success'
+    repairDone.value = true
+    setTimeout(diagnose, 500)
+    setTimeout(() => { repairStatus.value = 'idle' }, 1500)
+  } catch { repairStatus.value = 'error'; setTimeout(() => { repairStatus.value = 'idle' }, 3000) }
 }
 
 // ===== 系统状态 =====
@@ -94,11 +96,17 @@ function onTabChange(tab: typeof activeTab.value) {
           检查数据库表结构完整性，检测到缺失字段可一键修复
         </p>
         <div style="display:flex;gap:12px;margin-bottom:16px;">
-          <button class="btn btn-outline" :disabled="diagLoading" @click="diagnose">
-            {{ diagLoading ? '诊断中...' : '🔍 开始诊断' }}
+          <button class="btn btn-outline" :style="{ background: diagnoseStatus === 'loading' ? '#f59e0b' : diagnoseStatus === 'success' ? '#10b981' : diagnoseStatus === 'error' ? '#ef4444' : '', color: diagnoseStatus !== 'idle' ? '#fff' : '', border: diagnoseStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="diagnoseStatus !== 'idle'" @click="diagnose">
+            <template v-if="diagnoseStatus === 'loading'">诊断中...</template>
+            <template v-else-if="diagnoseStatus === 'success'">诊断完成 ✓</template>
+            <template v-else-if="diagnoseStatus === 'error'">诊断失败 ✗</template>
+            <template v-else>🔍 开始诊断</template>
           </button>
-          <button class="btn btn-danger" :disabled="repairLoading || !diagHasIssues" @click="repair">
-            {{ repairLoading ? '修复中...' : '🛠️ 一键修复' }}
+          <button class="btn btn-danger" :style="{ background: repairStatus === 'loading' ? '#f59e0b' : repairStatus === 'success' ? '#10b981' : repairStatus === 'error' ? '#ef4444' : '', color: repairStatus !== 'idle' ? '#fff' : '', border: repairStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="repairStatus !== 'idle' || !diagHasIssues" @click="repair">
+            <template v-if="repairStatus === 'loading'">修复中...</template>
+            <template v-else-if="repairStatus === 'success'">修复完成 ✓</template>
+            <template v-else-if="repairStatus === 'error'">修复失败 ✗</template>
+            <template v-else>🛠️ 一键修复</template>
           </button>
         </div>
 
@@ -114,7 +122,7 @@ function onTabChange(tab: typeof activeTab.value) {
           </div>
           <div v-if="repairDone" class="diag-success">✅ 修复已完成，数据库结构已更新</div>
         </div>
-        <div v-else-if="!diagLoading" class="diag-placeholder">
+        <div v-else-if="diagnoseStatus === 'idle'" class="diag-placeholder">
           点击「开始诊断」检查系统状态
         </div>
       </div>
