@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { apiGet, apiPost } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import SidebarLayout from '@/components/layout/SidebarLayout.vue'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const toast = useToastStore()
 function logout() { authStore.logout(); router.replace({ name: 'landing' }) }
@@ -17,7 +18,10 @@ const activeClassId = ref<number | null>(null)
 const switchingClass = ref(false)
 const activeClass = computed(() => myClasses.value.find(c => c.class_id === activeClassId.value))
 
-const navItems = [
+// 基础模式（班级码进入）只显示课堂核心功能
+const isBasic = computed(() => route.meta?.basic === true)
+
+const fullNav = [
   { section: '概览', items: [
     { page: 'teacher-dashboard', label: '班级总览', icon: '🏠' },
   ]},
@@ -46,6 +50,23 @@ const navItems = [
     { page: 'teacher-settings', label: '账号设置', icon: '⚙️' },
   ]},
 ]
+
+const basicNav = [
+  { section: '概览', items: [
+    { page: 'teacher-dashboard-basic', label: '班级总览', icon: '🏠' },
+  ]},
+  { section: '课堂', items: [
+    { page: 'teacher-scores-basic', label: '课堂评价', icon: '✏️' },
+    { page: 'teacher-leaderboard-basic', label: '排行榜', icon: '🏆' },
+    { page: 'teacher-pk-basic', label: '年级PK', icon: '⚔️' },
+    { page: 'teacher-pets-basic', label: '宠物图鉴', icon: '📚' },
+  ]},
+  { section: '互动', items: [
+    { page: 'teacher-ai-basic', label: 'AI 助手', icon: '🤖' },
+  ]},
+]
+
+const navItems = computed(() => isBasic.value ? basicNav : fullNav)
 
 async function loadMyClasses() {
   try {

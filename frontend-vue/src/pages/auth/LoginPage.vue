@@ -98,7 +98,7 @@ async function handleClassLogin() {
     }))
     classInfo.value = { class_name: res.data.class_name, student_count: res.data.student_count }
     toast.show(`欢迎进入 ${res.data.class_name}`, 'success')
-    setTimeout(() => router.push({ name: 'classroom-overview' }), 1500)
+    setTimeout(() => router.push({ name: 'teacher-dashboard-basic' }), 1500)
   } catch (e: any) {
     classCodeError.value = e?.response?.data?.message || '班级码无效，请核对后重试'
   } finally { loading.value = false }

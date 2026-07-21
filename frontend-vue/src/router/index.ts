@@ -23,8 +23,15 @@ const router = createRouter({
     {
       path: '/teacher',
       component: () => import('@/layouts/TeacherLayout.vue'),
-      meta: { requiresAuth: true, role: 'teacher' },
       children: [
+        // 基础模式（班级码进入）
+        { path: 'dashboard-basic', name: 'teacher-dashboard-basic', component: () => import('@/pages/teacher/DashboardPage.vue'), meta: { basic: true } },
+        { path: 'scores-basic', name: 'teacher-scores-basic', component: () => import('@/pages/classroom/ScoresPage.vue'), meta: { basic: true } },
+        { path: 'leaderboard-basic', name: 'teacher-leaderboard-basic', component: () => import('@/pages/classroom/OverviewPage.vue'), meta: { basic: true } },
+        { path: 'pk-basic', name: 'teacher-pk-basic', component: () => import('@/pages/classroom/PKPage.vue'), meta: { basic: true } },
+        { path: 'pets-basic', name: 'teacher-pets-basic', component: () => import('@/pages/classroom/PokedexPage.vue'), meta: { basic: true } },
+        { path: 'ai-basic', name: 'teacher-ai-basic', component: () => import('@/pages/classroom/AIChatPage.vue'), meta: { basic: true } },
+        // 完整模式（教师登录）
         { path: '', redirect: { name: 'teacher-dashboard' } },
         { path: 'dashboard', name: 'teacher-dashboard', component: () => import('@/pages/teacher/DashboardPage.vue') },
         { path: 'classroom', name: 'teacher-classroom', component: () => import('@/pages/teacher/ClassroomDisplay.vue') },
@@ -105,6 +112,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
+  // 基础模式（班级码进入）不需要 Sanctum 认证
+  if (to.meta.basic) return next()
+
   const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
