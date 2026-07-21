@@ -9,6 +9,7 @@ const toast = useToastStore()
 const preview = ref<GradeUpgradePreview | null>(null)
 const loading = ref(false)
 const executing = ref(false)
+const executeStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const hasPreviewed = ref(false)
 
 async function loadPreview() {
@@ -27,12 +28,16 @@ async function executeUpgrade() {
   const graduateCount = preview.value.summary.graduate_class_count
   if (!confirm(`确认执行年级升级？\n\n将升级 ${upgradeCount} 个班级，毕业 ${graduateCount} 个班级。\n此操作不可撤销！`)) return
   executing.value = true
+  executeStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/grade-upgrade/execute')
-    toast.show('年级升级已执行完成', 'success')
-    // 重新拉取预览
+    executeStatus.value = 'success'
+    setTimeout(() => { executeStatus.value = 'idle' }, 2000)
     await loadPreview()
-  } catch { /* handled */ }
+  } catch {
+    executeStatus.value = 'error'
+    setTimeout(() => { executeStatus.value = 'idle' }, 3000)
+  }
   finally { executing.value = false }
 }
 </script>
@@ -48,8 +53,12 @@ async function executeUpgrade() {
         <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="loadPreview" :disabled="loading">
           {{ loading ? '加载中...' : '🔄 重新预览' }}
         </button>
-        <button v-if="preview" class="btn btn-sm btn-primary" :disabled="executing" @click="executeUpgrade">
-          {{ executing ? '执行中...' : '▶ 执行升级' }}
+        <button v-if="preview" class="btn btn-sm" :disabled="executeStatus === 'loading'" @click="executeUpgrade" style="transition:all 0.3s ease;border:none;color:#fff;"
+          :style="{ background: executeStatus === 'loading' ? '#f59e0b' : executeStatus === 'success' ? '#10b981' : executeStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+          <span v-if="executeStatus === 'idle'">▶ 执行升级</span>
+          <span v-else-if="executeStatus === 'loading'">⏳ 执行中...</span>
+          <span v-else-if="executeStatus === 'success'">✅ 升级完成</span>
+          <span v-else>❌ 执行失败</span>
         </button>
       </div>
     </div>
