@@ -15,7 +15,6 @@ interface StudentProgress { student_id: number; student_name: string; scores: nu
 interface ClassOption { class_id: number; class_name: string }
 
 const loading = ref(true)
-const exporting = ref(false)
 const exportStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const scoreTrend = ref<ScoreTrend | null>(null)
 const petDist = ref<PetDist[]>([])
