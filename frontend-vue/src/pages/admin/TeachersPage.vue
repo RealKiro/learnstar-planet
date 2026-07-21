@@ -46,6 +46,7 @@ const teacherTeams = computed(() => {
 })
 
 const filteredTeachers = computed(() => {
+  if (!teachers.value) return []
   let list = teachers.value
   if (searchQuery.value) {
     const q = searchQuery.value.toLowerCase()
@@ -63,7 +64,7 @@ const createLoading = ref(false)
 const pendingGrade = ref('')
 const pendingClassId = ref(null)
 const pendingSubject = ref('')
-const gradeClasses = computed(() => classes.value.filter(c => c.grade === pendingGrade.value))
+const gradeClasses = computed(() => (classes.value || []).filter(c => c.grade === pendingGrade.value))
 function openCreateModal() {
   createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
   createAssignments.value = []; pendingGrade.value = ''; pendingClassId.value = null; pendingSubject.value = ''
