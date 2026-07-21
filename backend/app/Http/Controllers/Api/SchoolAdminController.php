@@ -111,12 +111,11 @@ class SchoolAdminController extends Controller
             return response()->json(['message' => '该校已存在同名教师「' . $request->input('name') . '」', 'errors' => ['name' => ['该校已存在同名教师']]], 422);
         }
 
-        // 自动生成用户名和密码
+        // 自动生成唯一用户名
         $password = $request->input('password') ?: \Illuminate\Support\Str::random(8);
         $gradeTeam = $request->input('grade_team', '');
         $gradePrefix = $this->gradeToPrefix($gradeTeam);
-        $count = \App\Models\User::where('school_id', $school->id)->where('role', 'teacher')->count() + 1;
-        $username = $gradePrefix . str_pad((string) $count, 2, '0', STR_PAD_LEFT);
+        $username = $this->generateUniqueTeacherUsername($school, $gradePrefix);
 
         $teacherData = [
             'name' => $request->input('name'),
@@ -1491,6 +1490,21 @@ class SchoolAdminController extends Controller
             if ($gradeTeam && str_contains($gradeTeam, $cn)) return $prefix;
         }
         return 'G0';
+    }
+
+    /**
+     * 生成全校唯一的教师用户名
+     */
+    private function generateUniqueTeacherUsername(\App\Models\School $school, string $prefix): string
+    {
+        $maxId = \App\Models\User::where('school_id', $school->id)->where('role', 'teacher')->max('id');
+        $next = ($maxId ? (int) substr((string) $maxId, -4) : 0) + 1;
+        $base = $prefix . str_pad((string) $next, 2, '0', STR_PAD_LEFT);
+        while (\App\Models\User::where('username', $base)->exists()) {
+            $next++;
+            $base = $prefix . str_pad((string) $next, 2, '0', STR_PAD_LEFT);
+        }
+        return $base;
     }
 
     private function gradeToDigit(string $grade): string
