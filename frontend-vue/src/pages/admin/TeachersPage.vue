@@ -113,8 +113,9 @@ async function submitCreate() {
       for (const [field, msgs] of Object.entries(errs)) {
         createErrors.value[field] = (msgs as string[])[0]
       }
-    } else if (e?.response?.status !== 422) {
-      toast.show(e?.response?.data?.message || '创建失败，请稍后重试', 'error')
+    } else {
+      const msg = e?.response?.data?.message
+      if (msg && e?.response?.status === 500) toast.show(msg, 'error')
     }
   } finally { createLoading.value = false }
 }

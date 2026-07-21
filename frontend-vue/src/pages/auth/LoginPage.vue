@@ -35,7 +35,7 @@ function validateLoginField(field: string, val: string): boolean {
   if (field === 'adminPassword' && !val.trim()) { loginErrors.adminPassword = '请输入管理员密码'; return false }
   if (field === 'parentUsername' && !val.trim()) { loginErrors.parentUsername = '请输入家长账号'; return false }
   if (field === 'parentPassword' && !val.trim()) { loginErrors.parentPassword = '请输入家长密码'; return false }
-  if (field === 'classCode' && !val.trim()) { loginErrors.classCode = '请输入6位班级码，如 LS301'; return false }
+  if (field === 'classCode' && !val.trim()) { loginErrors.classCode = '请输入班级码'; return false }
   clearLoginErr(field); return true
 }
 function validateLoginForm(type: string): boolean {
@@ -50,7 +50,7 @@ function validateLoginForm(type: string): boolean {
     if (!parentUsername.value.trim()) loginErrors.parentUsername = '请输入家长账号'
     if (!parentPassword.value.trim()) loginErrors.parentPassword = '请输入家长密码'
   } else if (type === 'class') {
-    if (!classCode.value.trim()) loginErrors.classCode = '请输入6位班级码，如 LS301'
+    if (!classCode.value.trim()) loginErrors.classCode = '请输入班级码'
   }
   return Object.keys(loginErrors).length === 0
 }
