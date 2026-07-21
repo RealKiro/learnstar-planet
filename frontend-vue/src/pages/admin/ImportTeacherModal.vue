@@ -65,7 +65,7 @@ async function uploadImport(isDry: boolean) {
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:700px;width:100%;padding:4px 0;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+      <div class="modal-header">
         <h3 style="font-size:17px;font-weight:700;color:var(--color-text);margin:0;">批量导入教师</h3>
         <button
           class="close-btn"
@@ -89,13 +89,7 @@ async function uploadImport(isDry: boolean) {
           <p style="font-size:12px;color:#9ca3af;">
             密码选填，不填默认为 star123456。角色和班级导入后使用 &#127979; 按钮分配。
           </p>
-          <a
-            href="/api/v1/admin/teachers/template-csv"
-            target="_blank"
-            style="font-size:13px;color:#7c3aed;text-decoration:underline;"
-          >
-            下载正确模板
-          </a>
+          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="downloadTemplate">📥 下载模板</button>
         </div>
 
         <input
@@ -137,7 +131,7 @@ async function uploadImport(isDry: boolean) {
         </div>
       </div>
 
-      <div class="modal-footer" style="display:flex;justify-content:flex-end;gap:8px;padding-top:12px;border-top:1px solid var(--color-border);">
+      <div class="modal-footer" style="justify-content:flex-end;">
         <button
           class="btn"
           style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);"
@@ -239,4 +233,10 @@ async function uploadImport(isDry: boolean) {
 .btn-primary:hover {
   background: #6d28d9;
 }
+/* Modal utility classes */
+.modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--color-border); flex-shrink:0; }
+.modal-footer { display:flex; gap:8px; padding-top:12px; border-top:1px solid var(--color-border); margin-top:16px; }
+.modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
+.flex-row { display:flex; gap:8px; }
+.flex-1 { flex:1; }
 </style>

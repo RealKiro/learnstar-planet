@@ -90,7 +90,7 @@ function generateStrongPassword() {
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:420px;width:100%;padding:4px 0;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+      <div class="modal-header">
         <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">
           &#128273; 密码管理 — {{ teacher?.name }}
         </h3>
@@ -118,14 +118,14 @@ function generateStrongPassword() {
 
       <div class="form-group">
         <label>新密码</label>
-        <div style="display:flex;gap:6px;">
+        <div class="flex-row" style="gap:6px;">
           <input
             v-model="resetPwdValue"
             :type="showResetPwd ? 'text' : 'password'"
             class="form-input"
             placeholder="留空自动生成"
             autocomplete="new-password"
-            style="flex:1;"
+            class="flex-1"
           >
           <button
             type="button"
@@ -137,34 +137,34 @@ function generateStrongPassword() {
         </div>
       </div>
 
-      <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <div class="flex-row" style="margin-bottom:12px;">
         <button
           type="button"
-          style="flex:1;padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-family:inherit;"
+          class="flex-1" style="padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-family:inherit;"
           @click="generateStrongPassword"
         >
           &#10024; 生成强密码
         </button>
         <button
           type="button"
-          style="flex:1;padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);font-family:inherit;"
+          class="flex-1" style="padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);font-family:inherit;"
           @click="resetPwdValue = ''"
         >
           &#128260; 重置为空
         </button>
       </div>
 
-      <div style="display:flex;gap:12px;">
+      <div class="flex-row" style="gap:12px;">
         <button
           @click="closeModal"
-          style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
+          class="flex-1" style="padding:8px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
         >
           取消
         </button>
         <button
           @click="submitResetPwd"
           :disabled="resetPwdLoading"
-          style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;"
+          class="flex-1" style="padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;"
         >
           {{ resetPwdLoading ? '更新中...' : '更新密码' }}
         </button>
@@ -199,4 +199,10 @@ function generateStrongPassword() {
   border-color: #7c3aed;
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
 }
+/* Modal utility classes */
+.modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--color-border); flex-shrink:0; }
+.modal-footer { display:flex; gap:8px; padding-top:12px; border-top:1px solid var(--color-border); margin-top:16px; }
+.modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
+.flex-row { display:flex; gap:8px; }
+.flex-1 { flex:1; }
 </style>

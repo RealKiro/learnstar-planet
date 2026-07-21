@@ -153,7 +153,7 @@ function closeModal() {
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:620px;width:100%;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+      <div class="modal-header">
         <h2 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">
           &#127979; 分配班级 — {{ teacher?.name }}
         </h2>
@@ -161,7 +161,7 @@ function closeModal() {
       </div>
 
       <!-- 选择器 -->
-      <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:12px;flex-wrap:wrap;">
+      <div class="flex-row" style="align-items:flex-end;margin-bottom:12px;flex-wrap:wrap;">
         <div style="flex:1;min-width:100px;" class="form-group">
           <label>年级</label>
           <select v-model="assignGradeFilter" class="form-input">
@@ -202,7 +202,7 @@ function closeModal() {
 
       <!-- 已分配列表 -->
       <div style="margin-bottom:12px;">
-        <div style="font-size:13px;font-weight:600;color:var(--color-text);margin-bottom:8px;">
+        <div class="modal-section-title" style="font-size:13px;">
           &#128203; 已分配（{{ assignList.length }}）
         </div>
         <div
@@ -230,7 +230,7 @@ function closeModal() {
         </div>
       </div>
 
-      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--color-border);">
+      <div class="modal-footer" style="justify-content:flex-end;">
         <button
           @click="closeModal"
           style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
@@ -279,4 +279,10 @@ function closeModal() {
   color: #1E293B;
   background: #fff;
 }
+/* Modal utility classes */
+.modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--color-border); flex-shrink:0; }
+.modal-footer { display:flex; gap:8px; padding-top:12px; border-top:1px solid var(--color-border); margin-top:16px; }
+.modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
+.flex-row { display:flex; gap:8px; }
+.flex-1 { flex:1; }
 </style>

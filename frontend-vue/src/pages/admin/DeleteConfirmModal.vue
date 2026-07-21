@@ -65,7 +65,7 @@ async function confirmDelete() {
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:400px;width:100%;padding:4px 0;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+      <div class="modal-header" style="margin-bottom:12px;">
         <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">&#9888;&#65039; 确认删除</h3>
         <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
       </div>
@@ -101,7 +101,7 @@ async function confirmDelete() {
           >
         </div>
       </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--color-border);">
+      <div class="modal-footer" style="justify-content:flex-end;">
         <button
           @click="closeModal"
           style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
@@ -136,4 +136,10 @@ async function confirmDelete() {
   border-color: #7c3aed;
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
 }
+/* Modal utility classes */
+.modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--color-border); flex-shrink:0; }
+.modal-footer { display:flex; gap:8px; padding-top:12px; border-top:1px solid var(--color-border); margin-top:16px; }
+.modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
+.flex-row { display:flex; gap:8px; }
+.flex-1 { flex:1; }
 </style>

@@ -209,21 +209,21 @@ async function submitCreate() {
 
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);flex-shrink:0;">
+    <div class="modal-header">
       <h2 style="font-size:18px;font-weight:700;color:var(--color-text);margin:0;">✨ 创建教师账号</h2>
       <button :disabled="createLoading" @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
     </div>
     <div style="overflow-y:auto;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
         <div>
-          <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📝 创建账号 <span style="font-size:10px;color:var(--color-text-secondary);">必填</span></div>
-          <div style="display:flex;gap:8px;">
-            <div style="flex:1;" class="form-group">
+          <div class="modal-section-title">📝 创建账号 <span style="font-size:10px;color:var(--color-text-secondary);">必填</span></div>
+          <div class="flex-row">
+            <div class="flex-1 form-group">
               <label>姓名 <span style="color:var(--color-danger);">*</span></label>
               <input v-model="createForm.name" placeholder="姓名" class="form-input" :style="{ borderColor: createErrors.name ? '#f87171' : '' }" @blur="validateField('name', createForm.name)" @input="clearError('name')" />
               <div v-if="createErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ createErrors.name }}</div>
             </div>
-            <div style="flex:1;" class="form-group">
+            <div class="flex-1 form-group">
               <label>年级团队</label>
               <select v-model="createForm.grade_team" class="form-input">
                 <option value="">不指定</option>
@@ -231,9 +231,9 @@ async function submitCreate() {
               </select>
             </div>
           </div>
-          <div style="display:flex;gap:8px;">
-            <div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div>
-            <div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div>
+          <div class="flex-row">
+            <div class="flex-1 form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div>
+            <div class="flex-1 form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div>
           </div>
           <div style="display:none;"></div>
           <div class="form-group">
@@ -243,7 +243,7 @@ async function submitCreate() {
           </div>
         </div>
         <div>
-          <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📚 加入班级 <span style="font-size:10px;color:var(--color-text-secondary);">可选</span></div>
+          <div class="modal-section-title">📚 加入班级 <span style="font-size:10px;color:var(--color-text-secondary);">可选</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
             <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
             <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
@@ -263,16 +263,16 @@ async function submitCreate() {
                 <span v-if="a.role === 'subject_teacher'" style="font-size:11px;color:var(--color-text-secondary);">{{ a.subject }}</span>
                 <span v-else style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }} · {{ a.subject }}</span>
                 <span v-if="ai < group.items.length - 1" style="color:var(--color-border);font-size:10px;">|</span>
+                <button @click="removeClassAssignment(a.index)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0;">✕</button>
               </template>
-              <button @click="removeClassAssignment(group.items[0].index)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0;">✕</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div style="display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--color-border);flex-shrink:0;">
-      <button @click="closeModal" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
-      <button @click="submitCreate" :disabled="createStatus === 'loading'" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:#fff;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(124,58,237,0.15);"
+    <div class="modal-footer" style="padding:12px 20px;flex-shrink:0;margin-top:0;">
+      <button @click="closeModal" class="flex-1" style="padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
+      <button @click="submitCreate" :disabled="createStatus === 'loading'" class="flex-1" style="padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:#fff;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(124,58,237,0.15);"
         :style="{ background: createStatus === 'loading' ? '#f59e0b' : createStatus === 'success' ? '#10b981' : createStatus === 'error' ? '#ef4444' : '#7c3aed' }">
         <span v-if="createStatus === 'idle'">创建账号</span>
         <span v-else-if="createStatus === 'loading'">⏳ 创建中...</span>
@@ -309,4 +309,10 @@ async function submitCreate() {
   border-color: #7c3aed;
   box-shadow: 0 0 0 3px rgba(124,58,237,0.08);
 }
+/* Modal utility classes */
+.modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--color-border); flex-shrink:0; }
+.modal-footer { display:flex; gap:8px; padding-top:12px; border-top:1px solid var(--color-border); margin-top:16px; }
+.modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
+.flex-row { display:flex; gap:8px; }
+.flex-1 { flex:1; }
 </style>
