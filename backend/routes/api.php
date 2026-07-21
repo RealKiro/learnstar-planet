@@ -88,7 +88,6 @@ Route::prefix('v1')->group(function () {
             Route::get('by-grade', [SchoolAdminController::class, 'reportsByGrade']);
             Route::get('by-class', [SchoolAdminController::class, 'reportsByClass']);
         });
-        });
         Route::get('display-login-logs', [SchoolAdminController::class, 'displayLoginLogs']);
         Route::prefix('system')->group(function () {
             Route::get('diagnose', [SchoolAdminController::class, 'systemDiagnose']);
@@ -221,6 +220,11 @@ Route::prefix('v1')->group(function () {
             Route::get('wallets', [TeacherController::class, 'listWallets']);
             Route::post('exchange', [TeacherController::class, 'exchangeCurrency']);
             Route::post('cross-exchange', [TeacherController::class, 'crossExchangeCurrency']);
+        Route::prefix('exchange-rates')->group(function () {
+            Route::get('/', [TeacherController::class, 'listExchangeRates']);
+            Route::post('/', [TeacherController::class, 'createExchangeRate']);
+            Route::put('{id}', [TeacherController::class, 'updateExchangeRate']);
+        });
         });
 
         Route::get('display-code', [DisplayController::class, 'getDisplayCode']);
