@@ -11,10 +11,15 @@ const loading = ref(true)
 const showModal = ref(false)
 const editingId = ref<number | null>(null)
 
-const form = ref({ name: '', points: 1, category: '', is_penalty: false })
+const form = ref({ name: '', points: 1, category: 'classroom', is_penalty: false })
 
 const positiveRules = computed(() => rules.value.filter(r => !r.is_penalty))
 const negativeRules = computed(() => rules.value.filter(r => r.is_penalty))
+
+const categoryLabels: Record<string, string> = {
+  classroom: '📖 课堂表现', homework: '📝 作业管理', behavior: '🌟 行为习惯',
+  literacy: '📊 综合素养', daily: '📅 日常表现', academic: '📚 学业',
+}
 
 onMounted(async () => {
   try {
@@ -99,7 +104,7 @@ async function handleDelete(rule: ScoreRule) {
             <div>
               <span style="font-weight:700;color:var(--color-accent);">+{{ Math.abs(rule.points) }}</span>
               <span style="margin-left:8px;font-weight:500;">{{ rule.name }}</span>
-              <span style="margin-left:8px;font-size:12px;color:var(--color-text-secondary);">{{ rule.category }}</span>
+              <span style="margin-left:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;">{{ categoryLabels[rule.category] || rule.category }}</span>
             </div>
             <div style="display:flex;gap:4px;">
               <button class="btn btn-sm btn-ghost" @click="openEdit(rule)">编辑</button>
@@ -119,7 +124,7 @@ async function handleDelete(rule: ScoreRule) {
             <div>
               <span style="font-weight:700;color:var(--color-danger);">{{ rule.points }}</span>
               <span style="margin-left:8px;font-weight:500;">{{ rule.name }}</span>
-              <span style="margin-left:8px;font-size:12px;color:var(--color-text-secondary);">{{ rule.category }}</span>
+              <span style="margin-left:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;">{{ categoryLabels[rule.category] || rule.category }}</span>
             </div>
             <div style="display:flex;gap:4px;">
               <button class="btn btn-sm btn-ghost" @click="openEdit(rule)">编辑</button>
@@ -144,7 +149,9 @@ async function handleDelete(rule: ScoreRule) {
         </div>
         <div class="form-group">
           <label>分类</label>
-          <input v-model="form.category" class="form-input" placeholder="如：作业、课堂表现">
+          <select v-model="form.category" class="form-input">
+            <option v-for="(label, key) in categoryLabels" :key="key" :value="key">{{ label }}</option>
+          </select>
         </div>
         <div class="form-group">
           <label>类型</label>
