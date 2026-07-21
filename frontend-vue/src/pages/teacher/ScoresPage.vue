@@ -363,16 +363,20 @@ t        <button class="page-link-btn" @click="goToRules">📋 管理积分规�
           <button
             v-for="r in positiveRules" :key="r.id"
             class="qr-btn qr-add"
+            :style="getBatchBtnStyle(r.id)"
             @click="handleBatchRuleScore(r)"
+            :disabled="getBatchStatus(r.id) === 'loading'"
           >
-            +{{ r.points }} {{ r.name }}
+            {{ getBatchBtnText(r) }}
           </button>
           <button
             v-for="r in negativeRules" :key="r.id"
             class="qr-btn qr-sub"
+            :style="getBatchBtnStyle(r.id)"
             @click="handleBatchRuleScore(r)"
+            :disabled="getBatchStatus(r.id) === 'loading'"
           >
-            {{ r.points }} {{ r.name }}
+            {{ getBatchBtnText(r) }}
           </button>
         </div>
       </div>
@@ -451,9 +455,11 @@ t        <button class="page-link-btn" @click="goToRules">📋 管理积分规�
               v-for="reason in modalReasons"
               :key="reason"
               class="reason-btn"
+              :style="giveStatus !== 'idle' && activeReason === reason ? { background: giveStatus === 'loading' ? '#f59e0b' : giveStatus === 'success' ? '#10b981' : '#ef4444', color: '#fff', borderColor: 'transparent', fontWeight: '700' } : {}"
               @click="executeAction(reason)"
+              :disabled="giveStatus === 'loading'"
             >
-              {{ reason }}
+              {{ giveStatus !== 'idle' && activeReason === reason ? (giveStatus === 'loading' ? '处理中...' : giveStatus === 'success' ? '操作成功' : '操作失败') : reason }}
             </button>
           </div>
           <button class="cancel-btn" @click="closeModal">取消操作</button>
@@ -490,7 +496,7 @@ t        <button class="page-link-btn" @click="goToRules">📋 管理积分规�
             <td :style="{ color: s.amount > 0 ? '#10B981' : '#EF4444', fontWeight: 700 }">{{ s.amount > 0 ? '+' : '' }}{{ s.amount }}</td>
             <td style="color:var(--color-text-secondary);">{{ s.reason }}</td>
             <td style="color:var(--color-text-secondary);font-size:13px;">{{ new Date(s.created_at).toLocaleString('zh-CN') }}</td>
-            <td><button class="btn btn-xs" style="color:var(--color-danger);" @click="undoScore(s.id)">↩ 撤回</button></td>
+            <td><button class="btn btn-xs" @click="undoScore(s.id)" :disabled="getUndoStatus(s.id) === 'loading'" :style="getUndoBtnStyle(s.id)">{{ getUndoBtnText(s.id) }}</button></td>
           </tr>
         </tbody>
       </table>

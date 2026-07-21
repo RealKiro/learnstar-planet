@@ -429,6 +429,9 @@ async function submitAssignTeacher() {
             >
               <option v-for="opt in petSeriesOptions" :key="opt.value" :value="opt.value">{{ opt.emoji }} {{ opt.label }}</option>
             </select>
+            <span v-if="seriesStatus[c.id] === 'loading'" style="font-size:11px;color:var(--color-text-secondary);margin-right:16px;">⏳</span>
+            <span v-else-if="seriesStatus[c.id] === 'success'" style="font-size:11px;color:#059669;margin-right:16px;">✓</span>
+            <span v-else-if="seriesStatus[c.id] === 'error'" style="font-size:11px;color:#dc2626;margin-right:16px;">✗</span>
             <span style="margin-right:16px;font-weight:600;font-size:13px;color:var(--color-text-secondary);min-width:60px;text-align:right;">{{ c.student_count }} 人</span>
             <div style="display:flex;gap:6px;">
               <button class="btn btn-sm" style="background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border);font-size:12px;" @click="openImportModal(c.name)">导入</button>
@@ -463,7 +466,7 @@ async function submitAssignTeacher() {
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showBatchClassModal = false">取消</button>
-          <button class="btn btn-sm btn-primary" :disabled="modalLoading" @click="submitBatchClass">{{ modalLoading ? '创建中...' : '创建' }}</button>
+          <button class="btn btn-sm" :style="batchStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : batchStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : batchStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="batchStatus === 'loading'" @click="submitBatchClass">{{ batchStatus === 'loading' ? '创建中...' : batchStatus === 'success' ? '已创建 ✓' : batchStatus === 'error' ? '创建失败' : '创建' }}</button>
         </div>
       </div>
     </div>
@@ -492,7 +495,7 @@ async function submitAssignTeacher() {
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showSingleClassModal = false">取消</button>
-          <button class="btn btn-sm btn-primary" :disabled="modalLoading" @click="submitSingleClass">{{ modalLoading ? '创建中...' : '创建' }}</button>
+          <button class="btn btn-sm" :style="createStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : createStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : createStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="createStatus === 'loading'" @click="submitSingleClass">{{ createStatus === 'loading' ? '创建中...' : createStatus === 'success' ? '已创建 ✓' : createStatus === 'error' ? '创建失败' : '创建' }}</button>
         </div>
       </div>
     </div>
@@ -518,8 +521,8 @@ async function submitAssignTeacher() {
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showAssignTeacherModal = false">取消</button>
-          <button class="btn btn-sm btn-primary" :disabled="assignTeacherLoading" @click="submitAssignTeacher">
-            {{ assignTeacherLoading ? '保存中...' : '保存' }}
+          <button class="btn btn-sm" :style="assignTeacherStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : assignTeacherStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : assignTeacherStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="assignTeacherStatus === 'loading'" @click="submitAssignTeacher">
+            {{ assignTeacherStatus === 'loading' ? '保存中...' : assignTeacherStatus === 'success' ? '已保存 ✓' : assignTeacherStatus === 'error' ? '保存失败' : '保存' }}
           </button>
         </div>
       </div>
@@ -566,7 +569,7 @@ async function submitAssignTeacher() {
           </div>
           <div style="display:flex;gap:8px;justify-content:flex-end;">
             <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showImportModal = false">取消</button>
-            <button class="btn btn-sm btn-primary" :disabled="modalLoading" @click="submitImport">{{ modalLoading ? '导入中...' : '开始导入' }}</button>
+            <button class="btn btn-sm" :style="importStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : importStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : importStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="importStatus === 'loading'" @click="submitImport">{{ importStatus === 'loading' ? '导入中...' : importStatus === 'success' ? '已导入 ✓' : importStatus === 'error' ? '导入失败' : '开始导入' }}</button>
           </div>
         </div>
       </div>

@@ -13,7 +13,7 @@ interface School {
 }
 
 const loading = ref(true)
-const saving = ref(false)
+const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const form = ref({ name: '', address: '', contact_phone: '', contact_email: '' })
 const schoolCode = ref('')
 const schoolStatus = ref('')
@@ -32,15 +32,15 @@ function saveSchool() {
   save()
 }
 const logoPath = ref('')
-const logoUploading = ref(false)
+const uploadLogoStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const activeTab = ref<'school' | 'diagnose' | 'status'>('school')
 
 // 诊断
 interface DiagItem { item: string; status: string; detail?: string }
-const diagLoading = ref(false)
+const diagnoseStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const diagResult = ref<DiagItem[] | null>(null)
 const diagHasIssues = ref(false)
-const repairLoading = ref(false)
+const repairStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const repairDone = ref(false)
 async function diagnose() {
   diagLoading.value = true; diagResult.value = null; repairDone.value = false
