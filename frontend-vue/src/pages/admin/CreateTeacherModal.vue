@@ -106,7 +106,7 @@ function resetForm() {
   createLoading.value = false
 }
 
-function closeCreateModal() {
+function closeModal() {
   emit('update:visible', false)
   createStatus.value = 'idle'
   createErrorMsg.value = ''
@@ -211,7 +211,7 @@ async function submitCreate() {
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);flex-shrink:0;">
       <h2 style="font-size:18px;font-weight:700;color:var(--color-text);margin:0;">✨ 创建教师账号</h2>
-      <button :disabled="createLoading" @click="closeCreateModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
+      <button :disabled="createLoading" @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
     </div>
     <div style="overflow-y:auto;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
@@ -271,7 +271,7 @@ async function submitCreate() {
       </div>
     </div>
     <div style="display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--color-border);flex-shrink:0;">
-      <button @click="closeCreateModal" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
+      <button @click="closeModal" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
       <button @click="submitCreate" :disabled="createStatus === 'loading'" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:#fff;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(124,58,237,0.15);"
         :style="{ background: createStatus === 'loading' ? '#f59e0b' : createStatus === 'success' ? '#10b981' : createStatus === 'error' ? '#ef4444' : '#7c3aed' }">
         <span v-if="createStatus === 'idle'">创建账号</span>

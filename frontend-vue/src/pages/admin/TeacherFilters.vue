@@ -40,3 +40,9 @@ const emit = defineEmits<{
     </div>
   </div>
 </template>
+
+<style scoped>
+.toolbar-actions { display:flex;align-items:center;gap:8px;flex-wrap:nowrap; }
+.filter-select { width:90px;padding:6px 10px;font-size:12px; }
+.filter-search { width:120px;padding:6px 10px;font-size:12px; }
+</style>

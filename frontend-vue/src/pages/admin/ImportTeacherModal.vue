@@ -19,7 +19,7 @@ const importFile = ref<File | null>(null)
 const importPreview = ref<any[]>([])
 const importLoading = ref(false)
 
-function close() {
+function closeModal() {
   emit('update:visible', false)
 }
 
@@ -69,7 +69,7 @@ async function uploadImport(isDry: boolean) {
         <h3 style="font-size:17px;font-weight:700;color:var(--color-text);margin:0;">批量导入教师</h3>
         <button
           class="close-btn"
-          @click="close"
+          @click="closeModal"
           style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;"
         >
           &#10005;
@@ -141,7 +141,7 @@ async function uploadImport(isDry: boolean) {
         <button
           class="btn"
           style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);"
-          @click="close"
+          @click="closeModal"
         >
           取消
         </button>

@@ -145,7 +145,7 @@ async function submitAssign() {
   }
 }
 
-function close() {
+function closeModal() {
   emit('update:visible', false)
 }
 </script>
@@ -157,7 +157,7 @@ function close() {
         <h2 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">
           &#127979; 分配班级 — {{ teacher?.name }}
         </h2>
-        <button @click="close" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
+        <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
       </div>
 
       <!-- 选择器 -->
@@ -232,7 +232,7 @@ function close() {
 
       <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--color-border);">
         <button
-          @click="close"
+          @click="closeModal"
           style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
         >
           取消

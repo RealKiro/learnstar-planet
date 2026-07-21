@@ -57,7 +57,7 @@ watch(
   { immediate: true }
 )
 
-function close() {
+function closeModal() {
   emit('update:visible', false)
 }
 
@@ -94,7 +94,7 @@ function generateStrongPassword() {
         <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">
           &#128273; 密码管理 — {{ teacher?.name }}
         </h3>
-        <button @click="close" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
+        <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
       </div>
 
       <div
@@ -156,7 +156,7 @@ function generateStrongPassword() {
 
       <div style="display:flex;gap:12px;">
         <button
-          @click="close"
+          @click="closeModal"
           style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
         >
           取消

@@ -45,7 +45,7 @@ watch(
   { immediate: true }
 )
 
-function close() {
+function closeModal() {
   emit('update:visible', false)
 }
 
@@ -67,7 +67,7 @@ async function confirmDelete() {
     <div style="max-width:400px;width:100%;padding:4px 0;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
         <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">&#9888;&#65039; 确认删除</h3>
-        <button @click="close" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
+        <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
       </div>
       <div style="text-align:center;padding:8px 0;">
         <div style="font-size:40px;margin-bottom:8px;">&#128465;&#65039;</div>
@@ -103,7 +103,7 @@ async function confirmDelete() {
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--color-border);">
         <button
-          @click="close"
+          @click="closeModal"
           style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
         >
           取消

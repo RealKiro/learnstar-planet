@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { avatarGradient } from '@/utils/constants'
 
 interface Assignment { class_id: number; class_name?: string; grade?: string; role: string; subject?: string }
@@ -15,7 +16,12 @@ const emit = defineEmits<{
   resetPwd: [t: Teacher]
   delete: [t: Teacher]
 }>()
-function classById(id: number) { return props.classes.find(c => c.id === id) }
+const classMap = computed(() => {
+  const map: Record<number, ClassRoom> = {}
+  for (const c of props.classes) map[c.id] = c
+  return map
+})
+function classById(id: number) { return classMap.value[id] }
 </script>
 <template>
   <div class="teacher-card">

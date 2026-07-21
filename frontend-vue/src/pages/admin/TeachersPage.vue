@@ -58,8 +58,12 @@ function openAssign(t: Teacher) { assignTarget.value = t; showAssignModal.value 
 function openDelete(t: Teacher) { deleteTarget.value = t; showDeleteModal.value = true }
 function openResetPwd(t: Teacher) { resetTarget.value = t; showResetPwdModal.value = true }
 
+const gradeIconMap: Record<string, string> = {
+  '一年级': '🌱', '二年级': '🌿', '三年级': '🌳',
+  '四年级': '📚', '五年级': '⭐', '六年级': '🎓',
+}
 function gradeIcon(team: string): string {
-  for (const g of ['一年级','二年级','三年级','四年级','五年级','六年级']) { if (team.includes(g)) return ['🌱','🌿','🌳','📚','⭐','🎓'][['一年级','二年级','三年级','四年级','五年级','六年级'].indexOf(g)] }
+  for (const g of grades) { if (team.includes(g)) return gradeIconMap[g] || '📌' }
   return '📌'
 }
 function shortClassName(name: string | undefined) {
