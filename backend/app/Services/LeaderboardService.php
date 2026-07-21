@@ -55,37 +55,33 @@ class LeaderboardService
 
     public function getClassWeeklyLeaderboard(int $classId, int $limit = 20): array
     {
-        $raw = Redis::zrevrange($this->classWeeklyKey($classId), 0, $limit - 1, true);
-    public function getClassWeeklyLeaderboard(int $classId, int $limit = 20): array
-    {
         try {
             $raw = Redis::zrevrange($this->classWeeklyKey($classId), 0, $limit - 1, true);
             if (!empty($raw)) return $this->enrichLeaderboard($classId, $raw);
         } catch (Throwable $e) {}
         return $this->buildWeeklyFromDB($classId, $limit);
     }
-        $raw = Redis::zrevrange($this->classPetLevelKey($classId), 0, $limit - 1, true);
 
-        if (empty($raw)) {
-            return $this->rebuildPetLevelFromDB($classId, $limit);
     public function getPetLevelLeaderboard(int $classId, int $limit = 20): array
     {
         try {
             $raw = Redis::zrevrange($this->classPetLevelKey($classId), 0, $limit - 1, true);
-            if (!empty($raw)) return $this->enrichLeaderboard($classId, $raw);
+            if (!empty($raw)) return $this->enrichLeaderboard($classId, $raw, true);
         } catch (Throwable $e) {}
         return $this->rebuildPetLevelFromDB($classId, $limit);
     }
+
+    private function enrichLeaderboard(int $classId, array $raw, bool $isPet = false): array
+    {
+        $studentIds = array_keys($raw);
+        $students = Student::whereIn('id', $studentIds)->get()->keyBy('id');
 
         $result = [];
         $rank = 1;
 
         foreach ($raw as $studentId => $score) {
             $student = $students->get($studentId);
-
-            if (!$student) {
-                continue;
-            }
+            if (!$student) continue;
 
             $entry = [
                 'rank' => $rank,
