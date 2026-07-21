@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { apiGet, apiPut } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
@@ -34,7 +34,7 @@ function saveSchool() {
 }
 const logoPath = ref('')
 const uploadLogoStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
-const activeTab = ref<'school' | 'diagnose' | 'status'>('school')
+const activeTab = ref<'school' | 'diagnose' | 'status' | 'logs'>('school')
 
 // 诊断
 interface DiagItem { item: string; status: string; detail?: string }
@@ -87,6 +87,26 @@ async function loadStatus() {
   } catch { /* ignore */ }
   finally { statusLoading.value = false }
 }
+const logContent = ref('')
+const logLines = ref(200)
+const logRefreshing = ref(false)
+const logError = ref('')
+let logTimer: ReturnType<typeof setInterval> | null = null
+async function loadLogs() {
+  logRefreshing.value = true; logError.value = ''
+  try {
+    const res = await fetch(`/api/v1/admin/system/logs?lines=${logLines.value}`, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+    })
+    const data = await res.json()
+    if (!res.ok) { logError.value = data.message || '加载失败'; return }
+    logContent.value = data.data?.content || ''
+  } catch { logError.value = '加载日志失败' }
+  finally { logRefreshing.value = false }
+}
+function startLogPolling() { stopLogPolling(); logTimer = setInterval(loadLogs, 5000) }
+function stopLogPolling() { if (logTimer) { clearInterval(logTimer); logTimer = null } }
+onUnmounted(stopLogPolling)
 
 onMounted(async () => {
   try {
@@ -170,6 +190,7 @@ async function uploadLogo(e: Event) {
       <button :class="['tab-btn', { active: activeTab === 'school' }]" @click="activeTab = 'school'">🏫 学校信息</button>
       <button :class="['tab-btn', { active: activeTab === 'diagnose' }]" @click="activeTab = 'diagnose'">🔍 系统诊断</button>
       <button :class="['tab-btn', { active: activeTab === 'status' }]" @click="activeTab = 'status'">📊 系统状态</button>
+      <button :class="['tab-btn', { active: activeTab === 'logs' }]" @click="activeTab = 'logs'; loadLogs()">📋 实时日志</button>
     </div>
 
     <!-- 学校信息 -->
@@ -262,6 +283,24 @@ async function uploadLogo(e: Event) {
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- 实时日志 -->
+    <div v-if="activeTab === 'logs'" class="card" style="max-width:100%;padding:20px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
+        <h3 style="font-size:15px;font-weight:700;margin:0;">📋 实时日志</h3>
+        <select v-model.number="logLines" style="padding:4px 8px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-size:12px;">
+          <option :value="50">50 行</option>
+          <option :value="200">200 行</option>
+          <option :value="500">500 行</option>
+          <option :value="1000">1000 行</option>
+        </select>
+        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="loadLogs" :disabled="logRefreshing">{{ logRefreshing ? '加载中...' : '🔄 刷新' }}</button>
+        <button class="btn btn-sm" style="background:#7c3aed;color:#fff;border:none;" @click="startLogPolling">▶ 自动刷新</button>
+        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="stopLogPolling">⏹ 停止</button>
+      </div>
+      <div v-if="logError" style="color:#EF4444;font-size:13px;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:8px;">{{ logError }}</div>
+      <pre style="background:#0d1117;color:#e6edf3;padding:16px;border-radius:10px;font-size:12px;line-height:1.6;overflow:auto;max-height:60vh;white-space:pre-wrap;word-break:break-all;margin:0;">{{ logContent || '暂无日志' }}</pre>
     </div>
   </div>
 </template>

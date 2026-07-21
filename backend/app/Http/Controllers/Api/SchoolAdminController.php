@@ -1661,6 +1661,13 @@ class SchoolAdminController extends Controller
                     'item' => 'class_room_teachers 表',
                     'status' => $hasTable ? 'ok' : 'missing',
                 ];
+                if ($hasTable) {
+                    $hasSubject = $db->getSchemaBuilder()->hasColumn('class_room_teachers', 'subject');
+                    $results[] = [
+                        'item' => 'class_room_teachers.subject 字段',
+                        'status' => $hasSubject ? 'ok' : 'missing',
+                    ];
+                }
             } catch (\Throwable $e) {
                 $results[] = [
                     'item' => 'class_room_teachers 表',
@@ -1719,6 +1726,29 @@ class SchoolAdminController extends Controller
         } catch (\Throwable $e) {
             return response()->json(['message' => '修复失败: ' . $e->getMessage()], 500);
         }
+    }
+
+    /**
+     * 系统实时日志
+     */
+    public function systemLogs(Request $request): JsonResponse
+    {
+        $lines = (int) $request->query('lines', 200);
+        $logPath = storage_path('logs/laravel.log');
+        if (!file_exists($logPath)) {
+            return response()->json(['data' => ['content' => '', 'path' => $logPath, 'exists' => false]]);
+        }
+        $file = file($logPath);
+        $recent = array_slice($file, -$lines);
+        return response()->json([
+            'data' => [
+                'content' => implode('', $recent),
+                'path' => $logPath,
+                'exists' => true,
+                'size' => filesize($logPath),
+                'modified_at' => date('Y-m-d H:i:s', filemtime($logPath)),
+            ],
+        ]);
     }
 
     /**

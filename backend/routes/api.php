@@ -94,6 +94,7 @@ Route::prefix('v1')->group(function () {
             Route::get('diagnose', [SchoolAdminController::class, 'systemDiagnose']);
             Route::get('status', [SchoolAdminController::class, 'systemStatus']);
             Route::post('repair', [SchoolAdminController::class, 'systemRepair']);
+            Route::get('logs', [SchoolAdminController::class, 'systemLogs']);
         });
         Route::prefix('ai')->group(function () {
             Route::get('settings', [SchoolAdminController::class, 'getAiSettings']);
