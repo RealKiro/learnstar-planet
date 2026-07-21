@@ -19,7 +19,7 @@ class ClassRoomTeacher extends Model
 {
     protected $table = 'class_room_teachers';
 
-    protected $fillable = ['class_room_id','user_id','role'];
+    protected $fillable = ['class_room_id','user_id','role','subject'];
 
     public function classRoom(): BelongsTo
     {
