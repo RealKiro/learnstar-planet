@@ -221,45 +221,59 @@ onMounted(loadData)
 
       <!-- ===== AI 供应商 ===== -->
       <div v-if="activeTab === 'providers'" style="max-width:720px;">
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
-          <button v-for="p in providerMeta" :key="p.id"
-            :style="{
-              padding:'6px 14px', borderRadius:'20px', border:'1px solid var(--color-border)',
-              background: standardProviders.some(s => s.id === p.id) ? p.color + '18' : 'var(--color-bg-card)',
-              color: standardProviders.some(s => s.id === p.id) ? p.color : 'var(--color-text-secondary)',
-              cursor:'pointer', fontSize:'12px', fontWeight:500, fontFamily:'inherit',
-              borderColor: standardProviders.some(s => s.id === p.id) ? p.color + '44' : 'var(--color-border)',
-              opacity: standardProviders.some(s => s.id === p.id) ? 1 : 0.6,
-            }"
-            @click="standardProviders.some(s => s.id === p.id) ? removeProvider(standardProviders.findIndex(s => s.id === p.id)) : (() => { if (!settings?.providers?.some(pp => pp.id === p.id)) { settings?.providers?.push({ id: p.id, label: p.label, api_key: '', api_base: '', model: p.models[0] || '', is_active: false }) } })()">
-            {{ p.label }} {{ standardProviders.some(s => s.id === p.id) ? '✅' : '+' }}
-          </button>
+        <!-- 分组供应商浏览器 -->
+        <div v-for="(group, groupName) in groupedProviders" :key="groupName" style="margin-bottom:16px;">
+          <div style="font-size:11px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">{{ groupName }}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <button v-for="p in group" :key="p.id"
+              :style="{
+                padding:'5px 12px', borderRadius:'16px', border:'1px solid',
+                background: standardProviders.some(s => s.id === p.id) ? p.color + '15' : 'var(--color-bg)',
+                color: standardProviders.some(s => s.id === p.id) ? p.color : 'var(--color-text-secondary)',
+                cursor:'pointer', fontSize:'11px', fontWeight:500, fontFamily:'inherit',
+                borderColor: standardProviders.some(s => s.id === p.id) ? p.color + '33' : 'var(--color-border)',
+                transition:'all 0.15s',
+              }"
+              @mouseenter="$event.target.style.transform = 'translateY(-1px)'"
+              @mouseleave="$event.target.style.transform = 'none'"
+              @click="standardProviders.some(s => s.id === p.id)
+                ? removeProvider(standardProviders.findIndex(s => s.id === p.id))
+                : (() => { if (!settings?.providers?.some(pp => pp.id === p.id)) {
+                    settings?.providers?.push({ id: p.id, label: p.label, api_key: '', api_base: '', model: p.models[0] || '', is_active: false })
+                  } })()">
+              {{ p.label }} <span style="font-size:10px;">{{ standardProviders.some(s => s.id === p.id) ? '✓' : '+' }}</span>
+            </button>
+          </div>
         </div>
 
-        <div v-if="!standardProviders.length" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">点击上方供应商按钮添加，点击已添加的可移除</div>
+        <div v-if="!standardProviders.length" style="text-align:center;padding:20px;color:var(--color-text-secondary);font-size:12px;">点击上方按钮添加供应商，点击已添加的可移除</div>
+
+        <!-- 已配置的供应商卡片 -->
         <div v-for="(p, i) in standardProviders" :key="p.id" class="provider-card">
           <div class="pc-left" :style="{ borderLeftColor: getProviderMeta(p.id)?.color || '#7c3aed' }">
             <div class="pc-header">
-              <strong>{{ getProviderMeta(p.id)?.label || p.label }}</strong>
-              <span :class="['pc-badge', p.is_active ? 'on' : 'off']">{{ p.is_active ? '启用' : '禁用' }}</span>
+              <span :style="{ width:'8px',height:'8px',borderRadius:'50%',background:p.is_active ? '#10B981' : '#ccc',display:'inline-block',flexShrink:0 }"></span>
+              <strong style="font-size:13px;">{{ getProviderMeta(p.id)?.label || p.label }}</strong>
+              <span v-if="p.id === 'openai'" style="font-size:9px;background:rgba(16,163,127,0.1);color:#10a37f;padding:0 6px;border-radius:4px;">官方</span>
+              <span v-if="p.id === 'deepseek'" style="font-size:9px;background:rgba(79,110,247,0.1);color:#4f6ef7;padding:0 6px;border-radius:4px;">官方</span>
+              <span v-if="p.id === 'qwen'" style="font-size:9px;background:rgba(22,119,255,0.1);color:#1677ff;padding:0 6px;border-radius:4px;">官方</span>
             </div>
             <div v-if="getProviderMeta(p.id)?.pricing" class="pc-pricing">
-              💰 输入 {{ getProviderMeta(p.id)!.pricing.input }} / 输出 {{ getProviderMeta(p.id)!.pricing.output }} {{ getProviderMeta(p.id)!.pricing.unit }}
-              <a :href="getProviderMeta(p.id)!.pricing.url" target="_blank" style="color:var(--color-accent);text-decoration:underline;font-size:11px;">查看详情 →</a>
+              输入 {{ getProviderMeta(p.id)!.pricing.input }} · 输出 {{ getProviderMeta(p.id)!.pricing.output }} {{ getProviderMeta(p.id)!.pricing.unit }}
+            </div>
+            <div v-if="p.tokens_used !== undefined" style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">
+              📊 {{ (p.tokens_used||0).toLocaleString() }} tokens · {{ p.total_calls||0 }} 次调用
             </div>
           </div>
           <div class="pc-right">
-            <div class="form-group"><label>API Key</label><input v-model="p.api_key" type="password" class="form-input" :placeholder="'sk-...'" @focus="$event.target.type='text'" @blur="p.api_key ? null : $event.target.type='password'"></div>
-            <div style="display:flex;gap:6px;align-items:end;">
+            <div class="form-group"><label>API Key</label><input v-model="p.api_key" type="password" class="form-input" :placeholder="'sk-...'"></div>
+            <div style="display:flex;gap:4px;align-items:end;">
               <div class="form-group" style="flex:1;"><label>模型</label><select v-model="p.model" class="form-input"><option v-for="m in getProviderMeta(p.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
               <div class="form-group" style="flex:1;"><label>API 地址</label><input v-model="p.api_base" class="form-input" :placeholder="getProviderMeta(p.id)?.site || 'https://...'"></div>
-              <button :style="{ padding:'6px 10px',borderRadius:'6px',fontSize:'11px',cursor:'pointer',border:'1px solid var(--color-border)',background:p.is_active ? '#10B981' : 'var(--color-bg-card)',color:p.is_active ? '#fff' : 'var(--color-text-secondary)' }" @click="p.is_active = !p.is_active">{{ p.is_active ? '启用' : '禁用' }}</button>
-              <button style="padding:6px 10px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);" @click="removeProvider(i)">移除</button>
+              <button :style="{ padding:'5px 8px',borderRadius:'6px',fontSize:'10px',cursor:'pointer',border:'1px solid var(--color-border)',background:p.is_active ? '#10B981' : 'var(--color-bg-card)',color:p.is_active ? '#fff' : 'var(--color-text-secondary)',fontFamily:'inherit' }" @click="p.is_active = !p.is_active">{{ p.is_active ? '已启用' : '已禁用' }}</button>
+              <button style="padding:5px 8px;borderRadius:6px;fontSize:10px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);fontFamily:'inherit';" @click="removeProvider(i)">移除</button>
             </div>
           </div>
-        </div>
-        <div v-if="getProviderMeta(standardProviders[0]?.id)?.site" style="margin-top:8px;font-size:11px;color:var(--color-text-secondary);">
-          🔑 如何获取 Key？<a :href="getProviderMeta(standardProviders[standardProviders.length-1]?.id)?.site" target="_blank" style="color:var(--color-accent);">前往 {{ getProviderMeta(standardProviders[standardProviders.length-1]?.id)?.label }} 控制台 →</a>
         </div>
       </div>
 
