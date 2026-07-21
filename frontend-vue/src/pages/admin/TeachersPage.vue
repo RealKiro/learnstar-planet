@@ -271,15 +271,15 @@ n  </div>
   <Teleport to="body">
 
     <!-- 按年级团队分组 -->
-    <template v-for="group in teacherTeams" :key="group[0]">
-      <div v-if="group[1].length > 0" style="margin-bottom:20px;">
+    <template v-for="(teachers, teamName) in teacherTeams" :key="teamName">
+      <div v-if="teachers.length > 0" style="margin-bottom:20px;">
         <div class="grade-header">
-          <span class="grade-icon">{{ gradeIcon(group[0]) }}</span>
-          <span class="grade-name">{{ group[0] }}</span>
-          <span class="grade-count">{{ group[1].length }} 人</span>
+          <span class="grade-icon">{{ gradeIcon(teamName) }}</span>
+          <span class="grade-name">{{ teamName }}</span>
+          <span class="grade-count">{{ teachers.length }} 人</span>
         </div>
         <div class="card-grid">
-          <div v-for="t in group[1]" :key="t.id" class="teacher-card">
+          <div v-for="t in teachers" :key="t.id" class="teacher-card">
             <div class="card-header">
               <div class="avatar" :style="{ background: avatarGradient(t.name) }">{{ t.name[0] }}</div>
               <div class="ti">
