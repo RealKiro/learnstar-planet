@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { apiGet, apiPut } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
@@ -17,6 +17,20 @@ const saving = ref(false)
 const form = ref({ name: '', address: '', contact_phone: '', contact_email: '' })
 const schoolCode = ref('')
 const schoolStatus = ref('')
+const schoolErrors = reactive<Record<string, string>>({})
+function clsErr(f: string) { delete schoolErrors[f] }
+function vldSch(field: string): boolean {
+  if (field === 'name' && !form.value.name.trim()) { schoolErrors.name = '学校名称不能为空'; return false }
+  if (field === 'contact_phone' && form.value.contact_phone && !/^[\d\-()+\s]{7,20}$/.test(form.value.contact_phone)) { schoolErrors.contact_phone = '联系电话格式不正确'; return false }
+  if (field === 'contact_email' && form.value.contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.contact_email)) { schoolErrors.contact_email = '邮箱格式不正确'; return false }
+  delete schoolErrors[field]; return true
+}
+function saveSchool() {
+  Object.keys(schoolErrors).forEach(k => delete schoolErrors[k])
+  if (!form.value.name.trim()) schoolErrors.name = '学校名称不能为空'
+  if (Object.keys(schoolErrors).length > 0) return
+  save()
+}
 const logoPath = ref('')
 const logoUploading = ref(false)
 const activeTab = ref<'school' | 'diagnose' | 'status'>('school')
@@ -170,13 +184,13 @@ async function uploadLogo(e: Event) {
             </label>
           </div>
         </div>
-        <div class="form-group"><label>学校名称</label><input v-model="form.name" class="form-input" placeholder="请输入学校名称"></div>
+        <div class="form-group"><label>学校名称 <span style="color:#f87171;">*</span></label><input v-model="form.name" class="form-input" placeholder="请输入学校名称" :style="{ borderColor: schoolErrors.name ? '#f87171' : '' }" @blur="vldSch('name')" @input="clsErr('name')"><div v-if="schoolErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.name }}</div></div>
         <div class="form-group"><label>学校地址</label><input v-model="form.address" class="form-input" placeholder="请输入学校地址"></div>
-        <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678"></div>
-        <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn"></div>
+        <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678" :style="{ borderColor: schoolErrors.contact_phone ? '#f87171' : '' }" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_phone }}</div></div>
+        <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn" :style="{ borderColor: schoolErrors.contact_email ? '#f87171' : '' }" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_email }}</div></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px;">
           <button class="btn btn-sm btn-outline" :disabled="saving || loading" @click="reload">↩️ 重置</button>
-          <button class="btn btn-sm btn-primary" :disabled="saving || loading" @click="save">{{ saving ? '保存中...' : '保存设置' }}</button>
+          <button class="btn btn-sm btn-primary" :disabled="saving || loading" @click="saveSchool">{{ saving ? '保存中...' : '保存设置' }}</button>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { apiGet, apiDelete, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
@@ -18,6 +18,15 @@ const platforms = ['wechat', 'wechat_work', 'qq', 'renren'] as const
 const showPwdModal = ref(false)
 const pwdForm = ref({ current_password: '', new_password: '', confirm_password: '' })
 const changingPwd = ref(false)
+const pwdErrors = reactive<Record<string, string>>({})
+function pwdClr(f: string) { delete pwdErrors[f] }
+function pwdVld(field: string): boolean {
+  if (field === 'current_password' && !pwdForm.value.current_password) { pwdErrors.current_password = '请输入当前密码'; return false }
+  if (field === 'new_password' && !pwdForm.value.new_password) { pwdErrors.new_password = '请输入新密码'; return false }
+  if (field === 'new_password' && pwdForm.value.new_password.length < 6) { pwdErrors.new_password = '密码至少 6 位'; return false }
+  if (field === 'confirm_password' && pwdForm.value.new_password !== pwdForm.value.confirm_password) { pwdErrors.confirm_password = '两次密码不一致'; return false }
+  delete pwdErrors[field]; return true
+}
 
 onMounted(async () => {
   try {
@@ -70,16 +79,12 @@ function openPwdModal() {
 }
 
 async function changePassword() {
-  const f = pwdForm.value
-  if (!f.current_password || !f.new_password) { toast.show('请填写完整', 'error'); return }
-  if (f.new_password.length < 6) { toast.show('新密码至少 6 位', 'error'); return }
-  if (f.new_password !== f.confirm_password) { toast.show('两次密码不一致', 'error'); return }
-
+  if (!pwdVld('current_password') | !pwdVld('new_password') | !pwdVld('confirm_password')) return
   changingPwd.value = true
   try {
     await apiPost('/api/v1/auth/change-password', {
-      current_password: f.current_password,
-      new_password: f.new_password,
+      current_password: pwdForm.value.current_password,
+      new_password: pwdForm.value.new_password,
     })
     toast.show('密码修改成功', 'success')
     showPwdModal.value = false
@@ -119,15 +124,18 @@ async function changePassword() {
           </div>
           <div class="form-group" style="margin-bottom:12px;">
             <label>当前密码</label>
-            <input v-model="pwdForm.current_password" type="password" class="form-input" placeholder="输入当前密码">
+            <input v-model="pwdForm.current_password" type="password" class="form-input" placeholder="输入当前密码" :style="{ borderColor: pwdErrors.current_password ? '#f87171' : '' }" @blur="pwdVld('current_password')" @input="pwdClr('current_password')">
+            <div v-if="pwdErrors.current_password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ pwdErrors.current_password }}</div>
           </div>
           <div class="form-group" style="margin-bottom:12px;">
             <label>新密码</label>
-            <input v-model="pwdForm.new_password" type="password" class="form-input" placeholder="至少 6 位">
+            <input v-model="pwdForm.new_password" type="password" class="form-input" placeholder="至少 6 位" :style="{ borderColor: pwdErrors.new_password ? '#f87171' : '' }" @blur="pwdVld('new_password')" @input="pwdClr('new_password')">
+            <div v-if="pwdErrors.new_password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ pwdErrors.new_password }}</div>
           </div>
           <div class="form-group" style="margin-bottom:20px;">
             <label>确认新密码</label>
-            <input v-model="pwdForm.confirm_password" type="password" class="form-input" placeholder="再次输入新密码">
+            <input v-model="pwdForm.confirm_password" type="password" class="form-input" placeholder="再次输入新密码" :style="{ borderColor: pwdErrors.confirm_password ? '#f87171' : '' }" @blur="pwdVld('confirm_password')" @input="pwdClr('confirm_password')">
+            <div v-if="pwdErrors.confirm_password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ pwdErrors.confirm_password }}</div>
           </div>
           <div style="display:flex;gap:12px;">
             <button class="btn" style="flex:1;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);" @click="showPwdModal = false">取消</button>

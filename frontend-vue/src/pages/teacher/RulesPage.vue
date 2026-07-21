@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, ScoreRule } from '@/types'
@@ -12,6 +12,13 @@ const showModal = ref(false)
 const editingId = ref<number | null>(null)
 
 const form = ref({ name: '', points: 1, category: 'classroom', is_penalty: false })
+const ruleErrors = reactive<Record<string, string>>({})
+function rClr(f: string) { delete ruleErrors[f] }
+function rVld(field: string): boolean {
+  if (field === 'name' && !form.value.name.trim()) { ruleErrors.name = '请填写规则名称，如"举手发言"'; return false }
+  if (field === 'points' && (!form.value.points || form.value.points < 1)) { ruleErrors.points = '分值至少为 1'; return false }
+  delete ruleErrors[field]; return true
+}
 
 const positiveRules = computed(() => rules.value.filter(r => !r.is_penalty))
 const negativeRules = computed(() => rules.value.filter(r => r.is_penalty))
@@ -42,10 +49,7 @@ function openEdit(rule: ScoreRule) {
 }
 
 async function handleSubmit() {
-  if (!form.value.name.trim()) {
-    toast.show('请填写规则名称', 'error')
-    return
-  }
+  if (!rVld('name') | !rVld('points')) return
   const payload = {
     name: form.value.name.trim(),
     points: form.value.is_penalty ? -Math.abs(form.value.points) : Math.abs(form.value.points),
@@ -141,11 +145,13 @@ async function handleDelete(rule: ScoreRule) {
         <h3 style="font-size:18px;font-weight:600;margin-bottom:20px;">{{ editingId ? '编辑规则' : '添加规则' }}</h3>
         <div class="form-group">
           <label>规则名称</label>
-          <input v-model="form.name" class="form-input" placeholder="如：作业完成" @keydown.enter="handleSubmit">
+          <input v-model="form.name" class="form-input" placeholder="如：举手发言" :style="{ borderColor: ruleErrors.name ? '#f87171' : '' }" @blur="rVld('name')" @input="rClr('name')" @keydown.enter="handleSubmit">
+          <div v-if="ruleErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ ruleErrors.name }}</div>
         </div>
         <div class="form-group">
           <label>分值</label>
-          <input v-model.number="form.points" type="number" min="1" class="form-input" placeholder="如：5">
+          <input v-model.number="form.points" type="number" min="1" class="form-input" placeholder="如：5" :style="{ borderColor: ruleErrors.points ? '#f87171' : '' }" @blur="rVld('points')" @input="rClr('points')">
+          <div v-if="ruleErrors.points" style="color:#f87171;font-size:11px;margin-top:2px;">{{ ruleErrors.points }}</div>
         </div>
         <div class="form-group">
           <label>分类</label>
