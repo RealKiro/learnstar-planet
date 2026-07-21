@@ -149,6 +149,7 @@ async function submitCreate() {
   } catch (e: any) {
     createStatus.value = 'error'
     console.error('创建教师失败:', e?.response?.status, e?.response?.data)
+    console.error('发送的payload:', JSON.stringify(e?.config?.data || '(无)'))
     const errs = e?.response?.data?.errors
     if (errs) {
       for (const [field, msgs] of Object.entries(errs)) {
