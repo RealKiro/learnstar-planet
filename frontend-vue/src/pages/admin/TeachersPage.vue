@@ -107,7 +107,13 @@ async function submitCreate() {
   if (Object.keys(createErrors.value).length > 0) return
   createLoading.value = true
   try {
-    const payload: any = { ...createForm.value }
+    // 清理可选字段：空字符串转 null，password 为空则让后端自动生成
+    const payload: Record<string, any> = { name: createForm.value.name.trim() }
+    if (createForm.value.nickname) payload.nickname = createForm.value.nickname
+    if (createForm.value.grade_team) payload.grade_team = createForm.value.grade_team
+    if (createForm.value.phone) payload.phone = createForm.value.phone
+    if (createForm.value.email) payload.email = createForm.value.email
+    if (createForm.value.password) payload.password = createForm.value.password
     if (createAssignments.value.length > 0 && createAssignments.value.every(a => a.class_id)) {
       payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: a.role || 'subject_teacher', subject: a.subject || undefined }))
     }
