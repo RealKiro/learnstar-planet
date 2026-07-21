@@ -58,13 +58,15 @@ const filteredTeachers = computed(() => {
 })
 
 const showCreateModal = ref(false)
-const createForm = ref({ name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' })
+const createForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', password: '' })
 const createErrors = ref<Record<string, string>>({})
-const createAssignments = ref<{ class_id: number; class_name: string; subject: string }[]>([])
+interface CreateAssignment { class_id: number; class_name: string; subject: string; role: Role }
+const createAssignments = ref<CreateAssignment[]>([])
 const createLoading = ref(false)
 const pendingGrade = ref('')
 const pendingClassId = ref(null)
 const pendingSubject = ref('')
+const pendingRole = ref<Role>('subject_teacher')
 const gradeClasses = computed(() => (classes.value || []).filter(c => c.grade === pendingGrade.value))
 
 function clearError(field: string) { delete createErrors.value[field] }
@@ -88,8 +90,8 @@ function addClassAssignment() {
   const cls = classes.value.find(c => c.id === pendingClassId.value)
   if (!cls) return
   if (createAssignments.value.some(a => a.class_id === cls.id)) { assignError.value = '该班级已添加'; return }
-  createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value || '默认科目' })
-  pendingClassId.value = null; pendingSubject.value = ''
+  createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value || '默认科目', role: pendingRole.value })
+  pendingClassId.value = null; pendingSubject.value = ''; pendingRole.value = 'subject_teacher'
 }
 function removeClassAssignment(idx) { createAssignments.value.splice(idx, 1) }
 async function submitCreate() {
@@ -102,10 +104,11 @@ async function submitCreate() {
   try {
     const payload: any = { ...createForm.value }
     if (createAssignments.value.length > 0 && createAssignments.value.every(a => a.class_id)) {
-      payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: 'subject_teacher', subject: a.subject || undefined }))
+      payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: a.role || 'subject_teacher', subject: a.subject || undefined }))
     }
-    await apiPost('/api/v1/admin/teachers', payload)
-    toast.show('教师创建成功', 'success')
+    const teacherRes = await apiPost<{ message: string; data: { plain_password?: string; username?: string } }>('/api/v1/admin/teachers', payload)
+    const pwdInfo = teacherRes.data?.plain_password ? `（账号: ${teacherRes.data.username} / 密码: ${teacherRes.data.plain_password}）` : ''
+    toast.show((teacherRes.message || '教师创建成功') + pwdInfo, 'success')
     showCreateModal.value = false; await refreshTeachers()
   } catch (e: any) {
     const errs = e?.response?.data?.errors
@@ -352,9 +355,11 @@ onMounted(() => loadTeachers(true))
                   </div>
                   <div style="display:flex;gap:8px;">
                     <div style="flex:1;" class="form-group"><label>年级团队</label><select v-model="createForm.grade_team" class="form-input"><option value="">不指定</option><option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option></select></div>
-                    <div style="flex:1;" class="form-group"><label>科目</label><select v-model="createForm.subject" class="form-input"><option value="">不指定</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+                    <div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div>
                   </div>
+                  <div style="display:flex;gap:8px;"><div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div><div style="flex:1;" class="form-group"><label>&nbsp;</label></div></div>
                   <div style="display:flex;gap:8px;"><div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div><div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div></div>
+                  <div style="display:none;"></div>
                   <div class="form-group">
                     <label>初始密码</label>
                     <input v-model="createForm.password" placeholder="留空自动生成" class="form-input" :style="{ borderColor: createErrors.password ? '#f87171' : '' }" @blur="validateField('password', createForm.password)" @input="clearError('password')">
@@ -367,7 +372,7 @@ onMounted(() => loadTeachers(true))
                     <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
                       <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
                       <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
-                      <div class="form-group" style="margin-bottom:0;"><label>科目</label><select v-model="pendingSubject" class="form-input"><option value="">请选择</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+                      <div class="form-group" style="margin-bottom:0;"><label>角色</label><select v-model="pendingRole" class="form-input"><option value="subject_teacher">科任教师</option><option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option></select></div>
                     </div>
                     <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:6px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;">➕ 添加</button>
                   </div>
@@ -376,7 +381,7 @@ onMounted(() => loadTeachers(true))
                   <div v-if="createAssignments.length > 0" style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
                     <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
                     <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;">
-                      <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }} · {{ a.subject }}</span>
+                      <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }} · {{ roleLabel[a.role] || a.role }}</span>
                       <button @click="removeClassAssignment(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;">✕</button>
                     </div>
                   </div>

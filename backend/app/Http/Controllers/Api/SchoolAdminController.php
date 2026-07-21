@@ -88,16 +88,14 @@ class SchoolAdminController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
             'nickname' => 'nullable|string|max:80',
-            'subject' => 'nullable|string|max:50',
             'grade_team' => 'nullable|string|max:50',
             'phone' => 'nullable|string|max:30',
             'email' => 'nullable|email|max:100',
             'username' => 'nullable|string|max:50',
-            'password' => 'required|string|min:6|max:50',
+            'password' => 'nullable|string|min:6|max:50',
             'assignments' => 'nullable|array',
             'assignments.*.class_id' => 'required|integer|exists:class_rooms,id',
             'assignments.*.role' => 'required|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
-            'assignments.*.subject' => 'nullable|string|max:50',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
@@ -106,10 +104,29 @@ class SchoolAdminController extends Controller
         if (!$school instanceof \App\Models\School) {
             return response()->json(['message' => '未找到学校'], 404);
         }
-        $teacherData = $request->only([
-            'name', 'nickname', 'subject', 'grade_team', 'phone', 'email', 'username', 'password',
-        ]);
-        $teacherData['password'] = $teacherData['password'] ?? \Illuminate\Support\Str::random(10);
+
+        // 姓名唯一校验
+        $existing = \App\Models\User::where('school_id', $school->id)->where('name', $request->input('name'))->first();
+        if ($existing) {
+            return response()->json(['message' => '该校已存在同名教师「' . $request->input('name') . '」', 'errors' => ['name' => ['该校已存在同名教师']]], 422);
+        }
+
+        // 自动生成用户名和密码
+        $password = $request->input('password') ?: \Illuminate\Support\Str::random(8);
+        $gradeTeam = $request->input('grade_team', '');
+        $gradePrefix = $this->gradeToPrefix($gradeTeam);
+        $count = \App\Models\User::where('school_id', $school->id)->where('role', 'teacher')->count() + 1;
+        $username = $gradePrefix . str_pad((string) $count, 2, '0', STR_PAD_LEFT);
+
+        $teacherData = [
+            'name' => $request->input('name'),
+            'nickname' => $request->input('nickname'),
+            'grade_team' => $gradeTeam,
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'username' => $username,
+            'password' => $password,
+        ];
         $created = $this->authService->createTeacherAccounts($school, [$teacherData]);
         $teacher = $created[0] ?? null;
         if ($teacher) {
@@ -140,7 +157,7 @@ class SchoolAdminController extends Controller
 
         return response()->json([
             'message' => '已创建教师「' . ($teacher['name'] ?? '') . '」',
-            'data' => $teacher,
+            'data' => $teacher + ['plain_password' => $password, 'username' => $username],
         ], 201);
     }
 
@@ -1426,6 +1443,18 @@ class SchoolAdminController extends Controller
     /**
      * 中文年级 → 数字
      */
+    /**
+     * 年级团队 → 字母前缀（G1=一年级…G6=六年级）
+     */
+    private function gradeToPrefix(?string $gradeTeam): string
+    {
+        $map = ['一年级' => 'G1', '二年级' => 'G2', '三年级' => 'G3', '四年级' => 'G4', '五年级' => 'G5', '六年级' => 'G6'];
+        foreach ($map as $cn => $prefix) {
+            if ($gradeTeam && str_contains($gradeTeam, $cn)) return $prefix;
+        }
+        return 'G0';
+    }
+
     private function gradeToDigit(string $grade): string
     {
         $map = [
