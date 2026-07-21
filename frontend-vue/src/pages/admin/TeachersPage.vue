@@ -287,10 +287,6 @@ onMounted(() => loadTeachers(true))
       <div class="empty-icon">&#x1F468;&#x200D;&#x1F3EB;</div><p>暂无教师</p>
     </div>
 
-n  </div>
-
-  <Teleport to="body">
-
     <!-- 按年级团队分组 -->
     <template v-for="(teachers, teamName) in teacherTeams" :key="teamName">
       <div v-if="teachers.length > 0" style="margin-bottom:20px;">
@@ -331,6 +327,9 @@ n  </div>
         </div>
       </div>
     </template>
+  </div>
+
+  <Teleport to="body">
     <Transition name="overlay">
       <div v-if="showCreateModal" @click="showCreateModal = false" style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:flex-end;">
         <Transition name="drawer">
