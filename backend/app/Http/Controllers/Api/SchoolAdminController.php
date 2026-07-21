@@ -1696,48 +1696,34 @@ class SchoolAdminController extends Controller
         $school = $request->user()->school;
         $settings = \App\Models\AiSetting::firstOrCreate(
             ['school_id' => $school->id],
-            [
-                'enabled' => false,
-                'provider' => 'openai',
-                'api_key' => '',
-                'api_base' => '',
-                'model' => 'gpt-3.5-turbo',
-                'max_tokens' => 2000,
-                'tokens_used' => 0,
-                'tokens_limit' => 1000000,
-            ]
+            ['enabled' => false, 'provider' => 'openai', 'api_key' => '', 'api_base' => '', 'model' => 'gpt-3.5-turbo', 'max_tokens' => 2000, 'tokens_used' => 0, 'tokens_limit' => 1000000, 'providers' => []]
         );
 
         return response()->json([
             'data' => [
                 'enabled' => $settings->enabled,
-                'provider' => $settings->provider,
-                'api_key' => $settings->api_key ? substr($settings->api_key, 0, 8) . '...' : '',
-                'api_key_masked' => (bool) $settings->api_key,
-                'api_base' => $settings->api_base,
-                'model' => $settings->model,
-                'max_tokens' => $settings->max_tokens,
                 'tokens_used' => $settings->tokens_used,
                 'tokens_limit' => $settings->tokens_limit,
+                'max_tokens' => $settings->max_tokens,
+                'providers' => $settings->providers ?: [],
             ],
         ]);
     }
 
-    /**
-     * 保存 AI 设置
-     */
     public function saveAiSettings(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             'enabled' => 'boolean',
-            'provider' => 'nullable|string|max:50',
-            'api_key' => 'nullable|string|max:500',
-            'api_base' => 'nullable|string|max:500',
-            'model' => 'nullable|string|max:100',
             'max_tokens' => 'nullable|integer|min:100|max:32000',
             'tokens_limit' => 'nullable|integer|min:0',
+            'providers' => 'nullable|array',
+            'providers.*.id' => 'required|string',
+            'providers.*.label' => 'required|string',
+            'providers.*.api_key' => 'nullable|string|max:2000',
+            'providers.*.api_base' => 'nullable|string|max:500',
+            'providers.*.model' => 'nullable|string|max:100',
+            'providers.*.is_active' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -1749,27 +1735,30 @@ class SchoolAdminController extends Controller
             ['enabled' => false, 'provider' => 'openai']
         );
 
-        $data = $request->only(['enabled', 'provider', 'api_key', 'api_base', 'model', 'max_tokens', 'tokens_limit']);
-        if (!empty($data['api_key'])) {
-            $settings->api_key = $data['api_key'];
+        // 更新 providers 数组，保留已有 API Key（前端传空字符串时不覆盖）
+        $providers = $request->input('providers', []);
+        $existing = $settings->providers ?: [];
+        foreach ($providers as &$p) {
+            if (empty($p['api_key'])) {
+                // 从已有配置中查找并保留 api_key
+                foreach ($existing as $ep) {
+                    if ($ep['id'] === $p['id'] && !empty($ep['api_key'])) {
+                        $p['api_key'] = $ep['api_key'];
+                        break;
+                    }
+                }
+            }
         }
-        if (isset($data['enabled'])) {
-            $settings->enabled = (bool) $data['enabled'];
+        $settings->providers = $providers;
+
+        if ($request->has('enabled')) {
+            $settings->enabled = (bool) $request->input('enabled');
         }
-        if (isset($data['provider'])) {
-            $settings->provider = $data['provider'];
+        if ($request->has('max_tokens')) {
+            $settings->max_tokens = (int) $request->input('max_tokens');
         }
-        if (isset($data['api_base'])) {
-            $settings->api_base = $data['api_base'];
-        }
-        if (isset($data['model'])) {
-            $settings->model = $data['model'];
-        }
-        if (isset($data['max_tokens'])) {
-            $settings->max_tokens = (int) $data['max_tokens'];
-        }
-        if (isset($data['tokens_limit'])) {
-            $settings->tokens_limit = (int) $data['tokens_limit'];
+        if ($request->has('tokens_limit')) {
+            $settings->tokens_limit = (int) $request->input('tokens_limit');
         }
         $settings->save();
 

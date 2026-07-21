@@ -1205,8 +1205,30 @@ class DisplayController extends Controller
         }
 
         $setting = \App\Models\AiSetting::where('school_id', $classRoom->school_id)->first();
-        if (!$setting || !$setting->enabled || empty($setting->api_key)) {
+        if (!$setting || !$setting->enabled) {
             return response()->json(['message' => 'AI 功能未开启'], 403);
+        }
+
+        // 从多供应商配置中查找启用的供应商
+        $providers = $setting->providers ?: [];
+        $activeProvider = null;
+        foreach ($providers as $p) {
+            if (!empty($p['is_active']) && !empty($p['api_key'])) {
+                $activeProvider = $p;
+                break;
+            }
+        }
+        // 兼容旧版单供应商配置
+        if (!$activeProvider && !empty($setting->api_key)) {
+            $activeProvider = [
+                'id' => $setting->provider ?: 'openai',
+                'api_key' => $setting->api_key,
+                'api_base' => $setting->api_base,
+                'model' => $setting->model ?: 'gpt-3.5-turbo',
+            ];
+        }
+        if (!$activeProvider) {
+            return response()->json(['message' => '请先在 AI 中心配置并启用一个供应商'], 403);
         }
 
         $question = $request->input('question', '');
@@ -1214,25 +1236,21 @@ class DisplayController extends Controller
             return response()->json(['message' => '请输入问题'], 422);
         }
 
-        // 记录对话
         $conversation = \App\Models\AiConversation::create([
-            'school_id' => $classRoom->school_id,
-            'class_id' => $classId,
+            'school_id' => $classRoom->school_id, 'class_id' => $classId,
             'student_id' => $classInfo['student_id'] ?? null,
             'student_name' => $classInfo['student_name'] ?? '匿名',
-            'question' => $question,
-            'status' => 'pending',
+            'question' => $question, 'status' => 'pending',
         ]);
 
-        // 调用 AI 服务
         try {
             $aiService = app(\App\Services\AiService::class);
             $result = $aiService->chat(
-                provider: $setting->provider,
-                apiKey: $setting->api_key,
-                model: $setting->model,
+                provider: $activeProvider['id'],
+                apiKey: $activeProvider['api_key'],
+                model: $activeProvider['model'] ?: 'gpt-3.5-turbo',
                 question: $question,
-                apiBase: $setting->api_base,
+                apiBase: $activeProvider['api_base'] ?? null,
                 maxTokens: $setting->max_tokens,
             );
             $answer = $result['answer'];
@@ -1242,13 +1260,8 @@ class DisplayController extends Controller
             $tokensUsed = 0;
         }
 
-        $conversation->update([
-            'answer' => $answer,
-            'tokens_used' => $tokensUsed,
-            'status' => 'completed',
-        ]);
+        $conversation->update(['answer' => $answer, 'tokens_used' => $tokensUsed, 'status' => 'completed']);
 
-        // 更新总用量
         if ($tokensUsed > 0) {
             $setting->increment('tokens_used', $tokensUsed);
         }

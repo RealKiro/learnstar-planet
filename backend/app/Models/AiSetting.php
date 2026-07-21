@@ -20,6 +20,7 @@ class AiSetting extends Model
         'max_tokens' => 'integer',
         'tokens_used' => 'integer',
         'tokens_limit' => 'integer',
+        'providers' => 'array',
     ];
 
     public function school()
