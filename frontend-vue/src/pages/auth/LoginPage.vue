@@ -29,28 +29,28 @@ const loading = ref(false)
 const loginErrors = reactive<Record<string, string>>({})
 function clearLoginErr(f: string) { delete loginErrors[f] }
 function validateLoginField(field: string, val: string): boolean {
-  if (field === 'teacherUsername' && !val.trim()) { loginErrors.teacherUsername = '请输入账号'; return false }
-  if (field === 'teacherPassword' && !val.trim()) { loginErrors.teacherPassword = '请输入密码'; return false }
-  if (field === 'adminUsername' && !val.trim()) { loginErrors.adminUsername = '请输入账号'; return false }
-  if (field === 'adminPassword' && !val.trim()) { loginErrors.adminPassword = '请输入密码'; return false }
-  if (field === 'parentUsername' && !val.trim()) { loginErrors.parentUsername = '请输入账号'; return false }
-  if (field === 'parentPassword' && !val.trim()) { loginErrors.parentPassword = '请输入密码'; return false }
-  if (field === 'classCode' && !val.trim()) { loginErrors.classCode = '请输入班级码'; return false }
+  if (field === 'teacherUsername' && !val.trim()) { loginErrors.teacherUsername = '请输入教师账号'; return false }
+  if (field === 'teacherPassword' && !val.trim()) { loginErrors.teacherPassword = '请输入教师登录密码'; return false }
+  if (field === 'adminUsername' && !val.trim()) { loginErrors.adminUsername = '请输入管理员账号'; return false }
+  if (field === 'adminPassword' && !val.trim()) { loginErrors.adminPassword = '请输入管理员密码'; return false }
+  if (field === 'parentUsername' && !val.trim()) { loginErrors.parentUsername = '请输入家长账号'; return false }
+  if (field === 'parentPassword' && !val.trim()) { loginErrors.parentPassword = '请输入家长密码'; return false }
+  if (field === 'classCode' && !val.trim()) { loginErrors.classCode = '请输入6位班级码，如 LS301'; return false }
   clearLoginErr(field); return true
 }
 function validateLoginForm(type: string): boolean {
   Object.keys(loginErrors).forEach(k => delete loginErrors[k])
   if (type === 'teacher') {
-    if (!teacherUsername.value.trim()) loginErrors.teacherUsername = '请输入账号'
-    if (!teacherPassword.value.trim()) loginErrors.teacherPassword = '请输入密码'
+    if (!teacherUsername.value.trim()) loginErrors.teacherUsername = '请输入教师账号'
+    if (!teacherPassword.value.trim()) loginErrors.teacherPassword = '请输入教师登录密码'
   } else if (type === 'admin') {
-    if (!adminUsername.value.trim()) loginErrors.adminUsername = '请输入账号'
-    if (!adminPassword.value.trim()) loginErrors.adminPassword = '请输入密码'
+    if (!adminUsername.value.trim()) loginErrors.adminUsername = '请输入管理员账号'
+    if (!adminPassword.value.trim()) loginErrors.adminPassword = '请输入管理员密码'
   } else if (type === 'parent') {
-    if (!parentUsername.value.trim()) loginErrors.parentUsername = '请输入账号'
-    if (!parentPassword.value.trim()) loginErrors.parentPassword = '请输入密码'
+    if (!parentUsername.value.trim()) loginErrors.parentUsername = '请输入家长账号'
+    if (!parentPassword.value.trim()) loginErrors.parentPassword = '请输入家长密码'
   } else if (type === 'class') {
-    if (!classCode.value.trim()) loginErrors.classCode = '请输入班级码'
+    if (!classCode.value.trim()) loginErrors.classCode = '请输入6位班级码，如 LS301'
   }
   return Object.keys(loginErrors).length === 0
 }
