@@ -3,13 +3,11 @@ import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, User } from '@/types'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
-const toast = useToastStore()
 
 onMounted(async () => {
   const platform = (route.query.platform as string) || ''
@@ -17,7 +15,7 @@ onMounted(async () => {
   const state = (route.query.state as string) || ''
 
   if (!platform || !code) {
-    toast.show('OAuth 参数缺失', 'error')
+    console.error('OAuth 参数缺失')
     // 尝试关闭弹出窗口，否则跳转回登录页
     if (window.opener) { window.close() }
     else { router.replace({ name: 'login' }) }
@@ -53,16 +51,15 @@ onMounted(async () => {
         res = await apiPost<ApiResponse<{ token: string; user: User }>>(`${baseUrl}/login/qq`, { code })
         break
       default:
-        toast.show('不支持的登录平台', 'error')
+        console.error('不支持的登录平台')
         router.replace({ name: 'login' })
         return
     }
 
     authStore.setAuth(res.data.token, res.data.user)
-    toast.show('登录成功', 'success')
     router.replace({ name: 'teacher-dashboard' })
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || `扫码登录失败，请使用账号密码登录`, 'error')
+    console.error(e?.response?.data?.message || `扫码登录失败，请使用账号密码登录`)
     setTimeout(() => router.replace({ name: 'login' }), 1500)
   }
 })

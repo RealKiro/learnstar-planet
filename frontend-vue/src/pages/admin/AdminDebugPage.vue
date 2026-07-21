@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useToastStore } from '@/stores/toast'
 
-const toast = useToastStore()
 const activeTab = ref<'demo' | 'diagnose' | 'status'>('demo')
 
 interface DiagItem { item: string; status: string; detail?: string }
@@ -58,7 +56,7 @@ async function loadStatus() {
     })
     const data = await res.json()
     sysStatus.value = data.data || null
-  } catch { toast.show('获取系统状态失败', 'error') }
+  } catch { /* errors handled by interceptor */ }
   finally { statusLoading.value = false }
 }
 

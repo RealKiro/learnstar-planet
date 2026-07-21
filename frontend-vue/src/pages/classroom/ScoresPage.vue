@@ -51,6 +51,7 @@ let floatId = 0
 const showPetPicker = ref(false)
 const petPickerStudent = ref<StudentEntry | null>(null)
 const switchingPet = ref(false)
+const switchStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const allSeriesList = PET_SERIES
 
 function openPetPicker(s: StudentEntry) {
@@ -108,6 +109,7 @@ async function executeSwitch() {
   const speciesId = confirmSwitch.value.speciesId
   confirmSwitch.value = null
   switchingPet.value = true
+  switchStatus.value = 'loading'
   try {
     const res = await apiPost<{ data: { pet_emoji: string; total_score: number; cost: number } }>(
       '/api/v1/display/pets/switch', { token: token.value, student_id: s.id, pet_species: speciesId }
@@ -115,10 +117,12 @@ async function executeSwitch() {
     s.pet_species = speciesId
     s.pet_emoji = res.data.pet_emoji
     s.total_score = res.data.total_score
-    toast.show(res.data.cost > 0 ? `已切换，扣除${res.data.cost}积分` : '🎉 首次切换免费！', 'success')
+    switchStatus.value = 'success'
+    setTimeout(() => { switchStatus.value = 'idle' }, 1500)
     showPetPicker.value = false
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '切换失败', 'error')
+    switchStatus.value = 'error'
+    setTimeout(() => { switchStatus.value = 'idle' }, 3000)
   } finally {
     switchingPet.value = false
   }
@@ -158,7 +162,7 @@ async function executeAction(reason: string) {
     showModal.value = false
     const msg = e?.response?.data?.message || ''
     if (msg.includes('30')) {
-      toast.show('单次超过 30 分需要教师账号登录操作', 'error')
+      toast.show('单次超过 30 分需要教师账号登录操作', 'error', { position: 'top-right' })
     }
   }
   showModal.value = false
@@ -297,7 +301,12 @@ onMounted(async () => {
             </p>
             <div style="display:flex;gap:10px;">
               <button @click="confirmSwitch = null" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消</button>
-              <button @click="executeSwitch" :disabled="switchingPet" style="flex:1;padding:10px;border-radius:10px;border:none;background:rgba(167,139,250,0.15);color:var(--md-primary-light);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">确认切换</button>
+              <button @click="executeSwitch" :disabled="switchStatus !== 'idle'" :style="{ flex:'1', padding:'10px', borderRadius:'10px', border:'none', background: switchStatus === 'loading' ? '#f59e0b' : switchStatus === 'success' ? '#10b981' : switchStatus === 'error' ? '#ef4444' : 'rgba(167,139,250,0.15)', color: switchStatus !== 'idle' ? '#fff' : 'var(--md-primary-light)', fontSize:'14px', fontWeight:'600', cursor:'pointer', fontFamily:'inherit' }">
+                <template v-if="switchStatus === 'loading'">切换中...</template>
+                <template v-else-if="switchStatus === 'success'">切换成功 ✓</template>
+                <template v-else-if="switchStatus === 'error'">切换失败 ✗</template>
+                <template v-else>确认切换</template>
+              </button>
             </div>
           </div>
         </div>

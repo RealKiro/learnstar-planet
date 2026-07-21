@@ -88,9 +88,9 @@ async function switchToClass(classId: number) {
   try {
     await apiPost('/api/v1/teacher/switch-class', { class_id: classId })
     activeClassId.value = classId
-    toast.show(`已切换至「${myClasses.value.find(c => c.class_id === classId)?.class_name || ''}」`, 'success')
+    toast.show(`已切换至「${myClasses.value.find(c => c.class_id === classId)?.class_name || ''}」`, 'success', { position: 'bottom-center', duration: 1500 })
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '切换失败', 'error')
+    toast.show(e?.response?.data?.message || '切换失败', 'error', { position: 'bottom-center' })
   } finally {
     switchingClass.value = false
   }
