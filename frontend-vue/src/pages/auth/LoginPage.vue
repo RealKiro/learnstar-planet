@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { apiPost } from '@/utils/api'
@@ -25,6 +25,36 @@ const classCodeError = ref('')
 const classInfo = ref<{ class_name: string; student_count: number } | null>(null)
 const loading = ref(false)
 
+// 内联校验
+const loginErrors = reactive<Record<string, string>>({})
+function clearLoginErr(f: string) { delete loginErrors[f] }
+function validateLoginField(field: string, val: string): boolean {
+  if (field === 'teacherUsername' && !val.trim()) { loginErrors.teacherUsername = '请输入账号'; return false }
+  if (field === 'teacherPassword' && !val.trim()) { loginErrors.teacherPassword = '请输入密码'; return false }
+  if (field === 'adminUsername' && !val.trim()) { loginErrors.adminUsername = '请输入账号'; return false }
+  if (field === 'adminPassword' && !val.trim()) { loginErrors.adminPassword = '请输入密码'; return false }
+  if (field === 'parentUsername' && !val.trim()) { loginErrors.parentUsername = '请输入账号'; return false }
+  if (field === 'parentPassword' && !val.trim()) { loginErrors.parentPassword = '请输入密码'; return false }
+  if (field === 'classCode' && !val.trim()) { loginErrors.classCode = '请输入班级码'; return false }
+  clearLoginErr(field); return true
+}
+function validateLoginForm(type: string): boolean {
+  Object.keys(loginErrors).forEach(k => delete loginErrors[k])
+  if (type === 'teacher') {
+    if (!teacherUsername.value.trim()) loginErrors.teacherUsername = '请输入账号'
+    if (!teacherPassword.value.trim()) loginErrors.teacherPassword = '请输入密码'
+  } else if (type === 'admin') {
+    if (!adminUsername.value.trim()) loginErrors.adminUsername = '请输入账号'
+    if (!adminPassword.value.trim()) loginErrors.adminPassword = '请输入密码'
+  } else if (type === 'parent') {
+    if (!parentUsername.value.trim()) loginErrors.parentUsername = '请输入账号'
+    if (!parentPassword.value.trim()) loginErrors.parentPassword = '请输入密码'
+  } else if (type === 'class') {
+    if (!classCode.value.trim()) loginErrors.classCode = '请输入班级码'
+  }
+  return Object.keys(loginErrors).length === 0
+}
+
 const teacherPwdRef = ref<HTMLInputElement>()
 const adminPwdRef = ref<HTMLInputElement>()
 const parentPwdRef = ref<HTMLInputElement>()
@@ -37,7 +67,7 @@ function focusAdminPwd() { if (adminUsername.value.trim()) nextTick(() => adminP
 function focusParentPwd() { if (parentUsername.value.trim()) nextTick(() => parentPwdRef.value?.focus()) }
 
 async function handleTeacherLogin() {
-  if (!teacherUsername.value.trim() || !teacherPassword.value) { toast.show('请输入账号和密码', 'error'); return }
+  if (!validateLoginForm('teacher')) return
   loading.value = true
   try {
     const res = await fetch('/api/v1/auth/teacher/login', {
@@ -60,7 +90,7 @@ async function handleTeacherLogin() {
 }
 
 async function handleAdminLogin() {
-  if (!adminUsername.value.trim() || !adminPassword.value) { toast.show('请输入账号和密码', 'error'); return }
+  if (!validateLoginForm('admin')) return
   loading.value = true
   try {
     const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/admin/login', {
@@ -73,7 +103,7 @@ async function handleAdminLogin() {
 }
 
 async function handleParentLogin() {
-  if (!parentUsername.value.trim() || !parentPassword.value) { toast.show('请输入账号和密码', 'error'); return }
+  if (!validateLoginForm('parent')) return
   loading.value = true
   try {
     const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/parent/login', {
@@ -86,7 +116,7 @@ async function handleParentLogin() {
 }
 
 async function handleClassLogin() {
-  if (!classCode.value.trim()) { toast.show('请输入班级码', 'error'); return }
+  if (!validateLoginForm('class')) return
   loading.value = true
   classCodeError.value = ''
   try {
@@ -276,11 +306,13 @@ function goToSlide(i: number) {
         <div v-if="loginType === 'teacher'" class="login-form">
           <div class="form-group">
             <label>账号</label>
-            <input v-model="teacherUsername" class="form-input" placeholder="教师账号" @keydown.enter="focusTeacherPwd">
+            <input v-model="teacherUsername" class="form-input" :style="{ borderColor: loginErrors.teacherUsername ? '#f87171' : '' }" @blur="validateLoginField('teacherUsername', teacherUsername)" @input="clearLoginErr('teacherUsername')" placeholder="教师账号" @keydown.enter="focusTeacherPwd">
+            <div v-if="loginErrors.teacherUsername" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.teacherUsername }}</div>
           </div>
           <div class="form-group">
             <label>密码</label>
             <input ref="teacherPwdRef" v-model="teacherPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleTeacherLogin">
+            <div v-if="loginErrors.teacherPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.teacherPassword }}</div>
           </div>
           <button class="login-submit" :disabled="loading" @click="handleTeacherLogin">{{ loading ? '登录中...' : '登录' }}</button>
           <div class="login-social">
