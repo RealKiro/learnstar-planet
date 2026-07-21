@@ -1353,19 +1353,17 @@ class TeacherController extends Controller
                 ['name' => '科学币 +5', 'description' => '兑换 5 科学币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'science'],
                 ['name' => '读书币 +5', 'description' => '兑换 5 读书币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'reading'],
                 ['name' => '体育币 +5', 'description' => '兑换 5 体育币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'class_point'],
-                // 文具类
-                ['name' => '铅笔', 'description' => '标准 HB 铅笔一支', 'category' => 'stationery', 'cost_score' => 20],
-                ['name' => '橡皮擦', 'description' => '4B 橡皮擦一块', 'category' => 'stationery', 'cost_score' => 15],
-                ['name' => '黑色圆珠笔', 'description' => '0.5mm 黑色圆珠笔一支', 'category' => 'stationery', 'cost_score' => 25],
-                ['name' => '红色圆珠笔', 'description' => '红色批改用笔一支', 'category' => 'stationery', 'cost_score' => 25],
-                ['name' => '草稿纸', 'description' => 'A4 草稿纸 10 张', 'category' => 'stationery', 'cost_score' => 10],
-                ['name' => '练习本', 'description' => '方格练习本一本', 'category' => 'stationery', 'cost_score' => 30],
-                ['name' => '便利贴', 'description' => '彩色便利贴一本', 'category' => 'stationery', 'cost_score' => 20],
-                // 食物类
-                ['name' => '苹果', 'description' => '新鲜苹果一个 🍎 （请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 30],
-                ['name' => '香蕉', 'description' => '新鲜香蕉一根 🍌（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 25],
-                ['name' => '饮料', 'description' => '矿泉水/饮料一瓶 🧃', 'category' => 'food', 'cost_score' => 35],
-                ['name' => '牛奶', 'description' => '纯牛奶一盒 🥛', 'category' => 'food', 'cost_score' => 40],
+                ['name' => '铅笔', 'description' => '标准 HB 铅笔一支', 'category' => 'stationery', 'cost_score' => 20, 'currency_type' => 'score'],
+                ['name' => '橡皮擦', 'description' => '4B 橡皮擦一块', 'category' => 'stationery', 'cost_score' => 15, 'currency_type' => 'score'],
+                ['name' => '黑色圆珠笔', 'description' => '0.5mm 黑色圆珠笔一支', 'category' => 'stationery', 'cost_score' => 25, 'currency_type' => 'score'],
+                ['name' => '红色圆珠笔', 'description' => '红色批改用笔一支', 'category' => 'stationery', 'cost_score' => 25, 'currency_type' => 'score'],
+                ['name' => '草稿纸', 'description' => 'A4 草稿纸 10 张', 'category' => 'stationery', 'cost_score' => 10, 'currency_type' => 'score'],
+                ['name' => '练习本', 'description' => '方格练习本一本', 'category' => 'stationery', 'cost_score' => 30, 'currency_type' => 'score'],
+                ['name' => '便利贴', 'description' => '彩色便利贴一本', 'category' => 'stationery', 'cost_score' => 20, 'currency_type' => 'score'],
+                ['name' => '苹果', 'description' => '新鲜苹果一个 🍎（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 30, 'currency_type' => 'score'],
+                ['name' => '香蕉', 'description' => '新鲜香蕉一根 🍌（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 25, 'currency_type' => 'score'],
+                ['name' => '饮料', 'description' => '矿泉水/饮料一瓶 🧃', 'category' => 'food', 'cost_score' => 35, 'currency_type' => 'score'],
+                ['name' => '牛奶', 'description' => '纯牛奶一盒 🥛', 'category' => 'food', 'cost_score' => 40, 'currency_type' => 'score'],
             ];
 
             foreach ($defaults as $d) {
@@ -1376,7 +1374,7 @@ class TeacherController extends Controller
                     'description' => $d['description'] ?? '',
                     'category' => $d['category'],
                     'cost_score' => $d['cost_score'],
-                    'currency_type' => $d['currency_type'] ?: 'score',
+                    'currency_type' => $d['currency_type'],
                     'stock' => 0,
                     'is_active' => true,
                 ]);
