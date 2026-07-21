@@ -19,8 +19,7 @@ const emit = defineEmits<{
   <div class="toolbar">
     <!-- 第一行：标题 -->
     <div class="toolbar-header">
-      <span class="section-badge">账号管理</span>
-      <h2 class="page-title">教师账号</h2>
+      <h2 class="page-title">教师账号管理</h2>
       <span class="count-badge"><slot name="teacherCount" /></span>
     </div>
     <!-- 第二行：操作工具栏 -->
@@ -61,21 +60,21 @@ const emit = defineEmits<{
 .toolbar-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: 12px;
+  flex-wrap: nowrap;
 }
 .filter-group {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .filter-group select,
 .filter-group input {
-  height: 36px;
-  padding: 0 12px;
-  border-radius: 8px;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 6px;
   border: 1px solid var(--color-border);
   background: var(--color-bg-card);
   color: var(--color-text);
@@ -85,12 +84,13 @@ const emit = defineEmits<{
   box-sizing: border-box;
 }
 .filter-group select {
-  min-width: 130px;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 100px;
+  width: auto;
 }
 .filter-group input {
-  flex: 1 1 180px;
-  min-width: 150px;
+  flex: 1 1 140px;
+  min-width: 100px;
 }
 .filter-group select:focus,
 .filter-group input:focus {
@@ -100,12 +100,13 @@ const emit = defineEmits<{
 .action-buttons {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 .action-buttons .btn {
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 8px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 6px;
   border: 1px solid var(--color-border);
   background: var(--color-bg);
   color: var(--color-text);

@@ -29,7 +29,7 @@ function close() { emit('update:visible', false) }
   -webkit-backdrop-filter: blur(8px);
 }
 .modal-box {
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--color-modal-bg, rgba(255, 255, 255, 0.92));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 16px;
@@ -39,7 +39,7 @@ function close() { emit('update:visible', false) }
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--color-modal-border, rgba(255, 255, 255, 0.2));
 }
 .modal-enter-active { animation: overlayIn 0.25s ease; }
 .modal-leave-active { animation: overlayOut 0.2s ease; }

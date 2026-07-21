@@ -27,14 +27,16 @@
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
   --shadow-md: var(--md-elevation);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  --color-modal-bg: rgba(30, 30, 46, 0.92);
+  --color-modal-border: rgba(255, 255, 255, 0.06);
 }
 
-/* ===== 全局下拉选项可读性 ===== */
+/* ===== 全局下拉选项适配 ===== */
 select.form-input option,
 select option,
 .form-input option {
-  color: #1E293B !important;
-  background-color: #FFFFFF !important;
+  color: var(--color-text) !important;
+  background-color: var(--color-bg-card) !important;
 }
 select.form-input {
   color: var(--color-text);
