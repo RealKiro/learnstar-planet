@@ -29,7 +29,7 @@ export function createCrudStore<T extends { id: number }>(
       if (!createFn) return
       try {
         await createFn(data)
-        toast.show('创建成功', 'success')
+        toast.show('创建成功', 'success', { position: 'center', duration: 1500 })
         await fetch()
       } catch { /* handled */ }
     }
@@ -38,7 +38,7 @@ export function createCrudStore<T extends { id: number }>(
       if (!updateFn) return
       try {
         await updateFn(id, data)
-        toast.show('更新成功', 'success')
+        toast.show('更新成功', 'success', { position: 'center', duration: 1500 })
         await fetch()
       } catch { /* handled */ }
     }
@@ -47,7 +47,7 @@ export function createCrudStore<T extends { id: number }>(
       if (!deleteFn) return
       try {
         await deleteFn(id)
-        toast.show('删除成功', 'success')
+        toast.show('删除成功', 'success', { position: 'center', duration: 1500 })
         await fetch()
       } catch { /* handled */ }
     }

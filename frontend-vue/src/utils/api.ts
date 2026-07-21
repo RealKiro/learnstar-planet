@@ -33,15 +33,15 @@ instance.interceptors.response.use(
       }
       const authStore = useAuthStore()
       authStore.logout()
-      toast.show('登录已过期，请重新登录', 'error')
+      toast.show('登录已过期，请重新登录', 'error', { position: 'center', duration: 3000 })
       // 跳转登录页，用 location.href 确保状态完全重置
       if (!window.location.pathname.startsWith('/login')) {
         window.location.href = '/login'
       }
     } else if (error.response?.data?.message) {
-      toast.show(error.response.data.message, 'error')
+      toast.show(error.response.data.message, 'error', { position: 'center', duration: 3000 })
     } else if (error.message === 'Network Error') {
-      toast.show('网络错误，请稍后重试', 'error')
+      toast.show('网络错误，请稍后重试', 'error', { position: 'center', duration: 3000 })
     }
 
     return Promise.reject(error)
