@@ -106,9 +106,8 @@ async function submitCreate() {
     if (createAssignments.value.length > 0 && createAssignments.value.every(a => a.class_id)) {
       payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: a.role || 'subject_teacher', subject: a.subject || undefined }))
     }
-    const teacherRes = await apiPost<{ message: string; data: { plain_password?: string; username?: string } }>('/api/v1/admin/teachers', payload)
-    const pwdInfo = teacherRes.data?.plain_password ? `（账号: ${teacherRes.data.username} / 密码: ${teacherRes.data.plain_password}）` : ''
-    toast.show((teacherRes.message || '教师创建成功') + pwdInfo, 'success')
+    await apiPost('/api/v1/admin/teachers', payload)
+    toast.show('教师创建成功', 'success')
     showCreateModal.value = false; await refreshTeachers()
   } catch (e: any) {
     const errs = e?.response?.data?.errors
@@ -216,10 +215,12 @@ const showResetPwdModal = ref(false)
 const resetTarget = ref<Teacher | null>(null)
 const resetPwdValue = ref('')
 const resetPwdLoading = ref(false)
+const showResetPwd = ref(false)
 
 function openResetPwd(t: Teacher) {
   resetTarget.value = t
   resetPwdValue.value = ''
+  showResetPwd.value = false
   showResetPwdModal.value = true
 }
 
@@ -227,8 +228,9 @@ async function submitResetPwd() {
   if (!resetTarget.value) return
   resetPwdLoading.value = true
   try {
-    await apiPost(`/api/v1/admin/teachers/${resetTarget.value.id}/reset-password`, { password: resetPwdValue.value || undefined })
-    toast.show('密码已重置为：' + (resetPwdValue.value || '自动生成'), 'success')
+    const res = await apiPost<{ data: { new_password: string } }>(`/api/v1/admin/teachers/${resetTarget.value.id}/reset-password`, { password: resetPwdValue.value || undefined })
+    const newPwd = res?.data?.new_password || resetPwdValue.value || '（已设置）'
+    toast.show(`密码已更新: ${newPwd}`, 'success')
     showResetPwdModal.value = false
   } catch { toast.show('重置失败', 'error') }
   finally { resetPwdLoading.value = false }
@@ -478,8 +480,13 @@ onMounted(() => loadTeachers(true))
           <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🔑 重置密码 — {{ resetTarget?.name }}</h3>
           <button @click="showResetPwdModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
         </div>
-        <div class="form-group"><label>新密码</label><input v-model="resetPwdValue" type="text" class="form-input" placeholder="留空自动生成"></div>
-        <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;padding:8px;background:var(--color-bg);border-radius:6px;">💡 留空将自动生成随机密码</div>
+        <div class="form-group"><label>新密码</label>
+          <div style="display:flex;gap:6px;">
+            <input v-model="resetPwdValue" :type="showResetPwd ? 'text' : 'password'" class="form-input" placeholder="留空自动生成">
+            <button style="flex-shrink:0;padding:6px 10px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;" @click="showResetPwd = !showResetPwd" type="button">{{ showResetPwd ? '🙈' : '👁️' }}</button>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;padding:8px;background:var(--color-bg);border-radius:6px;">💡 输入新密码后点击确认更新。留空将自动生成随机密码，确认后显示新密码。</div>
         <div style="display:flex;gap:12px;">
           <button @click="showResetPwdModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
           <button @click="submitResetPwd" :disabled="resetPwdLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">{{ resetPwdLoading ? '重置中...' : '确认重置' }}</button>
