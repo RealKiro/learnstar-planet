@@ -467,7 +467,7 @@ class TeacherController extends Controller
     public function importStudents(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $students = $request->input('students', []);
         $imported = 0;
 
@@ -501,7 +501,7 @@ class TeacherController extends Controller
     public function updateStudent(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $student = Student::whereIn('class_id', $classIds)->findOrFail($id);
 
         $student->update($request->only(['name', 'gender', 'student_no']));
@@ -516,7 +516,7 @@ class TeacherController extends Controller
     public function scoreSummary(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $total = Score::whereIn('class_id', $classIds)->sum('amount');
         $today = Score::whereIn('class_id', $classIds)
@@ -536,7 +536,7 @@ class TeacherController extends Controller
     public function giveScore(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'student_id' => 'required|integer',
@@ -594,7 +594,7 @@ class TeacherController extends Controller
     public function batchGiveScore(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'student_ids' => 'required|array|min:1|max:100',
@@ -620,7 +620,7 @@ class TeacherController extends Controller
     public function giveScoreByRule(Request $request, int $ruleId): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $rule = ScoreRule::findOrFail($ruleId);
 
         $request->validate([
@@ -644,7 +644,7 @@ class TeacherController extends Controller
     public function scoreHistory(Request $request, int $studentId): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
 
         $history = $this->scoreService->getScoreHistory($student, 20);
@@ -673,7 +673,7 @@ class TeacherController extends Controller
     public function undoScore(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $score = Score::whereIn('class_id', $classIds)->findOrFail($id);
         $undo = app(\App\Services\ScoreService::class)->undoScore($score, $teacher->id);
@@ -686,15 +686,51 @@ class TeacherController extends Controller
 
     // ============================================================
 
+    /**
+     * 获取教师关联的所有班级 ID（含班主任 + 科任/副班等）
+     */
+    private function teacherClassIds(\App\Models\User $teacher): \Illuminate\Support\Collection
+    {
+        return \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+            ->pluck('class_room_id')
+            ->merge(ClassRoom::where('teacher_id', $teacher->id)->pluck('id'))
+            ->unique();
+    }
+
     public function listScoreRules(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $rules = ScoreRule::whereIn('class_id', $classIds)
             ->orWhereNull('class_id')
             ->orderBy('sort_order')
             ->get();
+
+        // 无规则时自动创建默认规则（匹配班级码大屏端内置原因）
+        if ($rules->isEmpty() && $classIds->isNotEmpty()) {
+            $defaults = [
+                ['name' => '举手发言', 'amount' => 5, 'category' => 'behavior', 'is_positive' => true],
+                ['name' => '作业优秀', 'amount' => 10, 'category' => 'academic', 'is_positive' => true],
+                ['name' => '帮助同学', 'amount' => 5, 'category' => 'behavior', 'is_positive' => true],
+                ['name' => '遵守纪律', 'amount' => 3, 'category' => 'behavior', 'is_positive' => true],
+                ['name' => '挑战难题', 'amount' => 8, 'category' => 'academic', 'is_positive' => true],
+                ['name' => '上课走神', 'amount' => -3, 'category' => 'behavior', 'is_positive' => false],
+                ['name' => '作业缺交', 'amount' => -5, 'category' => 'academic', 'is_positive' => false],
+                ['name' => '打扰课堂', 'amount' => -5, 'category' => 'behavior', 'is_positive' => false],
+                ['name' => '追逐打闹', 'amount' => -10, 'category' => 'behavior', 'is_positive' => false],
+            ];
+            $firstClassId = $classIds->first();
+            foreach ($defaults as $i => $d) {
+                ScoreRule::create([
+                    'class_id' => $firstClassId, 'school_id' => $teacher->school_id,
+                    'name' => $d['name'], 'amount' => $d['amount'],
+                    'category' => $d['category'], 'is_positive' => $d['is_positive'],
+                    'is_active' => true, 'sort_order' => $i,
+                ]);
+            }
+            $rules = ScoreRule::where('class_id', $firstClassId)->orderBy('sort_order')->get();
+        }
 
         return response()->json(['data' => $rules]);
     }
@@ -702,7 +738,7 @@ class TeacherController extends Controller
     public function createScoreRule(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'name' => 'required|string|max:50',
@@ -728,7 +764,7 @@ class TeacherController extends Controller
     public function updateScoreRule(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $rule = ScoreRule::whereIn('class_id', $classIds)->orWhereNull('class_id')->findOrFail($id);
 
         $rule->update($request->only(['name', 'amount', 'category', 'is_positive', 'is_active', 'sort_order']));
@@ -739,7 +775,7 @@ class TeacherController extends Controller
     public function deleteScoreRule(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $rule = ScoreRule::whereIn('class_id', $classIds)->orWhereNull('class_id')->findOrFail($id);
         $rule->delete();
 
@@ -753,7 +789,7 @@ class TeacherController extends Controller
     public function classPetsOverview(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $pets = Pet::whereIn('class_id', $classIds)
             ->with('student:id,name')
@@ -777,7 +813,7 @@ class TeacherController extends Controller
     public function getPet(Request $request, int $studentId): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
 
         $pet = $student->pet;
@@ -803,7 +839,7 @@ class TeacherController extends Controller
     public function feedPet(Request $request, int $studentId): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
 
         $pet = $student->pet;
@@ -837,7 +873,7 @@ class TeacherController extends Controller
     public function renamePet(Request $request, int $studentId): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
 
         $request->validate(['name' => 'required|string|max:20']);
@@ -1258,7 +1294,7 @@ class TeacherController extends Controller
     public function listShopItems(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $query = ShopItem::whereIn('class_id', $classIds);
 
@@ -1274,7 +1310,7 @@ class TeacherController extends Controller
     public function createShopItem(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'name' => 'required|string|max:100',
@@ -1306,7 +1342,7 @@ class TeacherController extends Controller
     public function updateShopItem(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $item = ShopItem::whereIn('class_id', $classIds)->findOrFail($id);
 
         $item->update($request->only([
@@ -1327,7 +1363,7 @@ class TeacherController extends Controller
     public function deleteShopItem(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $item = ShopItem::whereIn('class_id', $classIds)->findOrFail($id);
         $item->delete();
 
@@ -1337,7 +1373,7 @@ class TeacherController extends Controller
     public function listRedemptions(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $redemptions = ShopRedemption::whereIn('class_id', $classIds)
             ->with(['student:id,name', 'shopItem:id,name,cost_score,currency_type,event_tag,category'])
@@ -1360,7 +1396,7 @@ class TeacherController extends Controller
     public function createRedemption(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'student_id' => 'required|integer',
@@ -1384,7 +1420,7 @@ class TeacherController extends Controller
     public function approveRedemption(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $redemption = ShopRedemption::with(['student.pet', 'shopItem'])
             ->whereIn('class_id', $classIds)->findOrFail($id);
 
@@ -1444,7 +1480,7 @@ class TeacherController extends Controller
     public function rejectRedemption(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $redemption = \App\Models\ShopRedemption::whereIn('class_id', $classIds)->findOrFail($id);
         $redemption->update(['status' => 'rejected']);
 
@@ -1454,7 +1490,7 @@ class TeacherController extends Controller
     public function deliverRedemption(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $redemption = \App\Models\ShopRedemption::whereIn('class_id', $classIds)->findOrFail($id);
         $redemption->update(['status' => 'delivered']);
 
@@ -1468,7 +1504,7 @@ class TeacherController extends Controller
     public function listNotices(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $notices = \App\Models\Notice::whereIn('class_id', $classIds)
             ->orderBy('created_at', 'desc')
@@ -1487,7 +1523,7 @@ class TeacherController extends Controller
     public function createNotice(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'title' => 'required|string|max:200',
@@ -1510,7 +1546,7 @@ class TeacherController extends Controller
     public function updateNotice(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
 
         $notice->update($request->only(['title', 'content', 'type']));
@@ -1521,7 +1557,7 @@ class TeacherController extends Controller
     public function publishNotice(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
 
         $notice->update(['is_published' => true]);
@@ -1539,7 +1575,7 @@ class TeacherController extends Controller
     public function deleteNotice(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
         $notice->delete();
 
@@ -1553,7 +1589,7 @@ class TeacherController extends Controller
     public function scoreTrend(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $weeks = 4;
 
         $trend = [];
@@ -1576,7 +1612,7 @@ class TeacherController extends Controller
     public function petDistribution(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $pets = Pet::whereIn('class_id', $classIds)->get();
         $distribution = $pets->groupBy('level')
@@ -1594,29 +1630,40 @@ class TeacherController extends Controller
     public function studentProgress(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $studentId = $request->input('student_id');
 
-        if (!$studentId) {
-            return response()->json(['message' => '请指定学生'], 422);
+        if ($studentId) {
+            $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
+            $history = Score::where('student_id', $student->id)
+                ->orderBy('created_at', 'desc')->take(50)->get();
+            return response()->json(['data' => [
+                'student' => ['id' => $student->id, 'name' => $student->name, 'total_score' => $student->total_score],
+                'history' => $history,
+            ]]);
         }
 
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-        $history = Score::where('student_id', $student->id)
-            ->orderBy('created_at', 'desc')
-            ->take(50)
-            ->get();
-
-        return response()->json(['data' => [
-            'student' => ['id' => $student->id, 'name' => $student->name, 'total_score' => $student->total_score],
-            'history' => $history,
-        ]]);
+        // 无 student_id 时返回班级所有学生进度列表
+        $students = Student::whereIn('class_id', $classIds)->where('status', 'active')->get();
+        $progress = $students->map(function ($student) {
+            $scores = Score::where('student_id', $student->id)
+                ->orderBy('created_at', 'desc')->take(10)->pluck('amount');
+            $change = $scores->take(5)->sum() - $scores->slice(5)->sum();
+            return [
+                'student_id' => $student->id,
+                'student_name' => $student->name,
+                'scores' => $scores->values()->toArray(),
+                'trend' => $change > 5 ? 'up' : ($change < -5 ? 'down' : 'stable'),
+                'change' => $change,
+            ];
+        });
+        return response()->json(['data' => $progress]);
     }
 
     public function exportReport(Request $request, string $type)
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $classId = (int) $request->input('class_id', $classIds->first() ?? 0);
 
         if (!in_array($classId, $classIds->toArray())) {
@@ -1660,7 +1707,7 @@ class TeacherController extends Controller
     public function listBroadcasts(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $broadcasts = \App\Models\Broadcast::whereIn('class_id', $classIds)
             ->orderBy('created_at', 'desc')->take(20)->get();
 
@@ -1743,7 +1790,7 @@ class TeacherController extends Controller
     public function getBroadcast(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $broadcast = \App\Models\Broadcast::whereIn('class_id', $classIds)->findOrFail($id);
 
         return response()->json(['data' => $broadcast]);
@@ -1877,7 +1924,7 @@ class TeacherController extends Controller
     public function listGrades(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $query = \App\Models\Grade::whereIn('class_id', $classIds)->with('student:id,name');
 
@@ -1904,7 +1951,7 @@ class TeacherController extends Controller
     public function inputGrades(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'exam_name' => 'required|string|max:50',
@@ -1942,7 +1989,7 @@ class TeacherController extends Controller
     public function getGradeStats(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'exam_name' => 'required|string',
@@ -1961,7 +2008,7 @@ class TeacherController extends Controller
     public function getGradeDistribution(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'exam_name' => 'required|string',
@@ -2012,7 +2059,7 @@ class TeacherController extends Controller
     public function listWallets(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
         $students = Student::whereIn('class_id', $classIds)->where('status', 'active')->pluck('id');
 
         $wallets = Wallet::whereIn('student_id', $students)
@@ -2034,7 +2081,7 @@ class TeacherController extends Controller
     public function exchangeCurrency(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'student_id' => 'required|integer',
@@ -2064,7 +2111,7 @@ class TeacherController extends Controller
     public function crossExchangeCurrency(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'student_id' => 'required|integer',
