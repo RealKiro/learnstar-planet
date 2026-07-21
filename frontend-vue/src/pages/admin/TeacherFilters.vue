@@ -42,8 +42,12 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
-.toolbar-actions { display:flex;align-items:center;gap:12px;flex-wrap:nowrap; }
-.filter-select { min-width:130px;padding:6px 10px;font-size:12px; }
-.filter-search { width:120px;padding:6px 10px;font-size:12px; }
+.toolbar { display:flex; align-items:center; flex-wrap:nowrap; gap:12px; }
+.toolbar-left { flex-shrink:0; display:flex; align-items:center; gap:8px; }
+.toolbar-actions { display:flex; align-items:center; gap:8px 12px; flex:1 1 auto; flex-wrap:nowrap; justify-content:flex-end; }
+.filter-group { display:flex; align-items:center; gap:6px; flex:1 1 auto; flex-wrap:nowrap; }
+.filter-select { padding:6px 10px; font-size:12px; flex:0 1 auto; min-width:0; width:auto; }
+.filter-search { padding:6px 10px; font-size:12px; flex:1 1 120px; min-width:80px; }
 .filter-select option { color:#1E293B; background:#fff; }
+.toolbar-actions .btn { flex-shrink:0; }
 </style>
