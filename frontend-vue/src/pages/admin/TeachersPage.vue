@@ -19,7 +19,7 @@ type ClassRole = 'head_teacher' | 'co_teacher' | 'subject_teacher'
 type PersonalRole = 'grade_lead' | 'admin_director' | null
 
 const classRoleLabel: Record<ClassRole, string> = {
-  head_teacher: '主班', co_teacher: '副班', subject_teacher: '科任',
+  head_teacher: '主班主任', co_teacher: '副班主任', subject_teacher: '科任教师',
 }
 // 个人角色标签（保留备用）
 const personalRoleLabel: Record<Exclude<PersonalRole, null>, string> = {
@@ -92,20 +92,32 @@ function validateField(field: string, value: string) {
 function openCreateModal() {
   createForm.value = { name: '', nickname: '', grade_team: '', phone: '', email: '', password: '' }
   createErrors.value = {}; assignError.value = ''
-  createAssignments.value = []; pendingGrade.value = ''; pendingClassId.value = null; pendingSubject.value = ''
+  createAssignments.value = []; pendingGrade.value = ''; pendingClassId.value = null; pendingSubject.value = ''; pendingRole.value = ''
   showCreateModal.value = true
 }
 const assignError = ref('')
+const groupedAssignments = computed(() => {
+  const map: Record<string, { class_name: string; items: typeof createAssignments.value }> = {}
+  for (const a of createAssignments.value) {
+    const key = String(a.class_id)
+    if (!map[key]) map[key] = { class_name: a.class_name, items: [] }
+    map[key].items.push(a)
+  }
+  return Object.values(map)
+})
 function addClassAssignment() {
   assignError.value = ''
   if (!pendingClassId.value || !pendingGrade.value) { assignError.value = '请先选择年级和班级'; return }
   const cls = classes.value.find(c => c.id === pendingClassId.value)
   if (!cls) return
-  if (createAssignments.value.some(a => a.class_id === cls.id)) { assignError.value = '该班级已添加'; return }
+  // ✅ 允许同一班级不同角色，仅阻止完全相同的组合
+  if (createAssignments.value.some(a => a.class_id === cls.id && a.role === (pendingRole.value || 'subject_teacher') && a.subject === pendingSubject.value)) {
+    assignError.value = '该班级已添加相同角色和科目'; return
+  }
   // ✅ 必须选择科目
   if (!pendingSubject.value) { assignError.value = '请选择科目'; return }
-  createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value, role: pendingRole.value })
-  pendingClassId.value = null; pendingSubject.value = ''; pendingRole.value = 'subject_teacher'
+  createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value, role: pendingRole.value || 'subject_teacher' })
+  pendingClassId.value = null; pendingSubject.value = ''; pendingRole.value = ''
 }
 function removeClassAssignment(idx) { createAssignments.value.splice(idx, 1) }
 async function submitCreate() {
@@ -427,13 +439,12 @@ onMounted(() => loadTeachers(true))
                       <input v-model="createForm.name" placeholder="姓名" class="form-input" :style="{ borderColor: createErrors.name ? '#f87171' : '' }" @blur="validateField('name', createForm.name)" @input="clearError('name')">
                       <div v-if="createErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ createErrors.name }}</div>
                     </div>
-                    <div style="flex:1;" class="form-group"><label>昵称</label><input v-model="createForm.nickname" placeholder="默认拼音" class="form-input" /></div>
+                    <div style="flex:1;" class="form-group"><label>年级团队</label><select v-model="createForm.grade_team" class="form-input"><option value="">不指定</option><option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option></select></div>
                   </div>
                   <div style="display:flex;gap:8px;">
-                    <div style="flex:1;" class="form-group"><label>年级团队</label><select v-model="createForm.grade_team" class="form-input"><option value="">不指定</option><option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option></select></div>
                     <div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div>
+                    <div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div>
                   </div>
-                  <div style="display:flex;gap:8px;"><div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div><div style="flex:1;" class="form-group"><label>&nbsp;</label></div></div>
                   <div style="display:none;"></div>
                   <div class="form-group">
                     <label>初始密码</label>
@@ -443,24 +454,27 @@ onMounted(() => loadTeachers(true))
                 </div>
                 <div>
                   <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📚 加入班级 <span style="font-size:10px;color:var(--color-text-secondary);">可选</span></div>
-                  <div style="display:flex;gap:8px;align-items:flex-end;">
-                    <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
-                      <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
-                      <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
-                      <div class="form-group" style="margin-bottom:0;"><label>角色</label><select v-model="pendingRole" class="form-input"><option value="subject_teacher">科任教师</option><option v-for="(label, role) in classRoleLabel" :key="role" :value="role">{{ label }}</option></select></div>
-                      <div class="form-group" style="margin-bottom:0;"><label>科目</label><select v-model="pendingSubject" class="form-input"><option value="">请选择科目</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
-                    </div>
-                    <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:6px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;">➕ 添加</button>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                    <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>角色</label><select v-model="pendingRole" class="form-input"><option value="">选择角色（默认科任教师）</option><option value="head_teacher">主班主任</option><option value="co_teacher">副班主任</option></select></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>科目</label><select v-model="pendingSubject" class="form-input"><option value="">请选择科目</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+                  </div>
+                  <div style="display:flex;justify-content:flex-end;margin-top:6px;">
+                    <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:5px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;">➕ 添加</button>
                   </div>
                   <div v-if="assignError" style="color:#f87171;font-size:11px;margin-top:4px;">{{ assignError }}</div>
                   <div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent);">💡 创建后可随时在列表中点击 🏫 按钮重新分配班级</div>
                   <div v-if="createAssignments.length > 0" style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
                     <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
-                    <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent);">
-                      <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }}</span>
-                      <span v-if="a.role === 'subject_teacher'" style="font-size:11px;font-weight:500;color:var(--color-text-secondary);">{{ a.subject }}</span>
-                      <span v-else style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }}</span>
-                      <button @click="removeClassAssignment(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;">✕</button>
+                    <div v-for="(group, gi) in groupedAssignments" :key="gi" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent);">
+                      <span style="flex:1;color:var(--color-text);font-weight:500;">{{ shortClassName(group.class_name) }}</span>
+                      <template v-for="(a, ai) in group.items" :key="ai">
+                        <span v-if="a.role === 'subject_teacher'" style="font-size:11px;color:var(--color-text-secondary);">{{ a.subject }}</span>
+                        <span v-else style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }} · {{ a.subject }}</span>
+                        <span v-if="ai < group.items.length - 1" style="color:var(--color-border);font-size:10px;">|</span>
+                      </template>
+                      <button @click="removeClassAssignment(createAssignments.indexOf(group.items[0]))" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0;">✕</button>
                     </div>
                   </div>
                 </div>
