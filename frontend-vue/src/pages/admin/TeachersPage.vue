@@ -79,7 +79,7 @@ const createLoading = ref(false)
 const pendingGrade = ref('')
 const pendingClassId = ref<number | null>(null)
 const pendingSubject = ref('')
-const pendingRole = ref<ClassRole>('subject_teacher')
+const pendingRole = ref<ClassRole | ''>('')
 const gradeClasses = computed(() => (classes.value || []).filter(c => c.grade === pendingGrade.value))
 
 function clearError(field: string) { delete createErrors.value[field] }
@@ -96,14 +96,19 @@ function openCreateModal() {
   createAssignments.value = []; pendingGrade.value = ''; pendingClassId.value = null; pendingSubject.value = ''; pendingRole.value = ''
   showCreateModal.value = true
 }
+function closeCreateModal() {
+  showCreateModal.value = false
+  createStatus.value = 'idle'
+  createErrorMsg.value = ''
+}
 const assignError = ref('')
 const groupedAssignments = computed(() => {
-  const map: Record<string, { class_name: string; items: typeof createAssignments.value }> = {}
-  for (const a of createAssignments.value) {
+  const map: Record<string, { class_name: string; items: { index: number; role: string; subject: string }[] }> = {}
+  createAssignments.value.forEach((a, idx) => {
     const key = String(a.class_id)
     if (!map[key]) map[key] = { class_name: a.class_name, items: [] }
-    map[key].items.push(a)
-  }
+    map[key].items.push({ index: idx, role: a.role, subject: a.subject })
+  })
   return Object.values(map)
 })
 function addClassAssignment() {
@@ -426,7 +431,7 @@ onMounted(() => loadTeachers(true))
   <ModalGlass :visible="showCreateModal" @update:visible="showCreateModal = $event">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);flex-shrink:0;">
             <h2 style="font-size:18px;font-weight:700;color:var(--color-text);margin:0;">✨ 创建教师账号</h2>
-            <button :disabled="createLoading" @click="showCreateModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
+            <button :disabled="createLoading" @click="closeCreateModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
           </div>
           <div style="overflow-y:auto;">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
@@ -473,14 +478,14 @@ onMounted(() => loadTeachers(true))
                         <span v-else style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }} · {{ a.subject }}</span>
                         <span v-if="ai < group.items.length - 1" style="color:var(--color-border);font-size:10px;">|</span>
                       </template>
-                      <button @click="removeClassAssignment(createAssignments.indexOf(group.items[0]))" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0;">✕</button>
+                      <button @click="removeClassAssignment(group.items[0].index)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0;">✕</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div style="display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--color-border);flex-shrink:0;">
-              <button @click="showCreateModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
+              <button @click="closeCreateModal" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
               <button @click="submitCreate" :disabled="createStatus === 'loading'" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:#fff;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(124,58,237,0.15);"
                 :style="{ background: createStatus === 'loading' ? '#f59e0b' : createStatus === 'success' ? '#10b981' : createStatus === 'error' ? '#ef4444' : '#7c3aed' }">
                 <span v-if="createStatus === 'idle'">创建账号</span>
@@ -493,8 +498,7 @@ onMounted(() => loadTeachers(true))
         </ModalGlass>
 
   <ModalGlass :visible="showEditModal" @update:visible="showEditModal = $event">
-          <div @click="showEditModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
-      <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;max-width:520px;width:100%;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+      <div style="max-width:520px;width:100%;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
           <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">✏️ 编辑教师信息 — {{ editTarget?.name }}</h3>
           <button @click="showEditModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
