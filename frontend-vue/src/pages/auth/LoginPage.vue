@@ -96,32 +96,35 @@ async function handleTeacherLogin() {
 async function handleAdminLogin() {
   if (!validateLoginForm('admin')) return
   loading.value = true
+  loginStatus.value = 'loading'
   try {
     const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/admin/login', {
       username: adminUsername.value.trim(), password: adminPassword.value,
     })
     authStore.setAuth(res.data.token, res.data.user)
-    toast.show('登录成功', 'success')
-    router.replace({ name: 'admin-dashboard' })
-  } catch { /* handled */ } finally { loading.value = false }
+    loginStatus.value = 'success'
+    setTimeout(() => router.replace({ name: 'admin-dashboard' }), 800)
+  } catch { loginStatus.value = 'error'; setTimeout(() => { if (loginStatus.value === 'error') loginStatus.value = 'idle' }, 3000) } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
 }
 
 async function handleParentLogin() {
   if (!validateLoginForm('parent')) return
   loading.value = true
+  loginStatus.value = 'loading'
   try {
     const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/parent/login', {
       username: parentUsername.value.trim(), password: parentPassword.value,
     })
     authStore.setAuth(res.data.token, res.data.user)
-    toast.show('登录成功', 'success')
-    router.replace({ name: 'parent-home' })
-  } catch { /* handled */ } finally { loading.value = false }
+    loginStatus.value = 'success'
+    setTimeout(() => router.replace({ name: 'parent-home' }), 800)
+  } catch { loginStatus.value = 'error'; setTimeout(() => { if (loginStatus.value === 'error') loginStatus.value = 'idle' }, 3000) } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
 }
 
 async function handleClassLogin() {
   if (!validateLoginForm('class')) return
   loading.value = true
+  loginStatus.value = 'loading'
   classCodeError.value = ''
   try {
     const res = await apiPost<ApiResponse<{ token: string; class_id: number; class_name: string; grade: string; student_count: number }>>('/api/v1/auth/class/login', {
@@ -135,11 +138,13 @@ async function handleClassLogin() {
       student_count: res.data.student_count,
     }))
     classInfo.value = { class_name: res.data.class_name, student_count: res.data.student_count }
-    toast.show(`欢迎进入 ${res.data.class_name}`, 'success')
+    loginStatus.value = 'success'
     setTimeout(() => router.push({ name: 'teacher-dashboard-basic' }), 1500)
   } catch (e: any) {
+    loginStatus.value = 'error'
     classCodeError.value = e?.response?.data?.message || '班级码无效，请核对后重试'
-  } finally { loading.value = false }
+    setTimeout(() => { if (loginStatus.value === 'error') loginStatus.value = 'idle' }, 3000)
+  } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
 }
 
 const platforms = [
@@ -365,7 +370,12 @@ function goToSlide(i: number) {
             <input ref="parentPwdRef" v-model="parentPassword" type="password" class="form-input" :style="{ borderColor: loginErrors.parentPassword ? '#f87171' : '' }" @blur="validateLoginField('parentPassword', parentPassword)" @input="clearLoginErr('parentPassword')" placeholder="输入密码" @keydown.enter="handleParentLogin">
             <div v-if="loginErrors.parentPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.parentPassword }}</div>
           </div>
-          <button class="login-submit login-submit--green" :disabled="loading" @click="handleParentLogin">{{ loading ? '登录中...' : '登录' }}</button>
+          <button class="login-submit login-submit--green" :disabled="loginStatus === 'loading'" @click="handleParentLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#10b981' }">
+            <span v-if="loginStatus === 'idle'">🚀 登录</span>
+            <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
+            <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
+            <span v-else>❌ 登录失败</span>
+          </button>
         </div>
 
         <!-- 班级码登录（学生端/大屏入口） -->
@@ -383,8 +393,11 @@ function goToSlide(i: number) {
             </div>
             <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 DEMO00</p>
             <div v-if="classCodeError" class="error-msg" style="color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px;">{{ classCodeError }}</div>
-            <button class="login-submit login-submit--purple" :disabled="loading || classCode.length < 3" @click="handleClassLogin">
-              {{ loading ? '⏳ 验证中...' : '🚀 进入班级' }}
+            <button class="login-submit login-submit--purple" :disabled="loginStatus === 'loading' || classCode.length < 3" @click="handleClassLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+              <span v-if="loginStatus === 'idle'">🚀 进入班级</span>
+              <span v-else-if="loginStatus === 'loading'">⏳ 验证中...</span>
+              <span v-else-if="loginStatus === 'success'">✅ 欢迎进入</span>
+              <span v-else>❌ 验证失败</span>
             </button>
           </template>
         </div>
