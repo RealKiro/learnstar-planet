@@ -26,7 +26,8 @@ const subjects = ref<string[]>([])
 // 录入弹窗
 const showInputModal = ref(false)
 const inputForm = ref({ exam_name: '', subject: '', grades: [] as { student_id: number; score: number }[] })
-const inputting = ref(false)
+const inputStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const exportStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 const avgScore = computed(() => {
   if (!grades.value.length) return 0
@@ -59,6 +60,7 @@ onMounted(async () => {
 })
 
 async function exportGrades() {
+  exportStatus.value = 'loading'
   try {
     const token = localStorage.getItem('auth_token')
     const res = await axios.get('/api/v1/teacher/reports/export/scores', {
@@ -72,8 +74,12 @@ async function exportGrades() {
     document.body.appendChild(a); a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-    toast.show('导出成功', 'success')
-  } catch { toast.show('导出失败', 'error') }
+    exportStatus.value = 'success'
+    setTimeout(() => { exportStatus.value = 'idle' }, 1500)
+  } catch {
+    exportStatus.value = 'error'
+    setTimeout(() => { exportStatus.value = 'idle' }, 3000)
+  }
 }
 
 function openInputModal() {
@@ -82,15 +88,18 @@ function openInputModal() {
 }
 
 async function submitGrades() {
-  if (!inputForm.value.exam_name || !inputForm.value.subject) { toast.show('请填写考试名称和科目', 'error'); return }
-  inputting.value = true
+  if (!inputForm.value.exam_name || !inputForm.value.subject) { toast.show('请填写考试名称和科目', 'error', { position: 'top-right' }); return }
+  inputStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/grades', inputForm.value)
-    toast.show('成绩录入成功', 'success')
-    showInputModal.value = false
+    inputStatus.value = 'success'
     selectedExam.value = inputForm.value.exam_name
     await loadGrades()
-  } catch { toast.show('录入失败', 'error') } finally { inputting.value = false }
+    setTimeout(() => { inputStatus.value = 'idle'; showInputModal.value = false }, 1500)
+  } catch {
+    inputStatus.value = 'error'
+    setTimeout(() => { inputStatus.value = 'idle' }, 3000)
+  }
 }
 </script>
 
@@ -104,7 +113,13 @@ async function submitGrades() {
           <option v-for="e in examOptions" :key="e" :value="e">{{ e }}</option>
         </select>
         <button class="btn btn-sm btn-primary" @click="openInputModal">录入成绩</button>
-        <button class="btn btn-sm" @click="exportGrades" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);">📤 导出</button>
+        <button class="btn btn-sm" @click="exportGrades" :disabled="exportStatus !== 'idle'"
+          :style="{ background: exportStatus === 'loading' ? '#f59e0b' : exportStatus === 'success' ? '#10b981' : exportStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent' }">
+          <template v-if="exportStatus === 'idle'">📤 导出</template>
+          <template v-else-if="exportStatus === 'loading'">导出中...</template>
+          <template v-else-if="exportStatus === 'success'">✅ 已导出</template>
+          <template v-else-if="exportStatus === 'error'">❌ 失败</template>
+        </button>
       </div>
     </div>
 
@@ -125,8 +140,13 @@ async function submitGrades() {
           </div>
           <div style="display:flex;gap:12px;margin-top:20px;">
             <button class="btn" style="flex:1;" @click="showInputModal = false">取消</button>
-            <button class="btn btn-primary" style="flex:1;" :disabled="inputting" @click="submitGrades">
-              {{ inputting ? '提交中...' : '提交' }}
+            <button class="btn btn-primary" style="flex:1;" :disabled="inputStatus !== 'idle'"
+              :style="{ background: inputStatus === 'loading' ? '#f59e0b' : inputStatus === 'success' ? '#10b981' : inputStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+              @click="submitGrades">
+              <template v-if="inputStatus === 'idle'">提交</template>
+              <template v-else-if="inputStatus === 'loading'">提交中...</template>
+              <template v-else-if="inputStatus === 'success'">✅ 成功</template>
+              <template v-else-if="inputStatus === 'error'">❌ 失败</template>
             </button>
           </div>
         </div>

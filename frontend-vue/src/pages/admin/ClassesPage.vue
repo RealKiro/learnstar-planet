@@ -7,7 +7,6 @@ import type { ApiResponse, ClassRoom } from '@/types'
 const toast = useToastStore()
 const classes = ref<ClassRoom[]>([])
 const loading = ref(true)
-const displayCodeLoading = ref<Record<number, boolean>>({})
 const deleteStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
 const displayCodeStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
 const copyCodeStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})

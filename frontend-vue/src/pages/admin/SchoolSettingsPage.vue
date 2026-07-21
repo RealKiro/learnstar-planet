@@ -43,7 +43,7 @@ const diagHasIssues = ref(false)
 const repairStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const repairDone = ref(false)
 async function diagnose() {
-  diagLoading.value = true; diagResult.value = null; repairDone.value = false
+  diagnoseStatus.value = 'loading'; diagResult.value = null; repairDone.value = false
   try {
     const res = await fetch('/api/v1/admin/system/diagnose', {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
@@ -51,22 +51,24 @@ async function diagnose() {
     const data = await res.json()
     diagResult.value = data.data || []
     diagHasIssues.value = data.has_issues || false
-    toast.show(data.message || '诊断完成', 'info')
-  } catch { toast.show('诊断请求失败', 'error') }
-  finally { diagLoading.value = false }
+    diagnoseStatus.value = 'success'
+    setTimeout(() => { diagnoseStatus.value = 'idle' }, 1500)
+  } catch { diagnoseStatus.value = 'error'; setTimeout(() => { diagnoseStatus.value = 'idle' }, 3000) }
 }
 async function repair() {
-  repairLoading.value = true
+  repairStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/admin/system/repair', {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' }
     })
     const data = await res.json()
-    toast.show(data.message || '修复完成', res.ok ? 'success' : 'error')
-    if (res.ok) { repairDone.value = true; setTimeout(diagnose, 500) }
-  } catch { toast.show('修复请求失败', 'error') }
-  finally { repairLoading.value = false }
+    if (!res.ok) { repairStatus.value = 'error'; setTimeout(() => { repairStatus.value = 'idle' }, 3000); return }
+    repairStatus.value = 'success'
+    repairDone.value = true
+    setTimeout(diagnose, 500)
+    setTimeout(() => { repairStatus.value = 'idle' }, 1500)
+  } catch { repairStatus.value = 'error'; setTimeout(() => { repairStatus.value = 'idle' }, 3000) }
 }
 
 // 系统状态
@@ -102,8 +104,8 @@ onMounted(async () => {
 })
 
 async function save() {
-  if (!form.value.name.trim()) { toast.show('请填写学校名称', 'error'); return }
-  saving.value = true
+  if (!form.value.name.trim()) { toast.show('请填写学校名称', 'error', { position: 'top-right' }); return }
+  saveStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/admin/school', {
       method: 'PUT',
@@ -111,9 +113,10 @@ async function save() {
       body: JSON.stringify({ name: form.value.name.trim(), address: form.value.address.trim(), contact_phone: form.value.contact_phone.trim(), contact_email: form.value.contact_email.trim() }),
     })
     const data = await res.json()
-    toast.show(data.message || '学校信息已保存', res.ok ? 'success' : 'error')
-  } catch { toast.show('保存失败', 'error') }
-  finally { saving.value = false }
+    if (!res.ok) { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000); return }
+    saveStatus.value = 'success'
+    setTimeout(() => { saveStatus.value = 'idle' }, 1500)
+  } catch { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000) }
 }
 
 async function reload() {
@@ -131,7 +134,7 @@ async function reload() {
 async function uploadLogo(e: Event) {
   const file = (e.target as HTMLInputElement).files?.[0]
   if (!file) return
-  logoUploading.value = true
+  uploadLogoStatus.value = 'loading'
   try {
     const fd = new FormData()
     fd.append('logo', file)
@@ -142,9 +145,11 @@ async function uploadLogo(e: Event) {
     })
     const data = await res.json()
     if (res.ok && data.data?.logo_path) logoPath.value = data.data.logo_path
-    toast.show(data.message || 'LOGO 已上传', res.ok ? 'success' : 'error')
-  } catch { toast.show('上传失败', 'error') }
-  finally { logoUploading.value = false; (e.target as HTMLInputElement).value = '' }
+    if (!res.ok) { uploadLogoStatus.value = 'error'; setTimeout(() => { uploadLogoStatus.value = 'idle' }, 3000); return }
+    uploadLogoStatus.value = 'success'
+    setTimeout(() => { uploadLogoStatus.value = 'idle' }, 1500)
+  } catch { uploadLogoStatus.value = 'error'; setTimeout(() => { uploadLogoStatus.value = 'idle' }, 3000) }
+  finally { (e.target as HTMLInputElement).value = '' }
 }
 </script>
 
@@ -189,8 +194,13 @@ async function uploadLogo(e: Event) {
         <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678" :style="{ borderColor: schoolErrors.contact_phone ? '#f87171' : '' }" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_phone }}</div></div>
         <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn" :style="{ borderColor: schoolErrors.contact_email ? '#f87171' : '' }" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_email }}</div></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px;">
-          <button class="btn btn-sm btn-outline" :disabled="saving || loading" @click="reload">↩️ 重置</button>
-          <button class="btn btn-sm btn-primary" :disabled="saving || loading" @click="saveSchool">{{ saving ? '保存中...' : '保存设置' }}</button>
+          <button class="btn btn-sm btn-outline" :disabled="saveStatus !== 'idle' || loading" @click="reload">↩️ 重置</button>
+          <button class="btn btn-sm" :style="{ background: saveStatus === 'loading' ? '#f59e0b' : saveStatus === 'success' ? '#10b981' : saveStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent' }" :disabled="saveStatus !== 'idle' || loading" @click="saveSchool">
+            <template v-if="saveStatus === 'loading'">保存中...</template>
+            <template v-else-if="saveStatus === 'success'">已保存 ✓</template>
+            <template v-else-if="saveStatus === 'error'">保存失败 ✗</template>
+            <template v-else>保存设置</template>
+          </button>
         </div>
       </div>
     </div>
@@ -199,8 +209,18 @@ async function uploadLogo(e: Event) {
     <div v-if="activeTab === 'diagnose'" class="card" style="max-width:640px;padding:24px;">
       <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">检查数据库表结构完整性</p>
       <div style="display:flex;gap:12px;margin-bottom:16px;">
-        <button class="btn btn-outline" :disabled="diagLoading" @click="diagnose">{{ diagLoading ? '诊断中...' : '🔍 开始诊断' }}</button>
-        <button class="btn btn-danger" :disabled="repairLoading || !diagHasIssues" @click="repair">{{ repairLoading ? '修复中...' : '🛠️ 一键修复' }}</button>
+        <button class="btn btn-outline" :style="{ background: diagnoseStatus === 'loading' ? '#f59e0b' : diagnoseStatus === 'success' ? '#10b981' : diagnoseStatus === 'error' ? '#ef4444' : '', color: diagnoseStatus !== 'idle' ? '#fff' : '', border: diagnoseStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="diagnoseStatus !== 'idle'" @click="diagnose">
+          <template v-if="diagnoseStatus === 'loading'">诊断中...</template>
+          <template v-else-if="diagnoseStatus === 'success'">诊断完成 ✓</template>
+          <template v-else-if="diagnoseStatus === 'error'">诊断失败 ✗</template>
+          <template v-else>🔍 开始诊断</template>
+        </button>
+        <button class="btn btn-danger" :style="{ background: repairStatus === 'loading' ? '#f59e0b' : repairStatus === 'success' ? '#10b981' : repairStatus === 'error' ? '#ef4444' : '', color: repairStatus !== 'idle' ? '#fff' : '', border: repairStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="repairStatus !== 'idle' || !diagHasIssues" @click="repair">
+          <template v-if="repairStatus === 'loading'">修复中...</template>
+          <template v-else-if="repairStatus === 'success'">修复完成 ✓</template>
+          <template v-else-if="repairStatus === 'error'">修复失败 ✗</template>
+          <template v-else>🛠️ 一键修复</template>
+        </button>
       </div>
       <div v-if="diagResult">
         <div v-for="(r, i) in diagResult" :key="i" style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-bottom:1px solid var(--color-border);font-size:13px;">

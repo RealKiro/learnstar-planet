@@ -26,6 +26,7 @@ const loading = ref(true)
 const selectedStudent = ref<StudentInfo | null>(null)
 const exchangeAmount = ref(10)
 const exchangeTarget = ref<'science' | 'reading'>('science')
+const exchangeStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 const rate = 1 // 1:1 兑换
 
@@ -52,21 +53,26 @@ function selectStudent(s: StudentInfo) {
 async function doExchange() {
   if (!selectedStudent.value || exchangeAmount.value < 1) return
   if (exchangeAmount.value > (selectedStudent.value.total_score || 0)) {
-    toast.show('积分不足', 'error')
+    toast.show('积分不足', 'error', { position: 'top-right' })
     return
   }
+  exchangeStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/currency/exchange', {
       student_id: selectedStudent.value.id,
       to_currency: exchangeTarget.value,
       amount: exchangeAmount.value,
     })
-    toast.show(`兑换成功：${selectedStudent.value.name} +${exchangeAmount.value} ${exchangeTarget.value === 'science' ? '科学币' : '读书币'}`, 'success')
+    exchangeStatus.value = 'success'
     // 刷新数据
     const res = await apiGet<ApiResponse<WalletEntry[]>>('/api/v1/teacher/currency/wallets')
     wallets.value = res.data || []
     selectedStudent.value.total_score -= exchangeAmount.value
-  } catch { toast.show('兑换失败', 'error') }
+    setTimeout(() => { exchangeStatus.value = 'idle' }, 1500)
+  } catch {
+    exchangeStatus.value = 'error'
+    setTimeout(() => { exchangeStatus.value = 'idle' }, 3000)
+  }
 }
 </script>
 
@@ -137,8 +143,13 @@ async function doExchange() {
             消耗 <strong>{{ exchangeAmount }}</strong> 积分 → 获得 <strong>{{ exchangeAmount }}</strong> {{ exchangeTarget === 'science' ? '🔬 科学币' : '📚 读书币' }}
           </div>
 
-          <button class="btn btn-primary" style="width:100%;" :disabled="exchangeAmount < 1 || !selectedStudent" @click="doExchange">
-            确认兑换
+          <button class="btn btn-primary" style="width:100%;" :disabled="exchangeStatus !== 'idle' || exchangeAmount < 1 || !selectedStudent"
+            :style="{ background: exchangeStatus === 'loading' ? '#f59e0b' : exchangeStatus === 'success' ? '#10b981' : exchangeStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+            @click="doExchange">
+            <template v-if="exchangeStatus === 'idle'">确认兑换</template>
+            <template v-else-if="exchangeStatus === 'loading'">兑换中...</template>
+            <template v-else-if="exchangeStatus === 'success'">✅ 已兑换</template>
+            <template v-else-if="exchangeStatus === 'error'">❌ 失败</template>
           </button>
         </div>
       </div>
