@@ -425,7 +425,6 @@ onMounted(() => loadTeachers(true))
     </Transition>
   </Teleport>
 
-<Teleport to="body">
   <Teleport to="body">
     <div v-if="showEditModal" @click="showEditModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
       <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;max-width:520px;width:100%;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
