@@ -135,7 +135,7 @@ function openEditModal(t: Teacher) {
 async function submitEdit() {
   if (!editTarget.value) return
   try {
-    const payload: any = { name: editForm.value.name, nickname: editForm.value.nickname, grade_team: editForm.value.grade_team, phone: editForm.value.phone, email: editForm.value.email }
+    const payload: any = { name: editForm.value.name, nickname: editForm.value.nickname, grade_team: editForm.value.grade_team, phone: editForm.value.phone, email: editForm.value.email, personal_role: editForm.value.personalRole }
     await apiPut(`/api/v1/admin/teachers/${editTarget.value.id}`, payload)
     toast.show('教师信息已更新', 'success')
     showEditModal.value = false; await refreshTeachers()
@@ -148,7 +148,7 @@ const assignList = ref<{ class_id: number | null; role: Role; subject: string; c
 const assignLoading = ref(false)
 const assignGradeFilter = ref('')
 const newAssignClassId = ref<number | null>(null)
-const newAssignRoles = ref<Role[]>(['subject_teacher'])
+const newAssignRoleSingle = ref<Role>('subject_teacher')
 const newAssignSubject = ref('')
 const filteredAssignClasses = computed(() => {
   if (!assignGradeFilter.value) return classes.value
@@ -159,21 +159,20 @@ function openAssignModal(t: Teacher) {
   assignList.value = t.assignments.length > 0
     ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '', class_name: a.class_name || classById(a.class_id)?.name }))
     : []
-  assignGradeFilter.value = ''; newAssignClassId.value = null; newAssignRoles.value = ['subject_teacher']; newAssignSubject.value = ''
+  assignGradeFilter.value = ''; newAssignClassId.value = null; newAssignRoleSingle.value = 'subject_teacher'; newAssignSubject.value = ''
   showAssignModal.value = true
 }
 function addAssignRowNew() {
-  if (!newAssignClassId.value || newAssignRoles.value.length === 0) return
+  if (!newAssignClassId.value) return
   const cls = classes.value.find(c => c.id === newAssignClassId.value)
   if (!cls) return
-  const added: string[] = []
-  for (const role of newAssignRoles.value) {
-    if (assignList.value.some(a => a.class_id === cls.id && a.role === role)) continue
-    assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role, subject: newAssignSubject.value || '默认科目' })
-    added.push(roleLabel[role] || role)
-  }
-  if (added.length === 0) { toast.show('所选角色均已添加', 'info'); return }
-  newAssignClassId.value = null; newAssignRoles.value = ['subject_teacher']; newAssignSubject.value = ''
+  const role = newAssignRoleSingle.value
+  // 主班/副班互斥校验
+  if (role === 'head_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'co_teacher')) { toast.show('该班级已有副班，不能同时为主班', 'error'); return }
+  if (role === 'co_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'head_teacher')) { toast.show('该班级已有主班，不能同时为副班', 'error'); return }
+  if (assignList.value.some(a => a.class_id === cls.id && a.role === role)) { toast.show('该班级已分配此角色', 'info'); return }
+  assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role, subject: newAssignSubject.value || '默认科目' })
+  newAssignClassId.value = null; newAssignSubject.value = ''
 }
 function removeAssignRow(idx: number) { assignList.value.splice(idx, 1) }
 async function submitAssign() {
@@ -187,6 +186,21 @@ async function submitAssign() {
   } catch (e: any) {
     toast.show(e?.response?.data?.message || '保存失败', 'error')
   } finally { assignLoading.value = false }
+}
+
+const showDeleteModal = ref(false)
+const deleteTarget = ref<Teacher | null>(null)
+const deleteConfirmed = ref(false)
+function openDeleteModal(t: Teacher) {
+  deleteTarget.value = t; deleteConfirmed.value = false; showDeleteModal.value = true
+}
+async function confirmDelete() {
+  if (!deleteTarget.value) return
+  try {
+    await apiDelete(`/api/v1/admin/teachers/${deleteTarget.value.id}`)
+    teachers.value = teachers.value.filter(x => x.id !== deleteTarget.value!.id)
+    toast.show('教师已删除', 'success'); showDeleteModal.value = false
+  } catch { toast.show('删除失败', 'error') }
 }
 
 const showImportModal = ref(false)
@@ -249,9 +263,6 @@ async function submitResetPwd() {
   } catch { toast.show('重置失败', 'error') }
   finally { resetPwdLoading.value = false }
 }
-async function deleteTeacher(t: Teacher) {
-  if (!confirm('确定删除教师「' + t.name + '」？')) return
-  try { await apiDelete(`/api/v1/admin/teachers/${t.id}`); teachers.value = teachers.value.filter(x => x.id !== t.id); toast.show('已删除', 'success') } catch {}
 }
 function classById(id: number) { return classes.value.find(c => c.id === id) }
 function uniqueRoles(assignments: Assignment[]): string[] {
@@ -350,7 +361,7 @@ onMounted(() => loadTeachers(true))
               <button class="act-btn" @click="openEditModal(t)">👤 个人信息</button>
               <button class="act-btn" @click="openAssignModal(t)">📚 班级管理</button>
               <button class="act-btn" @click="openResetPwd(t)">🔑 密码</button>
-              <button class="act-btn act-del" @click="deleteTeacher(t)">🗑️ 删除</button>
+              <button class="act-btn act-del" @click="openDeleteModal(t)">🗑️ 删除</button>
             </div>
           </div>
         </div>
@@ -488,6 +499,33 @@ onMounted(() => loadTeachers(true))
     </div>
   </Teleport>
 
+  <!-- 删除确认弹窗 -->
+  <Teleport to="body">
+    <div v-if="showDeleteModal" @click="showDeleteModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+          <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">⚠️ 确认删除</h3>
+          <button @click="showDeleteModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
+        </div>
+        <div style="text-align:center;padding:8px 0;">
+          <div style="font-size:40px;margin-bottom:8px;">🗑️</div>
+          <p style="font-size:15px;font-weight:600;color:var(--color-text);margin-bottom:8px;">确定要删除教师「{{ deleteTarget?.name }}」吗？</p>
+          <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px;">此操作将永久删除该教师账号及其所有班级任教分配，且不可恢复。</p>
+          <div v-if="deleteTarget?.assignments.some(a => a.role === 'head_teacher')" style="font-size:12px;color:#dc2626;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:12px;">
+            ⚠️ 该教师是部分班级的班主任，删除后这些班级将无班主任。
+          </div>
+          <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);cursor:pointer;justify-content:center;padding:8px;background:var(--color-bg);border-radius:6px;">
+            <input type="checkbox" v-model="deleteConfirmed" style="accent-color:#dc2626;"> 确认我已了解此操作不可恢复
+          </label>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--color-border);">
+          <button @click="showDeleteModal = false" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
+          <button @click="confirmDelete" :disabled="!deleteConfirmed" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#dc2626;border:none;color:#fff;opacity:deleteConfirmed ? 1 : 0.5;">确认删除</button>
+        </div>
+      </div>
+    </div>
+  </Teleport>
+
   <!-- 重置密码弹窗 -->
   <Teleport to="body">
     <div v-if="showResetPwdModal" @click="showResetPwdModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
@@ -507,11 +545,18 @@ onMounted(() => loadTeachers(true))
         </div>
 
         <!-- 修改密码 -->
-        <div class="form-group"><label>新密码（留空自动生成）</label>
-          <input v-model="resetPwdValue" :type="showResetPwd ? 'text' : 'password'" class="form-input" placeholder="留空自动生成" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')">
+        <div class="form-group"><label>新密码</label>
+          <div style="display:flex;gap:6px;">
+            <input v-model="resetPwdValue" :type="showResetPwd ? 'text' : 'password'" class="form-input" placeholder="留空自动生成" autocomplete="new-password" style="flex:1;">
+            <button type="button" style="flex-shrink:0;padding:6px 10px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;" @click="showResetPwd = !showResetPwd">{{ showResetPwd ? '🙈' : '👁️' }}</button>
+          </div>
         </div>
-        <div style="display:flex;gap:12px;margin-top:16px;">
-          <button @click="showResetPwdModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <button type="button" style="flex:1;padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-family:inherit;" @click="resetPwdValue = Array.from({length:12},()=>'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*'[Math.floor(Math.random()*72)]).join(''); showResetPwd = true">✨ 生成强密码</button>
+          <button type="button" style="flex:1;padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);font-family:inherit;" @click="resetPwdValue = ''">🔄 重置为空</button>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <button @click="showResetPwdModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
           <button @click="submitResetPwd" :disabled="resetPwdLoading" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">{{ resetPwdLoading ? '更新中...' : '更新密码' }}</button>
         </div>
       </div>
