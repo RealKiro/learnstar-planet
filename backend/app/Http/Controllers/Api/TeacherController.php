@@ -2134,6 +2134,55 @@ class TeacherController extends Controller
     }
 
     // ============================================================
+    // 汇率管理（教师端）
+    // ============================================================
+
+    public function listExchangeRates(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $rates = \App\Models\ExchangeRate::where('school_id', $teacher->school_id)
+            ->orderBy('from_currency')->orderBy('to_currency')->get();
+
+        return response()->json(['data' => $rates]);
+    }
+
+    public function createExchangeRate(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'from_currency' => 'required|string|in:score,science,reading,class_point',
+            'to_currency' => 'required|string|in:score,science,reading,class_point',
+            'rate' => 'required|numeric|min:0.01',
+        ]);
+
+        $rate = \App\Models\ExchangeRate::create([
+            'school_id' => $teacher->school_id,
+            'name' => $request->input('name'),
+            'from_currency' => $request->input('from_currency'),
+            'to_currency' => $request->input('to_currency'),
+            'rate' => $request->input('rate'),
+            'is_active' => true,
+        ]);
+
+        return response()->json(['message' => '汇率已添加', 'data' => $rate], 201);
+    }
+
+    public function updateExchangeRate(Request $request, int $id): JsonResponse
+    {
+        $teacher = $request->user();
+        $rate = \App\Models\ExchangeRate::where('school_id', $teacher->school_id)->findOrFail($id);
+        $request->validate([
+            'rate' => 'sometimes|numeric|min:0.01',
+            'is_active' => 'sometimes|boolean',
+        ]);
+
+        $rate->update($request->only(['rate', 'is_active']));
+
+        return response()->json(['message' => '汇率已更新', 'data' => $rate->fresh()]);
+    }
+
+    // ============================================================
     // 兑换中心
     // ============================================================
 

@@ -89,9 +89,9 @@ Route::prefix('v1')->group(function () {
             Route::get('by-class', [SchoolAdminController::class, 'reportsByClass']);
         });
         Route::prefix('exchange-rates')->group(function () {
-            Route::get('/', [SchoolAdminController::class, 'listExchangeRates']);
-            Route::post('/', [SchoolAdminController::class, 'createExchangeRate']);
-            Route::put('{id}', [SchoolAdminController::class, 'updateExchangeRate']);
+            Route::get('/', [TeacherController::class, 'listExchangeRates']);
+            Route::post('/', [TeacherController::class, 'createExchangeRate']);
+            Route::put('{id}', [TeacherController::class, 'updateExchangeRate']);
         });
         Route::get('display-login-logs', [SchoolAdminController::class, 'displayLoginLogs']);
         Route::prefix('system')->group(function () {
