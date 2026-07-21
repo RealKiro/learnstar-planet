@@ -313,53 +313,40 @@ onMounted(() => loadTeachers(true))
         </div>
         <div class="card-grid">
           <div v-for="t in teachers" :key="t.id" class="teacher-card">
-            <!-- 名片头部：头像 + 姓名 + 个人角色 -->
+            <!-- 层1：头部 — 头像 + 姓名 + 个人角色 + 编号 -->
             <div class="card-head">
               <div class="avatar" :style="{ background: avatarGradient(t.name) }">{{ t.name[0] }}</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <div class="head-body">
+                <div class="head-top">
                   <span class="head-name">{{ t.name }}</span>
-                  <!-- 个人属性角色 -->
-                  <span v-for="role in uniqueRoles(t.assignments)" :key="role" v-if="role === 'grade_lead' || role === 'admin_director'" :class="['head-badge', role === 'grade_lead' ? 'badge-lead' : 'badge-admin']">
-                    {{ role === 'grade_lead' ? '首席' : '主任' }}
-                  </span>
+                  <span v-for="role in uniqueRoles(t.assignments)" :key="role" v-if="role === 'grade_lead' || role === 'admin_director'" :class="['head-badge', role === 'grade_lead' ? 'badge-lead' : 'badge-admin']">{{ role === 'grade_lead' ? '首席' : '主任' }}</span>
                 </div>
                 <div class="head-id">{{ t.username }}</div>
               </div>
             </div>
 
-            <!-- 个人信息 -->
-            <div class="card-info-section">
-              <div class="info-row" v-if="t.phone || t.email">
-                <span v-if="t.phone" class="info-item">📞 {{ t.phone }}</span>
-                <span v-if="t.email" class="info-item">📧 {{ t.email }}</span>
-              </div>
-              <div class="info-row" v-if="t.grade_team">
-                <span class="info-item">📋 {{ t.grade_team }}</span>
-              </div>
+            <!-- 层2：联系信息 -->
+            <div class="card-info-section" v-if="t.email || t.phone">
+              <span v-if="t.email" class="info-item">✉ {{ t.email }}</span>
+              <span v-if="t.phone" class="info-item">📱 {{ t.phone }}</span>
             </div>
 
-            <!-- 任教班级 -->
+            <!-- 层3：任教班级 -->
             <div class="card-classes">
-              <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="class-row" :style="{ borderLeftColor: roleColors[a.role as Role] }">
+              <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="class-row">
                 <span class="class-name">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
-                <!-- 主班/副班显示角色标签 + 科目；科任只显示科目 -->
-                <template v-if="a.role === 'head_teacher' || a.role === 'co_teacher'">
-                  <span class="class-role-tag" :style="{ background: roleColors[a.role as Role] + '18', color: roleColors[a.role as Role] }">{{ roleLabel[a.role as Role] }}</span>
-                  <span class="class-subj">{{ a.subject }}</span>
-                </template>
-                <template v-else>
-                  <span class="class-subj-only">{{ a.subject || '—' }}</span>
-                </template>
+                <span v-if="a.role === 'head_teacher'" class="role-tag-head">主班</span>
+                <span v-else-if="a.role === 'co_teacher'" class="role-tag-co">副班</span>
+                <span class="class-subj">{{ a.role === 'head_teacher' || a.role === 'co_teacher' ? a.subject : (a.subject || '—') }}</span>
               </div>
               <div v-if="t.assignments.length === 0" class="class-empty">暂未分配班级</div>
             </div>
 
-            <!-- 操作按钮 -->
+            <!-- 层4：操作按钮 -->
             <div class="card-actions">
-              <button class="act-btn act-edit" @click="openEditModal(t)">👤 个人信息</button>
-              <button class="act-btn act-class" @click="openAssignModal(t)">📚 班级管理</button>
-              <button class="act-btn act-pwd" @click="openResetPwd(t)">🔑 密码管理</button>
+              <button class="act-btn" @click="openEditModal(t)">👤 个人信息</button>
+              <button class="act-btn" @click="openAssignModal(t)">📚 班级管理</button>
+              <button class="act-btn" @click="openResetPwd(t)">🔑 密码</button>
               <button class="act-btn act-del" @click="deleteTeacher(t)">🗑️ 删除</button>
             </div>
           </div>
@@ -594,34 +581,29 @@ onMounted(() => loadTeachers(true))
 .card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:14px; }
 .teacher-card { background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:14px; display:flex; flex-direction:column; transition:all 0.25s ease; overflow:hidden; }
 .teacher-card:hover { border-color:rgba(124,58,237,0.15); box-shadow:0 8px 24px rgba(0,0,0,0.06); transform:translateY(-2px); }
-.card-head { display:flex; align-items:center; gap:12px; padding:16px 18px 10px; }
+.card-head { display:flex; align-items:center; gap:12px; padding:16px 18px 12px; }
 .avatar { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:18px; flex-shrink:0; }
-.head-name { font-size:16px; font-weight:700; }
-.head-id { font-size:11px; color:var(--color-text-secondary); margin-top:1px; }
-.head-badge { font-size:10px; font-weight:600; padding:1px 8px; border-radius:12px; white-space:nowrap; }
-.badge-lead { background:rgba(124,58,237,0.10); color:#7c3aed; border:1px solid rgba(124,58,237,0.15); }
-.badge-admin { background:rgba(219,39,119,0.10); color:#db2777; border:1px solid rgba(219,39,119,0.15); }
-.card-info-section { padding:8px 18px; background:var(--color-bg); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border); }
-.info-row { display:flex; gap:12px; flex-wrap:wrap; padding:2px 0; }
+.head-body { flex:1; min-width:0; }
+.head-top { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.head-name { font-size:17px; font-weight:700; }
+.head-id { font-size:11px; color:var(--color-text-secondary); margin-top:2px; }
+.head-badge { font-size:10px; font-weight:600; padding:2px 10px; border-radius:10px; white-space:nowrap; }
+.badge-lead { background:#8b5cf6; color:#fff; }
+.badge-admin { background:#f59e0b; color:#fff; }
+.card-info-section { display:flex; gap:16px; padding:8px 18px; background:var(--color-bg); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border); flex-wrap:wrap; }
 .info-item { font-size:12px; color:var(--color-text-secondary); }
-.card-classes { padding:10px 18px; flex:1; display:flex; flex-direction:column; gap:4px; min-height:60px; }
-.class-row { display:flex; align-items:center; gap:8px; padding:5px 10px; background:var(--color-bg); border-radius:6px; border-left:3px solid; font-size:12px; }
-.class-name { font-weight:500; color:var(--color-text); flex:1; }
-.class-role { font-size:11px; font-weight:500; }
-.class-role-tag { font-size:10px; font-weight:600; padding:1px 8px; border-radius:10px; white-space:nowrap; }
-.class-subj { font-size:11px; color:var(--color-text-secondary); }
-.class-subj-only { font-size:12px; font-weight:500; color:var(--color-text); }
+.card-classes { padding:10px 18px; flex:1; display:flex; flex-direction:column; gap:3px; min-height:56px; }
+.class-row { display:flex; align-items:center; gap:6px; padding:6px 10px; background:var(--color-bg); border-radius:6px; font-size:13px; }
+.class-name { font-weight:600; color:var(--color-text); min-width:70px; }
+.class-subj { font-size:12px; color:var(--color-text-secondary); }
+.role-tag-head { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(250,204,21,0.15); color:#a16207; }
+.role-tag-co { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(156,163,175,0.15); color:#6b7280; }
 .class-empty { padding:8px; text-align:center; font-size:12px; color:var(--color-text-secondary); }
-.card-actions { display:flex; gap:4px; padding:10px 18px 12px; border-top:1px solid var(--color-border); flex-wrap:wrap; }
-.act-btn { padding:4px 12px; border-radius:16px; font-size:11px; font-weight:500; cursor:pointer; transition:0.2s; border:1px solid transparent; font-family:inherit; display:inline-flex; align-items:center; gap:3px; }
-.act-edit { background:rgba(167,139,250,0.08); color:#8b5cf6; border-color:rgba(167,139,250,0.12); }
-.act-edit:hover { background:rgba(167,139,250,0.15); }
-.act-class { background:rgba(16,185,129,0.08); color:#059669; border-color:rgba(16,185,129,0.12); }
-.act-class:hover { background:rgba(16,185,129,0.15); }
-.act-pwd { background:rgba(251,191,36,0.08); color:#d97706; border-color:rgba(251,191,36,0.12); }
-.act-pwd:hover { background:rgba(251,191,36,0.15); }
-.act-del { background:rgba(239,68,68,0.08); color:#dc2626; border-color:rgba(239,68,68,0.12); }
-.act-del:hover { background:rgba(239,68,68,0.15); }
+.card-actions { display:flex; gap:6px; padding:10px 18px 12px; border-top:1px solid var(--color-border); }
+.act-btn { padding:5px 12px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; transition:0.15s; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-family:inherit; display:inline-flex; align-items:center; gap:4px; }
+.act-btn:hover { background:var(--color-bg); }
+.act-del { color:#dc2626; border-color:rgba(239,68,68,0.2); }
+.act-del:hover { background:rgba(239,68,68,0.06); }
 .data-table { width:100%;border-collapse:collapse;background:var(--color-bg-card);border-radius:12px;overflow:hidden;border:1px solid var(--color-border); }
 .data-table th { background:#f9fafb;font-size:12px;font-weight:600;color:#6b7280;text-align:left;padding:10px 14px;border-bottom:1px solid #e5e7eb;white-space:nowrap; }
 .data-table td { padding:10px 14px;border-bottom:1px solid #f3f4f6;font-size:13px; }
