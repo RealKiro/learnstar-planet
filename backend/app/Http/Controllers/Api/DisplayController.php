@@ -963,7 +963,9 @@ class DisplayController extends Controller
         }
 
         $gradeClasses = ClassRoom::where('grade', $myClass->grade)
-            ->where('status', 'active')->get();
+            ->where('status', 'active')
+            ->whereHas('school', fn ($q) => $q->where('code', '!=', 'DEMO'))
+            ->get();
 
         if ($gradeClasses->isEmpty()) {
             return response()->json(['data' => []]);
