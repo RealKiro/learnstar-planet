@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
-
-const toast = useToastStore()
 
 interface WalletEntry {
   student_id: number
@@ -53,7 +50,8 @@ function selectStudent(s: StudentInfo) {
 async function doExchange() {
   if (!selectedStudent.value || exchangeAmount.value < 1) return
   if (exchangeAmount.value > (selectedStudent.value.total_score || 0)) {
-    toast.show('积分不足', 'error', { position: 'top-right' })
+    exchangeStatus.value = 'error'
+    setTimeout(() => { exchangeStatus.value = 'idle' }, 3000)
     return
   }
   exchangeStatus.value = 'loading'

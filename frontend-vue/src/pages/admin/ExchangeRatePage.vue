@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost, apiPut } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
-
-const toast = useToastStore()
 
 interface Rate {
   id: number
@@ -49,7 +46,8 @@ function demoRates(): Rate[] {
 
 async function addRate() {
   if (!newRate.value.name || newRate.value.rate <= 0) {
-    toast.show('请填写完整信息', 'error', { position: 'top-right' })
+    addRateStatus.value = 'error'
+    setTimeout(() => { addRateStatus.value = 'idle' }, 3000)
     return
   }
   addRateStatus.value = 'loading'

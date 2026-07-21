@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import axios from 'axios'
 import type { ApiResponse } from '@/types'
-
-const toast = useToastStore()
 
 interface GradeEntry {
   student_id: number
@@ -88,7 +85,7 @@ function openInputModal() {
 }
 
 async function submitGrades() {
-  if (!inputForm.value.exam_name || !inputForm.value.subject) { toast.show('请填写考试名称和科目', 'error', { position: 'top-right' }); return }
+  if (!inputForm.value.exam_name || !inputForm.value.subject) { inputStatus.value = 'error'; setTimeout(() => { inputStatus.value = 'idle' }, 3000); return }
   inputStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/grades', inputForm.value)

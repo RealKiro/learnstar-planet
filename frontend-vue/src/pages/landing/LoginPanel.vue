@@ -19,7 +19,7 @@ if (authStore.isLoggedIn) {
 const loginType = ref('teacher')
 const username = ref('')
 const password = ref('')
-const loading = ref(false)
+const loginStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const pwdRef = ref()
 
 let attempts = 0
@@ -39,9 +39,13 @@ function resetForm() {
 async function doLogin() {
   var u = username.value.trim()
   var p = password.value
-  if (!u || !p) { toast.show('请输入账号和密码', 'error'); return }
+  if (!u || !p) {
+    loginStatus.value = 'error'
+    setTimeout(() => { loginStatus.value = 'idle' }, 3000)
+    return
+  }
 
-  loading.value = true
+  loginStatus.value = 'loading'
   try {
     var url = ''
     var routeName = ''
@@ -57,21 +61,15 @@ async function doLogin() {
     }
     var res = await apiPost(url, { username: u, password: p })
     authStore.setAuth(res.data.token, res.data.user)
-    toast.show('登录成功', 'success')
+    loginStatus.value = 'success'
+    setTimeout(() => { loginStatus.value = 'idle' }, 1500)
     router.replace({ name: routeName })
   } catch (e) {
+    loginStatus.value = 'error'
+    setTimeout(() => { loginStatus.value = 'idle' }, 3000)
     if (loginType.value === 'teacher') {
       attempts++
-      if (attempts >= MAX) {
-        toast.show('密码错误次数过多，请联系管理员', 'error')
-      } else {
-        toast.show('账号或密码错误，还剩 ' + (MAX - attempts) + ' 次', 'error')
-      }
-    } else {
-      toast.show('账号或密码错误', 'error')
     }
-  } finally {
-    loading.value = false
   }
 }
 
@@ -114,9 +112,15 @@ function switchType(t: string) {
       <button
         class="submit"
         :class="{ amber: loginType === 'admin', green: loginType === 'parent' }"
-        :disabled="loading"
+        :disabled="loginStatus !== 'idle'"
+        :style="loginStatus !== 'idle' ? { background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : '#ef4444' } : {}"
         @click="doLogin"
-      >{{ loading ? '...' : '登录' }}</button>
+      >
+        <template v-if="loginStatus === 'idle'">登录</template>
+        <template v-else-if="loginStatus === 'loading'">登录中...</template>
+        <template v-else-if="loginStatus === 'success'">✅ 已登录</template>
+        <template v-else-if="loginStatus === 'error'">❌ 失败</template>
+      </button>
       <div v-if="loginType === 'teacher'" class="social">
         <div class="social-label"><span></span> 扫码登录 <span></span></div>
         <div class="social-btns">
