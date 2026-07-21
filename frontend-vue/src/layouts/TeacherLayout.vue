@@ -41,7 +41,6 @@ const navItems = [
   { section: '系统管理', items: [
     { page: 'teacher-ai', label: 'AI助教', icon: '🤖' },
     { page: 'teacher-shop', label: '积分商城', icon: '🛍️' },
-    { page: 'teacher-exchange', label: '兑换中心', icon: '🔄' },
   ]},
   { section: '设置', items: [
     { page: 'teacher-settings', label: '账号设置', icon: '⚙️' },

@@ -1376,7 +1376,7 @@ class TeacherController extends Controller
                     'description' => $d['description'] ?? '',
                     'category' => $d['category'],
                     'cost_score' => $d['cost_score'],
-                    'currency_type' => $d['currency_type'] ?? 'score',
+                    'currency_type' => $d['currency_type'] ?: 'score',
                     'stock' => 0,
                     'is_active' => true,
                 ]);
