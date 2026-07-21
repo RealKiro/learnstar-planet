@@ -124,19 +124,22 @@ async function submitCreate() {
 
 const showEditModal = ref(false)
 const editTarget = ref<Teacher | null>(null)
-const editForm = ref({ name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '' })
+const editForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', personalRole: '' as string })
 function openEditModal(t: Teacher) {
   editTarget.value = t
-  editForm.value = { name: t.name, nickname: t.nickname || '', subject: t.subject || '', grade_team: t.grade_team || '', phone: t.phone || '', email: t.email || '' }
+  const roles = uniqueRoles(t.assignments)
+  const pRole = roles.includes('grade_lead') ? 'grade_lead' : roles.includes('admin_director') ? 'admin_director' : ''
+  editForm.value = { name: t.name, nickname: t.nickname || '', grade_team: t.grade_team || '', phone: t.phone || '', email: t.email || '', personalRole: pRole }
   showEditModal.value = true
 }
 async function submitEdit() {
   if (!editTarget.value) return
   try {
-    await apiPut(`/api/v1/admin/teachers/${editTarget.value.id}`, editForm.value)
+    const payload: any = { name: editForm.value.name, nickname: editForm.value.nickname, grade_team: editForm.value.grade_team, phone: editForm.value.phone, email: editForm.value.email }
+    await apiPut(`/api/v1/admin/teachers/${editTarget.value.id}`, payload)
     toast.show('教师信息已更新', 'success')
     showEditModal.value = false; await refreshTeachers()
-  } catch {}
+  } catch { toast.show('保存失败', 'error') }
 }
 
 const showAssignModal = ref(false)
@@ -423,38 +426,31 @@ onMounted(() => loadTeachers(true))
   </Teleport>
 
 <Teleport to="body">
-  <div v-if="showEditModal" class="modal-overlay">
-      <div class="modal-panel" style="max-width:520px;">
-        <div class="modal-header"><h3>编辑「{{ editTarget?.name }}」</h3><button class="close-btn" @click="showEditModal = false">&times;</button></div>
-        <div class="modal-body">
-          <div class="form-row">
-            <div class="form-group flex-2"><label>姓名</label><input v-model="editForm.name" class="form-input" /></div>
-            <div class="form-group flex-1"><label>昵称</label><input v-model="editForm.nickname" class="form-input" /></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group flex-1">
-              <label>年级团队</label>
-              <select v-model="editForm.grade_team" class="form-input">
-                <option value="">不指定</option>
-                <option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option>
-              </select>
-            </div>
-            <div class="form-group flex-1">
-              <label>科目</label>
-              <select v-model="editForm.subject" class="form-input">
-                <option value="">不指定</option>
-                <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group flex-1"><label>手机号</label><input v-model="editForm.phone" class="form-input" /></div>
-            <div class="form-group flex-1"><label>邮箱</label><input v-model="editForm.email" class="form-input" /></div>
-          </div>
+  <Teleport to="body">
+    <div v-if="showEditModal" @click="showEditModal = false" style="position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;max-width:520px;width:100%;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+          <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">✏️ 编辑教师信息 — {{ editTarget?.name }}</h3>
+          <button @click="showEditModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
         </div>
-        <div class="modal-footer">
-          <button class="btn" style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);" @click="showEditModal = false">取消</button>
-          <button class="btn btn-primary" @click="submitEdit">保存</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group"><label>姓名 <span style="color:#f87171;">*</span></label><input v-model="editForm.name" class="form-input" placeholder="教师姓名"></div>
+          <div class="form-group"><label>昵称</label><input v-model="editForm.nickname" class="form-input" placeholder="默认拼音"></div>
+          <div class="form-group"><label>年级团队</label><select v-model="editForm.grade_team" class="form-input"><option value="">不指定</option><option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option></select></div>
+          <div class="form-group">
+            <label>个人角色</label>
+            <div style="display:flex;gap:8px;margin-top:4px;">
+              <label v-for="opt in ([{v:'grade_lead',l:'首席'},{v:'admin_director',l:'主任'},{v:'',l:'普通科任'}])" :key="opt.v" style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;padding:4px 10px;border-radius:6px;border:1px solid var(--color-border);background:editForm.personalRole === opt.v ? (opt.v === 'grade_lead' ? '#8b5cf6' : opt.v === 'admin_director' ? '#f59e0b' : 'var(--color-primary)') : 'var(--color-bg-card)';color:editForm.personalRole === opt.v ? '#fff' : 'var(--color-text)';">
+                <input type="radio" :value="opt.v" v-model="editForm.personalRole" style="display:none;"> {{ opt.l }}
+              </label>
+            </div>
+          </div>
+          <div class="form-group"><label>手机号</label><input v-model="editForm.phone" class="form-input" placeholder="11位手机号"></div>
+          <div class="form-group"><label>邮箱</label><input v-model="editForm.email" class="form-input" placeholder="邮箱地址"></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:12px;border-top:1px solid var(--color-border);">
+          <button @click="showEditModal = false" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
+          <button @click="submitEdit" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;">保存</button>
         </div>
       </div>
     </div>
