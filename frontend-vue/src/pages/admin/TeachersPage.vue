@@ -512,7 +512,7 @@ onMounted(() => loadTeachers(true))
           <div style="font-size:40px;margin-bottom:8px;">🗑️</div>
           <p style="font-size:15px;font-weight:600;color:var(--color-text);margin-bottom:8px;">确定要删除教师「{{ deleteTarget?.name }}」吗？</p>
           <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px;">此操作将永久删除该教师账号及其所有班级任教分配，且不可恢复。</p>
-          <div v-if="deleteTarget?.assignments.some(a => a.role === 'head_teacher')" style="font-size:12px;color:#dc2626;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:12px;">
+          <div v-if="deleteTarget && deleteTarget.assignments && deleteTarget.assignments.some(a => a.role === 'head_teacher')" style="font-size:12px;color:#dc2626;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:12px;">
             ⚠️ 该教师是部分班级的班主任，删除后这些班级将无班主任。
           </div>
           <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);cursor:pointer;justify-content:center;padding:8px;background:var(--color-bg);border-radius:6px;">
