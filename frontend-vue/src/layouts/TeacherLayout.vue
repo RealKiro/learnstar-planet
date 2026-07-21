@@ -131,7 +131,7 @@ onMounted(() => {
           <span class="cs-grade">{{ activeClass.grade }}</span>
         </div>
         <div v-if="isBasic" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--color-border);">
-          <button class="cs-login-btn" @click="goToTeacherLogin">🔑 教师登录（高级）</button>
+          <button class="cs-login-btn" @click="goToTeacherLogin">🔑 高级设置</button>
         </div>
       </div>
     </template>
