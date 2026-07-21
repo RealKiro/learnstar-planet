@@ -158,17 +158,16 @@ async function toggleAi(val: boolean) {
 }
 
 function addProviderToSettings() {
-  if (!newProvider.value.id) { toast.show('请选择供应商', 'error'); return }
+  if (!newProvider.value.id) return
   const meta = providerMeta.find(m => m.id === newProvider.value.id)
   if (!meta) return
   if (!settings.value?.providers) settings.value.providers = []
-  if (settings.value.providers.some(p => p.id === meta.id)) { toast.show('该供应商已添加', 'info'); return }
+  if (settings.value.providers.some(p => p.id === meta.id)) { newProvider.value.id = ''; return }
   settings.value.providers.push({
     id: meta.id, label: meta.label, api_key: '', api_base: '',
-    model: meta.models[0] || '', is_active: false,
+    model: meta.models[0] || '', is_active: false, billing_enabled: false,
   })
-  showAddProvider.value = false
-  newProvider.value = { id: '', label: '', api_key: '', api_base: '', model: '', is_active: false }
+  newProvider.value.id = ''
 }
 
 function removeProvider(idx: number) {
@@ -221,52 +220,42 @@ onMounted(loadData)
 
       <!-- ===== AI 供应商 ===== -->
       <div v-if="activeTab === 'providers'" style="max-width:720px;">
-        <!-- 分组供应商浏览器 -->
-        <div v-for="(group, groupName) in groupedProviders" :key="groupName" style="margin-bottom:16px;">
-          <div style="font-size:11px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">{{ groupName }}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;">
-            <button v-for="p in group" :key="p.id"
-              :style="{
-                padding:'5px 12px', borderRadius:'16px', border:'1px solid',
-                background: standardProviders.some(s => s.id === p.id) ? p.color + '15' : 'var(--color-bg)',
-                color: standardProviders.some(s => s.id === p.id) ? p.color : 'var(--color-text-secondary)',
-                cursor:'pointer', fontSize:'11px', fontWeight:500, fontFamily:'inherit',
-                borderColor: standardProviders.some(s => s.id === p.id) ? p.color + '33' : 'var(--color-border)',
-                transition:'all 0.15s',
-              }"
-              @mouseenter="$event.target.style.transform = 'translateY(-1px)'"
-              @mouseleave="$event.target.style.transform = 'none'"
-              @click="standardProviders.some(s => s.id === p.id)
-                ? removeProvider(standardProviders.findIndex(s => s.id === p.id))
-                : (() => { if (!settings?.providers?.some(pp => pp.id === p.id)) {
-                    settings?.providers?.push({ id: p.id, label: p.label, api_key: '', api_base: '', model: p.models[0] || '', is_active: false })
-                  } })()">
-              {{ p.label }} <span style="font-size:10px;">{{ standardProviders.some(s => s.id === p.id) ? '✓' : '+' }}</span>
-            </button>
+        <!-- 下拉选择器 -->
+        <div class="card" style="padding:16px;margin-bottom:12px;">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="form-group" style="flex:1;">
+              <label>添加供应商</label>
+              <select v-model="newProvider.id" class="form-input" @change="addProviderToSettings">
+                <option value="">— 从列表中选择 —</option>
+                <optgroup v-for="(group, gName) in groupedProviders" :key="gName" :label="gName">
+                  <option v-for="p in group" :key="p.id" :value="p.id" :disabled="standardProviders.some(s => s.id === p.id)">
+                    {{ p.label }} {{ standardProviders.some(s => s.id === p.id) ? '✓' : '' }}
+                  </option>
+                </optgroup>
+              </select>
+            </div>
+            <div style="font-size:11px;color:var(--color-text-secondary);padding-top:14px;">已配置 {{ standardProviders.length }} 个</div>
           </div>
         </div>
 
-        <div v-if="!standardProviders.length" style="text-align:center;padding:20px;color:var(--color-text-secondary);font-size:12px;">点击上方按钮添加供应商，点击已添加的可移除</div>
-
         <!-- 已配置的供应商卡片 -->
+        <div v-if="!standardProviders.length" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:12px;">从上方下拉框选择供应商添加</div>
         <div v-for="(p, i) in standardProviders" :key="p.id" class="provider-card">
           <div class="pc-left" :style="{ borderLeftColor: getProviderMeta(p.id)?.color || '#7c3aed' }">
             <div class="pc-header">
               <span :style="{ width:'8px',height:'8px',borderRadius:'50%',background:p.is_active ? '#10B981' : '#ccc',display:'inline-block',flexShrink:0 }"></span>
               <strong style="font-size:13px;">{{ getProviderMeta(p.id)?.label || p.label }}</strong>
-              <span v-if="p.id === 'openai'" style="font-size:9px;background:rgba(16,163,127,0.1);color:#10a37f;padding:0 6px;border-radius:4px;">官方</span>
-              <span v-if="p.id === 'deepseek'" style="font-size:9px;background:rgba(79,110,247,0.1);color:#4f6ef7;padding:0 6px;border-radius:4px;">官方</span>
-              <span v-if="p.id === 'qwen'" style="font-size:9px;background:rgba(22,119,255,0.1);color:#1677ff;padding:0 6px;border-radius:4px;">官方</span>
+              <span v-if="getProviderMeta(p.id)?.pricing" style="font-size:10px;color:var(--color-text-secondary);margin-left:4px;">{{ getProviderMeta(p.id)!.pricing.input }}/{{ getProviderMeta(p.id)!.pricing.output }}</span>
             </div>
-            <div v-if="getProviderMeta(p.id)?.pricing" class="pc-pricing">
-              输入 {{ getProviderMeta(p.id)!.pricing.input }} · 输出 {{ getProviderMeta(p.id)!.pricing.output }} {{ getProviderMeta(p.id)!.pricing.unit }}
-            </div>
-            <div v-if="p.tokens_used !== undefined" style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">
-              📊 {{ (p.tokens_used||0).toLocaleString() }} tokens · {{ p.total_calls||0 }} 次调用
+            <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+              <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--color-text-secondary);cursor:pointer;">
+                <input type="checkbox" v-model="p.billing_enabled" style="accent-color:#7c3aed;"> 计费查询
+              </label>
+              <span v-if="p.tokens_used !== undefined" style="font-size:10px;color:var(--color-text-secondary);">{{ (p.tokens_used||0).toLocaleString() }} tokens · {{ p.total_calls||0 }} 次</span>
             </div>
           </div>
           <div class="pc-right">
-            <div class="form-group"><label>API Key</label><input v-model="p.api_key" type="password" class="form-input" :placeholder="'sk-...'"></div>
+            <div class="form-group"><label>API Key</label><input v-model="p.api_key" type="password" class="form-input" placeholder="sk-..."></div>
             <div style="display:flex;gap:4px;align-items:end;">
               <div class="form-group" style="flex:1;"><label>模型</label><select v-model="p.model" class="form-input"><option v-for="m in getProviderMeta(p.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
               <div class="form-group" style="flex:1;"><label>API 地址</label><input v-model="p.api_base" class="form-input" :placeholder="getProviderMeta(p.id)?.site || 'https://...'"></div>

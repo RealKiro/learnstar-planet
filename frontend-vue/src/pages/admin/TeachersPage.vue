@@ -59,14 +59,25 @@ const filteredTeachers = computed(() => {
 
 const showCreateModal = ref(false)
 const createForm = ref({ name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' })
+const createErrors = ref<Record<string, string>>({})
 const createAssignments = ref<{ class_id: number; class_name: string; subject: string }[]>([])
 const createLoading = ref(false)
 const pendingGrade = ref('')
 const pendingClassId = ref(null)
 const pendingSubject = ref('')
 const gradeClasses = computed(() => (classes.value || []).filter(c => c.grade === pendingGrade.value))
+
+function clearError(field: string) { delete createErrors.value[field] }
+
+function validateField(field: string, value: string) {
+  if (field === 'name' && !value.trim()) { createErrors.value.name = '姓名不能为空'; return false }
+  if (field === 'password' && value && value.length < 6) { createErrors.value.password = '密码至少 6 位'; return false }
+  delete createErrors.value[field]; return true
+}
+
 function openCreateModal() {
   createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
+  createErrors.value = {}
   createAssignments.value = []; pendingGrade.value = ''; pendingClassId.value = null; pendingSubject.value = ''
   showCreateModal.value = true
 }
@@ -80,6 +91,11 @@ function addClassAssignment() {
 }
 function removeClassAssignment(idx) { createAssignments.value.splice(idx, 1) }
 async function submitCreate() {
+  // 提交前整体校验
+  createErrors.value = {}
+  if (!createForm.value.name.trim()) createErrors.value.name = '姓名不能为空'
+  if (createForm.value.password && createForm.value.password.length < 6) createErrors.value.password = '密码至少 6 位'
+  if (Object.keys(createErrors.value).length > 0) return
   createLoading.value = true
   try {
     const payload: any = { ...createForm.value }
@@ -90,13 +106,13 @@ async function submitCreate() {
     toast.show('教师创建成功', 'success')
     showCreateModal.value = false; await refreshTeachers()
   } catch (e: any) {
-    const msg = e?.response?.data?.message || '参数错误'
-    const errors = e?.response?.data?.errors
-    if (errors) {
-      const details = Object.values(errors).flat().join('；')
-      toast.show(msg + '：' + details, 'error')
+    const errs = e?.response?.data?.errors
+    if (errs) {
+      for (const [field, msgs] of Object.entries(errs)) {
+        createErrors.value[field] = (msgs as string[])[0]
+      }
     } else {
-      toast.show(msg, 'error')
+      toast.show(e?.response?.data?.message || '创建失败', 'error')
     }
   } finally { createLoading.value = false }
 }
@@ -323,7 +339,11 @@ n  </div>
                 <div>
                   <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📝 创建账号 <span style="font-size:10px;color:var(--color-text-secondary);">必填</span></div>
                   <div style="display:flex;gap:8px;">
-                    <div style="flex:1;" class="form-group"><label>姓名 <span style="color:var(--color-danger);">*</span></label><input v-model="createForm.name" placeholder="姓名" class="form-input" /></div>
+                    <div style="flex:1;" class="form-group">
+                      <label>姓名 <span style="color:var(--color-danger);">*</span></label>
+                      <input v-model="createForm.name" placeholder="姓名" class="form-input" :style="{ borderColor: createErrors.name ? '#f87171' : '' }" @blur="validateField('name', createForm.name)" @input="clearError('name')">
+                      <div v-if="createErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ createErrors.name }}</div>
+                    </div>
                     <div style="flex:1;" class="form-group"><label>昵称</label><input v-model="createForm.nickname" placeholder="默认拼音" class="form-input" /></div>
                   </div>
                   <div style="display:flex;gap:8px;">
@@ -331,7 +351,11 @@ n  </div>
                     <div style="flex:1;" class="form-group"><label>科目</label><select v-model="createForm.subject" class="form-input"><option value="">不指定</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
                   </div>
                   <div style="display:flex;gap:8px;"><div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div><div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div></div>
-                  <div class="form-group"><label>初始密码</label><input v-model="createForm.password" placeholder="留空自动生成" class="form-input" /></div>
+                  <div class="form-group">
+                    <label>初始密码</label>
+                    <input v-model="createForm.password" placeholder="留空自动生成" class="form-input" :style="{ borderColor: createErrors.password ? '#f87171' : '' }" @blur="validateField('password', createForm.password)" @input="clearError('password')">
+                    <div v-if="createErrors.password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ createErrors.password }}</div>
+                  </div>
                 </div>
                 <div>
                   <div style="font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:8px;">📚 加入班级 <span style="font-size:10px;color:var(--color-text-secondary);">可选</span></div>
