@@ -8,7 +8,6 @@ interface ClassRoom { id: number; name: string; grade?: string }
 const props = defineProps<{
   teacher: Teacher
   classes: ClassRoom[]
-  classRoleLabel: Record<string, string>
 }>()
 const emit = defineEmits<{
   edit: [t: Teacher]

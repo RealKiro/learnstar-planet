@@ -179,8 +179,8 @@ function close() {
         <div style="flex:1;" class="form-group">
           <label>角色</label>
           <select v-model="newAssignRole" class="form-input" style="font-size:12px;padding:5px 8px;">
-            <option value="head_teacher">主班</option>
-            <option value="co_teacher">副班</option>
+            <option value="head_teacher">主班主任</option>
+            <option value="co_teacher">副班主任</option>
             <option value="subject_teacher">科任教师</option>
           </select>
         </div>

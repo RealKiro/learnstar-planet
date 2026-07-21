@@ -85,7 +85,7 @@ onMounted(() => loadTeachers(true))
     <TeacherFilters :grades="grades" :classRoleLabel="classRoleLabel" :filterGrade="filterGrade" :filterRole="filterRole" :searchQuery="searchQuery"
       @update:filterGrade="filterGrade = $event" @update:filterRole="filterRole = $event" @update:searchQuery="searchQuery = $event"
       @downloadTemplate="window.open('/api/v1/admin/teachers/template-csv','_blank')" @openImport="showImportModal = true" @openCreate="showCreateModal = true">
-      <span class="count-badge">{{ teachers.length }} 人</span>
+      <span class="count-badge" slot="teacherCount">{{ teachers.length }} 人</span>
     </TeacherFilters>
 
     <div v-if="loading" class="loading-spinner">加载中...</div>
@@ -103,7 +103,7 @@ onMounted(() => loadTeachers(true))
           <span class="grade-count">{{ team.length }} 人</span>
         </div>
         <div class="card-grid">
-          <TeacherCard v-for="t in team" :key="t.id" :teacher="t" :classes="classes" :classRoleLabel="classRoleLabel"
+          <TeacherCard v-for="t in team" :key="t.id" :teacher="t" :classes="classes"
             @edit="editTarget = $event; showEditModal = true"
             @assign="assignTarget = $event; showAssignModal = true"
             @resetPwd="resetTarget = $event; showResetPwdModal = true"

@@ -106,10 +106,6 @@ function resetForm() {
   createLoading.value = false
 }
 
-function openCreateModal() {
-  resetForm()
-}
-
 function closeCreateModal() {
   emit('update:visible', false)
   createStatus.value = 'idle'

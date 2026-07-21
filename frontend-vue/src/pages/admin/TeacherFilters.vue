@@ -20,7 +20,7 @@ const emit = defineEmits<{
     <div class="toolbar-left">
       <div class="section-badge">账号管理</div>
       <h2 class="page-title">教师账号</h2>
-      <span class="count-badge"><slot name="count" /></span>
+      <span class="count-badge"><slot name="teacherCount" /></span>
     </div>
     <div class="toolbar-actions">
       <div class="filter-group">

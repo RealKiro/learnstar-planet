@@ -96,15 +96,6 @@ async function uploadImport(isDry: boolean) {
           >
             下载正确模板
           </a>
-          <span style="margin-left:16px;">
-            <a
-              href="#"
-              style="font-size:13px;color:#7c3aed;text-decoration:underline;"
-              @click.prevent="downloadTemplate"
-            >
-              下载模板
-            </a>
-          </span>
         </div>
 
         <input
