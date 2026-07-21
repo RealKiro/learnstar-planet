@@ -26,6 +26,7 @@ const unlockPassword = ref('')
 const unlockError = ref('')
 const scoreFlash = ref<Record<number, 'up' | 'down' | null>>({})
 
+const unlockStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 let pollTimer: NodeJS.Timeout | null = null
 let lastScoreMap: Record<number, number> = {}
 
@@ -93,13 +94,18 @@ function startUnlock() {
   unlockError.value = ''
 }
 async function submitUnlock() {
+  unlockStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/mode', { mode: 'teacher_manage', password: unlockPassword.value })
-    toast.show('已解锁教师管理模式', 'success')
-    showUnlock.value = false
-    window.location.reload()
+    unlockStatus.value = 'success'
+    setTimeout(() => {
+      showUnlock.value = false
+      window.location.reload()
+    }, 800)
   } catch {
+    unlockStatus.value = 'error'
     unlockError.value = '密码错误，请重试'
+    setTimeout(() => { unlockStatus.value = 'idle' }, 3000)
   }
 }
 
@@ -143,7 +149,12 @@ onUnmounted(() => {
           <div v-if="unlockError" class="unlock-error">{{ unlockError }}</div>
           <div class="unlock-buttons">
             <button class="unlock-btn cancel" @click="showUnlock = false">取消</button>
-            <button class="unlock-btn confirm" @click="submitUnlock">确认解锁</button>
+            <button class="unlock-btn confirm" :style="{ background: unlockStatus === 'loading' ? '#f59e0b' : unlockStatus === 'success' ? '#10b981' : unlockStatus === 'error' ? '#ef4444' : '#7c3aed' }" :disabled="unlockStatus === 'loading'" @click="submitUnlock">
+              <template v-if="unlockStatus === 'idle'">确认解锁</template>
+              <template v-else-if="unlockStatus === 'loading'">解锁中...</template>
+              <template v-else-if="unlockStatus === 'success'">已解锁 ✓</template>
+              <template v-else>解锁失败 ✗</template>
+            </button>
           </div>
         </div>
       </div>

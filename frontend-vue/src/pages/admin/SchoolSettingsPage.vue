@@ -14,6 +14,7 @@ interface School {
 
 const loading = ref(true)
 const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const restoreStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const form = ref({ name: '', address: '', contact_phone: '', contact_email: '' })
 const schoolCode = ref('')
 const schoolStatus = ref('')
@@ -120,15 +121,18 @@ async function save() {
 }
 
 async function reload() {
-  loading.value = true
+  restoreStatus.value = 'loading'
   try {
     const res = await apiGet<ApiResponse<School>>('/api/v1/admin/school')
     const s = (res as unknown as { data: School }).data
     form.value = { name: s.name || '', address: s.address || '', contact_phone: s.contact_phone || '', contact_email: s.contact_email || '' }
     logoPath.value = s.logo_path || ''
-    toast.show('已恢复原始数据', 'success')
-  } catch { /* handled */ }
-  finally { loading.value = false }
+    restoreStatus.value = 'success'
+    setTimeout(() => { restoreStatus.value = 'idle' }, 1500)
+  } catch {
+    restoreStatus.value = 'error'
+    setTimeout(() => { restoreStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function uploadLogo(e: Event) {
@@ -197,7 +201,12 @@ async function uploadLogo(e: Event) {
         <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678" :style="{ borderColor: schoolErrors.contact_phone ? '#f87171' : '' }" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_phone }}</div></div>
         <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn" :style="{ borderColor: schoolErrors.contact_email ? '#f87171' : '' }" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_email }}</div></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px;">
-          <button class="btn btn-sm btn-outline" :disabled="saveStatus !== 'idle' || loading" @click="reload">↩️ 重置</button>
+          <button class="btn btn-sm" :style="{ background: restoreStatus === 'loading' ? '#f59e0b' : restoreStatus === 'success' ? '#10b981' : restoreStatus === 'error' ? '#ef4444' : '', color: restoreStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: restoreStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" :disabled="restoreStatus === 'loading'" @click="reload">
+            <template v-if="restoreStatus === 'loading'">恢复中...</template>
+            <template v-else-if="restoreStatus === 'success'">已恢复 ✓</template>
+            <template v-else-if="restoreStatus === 'error'">恢复失败 ✗</template>
+            <template v-else>↩️ 重置</template>
+          </button>
           <button class="btn btn-sm" :style="{ background: saveStatus === 'loading' ? '#f59e0b' : saveStatus === 'success' ? '#10b981' : saveStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent' }" :disabled="saveStatus !== 'idle' || loading" @click="saveSchool">
             <template v-if="saveStatus === 'loading'">保存中...</template>
             <template v-else-if="saveStatus === 'success'">已保存 ✓</template>

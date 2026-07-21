@@ -16,6 +16,7 @@ interface ClassOption { class_id: number; class_name: string }
 
 const loading = ref(true)
 const exporting = ref(false)
+const exportStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const scoreTrend = ref<ScoreTrend | null>(null)
 const petDist = ref<PetDist[]>([])
 const studentProgress = ref<StudentProgress[]>([])
@@ -31,8 +32,8 @@ const trendArrow = (t: string) => t === 'up' ? '↑' : t === 'down' ? '↓' : '�
 const trendColor = (t: string) => t === 'up' ? 'var(--color-accent)' : t === 'down' ? 'var(--color-danger)' : 'var(--color-text-secondary)'
 
 async function exportFile(type: string) {
-  if (!selectedClassId.value) { toast.show('请先选择班级', 'error'); return }
-  exporting.value = true
+  if (!selectedClassId.value) { toast.show('请先选择班级', 'error', { position: 'top-right' }); return }
+  exportStatus.value = 'loading'
   try {
     const token = localStorage.getItem('auth_token')
     const url = `/api/v1/teacher/reports/export/${type}?class_id=${selectedClassId.value}`
@@ -51,10 +52,14 @@ async function exportFile(type: string) {
     document.body.appendChild(a); a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(urlObj)
-    toast.show(`导出成功：${filename}`, 'success')
+    exportStatus.value = 'success'
+    setTimeout(() => { exportStatus.value = 'idle' }, 1500)
   } catch {
-    toast.show('导出失败', 'error')
-  } finally { exporting.value = false }
+    exportStatus.value = 'error'
+    setTimeout(() => { exportStatus.value = 'idle' }, 3000)
+  } finally {
+    if (exportStatus.value === 'loading') exportStatus.value = 'idle'
+  }
 }
 
 onMounted(async () => {
@@ -88,14 +93,23 @@ function stageLevel(name: string): number {
         <select v-model.number="selectedClassId" class="form-select" style="width:auto;padding:6px 12px;">
           <option v-for="c in myClasses" :key="c.class_id" :value="c.class_id">{{ c.class_name }}</option>
         </select>
-        <button class="btn btn-sm btn-primary" :disabled="exporting" @click="exportFile('scores')">
-          {{ exporting ? '导出中...' : '📥 导出积分' }}
+        <button class="btn btn-sm btn-primary" :style="{ background: exportStatus === 'loading' ? '#f59e0b' : exportStatus === 'success' ? '#10b981' : exportStatus === 'error' ? '#ef4444' : '' }" :disabled="exportStatus === 'loading'" @click="exportFile('scores')">
+          <template v-if="exportStatus === 'loading'">导出中...</template>
+          <template v-else-if="exportStatus === 'success'">导出成功 ✓</template>
+          <template v-else-if="exportStatus === 'error'">导出失败 ✗</template>
+          <template v-else>📥 导出积分</template>
         </button>
-        <button class="btn btn-sm btn-primary" :disabled="exporting" @click="exportFile('pets')">
-          {{ exporting ? '导出中...' : '📥 导出宠物' }}
+        <button class="btn btn-sm btn-primary" :style="{ background: exportStatus === 'loading' ? '#f59e0b' : exportStatus === 'success' ? '#10b981' : exportStatus === 'error' ? '#ef4444' : '' }" :disabled="exportStatus === 'loading'" @click="exportFile('pets')">
+          <template v-if="exportStatus === 'loading'">导出中...</template>
+          <template v-else-if="exportStatus === 'success'">导出成功 ✓</template>
+          <template v-else-if="exportStatus === 'error'">导出失败 ✗</template>
+          <template v-else>📥 导出宠物</template>
         </button>
-        <button class="btn btn-sm btn-primary" :disabled="exporting" @click="exportFile('attendance')">
-          {{ exporting ? '导出中...' : '📥 导出考勤' }}
+        <button class="btn btn-sm btn-primary" :style="{ background: exportStatus === 'loading' ? '#f59e0b' : exportStatus === 'success' ? '#10b981' : exportStatus === 'error' ? '#ef4444' : '' }" :disabled="exportStatus === 'loading'" @click="exportFile('attendance')">
+          <template v-if="exportStatus === 'loading'">导出中...</template>
+          <template v-else-if="exportStatus === 'success'">导出成功 ✓</template>
+          <template v-else-if="exportStatus === 'error'">导出失败 ✗</template>
+          <template v-else>📥 导出考勤</template>
         </button>
       </div>
     </div>

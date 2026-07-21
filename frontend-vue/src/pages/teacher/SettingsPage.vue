@@ -13,6 +13,8 @@ interface BindingInfo { platform: string; label: string; bound: boolean; nick?: 
 
 const bindings = ref<BindingInfo[]>([])
 const platforms = ['wechat', 'wechat_work', 'qq', 'renren'] as const
+const unbindStatus = ref<Record<string, 'idle' | 'loading' | 'success' | 'error'>>({})
+const pwdStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 // 修改密码弹窗
 const showPwdModal = ref(false)
@@ -39,12 +41,17 @@ onMounted(async () => {
 
 async function unbind(platform: string) {
   if (!confirm(`确定要解绑 ${platformLabel(platform)} 吗？`)) return
+  unbindStatus.value[platform] = 'loading'
   try {
     await apiDelete(`/api/v1/auth/unbind/${platform}`)
     const b = bindings.value.find(x => x.platform === platform)
     if (b) b.bound = false
-    toast.show(`已解绑 ${platformLabel(platform)}`, 'success')
-  } catch { /* handled */ }
+    unbindStatus.value[platform] = 'success'
+    setTimeout(() => { unbindStatus.value[platform] = 'idle' }, 1500)
+  } catch {
+    unbindStatus.value[platform] = 'error'
+    setTimeout(() => { unbindStatus.value[platform] = 'idle' }, 3000)
+  }
 }
 
 function handleBind(platform: string) {
@@ -80,15 +87,18 @@ function openPwdModal() {
 
 async function changePassword() {
   if (!pwdVld('current_password') | !pwdVld('new_password') | !pwdVld('confirm_password')) return
-  changingPwd.value = true
+  pwdStatus.value = 'loading'
   try {
     await apiPost('/api/v1/auth/change-password', {
       current_password: pwdForm.value.current_password,
       new_password: pwdForm.value.new_password,
     })
-    toast.show('密码修改成功', 'success')
-    showPwdModal.value = false
-  } catch { /* handled */ } finally { changingPwd.value = false }
+    pwdStatus.value = 'success'
+    setTimeout(() => { showPwdModal.value = false; pwdStatus.value = 'idle' }, 800)
+  } catch {
+    pwdStatus.value = 'error'
+    setTimeout(() => { pwdStatus.value = 'idle' }, 3000)
+  }
 }
 </script>
 
@@ -139,8 +149,11 @@ async function changePassword() {
           </div>
           <div style="display:flex;gap:12px;">
             <button class="btn" style="flex:1;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);" @click="showPwdModal = false">取消</button>
-            <button class="btn btn-primary" style="flex:1;" :disabled="changingPwd" @click="changePassword">
-              {{ changingPwd ? '修改中...' : '确认修改' }}
+            <button class="btn btn-primary" style="flex:1;" :style="{ background: pwdStatus === 'loading' ? '#f59e0b' : pwdStatus === 'success' ? '#10b981' : pwdStatus === 'error' ? '#ef4444' : '' }" :disabled="pwdStatus === 'loading'" @click="changePassword">
+              <template v-if="pwdStatus === 'loading'">修改中...</template>
+              <template v-else-if="pwdStatus === 'success'">修改成功 ✓</template>
+              <template v-else-if="pwdStatus === 'error'">修改失败 ✗</template>
+              <template v-else>确认修改</template>
             </button>
           </div>
         </div>
@@ -163,7 +176,12 @@ async function changePassword() {
               <span v-if="b.bound && b.nick" style="margin-left:4px;">（{{ b.nick }}）</span>
             </div>
           </div>
-          <button v-if="b.bound" class="btn btn-sm" style="color:var(--color-danger);" @click="unbind(b.platform)">解绑</button>
+          <button v-if="b.bound" class="btn btn-sm" :style="{ background: unbindStatus[b.platform] === 'loading' ? '#f59e0b' : unbindStatus[b.platform] === 'success' ? '#10b981' : unbindStatus[b.platform] === 'error' ? '#ef4444' : '', color: unbindStatus[b.platform] && unbindStatus[b.platform] !== 'idle' ? '#fff' : 'var(--color-danger)', border: unbindStatus[b.platform] && unbindStatus[b.platform] !== 'idle' ? '1px solid transparent' : '' }" :disabled="unbindStatus[b.platform] === 'loading'" @click="unbind(b.platform)">
+            <template v-if="unbindStatus[b.platform] === 'loading'">解绑中...</template>
+            <template v-else-if="unbindStatus[b.platform] === 'success'">已解绑 ✓</template>
+            <template v-else-if="unbindStatus[b.platform] === 'error'">解绑失败 ✗</template>
+            <template v-else>解绑</template>
+          </button>
           <button v-else class="btn btn-sm btn-primary" @click="handleBind(b.platform)">绑定</button>
         </div>
       </div>
