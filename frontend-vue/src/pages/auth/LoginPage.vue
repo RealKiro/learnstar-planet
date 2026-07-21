@@ -24,6 +24,7 @@ const classCode = ref('')
 const classCodeError = ref('')
 const classInfo = ref<{ class_name: string; student_count: number } | null>(null)
 const loading = ref(false)
+const loginStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 // 内联校验
 const loginErrors = reactive<Record<string, string>>({})
@@ -69,6 +70,7 @@ function focusParentPwd() { if (parentUsername.value.trim()) nextTick(() => pare
 async function handleTeacherLogin() {
   if (!validateLoginForm('teacher')) return
   loading.value = true
+  loginStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/auth/teacher/login', {
       method: 'POST',
@@ -79,14 +81,16 @@ async function handleTeacherLogin() {
     if (!res.ok) { throw { response: { data } } }
     teacherAttempts = 0
     authStore.setAuth(data.data.token, data.data.user)
-    toast.show('登录成功', 'success')
-    router.replace({ name: 'teacher-dashboard' })
+    loginStatus.value = 'success'
+    setTimeout(() => router.replace({ name: 'teacher-dashboard' }), 800)
   } catch (e: any) {
     teacherAttempts++
     const remaining = MAX_ATTEMPTS - teacherAttempts
+    loginStatus.value = 'error'
     if (teacherAttempts >= MAX_ATTEMPTS) toast.show('密码错误次数过多，请联系管理员', 'error')
     else toast.show((e?.response?.data?.message || '账号或密码错误') + `，还剩 ${remaining} 次`, 'error')
-  } finally { loading.value = false }
+    setTimeout(() => { if (loginStatus.value === 'error') loginStatus.value = 'idle' }, 3000)
+  } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
 }
 
 async function handleAdminLogin() {
@@ -314,7 +318,12 @@ function goToSlide(i: number) {
             <input ref="teacherPwdRef" v-model="teacherPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleTeacherLogin">
             <div v-if="loginErrors.teacherPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.teacherPassword }}</div>
           </div>
-          <button class="login-submit" :disabled="loading" @click="handleTeacherLogin">{{ loading ? '登录中...' : '登录' }}</button>
+          <button class="login-submit" :disabled="loginStatus === 'loading'" @click="handleTeacherLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : 'var(--color-primary)' }">
+            <span v-if="loginStatus === 'idle'">🚀 登录</span>
+            <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
+            <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
+            <span v-else>❌ 登录失败</span>
+          </button>
           <div class="login-social">
             <div class="login-social-label"><span class="login-social-line"></span> 扫码快捷登录 <span class="login-social-line"></span></div>
             <div class="login-social-grid">
@@ -337,7 +346,12 @@ function goToSlide(i: number) {
             <div v-if="loginErrors.adminPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.adminPassword }}</div>
             <input ref="adminPwdRef" v-model="adminPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleAdminLogin">
           </div>
-          <button class="login-submit login-submit--amber" :disabled="loading" @click="handleAdminLogin">{{ loading ? '登录中...' : '登录' }}</button>
+          <button class="login-submit login-submit--amber" :disabled="loginStatus === 'loading'" @click="handleAdminLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#d97706' }">
+            <span v-if="loginStatus === 'idle'">🚀 登录</span>
+            <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
+            <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
+            <span v-else>❌ 登录失败</span>
+          </button>
         </div>
 
         <div v-if="loginType === 'parent'" class="login-form">
