@@ -40,18 +40,22 @@ async function handleTeacherLogin() {
   if (!teacherUsername.value.trim() || !teacherPassword.value) { toast.show('请输入账号和密码', 'error'); return }
   loading.value = true
   try {
-    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/teacher/login', {
-      username: teacherUsername.value.trim(), password: teacherPassword.value,
+    const res = await fetch('/api/v1/auth/teacher/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: teacherUsername.value.trim(), password: teacherPassword.value }),
     })
+    const data = await res.json()
+    if (!res.ok) { throw { response: { data } } }
     teacherAttempts = 0
-    authStore.setAuth(res.data.token, res.data.user)
+    authStore.setAuth(data.data.token, data.data.user)
     toast.show('登录成功', 'success')
     router.replace({ name: 'teacher-dashboard' })
-  } catch (e: unknown) {
+  } catch (e: any) {
     teacherAttempts++
     const remaining = MAX_ATTEMPTS - teacherAttempts
     if (teacherAttempts >= MAX_ATTEMPTS) toast.show('密码错误次数过多，请联系管理员', 'error')
-    else { const err = e as { response?: { data?: { message?: string } } }; toast.show((err.response?.data?.message || '账号或密码错误') + `，还剩 ${remaining} 次`, 'error') }
+    else toast.show((e?.response?.data?.message || '账号或密码错误') + `，还剩 ${remaining} 次`, 'error')
   } finally { loading.value = false }
 }
 

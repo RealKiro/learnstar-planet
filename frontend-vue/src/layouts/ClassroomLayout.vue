@@ -8,7 +8,7 @@ const router = useRouter()
 const route = useRoute()
 
 const classInfo = ref<{ id: number; name: string; student_count?: number } | null>(null)
-const showVoteModal = ref(true)
+const showVoteModal = ref(false)
 const voteSeries = ref('myth')
 const voting = ref(false)
 const voteDone = ref(false)

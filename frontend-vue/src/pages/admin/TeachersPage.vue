@@ -36,6 +36,7 @@ const searchQuery = ref('')
 
 const teacherTeams = computed(() => {
   const teams: Record<string, typeof teachers.value> = {}
+  if (!teachers.value) return teams
   teachers.value.forEach(t => {
     const team = t.grade_team || '未分组'
     if (!teams[team]) teams[team] = []

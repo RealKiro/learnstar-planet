@@ -42,8 +42,8 @@ const modalType = ref<'add' | 'sub'>('add')
 const stepValues = ref<Record<number, number>>({})
 const editingStep = ref<number | null>(null)
 const editInput = ref('1')
-const reasonsAdd = ['📖 举手发言', '✅ 作业优秀', '🤝 帮助同学', '🧹 遵守纪律', '🏆 挑战难题']
-const reasonsSub = ['⚠️ 上课走神', '📕 作业缺交', '🗣️ 打扰课堂', '🏃 追逐打闹']
+const reasonsAdd = ['📖 举手发言', '✅ 作业优秀', '🤝 帮助同学', '🧹 遵守纪律', '🏆 挑战难题', '📝 认真听讲', '💬 积极互动', '🔍 专注课堂', '🌟 诚实守信', '🎨 科技创新', '📚 阅读之星', '🏃 体育锻炼']
+const reasonsSub = ['⚠️ 上课走神', '📕 作业缺交', '🗣️ 打扰课堂', '🏃 追逐打闹', '😴 趴桌睡觉', '📱 课堂喧哗', '💬 说脏话', '⚡ 与同学冲突', '🗑️ 乱扔垃圾']
 const floatTexts = ref<Array<{ id: number; x: number; y: number; text: string; color: string }>>([])
 let floatId = 0
 
