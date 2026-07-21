@@ -122,10 +122,9 @@ function generateStrongPassword() {
           <input
             v-model="resetPwdValue"
             :type="showResetPwd ? 'text' : 'password'"
-            class="form-input"
+            class="form-input flex-1"
             placeholder="留空自动生成"
             autocomplete="new-password"
-            class="flex-1"
           >
           <button
             type="button"
