@@ -363,14 +363,11 @@ function goToSlide(i: number) {
             <p class="success-hint">即将进入班级大屏...</p>
           </div>
           <template v-else>
+            <div class="form-group">
               <input v-model="classCode" class="form-input" placeholder="请向班主任获取班级码" maxlength="12" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @blur="validateLoginField('classCode', classCode)" @input="clearLoginErr('classCode')" @keydown.enter="handleClassLogin">
-                maxlength="12"
-            <div v-if="loginErrors.classCode" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.classCode }}</div>
-                autocomplete="off"
-                @keydown.enter="handleClassLogin"
-              />
+              <div v-if="loginErrors.classCode" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.classCode }}</div>
             </div>
-            <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 LS301</p>
+            <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 DEMO00</p>
             <div v-if="classCodeError" class="error-msg" style="color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px;">{{ classCodeError }}</div>
             <button class="login-submit login-submit--purple" :disabled="loading || classCode.length < 3" @click="handleClassLogin">
               {{ loading ? '⏳ 验证中...' : '🚀 进入班级' }}

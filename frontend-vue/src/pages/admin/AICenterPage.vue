@@ -288,30 +288,28 @@ onMounted(loadData)
           </div>
         </div>
 
-        <!-- 已配置的供应商卡片 -->
+        <!-- 已配置的供应商 -->
         <div v-if="!standardProviders.length" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:12px;">从上方下拉框选择供应商添加</div>
-        <div v-for="(p, i) in standardProviders" :key="p.id" class="provider-card">
-          <div class="pc-left" :style="{ borderLeftColor: getProviderMeta(p.id)?.color || '#7c3aed' }">
-            <div class="pc-header">
-              <span :style="{ width:'8px',height:'8px',borderRadius:'50%',background:p.is_active ? '#10B981' : '#ccc',display:'inline-block',flexShrink:0 }"></span>
-              <strong style="font-size:13px;">{{ getProviderMeta(p.id)?.label || p.label }}</strong>
-              <span v-if="getProviderMeta(p.id)?.pricing" style="font-size:10px;color:var(--color-text-secondary);margin-left:4px;">{{ getProviderMeta(p.id)!.pricing.input }}/{{ getProviderMeta(p.id)!.pricing.output }}</span>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
-              <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--color-text-secondary);cursor:pointer;">
-                <input type="checkbox" v-model="p.billing_enabled" style="accent-color:#7c3aed;"> 计费查询
-              </label>
-              <span v-if="p.tokens_used !== undefined" style="font-size:10px;color:var(--color-text-secondary);">{{ (p.tokens_used||0).toLocaleString() }} tokens · {{ p.total_calls||0 }} 次</span>
-            </div>
+        <div v-for="(p, i) in standardProviders" :key="p.id" style="margin-bottom:8px;border:1px solid var(--color-border);border-radius:10px;overflow:hidden;">
+          <!-- 供应商头部 -->
+          <div :style="{ background: (getProviderMeta(p.id)?.color || '#7c3aed') + '0a', padding:'10px 14px', display:'flex', alignItems:'center', gap:'10px', borderBottom:'1px solid var(--color-border)' }">
+            <span :style="{ width:'10px',height:'10px',borderRadius:'50%',background:p.is_active ? '#10B981' : '#ccc',flexShrink:0 }"></span>
+            <span style="font-weight:600;font-size:14px;flex:1;">{{ getProviderMeta(p.id)?.label || p.label }}</span>
+            <span v-if="getProviderMeta(p.id)?.pricing" style="font-size:11px;color:var(--color-text-secondary);">💰 {{ getProviderMeta(p.id)!.pricing.input }} / {{ getProviderMeta(p.id)!.pricing.output }}</span>
+            <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--color-text-secondary);cursor:pointer;">
+              <input type="checkbox" v-model="p.billing_enabled" style="accent-color:#7c3aed;"> 计费
+            </label>
+            <button :style="{ padding:'3px 10px',borderRadius:'6px',fontSize:'11px',cursor:'pointer',border:'1px solid', borderColor: p.is_active ? '#10B981' : 'var(--color-border)', background:p.is_active ? '#10B981' : 'transparent', color:p.is_active ? '#fff' : 'var(--color-text-secondary)', fontFamily:'inherit' }" @click="p.is_active = !p.is_active">{{ p.is_active ? '已启用' : '已禁用' }}</button>
+            <button style="padding:3px 10px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);fontFamily:'inherit';" @click="removeProvider(i)">✕</button>
           </div>
-          <div class="pc-right">
-            <div class="form-group"><label>API Key</label><input v-model="p.api_key" type="password" class="form-input" placeholder="sk-..."></div>
-            <div style="display:flex;gap:4px;align-items:end;">
-              <div class="form-group" style="flex:1;"><label>模型</label><select v-model="p.model" class="form-input"><option v-for="m in getProviderMeta(p.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
-              <div class="form-group" style="flex:1;"><label>API 地址</label><input v-model="p.api_base" class="form-input" :placeholder="getProviderMeta(p.id)?.site || 'https://...'"></div>
-              <button :style="{ padding:'5px 8px',borderRadius:'6px',fontSize:'10px',cursor:'pointer',border:'1px solid var(--color-border)',background:p.is_active ? '#10B981' : 'var(--color-bg-card)',color:p.is_active ? '#fff' : 'var(--color-text-secondary)',fontFamily:'inherit' }" @click="p.is_active = !p.is_active">{{ p.is_active ? '已启用' : '已禁用' }}</button>
-              <button style="padding:5px 8px;borderRadius:6px;fontSize:10px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);fontFamily:'inherit';" @click="removeProvider(i)">移除</button>
-            </div>
+          <!-- 配置详情 -->
+          <div style="padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API Key</label><input v-model="p.api_key" type="password" class="form-input" placeholder="sk-..." style="font-size:11px;padding:5px 8px;"></div>
+            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型</label><select v-model="p.model" class="form-input" style="font-size:11px;padding:5px 8px;"><option v-for="m in getProviderMeta(p.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
+            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API 地址</label><input v-model="p.api_base" class="form-input" placeholder="默认官方地址" style="font-size:11px;padding:5px 8px;"></div>
+          </div>
+          <div v-if="p.tokens_used !== undefined" style="padding:5px 14px;background:var(--color-bg);font-size:10px;color:var(--color-text-secondary);border-top:1px solid var(--color-border);">
+            📊 已用 {{ (p.tokens_used||0).toLocaleString() }} tokens · {{ p.total_calls||0 }} 次调用 · 预估 ${{ (p.estimated_cost||0).toFixed(4) }}
           </div>
         </div>
       </div>
@@ -422,15 +420,6 @@ onMounted(loadData)
 .tab-btn { flex:1; padding:8px 10px; border:none; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer; background:transparent; color:var(--color-text-secondary); transition:all 0.2s; white-space:nowrap; }
 .tab-btn:hover { background:rgba(124,58,237,0.06); color:var(--color-text); }
 .tab-btn.active { background:#7c3aed; color:#fff; box-shadow:0 2px 8px rgba(124,58,237,0.25); }
-.provider-card { display:flex; gap:12px; padding:12px; margin-bottom:8px; background:var(--color-bg); border-radius:10px; border:1px solid var(--color-border); align-items:flex-start; }
-.pc-left { flex:1; min-width:0; padding-left:8px; border-left:3px solid; }
-.pc-header { display:flex; align-items:center; gap:6px; margin-bottom:2px; }
-.pc-header strong { font-size:14px; }
-.pc-badge { font-size:10px; padding:1px 6px; border-radius:4px; }
-.pc-badge.on { background:rgba(16,185,129,0.1); color:#10B981; }
-.pc-badge.off { background:rgba(156,163,175,0.1); color:#9CA3AF; }
-.pc-pricing { font-size:11px; color:var(--color-text-secondary); margin-top:2px; }
-.pc-right { flex-shrink:0; min-width:300px; }
 .form-group { margin-bottom:0; }
 .form-group label { display:block; font-size:10px; font-weight:600; color:var(--color-text-secondary); margin-bottom:1px; }
 .form-input { color:var(--color-text); width:100%; padding:5px 8px; border:1px solid var(--color-border); border-radius:6px; font-size:12px; outline:none; box-sizing:border-box; background:var(--color-bg-card); }
