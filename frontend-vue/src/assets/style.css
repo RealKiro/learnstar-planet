@@ -29,6 +29,18 @@
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
 }
 
+/* ===== 全局下拉选项可读性 ===== */
+select.form-input option,
+select option,
+.form-input option {
+  color: #1E293B !important;
+  background-color: #FFFFFF !important;
+}
+select.form-input {
+  color: var(--color-text);
+  background-color: var(--color-bg-card);
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body { min-height: 100vh; }

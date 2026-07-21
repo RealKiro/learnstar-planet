@@ -131,15 +131,9 @@ onMounted(() => loadTeachers(true))
 </template>
 
 <style scoped>
-.toolbar { display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px; }
-.toolbar-left { display:flex;align-items:center;gap:12px;flex-wrap:wrap; }
 .section-badge { font-size:11px;font-weight:600;color:#7c3aed;text-transform:uppercase;letter-spacing:0.05em;background:#ede9fe;padding:3px 10px;border-radius:6px; }
 .page-title { font-size:22px;font-weight:700;margin:0;line-height:1.2; }
 .count-badge { font-size:13px;color:#6b7280;background:var(--color-bg);padding:2px 10px;border-radius:10px; }
-.toolbar-actions { display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
-.filter-group { display:flex;gap:6px; }
-.filter-select { width:110px;padding:6px 10px;font-size:12px; }
-.filter-search { width:150px;padding:6px 10px;font-size:12px; }
 .grade-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid var(--color-border); }
 .grade-icon { font-size:18px; }
 .grade-name { font-size:17px; font-weight:700; }
