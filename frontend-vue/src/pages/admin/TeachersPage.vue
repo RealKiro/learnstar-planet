@@ -290,8 +290,8 @@ onMounted(refreshTeachers)
             </div>
             <div class="assign-body">
               <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="assign-row" :style="{ borderLeftColor: roleColors[a.role as Role] }">
-                <span class="ar-class">{{ a.class_name || classById(a.class_id)?.name || '"'"'#'"'"' + a.class_id }}</span>
-                <span class="ar-subj">{{ a.subject || '"'"'—'"'"' }}</span>
+                <span class="ar-class">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
+                <span class="ar-subj">{{ a.subject || '—' }}</span>
                 <span class="ar-role">{{ roleLabel[a.role as Role] || a.role }}</span>
               </div>
               <div v-if="t.assignments.length === 0" class="ar-empty">未分配班级</div>
