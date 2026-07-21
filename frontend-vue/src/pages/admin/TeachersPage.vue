@@ -93,7 +93,9 @@ function addClassAssignment() {
   const cls = classes.value.find(c => c.id === pendingClassId.value)
   if (!cls) return
   if (createAssignments.value.some(a => a.class_id === cls.id)) { assignError.value = '该班级已添加'; return }
-  createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value || '默认科目', role: pendingRole.value })
+  // ✅ 必须选择科目
+  if (!pendingSubject.value) { assignError.value = '请选择科目'; return }
+  createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value, role: pendingRole.value })
   pendingClassId.value = null; pendingSubject.value = ''; pendingRole.value = 'subject_teacher'
 }
 function removeClassAssignment(idx) { createAssignments.value.splice(idx, 1) }
@@ -137,10 +139,19 @@ function openEditModal(t: Teacher) {
 async function submitEdit() {
   if (!editTarget.value) return
   try {
-    const payload: any = { name: editForm.value.name, nickname: editForm.value.nickname, grade_team: editForm.value.grade_team, phone: editForm.value.phone, email: editForm.value.email, personal_role: editForm.value.personalRole }
+    // personal_role 直接传枚举值（grade_lead/admin_director），后端存储在 settings JSON 中
+    const payload: any = {
+      name: editForm.value.name,
+      nickname: editForm.value.nickname,
+      grade_team: editForm.value.grade_team,
+      phone: editForm.value.phone,
+      email: editForm.value.email,
+      personal_role: editForm.value.personalRole || null,
+    }
     await apiPut(`/api/v1/admin/teachers/${editTarget.value.id}`, payload)
     toast.show('教师信息已更新', 'success')
-    showEditModal.value = false; await refreshTeachers()
+    showEditModal.value = false
+    await refreshTeachers()
   } catch { toast.show('保存失败', 'error') }
 }
 
@@ -174,7 +185,12 @@ function addAssignRowNew() {
   if (role === 'head_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'co_teacher')) { toast.show('该班级已有副班，不能同时为主班', 'error'); return }
   if (role === 'co_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'head_teacher')) { toast.show('该班级已有主班，不能同时为副班', 'error'); return }
   if (assignList.value.some(a => a.class_id === cls.id && a.role === role)) { toast.show('该班级已分配此角色', 'info'); return }
-  assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role, subject: newAssignSubject.value || '默认科目' })
+  // ✅ 所有角色都必须选择科目
+  const subjectValue = newAssignSubject.value
+  if (!subjectValue) {
+    toast.show('请选择科目', 'error'); return
+  }
+  assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role, subject: subjectValue || '默认科目' })
   newAssignClassId.value = null; newAssignSubject.value = ''
 }
 function removeAssignRow(idx: number) { assignList.value.splice(idx, 1) }
@@ -194,8 +210,9 @@ async function submitAssign() {
 const showDeleteModal = ref(false)
 const deleteTarget = ref<Teacher | null>(null)
 const deleteConfirmed = ref(false)
+const deleteConfirmName = ref('')
 function openDeleteModal(t: Teacher) {
-  deleteTarget.value = t; deleteConfirmed.value = false; showDeleteModal.value = true
+  deleteTarget.value = t; deleteConfirmed.value = false; deleteConfirmName.value = ''; showDeleteModal.value = true
 }
 async function confirmDelete() {
   if (!deleteTarget.value) return
@@ -309,7 +326,9 @@ onMounted(() => loadTeachers(true))
     <div v-if="loading" class="loading-spinner">加载中...</div>
 
     <div v-else-if="filteredTeachers.length === 0" class="empty-state">
-      <div class="empty-icon">&#x1F468;&#x200D;&#x1F3EB;</div><p>暂无教师</p>
+      <div class="empty-icon">&#x1F468;&#x200D;&#x1F3EB;</div>
+      <p v-if="searchQuery || filterGrade || filterRole">未找到匹配的教师，请修改搜索条件</p>
+      <p v-else>暂无教师，点击「创建教师」添加</p>
     </div>
 
     <!-- 按年级团队分组 -->
@@ -405,6 +424,7 @@ onMounted(() => loadTeachers(true))
                       <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
                       <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
                       <div class="form-group" style="margin-bottom:0;"><label>角色</label><select v-model="pendingRole" class="form-input"><option value="subject_teacher">科任教师</option><option v-for="(label, role) in classRoleLabel" :key="role" :value="role">{{ label }}</option></select></div>
+                      <div class="form-group" style="margin-bottom:0;"><label>科目</label><select v-model="pendingSubject" class="form-input"><option value="">请选择科目</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
                     </div>
                     <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:6px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;">➕ 添加</button>
                   </div>
@@ -473,7 +493,7 @@ onMounted(() => loadTeachers(true))
           <div style="flex:1;min-width:100px;" class="form-group"><label>年级</label><select v-model="assignGradeFilter" class="form-input"><option value="">全部</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
           <div style="flex:1;min-width:120px;" class="form-group"><label>班级</label><select v-model="newAssignClassId" class="form-input"><option :value="null">请选择</option><option v-for="c in filteredAssignClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
 <div style="flex:1;" class="form-group"><label>角色</label><select v-model="newAssignRole" class="form-input" style="font-size:12px;padding:5px 8px;"><option value="head_teacher">主班</option><option value="co_teacher">副班</option><option value="subject_teacher">科任教师</option></select></div>
-          <div style="flex:1;min-width:90px;" class="form-group"><label>科目</label><select v-model="newAssignSubject" class="form-input"><option value="">默认</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+          <div style="flex:1;min-width:90px;" class="form-group"><label>科目</label><select v-model="newAssignSubject" class="form-input"><option value="">请选择科目</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
           <button @click="addAssignRowNew" :disabled="!newAssignClassId" style="padding:8px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;flex-shrink:0;align-self:flex-end;">➕ 添加</button>
         </div>
         <!-- 已分配列表 -->
@@ -513,10 +533,14 @@ onMounted(() => loadTeachers(true))
           <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);cursor:pointer;justify-content:center;padding:8px;background:var(--color-bg);border-radius:6px;">
             <input type="checkbox" v-model="deleteConfirmed" style="accent-color:#dc2626;"> 确认我已了解此操作不可恢复
           </label>
+          <div style="margin-top:10px;">
+            <label style="display:block;font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;text-align:left;">请输入教师姓名「{{ deleteTarget?.name }}」以确认删除</label>
+            <input v-model="deleteConfirmName" class="form-input" :placeholder="'请输入 ' + deleteTarget?.name" style="font-size:12px;text-align:center;">
+          </div>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--color-border);">
           <button @click="showDeleteModal = false" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
-          <button @click="confirmDelete" :disabled="!deleteConfirmed" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#dc2626;border:none;color:#fff;opacity:deleteConfirmed ? 1 : 0.5;">确认删除</button>
+          <button @click="confirmDelete" :disabled="!deleteConfirmed || deleteConfirmName !== deleteTarget?.name" style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#dc2626;border:none;color:#fff;opacity:deleteConfirmed && deleteConfirmName === deleteTarget?.name ? 1 : 0.5;">确认删除</button>
         </div>
       </div>
     </div>
@@ -575,6 +599,9 @@ onMounted(() => loadTeachers(true))
           <input type="file" accept=".csv,.xlsx,.xls" @change="onFileChange" style="margin-bottom:12px;" />
           <div v-if="importPreview.length > 0" style="margin-bottom:12px;">
             <div style="font-weight:600;font-size:14px;margin-bottom:8px;">预览 ({{ importPreview.length }} 条)</div>
+            <div v-if="importPreview.some(r => !r.subject)" style="font-size:12px;color:#d97706;padding:6px 10px;background:rgba(245,158,11,0.08);border-radius:6px;margin-bottom:8px;">
+              ⚠️ {{ importPreview.filter(r => !r.subject).length }} 条记录缺少科目，导入后需手动分配科目
+            </div>
             <div class="preview-table-wrapper">
               <table class="preview-table">
                 <thead><tr><th>姓名</th><th>年级团队</th><th>科目</th><th>手机号</th></tr></thead>
