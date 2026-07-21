@@ -313,31 +313,47 @@ onMounted(() => loadTeachers(true))
         </div>
         <div class="card-grid">
           <div v-for="t in teachers" :key="t.id" class="teacher-card">
-            <div class="card-header">
+            <!-- 名片头部：头像 + 姓名 + 个人角色 -->
+            <div class="card-head">
               <div class="avatar" :style="{ background: avatarGradient(t.name) }">{{ t.name[0] }}</div>
-              <div class="ti">
-                <div class="ti-name">{{ t.name }}</div>
-                <div class="ti-id">{{ t.username }}</div>
-              </div>
-              <div class="role-tags">
-                <!-- 个人属性角色：团队首席、分管行政 -->
-                <span v-for="role in uniqueRoles(t.assignments)" :key="role" v-if="role === 'grade_lead' || role === 'admin_director'" :class="['role-tag', roleTagClass(role)]">
-                  {{ role === 'grade_lead' ? '首席' : '主任' }}
-                </span>
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <span class="head-name">{{ t.name }}</span>
+                  <!-- 个人属性角色 -->
+                  <span v-for="role in uniqueRoles(t.assignments)" :key="role" v-if="role === 'grade_lead' || role === 'admin_director'" :class="['head-badge', role === 'grade_lead' ? 'badge-lead' : 'badge-admin']">
+                    {{ role === 'grade_lead' ? '首席' : '主任' }}
+                  </span>
+                </div>
+                <div class="head-id">{{ t.username }}</div>
               </div>
             </div>
-            <div class="assign-body">
-              <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="assign-row" :style="{ borderLeftColor: roleColors[a.role as Role] }">
-                <span class="ar-class">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
-                <span class="ar-role" :style="{ color: roleColors[a.role as Role] }">{{ roleLabel[a.role as Role] || a.role }}{{ a.role === 'subject_teacher' && a.subject ? '（' + a.subject + '）' : '' }}</span>
+
+            <!-- 个人信息 -->
+            <div class="card-info-section">
+              <div class="info-row" v-if="t.phone || t.email">
+                <span v-if="t.phone" class="info-item">📞 {{ t.phone }}</span>
+                <span v-if="t.email" class="info-item">📧 {{ t.email }}</span>
               </div>
-              <div v-if="t.assignments.length === 0" class="ar-empty">未分配班级</div>
+              <div class="info-row" v-if="t.grade_team">
+                <span class="info-item">📋 {{ t.grade_team }}</span>
+              </div>
             </div>
-            <div class="card-foot">
-              <button class="cf-btn cf-edit" @click="openEditModal(t)">👤 个人信息</button>
-              <button class="cf-btn cf-class" @click="openAssignModal(t)">📚 加入班级</button>
-              <button class="cf-btn cf-pwd" @click="openResetPwd(t)">🔑 密码管理</button>
-              <button class="cf-btn cf-del" @click="deleteTeacher(t)">🗑️ 删除</button>
+
+            <!-- 任教班级 -->
+            <div class="card-classes">
+              <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="class-row" :style="{ borderLeftColor: roleColors[a.role as Role] }">
+                <span class="class-name">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
+                <span class="class-role" :style="{ color: roleColors[a.role as Role] }">{{ roleLabel[a.role as Role] || a.role }}{{ a.role === 'subject_teacher' && a.subject ? '（' + a.subject + '）' : '' }}</span>
+              </div>
+              <div v-if="t.assignments.length === 0" class="class-empty">暂未分配班级</div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="card-actions">
+              <button class="act-btn act-edit" @click="openEditModal(t)">👤 个人信息</button>
+              <button class="act-btn act-class" @click="openAssignModal(t)">📚 加入班级</button>
+              <button class="act-btn act-pwd" @click="openResetPwd(t)">🔑 密码管理</button>
+              <button class="act-btn act-del" @click="deleteTeacher(t)">🗑️ 删除</button>
             </div>
           </div>
         </div>
@@ -569,37 +585,33 @@ onMounted(() => loadTeachers(true))
 .grade-name { font-size:17px; font-weight:700; }
 .grade-count { font-size:12px; color:var(--color-text-secondary); background:var(--color-bg); padding:0 10px; border-radius:20px; }
 .card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:14px; }
-.teacher-card { background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; transition:all 0.25s ease; }
+.teacher-card { background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:14px; display:flex; flex-direction:column; transition:all 0.25s ease; overflow:hidden; }
 .teacher-card:hover { border-color:rgba(124,58,237,0.15); box-shadow:0 8px 24px rgba(0,0,0,0.06); transform:translateY(-2px); }
-.card-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--color-border); flex-wrap:wrap; }
-.avatar { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:16px; flex-shrink:0; }
-.ti { flex:1; min-width:0; }
-.ti-name { font-weight:700; font-size:15px; }
-.ti-id { font-size:11px; color:var(--color-text-secondary); }
-.role-tags { display:flex; gap:3px; flex-wrap:wrap; margin-left:auto; }
-.role-tag { font-size:10px; font-weight:600; padding:1px 8px; border-radius:20px; border:1px solid transparent; white-space:nowrap; }
-.tag-head { background:rgba(255,215,0,0.10); color:#b8860b; border-color:rgba(255,215,0,0.08); }
-.tag-co { background:rgba(96,165,250,0.10); color:#2563eb; border-color:rgba(96,165,250,0.08); }
-.tag-subj { background:rgba(16,185,129,0.10); color:#059669; border-color:rgba(16,185,129,0.08); }
-.tag-lead { background:rgba(167,139,250,0.10); color:#7c3aed; border-color:rgba(167,139,250,0.08); }
-.tag-admin { background:rgba(244,114,182,0.10); color:#db2777; border-color:rgba(244,114,182,0.08); }
-.assign-body { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; flex:1; }
-.assign-row { display:flex; align-items:center; gap:6px; padding:4px 10px; background:var(--color-bg); border-radius:6px; border-left:3px solid; font-size:12px; }
-.ar-class { font-weight:500; color:var(--color-text); min-width:70px; }
-.ar-subj { color:var(--color-text-secondary); font-size:11px; }
-.ar-role { font-size:10px; font-weight:500; margin-left:auto; padding:1px 6px; border-radius:10px; background:rgba(255,255,255,0.04); color:var(--color-text-secondary); }
-.ar-empty { padding:6px 10px; font-size:12px; color:var(--color-text-secondary); text-align:center; background:var(--color-bg); border-radius:6px; }
-.card-foot { display:flex; gap:4px; flex-wrap:wrap; padding-top:8px; border-top:1px solid var(--color-border); }
-.cf-btn { padding:3px 12px; border-radius:20px; font-size:11px; font-weight:500; cursor:pointer; transition:0.2s; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); color:var(--color-text-secondary); display:inline-flex; align-items:center; gap:3px; height:26px; font-family:inherit; }
-.cf-btn:hover { background:rgba(255,255,255,0.08); color:var(--color-text); }
-.cf-edit { background:rgba(167,139,250,0.06); border-color:rgba(167,139,250,0.06); color:#8b5cf6; }
-.cf-edit:hover { background:rgba(167,139,250,0.12); }
-.cf-class { background:rgba(16,185,129,0.06); border-color:rgba(16,185,129,0.06); color:#059669; }
-.cf-class:hover { background:rgba(16,185,129,0.12); }
-.cf-pwd { background:rgba(251,191,36,0.06); border-color:rgba(251,191,36,0.06); color:#d97706; }
-.cf-pwd:hover { background:rgba(251,191,36,0.12); }
-.cf-del { background:rgba(239,68,68,0.06); border-color:rgba(239,68,68,0.06); color:#dc2626; }
-.cf-del:hover { background:rgba(239,68,68,0.12); }
+.card-head { display:flex; align-items:center; gap:12px; padding:16px 18px 10px; }
+.avatar { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:18px; flex-shrink:0; }
+.head-name { font-size:16px; font-weight:700; }
+.head-id { font-size:11px; color:var(--color-text-secondary); margin-top:1px; }
+.head-badge { font-size:10px; font-weight:600; padding:1px 8px; border-radius:12px; white-space:nowrap; }
+.badge-lead { background:rgba(124,58,237,0.10); color:#7c3aed; border:1px solid rgba(124,58,237,0.15); }
+.badge-admin { background:rgba(219,39,119,0.10); color:#db2777; border:1px solid rgba(219,39,119,0.15); }
+.card-info-section { padding:8px 18px; background:var(--color-bg); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border); }
+.info-row { display:flex; gap:12px; flex-wrap:wrap; padding:2px 0; }
+.info-item { font-size:12px; color:var(--color-text-secondary); }
+.card-classes { padding:10px 18px; flex:1; display:flex; flex-direction:column; gap:4px; min-height:60px; }
+.class-row { display:flex; align-items:center; gap:8px; padding:5px 10px; background:var(--color-bg); border-radius:6px; border-left:3px solid; font-size:12px; }
+.class-name { font-weight:500; color:var(--color-text); flex:1; }
+.class-role { font-size:11px; font-weight:500; }
+.class-empty { padding:8px; text-align:center; font-size:12px; color:var(--color-text-secondary); }
+.card-actions { display:flex; gap:4px; padding:10px 18px 12px; border-top:1px solid var(--color-border); flex-wrap:wrap; }
+.act-btn { padding:4px 12px; border-radius:16px; font-size:11px; font-weight:500; cursor:pointer; transition:0.2s; border:1px solid transparent; font-family:inherit; display:inline-flex; align-items:center; gap:3px; }
+.act-edit { background:rgba(167,139,250,0.08); color:#8b5cf6; border-color:rgba(167,139,250,0.12); }
+.act-edit:hover { background:rgba(167,139,250,0.15); }
+.act-class { background:rgba(16,185,129,0.08); color:#059669; border-color:rgba(16,185,129,0.12); }
+.act-class:hover { background:rgba(16,185,129,0.15); }
+.act-pwd { background:rgba(251,191,36,0.08); color:#d97706; border-color:rgba(251,191,36,0.12); }
+.act-pwd:hover { background:rgba(251,191,36,0.15); }
+.act-del { background:rgba(239,68,68,0.08); color:#dc2626; border-color:rgba(239,68,68,0.12); }
+.act-del:hover { background:rgba(239,68,68,0.15); }
 .data-table { width:100%;border-collapse:collapse;background:var(--color-bg-card);border-radius:12px;overflow:hidden;border:1px solid var(--color-border); }
 .data-table th { background:#f9fafb;font-size:12px;font-weight:600;color:#6b7280;text-align:left;padding:10px 14px;border-bottom:1px solid #e5e7eb;white-space:nowrap; }
 .data-table td { padding:10px 14px;border-bottom:1px solid #f3f4f6;font-size:13px; }
