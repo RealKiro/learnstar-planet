@@ -1,12 +1,23 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-type ToastType = 'success' | 'error'
+export type ToastType = 'success' | 'error' | 'info' | 'warning'
+export type ToastPosition = 'top-right' | 'center' | 'bottom-center'
 
-interface Toast {
-  id: number
+export interface ToastOptions {
   message: string
+  type?: ToastType
+  position?: ToastPosition
+  duration?: number
+  action?: { label: string; onClick: () => void }
+}
+
+interface Toast extends ToastOptions {
+  id: number
   type: ToastType
+  position: ToastPosition
+  duration: number
+  createdAt: number
 }
 
 let nextId = 0
@@ -14,13 +25,34 @@ let nextId = 0
 export const useToastStore = defineStore('toast', () => {
   const toasts = ref<Toast[]>([])
 
-  function show(message: string, type: ToastType = 'success') {
+  function show(
+    message: string,
+    type: ToastType = 'success',
+    options?: { position?: ToastPosition; duration?: number; action?: { label: string; onClick: () => void } }
+  ) {
     const id = nextId++
-    toasts.value.push({ id, message, type })
-    setTimeout(() => {
-      toasts.value = toasts.value.filter(t => t.id !== id)
-    }, 5000)
+    const toast: Toast = {
+      id,
+      message,
+      type,
+      position: options?.position || 'top-right',
+      duration: options?.duration ?? 5000,
+      createdAt: Date.now(),
+      action: options?.action,
+    }
+    toasts.value.push(toast)
+    if (toast.duration > 0) {
+      setTimeout(() => remove(id), toast.duration)
+    }
   }
 
-  return { toasts, show }
+  function remove(id: number) {
+    toasts.value = toasts.value.filter(t => t.id !== id)
+  }
+
+  function clear() {
+    toasts.value = []
+  }
+
+  return { toasts, show, remove, clear }
 })

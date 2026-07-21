@@ -124,7 +124,7 @@ async function submitCreate() {
       payload.assignments = createAssignments.value.map(a => ({ class_id: a.class_id, role: a.role || 'subject_teacher', subject: a.subject || undefined }))
     }
     await apiPost('/api/v1/admin/teachers', payload)
-    toast.show('教师创建成功', 'success')
+    toast.show('教师创建成功', 'success', { position: 'center', duration: 2000 })
     showCreateModal.value = false; await refreshTeachers()
   } catch (e: any) {
     const errs = e?.response?.data?.errors
@@ -161,7 +161,7 @@ async function submitEdit() {
       personal_role: editForm.value.personalRole || null,
     }
     await apiPut(`/api/v1/admin/teachers/${editTarget.value.id}`, payload)
-    toast.show('教师信息已更新', 'success')
+    toast.show('教师信息已更新', 'success', { position: 'center', duration: 2000 })
     showEditModal.value = false
     await refreshTeachers()
   } catch { toast.show('保存失败', 'error') }
@@ -212,7 +212,7 @@ async function submitAssign() {
   try {
     const payload = { assignments: assignList.value.filter(a => a.class_id).map(a => ({ class_id: a.class_id, role: a.role, subject: a.subject === '默认科目' ? undefined : a.subject || undefined })) }
     await apiPut(`/api/v1/admin/teachers/${assignTarget.value.id}/classes`, payload)
-    toast.show('班级分配已更新', 'success')
+    toast.show('班级分配已更新', 'success', { position: 'center', duration: 2000 })
     showAssignModal.value = false; await refreshTeachers()
   } catch (e: any) {
     toast.show(e?.response?.data?.message || '保存失败', 'error')
@@ -231,7 +231,7 @@ async function confirmDelete() {
   try {
     await apiDelete(`/api/v1/admin/teachers/${deleteTarget.value.id}`)
     teachers.value = teachers.value.filter(x => x.id !== deleteTarget.value!.id)
-    toast.show('教师已删除', 'success'); showDeleteModal.value = false
+    toast.show('教师已删除', 'success', { position: 'center', duration: 2000 }); showDeleteModal.value = false
   } catch { toast.show('删除失败', 'error') }
 }
 
@@ -248,7 +248,7 @@ async function uploadImport(isDry: boolean) {
     const fd = new FormData(); fd.append('file', importFile.value); fd.append('dry_run', isDry ? '1' : '0')
     const res = await apiPost<{ preview?: any[]; created?: any[]; total: number; message: string }>('/api/v1/admin/teachers/import', fd)
     if (isDry && res.preview) { importPreview.value = res.preview; toast.show('预览：' + res.total + ' 条数据') }
-    else { toast.show(res.message || '导入完成', 'success'); showImportModal.value = false; await refreshTeachers() }
+    else { toast.show(res.message || '导入完成', 'success', { position: 'center', duration: 2000 }); showImportModal.value = false; await refreshTeachers() }
   } finally { importLoading.value = false }
 }
 
@@ -290,7 +290,7 @@ async function submitResetPwd() {
   try {
     const res = await apiPost<{ data: { new_password: string } }>(`/api/v1/admin/teachers/${resetTarget.value.id}/reset-password`, { password: resetPwdValue.value || undefined })
     const newPwd = res?.data?.new_password || resetPwdValue.value || '（已设置）'
-    toast.show(`密码已更新: ${newPwd}`, 'success')
+    toast.show(`密码已更新: ${newPwd}`, 'success', { position: 'center', duration: 2500 })
     showResetPwdModal.value = false
   } catch { toast.show('重置失败', 'error') }
   finally { resetPwdLoading.value = false }
