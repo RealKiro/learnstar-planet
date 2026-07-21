@@ -11,16 +11,19 @@ interface Teacher {
   assignments: Assignment[]; class_names: string[]
   personal_role?: string
 }
-interface Assignment { class_id: number; class_name?: string; grade?: string; role: string; subject?: string }
+interface Assignment { class_id: number; class_name?: string; grade?: string; role: ClassRole; subject?: string }
 interface ClassRoom { id: number; name: string; grade?: string }
-type Role = 'head_teacher' | 'co_teacher' | 'subject_teacher' | 'grade_lead' | 'admin_director'
-const roleLabel: Record<Role, string> = {
+// 班级角色（用于 assignments）
+type ClassRole = 'head_teacher' | 'co_teacher' | 'subject_teacher'
+// 个人角色（用于教师本身）
+type PersonalRole = 'grade_lead' | 'admin_director' | null
+
+const classRoleLabel: Record<ClassRole, string> = {
   head_teacher: '主班', co_teacher: '副班', subject_teacher: '科任',
-  grade_lead: '首席', admin_director: '主任',
 }
-const roleColors: Record<Role, string> = {
-  head_teacher: '#7c3aed', co_teacher: '#2563eb', subject_teacher: '#059669',
-  grade_lead: '#d97706', admin_director: '#dc2626',
+// 个人角色标签（保留备用）
+const personalRoleLabel: Record<Exclude<PersonalRole, null>, string> = {
+  grade_lead: '首席', admin_director: '主任',
 }
 const grades = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
 const subjects = ['语文', '数学', '英语', '科学', '道德与法治', '体育', '音乐', '美术', '信息技术', '综合实践']
@@ -30,9 +33,8 @@ const teachers = ref<Teacher[]>([])
 const classes = ref<ClassRoom[]>([])
 const loading = ref(true)
 
-const viewMode = ref<'card' | 'table'>('card')
 const filterGrade = ref('')
-const filterRole = ref('')
+const filterRole = ref<ClassRole | ''>('')
 const searchQuery = ref('')
 
 const teacherTeams = computed(() => {
@@ -61,13 +63,13 @@ const filteredTeachers = computed(() => {
 const showCreateModal = ref(false)
 const createForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', password: '' })
 const createErrors = ref<Record<string, string>>({})
-interface CreateAssignment { class_id: number; class_name: string; subject: string; role: Role }
+interface CreateAssignment { class_id: number; class_name: string; subject: string; role: ClassRole }
 const createAssignments = ref<CreateAssignment[]>([])
 const createLoading = ref(false)
 const pendingGrade = ref('')
-const pendingClassId = ref(null)
+const pendingClassId = ref<number | null>(null)
 const pendingSubject = ref('')
-const pendingRole = ref<Role>('subject_teacher')
+const pendingRole = ref<ClassRole>('subject_teacher')
 const gradeClasses = computed(() => (classes.value || []).filter(c => c.grade === pendingGrade.value))
 
 function clearError(field: string) { delete createErrors.value[field] }
@@ -79,7 +81,7 @@ function validateField(field: string, value: string) {
 }
 
 function openCreateModal() {
-  createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
+  createForm.value = { name: '', nickname: '', grade_team: '', phone: '', email: '', password: '' }
   createErrors.value = {}; assignError.value = ''
   createAssignments.value = []; pendingGrade.value = ''; pendingClassId.value = null; pendingSubject.value = ''
   showCreateModal.value = true
@@ -144,29 +146,30 @@ async function submitEdit() {
 
 const showAssignModal = ref(false)
 const assignTarget = ref<Teacher | null>(null)
-const assignList = ref<{ class_id: number | null; role: Role; subject: string; class_name?: string }[]>([])
+const assignList = ref<{ class_id: number | null; role: ClassRole; subject: string; class_name?: string }[]>([])
 const assignLoading = ref(false)
 const assignGradeFilter = ref('')
 const newAssignClassId = ref<number | null>(null)
-const newAssignRoleSingle = ref<Role>('subject_teacher')
+const newAssignRole = ref<ClassRole>('subject_teacher')
 const newAssignSubject = ref('')
 const filteredAssignClasses = computed(() => {
+  if (!classes.value) return []
   if (!assignGradeFilter.value) return classes.value
   return classes.value.filter(c => c.grade === assignGradeFilter.value)
 })
 function openAssignModal(t: Teacher) {
   assignTarget.value = t
   assignList.value = t.assignments.length > 0
-    ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '', class_name: a.class_name || classById(a.class_id)?.name }))
+    ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as ClassRole, subject: a.subject || '', class_name: a.class_name || classById(a.class_id)?.name }))
     : []
-  assignGradeFilter.value = ''; newAssignClassId.value = null; newAssignRoleSingle.value = 'subject_teacher'; newAssignSubject.value = ''
+  assignGradeFilter.value = ''; newAssignClassId.value = null; newAssignRole.value = 'subject_teacher'; newAssignSubject.value = ''
   showAssignModal.value = true
 }
 function addAssignRowNew() {
   if (!newAssignClassId.value) return
   const cls = classes.value.find(c => c.id === newAssignClassId.value)
   if (!cls) return
-  const role = newAssignRoleSingle.value
+  const role = newAssignRole.value
   // 主班/副班互斥校验
   if (role === 'head_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'co_teacher')) { toast.show('该班级已有副班，不能同时为主班', 'error'); return }
   if (role === 'co_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'head_teacher')) { toast.show('该班级已有主班，不能同时为副班', 'error'); return }
@@ -263,15 +266,7 @@ async function submitResetPwd() {
   } catch { toast.show('重置失败', 'error') }
   finally { resetPwdLoading.value = false }
 }
-}
 function classById(id: number) { return classes.value.find(c => c.id === id) }
-function uniqueRoles(assignments: Assignment[]): string[] {
-  return [...new Set(assignments.map(a => a.role))]
-}
-function roleTagClass(role: string): string {
-  const map: Record<string, string> = { head_teacher: 'tag-head', co_teacher: 'tag-co', subject_teacher: 'tag-subj', grade_lead: 'tag-lead', admin_director: 'tag-admin' }
-  return map[role] || 'tag-subj'
-}
 function gradeIcon(team: string): string {
   for (const g of ['一年级','二年级','三年级','四年级','五年级','六年级']) { if (team.includes(g)) return ['🌱','🌿','🌳','📚','⭐','🎓'][['一年级','二年级','三年级','四年级','五年级','六年级'].indexOf(g)] }
   return '📌'
@@ -301,7 +296,7 @@ onMounted(() => loadTeachers(true))
           </select>
           <select v-model="filterRole" class="form-input filter-select">
             <option value="">全部角色</option>
-            <option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option>
+            <option v-for="(label, role) in classRoleLabel" :key="role" :value="role">{{ label }}</option>
           </select>
           <input v-model="searchQuery" class="form-input filter-search" placeholder="搜索姓名 / 账号..." />
         </div>
@@ -409,7 +404,7 @@ onMounted(() => loadTeachers(true))
                     <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
                       <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
                       <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
-                      <div class="form-group" style="margin-bottom:0;"><label>角色</label><select v-model="pendingRole" class="form-input"><option value="subject_teacher">科任教师</option><option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option></select></div>
+                      <div class="form-group" style="margin-bottom:0;"><label>角色</label><select v-model="pendingRole" class="form-input"><option value="subject_teacher">科任教师</option><option v-for="(label, role) in classRoleLabel" :key="role" :value="role">{{ label }}</option></select></div>
                     </div>
                     <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:6px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;">➕ 添加</button>
                   </div>
@@ -419,7 +414,7 @@ onMounted(() => loadTeachers(true))
                     <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
                     <div v-for="(a, i) in createAssignments" :key="i" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent);">
                       <span style="flex:1;color:var(--color-text);">{{ shortClassName(a.class_name) }}</span>
-                      <span style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ roleLabel[a.role] || a.role }}</span>
+                      <span style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }}</span>
                       <button @click="removeClassAssignment(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;">✕</button>
                     </div>
                   </div>
@@ -477,9 +472,9 @@ onMounted(() => loadTeachers(true))
         <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:12px;flex-wrap:wrap;">
           <div style="flex:1;min-width:100px;" class="form-group"><label>年级</label><select v-model="assignGradeFilter" class="form-input"><option value="">全部</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
           <div style="flex:1;min-width:120px;" class="form-group"><label>班级</label><select v-model="newAssignClassId" class="form-input"><option :value="null">请选择</option><option v-for="c in filteredAssignClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
-<div style="flex:1;" class="form-group"><label>角色</label><select v-model="newAssignRoleSingle" class="form-input" style="font-size:12px;padding:5px 8px;"><option value="head_teacher">主班</option><option value="co_teacher">副班</option><option value="subject_teacher">科任教师</option></select></div>
+<div style="flex:1;" class="form-group"><label>角色</label><select v-model="newAssignRole" class="form-input" style="font-size:12px;padding:5px 8px;"><option value="head_teacher">主班</option><option value="co_teacher">副班</option><option value="subject_teacher">科任教师</option></select></div>
           <div style="flex:1;min-width:90px;" class="form-group"><label>科目</label><select v-model="newAssignSubject" class="form-input"><option value="">默认</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
-          <button @click="addAssignRowNew" :disabled="!newAssignClassId " style="padding:8px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;flex-shrink:0;align-self:flex-end;">➕ 添加</button>
+          <button @click="addAssignRowNew" :disabled="!newAssignClassId" style="padding:8px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;flex-shrink:0;align-self:flex-end;">➕ 添加</button>
         </div>
         <!-- 已分配列表 -->
         <div style="margin-bottom:12px;">
@@ -487,7 +482,7 @@ onMounted(() => loadTeachers(true))
           <div v-if="assignList.length === 0" style="padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);background:var(--color-bg);border-radius:8px;">暂未分配班级</div>
           <div v-for="(a, i) in assignList" :key="i" style="display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;background:var(--color-bg);border-radius:8px;font-size:13px;">
             <span style="flex:1;font-weight:500;color:var(--color-text);">{{ a.class_name || shortClassName(classById(a.class_id)?.name) }}</span>
-            <span style="color:var(--color-text-secondary);font-size:12px;">{{ roleLabel[a.role as Role] || a.role }}</span>
+            <span style="color:var(--color-text-secondary);font-size:12px;">{{ classRoleLabel[a.role as ClassRole] || a.role }}</span>
             <span style="color:var(--color-text-secondary);font-size:12px;">{{ a.subject || '默认科目' }}</span>
             <button @click="removeAssignRow(i)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:2px;font-size:16px;">✕</button>
           </div>
