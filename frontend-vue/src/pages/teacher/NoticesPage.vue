@@ -20,7 +20,7 @@ onMounted(async () => {
 })
 
 async function createNotice() {
-  if (!form.value.title.trim() || !form.value.content.trim()) { toast.show('请填写标题和内容', 'error', { position: 'top-right' }); return }
+  if (!form.value.title.trim() || !form.value.content.trim()) { toast.show('请填写标题和内容', 'error', { position: 'center', duration: 2000 }); return }
   publishStatus.value = 'loading'
   try {
     const res = await apiPost<ApiResponse<{ id: number }>>('/api/v1/teacher/notices', {

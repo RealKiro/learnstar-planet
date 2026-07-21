@@ -105,7 +105,7 @@ onMounted(async () => {
 })
 
 async function save() {
-  if (!form.value.name.trim()) { toast.show('请填写学校名称', 'error', { position: 'top-right' }); return }
+  if (!form.value.name.trim()) { toast.show('请填写学校名称', 'error', { position: 'center', duration: 2000 }); return }
   saveStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/admin/school', {

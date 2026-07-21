@@ -75,7 +75,7 @@ async function doLogin() {
 
 function thirdPartyLogin(key: string) {
   var p = platforms.find(function (x) { return x.key === key })
-  toast.show('正在打开' + (p ? p.label : key) + '扫码...', 'success')
+  toast.show('正在打开' + (p ? p.label : key) + '扫码...', 'success', { position: 'center', duration: 1500 })
 }
 
 function switchType(t: string) {

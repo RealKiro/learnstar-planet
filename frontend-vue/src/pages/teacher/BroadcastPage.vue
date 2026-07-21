@@ -49,8 +49,8 @@ function toggleAll() {
 }
 
 async function sendBroadcast() {
-  if (!bcContent.value.trim()) { toast.show('请输入广播内容', 'error', { position: 'top-right' }); return }
-  if (selectedClassIds.value.length === 0) { toast.show('请选择至少一个目标班级', 'error', { position: 'top-right' }); return }
+  if (!bcContent.value.trim()) { toast.show('请输入广播内容', 'error', { position: 'center', duration: 2000 }); return }
+  if (selectedClassIds.value.length === 0) { toast.show('请选择至少一个目标班级', 'error', { position: 'center', duration: 2000 }); return }
 
   sendStatus.value = 'loading'
   try {

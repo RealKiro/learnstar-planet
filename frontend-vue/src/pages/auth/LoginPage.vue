@@ -87,8 +87,8 @@ async function handleTeacherLogin() {
     teacherAttempts++
     const remaining = MAX_ATTEMPTS - teacherAttempts
     loginStatus.value = 'error'
-    if (teacherAttempts >= MAX_ATTEMPTS) toast.show('密码错误次数过多，请联系管理员', 'error')
-    else toast.show((e?.response?.data?.message || '账号或密码错误') + `，还剩 ${remaining} 次`, 'error')
+    if (teacherAttempts >= MAX_ATTEMPTS) toast.show('密码错误次数过多，请联系管理员', 'error', { position: 'center', duration: 3000 })
+    else toast.show((e?.response?.data?.message || '账号或密码错误') + `，还剩 ${remaining} 次`, 'error', { position: 'center', duration: 3000 })
     setTimeout(() => { if (loginStatus.value === 'error') loginStatus.value = 'idle' }, 3000)
   } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
 }
@@ -156,7 +156,7 @@ const platforms = [
 
 function handleThirdPartyLogin(platform: string) {
   const label = platforms.find(p => p.key === platform)?.label || platform
-  toast.show(`正在打开${label}扫码...`, 'success')
+  toast.show(`正在打开${label}扫码...`, 'success', { position: 'center', duration: 1500 })
 
   // 构建 OAuth 回调地址
   const callbackUrl = `${window.location.origin}/auth/callback?platform=${platform}`
@@ -173,7 +173,7 @@ function handleThirdPartyLogin(platform: string) {
       oauthUrl = `https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=YOUR_QQ_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&state=${platform}`
       break
     case 'renren':
-      toast.show('人人通登录需要管理员在后台配置', 'info')
+      toast.show('人人通登录需要管理员在后台配置', 'info', { position: 'center', duration: 2000 })
       return
   }
 
@@ -237,7 +237,7 @@ async function handleWechatWorkOAuth(code: string) {
       const authStore = (await import('@/stores/auth')).useAuthStore()
       const toast = (await import('@/stores/toast')).useToastStore()
       authStore.setAuth(d.token, d.user)
-      toast.show('登录成功', 'success')
+      toast.show('登录成功', 'success', { position: 'center', duration: 1500 })
       router.replace({ name: 'teacher-dashboard' })
     }
   } catch { /* handled */ } finally { loading.value = false }
