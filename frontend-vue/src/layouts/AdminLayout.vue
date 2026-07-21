@@ -30,7 +30,6 @@ const navItems = [
     { page: 'admin-reports', label: '全校报表', icon: '📈' },
   ]},
   { section: '系统', items: [
-    { page: 'admin-exchange-rate', label: '汇率配置', icon: '💰' },
     { page: 'admin-ai', label: 'AI中心', icon: '🤖' },
     { page: 'admin-school', label: '系统信息', icon: '⚙️' },
   ]},
