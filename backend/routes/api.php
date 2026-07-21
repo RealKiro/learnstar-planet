@@ -42,6 +42,7 @@ Route::prefix('v1')->group(function () {
     // ===== 2. 学校管理员 =====
     Route::prefix('admin')->middleware(['auth:sanctum', 'role:school_admin'])->group(function () {
         Route::get('school', [SchoolAdminController::class, 'getSchool']);
+        Route::match(['put', 'post'], 'school', [SchoolAdminController::class, 'updateSchool']);
         Route::post('school/logo', [SchoolAdminController::class, 'uploadLogo']);
         Route::prefix('teachers')->group(function () {
             Route::get('/', [SchoolAdminController::class, 'listTeachers']);

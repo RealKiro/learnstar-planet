@@ -34,9 +34,6 @@ const navItems = [
     { page: 'admin-ai', label: 'AI中心', icon: '🤖' },
     { page: 'admin-school', label: '系统信息', icon: '⚙️' },
   ]},
-  { section: '调试', items: [
-    { page: 'admin-debug', label: '高级调试', icon: '🔧' },
-  ]},
 ]
 </script>
 

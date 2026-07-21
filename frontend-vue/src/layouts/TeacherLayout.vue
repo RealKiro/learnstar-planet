@@ -10,7 +10,11 @@ const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const toast = useToastStore()
-function logout() { authStore.logout(); router.replace({ name: 'landing' }) }
+function logout() {
+  if (isBasic.value) { sessionStorage.clear(); router.replace({ name: 'landing' }); return }
+  authStore.logout(); router.replace({ name: 'landing' })
+}
+function goToTeacherLogin() { router.push({ name: 'login', query: { role: 'teacher' } }) }
 
 interface ClassItem { class_id: number; class_name: string; grade: string; role: string }
 const myClasses = ref<ClassItem[]>([])
@@ -105,7 +109,7 @@ onMounted(() => {
       </div>
     </template>
 
-    <!-- 侧边栏底部：班级切换器 -->
+    <!-- 侧边栏底部：班级切换器 + 基础模式额外按钮 -->
     <template #sidebar-extra>
       <div class="class-switcher">
         <div class="cs-label">📚 当前班级</div>
@@ -126,6 +130,9 @@ onMounted(() => {
           <span class="cs-role">{{ { head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任', grade_lead: '年级首席', admin_director: '分管行政' }[activeClass.role] || activeClass.role }}</span>
           <span class="cs-grade">{{ activeClass.grade }}</span>
         </div>
+        <div v-if="isBasic" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--color-border);">
+          <button class="cs-login-btn" @click="goToTeacherLogin">🔑 教师登录（高级）</button>
+        </div>
       </div>
     </template>
   </SidebarLayout>
@@ -141,4 +148,6 @@ onMounted(() => {
 .cs-info { display: flex; gap: 8px; justify-content: center; margin-top: 6px; font-size: 11px; }
 .cs-role { color: var(--color-primary, #a78bfa); font-weight: 600; }
 .cs-grade { color: var(--color-text-secondary); }
+.cs-login-btn { width:100%; padding:8px; border-radius:10px; border:1px solid var(--color-accent); background:rgba(124,58,237,0.06); color:var(--color-accent); font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; transition:0.2s; }
+.cs-login-btn:hover { background:rgba(124,58,237,0.12); }
 </style>
