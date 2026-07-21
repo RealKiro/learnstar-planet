@@ -145,7 +145,7 @@ const assignList = ref<{ class_id: number | null; role: Role; subject: string; c
 const assignLoading = ref(false)
 const assignGradeFilter = ref('')
 const newAssignClassId = ref<number | null>(null)
-const newAssignRole = ref<Role>('subject_teacher')
+const newAssignRoles = ref<Role[]>(['subject_teacher'])
 const newAssignSubject = ref('')
 const filteredAssignClasses = computed(() => {
   if (!assignGradeFilter.value) return classes.value
@@ -156,16 +156,21 @@ function openAssignModal(t: Teacher) {
   assignList.value = t.assignments.length > 0
     ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '', class_name: a.class_name || classById(a.class_id)?.name }))
     : []
-  assignGradeFilter.value = ''; newAssignClassId.value = null; newAssignRole.value = 'subject_teacher'; newAssignSubject.value = ''
+  assignGradeFilter.value = ''; newAssignClassId.value = null; newAssignRoles.value = ['subject_teacher']; newAssignSubject.value = ''
   showAssignModal.value = true
 }
 function addAssignRowNew() {
-  if (!newAssignClassId.value) return
+  if (!newAssignClassId.value || newAssignRoles.value.length === 0) return
   const cls = classes.value.find(c => c.id === newAssignClassId.value)
   if (!cls) return
-  if (assignList.value.some(a => a.class_id === cls.id && a.role === newAssignRole.value)) { toast.show('该班级已有此角色', 'info'); return }
-  assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role: newAssignRole.value, subject: newAssignSubject.value || '默认科目' })
-  newAssignClassId.value = null; newAssignSubject.value = ''
+  const added: string[] = []
+  for (const role of newAssignRoles.value) {
+    if (assignList.value.some(a => a.class_id === cls.id && a.role === role)) continue
+    assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role, subject: newAssignSubject.value || '默认科目' })
+    added.push(roleLabel[role] || role)
+  }
+  if (added.length === 0) { toast.show('所选角色均已添加', 'info'); return }
+  newAssignClassId.value = null; newAssignRoles.value = ['subject_teacher']; newAssignSubject.value = ''
 }
 function removeAssignRow(idx: number) { assignList.value.splice(idx, 1) }
 async function submitAssign() {
@@ -455,9 +460,9 @@ onMounted(() => loadTeachers(true))
         <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:12px;flex-wrap:wrap;">
           <div style="flex:1;min-width:100px;" class="form-group"><label>年级</label><select v-model="assignGradeFilter" class="form-input"><option value="">全部</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
           <div style="flex:1;min-width:120px;" class="form-group"><label>班级</label><select v-model="newAssignClassId" class="form-input"><option :value="null">请选择</option><option v-for="c in filteredAssignClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
-          <div style="flex:1;min-width:100px;" class="form-group"><label>角色</label><select v-model="newAssignRole" class="form-input"><option v-for="(label, role) in roleLabel" :key="role" :value="role">{{ label }}</option></select></div>
+          <div style="flex:1;min-width:140px;" class="form-group"><label>角色（多选）</label><div style="display:flex;flex-wrap:wrap;gap:4px;"><label v-for="(label, role) in roleLabel" :key="role" style="display:flex;align-items:center;gap:2px;font-size:11px;cursor:pointer;padding:2px 8px;border-radius:6px;border:1px solid var(--color-border);background:newAssignRoles.includes(role) ? roleColors[role as Role] + '18' : 'var(--color-bg-card)';color:newAssignRoles.includes(role) ? roleColors[role as Role] : 'var(--color-text-secondary)';" @click.prevent="newAssignRoles.includes(role) ? newAssignRoles = newAssignRoles.filter(r => r !== role) : newAssignRoles.push(role)"><input type="checkbox" :checked="newAssignRoles.includes(role)" style="display:none;"> {{ label }}</label></div></div>
           <div style="flex:1;min-width:90px;" class="form-group"><label>科目</label><select v-model="newAssignSubject" class="form-input"><option value="">默认</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
-          <button @click="addAssignRowNew" :disabled="!newAssignClassId" style="padding:8px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;flex-shrink:0;">➕ 添加</button>
+          <button @click="addAssignRowNew" :disabled="!newAssignClassId || newAssignRoles.length === 0" style="padding:8px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;flex-shrink:0;">➕ 添加（{{ newAssignRoles.length }}项）</button>
         </div>
         <!-- 已分配列表 -->
         <div style="margin-bottom:12px;">
