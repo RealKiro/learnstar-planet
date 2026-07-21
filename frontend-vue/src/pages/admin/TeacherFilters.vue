@@ -42,7 +42,8 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
-.toolbar-actions { display:flex;align-items:center;gap:8px;flex-wrap:nowrap; }
-.filter-select { width:90px;padding:6px 10px;font-size:12px; }
+.toolbar-actions { display:flex;align-items:center;gap:12px;flex-wrap:nowrap; }
+.filter-select { min-width:130px;padding:6px 10px;font-size:12px; }
 .filter-search { width:120px;padding:6px 10px;font-size:12px; }
+.filter-select option { color:#1E293B; background:#fff; }
 </style>

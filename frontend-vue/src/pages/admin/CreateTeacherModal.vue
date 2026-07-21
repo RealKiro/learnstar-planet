@@ -315,4 +315,5 @@ async function submitCreate() {
 .modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
 .flex-row { display:flex; gap:8px; }
 .flex-1 { flex:1; }
+.form-input option { color:#1E293B; background:#fff; }
 </style>
