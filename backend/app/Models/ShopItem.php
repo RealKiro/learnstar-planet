@@ -12,9 +12,10 @@ class ShopItem extends Model
 {
     protected $fillable = [
         'class_id',
+        'school_id',
         'name',
         'description',
-        'category',       // physical / privilege / activity / experience
+        'category',       // points / stationery / food / privilege / activity
         'cost_score',     // 兑换所需积分
         'currency_type',  // score / science / reading / class_point
         'event_tag',      // 活动标签，用于活动专属商城
@@ -33,10 +34,12 @@ class ShopItem extends Model
     public static function categories(): array
     {
         return [
-            'physical'   => '实物奖品',
-            'privilege'  => '特权奖励',
-            'activity'   => '活动参与',
-            'experience' => '体验活动',
+            'points'      => '积分充值',
+            'stationery'  => '文具用品',
+            'food'        => '零食饮料',
+            'privilege'   => '特权奖励',
+            'activity'    => '活动参与',
+            'experience'  => '体验活动',
         ];
     }
 

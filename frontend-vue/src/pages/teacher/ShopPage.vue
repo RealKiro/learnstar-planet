@@ -26,13 +26,14 @@ const students = ref<Array<{ id: number; name: string; total_score: number; pet_
 
 const categories = ref([
   { key: '', label: '全部' },
-  { key: 'science', label: '🔬 科学币' },
-  { key: 'reading', label: '📚 读书币' },
-  { key: 'reward', label: '🎁 奖励' },
-  { key: 'penalty', label: '⚡ 惩罚' },
+  { key: 'points', label: '⭐ 积分充值' },
+  { key: 'stationery', label: '✏️ 文具用品' },
+  { key: 'food', label: '🍎 零食饮料' },
+  { key: 'privilege', label: '🎁 特权奖励' },
+  { key: 'activity', label: '🎪 活动参与' },
 ])
 const showAddForm = ref(false)
-const newItem = ref({ name: '', cost: 10, stock: 0, category: 'reward', description: '' })
+const newItem = ref({ name: '', cost: 10, stock: 0, category: 'stationery', description: '' })
 
 const filteredItems = computed(() => {
   if (!filterCategory.value) return items.value
@@ -131,7 +132,7 @@ async function addItem() {
   } catch { /* handled */ }
 }
 
-const catLabels: Record<string, string> = { science: '🔬 科学币', reading: '📚 读书币', reward: '🎁 奖励', penalty: '⚡ 惩罚' }
+const catLabels: Record<string, string> = { points: '⭐ 积分充值', stationery: '✏️ 文具用品', food: '🍎 零食饮料', privilege: '🎁 特权奖励', activity: '🎪 活动参与', experience: '🎨 体验活动' }
 </script>
 
 <template>
@@ -177,10 +178,11 @@ const catLabels: Record<string, string> = { science: '🔬 科学币', reading: 
         <div class="form-group">
           <label>类别</label>
           <select v-model="newItem.category" class="form-select">
-            <option value="science">🔬 科学币</option>
-            <option value="reading">📚 读书币</option>
-            <option value="reward">🎁 奖励</option>
-            <option value="penalty">⚡ 惩罚</option>
+            <option value="points">⭐ 积分充值</option>
+            <option value="stationery">✏️ 文具用品</option>
+            <option value="food">🍎 零食饮料</option>
+            <option value="privilege">🎁 特权奖励</option>
+            <option value="activity">🎪 活动参与</option>
           </select>
         </div>
       </div>
