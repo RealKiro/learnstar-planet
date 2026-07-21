@@ -329,10 +329,12 @@ function goToSlide(i: number) {
         <div v-if="loginType === 'admin'" class="login-form">
           <div class="form-group">
             <label>账号</label>
-            <input v-model="adminUsername" class="form-input" placeholder="管理员账号" @keydown.enter="focusAdminPwd">
+            <input v-model="adminUsername" class="form-input" :style="{ borderColor: loginErrors.adminUsername ? '#f87171' : '' }" @blur="validateLoginField('adminUsername', adminUsername)" @input="clearLoginErr('adminUsername')" placeholder="管理员账号" @keydown.enter="focusAdminPwd">
+            <div v-if="loginErrors.adminUsername" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.adminUsername }}</div>
           </div>
           <div class="form-group">
             <label>密码</label>
+            <div v-if="loginErrors.adminPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.adminPassword }}</div>
             <input ref="adminPwdRef" v-model="adminPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleAdminLogin">
           </div>
           <button class="login-submit login-submit--amber" :disabled="loading" @click="handleAdminLogin">{{ loading ? '登录中...' : '登录' }}</button>
@@ -341,11 +343,13 @@ function goToSlide(i: number) {
         <div v-if="loginType === 'parent'" class="login-form">
           <div class="form-group">
             <label>账号</label>
-            <input v-model="parentUsername" class="form-input" placeholder="家长账号" @keydown.enter="focusParentPwd">
+            <input v-model="parentUsername" class="form-input" :style="{ borderColor: loginErrors.parentUsername ? '#f87171' : '' }" @blur="validateLoginField('parentUsername', parentUsername)" @input="clearLoginErr('parentUsername')" placeholder="家长账号" @keydown.enter="focusParentPwd">
+            <div v-if="loginErrors.parentUsername" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.parentUsername }}</div>
           </div>
           <div class="form-group">
             <label>密码</label>
-            <input ref="parentPwdRef" v-model="parentPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleParentLogin">
+            <input ref="parentPwdRef" v-model="parentPassword" type="password" class="form-input" :style="{ borderColor: loginErrors.parentPassword ? '#f87171' : '' }" @blur="validateLoginField('parentPassword', parentPassword)" @input="clearLoginErr('parentPassword')" placeholder="输入密码" @keydown.enter="handleParentLogin">
+            <div v-if="loginErrors.parentPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.parentPassword }}</div>
           </div>
           <button class="login-submit login-submit--green" :disabled="loading" @click="handleParentLogin">{{ loading ? '登录中...' : '登录' }}</button>
         </div>
@@ -359,13 +363,9 @@ function goToSlide(i: number) {
             <p class="success-hint">即将进入班级大屏...</p>
           </div>
           <template v-else>
-            <div class="form-group">
-              <label>班级码</label>
-              <input
-                v-model="classCode"
-                class="form-input"
-                placeholder="请向班主任获取班级码"
+              <input v-model="classCode" class="form-input" placeholder="请向班主任获取班级码" maxlength="12" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @blur="validateLoginField('classCode', classCode)" @input="clearLoginErr('classCode')" @keydown.enter="handleClassLogin">
                 maxlength="12"
+            <div v-if="loginErrors.classCode" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.classCode }}</div>
                 autocomplete="off"
                 @keydown.enter="handleClassLogin"
               />
