@@ -158,7 +158,7 @@ async function executeAction(reason: string) {
   const points = modalType.value === 'add' ? step : -step
 
   if (student.total_score + points < 0) {
-    toast.show('积分不能为负数', 'error', { position: 'top-right' })
+    toast.show('积分不能为负数', 'error', { position: 'center', duration: 2000 })
     return
   }
 

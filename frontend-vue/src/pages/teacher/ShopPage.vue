@@ -102,7 +102,7 @@ function openRedeem(item: ShopItemExt) {
 
 async function submitRedeem() {
   if (!selectedStudentId.value || !selectedItem.value) {
-    toast.show('请选择学生和商品', 'error', { position: 'top-right' })
+    toast.show('请选择学生和商品', 'error', { position: 'center', duration: 2000 })
     return
   }
   redeemStatus.value = 'loading'

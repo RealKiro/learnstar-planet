@@ -35,12 +35,12 @@ function importStudents() {
         const [name, student_no, class_name] = l.split(',').map(s => s.trim())
         return { name, student_no, class_name }
       }).filter(s => s.name)
-      if (students.length === 0) { toast.show('文件为空或格式不正确', 'error'); return }
+      if (students.length === 0) { toast.show('文件为空或格式不正确', 'error', { position: 'center', duration: 3000 }); return }
       await apiPost('/api/v1/teacher/students', { students })
-      toast.show(`成功导入 ${students.length} 名学生`, 'success')
+      toast.show(`成功导入 ${students.length} 名学生`, 'success', { position: 'center', duration: 2000 })
       const res = await apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=200')
       students.value = res.data || []
-    } catch { toast.show('导入失败，请检查文件格式（CSV: 姓名,学号,班级）', 'error') }
+    } catch { toast.show('导入失败，请检查文件格式（CSV: 姓名,学号,班级）', 'error', { position: 'center', duration: 3000 }) }
   }
   input.click()
 }

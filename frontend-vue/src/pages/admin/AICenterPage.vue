@@ -185,7 +185,7 @@ async function loadData() {
     ])
     settings.value = sRes.data || null
     usage.value = uRes.data || null
-  } catch { toast.show('加载失败', 'error') }
+  } catch { toast.show('加载失败', 'error', { position: 'center', duration: 2000 }) }
   finally { loading.value = false }
 }
 

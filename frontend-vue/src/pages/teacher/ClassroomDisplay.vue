@@ -62,7 +62,7 @@ async function loadDisplay() {
     }
   } catch (e: any) {
     if (e?.response?.status === 400) {
-      toast.show('请先在教师管理中指定班级', 'info')
+      toast.show('请先在教师管理中指定班级', 'info', { position: 'center', duration: 2000 })
     }
   } finally {
     loading.value = false

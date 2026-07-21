@@ -35,7 +35,7 @@ async function loadRates() {
 }
 
 async function addRate() {
-  if (!newRate.value.name || newRate.value.rate <= 0) { toast.show('请填写完整信息', 'error', { position: 'top-right' }); return }
+  if (!newRate.value.name || newRate.value.rate <= 0) { toast.show('请填写完整信息', 'error', { position: 'center', duration: 2000 }); return }
   addRateStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/teacher/exchange-rates', {

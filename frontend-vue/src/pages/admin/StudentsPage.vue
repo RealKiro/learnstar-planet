@@ -133,8 +133,8 @@ function onTargetGradeChange() {
 }
 
 async function submitForm() {
-  if (!form.value.name.trim()) { toast.show('请填写学生姓名', 'error'); return }
-  if (!formClassId.value) { toast.show('请选择班级', 'error'); return }
+  if (!form.value.name.trim()) { toast.show('请填写学生姓名', 'error', { position: 'center', duration: 2000 }); return }
+  if (!formClassId.value) { toast.show('请选择班级', 'error', { position: 'center', duration: 2000 }); return }
   form.value.class_id = formClassId.value as number
   submitStatus.value = 'loading'
   const payload = {
@@ -186,7 +186,7 @@ function toggleSelectAll() {
 }
 
 async function batchDelete() {
-  if (selectedIds.value.length === 0) { toast.show('请先选择学生', 'error'); return }
+  if (selectedIds.value.length === 0) { toast.show('请先选择学生', 'error', { position: 'center', duration: 2000 }); return }
   if (!confirm(`确定批量删除 ${selectedIds.value.length} 名学生？`)) return
   batchDeleteStatus.value = 'loading'
   try {
@@ -202,14 +202,14 @@ async function batchDelete() {
 }
 
 function openMoveModal() {
-  if (selectedIds.value.length === 0) { toast.show('请先选择学生', 'error'); return }
+  if (selectedIds.value.length === 0) { toast.show('请先选择学生', 'error', { position: 'center', duration: 2000 }); return }
   targetGrade.value = '一年级'
   targetClassId.value = ''
   showMoveModal.value = true
 }
 
 async function submitMove() {
-  if (targetClassId.value === '') { toast.show('请选择目标班级', 'error'); return }
+  if (targetClassId.value === '') { toast.show('请选择目标班级', 'error', { position: 'center', duration: 2000 }); return }
   moveStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/students/batch-move', {

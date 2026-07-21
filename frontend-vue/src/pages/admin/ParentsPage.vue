@@ -78,7 +78,7 @@ function openBatchModal() {
 async function submitBatchCreate() {
   const lines = batchText.value.trim().split('\n').filter(l => l.trim())
   if (lines.length === 0) {
-    toast.show('请输入至少一位家长信息', 'error', { position: 'top-right' })
+    toast.show('请输入至少一位家长信息', 'error', { position: 'center', duration: 2000 })
     return
   }
   const parentsData = lines.map(line => {

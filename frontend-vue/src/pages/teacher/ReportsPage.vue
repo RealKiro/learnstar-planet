@@ -31,7 +31,7 @@ const trendArrow = (t: string) => t === 'up' ? '↑' : t === 'down' ? '↓' : '�
 const trendColor = (t: string) => t === 'up' ? 'var(--color-accent)' : t === 'down' ? 'var(--color-danger)' : 'var(--color-text-secondary)'
 
 async function exportFile(type: string) {
-  if (!selectedClassId.value) { toast.show('请先选择班级', 'error', { position: 'top-right' }); return }
+  if (!selectedClassId.value) { toast.show('请先选择班级', 'error', { position: 'center', duration: 2000 }); return }
   exportStatus.value = 'loading'
   try {
     const token = localStorage.getItem('auth_token')

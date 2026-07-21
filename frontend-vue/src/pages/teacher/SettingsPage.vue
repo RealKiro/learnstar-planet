@@ -69,7 +69,7 @@ function handleBind(platform: string) {
       oauthUrl = `https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=YOUR_QQ_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&state=${platform}`
       break
     case 'renren':
-      toast.show('请在管理员后台配置人人通参数', 'info')
+      toast.show('请在管理员后台配置人人通参数', 'info', { position: 'center', duration: 2000 })
       return
   }
 

@@ -162,7 +162,7 @@ async function executeAction(reason: string) {
     showModal.value = false
     const msg = e?.response?.data?.message || ''
     if (msg.includes('30')) {
-      toast.show('单次超过 30 分需要教师账号登录操作', 'error', { position: 'top-right' })
+      toast.show('单次超过 30 分需要教师账号登录操作', 'error', { position: 'center', duration: 2000 })
     }
   }
   showModal.value = false

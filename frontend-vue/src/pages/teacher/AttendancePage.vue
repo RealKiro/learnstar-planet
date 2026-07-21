@@ -59,12 +59,12 @@ async function startAttendance() {
 }
 
 async function setStatus(studentId: number, status: string) {
-  try { await apiPut(`/api/v1/teacher/attendance/${studentId}`, { status, source: 'manual' }); await loadData(); toast.show('已更新', 'success') } catch { /* handled */ }
+  try { await apiPut(`/api/v1/teacher/attendance/${studentId}`, { status, source: 'manual' }); await loadData(); toast.show('已更新', 'success', { position: 'center', duration: 1500 }) } catch { /* handled */ }
 }
 
 function openLeaveModal(sid: number, sn: string) { leaveStudentId.value = sid; leaveStudentName.value = sn; leaveRemark.value = ''; showLeaveModal.value = true }
 async function confirmLeave() {
-  if (!leaveRemark.value.trim()) { toast.show('请填写请假原因', 'error', { position: 'top-right' }); return }
+  if (!leaveRemark.value.trim()) { toast.show('请填写请假原因', 'error', { position: 'center', duration: 2000 }); return }
   leaveStatus.value = 'loading'
   try {
     await apiPost(`/api/v1/teacher/attendance/${leaveStudentId.value}/mark-leave`, { remark: leaveRemark.value.trim() })

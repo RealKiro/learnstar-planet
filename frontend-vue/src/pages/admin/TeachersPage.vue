@@ -190,7 +190,7 @@ async function submitEdit() {
     toast.show('教师信息已更新', 'success', { position: 'center', duration: 2000 })
     showEditModal.value = false
     await refreshTeachers()
-  } catch { toast.show('保存失败', 'error') }
+  } catch { toast.show('保存失败', 'error', { position: 'center', duration: 2000 }) }
 }
 
 const showAssignModal = ref(false)
@@ -220,13 +220,13 @@ function addAssignRowNew() {
   if (!cls) return
   const role = newAssignRole.value
   // 主班/副班互斥校验
-  if (role === 'head_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'co_teacher')) { toast.show('该班级已有副班，不能同时为主班', 'error'); return }
-  if (role === 'co_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'head_teacher')) { toast.show('该班级已有主班，不能同时为副班', 'error'); return }
-  if (assignList.value.some(a => a.class_id === cls.id && a.role === role)) { toast.show('该班级已分配此角色', 'info'); return }
+  if (role === 'head_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'co_teacher')) { toast.show('该班级已有副班，不能同时为主班', 'error', { position: 'center', duration: 2000 }); return }
+  if (role === 'co_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'head_teacher')) { toast.show('该班级已有主班，不能同时为副班', 'error', { position: 'center', duration: 2000 }); return }
+  if (assignList.value.some(a => a.class_id === cls.id && a.role === role)) { toast.show('该班级已分配此角色', 'info', { position: 'center', duration: 2000 }); return }
   // ✅ 所有角色都必须选择科目
   const subjectValue = newAssignSubject.value
   if (!subjectValue) {
-    toast.show('请选择科目', 'error'); return
+    toast.show('请选择科目', 'error', { position: 'center', duration: 2000 }); return
   }
   assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role, subject: subjectValue || '默认科目' })
   newAssignClassId.value = null; newAssignSubject.value = ''
@@ -241,7 +241,7 @@ async function submitAssign() {
     toast.show('班级分配已更新', 'success', { position: 'center', duration: 2000 })
     showAssignModal.value = false; await refreshTeachers()
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '保存失败', 'error')
+    toast.show(e?.response?.data?.message || '保存失败', 'error', { position: 'center', duration: 2000 })
   } finally { assignLoading.value = false }
 }
 
@@ -258,7 +258,7 @@ async function confirmDelete() {
     await apiDelete(`/api/v1/admin/teachers/${deleteTarget.value.id}`)
     teachers.value = teachers.value.filter(x => x.id !== deleteTarget.value!.id)
     toast.show('教师已删除', 'success', { position: 'center', duration: 2000 }); showDeleteModal.value = false
-  } catch { toast.show('删除失败', 'error') }
+  } catch { toast.show('删除失败', 'error', { position: 'center', duration: 2000 }) }
 }
 
 const showImportModal = ref(false)
@@ -268,12 +268,12 @@ const importLoading = ref(false)
 function openImportModal() { importFile.value = null; importPreview.value = []; showImportModal.value = true }
 function onFileChange(e: Event) { importFile.value = (e.target as HTMLInputElement).files?.[0] || null; importPreview.value = [] }
 async function uploadImport(isDry: boolean) {
-  if (!importFile.value) return toast.show('请选择文件', 'error')
+  if (!importFile.value) return toast.show('请选择文件', 'error', { position: 'center', duration: 2000 })
   importLoading.value = true
   try {
     const fd = new FormData(); fd.append('file', importFile.value); fd.append('dry_run', isDry ? '1' : '0')
     const res = await apiPost<{ preview?: any[]; created?: any[]; total: number; message: string }>('/api/v1/admin/teachers/import', fd)
-    if (isDry && res.preview) { importPreview.value = res.preview; toast.show('预览：' + res.total + ' 条数据') }
+    if (isDry && res.preview) { importPreview.value = res.preview; toast.show('预览：' + res.total + ' 条数据', undefined, { position: 'center', duration: 2000 }) }
     else { toast.show(res.message || '导入完成', 'success', { position: 'center', duration: 2000 }); showImportModal.value = false; await refreshTeachers() }
   } finally { importLoading.value = false }
 }
@@ -318,7 +318,7 @@ async function submitResetPwd() {
     const newPwd = res?.data?.new_password || resetPwdValue.value || '（已设置）'
     toast.show(`密码已更新: ${newPwd}`, 'success', { position: 'center', duration: 2500 })
     showResetPwdModal.value = false
-  } catch { toast.show('重置失败', 'error') }
+  } catch { toast.show('重置失败', 'error', { position: 'center', duration: 2000 }) }
   finally { resetPwdLoading.value = false }
 }
 function classById(id: number) { return classes.value.find(c => c.id === id) }

@@ -184,7 +184,7 @@ async function updatePetSeries(cls: ClassRoom, series: string) {
 
 async function submitBatchClass() {
   if (batchCount.value < 1 || batchCount.value > 20) {
-    toast.show('班级数量需在 1-20 之间', 'error', { position: 'top-right' })
+    toast.show('班级数量需在 1-20 之间', 'error', { position: 'center', duration: 2000 })
     return
   }
   batchStatus.value = 'loading'
@@ -207,12 +207,12 @@ async function submitBatchClass() {
 async function submitSingleClass() {
   const name = newClassName.value.trim()
   if (!name) {
-    toast.show('请填写班级编号', 'error', { position: 'top-right' })
+    toast.show('请填写班级编号', 'error', { position: 'center', duration: 2000 })
     return
   }
   const fullName = newClassGrade.value + '（' + name + '）班'
   if (classes.value.find(c => c.name === fullName)) {
-    toast.show('班级「' + fullName + '」已存在', 'error', { position: 'top-right' })
+    toast.show('班级「' + fullName + '」已存在', 'error', { position: 'center', duration: 2000 })
     return
   }
   createStatus.value = 'loading'
@@ -236,7 +236,7 @@ async function submitSingleClass() {
 async function submitImport() {
   const lines = importText.value.trim().split('\n').filter(l => l.trim())
   if (lines.length === 0) {
-    toast.show('请输入至少一位学生信息', 'error', { position: 'top-right' })
+    toast.show('请输入至少一位学生信息', 'error', { position: 'center', duration: 2000 })
     return
   }
 
