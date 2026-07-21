@@ -183,8 +183,11 @@ async function uploadLogo(e: Event) {
             <div v-if="logoPath" style="width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--color-border);">
               <img :src="logoPath" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <label class="btn btn-sm btn-outline" style="cursor:pointer;">
-              {{ logoUploading ? '上传中...' : '📷 上传 LOGO' }}
+            <label class="btn btn-sm btn-outline" :style="{ background: uploadLogoStatus === 'loading' ? '#f59e0b' : uploadLogoStatus === 'success' ? '#10b981' : uploadLogoStatus === 'error' ? '#ef4444' : '', color: uploadLogoStatus !== 'idle' ? '#fff' : '', border: uploadLogoStatus !== 'idle' ? '1px solid transparent' : '', cursor: 'pointer' }">
+              <template v-if="uploadLogoStatus === 'loading'">上传中...</template>
+              <template v-else-if="uploadLogoStatus === 'success'">已上传 ✓</template>
+              <template v-else-if="uploadLogoStatus === 'error'">上传失败 ✗</template>
+              <template v-else>📷 上传 LOGO</template>
               <input type="file" accept="image/*" style="display:none;" @change="uploadLogo">
             </label>
           </div>
