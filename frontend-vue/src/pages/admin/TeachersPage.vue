@@ -384,7 +384,6 @@ onMounted(() => loadTeachers(true))
                     <div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div>
                   </div>
                   <div style="display:flex;gap:8px;"><div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div><div style="flex:1;" class="form-group"><label>&nbsp;</label></div></div>
-                  <div style="display:flex;gap:8px;"><div style="flex:1;" class="form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div><div style="flex:1;" class="form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div></div>
                   <div style="display:none;"></div>
                   <div class="form-group">
                     <label>初始密码</label>
