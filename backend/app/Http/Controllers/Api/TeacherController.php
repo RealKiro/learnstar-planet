@@ -1371,7 +1371,7 @@ class TeacherController extends Controller
                     'class_id' => null,
                     'school_id' => $teacher->school_id,
                     'name' => $d['name'],
-                    'description' => $d['description'] ?? '',
+                    'description' => $d['description'],
                     'category' => $d['category'],
                     'cost_score' => $d['cost_score'],
                     'currency_type' => $d['currency_type'],
