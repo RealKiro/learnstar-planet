@@ -14,8 +14,8 @@ interface Assignment { class_id: number; class_name?: string; grade?: string; ro
 interface ClassRoom { id: number; name: string; grade?: string }
 type Role = 'head_teacher' | 'co_teacher' | 'subject_teacher' | 'grade_lead' | 'admin_director'
 const roleLabel: Record<Role, string> = {
-  head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任教师',
-  grade_lead: '年级首席', admin_director: '分管行政',
+  head_teacher: '主班', co_teacher: '副班', subject_teacher: '科任',
+  grade_lead: '首席', admin_director: '主任',
 }
 const roleColors: Record<Role, string> = {
   head_teacher: '#7c3aed', co_teacher: '#2563eb', subject_teacher: '#059669',
@@ -343,7 +343,14 @@ onMounted(() => loadTeachers(true))
             <div class="card-classes">
               <div v-for="a in t.assignments" :key="a.class_id + '_' + a.role" class="class-row" :style="{ borderLeftColor: roleColors[a.role as Role] }">
                 <span class="class-name">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
-                <span class="class-role" :style="{ color: roleColors[a.role as Role] }">{{ roleLabel[a.role as Role] || a.role }}{{ a.role === 'subject_teacher' && a.subject ? '（' + a.subject + '）' : '' }}</span>
+                <!-- 主班/副班显示角色标签 + 科目；科任只显示科目 -->
+                <template v-if="a.role === 'head_teacher' || a.role === 'co_teacher'">
+                  <span class="class-role-tag" :style="{ background: roleColors[a.role as Role] + '18', color: roleColors[a.role as Role] }">{{ roleLabel[a.role as Role] }}</span>
+                  <span class="class-subj">{{ a.subject }}</span>
+                </template>
+                <template v-else>
+                  <span class="class-subj-only">{{ a.subject || '—' }}</span>
+                </template>
               </div>
               <div v-if="t.assignments.length === 0" class="class-empty">暂未分配班级</div>
             </div>
@@ -351,7 +358,7 @@ onMounted(() => loadTeachers(true))
             <!-- 操作按钮 -->
             <div class="card-actions">
               <button class="act-btn act-edit" @click="openEditModal(t)">👤 个人信息</button>
-              <button class="act-btn act-class" @click="openAssignModal(t)">📚 加入班级</button>
+              <button class="act-btn act-class" @click="openAssignModal(t)">📚 班级管理</button>
               <button class="act-btn act-pwd" @click="openResetPwd(t)">🔑 密码管理</button>
               <button class="act-btn act-del" @click="deleteTeacher(t)">🗑️ 删除</button>
             </div>
@@ -601,6 +608,9 @@ onMounted(() => loadTeachers(true))
 .class-row { display:flex; align-items:center; gap:8px; padding:5px 10px; background:var(--color-bg); border-radius:6px; border-left:3px solid; font-size:12px; }
 .class-name { font-weight:500; color:var(--color-text); flex:1; }
 .class-role { font-size:11px; font-weight:500; }
+.class-role-tag { font-size:10px; font-weight:600; padding:1px 8px; border-radius:10px; white-space:nowrap; }
+.class-subj { font-size:11px; color:var(--color-text-secondary); }
+.class-subj-only { font-size:12px; font-weight:500; color:var(--color-text); }
 .class-empty { padding:8px; text-align:center; font-size:12px; color:var(--color-text-secondary); }
 .card-actions { display:flex; gap:4px; padding:10px 18px 12px; border-top:1px solid var(--color-border); flex-wrap:wrap; }
 .act-btn { padding:4px 12px; border-radius:16px; font-size:11px; font-weight:500; cursor:pointer; transition:0.2s; border:1px solid transparent; font-family:inherit; display:inline-flex; align-items:center; gap:3px; }
