@@ -25,6 +25,12 @@ const classRoleLabel: Record<ClassRole, string> = {
 const personalRoleLabel: Record<Exclude<PersonalRole, null>, string> = {
   grade_lead: '首席', admin_director: '主任',
 }
+// 个人角色选项（供编辑弹窗使用）
+const personalRoleOptions = [
+  { v: 'grade_lead', l: '首席', bg: '#8b5cf6' },
+  { v: 'admin_director', l: '主任', bg: '#f59e0b' },
+  { v: '', l: '普通科任', bg: 'var(--color-primary)' },
+]
 const grades = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
 const subjects = ['语文', '数学', '英语', '科学', '道德与法治', '体育', '音乐', '美术', '信息技术', '综合实践']
 
@@ -471,8 +477,9 @@ onMounted(() => loadTeachers(true))
           <div class="form-group">
             <label>个人角色</label>
             <div style="display:flex;gap:8px;margin-top:4px;">
-              <label v-for="opt in ([{v:'grade_lead',l:'首席'},{v:'admin_director',l:'主任'},{v:'',l:'普通科任'}])" :key="opt.v" style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;padding:4px 10px;border-radius:6px;border:1px solid var(--color-border);background:editForm.personalRole === opt.v ? (opt.v === 'grade_lead' ? '#8b5cf6' : opt.v === 'admin_director' ? '#f59e0b' : 'var(--color-primary)') : 'var(--color-bg-card)';color:editForm.personalRole === opt.v ? '#fff' : 'var(--color-text)';">
-                <input type="radio" :value="opt.v" v-model="editForm.personalRole" style="display:none;"> {{ opt.l }}
+              <label v-for="opt in personalRoleOptions" :key="opt.v || '__none'" style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;padding:4px 10px;border-radius:6px;border:1px solid var(--color-border);user-select:none;"
+                :style="editForm.personalRole === opt.v ? { background: opt.bg, color: '#fff' } : { background: 'var(--color-bg-card)', color: 'var(--color-text)' }">
+                <input type="radio" :value="opt.v" v-model="editForm.personalRole" style="opacity:0;position:absolute;width:0;height:0;pointer-events:none;"> {{ opt.l }}
               </label>
             </div>
           </div>
