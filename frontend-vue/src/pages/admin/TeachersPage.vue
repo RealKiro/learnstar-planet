@@ -503,7 +503,7 @@ onMounted(() => loadTeachers(true))
 
         <!-- 修改密码 -->
         <div class="form-group"><label>新密码（留空自动生成）</label>
-          <input v-model="resetPwdValue" :type="showResetPwd ? 'text' : 'password'" class="form-input" placeholder="留空自动生成">
+          <input v-model="resetPwdValue" :type="showResetPwd ? 'text' : 'password'" class="form-input" placeholder="留空自动生成" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')">
         </div>
         <div style="display:flex;gap:12px;margin-top:16px;">
           <button @click="showResetPwdModal = false" style="flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>

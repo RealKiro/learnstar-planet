@@ -308,7 +308,7 @@ class SchoolAdminController extends Controller
     }
 
     /**
-     * 查看教师密码
+     * 查看教师密码（无记录时自动生成并保存）
      */
     public function getTeacherPassword(Request $request, int $id): JsonResponse
     {
@@ -317,9 +317,17 @@ class SchoolAdminController extends Controller
             ->where('role', 'teacher')
             ->findOrFail($id);
 
+        if (empty($teacher->plain_password)) {
+            $newPassword = str()->random(8);
+            $teacher->password = \Illuminate\Support\Facades\Hash::make($newPassword);
+            $teacher->plain_password = $newPassword;
+            $teacher->password_changed = false;
+            $teacher->save();
+        }
+
         return response()->json([
             'data' => [
-                'password' => $teacher->plain_password ?? '未记录，请重置密码',
+                'password' => $teacher->plain_password,
             ],
         ]);
     }
