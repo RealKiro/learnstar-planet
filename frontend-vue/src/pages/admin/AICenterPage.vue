@@ -4,9 +4,7 @@ import { useToastStore } from '@/stores/toast'
 
 const toast = useToastStore()
 
-interface ProviderConfig {
-  id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean
-}
+interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean }
 interface AiSettings { enabled: boolean; max_tokens: number; tokens_used: number; tokens_limit: number; providers: ProviderConfig[] }
 interface DailyUsage { date: string; tokens: number; count: number }
 interface ConversationLog { id: number; student_name: string; question: string; answer: string; tokens_used: number; created_at: string }
@@ -16,41 +14,107 @@ const loading = ref(true)
 const settings = ref<AiSettings | null>(null)
 const usage = ref<AiUsage | null>(null)
 const saving = ref(false)
-const activeTab = ref<'providers' | 'usage' | 'logs'>('providers')
+const activeTab = ref<'providers' | 'mcp' | 'usage' | 'logs'>('providers')
 
-const providerMeta = [
-  { id: 'openai', label: 'OpenAI', color: '#10a37f', models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-3.5-turbo'] },
-  { id: 'claude', label: 'Anthropic Claude', color: '#d97706', models: ['claude-3-5-sonnet', 'claude-3-haiku', 'claude-3-opus'] },
-  { id: 'google', label: 'Google Gemini', color: '#4285f4', models: ['gemini-2.0-flash', 'gemini-1.5-pro', 'gemini-1.5-flash'] },
-  { id: 'grok', label: 'xAI Grok', color: '#1a1a2e', models: ['grok-2', 'grok-2-mini'] },
-  { id: 'mistral', label: 'Mistral AI', color: '#ff6f00', models: ['mistral-large', 'mistral-small', 'codestral'] },
-  { id: 'qwen', label: '通义千问', color: '#1677ff', models: ['qwen-max', 'qwen-plus', 'qwen-turbo', 'qwen2.5-72b'] },
-  { id: 'deepseek', label: 'DeepSeek', color: '#4f6ef7', models: ['deepseek-chat', 'deepseek-v3', 'deepseek-r1', 'deepseek-coder'] },
-  { id: 'moonshot', label: '月之暗面 Kimi', color: '#8b5cf6', models: ['moonshot-v1-128k', 'moonshot-v1-32k', 'moonshot-v1-8k'] },
-  { id: 'bytedance', label: '豆包（字节）', color: '#00a76a', models: ['doubao-1.5-pro', 'doubao-1.5-lite', 'doubao-pro'] },
-  { id: 'minimax', label: 'MiniMax', color: '#ff6900', models: ['minimax-text-01', 'minimax-abab-6.5'] },
-  { id: 'baichuan', label: '百川智能', color: '#2b6cb0', models: ['baichuan4', 'baichuan3-turbo'] },
-  { id: 'stepfun', label: '阶跃星辰', color: '#e00', models: ['step-2-16k', 'step-1-32k'] },
-  { id: 'lingyi', label: '零一万物 Yi', color: '#06b6d4', models: ['yi-large', 'yi-medium', 'yi-spark'] },
-  { id: 'ernie', label: '文心一言', color: '#3060b0', models: ['ernie-4.0', 'ernie-3.5', 'ernie-speed'] },
-  { id: 'hunyuan', label: '混元（腾讯）', color: '#0052d9', models: ['hunyuan-pro', 'hunyuan-standard', 'hunyuan-lite'] },
-  { id: 'glm', label: 'GLM（智谱）', color: '#8b4513', models: ['glm-4', 'glm-4-plus', 'glm-4-air'] },
-  { id: 'spark', label: '星火（讯飞）', color: '#e8422a', models: ['spark-4.0', 'spark-3.0'] },
-  { id: 'cohere', label: 'Cohere', color: '#d18ee2', models: ['command-r-plus', 'command-r'] },
-  { id: 'perplexity', label: 'Perplexity', color: '#1f1f1f', models: ['sonar-pro', 'sonar-reasoning'] },
-  { id: 'siliconflow', label: '硅基流动', color: '#409eff', models: ['Pro/DeepSeek-V3', 'Pro/Qwen2.5-72B'] },
-  { id: 'openrouter', label: 'OpenRouter', color: '#6466f1', models: ['openrouter/auto', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o'] },
-  { id: 'nvidia', label: 'NVIDIA NIM', color: '#76b900', models: ['nvidia/llama-3.1-nemotron', 'meta/llama-3.1-8b'] },
-  { id: 'groq', label: 'Groq LPU', color: '#f55036', models: ['llama-3.3-70b-versatile', 'mixtral-8x7b-32768'] },
-  { id: 'together', label: 'Together AI', color: '#7678ff', models: ['meta-llama/Llama-3.3-70B', 'mistralai/Mixtral-8x7B'] },
-  { id: 'azure', label: 'Azure OpenAI', color: '#0078d4', models: ['gpt-4o', 'gpt-4-turbo', 'gpt-35-turbo'] },
-  { id: 'ollama', label: 'Ollama（本地）', color: '#000', models: ['llama3.2', 'qwen2.5', 'deepseek-r1'] },
-  { id: 'mcp', label: 'MCP 通用接口', color: '#7c3aed', models: ['mcp-default'] },
+// ===== 供应商元数据（含计费信息） =====
+interface PricingInfo { input: string; output: string; unit: string; url: string }
+interface ProviderMeta { id: string; label: string; group: string; color: string; models: string[]; pricing: PricingInfo; site: string }
+
+const providerMeta: ProviderMeta[] = [
+  { id: 'openai', label: 'OpenAI', group: '国际', color: '#10a37f', site: 'https://platform.openai.com/api-keys',
+    models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-3.5-turbo'],
+    pricing: { input: '$2.50', output: '$10.00', unit: '/M tokens', url: 'https://openai.com/pricing' }},
+  { id: 'claude', label: 'Anthropic Claude', group: '国际', color: '#d97706', site: 'https://console.anthropic.com/',
+    models: ['claude-3-5-sonnet', 'claude-3-haiku', 'claude-3-opus'],
+    pricing: { input: '$3.00', output: '$15.00', unit: '/M tokens', url: 'https://anthropic.com/pricing' }},
+  { id: 'google', label: 'Google Gemini', group: '国际', color: '#4285f4', site: 'https://aistudio.google.com/',
+    models: ['gemini-2.0-flash', 'gemini-1.5-pro', 'gemini-1.5-flash'],
+    pricing: { input: '$1.25', output: '$5.00', unit: '/M tokens', url: 'https://ai.google.dev/pricing' }},
+  { id: 'grok', label: 'xAI Grok', group: '国际', color: '#1a1a2e', site: 'https://console.x.ai/',
+    models: ['grok-2', 'grok-2-mini'],
+    pricing: { input: '$2.00', output: '$10.00', unit: '/M tokens', url: 'https://x.ai/pricing' }},
+  { id: 'mistral', label: 'Mistral AI', group: '国际', color: '#ff6f00', site: 'https://console.mistral.ai/',
+    models: ['mistral-large', 'mistral-small', 'codestral'],
+    pricing: { input: '$2.00', output: '$6.00', unit: '/M tokens', url: 'https://mistral.ai/pricing' }},
+  { id: 'deepseek', label: 'DeepSeek', group: '国内', color: '#4f6ef7', site: 'https://platform.deepseek.com/',
+    models: ['deepseek-chat', 'deepseek-v3', 'deepseek-r1', 'deepseek-coder'],
+    pricing: { input: '¥1.00', output: '¥2.00', unit: '/M tokens', url: 'https://deepseek.com/pricing' }},
+  { id: 'qwen', label: '通义千问（阿里）', group: '国内', color: '#1677ff', site: 'https://dashscope.aliyun.com/',
+    models: ['qwen-max', 'qwen-plus', 'qwen-turbo', 'qwen2.5-72b'],
+    pricing: { input: '¥2.00', output: '¥6.00', unit: '/M tokens', url: 'https://aliyun.com/pricing' }},
+  { id: 'moonshot', label: '月之暗面 Kimi', group: '国内', color: '#8b5cf6', site: 'https://platform.moonshot.cn/',
+    models: ['moonshot-v1-128k', 'moonshot-v1-32k', 'moonshot-v1-8k'],
+    pricing: { input: '¥1.00', output: '¥2.00', unit: '/M tokens', url: 'https://moonshot.cn/pricing' }},
+  { id: 'bytedance', label: '豆包（字节跳动）', group: '国内', color: '#00a76a', site: 'https://console.volcengine.com/',
+    models: ['doubao-1.5-pro', 'doubao-1.5-lite', 'doubao-pro'],
+    pricing: { input: '¥0.80', output: '¥2.00', unit: '/M tokens', url: 'https://volcengine.com/pricing' }},
+  { id: 'siliconflow', label: '硅基流动', group: '聚合', color: '#409eff', site: 'https://cloud.siliconflow.cn/',
+    models: ['Pro/DeepSeek-V3', 'Pro/Qwen2.5-72B', 'Pro/GLM-4-9B'],
+    pricing: { input: '¥0.50', output: '¥1.50', unit: '/M tokens', url: 'https://siliconflow.cn/pricing' }},
+  { id: 'openrouter', label: 'OpenRouter', group: '聚合', color: '#6466f1', site: 'https://openrouter.ai/keys',
+    models: ['openrouter/auto', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o'],
+    pricing: { input: '参考源', output: '模型', unit: '定价', url: 'https://openrouter.ai/pricing' }},
+  { id: 'groq', label: 'Groq LPU', group: '聚合', color: '#f55036', site: 'https://console.groq.com/',
+    models: ['llama-3.3-70b-versatile', 'mixtral-8x7b-32768', 'gemma2-9b-it'],
+    pricing: { input: '免费', output: '免费', unit: '（有限额）', url: 'https://groq.com/pricing' }},
+  { id: 'ollama', label: 'Ollama（本地）', group: '本地', color: '#000', site: 'https://ollama.com/',
+    models: ['llama3.2', 'qwen2.5', 'deepseek-r1', 'mistral'],
+    pricing: { input: '免费', output: '免费', unit: '（本地运行）', url: 'https://ollama.com' }},
 ]
+
+const groupedProviders = computed(() => {
+  const groups: Record<string, ProviderMeta[]> = {}
+  for (const p of providerMeta) {
+    if (!groups[p.group]) groups[p.group] = []
+    groups[p.group].push(p)
+  }
+  return groups
+})
 
 const showAddProvider = ref(false)
 const newProvider = ref({ id: '', label: '', api_key: '', api_base: '', model: '', is_active: false })
-const availableProviders = computed(() => providerMeta.filter(m => !settings.value?.providers?.some(p => p.id === m.id)))
+const activeProviderId = ref('')
+const activeProviderMeta = computed(() => providerMeta.find(m => m.id === activeProviderId.value))
+
+// MCP 配置
+const mcpConfigs = computed({
+  get: () => settings.value?.providers?.filter(p => p.id === 'mcp') || [],
+  set: (val: ProviderConfig[]) => {
+    if (!settings.value) return
+    settings.value.providers = [...(settings.value.providers?.filter(p => p.id !== 'mcp') || []), ...val]
+  }
+})
+const newMcp = ref({ name: '', api_key: '', api_base: '', model: 'mcp-default', is_active: false })
+const showAddMcp = ref(false)
+
+function addMcp() {
+  if (!newMcp.value.name || !newMcp.value.api_base) { toast.show('请输入名称和API地址', 'error'); return }
+  if (!settings.value?.providers) settings.value.providers = []
+  settings.value.providers.push({
+    id: 'mcp_' + Date.now(), label: newMcp.value.name,
+    api_key: newMcp.value.api_key, api_base: newMcp.value.api_base,
+    model: newMcp.value.model, is_active: newMcp.value.is_active,
+  })
+  showAddMcp.value = false
+  newMcp.value = { name: '', api_key: '', api_base: '', model: 'mcp-default', is_active: false }
+}
+
+function removeMcp(idx: number) {
+  if (!settings.value?.providers) return
+  const mcpIds = settings.value.providers.filter(p => p.id.startsWith('mcp_') || p.id === 'mcp').map(p => p.id)
+  const actualIdx = settings.value.providers.findIndex(p => p.id === mcpIds[idx])
+  if (actualIdx >= 0) settings.value.providers.splice(actualIdx, 1)
+}
+
+// Standard providers (non-MCP)
+const standardProviders = computed({
+  get: () => settings.value?.providers?.filter(p => !p.id.startsWith('mcp_') && p.id !== 'mcp') || [],
+  set: (val: ProviderConfig[]) => {
+    if (!settings.value) return
+    const mcps = settings.value.providers?.filter(p => p.id.startsWith('mcp_') || p.id === 'mcp') || []
+    settings.value.providers = [...val, ...mcps]
+  }
+})
 
 async function loadData() {
   loading.value = true
@@ -70,8 +134,7 @@ async function saveSettings() {
   saving.value = true
   try {
     const res = await fetch('/api/v1/admin/ai/settings', {
-      method: 'PUT',
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
+      method: 'PUT', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
       body: JSON.stringify(settings.value),
     })
     const data = await res.json()
@@ -94,132 +157,180 @@ async function toggleAi(val: boolean) {
   } catch { toast.show('操作失败', 'error') }
 }
 
-function addProvider() {
+function addProviderToSettings() {
   if (!newProvider.value.id) { toast.show('请选择供应商', 'error'); return }
   const meta = providerMeta.find(m => m.id === newProvider.value.id)
+  if (!meta) return
   if (!settings.value?.providers) settings.value.providers = []
-  settings.value.providers.push({ ...newProvider.value, label: meta?.label || newProvider.value.id })
+  if (settings.value.providers.some(p => p.id === meta.id)) { toast.show('该供应商已添加', 'info'); return }
+  settings.value.providers.push({
+    id: meta.id, label: meta.label, api_key: '', api_base: '',
+    model: meta.models[0] || '', is_active: false,
+  })
   showAddProvider.value = false
   newProvider.value = { id: '', label: '', api_key: '', api_base: '', model: '', is_active: false }
 }
 
 function removeProvider(idx: number) {
   if (!settings.value?.providers) return
-  settings.value.providers.splice(idx, 1)
+  const std = standardProviders.value
+  const actualIdx = settings.value.providers.findIndex(p => p.id === std[idx]?.id)
+  if (actualIdx >= 0) settings.value.providers.splice(actualIdx, 1)
 }
 
-function getMeta(id: string) { return providerMeta.find(m => m.id === id) }
+function getProviderMeta(id: string) { return providerMeta.find(m => m.id === id) }
 
 onMounted(loadData)
 </script>
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div><p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">系统配置</p><h2 style="font-size:24px;font-weight:700;">🤖 AI 中心</h2></div>
     </div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
     <template v-else>
-      <!-- 开关 -->
-      <div class="card" style="max-width:720px;padding:20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">
-        <div>
-          <div style="font-size:15px;font-weight:600;color:var(--color-text);">AI 总开关</div>
-          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px;">{{ settings?.enabled ? '开启后班级码大屏显示 AI 入口' : '关闭后隐藏 AI 功能' }}</div>
+      <!-- 开关 + 限额 -->
+      <div class="card" style="max-width:720px;padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:14px;font-weight:600;">AI 总开关</span>
+          <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;">
+            <input type="checkbox" :checked="settings?.enabled" @change="toggleAi(($event.target as HTMLInputElement).checked)" style="opacity:0;width:0;height:0;">
+            <span :style="{ position:'absolute',inset:0,background:settings?.enabled ? '#7c3aed' : '#ccc',borderRadius:'12px' }">
+              <span :style="{ position:'absolute',top:'2px',left:settings?.enabled ? '22px' : '2px',width:'20px',height:'20px',borderRadius:'50%',background:'#fff',boxShadow:'0 1px 3px rgba(0,0,0,0.2)' }"></span>
+            </span>
+          </label>
         </div>
-        <label style="position:relative;display:inline-block;width:48px;height:26px;cursor:pointer;">
-          <input type="checkbox" :checked="settings?.enabled" @change="toggleAi(($event.target as HTMLInputElement).checked)" style="opacity:0;width:0;height:0;">
-          <span :style="{ position:'absolute',inset:0,background:settings?.enabled ? '#7c3aed' : '#ccc',borderRadius:'13px',transition:'0.2s' }">
-            <span :style="{ position:'absolute',top:'3px',left:settings?.enabled ? '25px' : '3px',width:'20px',height:'20px',borderRadius:'50%',background:'#fff',transition:'0.2s',boxShadow:'0 1px 3px rgba(0,0,0,0.2)' }"></span>
-          </span>
-        </label>
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);">
+          <span>限额</span>
+          <input v-model.number="settings!.tokens_limit" type="number" min="0" style="width:80px;padding:4px 8px;border:1px solid var(--color-border);border-radius:6px;font-size:12px;background:var(--color-bg-card);color:var(--color-text);">
+          <span>Token</span>
+          <span style="color:var(--color-text);font-weight:600;">已用 {{ (usage?.tokens_used || 0).toLocaleString() }}</span>
+        </div>
+        <button class="btn btn-primary btn-sm" :disabled="saving" @click="saveSettings">{{ saving ? '保存中...' : '💾 保存' }}</button>
       </div>
 
-      <!-- 标签 -->
+      <!-- 标签导航 -->
       <div class="tab-bar" style="max-width:720px;">
-        <button :class="['tab-btn', { active: activeTab === 'providers' }]" @click="activeTab = 'providers'">🔌 供应商配置</button>
-        <button :class="['tab-btn', { active: activeTab === 'usage' }]" @click="activeTab = 'usage'">📊 Token 用量</button>
-        <button :class="['tab-btn', { active: activeTab === 'logs' }]" @click="activeTab = 'logs'">📋 对话记录</button>
+        <button :class="['tab-btn', { active: activeTab === 'providers' }]" @click="activeTab = 'providers'">🔌 AI 供应商</button>
+        <button :class="['tab-btn', { active: activeTab === 'mcp' }]" @click="activeTab = 'mcp'">🔗 MCP 自定义接口</button>
+        <button :class="['tab-btn', { active: activeTab === 'usage' }]" @click="activeTab = 'usage'">📊 用量</button>
+        <button :class="['tab-btn', { active: activeTab === 'logs' }]" @click="activeTab = 'logs'">📋 记录</button>
       </div>
 
-      <!-- 供应商管理 -->
-      <div v-if="activeTab === 'providers'" class="card" style="max-width:720px;padding:24px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <div style="font-size:15px;font-weight:600;color:var(--color-text);">已配置供应商</div>
-          <button v-if="!showAddProvider" class="btn btn-sm btn-primary" @click="showAddProvider = true">+ 添加供应商</button>
+      <!-- ===== AI 供应商 ===== -->
+      <div v-if="activeTab === 'providers'" style="max-width:720px;">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+          <button v-for="p in providerMeta" :key="p.id"
+            :style="{
+              padding:'6px 14px', borderRadius:'20px', border:'1px solid var(--color-border)',
+              background: standardProviders.some(s => s.id === p.id) ? p.color + '18' : 'var(--color-bg-card)',
+              color: standardProviders.some(s => s.id === p.id) ? p.color : 'var(--color-text-secondary)',
+              cursor:'pointer', fontSize:'12px', fontWeight:500, fontFamily:'inherit',
+              borderColor: standardProviders.some(s => s.id === p.id) ? p.color + '44' : 'var(--color-border)',
+              opacity: standardProviders.some(s => s.id === p.id) ? 1 : 0.6,
+            }"
+            @click="standardProviders.some(s => s.id === p.id) ? removeProvider(standardProviders.findIndex(s => s.id === p.id)) : (() => { if (!settings?.providers?.some(pp => pp.id === p.id)) { settings?.providers?.push({ id: p.id, label: p.label, api_key: '', api_base: '', model: p.models[0] || '', is_active: false }) } })()">
+            {{ p.label }} {{ standardProviders.some(s => s.id === p.id) ? '✅' : '+' }}
+          </button>
         </div>
 
-        <!-- 添加新供应商 -->
-        <div v-if="showAddProvider" style="margin-bottom:16px;padding:16px;background:var(--color-bg);border-radius:10px;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <div class="form-group"><label>供应商</label>
-              <select v-model="newProvider.id" class="form-input" @change="newProvider.model = getMeta(newProvider.id)?.models?.[0] || ''">
-                <option value="">请选择</option>
-                <optgroup v-for="g in ([...new Set(providerMeta.map(m => m.id.includes('mcp') ? '🔌 通用' : m.id.includes('ollama') ? '🏠 本地' : '🌐 其他'))])" :key="g" :label="g">
-                  <option v-for="m in providerMeta.filter(p => (p.id.includes('mcp') ? '🔌 通用' : p.id.includes('ollama') ? '🏠 本地' : '🌐 其他') === g)" :key="m.id" :value="m.id">{{ m.label }}</option>
-                </optgroup>
-              </select>
+        <div v-if="!standardProviders.length" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">点击上方供应商按钮添加，点击已添加的可移除</div>
+        <div v-for="(p, i) in standardProviders" :key="p.id" class="provider-card">
+          <div class="pc-left" :style="{ borderLeftColor: getProviderMeta(p.id)?.color || '#7c3aed' }">
+            <div class="pc-header">
+              <strong>{{ getProviderMeta(p.id)?.label || p.label }}</strong>
+              <span :class="['pc-badge', p.is_active ? 'on' : 'off']">{{ p.is_active ? '启用' : '禁用' }}</span>
             </div>
-            <div class="form-group"><label>模型</label><select v-model="newProvider.model" class="form-input"><option value="">默认模型</option><option v-for="m in getMeta(newProvider.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
-            <div class="form-group"><label>API Key</label><input v-model="newProvider.api_key" type="password" class="form-input" placeholder="sk-..."></div>
-            <div class="form-group"><label>API 地址（可选）</label><input v-model="newProvider.api_base" class="form-input" placeholder="https://api.openai.com/v1"></div>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:12px;">
-            <button class="btn btn-primary" @click="addProvider">确认添加</button>
-            <button class="btn btn-outline" @click="showAddProvider = false">取消</button>
-          </div>
-        </div>
-
-        <!-- 已配置列表 -->
-        <div v-if="!settings?.providers?.length && !showAddProvider" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">暂无供应商，点击上方添加</div>
-        <div v-for="(p, i) in settings?.providers || []" :key="p.id" style="display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:8px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
-          <div :style="{ width:'4px',height:'32px',borderRadius:'2px',background:p.is_active ? '#10B981' : '#ccc',flexShrink:0 }"></div>
-          <div style="flex:1;min-width:0;">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-weight:600;font-size:14px;">{{ getMeta(p.id)?.label || p.label || p.id }}</span>
-              <span v-if="p.is_active" style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(16,185,129,0.1);color:#10B981;">启用</span>
-              <span v-else style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(156,163,175,0.1);color:#9CA3AF;">禁用</span>
+            <div v-if="getProviderMeta(p.id)?.pricing" class="pc-pricing">
+              💰 输入 {{ getProviderMeta(p.id)!.pricing.input }} / 输出 {{ getProviderMeta(p.id)!.pricing.output }} {{ getProviderMeta(p.id)!.pricing.unit }}
+              <a :href="getProviderMeta(p.id)!.pricing.url" target="_blank" style="color:var(--color-accent);text-decoration:underline;font-size:11px;">查看详情 →</a>
             </div>
-            <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">模型: {{ p.model || '默认' }} · {{ p.api_key ? '🔑 已配置' : '⚠️ 未配置 Key' }}</div>
           </div>
-          <div style="display:flex;gap:4px;flex-shrink:0;">
-            <button :style="{ padding:'4px 10px',borderRadius:'6px',fontSize:'11px',cursor:'pointer',border:'1px solid var(--color-border)',background:p.is_active ? 'var(--color-bg-card)' : '#10B981',color:p.is_active ? 'var(--color-text-secondary)' : '#fff' }" @click="p.is_active = !p.is_active">{{ p.is_active ? '禁用' : '启用' }}</button>
-            <button style="padding:4px 10px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);" @click="removeProvider(i)">🗑️</button>
+          <div class="pc-right">
+            <div class="form-group"><label>API Key</label><input v-model="p.api_key" type="password" class="form-input" :placeholder="'sk-...'" @focus="$event.target.type='text'" @blur="p.api_key ? null : $event.target.type='password'"></div>
+            <div style="display:flex;gap:6px;align-items:end;">
+              <div class="form-group" style="flex:1;"><label>模型</label><select v-model="p.model" class="form-input"><option v-for="m in getProviderMeta(p.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
+              <div class="form-group" style="flex:1;"><label>API 地址</label><input v-model="p.api_base" class="form-input" :placeholder="getProviderMeta(p.id)?.site || 'https://...'"></div>
+              <button :style="{ padding:'6px 10px',borderRadius:'6px',fontSize:'11px',cursor:'pointer',border:'1px solid var(--color-border)',background:p.is_active ? '#10B981' : 'var(--color-bg-card)',color:p.is_active ? '#fff' : 'var(--color-text-secondary)' }" @click="p.is_active = !p.is_active">{{ p.is_active ? '启用' : '禁用' }}</button>
+              <button style="padding:6px 10px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);" @click="removeProvider(i)">移除</button>
+            </div>
           </div>
         </div>
-
-        <div style="display:flex;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border);">
-          <div class="form-group" style="flex:1;"><label>单次最大 Token</label><input v-model.number="settings!.max_tokens" type="number" class="form-input" min="100" max="32000"></div>
-          <div class="form-group" style="flex:1;"><label>总 Token 限额</label><input v-model.number="settings!.tokens_limit" type="number" class="form-input" min="0" placeholder="0=不限制"></div>
-        </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:12px;">
-          <button class="btn btn-primary" :disabled="saving" @click="saveSettings">{{ saving ? '保存中...' : '保存设置' }}</button>
+        <div v-if="getProviderMeta(standardProviders[0]?.id)?.site" style="margin-top:8px;font-size:11px;color:var(--color-text-secondary);">
+          🔑 如何获取 Key？<a :href="getProviderMeta(standardProviders[standardProviders.length-1]?.id)?.site" target="_blank" style="color:var(--color-accent);">前往 {{ getProviderMeta(standardProviders[standardProviders.length-1]?.id)?.label }} 控制台 →</a>
         </div>
       </div>
 
-      <!-- Token 用量 -->
-      <div v-if="activeTab === 'usage' && usage" class="card" style="max-width:720px;padding:24px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;">
-          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;"><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">已用 Token</div><div style="font-size:20px;font-weight:700;">{{ (usage.tokens_used || 0).toLocaleString() }}</div></div>
-          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;"><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">限额</div><div style="font-size:20px;font-weight:700;">{{ (usage.tokens_limit || 0).toLocaleString() }}</div></div>
-          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;"><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">对话次数</div><div style="font-size:20px;font-weight:700;">{{ usage.total_conversations || 0 }}</div></div>
+      <!-- ===== MCP 自定义接口 ===== -->
+      <div v-if="activeTab === 'mcp'" style="max-width:720px;">
+        <div class="card" style="padding:20px;margin-bottom:12px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px;">🔗 MCP 通用接口</div>
+          <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px;">
+            MCP（Model Context Protocol）通用接口可以连接任意兼容 OpenAI 格式的 API 服务，如自建 vLLM、AstrBot 机器人、本地大模型等。
+          </p>
+          <div v-if="showAddMcp" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;background:var(--color-bg);border-radius:8px;margin-bottom:12px;">
+            <div class="form-group"><label>名称（如：我的AstrBot）</label><input v-model="newMcp.name" class="form-input" placeholder="自定义名称"></div>
+            <div class="form-group"><label>模型</label><select v-model="newMcp.model" class="form-input"><option value="mcp-default">默认</option><option value="gpt-3.5-turbo">GPT-3.5</option><option value="gpt-4o">GPT-4o</option><option value="deepseek-chat">DeepSeek</option><option value="qwen-max">通义千问</option></select></div>
+            <div class="form-group"><label>API 地址 *</label><input v-model="newMcp.api_base" class="form-input" placeholder="http://你的服务器:8000/v1"></div>
+            <div class="form-group"><label>API Key（可选）</label><input v-model="newMcp.api_key" class="form-input" placeholder="如有需要"></div>
+            <div style="display:flex;gap:8px;align-items:end;">
+              <button class="btn btn-primary btn-sm" @click="addMcp">确认添加</button>
+              <button class="btn btn-outline btn-sm" @click="showAddMcp = false; newMcp = { name: '', api_key: '', api_base: '', model: 'mcp-default', is_active: false }">取消</button>
+            </div>
+          </div>
+          <button v-else class="btn btn-outline btn-sm" @click="showAddMcp = true">➕ 添加 MCP 接口</button>
         </div>
-        <div v-if="usage.daily_usage?.length" style="margin-bottom:16px;">
-          <div style="font-size:13px;font-weight:600;color:var(--color-text-secondary);margin-bottom:8px;">近 7 日趋势</div>
+
+        <div v-if="!mcpConfigs.length" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">暂无 MCP 接口配置</div>
+        <div v-for="(mcp, idx) in mcpConfigs" :key="mcp.id" class="provider-card">
+          <div class="pc-left" style="borderLeftColor:#7c3aed;">
+            <div class="pc-header"><strong>{{ mcp.label }}</strong><span :class="['pc-badge', mcp.is_active ? 'on' : 'off']">{{ mcp.is_active ? '启用' : '禁用' }}</span></div>
+            <div style="font-size:11px;color:var(--color-text-secondary);">{{ mcp.api_base }}</div>
+          </div>
+          <div class="pc-right">
+            <div style="display:flex;gap:6px;align-items:end;">
+              <div class="form-group" style="flex:1;"><label>API Key</label><input v-model="mcp.api_key" type="password" class="form-input" placeholder="可选"></div>
+              <button :style="{ padding:'6px 10px',borderRadius:'6px',fontSize:'11px',cursor:'pointer',border:'1px solid var(--color-border)',background:mcp.is_active ? '#10B981' : 'var(--color-bg-card)',color:mcp.is_active ? '#fff' : 'var(--color-text-secondary)' }" @click="mcp.is_active = !mcp.is_active">{{ mcp.is_active ? '启用' : '禁用' }}</button>
+              <button style="padding:6px 10px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);" @click="removeMcp(idx)">移除</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== Token 用量 ===== -->
+      <div v-if="activeTab === 'usage' && usage" class="card" style="max-width:720px;padding:20px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;">
+            <div style="font-size:11px;color:var(--color-text-secondary);">已用 Token</div>
+            <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ (usage.tokens_used || 0).toLocaleString() }}</div>
+          </div>
+          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;">
+            <div style="font-size:11px;color:var(--color-text-secondary);">限额</div>
+            <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ (usage.tokens_limit || 0).toLocaleString() }}</div>
+          </div>
+          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;">
+            <div style="font-size:11px;color:var(--color-text-secondary);">对话次数</div>
+            <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ usage.total_conversations || 0 }}</div>
+          </div>
+        </div>
+        <div v-if="usage.daily_usage?.length">
+          <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;">近 7 日趋势</div>
           <div style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
             <div v-for="d in usage.daily_usage" :key="d.date" style="display:flex;gap:12px;padding:6px 12px;border-bottom:1px solid var(--color-border);font-size:12px;">
-              <span style="flex:1;font-weight:500;">{{ d.date }}</span><span style="color:var(--color-primary);font-weight:600;">{{ (d.tokens||0).toLocaleString() }} tokens</span><span style="color:var(--color-text-secondary);">{{ d.count||0 }} 次</span>
+              <span style="flex:1;">{{ d.date }}</span><span style="color:var(--color-primary);font-weight:600;">{{ (d.tokens||0).toLocaleString() }}</span><span style="color:var(--color-text-secondary);">{{ d.count||0 }} 次</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 对话记录 -->
-      <div v-if="activeTab === 'logs' && usage" class="card" style="max-width:720px;padding:24px;">
+      <!-- ===== 对话记录 ===== -->
+      <div v-if="activeTab === 'logs' && usage" class="card" style="max-width:720px;padding:20px;">
         <div v-if="usage.recent_logs?.length" style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
           <div v-for="log in usage.recent_logs" :key="log.id" style="padding:10px 14px;border-bottom:1px solid var(--color-border);font-size:12px;">
-            <div style="display:flex;gap:8px;margin-bottom:4px;"><span style="font-weight:600;flex:1;">{{ log.student_name || '匿名' }}</span><span style="color:var(--color-primary);font-size:11px;">{{ log.tokens_used }} tokens</span><span style="color:var(--color-text-secondary);font-size:11px;">{{ log.created_at }}</span></div>
-            <div style="color:var(--color-text);margin-bottom:2px;"><strong>问：</strong>{{ log.question }}</div>
+            <div style="display:flex;gap:8px;margin-bottom:2px;"><span style="font-weight:600;flex:1;">{{ log.student_name || '匿名' }}</span><span style="color:var(--color-primary);font-size:11px;">{{ log.tokens_used }} tokens</span><span style="color:var(--color-text-secondary);font-size:11px;">{{ log.created_at }}</span></div>
+            <div style="color:var(--color-text);"><strong>问：</strong>{{ log.question }}</div>
             <div style="color:var(--color-text-secondary);"><strong>答：</strong>{{ log.answer?.substring(0,200) }}{{ log.answer?.length > 200 ? '...' : '' }}</div>
           </div>
         </div>
@@ -230,16 +341,25 @@ onMounted(loadData)
 </template>
 
 <style scoped>
-.tab-bar { display:flex; gap:4px; margin-bottom:20px; background:var(--color-bg); border-radius:12px; padding:4px; }
-.tab-btn { flex:1; padding:10px 12px; border:none; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; background:transparent; color:var(--color-text-secondary); transition:all 0.2s; }
+.tab-bar { display:flex; gap:4px; margin-bottom:16px; background:var(--color-bg); border-radius:12px; padding:4px; }
+.tab-btn { flex:1; padding:8px 10px; border:none; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer; background:transparent; color:var(--color-text-secondary); transition:all 0.2s; white-space:nowrap; }
 .tab-btn:hover { background:rgba(124,58,237,0.06); color:var(--color-text); }
 .tab-btn.active { background:#7c3aed; color:#fff; box-shadow:0 2px 8px rgba(124,58,237,0.25); }
+.provider-card { display:flex; gap:12px; padding:12px; margin-bottom:8px; background:var(--color-bg); border-radius:10px; border:1px solid var(--color-border); align-items:flex-start; }
+.pc-left { flex:1; min-width:0; padding-left:8px; border-left:3px solid; }
+.pc-header { display:flex; align-items:center; gap:6px; margin-bottom:2px; }
+.pc-header strong { font-size:14px; }
+.pc-badge { font-size:10px; padding:1px 6px; border-radius:4px; }
+.pc-badge.on { background:rgba(16,185,129,0.1); color:#10B981; }
+.pc-badge.off { background:rgba(156,163,175,0.1); color:#9CA3AF; }
+.pc-pricing { font-size:11px; color:var(--color-text-secondary); margin-top:2px; }
+.pc-right { flex-shrink:0; min-width:300px; }
 .form-group { margin-bottom:0; }
-.form-group label { display:block; font-size:11px; font-weight:600; color:var(--color-text-secondary); margin-bottom:2px; }
-.form-input { color:var(--color-text); width:100%; padding:6px 10px; border:1px solid var(--color-border); border-radius:6px; font-size:12px; outline:none; box-sizing:border-box; background:var(--color-bg-card); }
+.form-group label { display:block; font-size:10px; font-weight:600; color:var(--color-text-secondary); margin-bottom:1px; }
+.form-input { color:var(--color-text); width:100%; padding:5px 8px; border:1px solid var(--color-border); border-radius:6px; font-size:12px; outline:none; box-sizing:border-box; background:var(--color-bg-card); }
 .form-input:focus { border-color:#7c3aed; }
-.btn { padding:6px 14px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; border:1px solid transparent; transition:all 0.15s; }
-.btn-sm { padding:4px 12px; font-size:11px; }
+.btn { padding:6px 14px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; border:1px solid transparent; transition:all 0.15s; font-family:inherit; }
+.btn-sm { padding:4px 10px; font-size:11px; }
 .btn-primary { background:#7c3aed; color:white; border-color:#7c3aed; }
 .btn-primary:hover { background:#6d28d9; }
 .btn-primary:disabled { opacity:0.5; cursor:not-allowed; }
