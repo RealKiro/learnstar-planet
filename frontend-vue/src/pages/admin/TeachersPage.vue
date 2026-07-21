@@ -196,16 +196,18 @@ async function uploadImport(isDry: boolean) {
   } finally { importLoading.value = false }
 }
 
-async function refreshTeachers() {
-  loading.value = true
+async function loadTeachers(isInitial = false) {
+  if (isInitial) loading.value = true
   try {
     const [tRes, cRes] = await Promise.all([
       apiGet<{ data: Teacher[] }>('/api/v1/admin/teachers'),
       apiGet<{ data: ClassRoom[] }>('/api/v1/admin/classes'),
     ])
     teachers.value = tRes.data || []; classes.value = cRes.data || []
-  } finally { loading.value = false }
+  } catch { /* 静默失败，保留现有数据 */ }
+  finally { if (isInitial) loading.value = false }
 }
+const refreshTeachers = () => loadTeachers(false)
 function downloadTemplate() { window.open('/api/v1/admin/teachers/template-csv', '_blank') }
 const showResetPwdModal = ref(false)
 const resetTarget = ref<Teacher | null>(null)
@@ -250,7 +252,7 @@ function shortClassName(name: string | undefined) {
   return m ? m[1] + '班' : name
 }
 
-onMounted(refreshTeachers)
+onMounted(() => loadTeachers(true))
 </script>
 
 <template>
