@@ -148,6 +148,7 @@ async function submitCreate() {
     }, 1500)
   } catch (e: any) {
     createStatus.value = 'error'
+    console.error('创建教师失败:', e?.response?.status, e?.response?.data)
     const errs = e?.response?.data?.errors
     if (errs) {
       for (const [field, msgs] of Object.entries(errs)) {
