@@ -19,9 +19,10 @@ const records = ref<AttendanceRecord[]>([])
 const summary = ref<Summary>({ present: 0, late: 0, leave: 0, absent: 0, rate: 0, wechat_leave_count: 0, manual_leave_count: 0 })
 const loading = ref(true)
 const attendanceStarted = ref(false)
+const startStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
-const showLeaveModal = ref(false); const leaveStudentId = ref<number | null>(null); const leaveStudentName = ref(''); const leaveRemark = ref(''); const leaveSubmitting = ref(false)
-const showAbsentModal = ref(false); const absentStudentId = ref<number | null>(null); const absentStudentName = ref(''); const absentRemark = ref(''); const absentSubmitting = ref(false)
+const showLeaveModal = ref(false); const leaveStudentId = ref<number | null>(null); const leaveStudentName = ref(''); const leaveRemark = ref(''); const leaveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const showAbsentModal = ref(false); const absentStudentId = ref<number | null>(null); const absentStudentName = ref(''); const absentRemark = ref(''); const absentStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 const statusLabels: Record<string, string> = { present: '到课', late: '迟到', leave: '请假', absent: '缺勤' }
 const statusColors: Record<string, string> = { present: 'var(--color-accent)', late: '#F59E0B', leave: '#3B82F6', absent: 'var(--color-danger)' }
@@ -45,10 +46,16 @@ async function loadData() {
 }
 
 async function startAttendance() {
+  startStatus.value = 'loading'
   try {
     const res = await apiPost<{ message: string }>('/api/v1/teacher/attendance/start', {})
-    toast.show(res.message || '已开始', 'success'); attendanceStarted.value = true; await loadData()
-  } catch { /* handled */ }
+    startStatus.value = 'success'
+    setTimeout(() => { startStatus.value = 'idle' }, 1500)
+    attendanceStarted.value = true; await loadData()
+  } catch {
+    startStatus.value = 'error'
+    setTimeout(() => { startStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function setStatus(studentId: number, status: string) {
@@ -57,15 +64,31 @@ async function setStatus(studentId: number, status: string) {
 
 function openLeaveModal(sid: number, sn: string) { leaveStudentId.value = sid; leaveStudentName.value = sn; leaveRemark.value = ''; showLeaveModal.value = true }
 async function confirmLeave() {
-  if (!leaveRemark.value.trim()) { toast.show('请填写请假原因', 'error'); return }
-  leaveSubmitting.value = true
-  try { await apiPost(`/api/v1/teacher/attendance/${leaveStudentId.value}/mark-leave`, { remark: leaveRemark.value.trim() }); toast.show(`已标记 ${leaveStudentName.value} 为请假`, 'success'); showLeaveModal.value = false; await loadData() } catch { /* handled */ } finally { leaveSubmitting.value = false }
+  if (!leaveRemark.value.trim()) { toast.show('请填写请假原因', 'error', { position: 'top-right' }); return }
+  leaveStatus.value = 'loading'
+  try {
+    await apiPost(`/api/v1/teacher/attendance/${leaveStudentId.value}/mark-leave`, { remark: leaveRemark.value.trim() })
+    leaveStatus.value = 'success'
+    setTimeout(() => { leaveStatus.value = 'idle' }, 1500)
+    showLeaveModal.value = false; await loadData()
+  } catch {
+    leaveStatus.value = 'error'
+    setTimeout(() => { leaveStatus.value = 'idle' }, 3000)
+  }
 }
 
 function openAbsentModal(sid: number, sn: string) { absentStudentId.value = sid; absentStudentName.value = sn; absentRemark.value = ''; showAbsentModal.value = true }
 async function confirmAbsent() {
-  absentSubmitting.value = true
-  try { await apiPost(`/api/v1/teacher/attendance/${absentStudentId.value}/mark-absent`, { remark: absentRemark.value.trim() || null }); toast.show(`已标记 ${absentStudentName.value} 为缺勤，建议联系家长`, 'warning'); showAbsentModal.value = false; await loadData() } catch { /* handled */ } finally { absentSubmitting.value = false }
+  absentStatus.value = 'loading'
+  try {
+    await apiPost(`/api/v1/teacher/attendance/${absentStudentId.value}/mark-absent`, { remark: absentRemark.value.trim() || null })
+    absentStatus.value = 'success'
+    setTimeout(() => { absentStatus.value = 'idle' }, 1500)
+    showAbsentModal.value = false; await loadData()
+  } catch {
+    absentStatus.value = 'error'
+    setTimeout(() => { absentStatus.value = 'idle' }, 3000)
+  }
 }
 </script>
 
@@ -73,7 +96,9 @@ async function confirmAbsent() {
   <div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <h2 style="font-size:24px;font-weight:700;">智能考勤</h2>
-      <button class="btn btn-sm btn-primary" @click="startAttendance" :disabled="attendanceStarted">{{ attendanceStarted ? '已开始点名' : '开始点名' }}</button>
+      <button class="btn btn-sm" style="color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[startStatus] }" :disabled="startStatus === 'loading' || attendanceStarted" @click="startAttendance">
+        {{ attendanceStarted ? '已开始点名' : ({ idle: '开始点名', loading: '开始中...', success: '已开始 ✓', error: '失败' }[startStatus]) }}
+      </button>
     </div>
 
     <div class="stats-grid">
@@ -125,7 +150,9 @@ async function confirmAbsent() {
         </div>
         <div class="modal-footer">
           <button class="btn btn-sm" style="background:var(--color-bg);border:1px solid var(--color-border);" @click="showLeaveModal = false">取消</button>
-          <button class="btn btn-sm btn-primary" @click="confirmLeave" :disabled="leaveSubmitting">{{ leaveSubmitting ? '提交中...' : '确认请假' }}</button>
+          <button class="btn btn-sm" style="color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[leaveStatus] }" :disabled="leaveStatus === 'loading'" @click="confirmLeave">
+            {{ { idle: '确认请假', loading: '提交中...', success: '已提交 ✓', error: '失败' }[leaveStatus] }}
+          </button>
         </div>
       </div>
     </div>
@@ -140,7 +167,9 @@ async function confirmAbsent() {
         </div>
         <div class="modal-footer">
           <button class="btn btn-sm" style="background:var(--color-bg);border:1px solid var(--color-border);" @click="showAbsentModal = false">取消</button>
-          <button class="btn btn-sm" style="background:#EF4444;color:#fff;border:none;" @click="confirmAbsent" :disabled="absentSubmitting">{{ absentSubmitting ? '提交中...' : '确认缺勤' }}</button>
+          <button class="btn btn-sm" style="color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[absentStatus] }" :disabled="absentStatus === 'loading'" @click="confirmAbsent">
+            {{ { idle: '确认缺勤', loading: '提交中...', success: '已提交 ✓', error: '失败' }[absentStatus] }}
+          </button>
         </div>
       </div>
     </div>

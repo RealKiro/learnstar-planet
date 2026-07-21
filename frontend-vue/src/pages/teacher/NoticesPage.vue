@@ -9,7 +9,7 @@ const notices = ref<Notice[]>([])
 const loading = ref(true)
 
 const showCreate = ref(false)
-const creating = ref(false)
+const publishStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const form = ref({ title: '', content: '', type: 'info' as string })
 
 onMounted(async () => {
@@ -20,8 +20,8 @@ onMounted(async () => {
 })
 
 async function createNotice() {
-  if (!form.value.title.trim() || !form.value.content.trim()) { toast.show('请填写标题和内容', 'error'); return }
-  creating.value = true
+  if (!form.value.title.trim() || !form.value.content.trim()) { toast.show('请填写标题和内容', 'error', { position: 'top-right' }); return }
+  publishStatus.value = 'loading'
   try {
     const res = await apiPost<ApiResponse<{ id: number }>>('/api/v1/teacher/notices', {
       title: form.value.title.trim(),
@@ -30,12 +30,16 @@ async function createNotice() {
     })
     // 自动发布
     await apiPut(`/api/v1/teacher/notices/${res.data.id}/publish`, {})
-    toast.show('通知已发布', 'success')
+    publishStatus.value = 'success'
+    setTimeout(() => { publishStatus.value = 'idle' }, 1500)
     showCreate.value = false
     form.value = { title: '', content: '', type: 'info' }
     const r = await apiGet<ApiResponse<Notice[]>>('/api/v1/teacher/notices')
     notices.value = r.data || []
-  } catch { /* */ } finally { creating.value = false }
+  } catch {
+    publishStatus.value = 'error'
+    setTimeout(() => { publishStatus.value = 'idle' }, 3000)
+  }
 }
 
 const typeLabels: Record<string, string> = { info: '通知', event: '活动', urgent: '紧急' }
@@ -72,8 +76,8 @@ const typeLabels: Record<string, string> = { info: '通知', event: '活动', ur
           </div>
           <div style="display:flex;gap:12px;">
             <button class="btn" style="flex:1;" @click="showCreate = false">取消</button>
-            <button class="btn btn-primary" style="flex:1;" :disabled="creating" @click="createNotice">
-              {{ creating ? '发布中...' : '确认发布' }}
+            <button class="btn" style="flex:1;color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[publishStatus] }" :disabled="publishStatus === 'loading'" @click="createNotice">
+              {{ { idle: '确认发布', loading: '发布中...', success: '已发布 ✓', error: '失败' }[publishStatus] }}
             </button>
           </div>
         </div>

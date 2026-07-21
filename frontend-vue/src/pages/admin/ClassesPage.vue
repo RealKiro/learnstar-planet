@@ -8,6 +8,14 @@ const toast = useToastStore()
 const classes = ref<ClassRoom[]>([])
 const loading = ref(true)
 const displayCodeLoading = ref<Record<number, boolean>>({})
+const deleteStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+const displayCodeStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+const copyCodeStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+const seriesStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+const batchStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const createStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const importStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const assignTeacherStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 const gradeOptions = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
 
@@ -18,7 +26,6 @@ const expandedGrades = ref<Set<string>>(new Set())
 const showBatchClassModal = ref(false)
 const showSingleClassModal = ref(false)
 const showImportModal = ref(false)
-const modalLoading = ref(false)
 
 // 批量创建班级
 const batchGrade = ref('一年级')
@@ -119,30 +126,39 @@ function collapseAll() {
 
 async function deleteClass(cls: ClassRoom) {
   if (!confirm(`确定删除班级「${cls.name}」？\n班级下所有学生记录也会一并删除。`)) return
+  deleteStatus.value[cls.id] = 'loading'
   try {
     await apiDelete(`/api/v1/admin/classes/${cls.id}`)
     classes.value = classes.value.filter(c => c.id !== cls.id)
-    toast.show('已删除班级：' + cls.name, 'success')
-  } catch { /* handled */ }
+    deleteStatus.value[cls.id] = 'success'
+    setTimeout(() => { deleteStatus.value[cls.id] = 'idle' }, 1500)
+  } catch {
+    deleteStatus.value[cls.id] = 'error'
+    setTimeout(() => { deleteStatus.value[cls.id] = 'idle' }, 3000)
+  }
 }
 
 // ===== 班级码 =====
 
 async function generateDisplayCode(cls: ClassRoom) {
-  displayCodeLoading.value[cls.id] = true
+  displayCodeStatus.value[cls.id] = 'loading'
   try {
     const res = await apiPost<{ data: { code: string } }>(`/api/v1/admin/classes/${cls.id}/display-code/refresh`)
     cls.display_code = res.data.code
-    toast.show(`班级码已生成：${res.data.code}`, 'success')
-  } catch { /* handled */ }
-  finally { displayCodeLoading.value[cls.id] = false }
+    displayCodeStatus.value[cls.id] = 'success'
+    setTimeout(() => { displayCodeStatus.value[cls.id] = 'idle' }, 2000)
+  } catch {
+    displayCodeStatus.value[cls.id] = 'error'
+    setTimeout(() => { displayCodeStatus.value[cls.id] = 'idle' }, 3000)
+  }
 }
 
 async function copyDisplayCode(cls: ClassRoom) {
   if (!cls.display_code) return
   try {
     await navigator.clipboard.writeText(cls.display_code)
-    toast.show('已复制：' + cls.display_code, 'success')
+    copyCodeStatus.value[cls.id] = 'success'
+    setTimeout(() => { copyCodeStatus.value[cls.id] = 'idle' }, 1500)
   } catch {
     const ta = document.createElement('textarea')
     ta.value = cls.display_code
@@ -150,66 +166,78 @@ async function copyDisplayCode(cls: ClassRoom) {
     ta.select()
     document.execCommand('copy')
     document.body.removeChild(ta)
-    toast.show('已复制', 'success')
+    copyCodeStatus.value[cls.id] = 'success'
+    setTimeout(() => { copyCodeStatus.value[cls.id] = 'idle' }, 1500)
   }
 }
 
 async function updatePetSeries(cls: ClassRoom, series: string) {
+  seriesStatus.value[cls.id] = 'loading'
   try {
     await apiPut(`/api/v1/admin/classes/${cls.id}`, { pet_series: series })
-    toast.show(`「${cls.name}」宠物系列已设为：${petSeriesLabels[series] || series}`, 'success')
-  } catch { /* handled */ }
+    seriesStatus.value[cls.id] = 'success'
+    setTimeout(() => { seriesStatus.value[cls.id] = 'idle' }, 2000)
+  } catch {
+    seriesStatus.value[cls.id] = 'error'
+    setTimeout(() => { seriesStatus.value[cls.id] = 'idle' }, 3000)
+  }
 }
 
 async function submitBatchClass() {
   if (batchCount.value < 1 || batchCount.value > 20) {
-    toast.show('班级数量需在 1-20 之间', 'error')
+    toast.show('班级数量需在 1-20 之间', 'error', { position: 'top-right' })
     return
   }
-  modalLoading.value = true
+  batchStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/classes/batch-create', {
       grade: batchGrade.value,
       count: batchCount.value,
       year: batchYear.value,
     })
-    toast.show(`已批量创建 ${batchCount.value} 个班级`, 'success')
+    batchStatus.value = 'success'
     showBatchClassModal.value = false
     await reloadClasses(batchGrade.value)
-  } catch { /* handled */ }
-  finally { modalLoading.value = false }
+    setTimeout(() => { batchStatus.value = 'idle' }, 2000)
+  } catch {
+    batchStatus.value = 'error'
+    setTimeout(() => { batchStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function submitSingleClass() {
   const name = newClassName.value.trim()
   if (!name) {
-    toast.show('请填写班级编号', 'error')
+    toast.show('请填写班级编号', 'error', { position: 'top-right' })
     return
   }
   const fullName = newClassGrade.value + '（' + name + '）班'
   if (classes.value.find(c => c.name === fullName)) {
-    toast.show('班级「' + fullName + '」已存在', 'error')
+    toast.show('班级「' + fullName + '」已存在', 'error', { position: 'top-right' })
     return
   }
-  modalLoading.value = true
+  createStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/classes', {
       name: fullName,
       grade: newClassGrade.value,
       year: newClassYear.value,
     })
-    toast.show('已创建班级：' + fullName, 'success')
+    createStatus.value = 'success'
     showSingleClassModal.value = false
     newClassName.value = ''
     await reloadClasses(newClassGrade.value)
-  } catch { /* handled */ }
-  finally { modalLoading.value = false }
+    setTimeout(() => { createStatus.value = 'idle' }, 2000)
+  } catch {
+    createStatus.value = 'error'
+    setTimeout(() => { createStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function submitImport() {
   const lines = importText.value.trim().split('\n').filter(l => l.trim())
   if (lines.length === 0) {
-    toast.show('请输入至少一位学生信息', 'error')
+    toast.show('请输入至少一位学生信息', 'error', { position: 'top-right' })
     return
   }
 
@@ -218,7 +246,7 @@ async function submitImport() {
     return { name, class_name: class_name || importClassName.value, gender, student_no }
   })
 
-  modalLoading.value = true
+  importStatus.value = 'loading'
   try {
     const res = await apiPost<ApiResponse<{ success: number; failed: number; errors: string[] }>>(
       '/api/v1/admin/students/import',
@@ -226,10 +254,13 @@ async function submitImport() {
     )
     const data = (res as unknown as { data: { success: number; failed: number; errors: string[] } }).data
     importResult.value = data || { success: students.length, failed: 0, errors: [] }
-    toast.show(`导入完成：成功 ${importResult.value.success} 人`, 'success')
+    importStatus.value = 'success'
+    setTimeout(() => { importStatus.value = 'idle' }, 2000)
     await reloadClasses()
-  } catch { /* handled */ }
-  finally { modalLoading.value = false }
+  } catch {
+    importStatus.value = 'error'
+    setTimeout(() => { importStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function reloadClasses(expandGrade?: string) {
@@ -270,7 +301,6 @@ const showAssignTeacherModal = ref(false)
 const assigningClass = ref<ClassRoom | null>(null)
 const teacherList = ref<Array<{ id: number; name: string }>>([])
 const selectedTeacherId = ref<number | ''>('')
-const assignTeacherLoading = ref(false)
 
 async function openAssignTeacherModal(cls: ClassRoom) {
   assigningClass.value = cls
@@ -284,16 +314,19 @@ async function openAssignTeacherModal(cls: ClassRoom) {
 
 async function submitAssignTeacher() {
   if (!assigningClass.value || selectedTeacherId.value === '') return
-  assignTeacherLoading.value = true
+  assignTeacherStatus.value = 'loading'
   try {
     await apiPost(`/api/v1/admin/classes/${assigningClass.value.id}/assign-teacher`, {
       teacher_id: selectedTeacherId.value,
     })
-    toast.show(`已为「${assigningClass.value.name}」分配班主任`, 'success')
+    assignTeacherStatus.value = 'success'
     showAssignTeacherModal.value = false
     await reloadClasses()
-  } catch { /* handled */ }
-  finally { assignTeacherLoading.value = false }
+    setTimeout(() => { assignTeacherStatus.value = 'idle' }, 2000)
+  } catch {
+    assignTeacherStatus.value = 'error'
+    setTimeout(() => { assignTeacherStatus.value = 'idle' }, 3000)
+  }
 }
 </script>
 
@@ -384,8 +417,8 @@ async function submitAssignTeacher() {
               <span style="font-size:11px;color:var(--color-text-secondary);white-space:nowrap;">🖥️</span>
               <code style="font-size:13px;font-weight:700;color:var(--color-primary);letter-spacing:0.08em;font-family:'SF Mono',monospace;">{{ c.display_code || '--' }}</code>
               <div style="display:flex;gap:2px;margin-left:auto;">
-                <button v-if="c.display_code" class="btn btn-sm" style="padding:2px 6px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="copyDisplayCode(c)" title="复制班级码">📋</button>
-                <button class="btn btn-sm" style="padding:2px 6px;font-size:11px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);min-width:0;border-radius:6px;" @click.stop="generateDisplayCode(c)" :disabled="displayCodeLoading[c.id]" title="刷新班级码旧码失效">🔄</button>
+                <button v-if="c.display_code" class="btn btn-sm" :style="copyCodeStatus[c.id] === 'success' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #a7f3d0', background: '#d1fae5', color: '#059669', minWidth: '0', borderRadius: '6px' } : copyCodeStatus[c.id] === 'error' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #fecaca', background: '#fee2e2', color: '#dc2626', minWidth: '0', borderRadius: '6px' } : { padding: '2px 6px', fontSize: '11px', border: '1px solid var(--color-border)', background: 'transparent', color: 'var(--color-text-secondary)', minWidth: '0', borderRadius: '6px' }" @click.stop="copyDisplayCode(c)" title="复制班级码">{{ copyCodeStatus[c.id] === 'success' ? '✅' : copyCodeStatus[c.id] === 'error' ? '❌' : '📋' }}</button>
+                <button class="btn btn-sm" :style="displayCodeStatus[c.id] === 'loading' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #d1d5db', background: '#e5e7eb', color: '#9ca3af', minWidth: '0', borderRadius: '6px' } : displayCodeStatus[c.id] === 'success' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #a7f3d0', background: '#d1fae5', color: '#059669', minWidth: '0', borderRadius: '6px' } : displayCodeStatus[c.id] === 'error' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #fecaca', background: '#fee2e2', color: '#dc2626', minWidth: '0', borderRadius: '6px' } : { padding: '2px 6px', fontSize: '11px', border: '1px solid var(--color-border)', background: 'transparent', color: 'var(--color-text-secondary)', minWidth: '0', borderRadius: '6px' }" @click.stop="generateDisplayCode(c)" :disabled="displayCodeStatus[c.id] === 'loading'" title="刷新班级码旧码失效">{{ displayCodeStatus[c.id] === 'loading' ? '⏳' : displayCodeStatus[c.id] === 'success' ? '✅' : displayCodeStatus[c.id] === 'error' ? '❌' : '🔄' }}</button>
               </div>
             </div>
             <select
@@ -400,7 +433,7 @@ async function submitAssignTeacher() {
             <div style="display:flex;gap:6px;">
               <button class="btn btn-sm" style="background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border);font-size:12px;" @click="openImportModal(c.name)">导入</button>
               <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);font-size:12px;" @click="openAssignTeacherModal(c)">👨‍🏫 班主任</button>
-              <button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1px solid #fecaca;font-size:12px;" @click="deleteClass(c)">删除</button>
+              <button class="btn btn-sm" :style="deleteStatus[c.id] === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db', fontSize: '12px' } : deleteStatus[c.id] === 'error' ? { background: '#fecaca', color: '#b91c1c', border: '1px solid #fca5a5', fontSize: '12px' } : { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca', fontSize: '12px' }" :disabled="deleteStatus[c.id] === 'loading'" @click="deleteClass(c)">{{ deleteStatus[c.id] === 'loading' ? '删除中...' : deleteStatus[c.id] === 'error' ? '删除失败' : '删除' }}</button>
             </div>
           </div>
         </div>

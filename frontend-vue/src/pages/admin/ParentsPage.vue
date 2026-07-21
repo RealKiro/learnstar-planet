@@ -31,7 +31,9 @@ const loading = ref(true)
 // 批量创建弹窗
 const showBatchModal = ref(false)
 const batchText = ref('')
-const batchLoading = ref(false)
+const deleteStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const deleteTargetId = ref<number | null>(null)
+const batchCreateStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const createdParents = ref<CreatedParent[]>([])
 
 onMounted(async () => {
@@ -51,11 +53,20 @@ async function reloadParents() {
 
 async function deleteParent(p: Parent) {
   if (!confirm(`确定删除家长账号「${p.name}」？\n该账号与学生的绑定关系将被解除。`)) return
+  deleteStatus.value = 'loading'
+  deleteTargetId.value = p.id
   try {
     await apiDelete(`/api/v1/admin/parents/${p.id}`)
-    parents.value = parents.value.filter(x => x.id !== p.id)
-    toast.show('已删除家长：' + p.name, 'success')
-  } catch { /* handled */ }
+    deleteStatus.value = 'success'
+    setTimeout(() => {
+      parents.value = parents.value.filter(x => x.id !== p.id)
+      deleteStatus.value = 'idle'
+      deleteTargetId.value = null
+    }, 1500)
+  } catch {
+    deleteStatus.value = 'error'
+    setTimeout(() => { deleteStatus.value = 'idle'; deleteTargetId.value = null }, 3000)
+  }
 }
 
 function openBatchModal() {
@@ -67,7 +78,7 @@ function openBatchModal() {
 async function submitBatchCreate() {
   const lines = batchText.value.trim().split('\n').filter(l => l.trim())
   if (lines.length === 0) {
-    toast.show('请输入至少一位家长信息', 'error')
+    toast.show('请输入至少一位家长信息', 'error', { position: 'top-right' })
     return
   }
   const parentsData = lines.map(line => {
@@ -77,16 +88,19 @@ async function submitBatchCreate() {
     if (phone) p.phone = phone
     return p
   })
-  batchLoading.value = true
+  batchCreateStatus.value = 'loading'
   try {
     const res = await apiPost<ApiResponse<CreatedParent[]>>('/api/v1/admin/parents/batch-create', {
       parents: parentsData,
     })
     createdParents.value = (res as unknown as { data: CreatedParent[] }).data || []
-    toast.show(`成功创建 ${createdParents.value.length} 个家长账号`, 'success')
+    batchCreateStatus.value = 'success'
     await reloadParents()
-  } catch { /* handled */ }
-  finally { batchLoading.value = false }
+    setTimeout(() => { batchCreateStatus.value = 'idle' }, 1500)
+  } catch {
+    batchCreateStatus.value = 'error'
+    setTimeout(() => { batchCreateStatus.value = 'idle' }, 3000)
+  }
 }
 </script>
 
@@ -125,7 +139,12 @@ async function submitBatchCreate() {
             <span v-for="(c, i) in p.children" :key="i" style="font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(16,185,129,0.1);color:#10B981;">👦 {{ c.student_name }} · {{ c.class_name }}</span>
           </div>
         </div>
-        <button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1px solid #fecaca;flex-shrink:0;" @click="deleteParent(p)">删除</button>
+        <button class="btn btn-sm" :style="{ background: deleteStatus !== 'idle' && deleteTargetId === p.id ? (deleteStatus === 'loading' ? '#f59e0b' : deleteStatus === 'success' ? '#10b981' : '#ef4444') : '#fee2e2', color: deleteStatus !== 'idle' && deleteTargetId === p.id ? '#fff' : '#dc2626', border: deleteStatus !== 'idle' && deleteTargetId === p.id ? '1px solid transparent' : '1px solid #fecaca', flexShrink: 0 }" @click="deleteParent(p)">
+          <template v-if="deleteStatus === 'loading' && deleteTargetId === p.id">删除中...</template>
+          <template v-else-if="deleteStatus === 'success' && deleteTargetId === p.id">已删除</template>
+          <template v-else-if="deleteStatus === 'error' && deleteTargetId === p.id">失败</template>
+          <template v-else>删除</template>
+        </button>
       </div>
     </div>
 
@@ -169,8 +188,11 @@ async function submitBatchCreate() {
           ></textarea>
           <div style="display:flex;gap:8px;justify-content:flex-end;">
             <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showBatchModal = false">取消</button>
-            <button class="btn btn-sm btn-primary" :disabled="batchLoading" @click="submitBatchCreate">
-              {{ batchLoading ? '创建中...' : '创建账号' }}
+            <button class="btn btn-sm" :style="{ background: batchCreateStatus === 'loading' ? '#f59e0b' : batchCreateStatus === 'success' ? '#10b981' : batchCreateStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent' }" :disabled="batchCreateStatus !== 'idle'" @click="submitBatchCreate">
+              <template v-if="batchCreateStatus === 'loading'">创建中...</template>
+              <template v-else-if="batchCreateStatus === 'success'">已创建 ✓</template>
+              <template v-else-if="batchCreateStatus === 'error'">失败 ✗</template>
+              <template v-else>创建账号</template>
             </button>
           </div>
         </div>

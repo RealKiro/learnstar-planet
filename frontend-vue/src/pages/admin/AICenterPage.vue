@@ -4,7 +4,7 @@ import { useToastStore } from '@/stores/toast'
 
 const toast = useToastStore()
 
-interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean }
+interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean; _expanded?: boolean; billing_enabled?: boolean; tokens_used?: number; total_calls?: number; estimated_cost?: number }
 interface AiSettings { enabled: boolean; max_tokens: number; tokens_used: number; tokens_limit: number; providers: ProviderConfig[] }
 interface DailyUsage { date: string; tokens: number; count: number }
 interface ConversationLog { id: number; student_name: string; question: string; answer: string; tokens_used: number; created_at: string }
@@ -13,8 +13,18 @@ interface AiUsage { enabled: boolean; tokens_used: number; tokens_limit: number;
 const loading = ref(true)
 const settings = ref<AiSettings | null>(null)
 const usage = ref<AiUsage | null>(null)
-const saving = ref(false)
+const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const toggleStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const activeTab = ref<'providers' | 'mcp' | 'usage' | 'logs'>('providers')
+const logSearch = ref('')
+const filteredLogs = computed(() => {
+  if (!usage.value?.recent_logs) return []
+  if (!logSearch.value) return usage.value.recent_logs
+  const q = logSearch.value.toLowerCase()
+  return usage.value.recent_logs.filter(log =>
+    (log.student_name || '').toLowerCase().includes(q)
+  )
+})
 
 // ===== 供应商元数据（含计费信息） =====
 interface PricingInfo { input: string; output: string; unit: string; url: string }
@@ -181,30 +191,34 @@ async function loadData() {
 
 async function saveSettings() {
   if (!settings.value) return
-  saving.value = true
+  saveStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/admin/ai/settings', {
       method: 'PUT', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
       body: JSON.stringify(settings.value),
     })
     const data = await res.json()
-    toast.show(data.message || '设置已保存', res.ok ? 'success' : 'error')
-    if (res.ok) loadData()
-  } catch { toast.show('保存失败', 'error') }
-  finally { saving.value = false }
+    if (!res.ok) { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000); return }
+    saveStatus.value = 'success'
+    loadData()
+    setTimeout(() => { saveStatus.value = 'idle' }, 1500)
+  } catch { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000) }
 }
 
 async function toggleAi(val: boolean) {
   if (!settings.value) return
+  toggleStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/admin/ai/toggle', {
       method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
       body: JSON.stringify({ enabled: val }),
     })
     const data = await res.json()
-    toast.show(data.message || '操作成功', res.ok ? 'success' : 'error')
-    if (res.ok) settings.value.enabled = val
-  } catch { toast.show('操作失败', 'error') }
+    if (!res.ok) { toggleStatus.value = 'error'; setTimeout(() => { toggleStatus.value = 'idle' }, 3000); return }
+    toggleStatus.value = 'success'
+    settings.value.enabled = val
+    setTimeout(() => { toggleStatus.value = 'idle' }, 1500)
+  } catch { toggleStatus.value = 'error'; setTimeout(() => { toggleStatus.value = 'idle' }, 3000) }
 }
 
 function addProviderToSettings() {
@@ -216,6 +230,7 @@ function addProviderToSettings() {
   settings.value.providers.push({
     id: meta.id, label: meta.label, api_key: '', api_base: '',
     model: meta.models[0] || '', is_active: false, billing_enabled: false,
+    _expanded: false,
   })
   newProvider.value.id = ''
 }
@@ -240,6 +255,32 @@ onMounted(loadData)
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
     <template v-else>
+      <!-- 顶部统计卡片 -->
+      <div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+        <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
+          <div style="font-size:11px;color:var(--color-text-secondary);">总用量</div>
+          <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ (usage?.tokens_used || 0).toLocaleString() }}</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">Token</div>
+        </div>
+        <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
+          <div style="font-size:11px;color:var(--color-text-secondary);">今日用量</div>
+          <div style="font-size:22px;font-weight:700;color:#10b981;">+{{ (usage?.daily_usage?.[0]?.tokens || 0).toLocaleString() }}</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">Token</div>
+        </div>
+        <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
+          <div style="font-size:11px;color:var(--color-text-secondary);">AI 状态</div>
+          <div style="font-size:22px;font-weight:700;color:settings?.enabled ? '#10b981' : '#f87171';">
+            {{ settings?.enabled ? '🟢 运行中' : '🔴 已停用' }}
+          </div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">总开关</div>
+        </div>
+        <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
+          <div style="font-size:11px;color:var(--color-text-secondary);">预估费用</div>
+          <div style="font-size:22px;font-weight:700;color:#f59e0b;">${{ (usage?.estimated_cost || 0).toFixed(2) }}</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">本月累计</div>
+        </div>
+      </div>
+
       <!-- 开关 + 限额 -->
       <div class="card" style="max-width:720px;padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
         <div style="display:flex;align-items:center;gap:10px;">
@@ -250,6 +291,9 @@ onMounted(loadData)
               <span :style="{ position:'absolute',top:'2px',left:settings?.enabled ? '22px' : '2px',width:'20px',height:'20px',borderRadius:'50%',background:'#fff',boxShadow:'0 1px 3px rgba(0,0,0,0.2)' }"></span>
             </span>
           </label>
+          <span v-if="toggleStatus !== 'idle'" :style="{ fontSize: '11px', color: toggleStatus === 'loading' ? '#f59e0b' : toggleStatus === 'success' ? '#10b981' : '#ef4444' }">
+            {{ toggleStatus === 'loading' ? '切换中...' : toggleStatus === 'success' ? '已切换 ✓' : '操作失败 ✗' }}
+          </span>
         </div>
         <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);">
           <span>限额</span>
@@ -257,7 +301,12 @@ onMounted(loadData)
           <span>Token</span>
           <span style="color:var(--color-text);font-weight:600;">已用 {{ (usage?.tokens_used || 0).toLocaleString() }}</span>
         </div>
-        <button class="btn btn-primary btn-sm" :disabled="saving" @click="saveSettings">{{ saving ? '保存中...' : '💾 保存' }}</button>
+        <button class="btn btn-sm" :style="{ background: saveStatus === 'loading' ? '#f59e0b' : saveStatus === 'success' ? '#10b981' : saveStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent' }" :disabled="saveStatus !== 'idle'" @click="saveSettings">
+          <template v-if="saveStatus === 'loading'">保存中...</template>
+          <template v-else-if="saveStatus === 'success'">已保存 ✓</template>
+          <template v-else-if="saveStatus === 'error'">保存失败 ✗</template>
+          <template v-else>💾 保存</template>
+        </button>
       </div>
 
       <!-- 标签导航 -->
@@ -289,21 +338,45 @@ onMounted(loadData)
         </div>
 
         <!-- 已配置的供应商 -->
-        <div v-if="!standardProviders.length" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:12px;">从上方下拉框选择供应商添加</div>
+        <div v-if="!standardProviders.length" style="text-align:center;padding:16px;">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:480px;margin:0 auto;">
+            <div style="padding:14px 10px;background:var(--color-bg);border-radius:10px;border:1px dashed var(--color-border);text-align:center;">
+              <div style="font-size:20px;margin-bottom:4px;">🌐</div>
+              <div style="font-size:11px;font-weight:600;color:var(--color-text);">国际供应商</div>
+              <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">OpenAI · Claude · Gemini</div>
+            </div>
+            <div style="padding:14px 10px;background:var(--color-bg);border-radius:10px;border:1px dashed var(--color-border);text-align:center;">
+              <div style="font-size:20px;margin-bottom:4px;">🇨🇳</div>
+              <div style="font-size:11px;font-weight:600;color:var(--color-text);">国内供应商</div>
+              <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">DeepSeek · 千问 · Kimi</div>
+            </div>
+            <div style="padding:14px 10px;background:var(--color-bg);border-radius:10px;border:1px dashed var(--color-border);text-align:center;">
+              <div style="font-size:20px;margin-bottom:4px;">🔗</div>
+              <div style="font-size:11px;font-weight:600;color:var(--color-text);">自定义接口</div>
+              <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">MCP · Ollama · vLLM</div>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--color-text-secondary);margin-top:10px;">💡 从上方下拉框选择供应商开始配置</p>
+        </div>
         <div v-for="(p, i) in standardProviders" :key="p.id" style="margin-bottom:8px;border:1px solid var(--color-border);border-radius:10px;overflow:hidden;">
-          <!-- 供应商头部 -->
-          <div :style="{ background: (getProviderMeta(p.id)?.color || '#7c3aed') + '0a', padding:'10px 14px', display:'flex', alignItems:'center', gap:'10px', borderBottom:'1px solid var(--color-border)' }">
+          <!-- 供应商头部（可点击折叠） -->
+          <div @click="p._expanded = !p._expanded" :style="{ background: (getProviderMeta(p.id)?.color || '#7c3aed') + '0a', padding:'10px 14px', display:'flex', alignItems:'center', gap:'10px', cursor:'pointer', borderBottom: p._expanded ? '1px solid var(--color-border)' : 'none' }">
             <span :style="{ width:'10px',height:'10px',borderRadius:'50%',background:p.is_active ? '#10B981' : '#ccc',flexShrink:0 }"></span>
             <span style="font-weight:600;font-size:14px;flex:1;">{{ getProviderMeta(p.id)?.label || p.label }}</span>
-            <span v-if="getProviderMeta(p.id)?.pricing" style="font-size:11px;color:var(--color-text-secondary);">💰 {{ getProviderMeta(p.id)!.pricing.input }} / {{ getProviderMeta(p.id)!.pricing.output }}</span>
-            <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--color-text-secondary);cursor:pointer;">
+            <span v-if="p.tokens_used !== undefined" style="font-size:11px;color:var(--color-text-secondary);">📊 {{ (p.tokens_used||0).toLocaleString() }}</span>
+            <span v-if="getProviderMeta(p.id)?.pricing" style="font-size:11px;color:var(--color-text-secondary);">💰 {{ getProviderMeta(p.id)!.pricing.input }}</span>
+            <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--color-text-secondary);cursor:pointer;" @click.stop>
               <input type="checkbox" v-model="p.billing_enabled" style="accent-color:#7c3aed;"> 计费
             </label>
-            <button :style="{ padding:'3px 10px',borderRadius:'6px',fontSize:'11px',cursor:'pointer',border:'1px solid', borderColor: p.is_active ? '#10B981' : 'var(--color-border)', background:p.is_active ? '#10B981' : 'transparent', color:p.is_active ? '#fff' : 'var(--color-text-secondary)', fontFamily:'inherit' }" @click="p.is_active = !p.is_active">{{ p.is_active ? '已启用' : '已禁用' }}</button>
-            <button style="padding:3px 10px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);fontFamily:'inherit';" @click="removeProvider(i)">✕</button>
+            <span :style="{ padding:'2px 10px',borderRadius:'12px',fontSize:'10px',fontWeight:600, background:p.is_active ? '#10B98120' : '#ccc20', color:p.is_active ? '#10B981' : 'var(--color-text-secondary)' }">
+              {{ p.is_active ? '启用' : '禁用' }}
+            </span>
+            <button :style="{ padding:'3px 8px',borderRadius:'6px',fontSize:'10px',cursor:'pointer',border:'1px solid', borderColor: p.is_active ? '#10B981' : 'var(--color-border)', background:p.is_active ? '#10B981' : 'transparent', color:p.is_active ? '#fff' : 'var(--color-text-secondary)', fontFamily:'inherit' }" @click.stop="p.is_active = !p.is_active">{{ p.is_active ? '已启用' : '已禁用' }}</button>
+            <button style="padding:3px 8px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);fontFamily:'inherit';" @click.stop="removeProvider(i)">✕</button>
+            <span style="font-size:12px;color:var(--color-text-secondary);">{{ p._expanded ? '▲' : '▼' }}</span>
           </div>
-          <!-- 配置详情 -->
-          <div style="padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+          <!-- 配置详情（折叠） -->
+          <div v-if="p._expanded" style="padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API Key</label><input v-model="p.api_key" type="password" class="form-input" placeholder="sk-..." style="font-size:11px;padding:5px 8px;"></div>
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型</label><select v-model="p.model" class="form-input" style="font-size:11px;padding:5px 8px;"><option v-for="m in getProviderMeta(p.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API 地址</label><input v-model="p.api_base" class="form-input" placeholder="默认官方地址" style="font-size:11px;padding:5px 8px;"></div>
@@ -391,10 +464,20 @@ onMounted(loadData)
         </div>
 
         <div v-if="usage.daily_usage?.length">
-          <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;">近 7 日趋势</div>
+          <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:8px;">📊 近 7 日趋势</div>
           <div style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
-            <div v-for="d in usage.daily_usage" :key="d.date" style="display:flex;gap:12px;padding:6px 12px;border-bottom:1px solid var(--color-border);font-size:12px;">
-              <span style="flex:1;">{{ d.date }}</span><span style="color:var(--color-primary);font-weight:600;">{{ (d.tokens||0).toLocaleString() }}</span><span style="color:var(--color-text-secondary);">{{ d.count||0 }} 次</span>
+            <div v-for="d in usage.daily_usage" :key="d.date" style="display:flex;align-items:center;gap:8px;padding:6px 12px;border-bottom:1px solid var(--color-border);font-size:11px;">
+              <span style="width:48px;flex-shrink:0;color:var(--color-text);">{{ d.date?.slice(5) || d.date }}</span>
+              <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <div :style="{ width: Math.min((d.tokens||0) / Math.max(...usage.daily_usage.map(x=>x.tokens||0)) * 100, 100) + '%', height:'12px', background:'linear-gradient(90deg,#7c3aed,#a78bfa)', borderRadius:'4px', minWidth:'4px' }"></div>
+                  <span style="color:var(--color-primary);font-weight:600;white-space:nowrap;">{{ (d.tokens||0).toLocaleString() }}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <div :style="{ width: Math.min((d.count||0) / Math.max(...usage.daily_usage.map(x=>x.count||0)) * 100, 100) + '%', height:'8px', background:'#f59e0b', borderRadius:'4px', minWidth:'4px' }"></div>
+                  <span style="color:var(--color-text-secondary);white-space:nowrap;">{{ d.count||0 }} 次</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -402,14 +485,19 @@ onMounted(loadData)
 
       <!-- ===== 对话记录 ===== -->
       <div v-if="activeTab === 'logs' && usage" class="card" style="max-width:720px;padding:20px;">
-        <div v-if="usage.recent_logs?.length" style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
-          <div v-for="log in usage.recent_logs" :key="log.id" style="padding:10px 14px;border-bottom:1px solid var(--color-border);font-size:12px;">
-            <div style="display:flex;gap:8px;margin-bottom:2px;"><span style="font-weight:600;flex:1;">{{ log.student_name || '匿名' }}</span><span style="color:var(--color-primary);font-size:11px;">{{ log.tokens_used }} tokens</span><span style="color:var(--color-text-secondary);font-size:11px;">{{ log.created_at }}</span></div>
+        <!-- 筛选 -->
+        <div v-if="usage.recent_logs?.length" style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+          <input v-model="logSearch" class="form-input" placeholder="🔍 搜索学生姓名..." style="max-width:220px;font-size:12px;padding:6px 10px;">
+          <span style="font-size:11px;color:var(--color-text-secondary);">共 {{ usage.recent_logs.length }} 条</span>
+        </div>
+        <div v-if="filteredLogs.length" style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
+          <div v-for="log in filteredLogs" :key="log.id" style="padding:10px 14px;border-bottom:1px solid var(--color-border);font-size:12px;">
+            <div style="display:flex;gap:8px;margin-bottom:2px;flex-wrap:wrap;"><span style="font-weight:600;flex:1;">{{ log.student_name || '匿名' }}</span><span style="color:var(--color-primary);font-size:11px;">{{ log.tokens_used }} tokens</span><span style="color:var(--color-text-secondary);font-size:11px;">{{ log.created_at }}</span></div>
             <div style="color:var(--color-text);"><strong>问：</strong>{{ log.question }}</div>
             <div style="color:var(--color-text-secondary);"><strong>答：</strong>{{ log.answer?.substring(0,200) }}{{ log.answer?.length > 200 ? '...' : '' }}</div>
           </div>
         </div>
-        <div v-else style="padding:24px;text-align:center;font-size:13px;color:var(--color-text-secondary);">暂无对话记录</div>
+        <div v-else style="padding:24px;text-align:center;font-size:13px;color:var(--color-text-secondary);">{{ usage.recent_logs?.length ? '无匹配记录' : '暂无对话记录' }}</div>
       </div>
     </template>
   </div>

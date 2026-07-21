@@ -38,6 +38,44 @@ interface FloatText {
 const floatTexts = ref<FloatText[]>([])
 let floatId = 0
 
+const giveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const batchStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+const undoStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+const activeReason = ref<string>('')
+
+function getBatchStatus(ruleId: number) {
+  return batchStatus.value[ruleId] || 'idle'
+}
+
+function getUndoStatus(scoreId: number) {
+  return undoStatus.value[scoreId] || 'idle'
+}
+
+function getBatchBtnText(rule: ScoreRule): string {
+  const s = getBatchStatus(rule.id)
+  const map: Record<string, string> = { idle: `${rule.points > 0 ? '+' : ''}${rule.points} ${rule.name}`, loading: '处理中...', success: '已完成', error: '操作失败' }
+  return map[s]
+}
+
+function getBatchBtnStyle(ruleId: number): Record<string, string> {
+  const s = getBatchStatus(ruleId)
+  if (s === 'idle') return {}
+  const bgMap: Record<string, string> = { loading: '#f59e0b', success: '#10b981', error: '#ef4444' }
+  return { background: bgMap[s], borderColor: 'transparent', color: '#fff' }
+}
+
+function getUndoBtnText(scoreId: number): string {
+  const s = getUndoStatus(scoreId)
+  const map: Record<string, string> = { idle: '↩ 撤回', loading: '撤回中...', success: '已撤回', error: '撤回失败' }
+  return map[s]
+}
+
+function getUndoBtnStyle(scoreId: number): Record<string, string> {
+  const s = getUndoStatus(scoreId)
+  const map: Record<string, string> = { idle: 'var(--color-danger)', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }
+  return { color: map[s] }
+}
+
 const REASONS_ADD = ['📖 举手发言', '✅ 作业优秀', '🤝 帮助同学', '🧹 遵守纪律', '🏆 挑战难题', '📝 认真笔记']
 const REASONS_SUB = ['⚠️ 上课走神', '📕 作业缺交', '🗣️ 打扰课堂', '🏃 追逐打闹']
 
@@ -120,10 +158,12 @@ async function executeAction(reason: string) {
   const points = modalType.value === 'add' ? step : -step
 
   if (student.total_score + points < 0) {
-    toast.show('积分不能为负数', 'error')
+    toast.show('积分不能为负数', 'error', { position: 'top-right' })
     return
   }
 
+  activeReason.value = reason
+  giveStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/scores/give', {
       student_id: student.id,
@@ -131,15 +171,18 @@ async function executeAction(reason: string) {
       reason,
     })
     student.total_score = Math.max(0, student.total_score + points)
-    toast.show(`${student.name} ${points > 0 ? '+' : ''}${points}分 — ${reason}`, 'success')
+    giveStatus.value = 'success'
     showFloatText(student.id, points)
   } catch {
     // 离线模式
     student.total_score = Math.max(0, student.total_score + points)
-    toast.show(`${student.name} ${points > 0 ? '+' : ''}${points}分 — ${reason}`, 'success')
+    giveStatus.value = 'success'
     showFloatText(student.id, points)
   }
-  closeModal()
+  setTimeout(() => {
+    giveStatus.value = 'idle'
+    closeModal()
+  }, 800)
 }
 
 function getStudentStep(studentId: number): number {
@@ -165,26 +208,34 @@ function showFloatText(studentId: number, points: number) {
 
 // ===== 批量规则 =====
 async function undoScore(scoreId: number) {
+  undoStatus.value[scoreId] = 'loading'
   try {
     await apiPost(`/api/v1/teacher/scores/${scoreId}/undo`, {})
-    toast.show('已撤回', 'success')
+    undoStatus.value[scoreId] = 'success'
+    setTimeout(() => { undoStatus.value[scoreId] = 'idle' }, 1500)
     await loadData()
-  } catch { toast.show('撤回失败', 'error') }
+  } catch {
+    undoStatus.value[scoreId] = 'error'
+    setTimeout(() => { undoStatus.value[scoreId] = 'idle' }, 3000)
+  }
 }
 
 async function handleBatchRuleScore(rule: ScoreRule) {
   if (students.value.length === 0) return
+  batchStatus.value[rule.id] = 'loading'
   try {
     await apiPost('/api/v1/teacher/scores/batch-give', {
       student_ids: students.value.map(s => s.id),
       points: rule.points,
       reason: rule.name,
     })
-    toast.show(`全班按规则「${rule.name}」${rule.is_penalty ? '扣' : '加'}${Math.abs(rule.points)}分`, 'success')
+    batchStatus.value[rule.id] = 'success'
     students.value.forEach(s => { s.total_score += rule.points })
+    setTimeout(() => { batchStatus.value[rule.id] = 'idle' }, 1500)
   } catch {
-    toast.show(`全班按规则「${rule.name}」${rule.is_penalty ? '扣' : '加'}${Math.abs(rule.points)}分`, 'success')
+    batchStatus.value[rule.id] = 'success'
     students.value.forEach(s => { s.total_score += rule.points })
+    setTimeout(() => { batchStatus.value[rule.id] = 'idle' }, 1500)
   }
 }
 

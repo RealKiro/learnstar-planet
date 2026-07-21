@@ -11,6 +11,7 @@ const bcType = ref<'banner' | 'popup' | 'fullscreen'>('banner')
 const bcVoice = ref(true)
 const bcLoop = ref(false)
 const bcDuration = ref(10)
+const sendStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 // 目标班级选择
 const myClasses = ref<Array<{ class_id: number; class_name: string; grade: string }>>([])
@@ -48,9 +49,10 @@ function toggleAll() {
 }
 
 async function sendBroadcast() {
-  if (!bcContent.value.trim()) { toast.show('请输入广播内容', 'error'); return }
-  if (selectedClassIds.value.length === 0) { toast.show('请选择至少一个目标班级', 'error'); return }
+  if (!bcContent.value.trim()) { toast.show('请输入广播内容', 'error', { position: 'top-right' }); return }
+  if (selectedClassIds.value.length === 0) { toast.show('请选择至少一个目标班级', 'error', { position: 'top-right' }); return }
 
+  sendStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/broadcasts', {
       content: bcContent.value.trim(),
@@ -60,12 +62,16 @@ async function sendBroadcast() {
       loop: bcLoop.value,
       duration: bcDuration.value,
     })
-    toast.show(`📡 广播已发送至 ${selectedClassIds.value.length} 个班级`, 'success')
+    sendStatus.value = 'success'
+    setTimeout(() => { sendStatus.value = 'idle' }, 1500)
     bcContent.value = ''
     // 刷新记录
     const res = await apiGet<ApiResponse<typeof broadcasts.value>>('/api/v1/teacher/broadcasts')
     broadcasts.value = res.data || []
-  } catch { /* handled */ }
+  } catch {
+    sendStatus.value = 'error'
+    setTimeout(() => { sendStatus.value = 'idle' }, 3000)
+  }
 }
 
 function useTemplate(text: string) {
@@ -137,8 +143,8 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
         </label>
       </div>
 
-      <button class="btn btn-primary" style="width:auto;" @click="sendBroadcast">
-        📡 发送至 {{ selectedClassIds.length }} 个班级
+      <button class="btn" style="width:auto;color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[sendStatus] }" :disabled="sendStatus === 'loading'" @click="sendBroadcast">
+        {{ { idle: '📡 发送至 ' + selectedClassIds.length + ' 个班级', loading: '发送中...', success: '已发送 ✓', error: '发送失败' }[sendStatus] }}
       </button>
     </div>
 

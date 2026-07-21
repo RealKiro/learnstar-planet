@@ -20,6 +20,34 @@ function rVld(field: string): boolean {
   delete ruleErrors[field]; return true
 }
 
+const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const deleteStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+
+function getDeleteStatus(ruleId: number) {
+  return deleteStatus.value[ruleId] || 'idle'
+}
+
+const saveBtnStyle = computed(() => {
+  const map: Record<string, string> = { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }
+  return { background: map[saveStatus.value] }
+})
+
+const saveBtnText = computed(() => {
+  const map: Record<string, string> = { idle: editingId.value ? '保存' : '添加', loading: '处理中...', success: editingId.value ? '已更新' : '已添加', error: '保存失败' }
+  return map[saveStatus.value]
+})
+
+function getDeleteBtnStyle(ruleId: number): Record<string, string> {
+  const map: Record<string, string> = { idle: 'var(--color-danger)', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }
+  return { color: map[getDeleteStatus(ruleId)] }
+}
+
+function getDeleteBtnText(ruleId: number): string {
+  const s = getDeleteStatus(ruleId)
+  const map: Record<string, string> = { idle: '删除', loading: '删除中...', success: '已删除', error: '删除失败' }
+  return map[s]
+}
+
 const positiveRules = computed(() => rules.value.filter(r => !r.is_penalty))
 const negativeRules = computed(() => rules.value.filter(r => r.is_penalty))
 
@@ -50,6 +78,7 @@ function openEdit(rule: ScoreRule) {
 
 async function handleSubmit() {
   if (!rVld('name') | !rVld('points')) return
+  saveStatus.value = 'loading'
   const payload = {
     name: form.value.name.trim(),
     points: form.value.is_penalty ? -Math.abs(form.value.points) : Math.abs(form.value.points),
@@ -59,27 +88,35 @@ async function handleSubmit() {
   try {
     if (editingId.value) {
       await apiPut(`/api/v1/teacher/scores/rules/${editingId.value}`, payload)
-      toast.show('规则已更新', 'success')
     } else {
       const res = await apiPost<ApiResponse<ScoreRule>>('/api/v1/teacher/scores/rules', payload)
       const data = (res as unknown as { data: ScoreRule }).data
       if (data) rules.value.push(data)
-      toast.show('规则已添加', 'success')
     }
+    saveStatus.value = 'success'
     showModal.value = false
+    setTimeout(() => { saveStatus.value = 'idle' }, 1500)
     // 重新拉取保证数据一致
     const fresh = await apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules')
     rules.value = fresh.data || []
-  } catch { /* handled */ }
+  } catch {
+    saveStatus.value = 'error'
+    setTimeout(() => { saveStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function handleDelete(rule: ScoreRule) {
   if (!confirm(`确认删除规则「${rule.name}」？`)) return
+  deleteStatus.value[rule.id] = 'loading'
   try {
     await apiDelete(`/api/v1/teacher/scores/rules/${rule.id}`)
     rules.value = rules.value.filter(r => r.id !== rule.id)
-    toast.show('规则已删除', 'success')
-  } catch { /* handled */ }
+    deleteStatus.value[rule.id] = 'success'
+    setTimeout(() => { deleteStatus.value[rule.id] = 'idle' }, 1500)
+  } catch {
+    deleteStatus.value[rule.id] = 'error'
+    setTimeout(() => { deleteStatus.value[rule.id] = 'idle' }, 3000)
+  }
 }
 </script>
 
@@ -112,7 +149,7 @@ async function handleDelete(rule: ScoreRule) {
             </div>
             <div style="display:flex;gap:4px;">
               <button class="btn btn-sm btn-ghost" @click="openEdit(rule)">编辑</button>
-              <button class="btn btn-sm btn-ghost" style="color:var(--color-danger);" @click="handleDelete(rule)">删除</button>
+              <button class="btn btn-sm btn-ghost" @click="handleDelete(rule)" :disabled="getDeleteStatus(rule.id) === 'loading'" :style="getDeleteBtnStyle(rule.id)">{{ getDeleteBtnText(rule.id) }}</button>
             </div>
           </div>
         </div>
@@ -132,7 +169,7 @@ async function handleDelete(rule: ScoreRule) {
             </div>
             <div style="display:flex;gap:4px;">
               <button class="btn btn-sm btn-ghost" @click="openEdit(rule)">编辑</button>
-              <button class="btn btn-sm btn-ghost" style="color:var(--color-danger);" @click="handleDelete(rule)">删除</button>
+              <button class="btn btn-sm btn-ghost" @click="handleDelete(rule)" :disabled="getDeleteStatus(rule.id) === 'loading'" :style="getDeleteBtnStyle(rule.id)">{{ getDeleteBtnText(rule.id) }}</button>
             </div>
           </div>
         </div>
@@ -168,7 +205,7 @@ async function handleDelete(rule: ScoreRule) {
         </div>
         <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px;">
           <button class="btn btn-ghost" @click="showModal = false">取消</button>
-          <button class="btn btn-primary" style="width:auto;" @click="handleSubmit">{{ editingId ? '保存' : '添加' }}</button>
+          <button class="btn btn-primary" style="width:auto;" @click="handleSubmit" :disabled="saveStatus === 'loading'" :style="saveBtnStyle">{{ saveBtnText }}</button>
         </div>
       </div>
     </div>
