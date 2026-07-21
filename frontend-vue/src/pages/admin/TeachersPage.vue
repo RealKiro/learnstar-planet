@@ -70,22 +70,24 @@ const gradeClasses = computed(() => (classes.value || []).filter(c => c.grade ==
 function clearError(field: string) { delete createErrors.value[field] }
 
 function validateField(field: string, value: string) {
-  if (field === 'name' && !value.trim()) { createErrors.value.name = '姓名不能为空'; return false }
-  if (field === 'password' && value && value.length < 6) { createErrors.value.password = '密码至少 6 位'; return false }
+  if (field === 'name' && !value.trim()) { createErrors.value.name = '请填写教师姓名'; return false }
+  if (field === 'password' && value && value.length < 6) { createErrors.value.password = '密码长度至少 6 位，建议包含字母和数字'; return false }
   delete createErrors.value[field]; return true
 }
 
 function openCreateModal() {
   createForm.value = { name: '', nickname: '', subject: '', grade_team: '', phone: '', email: '', password: '' }
-  createErrors.value = {}
+  createErrors.value = {}; assignError.value = ''
   createAssignments.value = []; pendingGrade.value = ''; pendingClassId.value = null; pendingSubject.value = ''
   showCreateModal.value = true
 }
+const assignError = ref('')
 function addClassAssignment() {
-  if (!pendingClassId.value || !pendingGrade.value) { toast.show('请选择年级和班级', 'info'); return }
+  assignError.value = ''
+  if (!pendingClassId.value || !pendingGrade.value) { assignError.value = '请先选择年级和班级'; return }
   const cls = classes.value.find(c => c.id === pendingClassId.value)
   if (!cls) return
-  if (createAssignments.value.some(a => a.class_id === cls.id)) { toast.show('该班级已添加', 'info'); return }
+  if (createAssignments.value.some(a => a.class_id === cls.id)) { assignError.value = '该班级已添加'; return }
   createAssignments.value.push({ class_id: cls.id, class_name: cls.name, subject: pendingSubject.value || '默认科目' })
   pendingClassId.value = null; pendingSubject.value = ''
 }
@@ -93,8 +95,8 @@ function removeClassAssignment(idx) { createAssignments.value.splice(idx, 1) }
 async function submitCreate() {
   // 提交前整体校验
   createErrors.value = {}
-  if (!createForm.value.name.trim()) createErrors.value.name = '姓名不能为空'
-  if (createForm.value.password && createForm.value.password.length < 6) createErrors.value.password = '密码至少 6 位'
+  if (!createForm.value.name.trim()) createErrors.value.name = '请填写教师姓名'
+  if (createForm.value.password && createForm.value.password.length < 6) createErrors.value.password = '密码长度至少 6 位，建议包含字母和数字'
   if (Object.keys(createErrors.value).length > 0) return
   createLoading.value = true
   try {
@@ -111,8 +113,8 @@ async function submitCreate() {
       for (const [field, msgs] of Object.entries(errs)) {
         createErrors.value[field] = (msgs as string[])[0]
       }
-    } else {
-      toast.show(e?.response?.data?.message || '创建失败', 'error')
+    } else if (e?.response?.status !== 422) {
+      toast.show(e?.response?.data?.message || '创建失败，请稍后重试', 'error')
     }
   } finally { createLoading.value = false }
 }
@@ -367,6 +369,7 @@ n  </div>
                     </div>
                     <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:6px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;">➕ 添加</button>
                   </div>
+                  <div v-if="assignError" style="color:#f87171;font-size:11px;margin-top:4px;">{{ assignError }}</div>
                   <div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent);">💡 创建后可随时在列表中点击 🏫 按钮重新分配班级</div>
                   <div v-if="createAssignments.length > 0" style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
                     <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
