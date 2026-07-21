@@ -92,8 +92,6 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [SchoolAdminController::class, 'createExchangeRate']);
             Route::put('{id}', [SchoolAdminController::class, 'updateExchangeRate']);
         });
-        Route::post('demo/seed', [SchoolAdminController::class, 'demoSeed']);
-        Route::post('demo/clean', [SchoolAdminController::class, 'demoClean']);
         Route::get('display-login-logs', [SchoolAdminController::class, 'displayLoginLogs']);
         Route::prefix('system')->group(function () {
             Route::get('diagnose', [SchoolAdminController::class, 'systemDiagnose']);

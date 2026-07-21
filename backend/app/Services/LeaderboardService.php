@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Student;
 use Illuminate\Support\Facades\Redis;
+use Throwable;
 
 class LeaderboardService
 {

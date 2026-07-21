@@ -5,37 +5,6 @@ import { useToastStore } from '@/stores/toast'
 const toast = useToastStore()
 const activeTab = ref<'demo' | 'diagnose' | 'status'>('demo')
 
-// ===== 演示数据 =====
-const demoLoading = ref(false)
-
-async function seedDemo() {
-  demoLoading.value = true
-  try {
-    const res = await fetch('/api/v1/admin/demo/seed', {
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' }
-    })
-    const data = await res.json()
-    const info = data?.data?.teacher
-    const detail = info ? `（账号: ${info.username} / ${info.password}）` : ''
-    toast.show((data.message || '演示数据已生成') + detail, res.ok ? 'success' : 'error')
-  } catch { toast.show('操作失败', 'error') }
-  finally { demoLoading.value = false }
-}
-async function cleanDemo() {
-  demoLoading.value = true
-  try {
-    const res = await fetch('/api/v1/admin/demo/clean', {
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' }
-    })
-    const data = await res.json()
-    toast.show(data.message || '演示数据已清除', res.ok ? 'success' : 'error')
-  } catch { toast.show('操作失败', 'error') }
-  finally { demoLoading.value = false }
-}
-
-// ===== 系统诊断 =====
 interface DiagItem { item: string; status: string; detail?: string }
 const diagLoading = ref(false)
 const diagResult = ref<DiagItem[] | null>(null)
@@ -109,7 +78,6 @@ function onTabChange(tab: typeof activeTab.value) {
     <!-- 标签导航 -->
     <div class="tab-bar">
       <button v-for="t in ([
-        { key: 'demo', label: '🧪 演示数据' },
         { key: 'diagnose', label: '🔍 系统诊断' },
         { key: 'status', label: '📊 系统状态' },
       ] as const)" :key="t.key"
@@ -119,31 +87,6 @@ function onTabChange(tab: typeof activeTab.value) {
       </button>
     </div>
 
-    <!-- ===== 演示数据 ===== -->
-    <div v-if="activeTab === 'demo'" class="tab-content">
-      <div class="card" style="max-width:640px;padding:32px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🧪 演示数据管理</h3>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
-          生成演示数据用于测试体验
-        </p>
-        <div class="demo-info">
-          <div class="demo-info-item"><span class="demo-label">管理员</span><code>demo_admin / demo123</code></div>
-          <div class="demo-info-item"><span class="demo-label">教师账号</span><code>demo_t1~t4 / demo123</code></div>
-          <div class="demo-info-item"><span class="demo-label">班级码</span><code>DEMO00</code></div>
-        </div>
-        <div class="demo-warning">
-          ⚠️ 如果已存在演示数据，重新生成会先清除旧数据再创建新数据。
-        </div>
-        <div style="display:flex;gap:12px;">
-          <button class="btn btn-primary" :disabled="demoLoading" @click="seedDemo">{{ demoLoading ? '处理中...' : '📥 生成演示数据' }}</button>
-          <button class="btn btn-danger" :disabled="demoLoading" @click="cleanDemo">
-            {{ demoLoading ? '处理中...' : '🗑️ 清除演示数据' }}
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== 系统诊断 ===== -->
     <div v-if="activeTab === 'diagnose'" class="tab-content">
       <div class="card" style="max-width:640px;padding:32px;">
         <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🔍 系统诊断</h3>

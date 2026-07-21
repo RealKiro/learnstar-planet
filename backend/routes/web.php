@@ -70,20 +70,6 @@ Route::get('/debug', function (\Illuminate\Http\Request $req) {
         }
     }
 
-    // 6. 测试 Artisan 命令调用
-    try {
-        $code = \Illuminate\Support\Facades\Artisan::call('demo:clean', ['--force' => true]);
-        $results[] = ['test' => 'Artisan demo:clean 调用', 'result' => "✅ 返回码: {$code}"];
-    } catch (\Throwable $e) {
-        $results[] = ['test' => 'Artisan demo:clean 调用', 'result' => '❌ 错误: ' . $e->getMessage()];
-    }
-
-    try {
-        $code = \Illuminate\Support\Facades\Artisan::call('demo:seed', ['--force' => true]);
-        $results[] = ['test' => 'Artisan demo:seed 调用', 'result' => "✅ 返回码: {$code}"];
-    } catch (\Throwable $e) {
-        $results[] = ['test' => 'Artisan demo:seed 调用', 'result' => '❌ 错误: ' . $e->getMessage()];
-    }
 
     // 7. 检查当前认证状态
     try {
