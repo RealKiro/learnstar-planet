@@ -154,7 +154,7 @@ const filteredAssignClasses = computed(() => {
 function openAssignModal(t: Teacher) {
   assignTarget.value = t
   assignList.value = t.assignments.length > 0
-    ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '', class_name: a.class_name }))
+    ? t.assignments.map(a => ({ class_id: a.class_id, role: a.role as Role, subject: a.subject || '', class_name: a.class_name || classById(a.class_id)?.name }))
     : []
   assignGradeFilter.value = ''; newAssignClassId.value = null; newAssignRole.value = 'subject_teacher'; newAssignSubject.value = ''
   showAssignModal.value = true
@@ -163,7 +163,7 @@ function addAssignRowNew() {
   if (!newAssignClassId.value) return
   const cls = classes.value.find(c => c.id === newAssignClassId.value)
   if (!cls) return
-  if (assignList.value.some(a => a.class_id === cls.id)) { toast.show('该班级已添加', 'info'); return }
+  if (assignList.value.some(a => a.class_id === cls.id && a.role === newAssignRole.value)) { toast.show('该班级已有此角色', 'info'); return }
   assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role: newAssignRole.value, subject: newAssignSubject.value || '默认科目' })
   newAssignClassId.value = null; newAssignSubject.value = ''
 }
