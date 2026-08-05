@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { avatarGradient } from '@/utils/constants'
 
 interface Assignment { class_id: number; class_name?: string; grade?: string; role: string; subject?: string }
 interface Teacher { id: number; name: string; username: string; nickname?: string; subject?: string; grade_team?: string; phone?: string; email?: string; avatar_path?: string; status: string; bindings: string[]; assignments: Assignment[]; class_names: string[]; personal_role?: string }
@@ -25,17 +26,21 @@ function classById(id: number) { return classMap.value[id] }
 </script>
 <template>
   <div class="teacher-card">
-    <div class="card-header">
-      <div class="card-title">
-        <span class="teacher-name">{{ teacher.name }}</span>
-        <span v-if="teacher.personal_role === 'grade_lead'" class="head-badge badge-lead">首席</span>
-        <span v-else-if="teacher.personal_role === 'admin_director'" class="head-badge badge-admin">主任</span>
+    <div class="card-top"></div>
+    <div class="card-head">
+      <div class="avatar" :style="{ background: avatarGradient(teacher.name) }">{{ teacher.name[0] }}</div>
+      <div class="head-main">
+        <div class="name-row">
+          <span class="teacher-name">{{ teacher.name }}</span>
+          <span v-if="teacher.personal_role === 'grade_lead'" class="head-badge badge-lead">首席</span>
+          <span v-else-if="teacher.personal_role === 'admin_director'" class="head-badge badge-admin">主任</span>
+        </div>
+        <div class="head-meta" v-if="teacher.email || teacher.phone">
+          <span v-if="teacher.email" class="meta-item">✉ {{ teacher.email }}</span>
+          <span v-if="teacher.phone" class="meta-item">📱 {{ teacher.phone }}</span>
+        </div>
       </div>
-      <span class="teacher-username">{{ no }}</span>
-    </div>
-    <div class="card-info" v-if="teacher.email || teacher.phone">
-      <span v-if="teacher.email" class="info-item">✉ {{ teacher.email }}</span>
-      <span v-if="teacher.phone" class="info-item">📱 {{ teacher.phone }}</span>
+      <span class="teacher-no">{{ no }}</span>
     </div>
     <div class="card-classes">
       <div v-for="a in teacher.assignments" :key="a.class_id + '_' + a.role" class="class-tag">

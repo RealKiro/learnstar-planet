@@ -150,29 +150,32 @@ onMounted(() => loadTeachers(true))
 .grade-name { font-size:16px; font-weight:700; }
 .grade-count { font-size:12px; color:var(--color-text-secondary); background:rgba(255,255,255,0.06); padding:0 10px; border-radius:20px; }
 .card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:14px; }
-.teacher-card { background:var(--color-bg-card); border:1px solid rgba(255,255,255,0.08); border-radius:14px; display:flex; flex-direction:column; transition:all 0.25s ease; overflow:hidden; }
-.teacher-card:hover { border-color:rgba(124,58,237,0.15); box-shadow:0 8px 24px rgba(0,0,0,0.06); transform:translateY(-2px); }
-.card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:16px 18px 8px; }
-.card-title { display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; }
-.teacher-name { font-size:17px; font-weight:700; }
-.teacher-username { font-size:11px; color:var(--color-text-secondary); text-align:right; white-space:nowrap; }
-.head-badge { font-size:10px; font-weight:600; padding:2px 10px; border-radius:10px; white-space:nowrap; }
-.badge-lead { background:#8b5cf6; color:#fff; }
-.badge-admin { background:#f59e0b; color:#fff; }
-.card-info { display:flex; gap:16px; padding:8px 18px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
-.info-item { font-size:12px; color:var(--color-text-secondary); }
-.card-classes { padding:10px 18px; flex:1; display:flex; flex-wrap:wrap; align-content:flex-start; min-height:56px; }
+.teacher-card { background:var(--color-bg-card); border:1px solid rgba(255,255,255,0.08); border-radius:16px; display:flex; flex-direction:column; transition:all 0.25s ease; overflow:hidden; position:relative; }
+.teacher-card:hover { border-color:rgba(167,139,250,0.4); box-shadow:0 12px 32px rgba(0,0,0,0.4); transform:translateY(-3px); }
+.card-top { height:3px; flex-shrink:0; background:linear-gradient(90deg,var(--md-primary),var(--md-secondary)); }
+.card-head { display:flex; align-items:center; gap:12px; padding:16px 18px 10px; }
+.avatar { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:18px; flex-shrink:0; box-shadow:0 2px 8px rgba(0,0,0,0.3); }
+.head-main { flex:1; min-width:0; }
+.name-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.teacher-name { font-size:17px; font-weight:700; color:var(--color-text); }
+.head-badge { font-size:10px; font-weight:600; padding:2px 8px; border-radius:8px; white-space:nowrap; }
+.badge-lead { background:rgba(139,92,246,0.2); color:#c4b5fd; }
+.badge-admin { background:rgba(245,158,11,0.2); color:#fcd34d; }
+.head-meta { display:flex; gap:12px; margin-top:2px; flex-wrap:wrap; }
+.meta-item { font-size:11px; color:var(--color-text-secondary); }
+.teacher-no { font-size:12px; font-weight:600; color:var(--color-primary-light); flex-shrink:0; letter-spacing:0.02em; }
+.card-classes { padding:6px 18px 12px; flex:1; display:flex; flex-wrap:wrap; align-content:flex-start; min-height:52px; }
 .class-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:20px; font-size:12px; margin:0 6px 6px 0; }
 .class-name { font-weight:600; color:var(--color-text); }
 .class-subj { font-size:11px; color:var(--color-text-secondary); }
-.role-tag-head { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(250,204,21,0.15); color:#a16207; }
-.role-tag-co { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(156,163,175,0.15); color:#6b7280; }
-.class-empty { padding:8px; text-align:center; font-size:12px; color:var(--color-text-secondary); }
-.card-actions { display:flex; gap:6px; padding:10px 18px 12px; border-top:1px solid rgba(255,255,255,0.06); }
+.role-tag-head { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(250,204,21,0.15); color:#fcd34d; }
+.role-tag-co { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(156,163,175,0.2); color:#cbd5e1; }
+.class-empty { padding:6px 0; font-size:12px; color:var(--color-text-secondary); }
+.card-actions { display:flex; gap:8px; padding:10px 18px 14px; border-top:1px solid rgba(255,255,255,0.06); }
 .act-btn { display:inline-flex; align-items:center; justify-content:center; gap:4px; height:32px; padding:0 12px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; transition:0.15s; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:var(--color-text); font-family:inherit; }
-.act-btn:hover { background:rgba(255,255,255,0.08); }
-.act-del { color:#dc2626; border-color:rgba(239,68,68,0.2); }
-.act-del:hover { background:rgba(239,68,68,0.06); color:#dc2626; }
+.act-btn:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.14); }
+.act-del { color:#fca5a5; border-color:rgba(239,68,68,0.25); }
+.act-del:hover { background:rgba(239,68,68,0.12); color:#fecaca; }
 .loading-spinner { text-align:center;padding:64px;color:#9ca3af;font-size:15px; }
 .empty-state { text-align:center;padding:64px 20px;color:#9ca3af; }
 .empty-icon { font-size:48px;margin-bottom:12px; }
