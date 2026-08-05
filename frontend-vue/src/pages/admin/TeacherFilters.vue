@@ -72,9 +72,9 @@ const emit = defineEmits<{
 }
 .filter-group select,
 .filter-group input {
-  height: 34px;
-  padding: 0 10px;
-  border-radius: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
   border: 1px solid var(--color-border);
   background: var(--color-bg-card);
   color: var(--color-text);
@@ -84,13 +84,13 @@ const emit = defineEmits<{
   box-sizing: border-box;
 }
 .filter-group select {
-  flex: 0 1 auto;
-  min-width: 100px;
+  flex: 0 0 auto;
+  min-width: 120px;
   width: auto;
 }
 .filter-group input {
-  flex: 1 1 140px;
-  min-width: 100px;
+  flex: 0 0 auto;
+  width: 180px;
 }
 .filter-group select:focus,
 .filter-group input:focus {
@@ -104,7 +104,7 @@ const emit = defineEmits<{
   flex-shrink: 0;
 }
 .action-buttons .btn {
-  height: 34px;
+  height: 36px;
   padding: 0 14px;
   border-radius: 6px;
   border: 1px solid var(--color-border);

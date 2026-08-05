@@ -52,14 +52,6 @@ const showDeleteModal = ref(false); const deleteTarget = ref<Teacher | null>(nul
 const showResetPwdModal = ref(false); const resetTarget = ref<Teacher | null>(null)
 const showImportModal = ref(false)
 
-const gradeIconMap: Record<string, string> = {
-  '一年级': '🌱', '二年级': '🌿', '三年级': '🌳',
-  '四年级': '📚', '五年级': '⭐', '六年级': '🎓',
-}
-function gradeIcon(team: string): string {
-  for (const g of grades) { if (team.includes(g)) return gradeIconMap[g] || '📌' }
-  return '📌'
-}
 async function loadTeachers(isInitial = false) {
   if (isInitial) loading.value = true
   try {
@@ -97,7 +89,7 @@ onMounted(() => loadTeachers(true))
     <template v-for="(team, teamName) in teacherTeams" :key="teamName">
       <div v-if="team.length > 0" style="margin-bottom:20px;">
         <div class="grade-header">
-          <span class="grade-icon">{{ gradeIcon(teamName) }}</span>
+          <span class="grade-dot"></span>
           <span class="grade-name">{{ teamName }}</span>
           <span class="grade-count">{{ team.length }} 人</span>
         </div>
@@ -129,23 +121,21 @@ onMounted(() => loadTeachers(true))
 .section-badge { font-size:11px;font-weight:600;color:#7c3aed;text-transform:uppercase;letter-spacing:0.05em;background:#ede9fe;padding:3px 10px;border-radius:6px; }
 .page-title { font-size:22px;font-weight:700;margin:0;line-height:1.2; }
 .count-badge { font-size:13px;color:#6b7280;background:var(--color-bg);padding:2px 10px;border-radius:10px; }
-.grade-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid var(--color-border); }
-.grade-icon { font-size:18px; }
-.grade-name { font-size:17px; font-weight:700; }
+.grade-header { display:flex; align-items:center; gap:10px; margin:20px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--color-border); }
+.grade-dot { width:8px; height:8px; border-radius:50%; background:#8b5cf6; flex-shrink:0; }
+.grade-name { font-size:16px; font-weight:700; }
 .grade-count { font-size:12px; color:var(--color-text-secondary); background:var(--color-bg); padding:0 10px; border-radius:20px; }
 .card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:14px; }
 .teacher-card { background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:14px; display:flex; flex-direction:column; transition:all 0.25s ease; overflow:hidden; }
 .teacher-card:hover { border-color:rgba(124,58,237,0.15); box-shadow:0 8px 24px rgba(0,0,0,0.06); transform:translateY(-2px); }
-.card-head { display:flex; align-items:center; gap:12px; padding:16px 18px 12px; }
-.avatar { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:18px; flex-shrink:0; }
-.head-body { flex:1; min-width:0; }
-.head-top { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-.head-name { font-size:17px; font-weight:700; }
-.head-id { font-size:11px; color:var(--color-text-secondary); margin-top:2px; }
+.card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:16px 18px 8px; }
+.card-title { display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; }
+.teacher-name { font-size:17px; font-weight:700; }
+.teacher-username { font-size:11px; color:var(--color-text-secondary); text-align:right; white-space:nowrap; }
 .head-badge { font-size:10px; font-weight:600; padding:2px 10px; border-radius:10px; white-space:nowrap; }
 .badge-lead { background:#8b5cf6; color:#fff; }
 .badge-admin { background:#f59e0b; color:#fff; }
-.card-info-section { display:flex; gap:16px; padding:8px 18px; background:var(--color-bg); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border); flex-wrap:wrap; }
+.card-info { display:flex; gap:16px; padding:8px 18px; background:var(--color-bg); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border); flex-wrap:wrap; }
 .info-item { font-size:12px; color:var(--color-text-secondary); }
 .card-classes { padding:10px 18px; flex:1; display:flex; flex-wrap:wrap; align-content:flex-start; min-height:56px; }
 .class-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:20px; font-size:12px; margin:0 6px 6px 0; }
