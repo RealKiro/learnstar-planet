@@ -208,7 +208,7 @@ server {
 ```
 learnstar-planet/
 ├── frontend-vue/          # Vue 3 SPA（教室互动 + 管理后台 + 家长端）
-├── backend/               # Laravel 11 API（22 模型，130+ 端点）
+├── backend/               # Laravel 11 API（23 模型，210+ 端点）
 ├── mini-program/          # 微信小程序（14 页面）
 ├── pwa/                   # PWA 离线配置
 ├── mcp-server/            # MCP 机器人服务

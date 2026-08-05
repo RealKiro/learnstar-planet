@@ -75,14 +75,14 @@ learnstar-planet/
 │   ├── Dockerfile                  # 生产环境多阶段构建（Node + PHP + Nginx）
 │   ├── Dockerfile.dev              # 开发环境构建
 │   ├── app/
-│   │   ├── Models/                 # 17 个 Eloquent 模型
-│   │   ├── Http/Controllers/Api/  # 5 个 API 控制器
-│   │   ├── Services/              # 4 个业务服务
+│   │   ├── Models/                 # 23 个 Eloquent 模型
+│   │   ├── Http/Controllers/Api/  # 7 个 API 控制器
+│   │   ├── Services/              # 9 个业务服务
 │   │   ├── Http/Requests/         # Form Request 验证类
 │   │   ├── Http/Resources/        # JsonResource 响应类
 │   │   └── Livewire/              # 2 个 Livewire 组件
-│   ├── database/migrations/       # 5 个迁移（21 张表）
-│   └── routes/api.php             # ~130 个 API 端点
+│   ├── database/migrations/       # 21 个迁移（含 2026_08_05 计费/班级码/汇率）
+│   └── routes/api.php             # ~210 个 API 端点
 │
 ├── mini-program/                   # 微信小程序
 │   └── pages/                     # 14 个页面
@@ -134,7 +134,7 @@ learnstar-planet/
 
 ---
 
-## API 架构（~130 个端点）
+## API 架构（~210 个端点）
 
 ### `/api/v1/auth/*` — 认证
 - POST teacher/login, admin/login, teacher/login/{platform}
@@ -174,6 +174,11 @@ learnstar-planet/
 | `ScoreService` | DB 事务内积分操作（创建积分记录 + 更新余额 + 审计日志 + 宠物经验）；批量操作 |
 | `LeaderboardService` | 基于 Redis ZSET 的排行榜（总分/本周/宠物等级）；MySQL 回退 |
 | `PinyinService` | 中文名称拼音转换（昵称默认用）|
+| `AiService` | AI 对话调用（30+ 供应商 OpenAI 兼容分发），返回 answer + token 拆分 |
+| `AiBilling\AiBillingService` | Token 计费：OpenAI/DeepSeek 官方账单查询 + 本地精确计价兜底 |
+| `CurrencyService` | 多币种体系（科学币/读书币/班级积分）：积分兑换、钱包互兑、消费 |
+| `DisplayEventService` | 教室大屏 SSE 实时广播（积分变动/横幅/通知），班级码缓存 |
+| `WechatWorkService` / `WechatWorkAttendanceService` | 企业微信集成：免注册登录、请假同步 |
 
 ---
 
@@ -276,4 +281,4 @@ npm run build:deploy # 输出到 ../backend/public/
 8. **家长功能目前简约**: 以查看为主（积分、宠物、通知、排名）
 9. **PWA 主要用于离线缓存**: Service Worker 缓存静态资源，网络优先策略
 10. **MCP Server 支持 AI 机器人**: `mcp-server/` 提供标准 MCP 协议服务器，可对接 AstrBot + NapCatQQ/Lagrange 实现 QQ/微信 自然语言积分管理
-�信 自然语言积分管理
+�信 自然语言积分管理
