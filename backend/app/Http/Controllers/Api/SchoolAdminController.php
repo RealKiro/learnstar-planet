@@ -111,11 +111,10 @@ class SchoolAdminController extends Controller
             return response()->json(['message' => '该校已存在同名教师「' . $request->input('name') . '」', 'errors' => ['name' => ['该校已存在同名教师']]], 422);
         }
 
-        // 自动生成唯一用户名
+        // 自动生成唯一用户名（实名：默认用姓名，同名自动加后缀）
         $password = $request->input('password') ?: 'ls123456';
         $gradeTeam = $request->input('grade_team', '');
-        $gradePrefix = $this->gradeToPrefix($gradeTeam);
-        $username = $this->generateUniqueTeacherUsername($school, $gradePrefix);
+        $username = $this->authService->uniqueUsername($request->input('name'), $school);
 
         $teacherData = [
             'name' => $request->input('name'),
@@ -1438,33 +1437,6 @@ class SchoolAdminController extends Controller
             'experience' => 0,
             'mood' => 80,
         ]);
-    }
-
-    /**
-     * 年级团队 → 字母前缀（G1=一年级…G6=六年级）
-     */
-    private function gradeToPrefix(?string $gradeTeam): string
-    {
-        $map = ['一年级' => 'G1', '二年级' => 'G2', '三年级' => 'G3', '四年级' => 'G4', '五年级' => 'G5', '六年级' => 'G6'];
-        foreach ($map as $cn => $prefix) {
-            if ($gradeTeam && str_contains($gradeTeam, $cn)) return $prefix;
-        }
-        return 'G0';
-    }
-
-    /**
-     * 生成全校唯一的教师用户名
-     */
-    private function generateUniqueTeacherUsername(\App\Models\School $school, string $prefix): string
-    {
-        $maxId = \App\Models\User::where('school_id', $school->id)->where('role', 'teacher')->max('id');
-        $next = ($maxId ? (int) substr((string) $maxId, -4) : 0) + 1;
-        $base = $prefix . str_pad((string) $next, 2, '0', STR_PAD_LEFT);
-        while (\App\Models\User::where('username', $base)->exists()) {
-            $next++;
-            $base = $prefix . str_pad((string) $next, 2, '0', STR_PAD_LEFT);
-        }
-        return $base;
     }
 
     /**
