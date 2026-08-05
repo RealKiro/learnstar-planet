@@ -50,6 +50,16 @@ class ThirdPartyBinding extends Model
 
     // ========== 平台标识 ==========
 
+    /**
+     * 全部支持的第三方平台（含新版办公平台 provider 的 dingtalk / feishu）
+     * 账号密码绑定类：wechat / wechat_work / qq / renren
+     * 办公平台扫码类：wechat_work / dingtalk / feishu（wechat_work 共用）
+     */
+    public static function platforms(): array
+    {
+        return ['wechat', 'wechat_work', 'qq', 'renren', 'dingtalk', 'feishu'];
+    }
+
     public static function platformLabels(): array
     {
         return [
@@ -57,6 +67,8 @@ class ThirdPartyBinding extends Model
             'wechat_work' => '企业微信',
             'qq'          => 'QQ',
             'renren'      => '人人通空间',
+            'dingtalk'    => '钉钉',
+            'feishu'      => '飞书',
         ];
     }
 
@@ -67,6 +79,8 @@ class ThirdPartyBinding extends Model
             'wechat_work' => '🏢',
             'qq'          => '🐧',
             'renren'      => '🌐',
+            'dingtalk'    => '🔷',
+            'feishu'      => '🪶',
         ];
     }
 }

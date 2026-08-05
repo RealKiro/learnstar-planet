@@ -72,8 +72,7 @@ export const stages: Stage[] = [
 ]
 
 export const platforms: Platform[] = [
-  { key: 'wechat', label: '微信', icon: '💬', color: '#07C160' },
   { key: 'wechat_work', label: '企业微信', icon: '💼', color: '#2B7CE9' },
-  { key: 'qq', label: 'QQ', icon: '🐧', color: '#12B7F5' },
-  { key: 'renren', label: '人人通', icon: '🌐', color: '#FF6A00' },
+  { key: 'dingtalk', label: '钉钉', icon: '🔷', color: '#0089FF' },
+  { key: 'feishu', label: '飞书', icon: '🪶', color: '#3370FF' },
 ]

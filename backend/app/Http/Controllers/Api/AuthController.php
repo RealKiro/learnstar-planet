@@ -208,15 +208,18 @@ class AuthController extends Controller
         $request->validate([
             'userid' => 'nullable|string',
             'code' => 'nullable|string',
+            'state' => 'nullable|string',
             'nick' => 'nullable|string|max:80',
             'avatar' => 'nullable|string|max:500',
         ]);
 
         $userid = $request->input('userid');
 
+        // 多校：优先从 state 解析学校，回退第一所学校
+        $school = $this->resolveSchoolFromState((string) $request->input('state'));
+
         // 如果传的是 code，先换取 userid
         if (!$userid && $code = $request->input('code')) {
-            $school = School::first();
             if ($school) {
                 $wechatWork = app(WechatWorkService::class);
                 $userid = $wechatWork->getUserIdByCode($school->id, $code);
@@ -230,7 +233,8 @@ class AuthController extends Controller
         $result = $this->authService->loginWithWechatWork(
             $userid,
             $request->input('nick'),
-            $request->input('avatar')
+            $request->input('avatar'),
+            $school
         );
 
         return response()->json(['data' => $result]);
@@ -241,7 +245,9 @@ class AuthController extends Controller
      */
     public function thirdPartyAuthUrl(Request $request): JsonResponse
     {
-        $school = School::first();
+        // 多校：前端可传 school_id 指定学校；未传则取第一所学校
+        $schoolId = (int) $request->input('school_id');
+        $school = $schoolId > 0 ? School::find($schoolId) : School::first();
         if (!$school) {
             return response()->json(['message' => '系统尚未初始化'], 400);
         }
@@ -269,7 +275,9 @@ class AuthController extends Controller
             'state' => 'nullable|string',
         ]);
 
-        $school = School::first();
+        // 多校：provider 的 authUrl 把 schoolId 写入 state，据此解析目标学校；
+        // 无 state（兼容旧版）或解析失败时回退第一所学校。
+        $school = $this->resolveSchoolFromState((string) $request->input('state'));
         if (!$school) {
             return response()->json(['message' => '系统尚未初始化'], 400);
         }
@@ -281,12 +289,29 @@ class AuthController extends Controller
             return response()->json(['message' => $e->getMessage()], 400);
         }
 
-        $result = $this->authService->loginWithThirdParty($provider->key(), $userInfo);
+        $result = $this->authService->loginWithThirdParty($provider->key(), $userInfo, $school);
         if (($result['status'] ?? '') !== 'logged_in') {
             return response()->json(['message' => $result['message'] ?? '登录失败'], 400);
         }
 
         return response()->json(['data' => $result]);
+    }
+
+    /**
+     * 从 OAuth state 解析学校（provider 的 authUrl 以 schoolId 为 state）。
+     * 解析失败回退 School::first()（单校部署兼容）。
+     */
+    private function resolveSchoolFromState(string $state): ?School
+    {
+        $id = (int) $state;
+        if ($id > 0) {
+            $school = School::find($id);
+            if ($school) {
+                return $school;
+            }
+        }
+
+        return School::first();
     }
 
     /**
@@ -461,10 +486,10 @@ class AuthController extends Controller
         $user = $request->user();
         $bindings = ThirdPartyBinding::where('user_id', $user->id)->get();
 
-        $platforms = ['wechat', 'wechat_work', 'qq', 'renren'];
-        $data = collect($platforms)->map(fn ($p) => [
+        $data = collect(ThirdPartyBinding::platforms())->map(fn ($p) => [
             'platform' => $p,
             'label' => ThirdPartyBinding::platformLabels()[$p] ?? $p,
+            'icon' => ThirdPartyBinding::platformIcons()[$p] ?? '🔗',
             'bound' => $bindings->firstWhere('platform', $p) !== null,
             'nick' => $bindings->firstWhere('platform', $p)?->platform_nick,
         ]);

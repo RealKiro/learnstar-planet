@@ -3,7 +3,7 @@ import { ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
-import { apiPost } from '@/utils/api'
+import { apiPost, apiGet } from '@/utils/api'
 import { platforms } from './landingData'
 
 const router = useRouter()
@@ -72,9 +72,18 @@ async function doLogin() {
   }
 }
 
-function thirdPartyLogin(key: string) {
-  var p = platforms.find(function (x) { return x.key === key })
-  toast.show('正在打开' + (p ? p.label : key) + '扫码...', 'success', { position: 'center', duration: 1500 })
+async function thirdPartyLogin(key: string) {
+  try {
+    var res = await apiGet<{ data: { auth_url: string } }>('/api/v1/auth/third-party/auth-url', {
+      params: { redirect_uri: window.location.origin + '/auth/callback' },
+    })
+    var w = 600, h = 500
+    var left = (screen.width - w) / 2
+    var top = (screen.height - h) / 2
+    window.open(res.data.auth_url, key, 'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top)
+  } catch (e: any) {
+    toast.show(e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择', 'error', { position: 'center', duration: 3000 })
+  }
 }
 
 function switchType(t: string) {

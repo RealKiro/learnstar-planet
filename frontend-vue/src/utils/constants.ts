@@ -88,6 +88,8 @@ export function platformLabel(platform: string): string {
     wechat_work: '💼 企业微信',
     qq: '🐧 QQ',
     renren: '🌐 人人通',
+    dingtalk: '🔷 钉钉',
+    feishu: '🪶 飞书',
   }
   return map[platform] || platform
 }

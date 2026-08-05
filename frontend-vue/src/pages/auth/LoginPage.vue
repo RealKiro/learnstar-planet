@@ -154,10 +154,9 @@ async function handleClassLogin() {
 }
 
 const platforms = [
-  { key: 'wechat', label: '微信', icon: '💬', color: '#07C160' },
   { key: 'wechat_work', label: '企业微信', icon: '💼', color: '#2B7CE9' },
-  { key: 'qq', label: 'QQ', icon: '🐧', color: '#12B7F5' },
-  { key: 'renren', label: '人人通', icon: '🌐', color: '#FF6A00' },
+  { key: 'dingtalk', label: '钉钉', icon: '🔷', color: '#0089FF' },
+  { key: 'feishu', label: '飞书', icon: '🪶', color: '#3370FF' },
 ]
 
 const thirdPartyScanning = ref(false)
@@ -179,37 +178,29 @@ async function thirdPartyScan() {
   }
 }
 
-function handleThirdPartyLogin(platform: string) {
+async function handleThirdPartyLogin(platform: string) {
   const label = platforms.find(p => p.key === platform)?.label || platform
-  toast.show(`正在打开${label}扫码...`, 'success', { position: 'center', duration: 1500 })
 
-  // 构建 OAuth 回调地址
-  const callbackUrl = `${window.location.origin}/auth/callback?platform=${platform}`
-  let oauthUrl = ''
-
-  switch (platform) {
-    case 'wechat':
-      oauthUrl = `https://open.weixin.qq.com/connect/qrconnect?appid=YOUR_WECHAT_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&scope=snsapi_login&state=${platform}`
-      break
-    case 'wechat_work':
-      oauthUrl = `https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=YOUR_WECHAT_WORK_CORPID&agentid=YOUR_AGENTID&redirect_uri=${encodeURIComponent(callbackUrl)}&state=${platform}`
-      break
-    case 'qq':
-      oauthUrl = `https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=YOUR_QQ_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&state=${platform}`
-      break
-    case 'renren':
-      thirdPartyError.value = '人人通登录需要管理员在后台配置'
-      setTimeout(() => { thirdPartyError.value = '' }, 3000)
-      return
+  // 仅办公平台扫码（企业微信/钉钉/飞书）接入统一授权入口，其他平台尚未接入 OAuth 流程
+  if (!['wechat_work', 'dingtalk', 'feishu'].includes(platform)) {
+    thirdPartyError.value = `「${label}」暂未接入扫码登录，请使用「第三方平台」或账号密码登录`
+    setTimeout(() => { thirdPartyError.value = '' }, 3000)
+    return
   }
 
-  if (oauthUrl) {
-    // 打开 OAuth 窗口（弹出或当前页跳转）
+  thirdPartyError.value = ''
+  try {
+    const res = await apiGet<{ data: { auth_url: string } }>('/api/v1/auth/third-party/auth-url', {
+      params: { redirect_uri: window.location.origin + '/auth/callback' },
+    })
     const w = 600, h = 500
     const left = (screen.width - w) / 2
     const top = (screen.height - h) / 2
-    window.open(oauthUrl, platform,
+    window.open(res.data.auth_url, platform,
       `width=${w},height=${h},left=${left},top=${top},menubar=no,toolbar=no,status=no,scrollbars=yes`)
+  } catch (e: any) {
+    thirdPartyError.value = e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择'
+    setTimeout(() => { thirdPartyError.value = '' }, 3000)
   }
 }
 

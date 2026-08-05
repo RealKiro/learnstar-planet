@@ -7,7 +7,7 @@ import type { ApiResponse } from '@/types'
 
 const authStore = useAuthStore()
 
-interface BindingInfo { platform: string; label: string; bound: boolean; nick?: string }
+interface BindingInfo { platform: string; label: string; icon?: string; bound: boolean; nick?: string }
 
 const bindings = ref<BindingInfo[]>([])
 const platforms = ['wechat', 'wechat_work', 'qq', 'renren'] as const
@@ -52,31 +52,24 @@ async function unbind(platform: string) {
   }
 }
 
-function handleBind(platform: string) {
-  const callbackUrl = `${window.location.origin}/auth/callback?platform=${platform}`
-  let oauthUrl = ''
+async function handleBind(platform: string) {
   bindMsg.value = ''
-
-  switch (platform) {
-    case 'wechat':
-      oauthUrl = `https://open.weixin.qq.com/connect/qrconnect?appid=YOUR_WECHAT_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&scope=snsapi_login&state=${platform}`
-      break
-    case 'wechat_work':
-      oauthUrl = `https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=YOUR_WECHAT_WORK_CORPID&agentid=YOUR_AGENTID&redirect_uri=${encodeURIComponent(callbackUrl)}&state=${platform}`
-      break
-    case 'qq':
-      oauthUrl = `https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=YOUR_QQ_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&state=${platform}`
-      break
-    case 'renren':
-      bindMsg.value = '请在管理员后台配置人人通参数'
-      setTimeout(() => { bindMsg.value = '' }, 3000)
-      return
+  // 仅办公平台扫码（企业微信/钉钉/飞书）走统一授权入口，其他平台尚未接入 OAuth 流程
+  if (!['wechat_work', 'dingtalk', 'feishu'].includes(platform)) {
+    bindMsg.value = `「${platform}」平台暂未接入扫码绑定，请联系管理员开通`
+    setTimeout(() => { bindMsg.value = '' }, 3000)
+    return
   }
-
-  if (oauthUrl) {
+  try {
+    const res = await apiGet<{ data: { auth_url: string } }>('/api/v1/auth/third-party/auth-url', {
+      params: { redirect_uri: window.location.origin + '/auth/callback' },
+    })
     const w = 600, h = 500
-    window.open(oauthUrl, platform,
+    window.open(res.data.auth_url, platform,
       `width=${w},height=${h},left=${(screen.width-w)/2},top=${(screen.height-h)/2}`)
+  } catch (e: any) {
+    bindMsg.value = e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择'
+    setTimeout(() => { bindMsg.value = '' }, 3000)
   }
 }
 
@@ -169,9 +162,7 @@ async function changePassword() {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div v-for="b in bindings" :key="b.platform"
           style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:var(--radius-md);border:1px solid var(--color-border);">
-          <span style="font-size:24px;flex-shrink:0;">{{
-            { wechat: '💬', wechat_work: '💼', qq: '🐧', renren: '🌐' }[b.platform]
-          }}</span>
+          <span style="font-size:24px;flex-shrink:0;">{{ b.icon || '🔗' }}</span>
           <div style="flex:1;">
             <div style="font-weight:500;">{{ b.label || platformLabel(b.platform) }}</div>
             <div style="font-size:12px;" :style="{ color: b.bound ? 'var(--color-accent)' : 'var(--color-text-secondary)' }">

@@ -268,7 +268,7 @@ class AuthService
      * 已绑定 → 直接登录
      * 未绑定 → 自动创建教师账号（免注册），仅需企业微信 userid 和昵称
      */
-    public function loginWithWechatWork(string $userid, ?string $nick = null, ?string $avatar = null): array
+    public function loginWithWechatWork(string $userid, ?string $nick = null, ?string $avatar = null, ?School $school = null): array
     {
         $user = ThirdPartyBinding::findUserByPlatform('wechat_work', $userid);
 
@@ -278,8 +278,8 @@ class AuthService
             return ['status' => 'logged_in', 'user' => $user];
         }
 
-        // 未绑定：自动创建教师账号
-        $school = School::first();
+        // 未绑定：自动创建教师账号（多校时由调用方传入目标学校）
+        $school ??= School::first();
         if (!$school) {
             return ['status' => 'error', 'message' => '系统尚未初始化，请先联系管理员'];
         }
@@ -328,7 +328,7 @@ class AuthService
      *
      * @param  array{platform_id:string,name:string,mobile:string,avatar:string}  $userInfo
      */
-    public function loginWithThirdParty(string $platform, array $userInfo): array
+    public function loginWithThirdParty(string $platform, array $userInfo, ?School $school = null): array
     {
         $platformId = (string) ($userInfo['platform_id'] ?? '');
         $name = (string) ($userInfo['name'] ?? '');
@@ -342,7 +342,8 @@ class AuthService
             return ['status' => 'logged_in', 'user' => $user];
         }
 
-        $school = School::first();
+        // 多校时由调用方（thirdPartyLogin）从 state 解析学校传入
+        $school ??= School::first();
         if (!$school) {
             return ['status' => 'error', 'message' => '系统尚未初始化，请先联系管理员'];
         }
