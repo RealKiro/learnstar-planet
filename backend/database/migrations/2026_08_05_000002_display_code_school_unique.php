@@ -10,7 +10,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('class_rooms', function (Blueprint $table) {
-            // 4 位纯数字班级码（年级+班号）跨校必然撞码，唯一索引改为校维度
+            // 班级码（LS + 年级 + 班号）跨校可能撞码，唯一索引改为校维度
             if (Schema::hasIndex('class_rooms', 'class_rooms_display_code_unique')) {
                 $table->dropUnique('class_rooms_display_code_unique');
             }

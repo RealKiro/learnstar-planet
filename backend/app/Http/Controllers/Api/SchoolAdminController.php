@@ -452,7 +452,7 @@ class SchoolAdminController extends Controller
             ->get();
         $classes = [];
         foreach ($allClasses as $c) {
-            // 班级码为确定性 4 位（年级2位+班号2位），实时计算展示，不依赖数据库存储
+            // 班级码为确定性（LS + 年级 + 班号），实时计算展示，不依赖数据库存储
             $displayCode = \App\Services\DisplayCodeService::generate($c);
             $classes[] = [
                 'id' => $c->id,
@@ -499,7 +499,7 @@ class SchoolAdminController extends Controller
             'status' => 'active',
         ]);
 
-        // 4 位数字班级码（需先创建才能从班级名解析班号）
+        // 班级码（LS + 年级 + 班号，需先创建才能从班级名解析班号）
         $class->display_code = \App\Services\DisplayCodeService::generate($class);
         $class->save();
 
@@ -1383,7 +1383,7 @@ class SchoolAdminController extends Controller
     {
         $school = $request->user()->school;
         $classRoom = ClassRoom::where('school_id', $school->id)->findOrFail($classId);
-        // 班级码为确定性 4 位，实时计算返回
+        // 班级码为确定性（LS + 年级 + 班号），实时计算返回
         $code = \App\Services\DisplayCodeService::generate($classRoom);
 
         return response()->json(['data' => [
@@ -1401,7 +1401,7 @@ class SchoolAdminController extends Controller
     {
         $school = $request->user()->school;
         $classRoom = ClassRoom::where('school_id', $school->id)->findOrFail($classId);
-        // 班级码为确定性 4 位，刷新仅更新时间戳并返回计算码
+        // 班级码为确定性（LS + 年级 + 班号），刷新仅更新时间戳并返回计算码
         $code = \App\Services\DisplayCodeService::generate($classRoom);
         $classRoom->display_code = $code;
         $classRoom->display_code_updated_at = now();

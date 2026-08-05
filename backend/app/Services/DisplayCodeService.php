@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Cache;
 
 /**
  * 班级码生成服务。
- * 规则（用户确认）：纯 4 位数字，前 2 位年级（补零，三年级→03）、后 2 位班号（补零，2班→02）。
- * 例：三年级2班 → 0302。确定性、不随机、无需刷新。
+ * 规则（用户确认）：`LS` + 年级数字 + 班号数字，不补零。
+ * 例：一年级1班 → LS11，二年级3班 → LS23。
+ * 确定性、不随机、无需刷新。
  */
 final class DisplayCodeService
 {
@@ -21,8 +22,13 @@ final class DisplayCodeService
         '高一' => '10', '高二' => '11', '高三' => '12',
     ];
 
+    private const CHINESE_NUMBERS = [
+        '一' => '1', '二' => '2', '三' => '3', '四' => '4', '五' => '5',
+        '六' => '6', '七' => '7', '八' => '8', '九' => '9', '十' => '10',
+    ];
+
     /**
-     * 年级 → 2 位数字（'三年级'→'03'，'高一'→'10'），无法解析返回 '00'
+     * 年级 → 数字（'三年级'→'3'，'高一'→'10'，不补零），无法解析返回 ''
      */
     public static function gradeDigit(?string $grade): string
     {
@@ -39,28 +45,81 @@ final class DisplayCodeService
             }
         }
 
-        return $digit === '' ? '00' : str_pad($digit, 2, '0', STR_PAD_LEFT);
+        return $digit;
     }
 
     /**
-     * 班级名 → 2 位班号（'三年级（2）班'→'02'，'三年级(12)班'→'12'），无法解析返回 '00'
+     * 班级名 → 班号数字（不补零），支持多种格式，无法解析返回 ''
      */
     public static function classNo(string $name): string
     {
-        $num = '';
+        // 1) 标准：X年级（N）班 / X年级(N)班
         if (preg_match('/[（(]\s*(\d+)\s*[)）]\s*班/', $name, $m)) {
-            $num = $m[1];
+            return $m[1];
+        }
+        // 2) 无括号数字：一年级1班 / 一年级 1 班
+        if (preg_match('/(\d+)\s*班/', $name, $m)) {
+            return $m[1];
+        }
+        // 3) 中文序数：一年级第一班
+        if (preg_match('/第([一二三四五六七八九十]+)班/', $name, $m)) {
+            return self::chineseNumberToArabic($m[1]);
+        }
+        // 4) 中文数字：一年级一班
+        if (preg_match('/([一二三四五六七八九十]+)班/', $name, $m)) {
+            return self::chineseNumberToArabic($m[1]);
         }
 
-        return $num === '' ? '00' : str_pad($num, 2, '0', STR_PAD_LEFT);
+        return '';
     }
 
     /**
-     * 生成班级码（4 位数字）
+     * 生成班级码（LS + 年级 + 班号，如 LS11）。
+     * 年级无法解析返回 ''；班号无法解析时用同年级序号兜底。
      */
     public static function generate(ClassRoom $room): string
     {
-        return self::gradeDigit($room->grade) . self::classNo($room->name ?? '');
+        $grade = self::gradeDigit($room->grade);
+        if ($grade === '') {
+            return '';
+        }
+
+        $class = self::classNo($room->name ?? '');
+        if ($class === '') {
+            $class = self::fallbackClassNo($room);
+        }
+
+        return 'LS' . $grade . $class;
+    }
+
+    /**
+     * 班号兜底：班级名无法解析班号时，用同年级内按 ID 排序的序号
+     */
+    private static function fallbackClassNo(ClassRoom $room): string
+    {
+        $ids = ClassRoom::where('school_id', $room->school_id)
+            ->where('grade', $room->grade)
+            ->orderBy('id')
+            ->pluck('id');
+        $index = $ids->search($room->id);
+
+        return (string) ($index === false ? 1 : $index + 1);
+    }
+
+    private static function chineseNumberToArabic(string $cn): string
+    {
+        if ($cn === '十') {
+            return '10';
+        }
+        if (str_contains($cn, '十')) {
+            [$t, $o] = explode('十', $cn);
+            $tens = $t === '' ? 1 : (int) (self::CHINESE_NUMBERS[$t] ?? 0);
+            $ones = $o === '' ? 0 : (int) (self::CHINESE_NUMBERS[$o] ?? 0);
+
+            return (string) ($tens * 10 + $ones);
+        }
+
+        return self::CHINESE_NUMBERS[$cn] ?? '0';
     }
 
     /**
@@ -84,15 +143,17 @@ final class DisplayCodeService
 
         foreach ($query->get() as $room) {
             $gradeDigit = self::gradeDigit($room->grade);
-            $classDigit = self::classNo($room->name ?? '');
-
-            // 年级或班号无法解析（00 不可能为真实值）→ 跳过并报告
-            if ($gradeDigit === '00' || $classDigit === '00') {
+            if ($gradeDigit === '') {
                 $skipped++;
                 continue;
             }
 
-            $code = $gradeDigit . $classDigit;
+            $classDigit = self::classNo($room->name ?? '');
+            if ($classDigit === '') {
+                $classDigit = self::fallbackClassNo($room);
+            }
+
+            $code = 'LS' . $gradeDigit . $classDigit;
 
             // 校内重复码检测（数据异常：同年级同班号存在多条）
             $schoolUsed = $used[$room->school_id] ?? [];

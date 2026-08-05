@@ -8,13 +8,13 @@ use App\Services\DisplayCodeService;
 use Illuminate\Console\Command;
 
 /**
- * 批量重生成班级码为 4 位数字（年级2位 + 班号2位，如三年级2班 → 0302）
+ * 批量重生成班级码（LS + 年级 + 班号，如一年级1班 → LS11）
  */
 class RegenerateDisplayCodes extends Command
 {
     protected $signature = 'class:regenerate-display-codes {--school= : 只重生成指定学校}';
 
-    protected $description = '批量重生成所有班级码为 4 位数字（年级+班号）';
+    protected $description = '批量重生成所有班级码（LS + 年级 + 班号）';
 
     public function handle(): int
     {

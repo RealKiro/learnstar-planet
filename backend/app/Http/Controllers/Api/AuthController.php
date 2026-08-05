@@ -135,13 +135,13 @@ class AuthController extends Controller
     public function classLogin(Request $request): JsonResponse
     {
         $request->validate([
-            'class_code' => 'required|string|digits:4',
+            'class_code' => 'required|string|max:10',
         ]);
 
-        $classCode = $request->input('class_code');
+        $classCode = strtoupper(trim($request->input('class_code')));
         $classes = ClassRoom::where('display_code', $classCode)->get();
 
-        // 班级码为确定性 4 位（年级2位+班号2位），数据库未刷新时按实时计算匹配
+        // 班级码为确定性（LS + 年级 + 班号，如 LS11），数据库未刷新时按实时计算匹配
         if ($classes->isEmpty()) {
             $classes = ClassRoom::get()
                 ->filter(fn ($c) => \App\Services\DisplayCodeService::generate($c) === $classCode)

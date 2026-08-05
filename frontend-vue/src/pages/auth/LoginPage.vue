@@ -29,7 +29,7 @@ const loginErrors = reactive<Record<string, string>>({})
 function clearLoginErr(f: string) { delete loginErrors[f] }
 function onClassCodeInput(e: Event) {
   const input = e.target as HTMLInputElement
-  classCode.value = input.value.replace(/[^0-9]/g, '').slice(0, 4)
+  classCode.value = input.value.replace(/[^0-9A-Za-z]/g, '').toUpperCase().slice(0, 8)
   clearLoginErr('classCode')
 }
 function validateLoginField(field: string, val: string): boolean {
@@ -391,12 +391,12 @@ function goToSlide(i: number) {
           </div>
           <template v-else>
             <div class="form-group">
-              <input :value="classCode" class="form-input" placeholder="输入4位班级码" maxlength="4" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @input="onClassCodeInput" @blur="validateLoginField('classCode', classCode)" @keydown.enter="handleClassLogin">
+              <input :value="classCode" class="form-input" placeholder="输入班级码（如 LS11）" maxlength="8" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @input="onClassCodeInput" @blur="validateLoginField('classCode', classCode)" @keydown.enter="handleClassLogin">
               <div v-if="loginErrors.classCode" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.classCode }}</div>
             </div>
-            <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 0302（三年级2班）</p>
+            <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 LS11（一年级1班）</p>
             <div v-if="classCodeError" class="error-msg" style="color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px;">{{ classCodeError }}</div>
-            <button class="login-submit login-submit--purple" :disabled="loginStatus === 'loading' || classCode.length < 4" @click="handleClassLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+            <button class="login-submit login-submit--purple" :disabled="loginStatus === 'loading' || classCode.length < 3" @click="handleClassLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
               <span v-if="loginStatus === 'idle'">🚀 进入班级</span>
               <span v-else-if="loginStatus === 'loading'">⏳ 验证中...</span>
               <span v-else-if="loginStatus === 'success'">✅ 欢迎进入</span>

@@ -70,7 +70,7 @@ class DisplayController extends Controller
 
         $classRoom = ClassRoom::findOrFail($classId);
 
-        // 班级码为确定性 4 位（年级2位+班号2位），实时计算返回，不依赖数据库存储
+        // 班级码为确定性（LS + 年级 + 班号），实时计算返回，不依赖数据库存储
         $code = \App\Services\DisplayCodeService::generate($classRoom);
         $this->cacheCodeMapping($code, $classRoom->id);
 
@@ -98,7 +98,7 @@ class DisplayController extends Controller
 
         $classRoom = ClassRoom::findOrFail($classId);
 
-        // 班级码为确定性 4 位，刷新仅更新时间戳并返回计算码
+        // 班级码为确定性（LS + 年级 + 班号），刷新仅更新时间戳并返回计算码
         $code = \App\Services\DisplayCodeService::generate($classRoom);
         $classRoom->display_code = $code;
         $classRoom->display_code_updated_at = now();
