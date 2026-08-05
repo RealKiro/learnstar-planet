@@ -12,7 +12,13 @@ const authStore = useAuthStore()
 const toast = useToastStore()
 function logout() {
   if (isBasic.value) { sessionStorage.clear(); router.replace({ name: 'landing' }); return }
-  authStore.logout(); router.replace({ name: 'landing' })
+  authStore.logout()
+  // 从班级码进入的教师账号：退出后回到班级码基础界面（保留 class_token，可继续课堂功能）
+  if (sessionStorage.getItem('class_token')) {
+    router.replace({ name: 'teacher-dashboard-basic' })
+  } else {
+    router.replace({ name: 'landing' })
+  }
 }
 function goToTeacherLogin() { router.push({ name: 'login', query: { role: 'teacher' } }) }
 
