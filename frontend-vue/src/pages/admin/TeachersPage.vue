@@ -149,7 +149,7 @@ onMounted(() => loadTeachers(true))
 .grade-dot { width:8px; height:8px; border-radius:50%; background:#8b5cf6; flex-shrink:0; }
 .grade-name { font-size:16px; font-weight:700; }
 .grade-count { font-size:12px; color:var(--color-text-secondary); background:rgba(255,255,255,0.06); padding:0 10px; border-radius:20px; }
-.card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:14px; }
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(270px, 1fr)); gap:14px; }
 .teacher-card { background:var(--color-bg-card); border:1px solid rgba(255,255,255,0.08); border-radius:16px; display:flex; flex-direction:column; transition:all 0.25s ease; overflow:hidden; position:relative; }
 .teacher-card:hover { border-color:rgba(167,139,250,0.4); box-shadow:0 12px 32px rgba(0,0,0,0.4); transform:translateY(-3px); }
 .card-top { height:3px; flex-shrink:0; background:linear-gradient(90deg,var(--md-primary),var(--md-secondary)); }
