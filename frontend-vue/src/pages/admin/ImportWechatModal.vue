@@ -51,7 +51,7 @@ function matchClassByDept(deptNames: string[], clsList: ClassItem[]): number | '
 async function loadContacts() {
   loading.value = true
   try {
-    const cRes = await apiGet<{ data: { members: WecomMember[] } }>('/api/v1/admin/wechat-work/contacts')
+    const cRes = await apiGet<{ data: { members: WecomMember[] } }>('/api/v1/admin/third-party/contacts')
     const clsRes = await apiGet<{ data: ClassItem[] }>('/api/v1/admin/classes')
     classes.value = clsRes.data || []
     const members = cRes.data?.members || []
@@ -89,7 +89,7 @@ async function doImport() {
 
   importing.value = true
   try {
-    const res = await apiPost<{ message: string }>('/api/v1/admin/wechat-work/import', { teachers, students })
+    const res = await apiPost<{ message: string }>('/api/v1/admin/third-party/import', { teachers, students })
     toast.show(res?.message || '导入完成', 'success', { position: 'center', duration: 2000 })
     close()
     emit('imported')
@@ -105,14 +105,14 @@ async function doImport() {
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:760px;width:100%;padding:4px 0;">
       <div class="modal-header">
-        <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🏢 从企业微信导入</h3>
+        <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🏢 从第三方平台导入</h3>
         <button @click="close" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
       </div>
 
       <div class="modal-body">
         <div v-if="!rows.length" style="text-align:center;padding:32px 16px;">
           <div style="font-size:40px;margin-bottom:12px;">📇</div>
-          <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">从企业微信通讯录拉取成员（教师 / 学生按部门识别）</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">从学校配置的第三方平台（企业微信 / 钉钉 / 飞书）通讯录拉取成员</p>
           <button class="btn btn-primary" :disabled="loading" @click="loadContacts">
             {{ loading ? '拉取中...' : '📥 拉取通讯录' }}
           </button>

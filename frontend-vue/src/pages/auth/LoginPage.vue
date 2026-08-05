@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { apiPost } from '@/utils/api'
+import { apiGet, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, User } from '@/types'
@@ -156,6 +156,22 @@ const platforms = [
   { key: 'qq', label: 'QQ', icon: '🐧', color: '#12B7F5' },
   { key: 'renren', label: '人人通', icon: '🌐', color: '#FF6A00' },
 ]
+
+const thirdPartyScanning = ref(false)
+async function thirdPartyScan() {
+  if (thirdPartyScanning.value) return
+  thirdPartyScanning.value = true
+  try {
+    const res = await apiGet<{ data: { auth_url: string; platform: string } }>('/api/v1/auth/third-party/auth-url', {
+      params: { redirect_uri: window.location.origin + '/auth/callback' },
+    })
+    window.open(res.data.auth_url, '_blank', 'width=580,height=640')
+  } catch (e: any) {
+    toast.show(e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择', 'error', { position: 'center', duration: 3000 })
+  } finally {
+    thirdPartyScanning.value = false
+  }
+}
 
 function handleThirdPartyLogin(platform: string) {
   const label = platforms.find(p => p.key === platform)?.label || platform
@@ -335,6 +351,10 @@ function goToSlide(i: number) {
           <div class="login-social">
             <div class="login-social-label"><span class="login-social-line"></span> 扫码快捷登录 <span class="login-social-line"></span></div>
             <div class="login-social-grid">
+              <button class="login-social-btn" :disabled="thirdPartyScanning" @click="thirdPartyScan">
+                <span class="login-social-icon" style="background:#7c3aed;">🏢</span>
+                {{ thirdPartyScanning ? '请稍候...' : '第三方平台' }}
+              </button>
               <button v-for="p in platforms" :key="p.key" class="login-social-btn" @click="handleThirdPartyLogin(p.key)">
                 <span class="login-social-icon" :style="{ background: p.color }">{{ p.icon }}</span>
                 {{ p.label }}

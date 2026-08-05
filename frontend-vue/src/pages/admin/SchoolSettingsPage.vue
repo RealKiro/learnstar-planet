@@ -15,7 +15,7 @@ interface School {
 const loading = ref(true)
 const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const restoreStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
-const form = ref({ name: '', address: '', contact_phone: '', contact_email: '' })
+const form = ref({ name: '', address: '', contact_phone: '', contact_email: '', third_party_platform: '' })
 const schoolCode = ref('')
 const schoolStatus = ref('')
 const schoolErrors = reactive<Record<string, string>>({})
@@ -107,7 +107,7 @@ onMounted(async () => {
       fetch('/api/v1/admin/system/status', { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } }).then(r => r.json()).catch(() => ({ data: null })),
     ])
     const s = (schoolRes as unknown as { data: School }).data
-    form.value = { name: s.name || '', address: s.address || '', contact_phone: s.contact_phone || '', contact_email: s.contact_email || '' }
+    form.value = { name: s.name || '', address: s.address || '', contact_phone: s.contact_phone || '', contact_email: s.contact_email || '', third_party_platform: (s.settings as any)?.third_party_platform || '' }
     schoolCode.value = s.code || ''
     schoolStatus.value = s.status || ''
     logoPath.value = s.logo_path || ''
@@ -123,7 +123,7 @@ async function save() {
     const res = await fetch('/api/v1/admin/school', {
       method: 'PUT',
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: form.value.name.trim(), address: form.value.address.trim(), contact_phone: form.value.contact_phone.trim(), contact_email: form.value.contact_email.trim() }),
+      body: JSON.stringify({ name: form.value.name.trim(), address: form.value.address.trim(), contact_phone: form.value.contact_phone.trim(), contact_email: form.value.contact_email.trim(), settings: { third_party_platform: form.value.third_party_platform } }),
     })
     await res.json()
     if (!res.ok) { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000); return }
@@ -137,7 +137,7 @@ async function reload() {
   try {
     const res = await apiGet<ApiResponse<School>>('/api/v1/admin/school')
     const s = (res as unknown as { data: School }).data
-    form.value = { name: s.name || '', address: s.address || '', contact_phone: s.contact_phone || '', contact_email: s.contact_email || '' }
+    form.value = { name: s.name || '', address: s.address || '', contact_phone: s.contact_phone || '', contact_email: s.contact_email || '', third_party_platform: (s.settings as any)?.third_party_platform || '' }
     logoPath.value = s.logo_path || ''
     restoreStatus.value = 'success'
     setTimeout(() => { restoreStatus.value = 'idle' }, 1500)
@@ -213,6 +213,16 @@ async function uploadLogo(e: Event) {
         <div class="form-group"><label>学校地址</label><input v-model="form.address" class="form-input" placeholder="请输入学校地址"></div>
         <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678" :style="{ borderColor: schoolErrors.contact_phone ? '#f87171' : '' }" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_phone }}</div></div>
         <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn" :style="{ borderColor: schoolErrors.contact_email ? '#f87171' : '' }" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_email }}</div></div>
+        <div class="form-group">
+          <label>第三方办公平台</label>
+          <select v-model="form.third_party_platform" class="form-input">
+            <option value="">不使用（账号密码登录）</option>
+            <option value="wechat_work">企业微信</option>
+            <option value="dingtalk">钉钉</option>
+            <option value="feishu">飞书</option>
+          </select>
+          <p style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">选择后登录页出现该平台扫码登录；通讯录导入也走该平台。需在对应平台开放平台注册应用并配置凭证。</p>
+        </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px;">
           <button class="btn btn-sm" :style="{ background: restoreStatus === 'loading' ? '#f59e0b' : restoreStatus === 'success' ? '#10b981' : restoreStatus === 'error' ? '#ef4444' : '', color: restoreStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: restoreStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" :disabled="restoreStatus === 'loading'" @click="reload">
             <template v-if="restoreStatus === 'loading'">恢复中...</template>

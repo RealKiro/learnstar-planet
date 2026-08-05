@@ -10,11 +10,11 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 onMounted(async () => {
-  const platform = (route.query.platform as string) || ''
+  const platform = (route.query.platform as string) || 'third_party'
   const code = (route.query.code as string) || ''
   const state = (route.query.state as string) || ''
 
-  if (!platform || !code) {
+  if (!code) {
     console.error('OAuth 参数缺失')
     // 尝试关闭弹出窗口，否则跳转回登录页
     if (window.opener) { window.close() }
@@ -37,23 +37,28 @@ onMounted(async () => {
   // 直接跳转（非弹出窗口模式）: 通过后端 OAuth 登录
   try {
     let res: any
-    const baseUrl = '/api/v1/auth/teacher'
 
-    switch (platform) {
-      case 'wechat':
-        // 这里需要后端根据 code 换取 openid
-        res = await apiPost<ApiResponse<{ token: string; user: User }>>(`${baseUrl}/login/wechat`, { code })
-        break
-      case 'wechat_work':
-        res = await apiPost<ApiResponse<{ token: string; user: User }>>(`${baseUrl}/login/wechat-work`, { code })
-        break
-      case 'qq':
-        res = await apiPost<ApiResponse<{ token: string; user: User }>>(`${baseUrl}/login/qq`, { code })
-        break
-      default:
-        console.error('不支持的登录平台')
-        router.replace({ name: 'login' })
-        return
+    if (platform === 'third_party') {
+      // 学校统一第三方平台（企业微信 / 钉钉 / 飞书），后端按学校配置分发
+      res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/third-party/login', { code, state })
+    } else {
+      const baseUrl = '/api/v1/auth/teacher'
+      switch (platform) {
+        case 'wechat':
+          // 这里需要后端根据 code 换取 openid
+          res = await apiPost<ApiResponse<{ token: string; user: User }>>(`${baseUrl}/login/wechat`, { code })
+          break
+        case 'wechat_work':
+          res = await apiPost<ApiResponse<{ token: string; user: User }>>(`${baseUrl}/login/wechat-work`, { code })
+          break
+        case 'qq':
+          res = await apiPost<ApiResponse<{ token: string; user: User }>>(`${baseUrl}/login/qq`, { code })
+          break
+        default:
+          console.error('不支持的登录平台')
+          router.replace({ name: 'login' })
+          return
+      }
     }
 
     authStore.setAuth(res.data.token, res.data.user)
