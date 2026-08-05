@@ -19,6 +19,81 @@ class AiService
         return $this->callOpenaiCompatible($apiKey, $model, $question, $apiBase, $maxTokens);
     }
 
+    /**
+     * 各供应商默认 API 地址（OpenAI 兼容类）
+     */
+    private function defaultBase(string $provider): string
+    {
+        return match ($provider) {
+            'openai' => 'https://api.openai.com/v1',
+            'claude' => 'https://api.anthropic.com/v1',
+            'google' => 'https://generativelanguage.googleapis.com/v1',
+            'qwen' => 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+            'deepseek' => 'https://api.deepseek.com/v1',
+            'moonshot' => 'https://api.moonshot.cn/v1',
+            'grok' => 'https://api.x.ai/v1',
+            'siliconflow' => 'https://api.siliconflow.cn/v1',
+            'nvidia' => 'https://integrate.api.nvidia.com/v1',
+            'openrouter' => 'https://openrouter.ai/api/v1',
+            'bytedance' => 'https://ark.cn-beijing.volces.com/api/v3',
+            'minimax' => 'https://api.minimax.chat/v1',
+            'baichuan' => 'https://api.baichuan-ai.com/v1',
+            'stepfun' => 'https://api.stepfun.com/v1',
+            'lingyi' => 'https://api.lingyiwanwu.com/v1',
+            'mistral' => 'https://api.mistral.ai/v1',
+            'cohere' => 'https://api.cohere.ai/v1',
+            'perplexity' => 'https://api.perplexity.ai/v1',
+            'ai21' => 'https://api.ai21.com/studio/v1',
+            'together' => 'https://api.together.xyz/v1',
+            'fireworks' => 'https://api.fireworks.ai/inference/v1',
+            'groq' => 'https://api.groq.com/openai/v1',
+            'replicate' => 'https://api.replicate.com/v1',
+            'anyscale' => 'https://api.endpoints.anyscale.com/v1',
+            'azure' => 'https://models.inference.ai.azure.com/v1',
+            'ollama' => 'http://localhost:11434/v1',
+            'vllm' => 'http://localhost:8000/v1',
+            default => 'https://api.openai.com/v1',
+        };
+    }
+
+    /**
+     * 从官方 API 拉取供应商模型列表（CC Switch 风格，避免模型列表过时）。
+     * OpenAI 兼容类用 GET /models；Claude 用 GET /models（x-api-key）；Gemini 用 GET /models?key=
+     */
+    public function listModels(string $provider, string $apiKey, ?string $apiBase = null): array
+    {
+        if ($apiKey === '') {
+            return [];
+        }
+
+        $base = rtrim($apiBase ?: $this->defaultBase($provider), '/');
+
+        try {
+            if ($provider === 'claude') {
+                $response = Http::withHeaders([
+                    'x-api-key' => $apiKey,
+                    'anthropic-version' => '2023-06-01',
+                ])->timeout(15)->get($base . '/models');
+                $ids = array_map(static fn ($m) => $m['id'] ?? '', $response->json('data', []));
+            } elseif ($provider === 'google') {
+                $response = Http::timeout(15)->get($base . '/models?key=' . $apiKey);
+                $ids = array_map(
+                    static fn ($m) => str_replace('models/', '', (string) ($m['name'] ?? '')),
+                    $response->json('models', [])
+                );
+            } else {
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $apiKey,
+                ])->timeout(15)->get($base . '/models');
+                $ids = array_map(static fn ($m) => $m['id'] ?? '', $response->json('data', []));
+            }
+        } catch (\Throwable) {
+            return [];
+        }
+
+        return array_values(array_filter($ids, static fn ($id) => $id !== ''));
+    }
+
     private function callOpenaiCompatible(string $apiKey, string $model, string $question, ?string $apiBase, int $maxTokens): array
     {
         $base = $apiBase ?: 'https://api.openai.com/v1';

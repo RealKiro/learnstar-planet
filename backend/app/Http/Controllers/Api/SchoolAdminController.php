@@ -1930,4 +1930,41 @@ class SchoolAdminController extends Controller
         ]);
     }
 
+    /**
+     * 从官方 API 拉取某供应商的模型列表（CC Switch 风格）
+     */
+    public function fetchAiModels(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $providerId = (string) $request->input('provider_id', '');
+
+        if ($providerId === '') {
+            return response()->json(['message' => '缺少供应商'], 422);
+        }
+
+        $settings = \App\Models\AiSetting::where('school_id', $school->id)->first();
+        $provider = null;
+        foreach ($settings->providers ?? [] as $p) {
+            if (($p['id'] ?? '') === $providerId) {
+                $provider = $p;
+                break;
+            }
+        }
+        if (!$provider || empty($provider['api_key'])) {
+            return response()->json(['message' => '该供应商未配置 API Key'], 422);
+        }
+
+        $models = app(\App\Services\AiService::class)->listModels(
+            $providerId,
+            $provider['api_key'],
+            $provider['api_base'] ?? null,
+        );
+
+        return response()->json(['data' => [
+            'provider' => $providerId,
+            'models' => $models,
+            'fetched_at' => now()->toDateTimeString(),
+        ]]);
+    }
+
 }

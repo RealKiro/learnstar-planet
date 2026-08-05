@@ -101,6 +101,7 @@ Route::prefix('v1')->group(function () {
             Route::put('settings', [SchoolAdminController::class, 'saveAiSettings']);
             Route::post('toggle', [SchoolAdminController::class, 'toggleAi']);
             Route::get('usage', [SchoolAdminController::class, 'getAiUsage']);
+            Route::post('fetch-models', [SchoolAdminController::class, 'fetchAiModels']);
         });
     });
 

@@ -4,7 +4,7 @@ import { useToastStore } from '@/stores/toast'
 
 const toast = useToastStore()
 
-interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean; _expanded?: boolean; billing_enabled?: boolean; tokens_used?: number; total_calls?: number; estimated_cost?: number; input_price_per_m?: number; output_price_per_m?: number; currency?: string; balance?: number }
+interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean; _expanded?: boolean; billing_enabled?: boolean; tokens_used?: number; total_calls?: number; estimated_cost?: number; input_price_per_m?: number; output_price_per_m?: number; currency?: string; balance?: number; _official_models?: string[]; _fetching?: boolean; _fetch_msg?: string }
 interface AiSettings { enabled: boolean; max_tokens: number; tokens_used: number; tokens_limit: number; providers: ProviderConfig[] }
 interface DailyUsage { date: string; tokens: number; count: number }
 interface ConversationLog { id: number; student_name: string; provider?: string; question: string; answer: string; tokens_used: number; cost?: number; currency?: string; created_at: string }
@@ -31,12 +31,31 @@ const usageCurrency = computed(() => {
   const keys = Object.keys(bp)
   return keys.length ? (bp[keys[0]]?.currency === 'USD' ? '$' : '¥') : '¥'
 })
-// 所有预设模型（去重），供模型输入 datalist 下拉选择，也支持直接输入自定义模型名
-const allModelOptions = computed(() => {
-  const set = new Set<string>()
-  for (const m of providerMeta) for (const mm of m.models) set.add(mm)
-  return Array.from(set)
-})
+// 该供应商可选的模型：优先官方拉取结果，否则用预设列表
+function modelOptionsFor(p: ProviderConfig): string[] {
+  const official = p._official_models
+  if (official && official.length) return official
+  return getProviderMeta(p.id)?.models || []
+}
+// 从官方 API 拉取模型列表（CC Switch 风格，避免模型过时）
+async function fetchModels(p: ProviderConfig) {
+  if (p._fetching) return
+  p._fetching = true
+  p._fetch_msg = ''
+  try {
+    const res = await fetch('/api/v1/admin/ai/fetch-models', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ provider_id: p.id }),
+    })
+    const data = await res.json()
+    if (!res.ok) { p._fetch_msg = data?.message || '获取失败'; return }
+    const official = (data.data?.models || []) as string[]
+    p._official_models = official
+    p._fetch_msg = official.length ? `已获取 ${official.length} 个官方模型` : '该供应商未返回模型'
+  } catch { p._fetch_msg = '获取失败' }
+  finally { p._fetching = false }
+}
 
 // ===== 供应商元数据（含计费信息） =====
 interface PricingInfo { input: string; output: string; unit: string; url: string }
@@ -393,7 +412,17 @@ onMounted(loadData)
           <!-- 配置详情（折叠） -->
           <div v-if="p._expanded" style="padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API Key</label><input v-model="p.api_key" type="password" class="form-input" placeholder="sk-..." style="font-size:11px;padding:5px 8px;"></div>
-            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型（可自定义）</label><input v-model="p.model" list="ai-model-options" class="form-input" placeholder="选择或输入模型名" style="font-size:11px;padding:5px 8px;"></div>
+            <div>
+              <label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型</label>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <input v-model="p.model" :list="'model-list-' + p.id" class="form-input" placeholder="选择或输入" style="font-size:11px;padding:5px 8px;flex:1;min-width:0;">
+                <button type="button" :disabled="p._fetching" @click="fetchModels(p)" style="flex-shrink:0;padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--color-text-secondary);font-family:inherit;">{{ p._fetching ? '拉取中' : '🔄 官方模型' }}</button>
+              </div>
+              <div v-if="p._fetch_msg" style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">{{ p._fetch_msg }}</div>
+              <datalist :id="'model-list-' + p.id">
+                <option v-for="m in modelOptionsFor(p)" :key="m" :value="m"></option>
+              </datalist>
+            </div>
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API 地址</label><input v-model="p.api_base" class="form-input" placeholder="默认官方地址" style="font-size:11px;padding:5px 8px;"></div>
           </div>
           <div v-if="p._expanded && p.billing_enabled" style="padding:0 14px 10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;border-top:1px solid var(--color-border);">
@@ -521,9 +550,6 @@ onMounted(loadData)
       </div>
     </template>
   </div>
-  <datalist id="ai-model-options">
-    <option v-for="m in allModelOptions" :key="m" :value="m"></option>
-  </datalist>
 </template>
 
 <style scoped>
