@@ -42,10 +42,9 @@ instance.interceptors.response.use(
         return Promise.reject(error)
       }
       authStore.logout()
-      toast.show('登录已过期，请重新登录', 'error', { position: 'center', duration: 3000 })
-      // 跳转登录页，用 location.href 确保状态完全重置
+      // 跳转登录页并用 expired 参数标记，登录页内联提示"登录已过期"，避免全局 toast
       if (!window.location.pathname.startsWith('/login')) {
-        window.location.href = '/login'
+        window.location.href = '/login?expired=1'
       }
     } else if (error.response?.data?.message && !error.config?.skipToast) {
       // 组件已用内联提示的请求（skipToast: true）不再弹全局 toast

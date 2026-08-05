@@ -24,6 +24,8 @@ const classCodeError = ref('')
 const classInfo = ref<{ class_name: string; student_count: number } | null>(null)
 const loading = ref(false)
 const loginStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+// 登录过期标记：从 /login?expired=1 读取，登录卡片顶部内联提示
+const sessionExpired = ref(false)
 
 // 内联校验
 const loginErrors = reactive<Record<string, string>>({})
@@ -260,6 +262,8 @@ async function handleWechatWorkOAuth(code: string) {
 }
 
 onMounted(() => {
+  // 从 /login?expired=1 读取登录过期标记，卡片顶部内联提示
+  sessionExpired.value = router.currentRoute.value.query.expired === '1'
   slideTimer = setInterval(() => { currentSlide.value = (currentSlide.value + 1) % slides.length }, 5000)
   window.addEventListener('message', handleOAuthMessage)
 })
@@ -320,6 +324,7 @@ function goToSlide(i: number) {
           <span class="login-card-icon">🌌</span>
           <h1 class="login-card-title">学趣星球</h1>
         </div>
+        <div v-if="sessionExpired" class="session-expired-banner">⏰ 登录已过期，请重新登录</div>
         <div class="login-tabs">
           <button
             v-for="t in (['teacher', 'admin', 'parent', 'class'] as const)" :key="t"
@@ -562,6 +567,17 @@ function goToSlide(i: number) {
 .login-card-header { text-align: center; margin-bottom: 28px; }
 .login-card-icon  { font-size: 40px; margin-bottom: 8px; display: block; }
 .login-card-title { font-size: 24px; font-weight: 800; color: #1D1D1F; }
+.session-expired-banner {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 10px;
+  color: #d97706;
+  font-size: 13px;
+  text-align: center;
+  font-weight: 600;
+}
 .login-tabs {
   display: flex; gap: 0;
   margin-bottom: 24px;
