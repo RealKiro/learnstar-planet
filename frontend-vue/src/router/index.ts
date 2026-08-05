@@ -25,7 +25,7 @@ const router = createRouter({
       component: () => import('@/layouts/TeacherLayout.vue'),
       children: [
         // 基础模式（班级码进入）
-        { path: 'dashboard-basic', name: 'teacher-dashboard-basic', component: () => import('@/pages/teacher/DashboardPage.vue'), meta: { basic: true } },
+        { path: 'dashboard-basic', name: 'teacher-dashboard-basic', component: () => import('@/pages/classroom/OverviewPage.vue'), meta: { basic: true } },
         { path: 'scores-basic', name: 'teacher-scores-basic', component: () => import('@/pages/classroom/ScoresPage.vue'), meta: { basic: true } },
         { path: 'leaderboard-basic', name: 'teacher-leaderboard-basic', component: () => import('@/pages/classroom/OverviewPage.vue'), meta: { basic: true } },
         { path: 'pk-basic', name: 'teacher-pk-basic', component: () => import('@/pages/classroom/PKPage.vue'), meta: { basic: true } },

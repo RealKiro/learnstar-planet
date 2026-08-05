@@ -67,6 +67,7 @@ const basicNav = [
   ]},
   { section: '互动', items: [
     { page: 'teacher-ai-basic', label: 'AI 助手', icon: '🤖' },
+    { page: 'classroom-overview', label: '教室大屏', icon: '🖥️' },
   ]},
 ]
 

@@ -36,7 +36,7 @@ async function goToClassroom() {
     sessionStorage.setItem('class_info', JSON.stringify({
       id: res.data.class_id, name: res.data.class_name, grade: res.data.grade, student_count: res.data.student_count,
     }))
-    router.replace({ name: 'classroom-overview' })
+    router.replace({ name: 'teacher-dashboard-basic' })
   } catch { codeError.value = '班级码无效，请检查后重试'; loading.value = false }
 }
 
