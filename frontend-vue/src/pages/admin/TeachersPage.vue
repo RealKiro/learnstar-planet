@@ -145,10 +145,10 @@ onMounted(() => loadTeachers(true))
 .role-tag-co { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(156,163,175,0.15); color:#6b7280; }
 .class-empty { padding:8px; text-align:center; font-size:12px; color:var(--color-text-secondary); }
 .card-actions { display:flex; gap:6px; padding:10px 18px 12px; border-top:1px solid var(--color-border); }
-.act-btn { width:32px; height:32px; border-radius:8px; font-size:15px; cursor:pointer; transition:0.15s; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text-secondary); font-family:inherit; display:inline-flex; align-items:center; justify-content:center; }
-.act-btn:hover { background:var(--color-bg); color:var(--color-text); }
+.act-btn { display:inline-flex; align-items:center; justify-content:center; gap:4px; height:32px; padding:0 12px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; transition:0.15s; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-family:inherit; }
+.act-btn:hover { background:var(--color-bg); }
 .act-del { color:#dc2626; border-color:rgba(239,68,68,0.2); }
-.act-del:hover { background:rgba(239,68,68,0.06); }
+.act-del:hover { background:rgba(239,68,68,0.06); color:#dc2626; }
 .loading-spinner { text-align:center;padding:64px;color:#9ca3af;font-size:15px; }
 .empty-state { text-align:center;padding:64px 20px;color:#9ca3af; }
 .empty-icon { font-size:48px;margin-bottom:12px; }

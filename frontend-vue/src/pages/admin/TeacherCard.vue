@@ -46,10 +46,10 @@ function classById(id: number) { return classMap.value[id] }
       <div v-if="teacher.assignments.length === 0" class="class-empty">暂未分配班级</div>
     </div>
     <div class="card-actions">
-      <button class="act-btn" title="个人信息" @click="emit('edit', teacher)">👤</button>
-      <button class="act-btn" title="班级管理" @click="emit('assign', teacher)">📚</button>
-      <button class="act-btn" title="重置密码" @click="emit('resetPwd', teacher)">🔑</button>
-      <button class="act-btn act-del" title="删除" @click="emit('delete', teacher)">🗑️</button>
+      <button class="act-btn" @click="emit('edit', teacher)">👤 编辑</button>
+      <button class="act-btn" @click="emit('assign', teacher)">📚 班级</button>
+      <button class="act-btn" @click="emit('resetPwd', teacher)">🔑 密码</button>
+      <button class="act-btn act-del" @click="emit('delete', teacher)">🗑️ 删除</button>
     </div>
   </div>
 </template>
