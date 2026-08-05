@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost, apiPut } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, Notice } from '@/types'
 
-const toast = useToastStore()
 const notices = ref<Notice[]>([])
 const loading = ref(true)
+const formError = ref('')
 
 const showCreate = ref(false)
 const publishStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -20,7 +19,7 @@ onMounted(async () => {
 })
 
 async function createNotice() {
-  if (!form.value.title.trim() || !form.value.content.trim()) { toast.show('请填写标题和内容', 'error', { position: 'center', duration: 2000 }); return }
+  if (!form.value.title.trim() || !form.value.content.trim()) { formError.value = '请填写标题和内容'; return }
   publishStatus.value = 'loading'
   try {
     const res = await apiPost<ApiResponse<{ id: number }>>('/api/v1/teacher/notices', {
@@ -74,6 +73,7 @@ const typeLabels: Record<string, string> = { info: '通知', event: '活动', ur
             <label>内容</label>
             <textarea v-model="form.content" class="form-input" style="min-height:80px;resize:vertical;" placeholder="通知内容"></textarea>
           </div>
+          <div v-if="formError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ formError }}</div>
           <div style="display:flex;gap:12px;">
             <button class="btn" style="flex:1;" @click="showCreate = false">取消</button>
             <button class="btn" style="flex:1;color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[publishStatus] }" :disabled="publishStatus === 'loading'" @click="createNotice">

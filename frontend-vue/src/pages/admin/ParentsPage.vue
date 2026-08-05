@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost, apiDelete } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import { avatarGradient, platformLabel } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
-
-const toast = useToastStore()
 
 interface ParentChild {
   student_name: string
@@ -69,6 +66,8 @@ async function deleteParent(p: Parent) {
   }
 }
 
+const batchError = ref('')
+
 function openBatchModal() {
   batchText.value = ''
   createdParents.value = []
@@ -78,7 +77,7 @@ function openBatchModal() {
 async function submitBatchCreate() {
   const lines = batchText.value.trim().split('\n').filter(l => l.trim())
   if (lines.length === 0) {
-    toast.show('请输入至少一位家长信息', 'error', { position: 'center', duration: 2000 })
+    batchError.value = '请输入至少一位家长信息'
     return
   }
   const parentsData = lines.map(line => {
@@ -186,6 +185,7 @@ async function submitBatchCreate() {
             style="width:100%;min-height:140px;font-family:monospace;margin-bottom:16px;"
             placeholder="张小明家长,,13800138001&#10;李小红家长,,13800138002&#10;王刚家长,"
           ></textarea>
+          <div v-if="batchError" style="margin:0 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ batchError }}</div>
           <div style="display:flex;gap:8px;justify-content:flex-end;">
             <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showBatchModal = false">取消</button>
             <button class="btn btn-sm" :style="{ background: batchCreateStatus === 'loading' ? '#f59e0b' : batchCreateStatus === 'success' ? '#10b981' : batchCreateStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent' }" :disabled="batchCreateStatus !== 'idle'" @click="submitBatchCreate">

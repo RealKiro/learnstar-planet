@@ -6,13 +6,12 @@ import ExchangeCenterPage from './ExchangeCenterPage.vue'
 const activeTab = ref<'shop' | 'exchange' | 'rates'>('shop')
 
 // 汇率管理
-import { useToastStore } from '@/stores/toast'
-const toast = useToastStore()
 interface Rate { id: number; name: string; from_currency: string; to_currency: string; rate: number; is_active: boolean }
 const rates = ref<Rate[]>([])
 const ratesLoading = ref(false)
 const showAddRate = ref(false)
 const newRate = ref({ name: '', from_currency: 'score', to_currency: 'science', rate: 1 })
+const rateError = ref('')
 
 const addRateStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const toggleStatusMap = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
@@ -35,7 +34,7 @@ async function loadRates() {
 }
 
 async function addRate() {
-  if (!newRate.value.name || newRate.value.rate <= 0) { toast.show('请填写完整信息', 'error', { position: 'center', duration: 2000 }); return }
+  if (!newRate.value.name || newRate.value.rate <= 0) { rateError.value = '请填写完整信息'; return }
   addRateStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/teacher/exchange-rates', {
@@ -117,6 +116,7 @@ function onActiveTabChange(tab: typeof activeTab.value) {
           <div class="form-group"><label>目标币种</label><select v-model="newRate.to_currency" class="form-input"><option v-for="(label, key) in currencyLabels" :key="key" :value="key" :disabled="key === newRate.from_currency">{{ label }}</option></select></div>
           <div class="form-group"><label>汇率 (1:?)</label><input v-model.number="newRate.rate" type="number" step="0.01" min="0.01" class="form-input"></div>
         </div>
+        <div v-if="rateError" style="margin:0 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ rateError }}</div>
         <button v-if="showAddRate" class="btn btn-primary" style="margin-bottom:16px;" :disabled="addRateStatus !== 'idle'"
           :style="{ background: addRateStatus === 'loading' ? '#f59e0b' : addRateStatus === 'success' ? '#10b981' : addRateStatus === 'error' ? '#ef4444' : '#7c3aed' }"
           @click="addRate">

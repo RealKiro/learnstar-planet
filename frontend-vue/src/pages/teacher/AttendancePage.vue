@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiPut } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
-
-const toast = useToastStore()
 
 interface LeaveRecord { sp_no: string; leave_type: string | null; reason: string | null }
 interface AttendanceRecord {
@@ -22,6 +19,7 @@ const attendanceStarted = ref(false)
 const startStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 const showLeaveModal = ref(false); const leaveStudentId = ref<number | null>(null); const leaveStudentName = ref(''); const leaveRemark = ref(''); const leaveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const leaveError = ref('')
 const showAbsentModal = ref(false); const absentStudentId = ref<number | null>(null); const absentStudentName = ref(''); const absentRemark = ref(''); const absentStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 const statusLabels: Record<string, string> = { present: '到课', late: '迟到', leave: '请假', absent: '缺勤' }
@@ -64,7 +62,7 @@ async function setStatus(studentId: number, status: string) {
 
 function openLeaveModal(sid: number, sn: string) { leaveStudentId.value = sid; leaveStudentName.value = sn; leaveRemark.value = ''; showLeaveModal.value = true }
 async function confirmLeave() {
-  if (!leaveRemark.value.trim()) { toast.show('请填写请假原因', 'error', { position: 'center', duration: 2000 }); return }
+  if (!leaveRemark.value.trim()) { leaveError.value = '请填写请假原因'; return }
   leaveStatus.value = 'loading'
   try {
     await apiPost(`/api/v1/teacher/attendance/${leaveStudentId.value}/mark-leave`, { remark: leaveRemark.value.trim() })
