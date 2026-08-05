@@ -132,7 +132,7 @@ onMounted(() => loadTeachers(true))
 
   <CreateTeacherModal :visible="showCreateModal" :classes="classes" :grades="grades" :subjects="subjects" :classRoleLabel="classRoleLabel"
     @update:visible="showCreateModal = $event" @created="refreshTeachers" />
-  <EditTeacherModal :visible="showEditModal" :teacher="editTarget" :grades="grades"
+  <EditTeacherModal :visible="showEditModal" :teacher="editTarget" :grades="grades" :subjects="subjects"
     @update:visible="showEditModal = $event; editTarget = null" @updated="refreshTeachers" />
   <AssignClassModal :visible="showAssignModal" :teacher="assignTarget" :classes="classes" :grades="grades" :subjects="subjects" :classRoleLabel="classRoleLabel"
     @update:visible="showAssignModal = $event; assignTarget = null" @assigned="refreshTeachers" />

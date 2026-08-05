@@ -89,6 +89,7 @@ class SchoolAdminController extends Controller
             'name' => 'required|string|max:50',
             'nickname' => 'nullable|string|max:80',
             'grade_team' => 'nullable|string|max:50',
+            'subject' => 'nullable|string|max:50',
             'phone' => 'nullable|string|max:30',
             'email' => 'nullable|email|max:100',
             'username' => 'nullable|string|max:50',
@@ -120,6 +121,7 @@ class SchoolAdminController extends Controller
             'name' => $request->input('name'),
             'nickname' => $request->input('nickname'),
             'grade_team' => $gradeTeam,
+            'subject' => $request->input('subject'),
             'phone' => $request->input('phone'),
             'email' => $request->input('email'),
             'username' => $username,
@@ -274,6 +276,7 @@ class SchoolAdminController extends Controller
             'name' => 'sometimes|required|string|max:50',
             'nickname' => 'nullable|string|max:80',
             'grade_team' => 'nullable|string|max:50',
+            'subject' => 'nullable|string|max:50',
             'phone' => 'nullable|string|max:30',
             'email' => 'nullable|email|max:100',
             'status' => 'sometimes|required|in:active,disabled',
@@ -282,7 +285,7 @@ class SchoolAdminController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
         }
-        $data = $request->only(['name', 'nickname', 'grade_team', 'phone', 'email', 'status']);
+        $data = $request->only(['name', 'nickname', 'grade_team', 'subject', 'phone', 'email', 'status']);
         if ($request->has('personal_role')) {
             // 空串也保留原值，避免误清空年级团队
             $gradeTeam = $data['grade_team'] ?? $teacher->grade_team;

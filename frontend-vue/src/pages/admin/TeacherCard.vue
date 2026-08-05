@@ -22,6 +22,10 @@ const classMap = computed(() => {
   return map
 })
 function classById(id: number) { return classMap.value[id] }
+// 该班级任教科目是否 = 个人主教科目（主教科目标记）
+function isMainSubject(subject: string | undefined) {
+  return !!subject && subject !== '默认科目' && subject === props.teacher.subject
+}
 </script>
 <template>
   <div class="teacher-card">
@@ -30,11 +34,14 @@ function classById(id: number) { return classMap.value[id] }
       <span v-if="teacher.personal_role === 'grade_lead'" class="head-badge badge-lead">首席</span>
       <span v-else-if="teacher.personal_role === 'admin_director'" class="head-badge badge-admin">主任</span>
     </div>
+    <div v-if="teacher.subject" class="tc-main-subject">📘 主教·{{ teacher.subject }}</div>
     <div class="tc-classes">
       <span v-for="a in teacher.assignments" :key="a.class_id + '_' + a.role" class="tc-class">
         <span class="tc-class-name">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
         <span v-if="a.role === 'head_teacher'" class="role-tag-head">主班</span>
-        <span v-if="a.subject && a.subject !== '默认科目'" class="tc-class-subject">{{ a.subject }}</span>
+        <span v-if="a.subject && a.subject !== '默认科目'" class="tc-class-subject" :class="{ 'is-main': isMainSubject(a.subject) }">
+          {{ isMainSubject(a.subject) ? '主教·' + a.subject : '兼任·' + a.subject }}
+        </span>
       </span>
       <span v-if="teacher.assignments.length === 0" class="tc-class-empty">未分配班级</span>
     </div>
@@ -77,7 +84,13 @@ function classById(id: number) { return classMap.value[id] }
   border-radius: 6px; font-size: 12px; color: var(--color-text); box-sizing: border-box;
 }
 .role-tag-head { font-size: 10px; font-weight: 600; padding: 0 6px; border-radius: 4px; background: rgba(250, 204, 21, 0.15); color: #fcd34d; }
+.tc-main-subject {
+  display: inline-flex; align-items: center; gap: 4px; margin: 0 0 8px;
+  padding: 2px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  background: rgba(139, 92, 246, 0.18); border: 1px solid rgba(139, 92, 246, 0.35); color: #c4b5fd;
+}
 .tc-class-subject { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); }
+.tc-class-subject.is-main { color: #c4b5fd; font-weight: 600; }
 .tc-class-empty {
   display: inline-flex; align-items: center; height: 24px; padding: 0 10px; box-sizing: border-box;
   font-size: 12px; color: var(--color-text-secondary);

@@ -30,6 +30,7 @@ const props = defineProps<{
   visible: boolean
   teacher: Teacher | null
   grades: string[]
+  subjects: string[]
 }>()
 
 const emit = defineEmits<{
@@ -37,7 +38,7 @@ const emit = defineEmits<{
   (e: 'updated'): void
 }>()
 
-const editForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', personalRole: '' as string })
+const editForm = ref({ name: '', nickname: '', grade_team: '', subject: '', phone: '', email: '', personalRole: '' as string })
 const editError = ref('')
 const editStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
@@ -50,6 +51,7 @@ watch(
         name: t.name,
         nickname: t.nickname || '',
         grade_team: t.grade_team || '',
+        subject: t.subject || '',
         phone: t.phone || '',
         email: t.email || '',
         personalRole: pRole,
@@ -73,6 +75,7 @@ async function submitEdit() {
       name: editForm.value.name,
       nickname: editForm.value.nickname,
       grade_team: editForm.value.grade_team,
+      subject: editForm.value.subject || null,
       phone: editForm.value.phone,
       email: editForm.value.email,
       personal_role: editForm.value.personalRole || null,
@@ -112,6 +115,13 @@ async function submitEdit() {
           <select v-model="editForm.grade_team" class="form-input">
             <option value="">不指定</option>
             <option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>主教科目</label>
+          <select v-model="editForm.subject" class="form-input">
+            <option value="">不指定</option>
+            <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
           </select>
         </div>
         <div class="form-group">

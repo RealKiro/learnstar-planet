@@ -38,7 +38,7 @@ const emit = defineEmits<{
   'created': []
 }>()
 
-const createForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', password: '' })
+const createForm = ref({ name: '', nickname: '', grade_team: '', subject: '', phone: '', email: '', password: '' })
 const createErrors = ref<Record<string, string>>({})
 const createStatus = ref<CreateStatus>('idle')
 const createErrorMsg = ref('')
@@ -86,7 +86,7 @@ function validateField(field: string, value: string) {
 }
 
 function resetForm() {
-  createForm.value = { name: '', nickname: '', grade_team: '', phone: '', email: '', password: '' }
+  createForm.value = { name: '', nickname: '', grade_team: '', subject: '', phone: '', email: '', password: '' }
   createErrors.value = {}
   assignError.value = ''
   createAssignments.value = []
@@ -158,6 +158,7 @@ async function submitCreate() {
     const payload: Record<string, any> = { name: createForm.value.name.trim() }
     if (createForm.value.nickname) payload.nickname = createForm.value.nickname
     if (createForm.value.grade_team) payload.grade_team = createForm.value.grade_team
+    if (createForm.value.subject) payload.subject = createForm.value.subject
     if (createForm.value.phone) payload.phone = createForm.value.phone
     if (createForm.value.email) payload.email = createForm.value.email
     if (createForm.value.password) payload.password = createForm.value.password
@@ -221,6 +222,13 @@ async function submitCreate() {
               <select v-model="createForm.grade_team" class="form-input">
                 <option value="">不指定</option>
                 <option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option>
+              </select>
+            </div>
+            <div class="flex-1 form-group">
+              <label>主教科目</label>
+              <select v-model="createForm.subject" class="form-input">
+                <option value="">不指定</option>
+                <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
               </select>
             </div>
           </div>

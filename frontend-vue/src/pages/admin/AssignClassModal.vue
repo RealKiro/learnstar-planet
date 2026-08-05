@@ -115,7 +115,7 @@ function addAssignRowNew() {
   }
 
   assignError.value = ''
-  assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role, subject: subjectValue })
+  assignList.value.push({ class_id: cls.id, class_name: cls.name, role, subject: subjectValue })
   newAssignClassId.value = null
   newAssignSubject.value = ''
 }
@@ -162,6 +162,10 @@ function closeModal() {
         <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
       </div>
 
+      <div v-if="teacher?.subject" style="margin-bottom:12px;padding:8px 12px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;font-size:12px;color:#c4b5fd;">
+        &#128214; 主教科目：<strong>{{ teacher.subject }}</strong><span style="color:var(--color-text-secondary);margin-left:6px;">（班级任教科目可不相同，兼任时会标注）</span>
+      </div>
+
       <!-- 选择器 -->
       <div class="flex-row" style="align-items:flex-end;margin-bottom:12px;flex-wrap:wrap;">
         <div style="flex:1;min-width:100px;" class="form-group">
@@ -186,7 +190,7 @@ function closeModal() {
             <option value="subject_teacher">科任教师</option>
           </select>
         </div>
-        <div style="flex:1;min-width:90px;" class="form-group">
+        <div style="flex:1;min-width:110px;" class="form-group">
           <label>科目</label>
           <select v-model="newAssignSubject" class="form-input">
             <option value="">请选择科目</option>
@@ -219,10 +223,10 @@ function closeModal() {
           :key="i"
           style="display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;background:var(--color-bg);border-radius:8px;font-size:13px;"
         >
-          <span style="flex:1;font-weight:500;color:var(--color-text);">{{ a.class_name || shortClassName(classById(a.class_id!)?.name) }}</span>
-          <span v-if="a.role === 'subject_teacher'" style="color:var(--color-text-secondary);font-size:12px;">{{ a.subject }}</span>
+          <span style="flex:1;font-weight:500;color:var(--color-text);">{{ a.class_name || classById(a.class_id!)?.name || '#' + a.class_id }}</span>
+          <span v-if="a.role === 'subject_teacher'" style="color:var(--color-text-secondary);font-size:12px;">{{ a.subject === teacher?.subject ? '主教·' + a.subject : '兼任·' + a.subject }}</span>
           <span v-else style="color:var(--color-text-secondary);font-size:12px;">
-            {{ classRoleLabel[a.role as ClassRole] || a.role }} · {{ a.subject || '默认科目' }}
+            {{ classRoleLabel[a.role as ClassRole] || a.role }} · {{ a.subject === teacher?.subject ? '主教·' + a.subject : (a.subject || '默认科目') }}
           </span>
           <button
             @click="removeAssignRow(i)"
