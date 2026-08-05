@@ -36,6 +36,16 @@ const teacherTeams = computed(() => {
   })
   return teams
 })
+// 带全局序号的教师分组（卡片右上角显示 #序号）
+type TeacherWithNo = Teacher & { no: number }
+const teacherList = computed(() => {
+  const list: { team: string; teachers: TeacherWithNo[] }[] = []
+  let no = 0
+  for (const [teamName, team] of Object.entries(teacherTeams.value)) {
+    list.push({ team: teamName, teachers: team.map(t => ({ ...t, no: ++no })) })
+  }
+  return list
+})
 const filteredTeachers = computed(() => {
   if (!teachers.value) return []
   let list = teachers.value
@@ -86,15 +96,15 @@ onMounted(() => loadTeachers(true))
       <p v-else>暂无教师，点击「创建教师」添加</p>
     </div>
 
-    <template v-for="(team, teamName) in teacherTeams" :key="teamName">
-      <div v-if="team.length > 0" style="margin-bottom:20px;">
+    <template v-for="group in teacherList" :key="group.team">
+      <div v-if="group.teachers.length > 0" style="margin-bottom:20px;">
         <div class="grade-header">
           <span class="grade-dot"></span>
-          <span class="grade-name">{{ teamName }}</span>
-          <span class="grade-count">{{ team.length }} 人</span>
+          <span class="grade-name">{{ group.team }}</span>
+          <span class="grade-count">{{ group.teachers.length }} 人</span>
         </div>
         <div class="card-grid">
-          <TeacherCard v-for="t in team" :key="t.id" :teacher="t" :classes="classes"
+          <TeacherCard v-for="t in group.teachers" :key="t.id" :teacher="t" :no="t.no" :classes="classes"
             @edit="editTarget = $event; showEditModal = true"
             @assign="assignTarget = $event; showAssignModal = true"
             @resetPwd="resetTarget = $event; showResetPwdModal = true"

@@ -8,6 +8,7 @@ interface ClassRoom { id: number; name: string; grade?: string }
 const props = defineProps<{
   teacher: Teacher
   classes: ClassRoom[]
+  no: number
 }>()
 const emit = defineEmits<{
   edit: [t: Teacher]
@@ -30,7 +31,7 @@ function classById(id: number) { return classMap.value[id] }
         <span v-if="teacher.personal_role === 'grade_lead'" class="head-badge badge-lead">首席</span>
         <span v-else-if="teacher.personal_role === 'admin_director'" class="head-badge badge-admin">主任</span>
       </div>
-      <span class="teacher-username">{{ teacher.username }}</span>
+      <span class="teacher-username">#{{ no }}</span>
     </div>
     <div class="card-info" v-if="teacher.email || teacher.phone">
       <span v-if="teacher.email" class="info-item">✉ {{ teacher.email }}</span>
