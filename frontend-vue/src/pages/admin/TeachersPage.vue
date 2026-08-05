@@ -9,6 +9,7 @@ import AssignClassModal from './AssignClassModal.vue'
 import DeleteConfirmModal from './DeleteConfirmModal.vue'
 import ResetPasswordModal from './ResetPasswordModal.vue'
 import ImportTeacherModal from './ImportTeacherModal.vue'
+import ImportWechatModal from './ImportWechatModal.vue'
 
 interface Teacher { id: number; name: string; username: string; nickname?: string; subject?: string; grade_team?: string; phone?: string; email?: string; avatar_path?: string; status: string; bindings: string[]; assignments: Assignment[]; class_names: string[]; personal_role?: string }
 interface Assignment { class_id: number; class_name?: string; grade?: string; role: string; subject?: string }
@@ -75,6 +76,7 @@ const showAssignModal = ref(false); const assignTarget = ref<Teacher | null>(nul
 const showDeleteModal = ref(false); const deleteTarget = ref<Teacher | null>(null)
 const showResetPwdModal = ref(false); const resetTarget = ref<Teacher | null>(null)
 const showImportModal = ref(false)
+const showWechatImport = ref(false)
 
 async function loadTeachers(isInitial = false) {
   if (isInitial) loading.value = true
@@ -99,7 +101,7 @@ onMounted(() => loadTeachers(true))
   <div class="teachers-admin" style="max-width:1400px;margin:0 auto;padding:0 4px;">
     <TeacherFilters :grades="grades" :classRoleLabel="classRoleLabel" :filterGrade="filterGrade" :filterRole="filterRole" :searchQuery="searchQuery"
       @update:filterGrade="filterGrade = $event" @update:filterRole="filterRole = $event as '' | ClassRole" @update:searchQuery="searchQuery = $event"
-      @downloadTemplate="downloadTemplate" @openImport="showImportModal = true" @openCreate="showCreateModal = true">
+      @downloadTemplate="downloadTemplate" @openImport="showImportModal = true" @openWechatImport="showWechatImport = true" @openCreate="showCreateModal = true">
       <span class="count-badge" slot="teacherCount">{{ teachers.length }} 人</span>
     </TeacherFilters>
 
@@ -139,6 +141,7 @@ onMounted(() => loadTeachers(true))
   <ResetPasswordModal :visible="showResetPwdModal" :teacher="resetTarget"
     @update:visible="showResetPwdModal = $event; resetTarget = null" @reset="refreshTeachers" />
   <ImportTeacherModal :visible="showImportModal" @update:visible="showImportModal = $event" @imported="refreshTeachers" />
+  <ImportWechatModal :visible="showWechatImport" @update:visible="showWechatImport = $event" @imported="refreshTeachers" />
 </template>
 
 <style scoped>

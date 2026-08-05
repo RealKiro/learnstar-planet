@@ -126,6 +126,91 @@ class WechatWorkService
         return $r['UserId'] ?? $r['userid'] ?? null;
     }
 
+    /**
+     * 获取企业微信部门列表
+     */
+    public function getDepartmentList(int $schoolId): array
+    {
+        $t = $this->getAccessToken($schoolId);
+        $r = Http::timeout(10)->get("https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token={$t}")->json();
+        if (($r['errcode'] ?? -1) !== 0) {
+            throw new \RuntimeException('获取企微部门失败：' . ($r['errmsg'] ?? ''));
+        }
+
+        return $r['department'] ?? [];
+    }
+
+    /**
+     * 获取部门成员
+     */
+    public function getDepartmentUsers(int $schoolId, int $departmentId, bool $fetchChild = true): array
+    {
+        $t = $this->getAccessToken($schoolId);
+        $r = Http::timeout(10)->get('https://qyapi.weixin.qq.com/cgi-bin/user/list', [
+            'access_token' => $t,
+            'department_id' => $departmentId,
+            'fetch_child' => $fetchChild ? 1 : 0,
+        ])->json();
+        if (($r['errcode'] ?? -1) !== 0) {
+            throw new \RuntimeException('获取企微成员失败：' . ($r['errmsg'] ?? ''));
+        }
+
+        return $r['userlist'] ?? [];
+    }
+
+    /**
+     * 拉取全部通讯录（部门 + 成员），按 userid 去重
+     *
+     * @return array{departments: array, members: array<int, array{userid:string,name:string,mobile:string,email:string,position:string,department_names:array<int,string>}>}
+     */
+    public function fetchContacts(int $schoolId): array
+    {
+        $departments = $this->getDepartmentList($schoolId);
+        $nameById = [];
+        foreach ($departments as $d) {
+            $nameById[(int) ($d['id'] ?? 0)] = (string) ($d['name'] ?? '');
+        }
+
+        $members = [];
+        $seen = [];
+        foreach ($departments as $d) {
+            // 只遍历顶级部门，fetch_child=1 会带上所有子部门成员
+            if ((int) ($d['parentid'] ?? -1) !== 0) {
+                continue;
+            }
+            $did = (int) ($d['id'] ?? 0);
+            if ($did <= 0) {
+                continue;
+            }
+            foreach ($this->getDepartmentUsers($schoolId, $did, true) as $u) {
+                $uid = (string) ($u['userid'] ?? '');
+                if ($uid === '' || isset($seen[$uid])) {
+                    continue;
+                }
+                $seen[$uid] = true;
+
+                $deptNames = [];
+                foreach ($u['department'] ?? [] as $depId) {
+                    $n = $nameById[(int) $depId] ?? null;
+                    if ($n !== null) {
+                        $deptNames[] = $n;
+                    }
+                }
+
+                $members[] = [
+                    'userid' => $uid,
+                    'name' => (string) ($u['name'] ?? ''),
+                    'mobile' => (string) ($u['mobile'] ?? ''),
+                    'email' => (string) ($u['email'] ?? ''),
+                    'position' => (string) ($u['position'] ?? ''),
+                    'department_names' => $deptNames,
+                ];
+            }
+        }
+
+        return ['departments' => $departments, 'members' => $members];
+    }
+
     private function mf(string $t, array $ks): bool
     {
         foreach ($ks as $k) {

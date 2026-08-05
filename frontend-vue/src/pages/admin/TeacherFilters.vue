@@ -13,6 +13,7 @@ const emit = defineEmits<{
   'downloadTemplate': []
   'openImport': []
   'openCreate': []
+  'openWechatImport': []
 }>()
 </script>
 <template>
@@ -38,6 +39,7 @@ const emit = defineEmits<{
       <div class="action-buttons">
         <button class="btn" @click="emit('downloadTemplate')">📥 下载模板</button>
         <button class="btn" @click="emit('openImport')">📤 批量导入</button>
+        <button class="btn" @click="emit('openWechatImport')">🏢 企微导入</button>
         <button class="btn btn-primary" @click="emit('openCreate')">➕ 创建教师</button>
       </div>
     </div>

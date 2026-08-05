@@ -1939,4 +1939,65 @@ class SchoolAdminController extends Controller
         ]]);
     }
 
+    /**
+     * 拉取企业微信通讯录（部门 + 成员），供前端预览导入
+     */
+    public function wechatWorkContacts(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        try {
+            $contacts = app(\App\Services\WechatWorkService::class)->fetchContacts($school->id);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+
+        return response()->json(['data' => $contacts]);
+    }
+
+    /**
+     * 从企业微信通讯录批量导入教师与学生
+     */
+    public function importWechatWorkUsers(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $validator = Validator::make($request->all(), [
+            'teachers' => 'array',
+            'teachers.*.name' => 'required|string|max:50',
+            'teachers.*.mobile' => 'nullable|string|max:30',
+            'teachers.*.email' => 'nullable|string|max:120',
+            'students' => 'array',
+            'students.*.name' => 'required|string|max:50',
+            'students.*.class_id' => 'required|integer',
+            'students.*.gender' => 'nullable|string|max:10',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+
+        $createdTeachers = 0;
+        $teachers = $request->input('teachers', []);
+        if (!empty($teachers)) {
+            $result = $this->authService->createTeacherAccounts($school, $teachers);
+            $createdTeachers = count($result);
+        }
+
+        $createdStudents = 0;
+        $students = $request->input('students', []);
+        foreach ($students as $s) {
+            $student = \App\Models\Student::create([
+                'class_id' => (int) $s['class_id'],
+                'name' => trim($s['name']),
+                'gender' => $s['gender'] ?? null,
+                'status' => 'active',
+            ]);
+            $this->assignDefaultPet($student);
+            $createdStudents++;
+        }
+
+        return response()->json([
+            'message' => "已导入 {$createdTeachers} 名教师、{$createdStudents} 名学生",
+            'data' => ['created_teachers' => $createdTeachers, 'created_students' => $createdStudents],
+        ]);
+    }
+
 }
