@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { getSpeciesById, getLevelRequiredScore, getLevelStage } from '@/utils/petData'
+import { getSpeciesById, getLevelRequiredScore } from '@/utils/petData'
 
 const props = defineProps<{
   speciesId: string

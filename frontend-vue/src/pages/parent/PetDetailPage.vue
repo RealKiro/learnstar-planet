@@ -1,31 +1,25 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
+import { apiGet } from '@/utils/api'
 import {
   getSeriesBySpeciesId,
   getSpeciesById,
   getLevelRequiredScore,
-  SERIES_SCENES,
-  getSpeciesEmoji,
   getPetLevelName,
 } from '@/utils/petData'
 import type { ApiResponse, PetDetail } from '@/types'
 import PetDisplay from '@/components/pet/PetDisplay.vue'
-import PetEvolutionTree from '@/components/pet/PetEvolutionTree.vue'
 import PetFeedAnimation from '@/components/pet/PetFeedAnimation.vue'
 import PetHandbook from '@/components/pet/PetHandbook.vue'
 
 const route = useRoute()
-const toast = useToastStore()
 
 const pet = ref<PetDetail | null>(null)
 const loading = ref(true)
 const showFeedAnimation = ref(false)
 const feedPoints = ref(0)
 const showHandbook = ref(false)
-const activeTab = ref<'info' | 'evolution'>('info')
 const currentQuote = ref('')
 
 const petQuotes = [
@@ -37,22 +31,9 @@ const petQuotes = [
   '你认真做题的样子真帅！🌟',
 ]
 
-const scene = computed(() => {
-  if (!pet.value) return null
-  const series = getSeriesBySpeciesId(pet.value.species)
-  return series ? SERIES_SCENES[series.id] : null
-})
-
 const nextLevelScore = computed(() => {
   if (!pet.value) return 0
   return getLevelRequiredScore(Math.min(pet.value.level + 1, 12))
-})
-
-const progressPercent = computed(() => {
-  if (!pet.value) return 0
-  const current = getLevelRequiredScore(pet.value.level)
-  const next = getLevelRequiredScore(Math.min(pet.value.level + 1, 12))
-  return Math.min(99, ((pet.value.exp) / (next - current)) * 100)
 })
 
 async function loadPet() {

@@ -36,12 +36,18 @@ class AiService
         ]);
 
         if ($response->failed()) {
-            return ['answer' => 'AI 服务暂时不可用', 'tokens_used' => 0];
+            return ['answer' => 'AI 服务暂时不可用', 'tokens_used' => 0, 'prompt_tokens' => 0, 'completion_tokens' => 0];
         }
+
+        $usage = $response->json('usage', []);
+        $promptTokens = $usage['prompt_tokens'] ?? $usage['total_tokens'] ?? 0;
+        $completionTokens = $usage['completion_tokens'] ?? 0;
 
         return [
             'answer' => $response->json('choices.0.message.content') ?? '抱歉，无法回答。',
-            'tokens_used' => $response->json('usage.total_tokens') ?? 0,
+            'tokens_used' => $promptTokens + $completionTokens,
+            'prompt_tokens' => $promptTokens,
+            'completion_tokens' => $completionTokens,
         ];
     }
 
@@ -57,15 +63,19 @@ class AiService
         ]);
 
         if ($response->failed()) {
-            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0];
+            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0, 'prompt_tokens' => 0, 'completion_tokens' => 0];
         }
         $answer = '';
         foreach ($response->json('content', []) as $block) {
             if (($block['type'] ?? '') === 'text') $answer .= $block['text'] ?? '';
         }
+        $promptTokens = $response->json('usage.input_tokens') ?? 0;
+        $completionTokens = $response->json('usage.output_tokens') ?? 0;
         return [
             'answer' => $answer ?: '抱歉，无法回答。',
-            'tokens_used' => ($response->json('usage.input_tokens') ?? 0) + ($response->json('usage.output_tokens') ?? 0),
+            'tokens_used' => $promptTokens + $completionTokens,
+            'prompt_tokens' => $promptTokens,
+            'completion_tokens' => $completionTokens,
         ];
     }
 
@@ -83,11 +93,15 @@ class AiService
             'parameters' => ['max_tokens' => $maxTokens, 'temperature' => 0.7],
         ]);
         if ($response->failed()) {
-            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0];
+            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0, 'prompt_tokens' => 0, 'completion_tokens' => 0];
         }
+        $promptTokens = $response->json('usage.input_tokens') ?? 0;
+        $completionTokens = $response->json('usage.output_tokens') ?? 0;
         return [
             'answer' => $response->json('output.text') ?? '抱歉，无法回答。',
-            'tokens_used' => $response->json('usage.total_tokens') ?? 0,
+            'tokens_used' => $promptTokens + $completionTokens,
+            'prompt_tokens' => $promptTokens,
+            'completion_tokens' => $completionTokens,
         ];
     }
 
@@ -108,12 +122,16 @@ class AiService
         ]);
 
         if ($response->failed()) {
-            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0];
+            return ['answer' => 'AI 服务不可用', 'tokens_used' => 0, 'prompt_tokens' => 0, 'completion_tokens' => 0];
         }
         $answer = $response->json('candidates.0.content.parts.0.text') ?? '抱歉，无法回答。';
+        $promptTokens = $response->json('usageMetadata.promptTokenCount') ?? 0;
+        $completionTokens = $response->json('usageMetadata.candidatesTokenCount') ?? 0;
         return [
             'answer' => $answer,
-            'tokens_used' => ($response->json('usageMetadata.promptTokenCount') ?? 0) + ($response->json('usageMetadata.candidatesTokenCount') ?? 0),
+            'tokens_used' => $promptTokens + $completionTokens,
+            'prompt_tokens' => $promptTokens,
+            'completion_tokens' => $completionTokens,
         ];
     }
 

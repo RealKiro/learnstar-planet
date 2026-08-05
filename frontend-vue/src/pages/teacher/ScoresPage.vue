@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
-import { getSpeciesEmoji, getSeriesBySpeciesId } from '@/utils/petData'
+import { getSpeciesEmoji } from '@/utils/petData'
 import type { ApiResponse, Student, ScoreRule } from '@/types'
 
 const toast = useToastStore()
@@ -126,17 +126,6 @@ function getStudentPetSpecies(student: Student): string {
   return species[(student.id - 1) % species.length]
 }
 
-// ===== 步长编辑 =====
-const editingStep = ref<Record<number, boolean>>({})
-
-function startEditStep(studentId: number) {
-  editingStep.value[studentId] = true
-}
-
-function finishEditStep(studentId: number) {
-  editingStep.value[studentId] = false
-}
-
 // ===== 加减分操作 =====
 function openModal(student: Student, type: 'add' | 'sub') {
   modalStudent.value = student
@@ -185,7 +174,7 @@ async function executeAction(reason: string) {
   }, 800)
 }
 
-function getStudentStep(studentId: number): number {
+function getStudentStep(_studentId: number): number {
   return 1 // default step
 }
 
@@ -213,7 +202,7 @@ async function undoScore(scoreId: number) {
     await apiPost(`/api/v1/teacher/scores/${scoreId}/undo`, {})
     undoStatus.value[scoreId] = 'success'
     setTimeout(() => { undoStatus.value[scoreId] = 'idle' }, 1500)
-    await loadData()
+    await loadRecentScores()
   } catch {
     undoStatus.value[scoreId] = 'error'
     setTimeout(() => { undoStatus.value[scoreId] = 'idle' }, 3000)

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
-import { apiGet, apiPut } from '@/utils/api'
+import { apiGet } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
 
@@ -63,7 +63,7 @@ async function repair() {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' }
     })
-    const data = await res.json()
+    await res.json()
     if (!res.ok) { repairStatus.value = 'error'; setTimeout(() => { repairStatus.value = 'idle' }, 3000); return }
     repairStatus.value = 'success'
     repairDone.value = true
@@ -76,17 +76,6 @@ async function repair() {
 interface SysStatus { version: Record<string, string>; migrations: { migration: string; batch: number }[]; migration_count: number }
 const sysStatus = ref<SysStatus | null>(null)
 const statusLoading = ref(false)
-async function loadStatus() {
-  statusLoading.value = true
-  try {
-    const res = await fetch('/api/v1/admin/system/status', {
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
-    })
-    const data = await res.json()
-    sysStatus.value = data.data || null
-  } catch { /* ignore */ }
-  finally { statusLoading.value = false }
-}
 const logEntries = ref<{ line: string; level: string }[]>([])
 const logTotal = ref(0)
 const logLines = ref(200)
@@ -94,7 +83,6 @@ const logLevel = ref('')
 const logRefreshing = ref(false)
 const logError = ref('')
 let logTimer: ReturnType<typeof setInterval> | null = null
-const levelColors: Record<string, string> = { ERROR: '#EF4444', WARNING: '#F59E0B', INFO: '#3B82F6', DEBUG: '#6B7280', CRITICAL: '#DC2626', ALERT: '#7C3AED', EMERGENCY: '#EF4444', NOTICE: '#10B981' }
 async function loadLogs() {
   logRefreshing.value = true; logError.value = ''
   try {
@@ -137,7 +125,7 @@ async function save() {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: form.value.name.trim(), address: form.value.address.trim(), contact_phone: form.value.contact_phone.trim(), contact_email: form.value.contact_email.trim() }),
     })
-    const data = await res.json()
+    await res.json()
     if (!res.ok) { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000); return }
     saveStatus.value = 'success'
     setTimeout(() => { saveStatus.value = 'idle' }, 1500)

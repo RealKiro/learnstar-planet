@@ -4,11 +4,12 @@ import { useToastStore } from '@/stores/toast'
 
 const toast = useToastStore()
 
-interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean; _expanded?: boolean; billing_enabled?: boolean; tokens_used?: number; total_calls?: number; estimated_cost?: number }
+interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean; _expanded?: boolean; billing_enabled?: boolean; tokens_used?: number; total_calls?: number; estimated_cost?: number; input_price_per_m?: number; output_price_per_m?: number; currency?: string; balance?: number }
 interface AiSettings { enabled: boolean; max_tokens: number; tokens_used: number; tokens_limit: number; providers: ProviderConfig[] }
 interface DailyUsage { date: string; tokens: number; count: number }
-interface ConversationLog { id: number; student_name: string; question: string; answer: string; tokens_used: number; created_at: string }
-interface AiUsage { enabled: boolean; tokens_used: number; tokens_limit: number; total_conversations: number; daily_usage: DailyUsage[]; recent_logs: ConversationLog[] }
+interface ConversationLog { id: number; student_name: string; provider?: string; question: string; answer: string; tokens_used: number; cost?: number; currency?: string; created_at: string }
+interface ProviderUsage { tokens: number; total_calls: number; estimated_cost: number; cost_per_token: number; currency: string }
+interface AiUsage { enabled: boolean; tokens_used: number; tokens_limit: number; estimated_cost?: number; total_conversations: number; daily_usage: DailyUsage[]; by_provider?: Record<string, ProviderUsage>; recent_logs: ConversationLog[] }
 
 const loading = ref(true)
 const settings = ref<AiSettings | null>(null)
@@ -24,6 +25,11 @@ const filteredLogs = computed(() => {
   return usage.value.recent_logs.filter(log =>
     (log.student_name || '').toLowerCase().includes(q)
   )
+})
+const usageCurrency = computed(() => {
+  const bp = usage.value?.by_provider || {}
+  const keys = Object.keys(bp)
+  return keys.length ? (bp[keys[0]]?.currency === 'USD' ? '$' : '¥') : '¥'
 })
 
 // ===== 供应商元数据（含计费信息） =====
@@ -123,10 +129,7 @@ const groupedProviders = computed(() => {
   return groups
 })
 
-const showAddProvider = ref(false)
 const newProvider = ref({ id: '', label: '', api_key: '', api_base: '', model: '', is_active: false })
-const activeProviderId = ref('')
-const activeProviderMeta = computed(() => providerMeta.find(m => m.id === activeProviderId.value))
 
 // MCP 配置
 const mcpConfigs = computed({
@@ -140,7 +143,6 @@ const newMcp = ref({ name: '', api_key: '', api_base: '', model: 'mcp-default', 
 const showAddMcp = ref(false)
 
 const mcpErrors = reactive<Record<string, string>>({})
-function mcpClr(f: string) { delete mcpErrors[f] }
 function mcpVld(): boolean {
   if (!newMcp.value.name.trim()) { mcpErrors.name = '请输入 MCP 连接名称'; return false }
   if (!newMcp.value.api_base.trim()) { mcpErrors.api_base = '请输入 API 地址'; return false }
@@ -149,7 +151,8 @@ function mcpVld(): boolean {
 function addMcp() {
   Object.keys(mcpErrors).forEach(k => delete mcpErrors[k])
   if (!mcpVld()) return
-  if (!settings.value?.providers) settings.value.providers = []
+  if (!settings.value) return
+  if (!settings.value.providers) settings.value.providers = []
   settings.value.providers.push({
     id: 'mcp_' + Date.now(), label: newMcp.value.name,
     api_key: newMcp.value.api_key, api_base: newMcp.value.api_base,
@@ -197,7 +200,7 @@ async function saveSettings() {
       method: 'PUT', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
       body: JSON.stringify(settings.value),
     })
-    const data = await res.json()
+    await res.json()
     if (!res.ok) { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000); return }
     saveStatus.value = 'success'
     loadData()
@@ -213,7 +216,7 @@ async function toggleAi(val: boolean) {
       method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
       body: JSON.stringify({ enabled: val }),
     })
-    const data = await res.json()
+    await res.json()
     if (!res.ok) { toggleStatus.value = 'error'; setTimeout(() => { toggleStatus.value = 'idle' }, 3000); return }
     toggleStatus.value = 'success'
     settings.value.enabled = val
@@ -225,11 +228,17 @@ function addProviderToSettings() {
   if (!newProvider.value.id) return
   const meta = providerMeta.find(m => m.id === newProvider.value.id)
   if (!meta) return
-  if (!settings.value?.providers) settings.value.providers = []
+  if (!settings.value) return
+  if (!settings.value.providers) settings.value.providers = []
   if (settings.value.providers.some(p => p.id === meta.id)) { newProvider.value.id = ''; return }
+  const parsePrice = (s: string) => { const m = s?.match(/([\d.]+)/); return m ? parseFloat(m[1]) : 0 }
+  const priceCurrency = (s: string) => s?.includes('¥') ? 'CNY' : s?.includes('$') ? 'USD' : 'CNY'
   settings.value.providers.push({
     id: meta.id, label: meta.label, api_key: '', api_base: '',
     model: meta.models[0] || '', is_active: false, billing_enabled: false,
+    input_price_per_m: parsePrice(meta.pricing.input),
+    output_price_per_m: parsePrice(meta.pricing.output),
+    currency: priceCurrency(meta.pricing.input),
     _expanded: false,
   })
   newProvider.value.id = ''
@@ -276,8 +285,8 @@ onMounted(loadData)
         </div>
         <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
           <div style="font-size:11px;color:var(--color-text-secondary);">预估费用</div>
-          <div style="font-size:22px;font-weight:700;color:#f59e0b;">${{ (usage?.estimated_cost || 0).toFixed(2) }}</div>
-          <div style="font-size:11px;color:var(--color-text-secondary);">本月累计</div>
+          <div style="font-size:22px;font-weight:700;color:#f59e0b;">{{ usageCurrency }}{{ (usage?.estimated_cost || 0).toFixed(2) }}</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">本地估算</div>
         </div>
       </div>
 
@@ -381,8 +390,13 @@ onMounted(loadData)
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型</label><select v-model="p.model" class="form-input" style="font-size:11px;padding:5px 8px;"><option v-for="m in getProviderMeta(p.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API 地址</label><input v-model="p.api_base" class="form-input" placeholder="默认官方地址" style="font-size:11px;padding:5px 8px;"></div>
           </div>
+          <div v-if="p._expanded && p.billing_enabled" style="padding:0 14px 10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;border-top:1px solid var(--color-border);">
+            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">输入单价（每M tokens）</label><input v-model.number="p.input_price_per_m" type="number" min="0" step="0.0001" class="form-input" style="font-size:11px;padding:5px 8px;"></div>
+            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">输出单价（每M tokens）</label><input v-model.number="p.output_price_per_m" type="number" min="0" step="0.0001" class="form-input" style="font-size:11px;padding:5px 8px;"></div>
+            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">币种</label><select v-model="p.currency" class="form-input" style="font-size:11px;padding:5px 8px;"><option value="CNY">¥ CNY</option><option value="USD">$ USD</option></select></div>
+          </div>
           <div v-if="p.tokens_used !== undefined" style="padding:5px 14px;background:var(--color-bg);font-size:10px;color:var(--color-text-secondary);border-top:1px solid var(--color-border);">
-            📊 已用 {{ (p.tokens_used||0).toLocaleString() }} tokens · {{ p.total_calls||0 }} 次调用 · 预估 ${{ (p.estimated_cost||0).toFixed(4) }}
+            📊 已用 {{ (p.tokens_used||0).toLocaleString() }} tokens · {{ p.total_calls||0 }} 次调用 · 预估 {{ p.currency === 'USD' ? '$' : '¥' }}{{ (p.estimated_cost||0).toFixed(4) }}
           </div>
         </div>
       </div>
@@ -453,7 +467,7 @@ onMounted(loadData)
               <span style="font-weight:500;">{{ key }}</span>
               <span style="text-align:right;color:var(--color-primary);font-weight:600;">{{ (val.tokens||0).toLocaleString() }}</span>
               <span style="text-align:right;color:var(--color-text-secondary);">{{ val.total_calls||0 }}</span>
-              <span style="text-align:right;font-weight:600;">${{ (val.estimated_cost||0).toFixed(4) }}</span>
+              <span style="text-align:right;font-weight:600;">{{ val.currency === 'USD' ? '$' : '¥' }}{{ (val.estimated_cost||0).toFixed(4) }}</span>
             </div>
             <div v-if="!Object.keys(usage.by_provider||{}).length" style="padding:8px 12px;font-size:12px;color:var(--color-text-secondary);text-align:center;">暂无数据</div>
           </div>
@@ -492,7 +506,7 @@ onMounted(loadData)
         </div>
         <div v-if="filteredLogs.length" style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
           <div v-for="log in filteredLogs" :key="log.id" style="padding:10px 14px;border-bottom:1px solid var(--color-border);font-size:12px;">
-            <div style="display:flex;gap:8px;margin-bottom:2px;flex-wrap:wrap;"><span style="font-weight:600;flex:1;">{{ log.student_name || '匿名' }}</span><span style="color:var(--color-primary);font-size:11px;">{{ log.tokens_used }} tokens</span><span style="color:var(--color-text-secondary);font-size:11px;">{{ log.created_at }}</span></div>
+            <div style="display:flex;gap:8px;margin-bottom:2px;flex-wrap:wrap;"><span style="font-weight:600;flex:1;">{{ log.student_name || '匿名' }}</span><span v-if="log.provider" style="color:var(--color-text-secondary);font-size:11px;">{{ log.provider }}</span><span style="color:var(--color-primary);font-size:11px;">{{ log.tokens_used }} tokens</span><span v-if="log.cost" style="color:#f59e0b;font-size:11px;">{{ log.cost }} {{ log.currency }}</span><span style="color:var(--color-text-secondary);font-size:11px;">{{ log.created_at }}</span></div>
             <div style="color:var(--color-text);"><strong>问：</strong>{{ log.question }}</div>
             <div style="color:var(--color-text-secondary);"><strong>答：</strong>{{ log.answer?.substring(0,200) }}{{ log.answer?.length > 200 ? '...' : '' }}</div>
           </div>

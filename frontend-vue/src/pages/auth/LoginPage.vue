@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, reactive, nextTick, onMounted, onUnmounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
@@ -9,7 +8,6 @@ import type { ApiResponse, User } from '@/types'
 
 const props = withDefaults(defineProps<{ initialRole?: string; mode?: string }>(), { initialRole: 'teacher', mode: 'account' })
 const router = useRouter()
-const route = useRoute()
 const authStore = useAuthStore()
 const toast = useToastStore()
 
@@ -29,6 +27,11 @@ const loginStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 // 内联校验
 const loginErrors = reactive<Record<string, string>>({})
 function clearLoginErr(f: string) { delete loginErrors[f] }
+function onClassCodeInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  classCode.value = input.value.replace(/[^0-9]/g, '').slice(0, 4)
+  clearLoginErr('classCode')
+}
 function validateLoginField(field: string, val: string): boolean {
   if (field === 'teacherUsername' && !val.trim()) { loginErrors.teacherUsername = '请输入教师账号'; return false }
   if (field === 'teacherPassword' && !val.trim()) { loginErrors.teacherPassword = '请输入教师登录密码'; return false }
@@ -286,7 +289,7 @@ function goToSlide(i: number) {
         </transition>
         <div class="intro-dots">
           <button
-            v-for="(slide, i) in slides" :key="i"
+            v-for="(_, i) in slides" :key="i"
             :class="['intro-dot', { 'intro-dot--active': currentSlide === i }]"
             @click="goToSlide(i)"
           ></button>
@@ -388,12 +391,12 @@ function goToSlide(i: number) {
           </div>
           <template v-else>
             <div class="form-group">
-              <input v-model="classCode" class="form-input" placeholder="请向班主任获取班级码" maxlength="12" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @blur="validateLoginField('classCode', classCode)" @input="clearLoginErr('classCode')" @keydown.enter="handleClassLogin">
+              <input :value="classCode" class="form-input" placeholder="输入4位班级码" maxlength="4" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @input="onClassCodeInput" @blur="validateLoginField('classCode', classCode)" @keydown.enter="handleClassLogin">
               <div v-if="loginErrors.classCode" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.classCode }}</div>
             </div>
-            <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 DEMO00</p>
+            <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 0302（三年级2班）</p>
             <div v-if="classCodeError" class="error-msg" style="color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px;">{{ classCodeError }}</div>
-            <button class="login-submit login-submit--purple" :disabled="loginStatus === 'loading' || classCode.length < 3" @click="handleClassLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+            <button class="login-submit login-submit--purple" :disabled="loginStatus === 'loading' || classCode.length < 4" @click="handleClassLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
               <span v-if="loginStatus === 'idle'">🚀 进入班级</span>
               <span v-else-if="loginStatus === 'loading'">⏳ 验证中...</span>
               <span v-else-if="loginStatus === 'success'">✅ 欢迎进入</span>

@@ -2,16 +2,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import {
   getAllSeries,
   getSeriesBySpeciesId,
   getSpeciesById,
-  getSeriesName,
   getSpeciesEmoji,
   SERIES_SCENES,
   getPetLevelName,
-  getPetLevelDescription,
   getLevelStage,
 } from '@/utils/petData'
 import type { ApiResponse, Pet, PetDetail } from '@/types'
@@ -20,7 +17,6 @@ import PetEvolutionTree from '@/components/pet/PetEvolutionTree.vue'
 import PetFeedAnimation from '@/components/pet/PetFeedAnimation.vue'
 import PetHandbook from '@/components/pet/PetHandbook.vue'
 
-const toast = useToastStore()
 const router = useRouter()
 
 function goToRules() { router.push({ name: 'teacher-rules' }) }
@@ -49,16 +45,6 @@ const stats = computed(() => ({
   mature: pets.value.filter(p => p.level >= 8 && p.level < 11).length,
 }))
 
-// 按系列分组的宠物
-const groupedPets = computed(() => {
-  const groups: Record<string, PetDetail[]> = {}
-  for (const p of pets.value) {
-    const seriesId = p.seriesId || 'myth'
-    if (!groups[seriesId]) groups[seriesId] = []
-    groups[seriesId].push(p)
-  }
-  return groups
-})
 
 // 筛选后的宠物
 const filteredPets = computed(() => {
@@ -136,11 +122,6 @@ function selectPet(pet: PetDetail) {
   selectedPet.value = pet
   showDetailPanel.value = true
   activeTab.value = 'info'
-}
-
-function closeDetail() {
-  showDetailPanel.value = false
-  selectedPet.value = null
 }
 
 // 投喂
@@ -376,7 +357,7 @@ onMounted(async () => {
               :species-id="selectedPet.species"
               :current-level="selectedPet.level"
               :current-exp="selectedPet.exp"
-              @select="(lvl) => selectedPet.level = lvl"
+              @select="(lvl) => selectedPet!.level = lvl"
             />
           </div>
 

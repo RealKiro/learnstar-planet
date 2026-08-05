@@ -116,7 +116,7 @@ function openEditModal(s: Student) {
 }
 
 function onFormClassChange(clasId: number | '') {
-  form.class_id = clasId
+  form.value.class_id = clasId
 }
 
 function onTargetClassChange(clasId: number | '') {
@@ -125,7 +125,7 @@ function onTargetClassChange(clasId: number | '') {
 
 function onFormGradeChange() {
   formClassId.value = ''
-  form.class_id = ''
+  form.value.class_id = ''
 }
 
 function onTargetGradeChange() {

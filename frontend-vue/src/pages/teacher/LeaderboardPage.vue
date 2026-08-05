@@ -34,7 +34,7 @@ async function fetchData(type: LbType) {
   loading.value = true
   try {
     const res = await apiGet<ApiResponse<LeaderboardEntry[]>>(`/api/v1/teacher/leaderboard/${type}`)
-    entries.value = (res.data || []).map((e, i) => ({
+    entries.value = (res.data || []).map((e) => ({
       ...e,
       pet_emoji: getSpeciesEmoji((e as any).pet_species || ''),
     }))

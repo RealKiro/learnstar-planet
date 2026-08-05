@@ -6,7 +6,6 @@ const input = ref('')
 const sending = ref(false)
 const aiEnabled = ref(false)
 const loading = ref(true)
-const chatBody = ref<HTMLElement | null>(null)
 
 onMounted(async () => {
   const token = sessionStorage.getItem('class_token') || ''

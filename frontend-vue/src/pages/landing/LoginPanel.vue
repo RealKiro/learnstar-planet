@@ -23,7 +23,6 @@ const loginStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const pwdRef = ref()
 
 let attempts = 0
-const MAX = 3
 
 function focusPwd() {
   if (username.value.trim()) {
@@ -59,7 +58,7 @@ async function doLogin() {
       url = '/api/v1/auth/parent/login'
       routeName = 'parent-home'
     }
-    var res = await apiPost(url, { username: u, password: p })
+    var res = await apiPost<{ data: { token: string; user: any } }>(url, { username: u, password: p })
     authStore.setAuth(res.data.token, res.data.user)
     loginStatus.value = 'success'
     setTimeout(() => { loginStatus.value = 'idle' }, 1500)

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -16,16 +15,11 @@ const emit = defineEmits<{ logout: [] }>()
 
 const router = useRouter()
 const route = useRoute()
-const authStore = useAuthStore()
 
 const activeNav = computed(() => String(route.name))
 
 function navigate(name: string) {
   router.push({ name })
-}
-
-function goHome() {
-  router.push({ name: 'landing' })
 }
 </script>
 

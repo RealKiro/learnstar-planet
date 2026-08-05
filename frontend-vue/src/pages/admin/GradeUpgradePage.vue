@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, GradeUpgradePreview } from '@/types'
-
-const toast = useToastStore()
 
 const preview = ref<GradeUpgradePreview | null>(null)
 const loading = ref(false)

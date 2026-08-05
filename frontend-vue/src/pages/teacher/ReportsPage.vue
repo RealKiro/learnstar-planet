@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { apiGet } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
-import { getStageEmoji, getStageName } from '@/utils/constants'
+import { getStageEmoji } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
 import axios from 'axios'
 

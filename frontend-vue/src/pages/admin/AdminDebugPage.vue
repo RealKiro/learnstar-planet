@@ -30,7 +30,7 @@ async function repair() {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' }
     })
-    const data = await res.json()
+    await res.json()
     if (!res.ok) { repairStatus.value = 'error'; setTimeout(() => { repairStatus.value = 'idle' }, 3000); return }
     repairStatus.value = 'success'
     repairDone.value = true

@@ -20,6 +20,14 @@ const showHint = ref(false)
 
 onMounted(async () => {
   loading.value = false
+  try {
+    const [cmdRes, usageRes] = await Promise.all([
+      apiGet<ApiResponse<AICommand[]>>('/api/v1/teacher/ai/commands'),
+      apiGet<ApiResponse<Usage>>('/api/v1/teacher/ai/usage'),
+    ])
+    commands.value = cmdRes.data || []
+    usage.value = usageRes.data || null
+  } catch { /* handled */ }
 })
 
 async function scrollToBottom() {
@@ -75,10 +83,7 @@ function useCommand(cmd: AICommand) {
           <span>AI 功能尚未配置</span>
         </div>
         <div style="font-size:12px;padding-left:24px;color:#b45309;line-height:1.6;">
-          在 .env 中配置以下环境变量即可使用：<br>
-          AI_PROVIDER=deepseek（支持 deepseek / openai / qwen / moonshot）<br>
-          AI_API_KEY=你申请的 API Key<br>
-          配置后重启容器生效。
+          请管理员在后台「AI 中心」添加并启用一个供应商（支持 30+ 供应商），即可开始使用。
         </div>
       </div>
 

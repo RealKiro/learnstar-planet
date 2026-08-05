@@ -19,6 +19,7 @@ class ExchangeRate extends Model
 {
     protected $fillable = [
         'school_id',
+        'name',
         'from_currency',
         'to_currency',
         'rate',

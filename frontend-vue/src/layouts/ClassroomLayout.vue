@@ -73,6 +73,11 @@ async function pollEvents() {
   } catch { /* polling fails silently */ }
 }
 
+function handleEvent(type: string, data: any) {
+  if (type === 'notice') showNotice(data)
+  else showBroadcast(data)
+}
+
 function showBroadcast(data: any) {
   currentBroadcast.value = {
     id: data.id,

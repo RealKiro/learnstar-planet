@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { apiPost } from '@/utils/api'
-import { getAllSeries, getSpeciesEmoji, PET_SERIES, getSpeciesById, getPetLevelName } from '@/utils/petData'
+import { getAllSeries, getSpeciesEmoji, PET_SERIES, getSpeciesById } from '@/utils/petData'
 import { getPoems, getEvoLines, STAGE_NAMES } from '@/utils/petHandbookData'
 
 const token = ref('')
@@ -17,7 +17,6 @@ let timer: ReturnType<typeof setInterval>
 const allSeries = getAllSeries()
 
 const seriesList = computed(() => PET_SERIES)
-const currentSeriesData = computed(() => seriesList.value.find(s => s.id === currentSeries.value) || seriesList.value[0])
 
 const detailSpecies = computed(() => {
   if (!selectedSpecies.value) return null

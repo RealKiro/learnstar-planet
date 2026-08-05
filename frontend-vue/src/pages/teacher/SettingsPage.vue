@@ -19,7 +19,6 @@ const pwdStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 // 修改密码弹窗
 const showPwdModal = ref(false)
 const pwdForm = ref({ current_password: '', new_password: '', confirm_password: '' })
-const changingPwd = ref(false)
 const pwdErrors = reactive<Record<string, string>>({})
 function pwdClr(f: string) { delete pwdErrors[f] }
 function pwdVld(field: string): boolean {
@@ -86,7 +85,10 @@ function openPwdModal() {
 }
 
 async function changePassword() {
-  if (!pwdVld('current_password') | !pwdVld('new_password') | !pwdVld('confirm_password')) return
+  const ok1 = pwdVld('current_password')
+  const ok2 = pwdVld('new_password')
+  const ok3 = pwdVld('confirm_password')
+  if (!ok1 || !ok2 || !ok3) return
   pwdStatus.value = 'loading'
   try {
     await apiPost('/api/v1/auth/change-password', {

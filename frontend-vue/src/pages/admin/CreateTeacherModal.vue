@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
 interface ClassRoom {
@@ -39,8 +38,6 @@ const emit = defineEmits<{
   'created': []
 }>()
 
-const toast = useToastStore()
-
 const createForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', password: '' })
 const createErrors = ref<Record<string, string>>({})
 const createStatus = ref<CreateStatus>('idle')
@@ -69,10 +66,6 @@ function shortClassName(name: string | undefined) {
   if (!name) return ''
   const m = name.match(/（(\d+)）班/)
   return m ? m[1] + '班' : name
-}
-
-function classById(id: number) {
-  return props.classes.find(c => c.id === id)
 }
 
 function clearError(field: string) {

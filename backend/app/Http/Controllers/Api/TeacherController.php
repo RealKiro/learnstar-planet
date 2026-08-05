@@ -1349,7 +1349,7 @@ class TeacherController extends Controller
         if ($items->isEmpty() && $teacher->school_id) {
             $defaults = [
                 // 积分充值类
-                ['name' => '班级积分 +10', 'description' => '兑换 10 班级积分', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'score'],
+                ['name' => '班级积分 +10', 'description' => '兑换 10 班级积分', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'class_point'],
                 ['name' => '科学币 +5', 'description' => '兑换 5 科学币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'science'],
                 ['name' => '读书币 +5', 'description' => '兑换 5 读书币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'reading'],
                 ['name' => '体育币 +5', 'description' => '兑换 5 体育币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'class_point'],
@@ -1424,7 +1424,10 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
-        $item = ShopItem::whereIn('class_id', $classIds)->findOrFail($id);
+        $item = ShopItem::where(function ($q) use ($teacher, $classIds) {
+            $q->where('school_id', $teacher->school_id)->whereNull('class_id')
+                ->orWhereIn('class_id', $classIds);
+        })->findOrFail($id);
 
         $item->update($request->only([
             'name',
@@ -1445,7 +1448,10 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
-        $item = ShopItem::whereIn('class_id', $classIds)->findOrFail($id);
+        $item = ShopItem::where(function ($q) use ($teacher, $classIds) {
+            $q->where('school_id', $teacher->school_id)->whereNull('class_id')
+                ->orWhereIn('class_id', $classIds);
+        })->findOrFail($id);
         $item->delete();
 
         return response()->json(['message' => '商品已删除']);
@@ -1484,13 +1490,22 @@ class TeacherController extends Controller
             'shop_item_id' => 'required|integer',
         ]);
 
-        $item = ShopItem::whereIn('class_id', $classIds)->findOrFail($request->input('shop_item_id'));
+        $item = ShopItem::where(function ($q) use ($teacher, $classIds) {
+            $q->where('school_id', $teacher->school_id)->whereNull('class_id')
+                ->orWhereIn('class_id', $classIds);
+        })->findOrFail($request->input('shop_item_id'));
+
+        if (!$item->is_active) {
+            return response()->json(['message' => '该商品已下架'], 422);
+        }
+
         $student = Student::whereIn('class_id', $classIds)->findOrFail($request->input('student_id'));
 
+        // class_id 存学生所在班级：学校级商品（class_id=null）的兑换单也能被该班教师看到/审批
         $redemption = ShopRedemption::create([
             'student_id' => $student->id,
             'shop_item_id' => $item->id,
-            'class_id' => $item->class_id,
+            'class_id' => $student->class_id,
             'cost' => $item->cost_score,
             'status' => 'pending',
         ]);
@@ -1517,8 +1532,11 @@ class TeacherController extends Controller
         $currency = $item->currency_type ?? 'score';
 
         try {
-            // 根据币种选择扣款方式
-            if ($currency === 'score') {
+            // 根据商品类型选择结算方式
+            if ($item && $item->category === 'points' && in_array($currency, ['science', 'reading', 'class_point'], true)) {
+                // 积分充值类（如"科学币+5"）：扣积分 + 扣宠物经验 → 按汇率发放钱包币
+                app(CurrencyService::class)->exchange($student->id, $currency, $cost, $teacher->id);
+            } elseif ($currency === 'score') {
                 // 积分兑换：扣积分 + 扣宠物经验
                 $this->scoreService->spendScore($student, $cost, '兑换：' . $itemName, $teacher->id);
             } else {
@@ -2111,26 +2129,144 @@ class TeacherController extends Controller
 
         $teacher = $request->user();
         $settings = \App\Models\AiSetting::where('school_id', $teacher->school_id)->first();
-        if (!$settings || !$settings->enabled || empty($settings->api_key)) {
+        if (!$settings || !$settings->enabled) {
             return response()->json(['data' => ['reply' => 'AI 功能未启用，请联系管理员配置']]);
         }
+
+        // 从多供应商配置中查找启用的供应商，兼容旧版单供应商配置
+        $activeProvider = null;
+        foreach ($settings->providers ?: [] as $p) {
+            if (!empty($p['is_active']) && !empty($p['api_key'])) {
+                $activeProvider = $p;
+                break;
+            }
+        }
+        if (!$activeProvider && !empty($settings->api_key)) {
+            $activeProvider = [
+                'id' => $settings->provider ?: 'openai',
+                'api_key' => $settings->api_key,
+                'api_base' => $settings->api_base,
+                'model' => $settings->model ?: 'gpt-3.5-turbo',
+            ];
+        }
+        if (!$activeProvider) {
+            return response()->json(['data' => ['reply' => '请先在 AI 中心配置并启用一个供应商']]);
+        }
+
+        $classId = $teacher->getSetting('active_class_id') ?: null;
+
+        $conversation = \App\Models\AiConversation::create([
+            'school_id' => $teacher->school_id,
+            'class_id' => $classId,
+            'student_name' => '教师',
+            'provider' => $activeProvider['id'],
+            'question' => $request->input('message'),
+            'status' => 'pending',
+        ]);
 
         try {
             $ai = new \App\Services\AiService();
             $result = $ai->chat(
-                provider: $settings->provider,
-                apiKey: $settings->api_key,
-                model: $settings->model,
+                provider: $activeProvider['id'],
+                apiKey: $activeProvider['api_key'],
+                model: $activeProvider['model'] ?: 'gpt-3.5-turbo',
                 question: $request->input('message'),
-                apiBase: $settings->api_base,
+                apiBase: $activeProvider['api_base'] ?? null,
                 maxTokens: $settings->max_tokens,
             );
             $reply = $result['answer'];
+            $promptTokens = $result['prompt_tokens'] ?? 0;
+            $completionTokens = $result['completion_tokens'] ?? 0;
+            $tokensUsed = $result['tokens_used'] ?? ($promptTokens + $completionTokens);
         } catch (\Throwable $e) {
             $reply = 'AI 服务暂时不可用';
+            $tokensUsed = 0;
+            $promptTokens = 0;
+            $completionTokens = 0;
+        }
+
+        // 本地精确计费：按供应商单价计算本次费用
+        $cost = app(\App\Services\AiBilling\AiBillingService::class)->recordUsage($activeProvider, $promptTokens, $completionTokens);
+        $currency = $activeProvider['currency'] ?? 'CNY';
+
+        $conversation->update([
+            'answer' => $reply,
+            'tokens_used' => $tokensUsed,
+            'prompt_tokens' => $promptTokens,
+            'completion_tokens' => $completionTokens,
+            'cost' => $cost,
+            'currency' => $currency,
+            'status' => 'completed',
+        ]);
+
+        if ($tokensUsed > 0) {
+            $settings->increment('tokens_used', $tokensUsed);
+            $providers = $settings->providers ?: [];
+            foreach ($providers as &$p) {
+                if (($p['id'] ?? '') === ($activeProvider['id'] ?? '')) {
+                    $p['tokens_used'] = ($p['tokens_used'] ?? 0) + $tokensUsed;
+                    $p['total_calls'] = ($p['total_calls'] ?? 0) + 1;
+                    $p['estimated_cost'] = ($p['estimated_cost'] ?? 0) + $cost;
+                    $p['currency'] = $currency;
+                    break;
+                }
+            }
+            $settings->providers = $providers;
+            $settings->save();
         }
 
         return response()->json(['data' => ['reply' => $reply]]);
+    }
+
+    /**
+     * 教师端 AI 用量（前端 AIPage 每次发送后刷新）
+     */
+    public function getAiUsage(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $settings = \App\Models\AiSetting::where('school_id', $teacher->school_id)->first();
+
+        $active = null;
+        if ($settings) {
+            foreach ($settings->providers ?: [] as $p) {
+                if (!empty($p['is_active']) && !empty($p['api_key'])) {
+                    $active = $p;
+                    break;
+                }
+            }
+            if (!$active && !empty($settings->api_key)) {
+                $active = ['id' => $settings->provider ?: 'openai', 'model' => $settings->model];
+            }
+        }
+
+        $estimatedCost = 0.0;
+        $currency = 'CNY';
+        foreach ($settings->providers ?? [] as $p) {
+            $estimatedCost += (float) ($p['estimated_cost'] ?? 0);
+            $currency = (string) ($p['currency'] ?? $currency);
+        }
+
+        return response()->json(['data' => [
+            'configured' => $settings !== null && $settings->enabled && $active !== null,
+            'provider' => $active['id'] ?? ($settings->provider ?? null),
+            'model' => $active['model'] ?? ($settings->model ?? null),
+            'tokens_used' => $settings ? (int) $settings->tokens_used : 0,
+            'estimated_cost' => $estimatedCost,
+            'currency' => $currency,
+        ]]);
+    }
+
+    /**
+     * 教师端 AI 预设命令
+     */
+    public function getAiCommands(Request $request): JsonResponse
+    {
+        return response()->json(['data' => [
+            ['label' => '📝 本周教学总结', 'prompt' => '请帮我写一份本周教学总结，包含本周教学目标、课堂情况、学生表现和下周教学计划。'],
+            ['label' => '🏅 积分规则建议', 'prompt' => '请根据班级日常情况，生成一套适合小学生的积分奖励规则建议。'],
+            ['label' => '🎯 班会活动方案', 'prompt' => '请设计一个有趣的小学生班会活动方案，包含活动目标、流程和所需材料。'],
+            ['label' => '📋 出练习题', 'prompt' => '请出一组适合本年级学生的练习题，包含题目和参考答案。'],
+        ]]);
     }
 
     // ============================================================
@@ -2140,7 +2276,25 @@ class TeacherController extends Controller
     public function listExchangeRates(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $rates = \App\Models\ExchangeRate::where('school_id', $teacher->school_id)
+        $schoolId = $teacher->school_id;
+
+        // 首次访问惰性初始化默认汇率，保证积分充值类商品不配汇率也能结算
+        $exists = \App\Models\ExchangeRate::where('school_id', $schoolId)->exists();
+        if (!$exists) {
+            $defaults = [
+                ['name' => '积分 → 科学币', 'from_currency' => 'score', 'to_currency' => 'science', 'rate' => 0.5],
+                ['name' => '积分 → 读书币', 'from_currency' => 'score', 'to_currency' => 'reading', 'rate' => 0.5],
+                ['name' => '积分 → 班级积分', 'from_currency' => 'score', 'to_currency' => 'class_point', 'rate' => 1],
+            ];
+            foreach ($defaults as $d) {
+                \App\Models\ExchangeRate::firstOrCreate(
+                    ['school_id' => $schoolId, 'from_currency' => $d['from_currency'], 'to_currency' => $d['to_currency']],
+                    ['name' => $d['name'], 'rate' => $d['rate'], 'is_active' => true],
+                );
+            }
+        }
+
+        $rates = \App\Models\ExchangeRate::where('school_id', $schoolId)
             ->orderBy('from_currency')->orderBy('to_currency')->get();
 
         return response()->json(['data' => $rates]);

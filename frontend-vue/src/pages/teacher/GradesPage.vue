@@ -18,8 +18,6 @@ const loading = ref(true)
 const selectedExam = ref('')
 const examOptions = ref<string[]>([])
 
-const subjects = ref<string[]>([])
-
 // 录入弹窗
 const showInputModal = ref(false)
 const inputForm = ref({ exam_name: '', subject: '', grades: [] as { student_id: number; score: number }[] })

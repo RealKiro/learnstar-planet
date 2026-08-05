@@ -135,15 +135,21 @@ class AuthController extends Controller
     public function classLogin(Request $request): JsonResponse
     {
         $request->validate([
-            'class_code' => 'required|string|max:20',
+            'class_code' => 'required|string|digits:4',
         ]);
 
         $classCode = $request->input('class_code');
-        $class = ClassRoom::where('display_code', $classCode)->first();
+        $classes = ClassRoom::where('display_code', $classCode)->get();
 
-        if (!$class) {
+        if ($classes->isEmpty()) {
             return response()->json(['message' => '班级码无效，请核对后重试'], 401);
         }
+
+        if ($classes->count() > 1) {
+            return response()->json(['message' => '班级码在多所学校存在，请向班主任确认'], 401);
+        }
+
+        $class = $classes->first();
 
         $token = 'class_' . $classCode . '_' . Str::random(32);
 

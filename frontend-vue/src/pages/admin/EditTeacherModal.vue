@@ -4,8 +4,6 @@ import { apiPut } from '@/utils/api'
 import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
-type PersonalRole = 'grade_lead' | 'admin_director' | null
-
 interface Teacher {
   id: number
   name: string

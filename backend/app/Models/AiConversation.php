@@ -12,11 +12,15 @@ class AiConversation extends Model
 
     protected $fillable = [
         'school_id', 'class_id', 'student_id', 'student_name', 'provider',
-        'question', 'answer', 'tokens_used', 'status',
+        'question', 'answer', 'tokens_used', 'prompt_tokens', 'completion_tokens',
+        'cost', 'currency', 'status',
     ];
 
     protected $casts = [
         'tokens_used' => 'integer',
+        'prompt_tokens' => 'integer',
+        'completion_tokens' => 'integer',
+        'cost' => 'decimal:6',
     ];
 
     public function school()

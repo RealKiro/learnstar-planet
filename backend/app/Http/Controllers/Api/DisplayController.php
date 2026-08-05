@@ -448,30 +448,11 @@ class DisplayController extends Controller
 
     /**
      * 生成班级大屏码
-     * 格式: {年级缩写}-{班号}-{4位随机码}
-     * 例如: 3-1-A7K2
+     * 4 位数字：年级2位 + 班号2位（如三年级2班 → 0302），确定性、不随机
      */
     private function generateDisplayCode(ClassRoom $classRoom): string
     {
-        $grade = $classRoom->grade ?? '0';
-        $name = $classRoom->name ?? '';
-
-        // 从班级名提取班号: "三年级（1）班" → "1"
-        $classNo = '0';
-        if (preg_match('/（(\d+)）班/', $name, $m)) {
-            $classNo = $m[1];
-        }
-
-        $random = strtoupper(Str::random(4));
-
-        // 确保不重复
-        $code = "{$grade}-{$classNo}-{$random}";
-        $existing = ClassRoom::where('display_code', $code)->where('id', '!=', $classRoom->id)->exists();
-        if ($existing) {
-            $code = "{$grade}-{$classNo}-" . strtoupper(Str::random(4));
-        }
-
-        return $code;
+        return \App\Services\DisplayCodeService::generate($classRoom);
     }
 
     /**
@@ -1255,13 +1236,29 @@ class DisplayController extends Controller
                 maxTokens: $setting->max_tokens,
             );
             $answer = $result['answer'];
-            $tokensUsed = $result['tokens_used'];
+            $promptTokens = $result['prompt_tokens'] ?? 0;
+            $completionTokens = $result['completion_tokens'] ?? 0;
+            $tokensUsed = $result['tokens_used'] ?? ($promptTokens + $completionTokens);
         } catch (\Throwable $e) {
             $answer = 'AI 服务调用失败：' . $e->getMessage();
             $tokensUsed = 0;
+            $promptTokens = 0;
+            $completionTokens = 0;
         }
 
-        $conversation->update(['answer' => $answer, 'tokens_used' => $tokensUsed, 'status' => 'completed']);
+        // 本地精确计费：按供应商单价（input/output 每百万 token）计算本次费用
+        $cost = app(\App\Services\AiBilling\AiBillingService::class)->recordUsage($activeProvider, $promptTokens, $completionTokens);
+        $currency = $activeProvider['currency'] ?? 'CNY';
+
+        $conversation->update([
+            'answer' => $answer,
+            'tokens_used' => $tokensUsed,
+            'prompt_tokens' => $promptTokens,
+            'completion_tokens' => $completionTokens,
+            'cost' => $cost,
+            'currency' => $currency,
+            'status' => 'completed',
+        ]);
 
         if ($tokensUsed > 0) {
             $setting->increment('tokens_used', $tokensUsed);
@@ -1271,9 +1268,8 @@ class DisplayController extends Controller
                 if (($p['id'] ?? '') === ($activeProvider['id'] ?? '')) {
                     $p['tokens_used'] = ($p['tokens_used'] ?? 0) + $tokensUsed;
                     $p['total_calls'] = ($p['total_calls'] ?? 0) + 1;
-                    if ($tokensUsed > 0 && ($p['token_prices'] ?? false)) {
-                        $p['estimated_cost'] = ($p['estimated_cost'] ?? 0) + round($tokensUsed * ($p['cost_per_token'] ?? 0), 6);
-                    }
+                    $p['estimated_cost'] = ($p['estimated_cost'] ?? 0) + $cost;
+                    $p['currency'] = $currency;
                     break;
                 }
             }

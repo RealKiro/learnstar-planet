@@ -2,7 +2,6 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { apiGet } from '@/utils/api'
-import { getSpeciesEmoji } from '@/utils/petData'
 import type { ApiResponse, Student } from '@/types'
 
 // ===== 类型 =====
@@ -26,6 +25,7 @@ interface PKOverview {
 
 const router = useRouter()
 function goToLeaderboard() { router.push({ name: 'teacher-leaderboard' }) }
+function alertDialog(msg: string) { window.alert(msg) }
 
 // ===== 数据 =====
 const students = ref<Student[]>([])
@@ -157,7 +157,7 @@ onMounted(async () => {
           <button
             v-if="!cls.isOwn"
             class="pk-btn"
-            @click="alert(`🚀 向 ${cls.name} 发起挑战！本周内总积分超过对方即可获胜！`)"
+            @click="alertDialog(`🚀 向 ${cls.name} 发起挑战！本周内总积分超过对方即可获胜！`)"
           >
             ⚔️ PK
           </button>
@@ -204,7 +204,7 @@ onMounted(async () => {
           </div>
           <button
             class="challenge-btn"
-            @click="alert('🚀 已发起挑战！本周内总积分超过对方即可获胜！')"
+            @click="alertDialog('🚀 已发起挑战！本周内总积分超过对方即可获胜！')"
           >
             ⚡ 发起挑战
           </button>

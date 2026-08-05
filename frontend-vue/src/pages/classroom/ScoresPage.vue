@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { getSpeciesEmoji, getSpeciesBySeries, PET_SERIES, getSeriesName, getPetLevelName, getLevelRequiredScore, getPetLevelDescription } from '@/utils/petData'
-import { getPoems, getEvoLines, STAGE_NAMES } from '@/utils/petHandbookData'
+import { getSpeciesEmoji, PET_SERIES, getPetLevelName, getPetLevelDescription } from '@/utils/petData'
+import { getPoems, getEvoLines } from '@/utils/petHandbookData'
 import { useToastStore } from '@/stores/toast'
 
 const toast = useToastStore()
@@ -386,7 +386,7 @@ onMounted(async () => {
                   style="padding:8px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;transition:0.15s;font-family:inherit;"
                   :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08);' : ''"
                   @mouseenter="(e)=>(e.target as HTMLElement).style.background='rgba(255,255,255,0.06)'"
-                  @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent.pet_species === sp.id ? 'rgba(167,139,250,0.08)' : 'rgba(255,255,255,0.02)'">
+                  @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent?.pet_species === sp.id ? 'rgba(167,139,250,0.08)' : 'rgba(255,255,255,0.02)'">
                   <div style="font-size:22px;margin-bottom:2px;">{{ getSpeciesEmoji(sp.id) }}</div>
                   <div style="font-size:10px;font-weight:500;color:var(--md-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ sp.name }}</div>
                 </button>

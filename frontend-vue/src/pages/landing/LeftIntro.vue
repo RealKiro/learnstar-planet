@@ -54,7 +54,7 @@ function goToFeature(offset: number) {
         </div>
       </transition>
       <div class="dots">
-        <button v-for="(s, idx) in slides" :key="idx" :class="['dot', { active: currentSlide === idx }]" @click="goToSlide(idx)"></button>
+        <button v-for="(_, idx) in slides" :key="idx" :class="['dot', { active: currentSlide === idx }]" @click="goToSlide(idx)"></button>
       </div>
     </div>
     <div class="feature-strip">

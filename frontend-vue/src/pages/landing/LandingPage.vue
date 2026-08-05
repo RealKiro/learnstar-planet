@@ -20,7 +20,7 @@ let slideTimer: ReturnType<typeof setInterval>
 
 function onCodeInput(e: Event) {
   const input = e.target as HTMLInputElement
-  displayCode.value = input.value.toUpperCase().replace(/[^0-9A-Z-]/g, '')
+  displayCode.value = input.value.replace(/[^0-9]/g, '').slice(0, 4)
   codeError.value = ''
 }
 
@@ -100,8 +100,8 @@ onUnmounted(() => clearInterval(slideTimer))
 
           <form class="panel-form" @submit.prevent="goToClassroom">
             <input v-model="displayCode" type="text" class="panel-input"
-              placeholder="输入班级码" maxlength="12" autocomplete="off" @input="onCodeInput">
-            <button type="submit" class="panel-btn" :disabled="loading || displayCode.length < 3">
+              placeholder="输入4位班级码" maxlength="4" autocomplete="off" @input="onCodeInput">
+            <button type="submit" class="panel-btn" :disabled="loading || displayCode.length < 4">
               {{ loading ? '⏳ 验证中…' : '🚀 进入班级' }}
             </button>
             <p v-if="codeError" class="panel-error">{{ codeError }}</p>

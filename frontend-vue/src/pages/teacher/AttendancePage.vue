@@ -48,7 +48,7 @@ async function loadData() {
 async function startAttendance() {
   startStatus.value = 'loading'
   try {
-    const res = await apiPost<{ message: string }>('/api/v1/teacher/attendance/start', {})
+    await apiPost<{ message: string }>('/api/v1/teacher/attendance/start', {})
     startStatus.value = 'success'
     setTimeout(() => { startStatus.value = 'idle' }, 1500)
     attendanceStarted.value = true; await loadData()

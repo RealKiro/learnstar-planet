@@ -16,25 +16,41 @@ interface StudentInfo {
   total_score: number
 }
 
+interface ExchangeRate {
+  id: number
+  name?: string
+  from_currency: string
+  to_currency: string
+  rate: string
+  is_active: boolean
+}
+
 const wallets = ref<WalletEntry[]>([])
 const students = ref<StudentInfo[]>([])
 const loading = ref(true)
 
 const selectedStudent = ref<StudentInfo | null>(null)
 const exchangeAmount = ref(10)
-const exchangeTarget = ref<'science' | 'reading'>('science')
+const exchangeTarget = ref<'science' | 'reading' | 'class_point'>('science')
 const exchangeStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
-const rate = 1 // 1:1 兑换
+// 真实汇率（来自教师端「汇率设定」，score → 各币种，is_active 生效）
+const rates = ref<ExchangeRate[]>([])
+function rateFor(target: string): number {
+  const r = rates.value.find(r => r.from_currency === 'score' && r.to_currency === target && r.is_active)
+  return r ? parseFloat(r.rate) : 1
+}
 
 onMounted(async () => {
   try {
-    const [walletRes, stuRes] = await Promise.all([
+    const [walletRes, stuRes, rateRes] = await Promise.all([
       apiGet<ApiResponse<WalletEntry[]>>('/api/v1/teacher/currency/wallets'),
       apiGet<ApiResponse<StudentInfo[]>>('/api/v1/teacher/students?per_page=200'),
+      apiGet<ApiResponse<ExchangeRate[]>>('/api/v1/teacher/exchange-rates'),
     ])
     wallets.value = walletRes.data || []
     students.value = stuRes.data || []
+    rates.value = rateRes.data || []
   } catch { /* */ } finally { loading.value = false }
 })
 
@@ -78,7 +94,7 @@ async function doExchange() {
   <div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <h2 style="font-size:24px;font-weight:700;">💱 兑换中心</h2>
-      <span style="font-size:13px;color:var(--color-text-secondary);">积分兑换科学币 / 读书币</span>
+      <span style="font-size:13px;color:var(--color-text-secondary);">积分按汇率兑换科学币 / 读书币 / 班级积分</span>
     </div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
@@ -97,7 +113,7 @@ async function doExchange() {
             <div style="font-weight:600;min-width:60px;">{{ s.name }}</div>
             <div style="flex:1;text-align:right;font-size:13px;">
               <div>⭐ {{ s.total_score }}</div>
-              <div style="color:var(--color-text-secondary);">🔬{{ getWallet(s.id, 'science') }} 📚{{ getWallet(s.id, 'reading') }}</div>
+              <div style="color:var(--color-text-secondary);">🔬{{ getWallet(s.id, 'science') }} 📚{{ getWallet(s.id, 'reading') }} ⚽{{ getWallet(s.id, 'class_point') }}</div>
             </div>
           </div>
           <div v-if="students.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">暂无学生数据</div>
@@ -115,20 +131,24 @@ async function doExchange() {
             <div style="font-size:14px;font-weight:600;">{{ selectedStudent.name }}</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;font-size:13px;">
               <div>⭐ 积分: <strong>{{ selectedStudent.total_score }}</strong></div>
-              <div>🔬 科学币: <strong>{{ getWallet(selectedStudent.id, 'science_coin') }}</strong></div>
-              <div>📚 读书币: <strong>{{ getWallet(selectedStudent.id, 'reading_coin') }}</strong></div>
+              <div>🔬 科学币: <strong>{{ getWallet(selectedStudent.id, 'science') }}</strong></div>
+              <div>📚 读书币: <strong>{{ getWallet(selectedStudent.id, 'reading') }}</strong></div>
+              <div>⚽ 班级积分: <strong>{{ getWallet(selectedStudent.id, 'class_point') }}</strong></div>
             </div>
           </div>
 
           <div class="form-group" style="margin-bottom:12px;">
             <label>兑换目标</label>
-            <div style="display:flex;gap:8px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
               <button :style="exchangeTarget === 'science' ? { background:'var(--color-primary)', color:'white' } : {}"
-                style="flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);cursor:pointer;font-size:14px;"
+                style="padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);cursor:pointer;font-size:13px;"
                 @click="exchangeTarget = 'science'">🔬 科学币</button>
               <button :style="exchangeTarget === 'reading' ? { background:'var(--color-primary)', color:'white' } : {}"
-                style="flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);cursor:pointer;font-size:14px;"
+                style="padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);cursor:pointer;font-size:13px;"
                 @click="exchangeTarget = 'reading'">📚 读书币</button>
+              <button :style="exchangeTarget === 'class_point' ? { background:'var(--color-primary)', color:'white' } : {}"
+                style="padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);cursor:pointer;font-size:13px;"
+                @click="exchangeTarget = 'class_point'">⚽ 班级积分</button>
             </div>
           </div>
 
@@ -138,7 +158,8 @@ async function doExchange() {
           </div>
 
           <div style="padding:12px;background:rgba(79,70,229,0.05);border-radius:var(--radius-md);margin-bottom:16px;font-size:13px;color:var(--color-text-secondary);">
-            消耗 <strong>{{ exchangeAmount }}</strong> 积分 → 获得 <strong>{{ exchangeAmount }}</strong> {{ exchangeTarget === 'science' ? '🔬 科学币' : '📚 读书币' }}
+            消耗 <strong>{{ exchangeAmount }}</strong> 积分 → 获得 <strong>{{ Math.round(exchangeAmount * rateFor(exchangeTarget)) }}</strong> {{ exchangeTarget === 'science' ? '🔬 科学币' : exchangeTarget === 'reading' ? '📚 读书币' : '⚽ 班级积分' }}
+            <span style="color:var(--color-text-secondary);">（汇率 1:{{ rateFor(exchangeTarget) }}）</span>
           </div>
 
           <button class="btn btn-primary" style="width:100%;" :disabled="exchangeStatus !== 'idle' || exchangeAmount < 1 || !selectedStudent"

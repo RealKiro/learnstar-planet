@@ -216,7 +216,7 @@ function closeModal() {
           :key="i"
           style="display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;background:var(--color-bg);border-radius:8px;font-size:13px;"
         >
-          <span style="flex:1;font-weight:500;color:var(--color-text);">{{ a.class_name || shortClassName(classById(a.class_id)?.name) }}</span>
+          <span style="flex:1;font-weight:500;color:var(--color-text);">{{ a.class_name || shortClassName(classById(a.class_id!)?.name) }}</span>
           <span v-if="a.role === 'subject_teacher'" style="color:var(--color-text-secondary);font-size:12px;">{{ a.subject }}</span>
           <span v-else style="color:var(--color-text-secondary);font-size:12px;">
             {{ classRoleLabel[a.role as ClassRole] || a.role }} · {{ a.subject || '默认科目' }}

@@ -67,7 +67,6 @@ const router = createRouter({
         { path: 'upgrade', name: 'admin-upgrade', component: () => import('@/pages/admin/GradeUpgradePage.vue') },
         { path: 'reports', name: 'admin-reports', component: () => import('@/pages/admin/ReportsPage.vue') },
         { path: 'school', name: 'admin-school', component: () => import('@/pages/admin/SchoolSettingsPage.vue') },
-        { path: 'exchange-rate', name: 'admin-exchange-rate', component: () => import('@/pages/admin/ExchangeRatePage.vue') },
         { path: 'ai', name: 'admin-ai', component: () => import('@/pages/admin/AICenterPage.vue') },
         { path: 'debug', name: 'admin-debug', component: () => import('@/pages/admin/AdminDebugPage.vue') },
       ],

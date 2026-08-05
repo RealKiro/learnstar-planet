@@ -9,7 +9,8 @@ const toast = useToastStore()
 interface ShopItemExt {
   id: number
   name: string
-  cost: number
+  cost_score: number
+  currency_type?: string
   stock: number
   category: string
   description?: string
@@ -33,12 +34,12 @@ const categories = ref([
   { key: 'activity', label: '🎪 活动参与' },
 ])
 const showAddForm = ref(false)
-const newItem = ref({ name: '', cost: 10, stock: 0, category: 'stationery', description: '' })
+const newItem = ref({ name: '', cost_score: 10, stock: 0, category: 'stationery', currency_type: 'score', description: '' })
 const itemErrors = reactive<Record<string, string>>({})
 function iClr(f: string) { delete itemErrors[f] }
 function iVld(field: string): boolean {
   if (field === 'name' && !newItem.value.name.trim()) { itemErrors.name = '请填写商品名称，如"铅笔"'; return false }
-  if (field === 'cost' && (!newItem.value.cost || newItem.value.cost < 1)) { itemErrors.cost = '积分至少为 1'; return false }
+  if (field === 'cost_score' && (!newItem.value.cost_score || newItem.value.cost_score < 1)) { itemErrors.cost_score = '积分至少为 1'; return false }
   delete itemErrors[field]; return true
 }
 
@@ -75,12 +76,12 @@ onMounted(async () => {
 
 function demoItems(): ShopItemExt[] {
   return [
-    { id: 1, name: '课外图书', cost: 50, stock: 20, category: 'reading', description: '精选课外读物一本' },
-    { id: 2, name: '科学实验套装', cost: 80, stock: 10, category: 'science', description: '趣味科学实验器材' },
-    { id: 3, name: '免作业1天', cost: 30, stock: 0, category: 'reward', description: '特权：免写一次作业' },
-    { id: 4, name: '班级之星徽章', cost: 100, stock: 5, category: 'reward', description: '荣誉徽章+表扬信' },
-    { id: 5, name: '冰淇淋奖励', cost: 40, stock: 0, category: 'reward', description: '课间领取冰淇淋' },
-    { id: 6, name: '迟到抵消券', cost: 60, stock: 15, category: 'penalty', description: '抵消一次迟到记录' },
+    { id: 1, name: '课外图书', cost_score: 50, stock: 20, category: 'reading', description: '精选课外读物一本' },
+    { id: 2, name: '科学实验套装', cost_score: 80, stock: 10, category: 'science', description: '趣味科学实验器材' },
+    { id: 3, name: '免作业1天', cost_score: 30, stock: 0, category: 'reward', description: '特权：免写一次作业' },
+    { id: 4, name: '班级之星徽章', cost_score: 100, stock: 5, category: 'reward', description: '荣誉徽章+表扬信' },
+    { id: 5, name: '冰淇淋奖励', cost_score: 40, stock: 0, category: 'reward', description: '课间领取冰淇淋' },
+    { id: 6, name: '迟到抵消券', cost_score: 60, stock: 15, category: 'penalty', description: '抵消一次迟到记录' },
   ]
 }
 function demoStudents() {
@@ -109,7 +110,7 @@ async function submitRedeem() {
   try {
     await apiPost('/api/v1/teacher/shop/redemptions', {
       student_id: selectedStudentId.value,
-      item_id: selectedItem.value.id,
+      shop_item_id: selectedItem.value.id,
     })
     redeemStatus.value = 'success'
     setTimeout(() => { redeemStatus.value = 'idle'; showRedeemModal.value = false }, 1500)
@@ -134,12 +135,12 @@ async function deleteItem(item: ShopItemExt) {
 }
 
 async function addItem() {
-  if (!iVld('name') | !iVld('cost')) return
+  if (!iVld('name') || !iVld('cost_score')) return
   addStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/shop/items', newItem.value)
     addStatus.value = 'success'
-    newItem.value = { name: '', cost: 10, stock: 0, category: 'reward', description: '' }
+    newItem.value = { name: '', cost_score: 10, stock: 0, category: 'reward', currency_type: 'score', description: '' }
     const res = await apiGet<ApiResponse<ShopItemExt[]>>('/api/v1/teacher/shop/items')
     items.value = (res.data || []).map(i => ({
       ...i,
@@ -194,7 +195,7 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
       <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">添加新奖品</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div class="form-group"><label>商品名称 <span style="color:#f87171;">*</span></label><input v-model="newItem.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')"><div v-if="itemErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.name }}</div></div>
-        <div class="form-group"><label>所需积分 <span style="color:#f87171;">*</span></label><input v-model.number="newItem.cost" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost ? '#f87171' : '' }" @blur="iVld('cost')" @input="iClr('cost')"><div v-if="itemErrors.cost" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.cost }}</div></div>
+        <div class="form-group"><label>所需积分 <span style="color:#f87171;">*</span></label><input v-model.number="newItem.cost_score" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost_score ? '#f87171' : '' }" @blur="iVld('cost_score')" @input="iClr('cost_score')"><div v-if="itemErrors.cost_score" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.cost_score }}</div></div>
         <div class="form-group"><label>库存（0=无限）</label><input v-model.number="newItem.stock" type="number" min="0" class="form-input"></div>
         <div class="form-group">
           <label>类别</label>
@@ -204,6 +205,15 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
             <option value="food">🍎 零食饮料</option>
             <option value="privilege">🎁 特权奖励</option>
             <option value="activity">🎪 活动参与</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>结算币种</label>
+          <select v-model="newItem.currency_type" class="form-select">
+            <option value="score">⭐ 积分</option>
+            <option value="science">🔬 科学币</option>
+            <option value="reading">📚 读书币</option>
+            <option value="class_point">⚽ 班级积分</option>
           </select>
         </div>
       </div>
@@ -252,7 +262,7 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
         <div style="display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:12px;font-size:12px;margin-bottom:8px;background:rgba(79,70,229,0.08);color:var(--color-primary);">
           {{ (catLabels as any)[item.category] || '🎁 奖励' }}
         </div>
-        <div style="color:var(--color-secondary);font-weight:700;font-size:16px;">⭐ {{ item.cost }} 积分</div>
+        <div style="color:var(--color-secondary);font-weight:700;font-size:16px;">⭐ {{ item.cost_score }} 积分</div>
         <div v-if="item.stock > 0" style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">库存: {{ item.stock }}</div>
         <button class="btn btn-sm btn-primary" style="margin-top:12px;width:100%;" @click.stop="openRedeem(item)">立即兑换</button>
       </div>
@@ -266,15 +276,15 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
           <label>选择学生</label>
           <select v-model.number="selectedStudentId" class="form-select">
             <option :value="null">请选择学生</option>
-            <option v-for="s in students" :key="s.id" :value="s.id" :disabled="s.total_score < (selectedItem?.cost || 0)">
-              {{ s.name }} — {{ s.total_score }}分 {{ s.total_score < (selectedItem?.cost || 0) ? '(积分不足)' : '' }}
+            <option v-for="s in students" :key="s.id" :value="s.id" :disabled="s.total_score < (selectedItem?.cost_score || 0)">
+              {{ s.name }} — {{ s.total_score }}分 {{ s.total_score < (selectedItem?.cost_score || 0) ? '(积分不足)' : '' }}
             </option>
           </select>
         </div>
         <div v-if="selectedStudentId" style="margin-bottom:16px;padding:12px;background:var(--color-bg);border-radius:var(--radius-md);">
           <div style="font-size:13px;">
             当前积分: <strong>{{ students.find(s => s.id === selectedStudentId)?.total_score || 0 }}</strong>
-            → 兑换后: <strong style="color:var(--color-accent);">{{ (students.find(s => s.id === selectedStudentId)?.total_score || 0) - (selectedItem?.cost || 0) }}</strong>
+            → 兑换后: <strong style="color:var(--color-accent);">{{ (students.find(s => s.id === selectedStudentId)?.total_score || 0) - (selectedItem?.cost_score || 0) }}</strong>
           </div>
           <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">
             宠物等级: Lv.{{ students.find(s => s.id === selectedStudentId)?.pet_level || 0 }}

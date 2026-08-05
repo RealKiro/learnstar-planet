@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, ScoreRule } from '@/types'
-
-const toast = useToastStore()
 
 const rules = ref<ScoreRule[]>([])
 const loading = ref(true)
@@ -77,7 +74,9 @@ function openEdit(rule: ScoreRule) {
 }
 
 async function handleSubmit() {
-  if (!rVld('name') | !rVld('points')) return
+  const nameOk = rVld('name')
+  const pointsOk = rVld('points')
+  if (!nameOk || !pointsOk) return
   saveStatus.value = 'loading'
   const payload = {
     name: form.value.name.trim(),

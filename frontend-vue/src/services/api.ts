@@ -4,7 +4,7 @@
  * 对接文档：功能分类与版面设计.txt
  */
 
-import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
+import { apiGet, apiPost, apiPut } from '@/utils/api'
 import type { ApiResponse, Student, ScoreRule, Pet, PetDetail, LeaderboardEntry, ClassRoom } from '@/types'
 
 // ============================================================
@@ -229,8 +229,7 @@ export const handbookApi = {
   /** 获取全部系列数据 */
   getAllSeries: () =>
     apiGet<ApiResponse<any[]>>('/api/v1/common/pet-types'),
-
-  /** 获取单个系列详情 */
+}
 
 // ============================================================
 // 8. 班级管理模块
@@ -252,8 +251,7 @@ export const classApi = {
   /** 切换班级宠物系列 */
   switchSeries: (seriesId: string) =>
     apiPost('/api/v1/teacher/class/switch-series', { series_id: seriesId }),
-
-  /** 获取班级当前积分 */
+}
 
 // ============================================================
 // 9. 家长端 API

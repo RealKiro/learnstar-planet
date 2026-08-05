@@ -20,14 +20,14 @@ const toast = useToastStore()
 const data = ref<DisplayData | null>(null)
 const loading = ref(true)
 const currentMessage = ref<Message | null>(null)
-const messageTimer = ref<NodeJS.Timeout | null>(null)
+const messageTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 const showUnlock = ref(false)
 const unlockPassword = ref('')
 const unlockError = ref('')
 const scoreFlash = ref<Record<number, 'up' | 'down' | null>>({})
 
 const unlockStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
-let pollTimer: NodeJS.Timeout | null = null
+let pollTimer: ReturnType<typeof setInterval> | null = null
 let lastScoreMap: Record<number, number> = {}
 
 // 8x8 matrix padding

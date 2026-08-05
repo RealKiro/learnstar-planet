@@ -14,7 +14,6 @@ interface Teacher { id: number; name: string; username: string; nickname?: strin
 interface Assignment { class_id: number; class_name?: string; grade?: string; role: string; subject?: string }
 interface ClassRoom { id: number; name: string; grade?: string }
 type ClassRole = 'head_teacher' | 'co_teacher' | 'subject_teacher'
-type PersonalRole = 'grade_lead' | 'admin_director' | null
 
 const classRoleLabel: Record<ClassRole, string> = { head_teacher: '主班主任', co_teacher: '副班主任', subject_teacher: '科任教师' }
 const grades = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
@@ -53,11 +52,6 @@ const showDeleteModal = ref(false); const deleteTarget = ref<Teacher | null>(nul
 const showResetPwdModal = ref(false); const resetTarget = ref<Teacher | null>(null)
 const showImportModal = ref(false)
 
-function openEdit(t: Teacher) { editTarget.value = t; showEditModal.value = true }
-function openAssign(t: Teacher) { assignTarget.value = t; showAssignModal.value = true }
-function openDelete(t: Teacher) { deleteTarget.value = t; showDeleteModal.value = true }
-function openResetPwd(t: Teacher) { resetTarget.value = t; showResetPwdModal.value = true }
-
 const gradeIconMap: Record<string, string> = {
   '一年级': '🌱', '二年级': '🌿', '三年级': '🌳',
   '四年级': '📚', '五年级': '⭐', '六年级': '🎓',
@@ -65,9 +59,6 @@ const gradeIconMap: Record<string, string> = {
 function gradeIcon(team: string): string {
   for (const g of grades) { if (team.includes(g)) return gradeIconMap[g] || '📌' }
   return '📌'
-}
-function shortClassName(name: string | undefined) {
-  if (!name) return ''; const m = name.match(/（(\d+)）班/); return m ? m[1] + '班' : name
 }
 async function loadTeachers(isInitial = false) {
   if (isInitial) loading.value = true
@@ -82,13 +73,17 @@ async function loadTeachers(isInitial = false) {
 }
 const refreshTeachers = () => loadTeachers(false)
 
+function downloadTemplate() {
+  window.open('/api/v1/admin/teachers/template-csv', '_blank')
+}
+
 onMounted(() => loadTeachers(true))
 </script>
 <template>
   <div class="teachers-admin" style="max-width:1400px;margin:0 auto;padding:0 4px;">
     <TeacherFilters :grades="grades" :classRoleLabel="classRoleLabel" :filterGrade="filterGrade" :filterRole="filterRole" :searchQuery="searchQuery"
-      @update:filterGrade="filterGrade = $event" @update:filterRole="filterRole = $event" @update:searchQuery="searchQuery = $event"
-      @downloadTemplate="window.open('/api/v1/admin/teachers/template-csv','_blank')" @openImport="showImportModal = true" @openCreate="showCreateModal = true">
+      @update:filterGrade="filterGrade = $event" @update:filterRole="filterRole = $event as '' | ClassRole" @update:searchQuery="searchQuery = $event"
+      @downloadTemplate="downloadTemplate" @openImport="showImportModal = true" @openCreate="showCreateModal = true">
       <span class="count-badge" slot="teacherCount">{{ teachers.length }} 人</span>
     </TeacherFilters>
 

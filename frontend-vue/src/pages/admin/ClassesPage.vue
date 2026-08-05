@@ -50,10 +50,6 @@ const petSeriesOptions = [
   { value: 'mythic',   label: '神兽', emoji: '🐉' },
 ]
 
-const petSeriesLabels: Record<string, string> = {
-  all: '不限制', cosmic: '🌌 宇宙', pokemon: '⚡ 宝可梦', cute: '🐱 萌宠', treasure: '🐼 国宝', mythic: '🐉 神兽',
-}
-
 const gradeEmojis: Record<string, string> = {
   '一年级': '🌱', '二年级': '🌿', '三年级': '🌳',
   '四年级': '🍂', '五年级': '⭐', '六年级': '🎓',
@@ -106,13 +102,6 @@ function toggleGrade(grade: string) {
 
 function isExpanded(grade: string) {
   return expandedGrades.value.has(grade)
-}
-
-function expandGrade(grade: string) {
-  if (!expandedGrades.value.has(grade)) {
-    expandedGrades.value.add(grade)
-    expandedGrades.value = new Set(expandedGrades.value)
-  }
 }
 
 function fullyExpand() {
