@@ -237,6 +237,59 @@ class AuthController extends Controller
     }
 
     /**
+     * 获取当前学校第三方平台的扫码授权 URL（前端生成二维码）
+     */
+    public function thirdPartyAuthUrl(Request $request): JsonResponse
+    {
+        $school = School::first();
+        if (!$school) {
+            return response()->json(['message' => '系统尚未初始化'], 400);
+        }
+        $platform = $school->settings['third_party_platform'] ?? null;
+        try {
+            $provider = app(\App\Services\ThirdParty\ThirdPartyManager::class)->providerFor($platform);
+        } catch (\Throwable) {
+            return response()->json(['message' => '未配置第三方平台，请在后台学校设置中选择'], 400);
+        }
+        $redirectUri = (string) $request->input('redirect_uri', url('/login'));
+
+        return response()->json(['data' => [
+            'platform' => $provider->key(),
+            'auth_url' => $provider->authUrl($school->id, $redirectUri),
+        ]]);
+    }
+
+    /**
+     * 第三方平台扫码登录回调（企业微信 / 钉钉 / 飞书，按学校配置的平台分发）
+     */
+    public function thirdPartyLogin(Request $request): JsonResponse
+    {
+        $request->validate([
+            'code' => 'required|string',
+            'state' => 'nullable|string',
+        ]);
+
+        $school = School::first();
+        if (!$school) {
+            return response()->json(['message' => '系统尚未初始化'], 400);
+        }
+        $platform = $school->settings['third_party_platform'] ?? null;
+        try {
+            $provider = app(\App\Services\ThirdParty\ThirdPartyManager::class)->providerFor($platform);
+            $userInfo = $provider->getUserByCode($school->id, $request->input('code'));
+        } catch (\Throwable $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+
+        $result = $this->authService->loginWithThirdParty($provider->key(), $userInfo);
+        if (($result['status'] ?? '') !== 'logged_in') {
+            return response()->json(['message' => $result['message'] ?? '登录失败'], 400);
+        }
+
+        return response()->json(['data' => $result]);
+    }
+
+    /**
      * QQ扫码登录
      */
     public function teacherLoginWithQQ(Request $request): JsonResponse

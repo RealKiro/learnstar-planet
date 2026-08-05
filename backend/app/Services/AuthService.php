@@ -323,6 +323,68 @@ class AuthService
     }
 
     /**
+     * 第三方平台登录（企业微信 / 钉钉 / 飞书，每校一平台）。
+     * 已绑定 → 直接登录；未绑定 → 自动创建教师账号（姓名实名 + 默认密码）并绑定。
+     *
+     * @param  array{platform_id:string,name:string,mobile:string,avatar:string}  $userInfo
+     */
+    public function loginWithThirdParty(string $platform, array $userInfo): array
+    {
+        $platformId = (string) ($userInfo['platform_id'] ?? '');
+        $name = (string) ($userInfo['name'] ?? '');
+        $avatar = (string) ($userInfo['avatar'] ?? '');
+        $phone = (string) ($userInfo['mobile'] ?? '');
+
+        $user = ThirdPartyBinding::findUserByPlatform($platform, $platformId);
+        if ($user) {
+            $user->update(['last_login_at' => now()]);
+
+            return ['status' => 'logged_in', 'user' => $user];
+        }
+
+        $school = School::first();
+        if (!$school) {
+            return ['status' => 'error', 'message' => '系统尚未初始化，请先联系管理员'];
+        }
+
+        $displayName = $name ?: $platformId;
+        $username = $this->uniqueUsername($displayName, $school);
+        $nickname = $this->uniqueNickname($displayName, $school);
+        $password = 'ls123456';
+
+        $user = User::create([
+            'school_id' => $school->id,
+            'role' => 'teacher',
+            'username' => $username,
+            'password' => Hash::make($password),
+            'name' => $displayName,
+            'nickname' => $nickname,
+            'phone' => $phone,
+            'avatar_path' => $avatar,
+            'status' => 'active',
+        ]);
+
+        ThirdPartyBinding::create([
+            'user_id' => $user->id,
+            'platform' => $platform,
+            'platform_id' => $platformId,
+            'platform_nick' => $name,
+            'platform_avatar' => $avatar,
+            'verified_at' => now(),
+        ]);
+
+        $token = $user->createToken('third-party-login')->plainTextToken;
+        $user->last_login_at = now();
+        $user->save();
+
+        return [
+            'status' => 'logged_in',
+            'token' => $token,
+            'user' => $user,
+        ];
+    }
+
+    /**
      * QQ扫码登录
      */
     public function loginWithQQ(string $openid, ?string $nick = null, ?string $avatar = null): array

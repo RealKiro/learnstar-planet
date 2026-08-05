@@ -22,6 +22,8 @@ Route::prefix('v1')->group(function () {
         Route::post('admin/login', [AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
         Route::post('parent/login', [AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
         Route::post('class/login', [AuthController::class, 'classLogin'])->middleware('throttle:10,1');
+        Route::get('third-party/auth-url', [AuthController::class, 'thirdPartyAuthUrl']);
+        Route::post('third-party/login', [AuthController::class, 'thirdPartyLogin']);
         Route::prefix('teacher')->group(function () {
             Route::post('login/wechat', [AuthController::class, 'teacherLoginWithWechat']);
             Route::post('login/wechat-work', [AuthController::class, 'teacherLoginWithWechatWork']);
@@ -105,6 +107,8 @@ Route::prefix('v1')->group(function () {
         });
         Route::get('wechat-work/contacts', [SchoolAdminController::class, 'wechatWorkContacts']);
         Route::post('wechat-work/import', [SchoolAdminController::class, 'importWechatWorkUsers']);
+        Route::get('third-party/contacts', [SchoolAdminController::class, 'thirdPartyContacts']);
+        Route::post('third-party/import', [SchoolAdminController::class, 'importThirdPartyUsers']);
     });
 
     // ===== 3. 教师端 =====

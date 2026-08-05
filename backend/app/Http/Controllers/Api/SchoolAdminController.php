@@ -2000,4 +2000,29 @@ class SchoolAdminController extends Controller
         ]);
     }
 
+    /**
+     * 拉取当前学校所选第三方平台的通讯录（企业微信 / 钉钉 / 飞书）
+     */
+    public function thirdPartyContacts(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $platform = $school->settings['third_party_platform'] ?? null;
+        try {
+            $provider = app(\App\Services\ThirdParty\ThirdPartyManager::class)->providerFor($platform);
+            $contacts = $provider->fetchContacts($school->id);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+
+        return response()->json(['data' => $contacts]);
+    }
+
+    /**
+     * 从当前学校所选第三方平台批量导入教师与学生
+     */
+    public function importThirdPartyUsers(Request $request): JsonResponse
+    {
+        return $this->importWechatWorkUsers($request);
+    }
+
 }
