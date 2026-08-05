@@ -2,11 +2,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import { getSpeciesEmoji } from '@/utils/petData'
 import type { ApiResponse, Student, ScoreRule } from '@/types'
 
-const toast = useToastStore()
 const router = useRouter()
 
 function goToRules() { router.push({ name: 'teacher-rules' }) }
@@ -25,6 +23,7 @@ const activeFilter = ref<'all' | 'high' | 'mid' | 'low'>('all')
 const showModal = ref(false)
 const modalType = ref<'add' | 'sub'>('add')
 const modalStudent = ref<Student | null>(null)
+const modalError = ref('')
 const modalReasons = ref<string[]>([])
 
 // 浮动积分文本
@@ -147,7 +146,7 @@ async function executeAction(reason: string) {
   const points = modalType.value === 'add' ? step : -step
 
   if (student.total_score + points < 0) {
-    toast.show('积分不能为负数', 'error', { position: 'center', duration: 2000 })
+    modalError.value = '积分不能为负数'
     return
   }
 
@@ -451,6 +450,7 @@ t        <button class="page-link-btn" @click="goToRules">📋 管理积分规�
               {{ giveStatus !== 'idle' && activeReason === reason ? (giveStatus === 'loading' ? '处理中...' : giveStatus === 'success' ? '操作成功' : '操作失败') : reason }}
             </button>
           </div>
+          <div v-if="modalError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ modalError }}</div>
           <button class="cancel-btn" @click="closeModal">取消操作</button>
         </div>
       </div>

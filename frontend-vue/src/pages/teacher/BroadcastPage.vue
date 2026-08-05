@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
 
-const toast = useToastStore()
-
 const bcContent = ref('')
+const bcError = ref('')
 const bcType = ref<'banner' | 'popup' | 'fullscreen'>('banner')
 const bcVoice = ref(true)
 const bcLoop = ref(false)
@@ -49,9 +47,10 @@ function toggleAll() {
 }
 
 async function sendBroadcast() {
-  if (!bcContent.value.trim()) { toast.show('请输入广播内容', 'error', { position: 'center', duration: 2000 }); return }
-  if (selectedClassIds.value.length === 0) { toast.show('请选择至少一个目标班级', 'error', { position: 'center', duration: 2000 }); return }
+  if (!bcContent.value.trim()) { bcError.value = '请输入广播内容'; return }
+  if (selectedClassIds.value.length === 0) { bcError.value = '请选择至少一个目标班级'; return }
 
+  bcError.value = ''
   sendStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/broadcasts', {
@@ -143,6 +142,7 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
         </label>
       </div>
 
+      <div v-if="bcError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ bcError }}</div>
       <button class="btn" style="width:auto;color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[sendStatus] }" :disabled="sendStatus === 'loading'" @click="sendBroadcast">
         {{ { idle: '📡 发送至 ' + selectedClassIds.length + ' 个班级', loading: '发送中...', success: '已发送 ✓', error: '发送失败' }[sendStatus] }}
       </button>

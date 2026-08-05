@@ -35,6 +35,8 @@ interface Row {
 
 const loading = ref(false)
 const importing = ref(false)
+const loadError = ref('')
+const importError = ref('')
 const rows = ref<Row[]>([])
 const classes = ref<ClassItem[]>([])
 
@@ -66,7 +68,7 @@ async function loadContacts() {
       selected: true,
     }))
     if (!members.length) {
-      toast.show('通讯录为空，请检查企业微信配置', 'error', { position: 'center', duration: 3000 })
+      loadError.value = '通讯录为空，请检查企业微信配置'
     }
   } catch (e: any) {
     toast.show(e?.response?.data?.message || '拉取通讯录失败（请确认已配置企业微信 secret）', 'error', { position: 'center', duration: 3000 })
@@ -82,10 +84,10 @@ function toggleAll() {
 
 async function doImport() {
   const picked = rows.value.filter(r => r.selected)
-  if (!picked.length) { toast.show('请至少勾选一名成员', 'error', { position: 'center', duration: 2000 }); return }
+  if (!picked.length) { importError.value = '请至少勾选一名成员'; return }
   const teachers = picked.filter(r => r.role === 'teacher').map(r => ({ name: r.name, mobile: r.mobile, email: r.email }))
   const students = picked.filter(r => r.role === 'student').map(r => ({ name: r.name, class_id: r.class_id }))
-  if (students.some(s => !s.class_id)) { toast.show('请为所有学生选择目标班级', 'error', { position: 'center', duration: 2000 }); return }
+  if (students.some(s => !s.class_id)) { importError.value = '请为所有学生选择目标班级'; return }
 
   importing.value = true
   try {
@@ -115,6 +117,7 @@ async function doImport() {
           <button class="btn btn-primary" :disabled="loading" @click="loadContacts">
             {{ loading ? '拉取中...' : '📥 拉取通讯录' }}
           </button>
+          <div v-if="loadError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ loadError }}</div>
         </div>
 
         <div v-else>
@@ -159,6 +162,7 @@ async function doImport() {
             </table>
           </div>
           <p style="font-size:11px;color:var(--color-text-secondary);margin-top:8px;">💡 学生班级已按部门名自动匹配，可手动调整；教师默认以姓名作为登录账号（实名）。</p>
+          <div v-if="importError" style="margin-top:8px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ importError }}</div>
         </div>
       </div>
 
