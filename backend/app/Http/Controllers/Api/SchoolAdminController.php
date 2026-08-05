@@ -112,7 +112,7 @@ class SchoolAdminController extends Controller
         }
 
         // 自动生成唯一用户名
-        $password = $request->input('password') ?: \Illuminate\Support\Str::random(8);
+        $password = $request->input('password') ?: 'ls123456';
         $gradeTeam = $request->input('grade_team', '');
         $gradePrefix = $this->gradeToPrefix($gradeTeam);
         $username = $this->generateUniqueTeacherUsername($school, $gradePrefix);
@@ -306,7 +306,7 @@ class SchoolAdminController extends Controller
         $teacher = User::where('school_id', $school->id)
             ->where('role', 'teacher')
             ->findOrFail($id);
-        $newPassword = $request->input('password', str()->random(8));
+        $newPassword = $request->input('password', 'ls123456');
         $teacher->password = Hash::make($newPassword);
         $teacher->plain_password = $newPassword;
         $teacher->password_changed = false;
@@ -1209,7 +1209,7 @@ class SchoolAdminController extends Controller
         if (!$dryRun) {
             $created = [];
             foreach ($preview as $teacherData) {
-                $teacherData['password'] = $teacherData['password'] ?: 'star123456';
+                $teacherData['password'] = $teacherData['password'] ?: 'ls123456';
                 $result = $this->authService->createTeacherAccounts($school, [$teacherData]);
                 $created[] = $result[0] ?? null;
             }

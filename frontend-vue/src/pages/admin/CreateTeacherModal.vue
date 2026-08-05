@@ -231,7 +231,7 @@ async function submitCreate() {
           <div style="display:none;"></div>
           <div class="form-group">
             <label>初始密码</label>
-            <input v-model="createForm.password" placeholder="留空自动生成" class="form-input" :style="{ borderColor: createErrors.password ? '#f87171' : '' }" @blur="validateField('password', createForm.password)" @input="clearError('password')" />
+            <input v-model="createForm.password" placeholder="留空默认 ls123456" class="form-input" :style="{ borderColor: createErrors.password ? '#f87171' : '' }" @blur="validateField('password', createForm.password)" @input="clearError('password')" />
             <div v-if="createErrors.password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ createErrors.password }}</div>
           </div>
         </div>

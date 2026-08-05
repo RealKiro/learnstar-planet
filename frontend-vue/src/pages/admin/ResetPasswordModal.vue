@@ -80,11 +80,6 @@ async function submitResetPwd() {
   }
 }
 
-function generateStrongPassword() {
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*'
-  resetPwdValue.value = Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-  showResetPwd.value = true
-}
 </script>
 
 <template>
@@ -123,7 +118,7 @@ function generateStrongPassword() {
             v-model="resetPwdValue"
             :type="showResetPwd ? 'text' : 'password'"
             class="form-input flex-1"
-            placeholder="留空自动生成"
+            placeholder="留空默认 ls123456"
             autocomplete="new-password"
           >
           <button
@@ -137,13 +132,6 @@ function generateStrongPassword() {
       </div>
 
       <div class="flex-row" style="margin-bottom:12px;">
-        <button
-          type="button"
-          class="flex-1" style="padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-family:inherit;"
-          @click="generateStrongPassword"
-        >
-          &#10024; 生成强密码
-        </button>
         <button
           type="button"
           class="flex-1" style="padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);font-family:inherit;"
