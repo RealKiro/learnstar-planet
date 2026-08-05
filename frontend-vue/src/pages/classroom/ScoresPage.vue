@@ -3,9 +3,6 @@ import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
 import { getSpeciesEmoji, PET_SERIES, getPetLevelName, getPetLevelDescription } from '@/utils/petData'
 import { getPoems, getEvoLines } from '@/utils/petHandbookData'
-import { useToastStore } from '@/stores/toast'
-
-const toast = useToastStore()
 
 // 等级所需积分常量
 const LEVEL_SCORES = [0, 0, 15, 41, 68, 96, 125, 155, 185, 217, 250, 283, 318, 353, 390, 427, 465, 504, 545, 586, 628, 671, 715, 760, 805, 852, 900, 949, 998, 1049, 1100, 1153, 1206, 1261, 1316, 1372, 1429, 1487, 1546, 1606, 1667, 1729, 1792, 1856, 1921, 1986, 2053, 2120, 2189, 2258, 2329, 2400, 99999]
@@ -39,6 +36,7 @@ const searchQuery = ref('')
 const showModal = ref(false)
 const modalStudent = ref<StudentEntry | null>(null)
 const modalType = ref<'add' | 'sub'>('add')
+const actionError = ref('')
 const stepValues = ref<Record<number, number>>({})
 const editingStep = ref<number | null>(null)
 const editInput = ref('1')
@@ -158,14 +156,13 @@ async function executeAction(reason: string) {
     await apiPost('/api/v1/display/scores/give', { token: token.value, student_id: s.id, points, reason })
     s.total_score = Math.max(0, s.total_score + points)
     showFloatText(s.id, points)
-  } catch (e: any) {
+    actionError.value = ''
     showModal.value = false
+  } catch (e: any) {
     const msg = e?.response?.data?.message || ''
-    if (msg.includes('30')) {
-      toast.show('单次超过 30 分需要教师账号登录操作', 'error', { position: 'center', duration: 2000 })
-    }
+    actionError.value = msg.includes('30') ? '单次超过 30 分需要教师账号登录操作' : (msg || '操作失败，请稍后重试')
+    setTimeout(() => { actionError.value = '' }, 3000)
   }
-  showModal.value = false
 }
 
 function showFloatText(studentId: number, points: number) {
@@ -277,7 +274,8 @@ onMounted(async () => {
                 {{ r }}
               </button>
             </div>
-            <button @click="showModal = false"
+            <div v-if="actionError" style="margin-bottom:12px;padding:10px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;color:#fca5a5;font-size:13px;text-align:center;">{{ actionError }}</div>
+            <button @click="showModal = false; actionError = ''"
               style="width:100%;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消操作</button>
           </div>
         </div>

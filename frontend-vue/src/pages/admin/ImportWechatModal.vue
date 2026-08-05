@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
 const props = defineProps<{
@@ -11,8 +10,6 @@ const emit = defineEmits<{
   (e: 'update:visible', v: boolean): void
   (e: 'imported'): void
 }>()
-
-const toast = useToastStore()
 
 interface WecomMember {
   userid: string
@@ -71,7 +68,7 @@ async function loadContacts() {
       loadError.value = '通讯录为空，请检查企业微信配置'
     }
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '拉取通讯录失败（请确认已配置企业微信 secret）', 'error', { position: 'center', duration: 3000 })
+    loadError.value = e?.response?.data?.message || '拉取通讯录失败（请确认已配置企业微信 secret）'
   } finally {
     loading.value = false
   }
@@ -95,7 +92,7 @@ async function doImport() {
     close()
     emit('imported')
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '导入失败', 'error', { position: 'center', duration: 3000 })
+    importError.value = e?.response?.data?.message || '导入失败，请稍后重试'
   } finally {
     importing.value = false
   }

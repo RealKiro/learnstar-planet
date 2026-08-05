@@ -161,16 +161,19 @@ const platforms = [
 ]
 
 const thirdPartyScanning = ref(false)
+const thirdPartyError = ref('')
 async function thirdPartyScan() {
   if (thirdPartyScanning.value) return
   thirdPartyScanning.value = true
+  thirdPartyError.value = ''
   try {
     const res = await apiGet<{ data: { auth_url: string; platform: string } }>('/api/v1/auth/third-party/auth-url', {
       params: { redirect_uri: window.location.origin + '/auth/callback' },
     })
     window.open(res.data.auth_url, '_blank', 'width=580,height=640')
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择', 'error', { position: 'center', duration: 3000 })
+    thirdPartyError.value = e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择'
+    setTimeout(() => { thirdPartyError.value = '' }, 3000)
   } finally {
     thirdPartyScanning.value = false
   }
@@ -195,7 +198,8 @@ function handleThirdPartyLogin(platform: string) {
       oauthUrl = `https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=YOUR_QQ_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&state=${platform}`
       break
     case 'renren':
-      toast.show('人人通登录需要管理员在后台配置', 'info', { position: 'center', duration: 2000 })
+      thirdPartyError.value = '人人通登录需要管理员在后台配置'
+      setTimeout(() => { thirdPartyError.value = '' }, 3000)
       return
   }
 
@@ -360,6 +364,7 @@ function goToSlide(i: number) {
                 {{ thirdPartyScanning ? '请稍候...' : '第三方平台' }}
               </button>
             </div>
+            <div v-if="thirdPartyError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ thirdPartyError }}</div>
             <div class="login-social-label"><span class="login-social-line"></span> 其他方式 <span class="login-social-line"></span></div>
             <div class="login-social-grid">
               <button v-for="p in platforms" :key="p.key" class="login-social-btn" @click="handleThirdPartyLogin(p.key)">

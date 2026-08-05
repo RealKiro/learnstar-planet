@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { apiDelete } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
 interface Teacher {
@@ -31,16 +30,18 @@ const emit = defineEmits<{
   (e: 'deleted'): void
 }>()
 
-const toast = useToastStore()
-
 const deleteConfirmed = ref(false)
 const deleteConfirmName = ref('')
+const deleteError = ref('')
+const deleteStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 watch(
   () => props.teacher,
   () => {
     deleteConfirmed.value = false
     deleteConfirmName.value = ''
+    deleteError.value = ''
+    deleteStatus.value = 'idle'
   },
   { immediate: true }
 )
@@ -51,12 +52,17 @@ function closeModal() {
 
 async function confirmDelete() {
   if (!props.teacher) return
+  deleteStatus.value = 'loading'
+  deleteError.value = ''
   try {
     await apiDelete(`/api/v1/admin/teachers/${props.teacher.id}`)
-    emit('update:visible', false)
+    deleteStatus.value = 'success'
+    setTimeout(() => emit('update:visible', false), 600)
     emit('deleted')
   } catch {
-    toast.show('删除失败', 'error', { position: 'center', duration: 2000 })
+    deleteStatus.value = 'error'
+    deleteError.value = '删除失败，请稍后重试'
+    setTimeout(() => { if (deleteStatus.value === 'error') deleteStatus.value = 'idle' }, 3000)
   }
 }
 </script>
@@ -100,6 +106,7 @@ async function confirmDelete() {
           >
         </div>
       </div>
+      <div v-if="deleteError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ deleteError }}</div>
       <div class="modal-footer" style="justify-content:flex-end;">
         <button
           @click="closeModal"
@@ -109,10 +116,15 @@ async function confirmDelete() {
         </button>
         <button
           @click="confirmDelete"
-          :disabled="!deleteConfirmed || deleteConfirmName !== teacher?.name"
-          style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#dc2626;border:none;color:#fff;opacity:deleteConfirmed && deleteConfirmName === teacher?.name ? 1 : 0.5;"
+          :disabled="!deleteConfirmed || deleteConfirmName !== teacher?.name || deleteStatus === 'loading'"
+          :style="{
+            padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+            background: deleteStatus === 'loading' ? '#f59e0b' : deleteStatus === 'success' ? '#10b981' : deleteStatus === 'error' ? '#ef4444' : '#dc2626',
+            border: 'none', color: '#fff',
+            opacity: deleteConfirmed && deleteConfirmName === teacher?.name ? 1 : 0.5
+          }"
         >
-          确认删除
+          {{ deleteStatus === 'loading' ? '删除中...' : deleteStatus === 'success' ? '已删除 ✓' : deleteStatus === 'error' ? '删除失败 ✗' : '确认删除' }}
         </button>
       </div>
     </div>

@@ -3,13 +3,11 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import SidebarLayout from '@/components/layout/SidebarLayout.vue'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
-const toast = useToastStore()
 function logout() {
   if (isBasic.value) { sessionStorage.clear(); router.replace({ name: 'landing' }); return }
   authStore.logout()
@@ -26,6 +24,7 @@ interface ClassItem { class_id: number; class_name: string; grade: string; role:
 const myClasses = ref<ClassItem[]>([])
 const activeClassId = ref<number | null>(null)
 const switchingClass = ref(false)
+const switchError = ref('')
 const activeClass = computed(() => myClasses.value.find(c => c.class_id === activeClassId.value))
 
 // 基础模式（班级码进入）只显示课堂核心功能
@@ -104,11 +103,13 @@ async function loadMyClasses() {
 async function switchToClass(classId: number) {
   if (classId === activeClassId.value) return
   switchingClass.value = true
+  switchError.value = ''
   try {
     await apiPost('/api/v1/teacher/switch-class', { class_id: classId })
     activeClassId.value = classId
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '切换失败', 'error', { position: 'bottom-center' })
+    switchError.value = e?.response?.data?.message || '切换失败，请稍后重试'
+    setTimeout(() => { switchError.value = '' }, 3000)
   } finally {
     switchingClass.value = false
   }
@@ -155,6 +156,7 @@ onMounted(() => {
             <span class="cs-role">{{ { head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任', grade_lead: '年级首席', admin_director: '分管行政' }[activeClass.role] || activeClass.role }}</span>
             <span class="cs-grade">{{ activeClass.grade }}</span>
           </div>
+          <div v-if="switchError" style="margin-top:8px;padding:8px 10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ switchError }}</div>
         </template>
         <div v-if="isBasic" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--color-border);">
           <button class="cs-login-btn" @click="goToTeacherLogin">🔑 高级设置</button>

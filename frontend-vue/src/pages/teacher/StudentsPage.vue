@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse, Student } from '@/types'
 
-const toast = useToastStore()
 const students = ref<Student[]>([])
 const loading = ref(true)
+const importError = ref('')
+const importStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 onMounted(async () => {
   try {
@@ -21,12 +21,15 @@ function getStatusLabel(status: string): string {
 }
 
 function importStudents() {
+  importError.value = ''
+  importStatus.value = 'idle'
   const input = document.createElement('input')
   input.type = 'file'
   input.accept = '.xlsx,.xls,.csv'
   input.onchange = async () => {
     const file = input.files?.[0]
     if (!file) return
+    importStatus.value = 'loading'
     try {
       const text = await file.text()
       // 简单 CSV 解析：每行格式为 "姓名,学号,班级"
@@ -35,11 +38,22 @@ function importStudents() {
         const [name, student_no, class_name] = l.split(',').map(s => s.trim())
         return { name, student_no, class_name }
       }).filter(s => s.name)
-      if (importedStudents.length === 0) { toast.show('文件为空或格式不正确', 'error', { position: 'center', duration: 3000 }); return }
+      if (importedStudents.length === 0) {
+        importStatus.value = 'error'
+        importError.value = '文件为空或格式不正确（CSV: 姓名,学号,班级）'
+        setTimeout(() => { if (importStatus.value === 'error') importStatus.value = 'idle' }, 3000)
+        return
+      }
       await apiPost('/api/v1/teacher/students', { students: importedStudents })
       const res = await apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=200')
       students.value = res.data || []
-    } catch { toast.show('导入失败，请检查文件格式（CSV: 姓名,学号,班级）', 'error', { position: 'center', duration: 3000 }) }
+      importStatus.value = 'success'
+      setTimeout(() => { if (importStatus.value === 'success') importStatus.value = 'idle' }, 1500)
+    } catch {
+      importStatus.value = 'error'
+      importError.value = '导入失败，请检查文件格式（CSV: 姓名,学号,班级）'
+      setTimeout(() => { if (importStatus.value === 'error') importStatus.value = 'idle' }, 3000)
+    }
   }
   input.click()
 }
@@ -49,10 +63,22 @@ function importStudents() {
   <div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <h2 style="font-size:24px;font-weight:700;">🎒 学生列表</h2>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-sm btn-primary" @click="importStudents">📥 批量导入</button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button
+          class="btn btn-sm"
+          :disabled="importStatus === 'loading'"
+          :style="{
+            background: importStatus === 'loading' ? '#f59e0b' : importStatus === 'success' ? '#10b981' : importStatus === 'error' ? '#ef4444' : 'var(--color-primary)',
+            color: '#fff', border: '1px solid transparent'
+          }"
+          @click="importStudents"
+        >
+          {{ importStatus === 'loading' ? '导入中...' : importStatus === 'success' ? '已导入 ✓' : importStatus === 'error' ? '导入失败' : '📥 批量导入' }}
+        </button>
       </div>
     </div>
+
+    <div v-if="importError" style="margin:-12px 0 16px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ importError }}</div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
 

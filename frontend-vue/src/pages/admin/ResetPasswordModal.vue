@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
 interface Teacher {
@@ -31,10 +30,9 @@ const emit = defineEmits<{
   (e: 'reset'): void
 }>()
 
-const toast = useToastStore()
-
 const resetPwdValue = ref('')
-const resetPwdLoading = ref(false)
+const resetPwdStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const resetPwdError = ref('')
 const showResetPwd = ref(false)
 const currentPwd = ref('')
 
@@ -45,6 +43,8 @@ watch(
       resetPwdValue.value = ''
       showResetPwd.value = false
       currentPwd.value = ''
+      resetPwdStatus.value = 'idle'
+      resetPwdError.value = ''
       // 加载当前密码
       fetch('/api/v1/admin/teachers/' + t.id + '/password', {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
@@ -63,20 +63,25 @@ function closeModal() {
 
 async function submitResetPwd() {
   if (!props.teacher) return
-  resetPwdLoading.value = true
+  resetPwdStatus.value = 'loading'
+  resetPwdError.value = ''
   try {
     const res = await apiPost<{ data: { new_password: string } }>(
       `/api/v1/admin/teachers/${props.teacher.id}/reset-password`,
       { password: resetPwdValue.value || undefined }
     )
     const newPwd = res?.data?.new_password || resetPwdValue.value || '（已设置）'
-    toast.show(`密码已更新: ${newPwd}`, 'success', { position: 'center', duration: 2500 })
-    emit('update:visible', false)
+    resetPwdValue.value = newPwd
+    resetPwdStatus.value = 'success'
+    setTimeout(() => {
+      resetPwdStatus.value = 'idle'
+      emit('update:visible', false)
+    }, 1200)
     emit('reset')
   } catch {
-    toast.show('重置失败', 'error', { position: 'center', duration: 2000 })
-  } finally {
-    resetPwdLoading.value = false
+    resetPwdStatus.value = 'error'
+    resetPwdError.value = '重置失败，请稍后重试'
+    setTimeout(() => { if (resetPwdStatus.value === 'error') resetPwdStatus.value = 'idle' }, 3000)
   }
 }
 
@@ -141,6 +146,8 @@ async function submitResetPwd() {
         </button>
       </div>
 
+      <div v-if="resetPwdError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ resetPwdError }}</div>
+
       <div class="flex-row" style="gap:12px;">
         <button
           @click="closeModal"
@@ -150,10 +157,13 @@ async function submitResetPwd() {
         </button>
         <button
           @click="submitResetPwd"
-          :disabled="resetPwdLoading"
-          class="flex-1" style="padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;"
+          :disabled="resetPwdStatus === 'loading'"
+          class="flex-1" :style="{ padding:'8px', borderRadius:'8px', fontSize:'13px', fontWeight:'600', cursor:'pointer', border:'none', color:'#fff', background: resetPwdStatus === 'loading' ? '#f59e0b' : resetPwdStatus === 'success' ? '#10b981' : resetPwdStatus === 'error' ? '#ef4444' : '#7c3aed' }"
         >
-          {{ resetPwdLoading ? '更新中...' : '更新密码' }}
+          <template v-if="resetPwdStatus === 'loading'">更新中...</template>
+          <template v-else-if="resetPwdStatus === 'success'">已更新 ✓</template>
+          <template v-else-if="resetPwdStatus === 'error'">更新失败 ✗</template>
+          <template v-else>更新密码</template>
         </button>
       </div>
     </div>

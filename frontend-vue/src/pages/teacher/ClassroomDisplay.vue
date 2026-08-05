@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 
 interface PetEntry {
   student_id: number; student_no: string; student_name: string; total_score: number
@@ -16,9 +15,9 @@ interface Message {
   id: number; content: string; type: string; display_seconds: number; created_at: string
 }
 
-const toast = useToastStore()
 const data = ref<DisplayData | null>(null)
 const loading = ref(true)
+const displayError = ref('')
 const currentMessage = ref<Message | null>(null)
 const messageTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 const showUnlock = ref(false)
@@ -41,6 +40,7 @@ const gridSlots = computed(() => {
 async function loadDisplay() {
   try {
     const res = await apiGet<{ data: DisplayData }>('/api/v1/teacher/classroom/display')
+    displayError.value = ''
     const prev = data.value
     data.value = res.data
 
@@ -62,7 +62,9 @@ async function loadDisplay() {
     }
   } catch (e: any) {
     if (e?.response?.status === 400) {
-      toast.show('请先在教师管理中指定班级', 'info', { position: 'center', duration: 2000 })
+      displayError.value = '请先在教师管理中指定班级'
+    } else {
+      displayError.value = '加载失败，请稍后重试'
     }
   } finally {
     loading.value = false
@@ -174,6 +176,10 @@ onUnmounted(() => {
 
     <!-- Grid -->
     <div v-if="loading" class="loading">加载中...</div>
+    <div v-else-if="displayError" class="empty">
+      <div class="empty-icon">⚠️</div>
+      <p style="color:#fca5a5;">{{ displayError }}</p>
+    </div>
     <div v-else-if="!data || data.pets.length === 0" class="empty">
       <div class="empty-icon">📭</div>
       <p>该班级暂无学生</p>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { apiPut } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
 type ClassRole = 'head_teacher' | 'co_teacher' | 'subject_teacher'
@@ -43,10 +42,8 @@ const emit = defineEmits<{
   (e: 'assigned'): void
 }>()
 
-const toast = useToastStore()
-
 const assignList = ref<{ class_id: number | null; role: ClassRole; subject: string; class_name?: string }[]>([])
-const assignLoading = ref(false)
+const assignStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const assignGradeFilter = ref('')
 const newAssignClassId = ref<number | null>(null)
 const newAssignRole = ref<ClassRole>('subject_teacher')
@@ -85,6 +82,8 @@ watch(
       newAssignClassId.value = null
       newAssignRole.value = 'subject_teacher'
       newAssignSubject.value = ''
+      assignError.value = ''
+      assignStatus.value = 'idle'
     }
   },
   { immediate: true }
@@ -127,7 +126,8 @@ function removeAssignRow(idx: number) {
 
 async function submitAssign() {
   if (!props.teacher) return
-  assignLoading.value = true
+  assignStatus.value = 'loading'
+  assignError.value = ''
   try {
     const payload = {
       assignments: assignList.value.filter(a => a.class_id).map(a => ({
@@ -137,12 +137,13 @@ async function submitAssign() {
       })),
     }
     await apiPut(`/api/v1/admin/teachers/${props.teacher.id}/classes`, payload)
-    emit('update:visible', false)
+    assignStatus.value = 'success'
+    setTimeout(() => emit('update:visible', false), 600)
     emit('assigned')
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '保存失败', 'error', { position: 'center', duration: 2000 })
-  } finally {
-    assignLoading.value = false
+    assignStatus.value = 'error'
+    assignError.value = e?.response?.data?.message || '保存失败'
+    setTimeout(() => { if (assignStatus.value === 'error') assignStatus.value = 'idle' }, 3000)
   }
 }
 
@@ -241,10 +242,14 @@ function closeModal() {
         </button>
         <button
           @click="submitAssign"
-          :disabled="assignLoading"
-          style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;"
+          :disabled="assignStatus === 'loading'"
+          :style="{
+            padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+            background: assignStatus === 'loading' ? '#f59e0b' : assignStatus === 'success' ? '#10b981' : assignStatus === 'error' ? '#ef4444' : '#7c3aed',
+            border: 'none', color: '#fff'
+          }"
         >
-          {{ assignLoading ? '保存中...' : '保存分配' }}
+          {{ assignStatus === 'loading' ? '保存中...' : assignStatus === 'success' ? '已保存 ✓' : assignStatus === 'error' ? '保存失败 ✗' : '保存分配' }}
         </button>
       </div>
     </div>

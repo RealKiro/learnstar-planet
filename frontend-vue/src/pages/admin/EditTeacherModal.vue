@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { apiPut } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
 interface Teacher {
@@ -38,9 +37,9 @@ const emit = defineEmits<{
   (e: 'updated'): void
 }>()
 
-const toast = useToastStore()
-
 const editForm = ref({ name: '', nickname: '', grade_team: '', phone: '', email: '', personalRole: '' as string })
+const editError = ref('')
+const editStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 watch(
   () => props.teacher,
@@ -55,6 +54,8 @@ watch(
         email: t.email || '',
         personalRole: pRole,
       }
+      editError.value = ''
+      editStatus.value = 'idle'
     }
   },
 )
@@ -65,6 +66,8 @@ function closeModal() {
 
 async function submitEdit() {
   if (!props.teacher) return
+  editStatus.value = 'loading'
+  editError.value = ''
   try {
     const payload: any = {
       name: editForm.value.name,
@@ -75,10 +78,13 @@ async function submitEdit() {
       personal_role: editForm.value.personalRole || null,
     }
     await apiPut(`/api/v1/admin/teachers/${props.teacher.id}`, payload)
-    emit('update:visible', false)
+    editStatus.value = 'success'
+    setTimeout(() => emit('update:visible', false), 600)
     emit('updated')
   } catch {
-    toast.show('保存失败', 'error', { position: 'center', duration: 2000 })
+    editStatus.value = 'error'
+    editError.value = '保存失败，请稍后重试'
+    setTimeout(() => { if (editStatus.value === 'error') editStatus.value = 'idle' }, 3000)
   }
 }
 </script>
@@ -136,6 +142,7 @@ async function submitEdit() {
           <input v-model="editForm.email" class="form-input" placeholder="邮箱地址">
         </div>
       </div>
+      <div v-if="editError" style="margin-top:16px;margin-bottom:-12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ editError }}</div>
       <div class="modal-footer" style="justify-content:flex-end;margin-top:20px;">
         <button
           @click="closeModal"
@@ -145,9 +152,14 @@ async function submitEdit() {
         </button>
         <button
           @click="submitEdit"
-          style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#7c3aed;border:none;color:#fff;"
+          :disabled="editStatus === 'loading'"
+          :style="{
+            padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+            background: editStatus === 'loading' ? '#f59e0b' : editStatus === 'success' ? '#10b981' : editStatus === 'error' ? '#ef4444' : '#7c3aed',
+            border: 'none', color: '#fff'
+          }"
         >
-          保存
+          {{ editStatus === 'loading' ? '保存中...' : editStatus === 'success' ? '已保存 ✓' : editStatus === 'error' ? '保存失败 ✗' : '保存' }}
         </button>
       </div>
     </div>

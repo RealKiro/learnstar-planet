@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
-import { useToastStore } from '@/stores/toast'
-
-const toast = useToastStore()
 
 interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean; _expanded?: boolean; billing_enabled?: boolean; tokens_used?: number; total_calls?: number; estimated_cost?: number; input_price_per_m?: number; output_price_per_m?: number; currency?: string; balance?: number; _official_models?: string[]; _fetching?: boolean; _fetch_msg?: string }
 interface AiSettings { enabled: boolean; max_tokens: number; tokens_used: number; tokens_limit: number; providers: ProviderConfig[] }
@@ -12,6 +9,7 @@ interface ProviderUsage { tokens: number; total_calls: number; estimated_cost: n
 interface AiUsage { enabled: boolean; tokens_used: number; tokens_limit: number; estimated_cost?: number; total_conversations: number; daily_usage: DailyUsage[]; by_provider?: Record<string, ProviderUsage>; recent_logs: ConversationLog[] }
 
 const loading = ref(true)
+const loadError = ref('')
 const settings = ref<AiSettings | null>(null)
 const usage = ref<AiUsage | null>(null)
 const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -206,6 +204,7 @@ const standardProviders = computed({
 
 async function loadData() {
   loading.value = true
+  loadError.value = ''
   try {
     const [sRes, uRes] = await Promise.all([
       fetch('/api/v1/admin/ai/settings', { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } }).then(r => r.json()),
@@ -213,7 +212,7 @@ async function loadData() {
     ])
     settings.value = sRes.data || null
     usage.value = uRes.data || null
-  } catch { toast.show('加载失败', 'error', { position: 'center', duration: 2000 }) }
+  } catch { loadError.value = '加载失败，请稍后重试' }
   finally { loading.value = false }
 }
 
@@ -288,6 +287,11 @@ onMounted(loadData)
     </div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-else-if="loadError" style="text-align:center;padding:40px;color:var(--color-text-secondary);">
+      <div style="font-size:36px;margin-bottom:8px;">⚠️</div>
+      <div style="font-size:13px;color:#fca5a5;margin-bottom:16px;">{{ loadError }}</div>
+      <button class="btn btn-primary btn-sm" @click="loadData">🔄 重试</button>
+    </div>
     <template v-else>
       <!-- 顶部统计卡片 -->
       <div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">

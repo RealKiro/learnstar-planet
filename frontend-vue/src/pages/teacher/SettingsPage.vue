@@ -2,17 +2,16 @@
 import { ref, reactive, onMounted } from 'vue'
 import { apiGet, apiDelete, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
-import { useToastStore } from '@/stores/toast'
 import { platformLabel } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
 
 const authStore = useAuthStore()
-const toast = useToastStore()
 
 interface BindingInfo { platform: string; label: string; bound: boolean; nick?: string }
 
 const bindings = ref<BindingInfo[]>([])
 const platforms = ['wechat', 'wechat_work', 'qq', 'renren'] as const
+const bindMsg = ref('')
 const unbindStatus = ref<Record<string, 'idle' | 'loading' | 'success' | 'error'>>({})
 const pwdStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
@@ -56,6 +55,7 @@ async function unbind(platform: string) {
 function handleBind(platform: string) {
   const callbackUrl = `${window.location.origin}/auth/callback?platform=${platform}`
   let oauthUrl = ''
+  bindMsg.value = ''
 
   switch (platform) {
     case 'wechat':
@@ -68,7 +68,8 @@ function handleBind(platform: string) {
       oauthUrl = `https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=YOUR_QQ_APPID&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&state=${platform}`
       break
     case 'renren':
-      toast.show('请在管理员后台配置人人通参数', 'info', { position: 'center', duration: 2000 })
+      bindMsg.value = '请在管理员后台配置人人通参数'
+      setTimeout(() => { bindMsg.value = '' }, 3000)
       return
   }
 
@@ -187,6 +188,7 @@ async function changePassword() {
           <button v-else class="btn btn-sm btn-primary" @click="handleBind(b.platform)">绑定</button>
         </div>
       </div>
+      <div v-if="bindMsg" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ bindMsg }}</div>
     </div>
   </div>
 </template>

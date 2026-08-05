@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import { avatarGradient } from '@/utils/constants'
 import type { ApiResponse, Student, ClassRoom } from '@/types'
-
-const toast = useToastStore()
 
 const students = ref<Student[]>([])
 const classes = ref<ClassRoom[]>([])
@@ -32,6 +29,8 @@ const formClassId = ref<number | ''>('')
 const showMoveModal = ref(false)
 const targetGrade = ref('一年级')
 const targetClassId = ref<number | ''>('')
+const formError = ref('')
+const moveError = ref('')
 
 const allSelected = computed(() =>
   students.value.length > 0 && selectedIds.value.length === students.value.length,
@@ -133,8 +132,8 @@ function onTargetGradeChange() {
 }
 
 async function submitForm() {
-  if (!form.value.name.trim()) { toast.show('请填写学生姓名', 'error', { position: 'center', duration: 2000 }); return }
-  if (!formClassId.value) { toast.show('请选择班级', 'error', { position: 'center', duration: 2000 }); return }
+  if (!form.value.name.trim()) { formError.value = '请填写学生姓名'; return }
+  if (!formClassId.value) { formError.value = '请选择班级'; return }
   form.value.class_id = formClassId.value as number
   submitStatus.value = 'loading'
   const payload = {
@@ -207,7 +206,7 @@ function openMoveModal() {
 }
 
 async function submitMove() {
-  if (targetClassId.value === '') { toast.show('请选择目标班级', 'error', { position: 'center', duration: 2000 }); return }
+  if (targetClassId.value === '') { moveError.value = '请选择目标班级'; return }
   moveStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/students/batch-move', {
@@ -326,6 +325,7 @@ async function submitMove() {
           <input v-model="form.student_no" class="form-input" placeholder="可选" @keydown.enter="submitForm">
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <div v-if="formError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ formError }}</div>
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showEditModal = false">取消</button>
           <button class="btn btn-sm" :class="submitStatus === 'idle' ? 'btn-primary' : ''" :style="submitStatus === 'error' ? 'background:#fee2e2;color:#dc2626;border:1px solid #fecaca;' : submitStatus === 'success' ? 'background:#dcfce7;color:#16a34a;border:1px solid #bbf7d0;' : ''" :disabled="submitStatus === 'loading'" @click="submitForm">{{ submitStatus === 'loading' ? '保存中...' : submitStatus === 'success' ? '已保存' : submitStatus === 'error' ? '保存失败' : '保存' }}</button>
         </div>
@@ -354,6 +354,7 @@ async function submitMove() {
           </select>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <div v-if="moveError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ moveError }}</div>
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showMoveModal = false">取消</button>
           <button class="btn btn-sm" :class="moveStatus === 'idle' ? 'btn-primary' : ''" :style="moveStatus === 'error' ? 'background:#fee2e2;color:#dc2626;border:1px solid #fecaca;' : moveStatus === 'success' ? 'background:#dcfce7;color:#16a34a;border:1px solid #bbf7d0;' : ''" :disabled="moveStatus === 'loading'" @click="submitMove">{{ moveStatus === 'loading' ? '调班中...' : moveStatus === 'success' ? '调班成功' : moveStatus === 'error' ? '调班失败' : '确认调班' }}</button>
         </div>
