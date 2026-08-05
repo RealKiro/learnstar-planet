@@ -87,7 +87,7 @@ async function uploadImport(isDry: boolean) {
             <code>手机号</code>
           </div>
           <p style="font-size:12px;color:#9ca3af;">
-            密码选填，不填默认为 star123456。角色和班级导入后使用 &#127979; 按钮分配。
+            密码选填，不填默认为 ls123456。角色和班级导入后使用 &#127979; 按钮分配。
           </p>
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="downloadTemplate">📥 下载模板</button>
         </div>
