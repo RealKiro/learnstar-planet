@@ -75,7 +75,6 @@ async function submitEdit() {
       personal_role: editForm.value.personalRole || null,
     }
     await apiPut(`/api/v1/admin/teachers/${props.teacher.id}`, payload)
-    toast.show('教师信息已更新', 'success', { position: 'center', duration: 2000 })
     emit('update:visible', false)
     emit('updated')
   } catch {

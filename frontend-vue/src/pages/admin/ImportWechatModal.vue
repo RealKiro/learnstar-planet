@@ -89,8 +89,7 @@ async function doImport() {
 
   importing.value = true
   try {
-    const res = await apiPost<{ message: string }>('/api/v1/admin/third-party/import', { teachers, students })
-    toast.show(res?.message || '导入完成', 'success', { position: 'center', duration: 2000 })
+    await apiPost('/api/v1/admin/third-party/import', { teachers, students })
     close()
     emit('imported')
   } catch (e: any) {

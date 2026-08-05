@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiDelete } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
-
-const toast = useToastStore()
 
 interface ShopItemExt {
   id: number
@@ -102,15 +99,11 @@ function openRedeem(item: ShopItemExt) {
 }
 
 async function submitRedeem() {
-  if (!selectedStudentId.value || !selectedItem.value) {
-    toast.show('请选择学生和商品', 'error', { position: 'center', duration: 2000 })
-    return
-  }
   redeemStatus.value = 'loading'
   try {
     await apiPost('/api/v1/teacher/shop/redemptions', {
       student_id: selectedStudentId.value,
-      shop_item_id: selectedItem.value.id,
+      shop_item_id: selectedItem.value!.id,
     })
     redeemStatus.value = 'success'
     setTimeout(() => { redeemStatus.value = 'idle'; showRedeemModal.value = false }, 1500)

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { apiPost } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
 const props = defineProps<{
@@ -12,8 +11,6 @@ const emit = defineEmits<{
   (e: 'update:visible', v: boolean): void
   (e: 'imported'): void
 }>()
-
-const toast = useToastStore()
 
 const importFile = ref<File | null>(null)
 const importPreview = ref<any[]>([])
@@ -33,14 +30,10 @@ function downloadTemplate() {
 }
 
 async function uploadImport(isDry: boolean) {
-  if (!importFile.value) {
-    toast.show('请选择文件', 'error', { position: 'center', duration: 2000 })
-    return
-  }
   importLoading.value = true
   try {
     const fd = new FormData()
-    fd.append('file', importFile.value)
+    fd.append('file', importFile.value!)
     fd.append('dry_run', isDry ? '1' : '0')
 
     const res = await apiPost<{ preview?: any[]; created?: any[]; total: number; message: string }>(
@@ -50,9 +43,7 @@ async function uploadImport(isDry: boolean) {
 
     if (isDry && res.preview) {
       importPreview.value = res.preview
-      toast.show('预览：' + res.total + ' 条数据', undefined, { position: 'center', duration: 2000 })
     } else {
-      toast.show(res.message || '导入完成', 'success', { position: 'center', duration: 2000 })
       emit('update:visible', false)
       emit('imported')
     }

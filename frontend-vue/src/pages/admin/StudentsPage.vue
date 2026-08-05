@@ -186,7 +186,6 @@ function toggleSelectAll() {
 }
 
 async function batchDelete() {
-  if (selectedIds.value.length === 0) { toast.show('请先选择学生', 'error', { position: 'center', duration: 2000 }); return }
   if (!confirm(`确定批量删除 ${selectedIds.value.length} 名学生？`)) return
   batchDeleteStatus.value = 'loading'
   try {
@@ -202,7 +201,6 @@ async function batchDelete() {
 }
 
 function openMoveModal() {
-  if (selectedIds.value.length === 0) { toast.show('请先选择学生', 'error', { position: 'center', duration: 2000 }); return }
   targetGrade.value = '一年级'
   targetClassId.value = ''
   showMoveModal.value = true

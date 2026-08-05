@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { apiGet } from '@/utils/api'
-import { useToastStore } from '@/stores/toast'
 import type { ApiResponse } from '@/types'
-
-const toast = useToastStore()
 
 interface School {
   name: string; code: string; address: string
@@ -117,7 +114,6 @@ onMounted(async () => {
 })
 
 async function save() {
-  if (!form.value.name.trim()) { toast.show('请填写学校名称', 'error', { position: 'center', duration: 2000 }); return }
   saveStatus.value = 'loading'
   try {
     const res = await fetch('/api/v1/admin/school', {

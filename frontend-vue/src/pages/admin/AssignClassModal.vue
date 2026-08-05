@@ -135,7 +135,6 @@ async function submitAssign() {
       })),
     }
     await apiPut(`/api/v1/admin/teachers/${props.teacher.id}/classes`, payload)
-    toast.show('班级分配已更新', 'success', { position: 'center', duration: 2000 })
     emit('update:visible', false)
     emit('assigned')
   } catch (e: any) {

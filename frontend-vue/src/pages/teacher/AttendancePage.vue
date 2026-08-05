@@ -59,7 +59,7 @@ async function startAttendance() {
 }
 
 async function setStatus(studentId: number, status: string) {
-  try { await apiPut(`/api/v1/teacher/attendance/${studentId}`, { status, source: 'manual' }); await loadData(); toast.show('已更新', 'success', { position: 'center', duration: 1500 }) } catch { /* handled */ }
+  try { await apiPut(`/api/v1/teacher/attendance/${studentId}`, { status, source: 'manual' }); await loadData() } catch { /* handled */ }
 }
 
 function openLeaveModal(sid: number, sn: string) { leaveStudentId.value = sid; leaveStudentName.value = sn; leaveRemark.value = ''; showLeaveModal.value = true }

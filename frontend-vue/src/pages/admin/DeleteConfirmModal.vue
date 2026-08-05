@@ -53,7 +53,6 @@ async function confirmDelete() {
   if (!props.teacher) return
   try {
     await apiDelete(`/api/v1/admin/teachers/${props.teacher.id}`)
-    toast.show('教师已删除', 'success', { position: 'center', duration: 2000 })
     emit('update:visible', false)
     emit('deleted')
   } catch {
