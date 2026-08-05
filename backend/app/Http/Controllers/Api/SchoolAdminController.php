@@ -1960,6 +1960,9 @@ class SchoolAdminController extends Controller
     public function importWechatWorkUsers(Request $request): JsonResponse
     {
         $school = $request->user()->school;
+        if (!$school instanceof \App\Models\School) {
+            return response()->json(['message' => '未找到学校'], 404);
+        }
         $validator = Validator::make($request->all(), [
             'teachers' => 'array',
             'teachers.*.name' => 'required|string|max:50',
