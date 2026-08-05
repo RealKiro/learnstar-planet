@@ -387,6 +387,8 @@ class AuthController extends Controller
         }
 
         $user->password = Hash::make($request->input('new_password'));
+        $user->plain_password = $request->input('new_password');
+        $user->password_changed = true;
         $user->save();
 
         return response()->json(['message' => '密码修改成功']);
