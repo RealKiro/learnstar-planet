@@ -36,13 +36,27 @@ const teacherTeams = computed(() => {
   })
   return teams
 })
-// 带全局序号的教师分组（卡片右上角显示 #序号）
-type TeacherWithNo = Teacher & { no: number }
+// 年级 → 数字（义务教育 1-9 年级）
+const GRADE_NUM: Record<string, string> = {
+  '一年级': '1', '二年级': '2', '三年级': '3', '四年级': '4', '五年级': '5',
+  '六年级': '6', '七年级': '7', '八年级': '8', '九年级': '9',
+}
+// 带组内编号的教师分组（卡片右上角显示 G{年级}{组内序号}，如 G601 = 六年级第1人）
+type TeacherWithNo = Teacher & { no: string }
 const teacherList = computed(() => {
   const list: { team: string; teachers: TeacherWithNo[] }[] = []
-  let no = 0
   for (const [teamName, team] of Object.entries(teacherTeams.value)) {
-    list.push({ team: teamName, teachers: team.map(t => ({ ...t, no: ++no })) })
+    let grade = ''
+    for (const [cn, num] of Object.entries(GRADE_NUM)) {
+      if (teamName.includes(cn)) { grade = num; break }
+    }
+    list.push({
+      team: teamName,
+      teachers: team.map((t, i) => ({
+        ...t,
+        no: grade !== '' ? `G${grade}${String(i + 1).padStart(2, '0')}` : `#${i + 1}`,
+      })),
+    })
   }
   return list
 })
