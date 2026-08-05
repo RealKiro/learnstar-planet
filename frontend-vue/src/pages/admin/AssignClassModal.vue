@@ -51,6 +51,7 @@ const assignGradeFilter = ref('')
 const newAssignClassId = ref<number | null>(null)
 const newAssignRole = ref<ClassRole>('subject_teacher')
 const newAssignSubject = ref('')
+const assignError = ref('')
 
 const filteredAssignClasses = computed(() => {
   if (!props.classes) return []
@@ -96,24 +97,25 @@ function addAssignRowNew() {
   const role = newAssignRole.value
 
   if (role === 'head_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'co_teacher')) {
-    toast.show('该班级已有副班，不能同时为主班', 'error', { position: 'center', duration: 2000 })
+    assignError.value = '该班级已有副班，不能同时为主班'
     return
   }
   if (role === 'co_teacher' && assignList.value.some(a => a.class_id === cls.id && a.role === 'head_teacher')) {
-    toast.show('该班级已有主班，不能同时为副班', 'error', { position: 'center', duration: 2000 })
+    assignError.value = '该班级已有主班，不能同时为副班'
     return
   }
   if (assignList.value.some(a => a.class_id === cls.id && a.role === role)) {
-    toast.show('该班级已分配此角色', 'info', { position: 'center', duration: 2000 })
+    assignError.value = '该班级已分配此角色'
     return
   }
 
   const subjectValue = newAssignSubject.value
   if (!subjectValue) {
-    toast.show('请选择科目', 'error', { position: 'center', duration: 2000 })
+    assignError.value = '请选择科目'
     return
   }
 
+  assignError.value = ''
   assignList.value.push({ class_id: cls.id, class_name: shortClassName(cls.name), role, subject: subjectValue })
   newAssignClassId.value = null
   newAssignSubject.value = ''
@@ -198,6 +200,7 @@ function closeModal() {
           &#10133; 添加
         </button>
       </div>
+      <div v-if="assignError" style="margin:-6px 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ assignError }}</div>
 
       <!-- 已分配列表 -->
       <div style="margin-bottom:12px;">
