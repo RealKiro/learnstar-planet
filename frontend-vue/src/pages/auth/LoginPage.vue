@@ -13,6 +13,7 @@ const toast = useToastStore()
 
 const loginType = ref<'teacher' | 'admin' | 'parent' | 'class'>((props.mode === 'code' ? 'class' : props.initialRole) as 'teacher' | 'admin' | 'parent' | 'class')
 const teacherUsername = ref('')
+const teacherLoginError = ref('')
 const teacherPassword = ref('')
 const adminUsername = ref('')
 const adminPassword = ref('')
@@ -83,6 +84,7 @@ async function handleTeacherLogin() {
     const data = await res.json()
     if (!res.ok) { throw { response: { data } } }
     teacherAttempts = 0
+    teacherLoginError.value = ''
     authStore.setAuth(data.data.token, data.data.user)
     loginStatus.value = 'success'
     setTimeout(() => router.replace({ name: 'teacher-dashboard' }), 800)
@@ -90,8 +92,9 @@ async function handleTeacherLogin() {
     teacherAttempts++
     const remaining = MAX_ATTEMPTS - teacherAttempts
     loginStatus.value = 'error'
-    if (teacherAttempts >= MAX_ATTEMPTS) toast.show('密码错误次数过多，请联系管理员', 'error', { position: 'center', duration: 3000 })
-    else toast.show((e?.response?.data?.message || '账号或密码错误') + `，还剩 ${remaining} 次`, 'error', { position: 'center', duration: 3000 })
+    teacherLoginError.value = teacherAttempts >= MAX_ATTEMPTS
+      ? '密码错误次数过多，请联系管理员'
+      : ((e?.response?.data?.message || '账号或密码错误') + `，还剩 ${remaining} 次`)
     setTimeout(() => { if (loginStatus.value === 'error') loginStatus.value = 'idle' }, 3000)
   } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
 }
@@ -348,13 +351,17 @@ function goToSlide(i: number) {
             <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
             <span v-else>❌ 登录失败</span>
           </button>
+          <div v-if="teacherLoginError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ teacherLoginError }}</div>
           <div class="login-social">
-            <div class="login-social-label"><span class="login-social-line"></span> 扫码快捷登录 <span class="login-social-line"></span></div>
+            <div class="login-social-label"><span class="login-social-line"></span> 快捷登录 <span class="login-social-line"></span></div>
             <div class="login-social-grid">
               <button class="login-social-btn" :disabled="thirdPartyScanning" @click="thirdPartyScan">
                 <span class="login-social-icon" style="background:#7c3aed;">🏢</span>
                 {{ thirdPartyScanning ? '请稍候...' : '第三方平台' }}
               </button>
+            </div>
+            <div class="login-social-label"><span class="login-social-line"></span> 其他方式 <span class="login-social-line"></span></div>
+            <div class="login-social-grid">
               <button v-for="p in platforms" :key="p.key" class="login-social-btn" @click="handleThirdPartyLogin(p.key)">
                 <span class="login-social-icon" :style="{ background: p.color }">{{ p.icon }}</span>
                 {{ p.label }}

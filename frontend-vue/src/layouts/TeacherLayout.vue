@@ -61,23 +61,35 @@ const fullNav = [
   ]},
 ]
 
-const basicNav = [
-  { section: '概览', items: [
-    { page: 'teacher-dashboard-basic', label: '班级总览', icon: '🏠' },
-  ]},
-  { section: '课堂', items: [
-    { page: 'teacher-scores-basic', label: '课堂评价', icon: '✏️' },
-    { page: 'teacher-leaderboard-basic', label: '排行榜', icon: '🏆' },
-    { page: 'teacher-pk-basic', label: '年级PK', icon: '⚔️' },
-    { page: 'teacher-pets-basic', label: '宠物图鉴', icon: '📚' },
-  ]},
-  { section: '互动', items: [
-    { page: 'teacher-ai-basic', label: 'AI 助手', icon: '🤖' },
-    { page: 'classroom-overview', label: '教室大屏', icon: '🖥️' },
-  ]},
-]
+const aiEnabled = ref(false)
+const classInfo = ref<{ name: string } | null>(null)
+async function checkAi() {
+  const token = sessionStorage.getItem('class_token')
+  if (!token) return
+  try {
+    const res = await apiGet<{ data: { enabled: boolean } }>('/api/v1/display/ai/settings', { params: { token } })
+    aiEnabled.value = res.data?.enabled || false
+  } catch { /* ignore */ }
+}
 
-const navItems = computed(() => isBasic.value ? basicNav : fullNav)
+const basicNav = computed(() => {
+  const nav = [
+    { section: '概览', items: [{ page: 'teacher-dashboard-basic', label: '班级总览', icon: '🏠' }] },
+    { section: '课堂', items: [
+      { page: 'teacher-scores-basic', label: '课堂评价', icon: '✏️' },
+      { page: 'teacher-leaderboard-basic', label: '排行榜', icon: '🏆' },
+      { page: 'teacher-pk-basic', label: '年级PK', icon: '⚔️' },
+      { page: 'teacher-pets-basic', label: '宠物图鉴', icon: '📚' },
+    ]},
+    { section: '互动', items: [] as { page: string; label: string; icon: string }[] },
+  ]
+  if (aiEnabled.value) {
+    nav[2].items.push({ page: 'teacher-ai-basic', label: 'AI 助手', icon: '🤖' })
+  }
+  return nav
+})
+
+const navItems = computed(() => isBasic.value ? basicNav.value : fullNav)
 
 async function loadMyClasses() {
   try {
@@ -104,7 +116,10 @@ async function switchToClass(classId: number) {
 }
 
 onMounted(() => {
-  loadMyClasses()
+  const ci = sessionStorage.getItem('class_info')
+  if (ci) { try { classInfo.value = JSON.parse(ci) } catch { /* ignore */ } }
+  if (!isBasic.value) loadMyClasses()
+  checkAi()
 })
 </script>
 
@@ -120,23 +135,28 @@ onMounted(() => {
     <template #sidebar-extra>
       <div class="class-switcher">
         <div class="cs-label">📚 当前班级</div>
-        <div v-if="myClasses.length === 0" class="cs-empty">暂未分配班级</div>
-        <div v-else class="cs-select-wrap">
-          <select
-            :value="activeClassId ?? undefined"
-            class="cs-select"
-            :disabled="switchingClass"
-            @change="switchToClass(Number(($event.target as HTMLSelectElement).value))"
-          >
-            <option v-for="c in myClasses" :key="c.class_id" :value="c.class_id">
-              {{ c.class_name }}
-            </option>
-          </select>
-        </div>
-        <div v-if="activeClass" class="cs-info">
-          <span class="cs-role">{{ { head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任', grade_lead: '年级首席', admin_director: '分管行政' }[activeClass.role] || activeClass.role }}</span>
-          <span class="cs-grade">{{ activeClass.grade }}</span>
-        </div>
+        <template v-if="isBasic">
+          <div class="cs-basic-class">{{ classInfo?.name || '当前班级' }}</div>
+        </template>
+        <template v-else>
+          <div v-if="myClasses.length === 0" class="cs-empty">暂未分配班级</div>
+          <div v-else class="cs-select-wrap">
+            <select
+              :value="activeClassId ?? undefined"
+              class="cs-select"
+              :disabled="switchingClass"
+              @change="switchToClass(Number(($event.target as HTMLSelectElement).value))"
+            >
+              <option v-for="c in myClasses" :key="c.class_id" :value="c.class_id">
+                {{ c.class_name }}
+              </option>
+            </select>
+          </div>
+          <div v-if="activeClass" class="cs-info">
+            <span class="cs-role">{{ { head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任', grade_lead: '年级首席', admin_director: '分管行政' }[activeClass.role] || activeClass.role }}</span>
+            <span class="cs-grade">{{ activeClass.grade }}</span>
+          </div>
+        </template>
         <div v-if="isBasic" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--color-border);">
           <button class="cs-login-btn" @click="goToTeacherLogin">🔑 高级设置</button>
         </div>
@@ -149,6 +169,7 @@ onMounted(() => {
 .class-switcher { font-size: 12px; }
 .cs-label { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 6px; letter-spacing: 0.03em; }
 .cs-empty { font-size: 12px; color: var(--color-text-secondary); padding: 8px 0; text-align: center; }
+.cs-basic-class { padding: 8px 10px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; color: var(--color-text); }
 .cs-select-wrap { position: relative; }
 .cs-select { width: 100%; padding: 8px 10px; border-radius: 10px; background: var(--color-bg); border: 1px solid var(--color-border); color: var(--color-text); font-size: 13px; font-weight: 500; outline: none; cursor: pointer; font-family: inherit; appearance: auto; }
 .cs-select:disabled { opacity: 0.5; cursor: not-allowed; }
