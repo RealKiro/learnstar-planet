@@ -252,10 +252,9 @@ async function handleWechatWorkOAuth(code: string) {
     const d = res.data
     if (d.token) {
       const authStore = (await import('@/stores/auth')).useAuthStore()
-      const toast = (await import('@/stores/toast')).useToastStore()
       authStore.setAuth(d.token, d.user)
-      toast.show('登录成功', 'success', { position: 'center', duration: 1500 })
-      router.replace({ name: 'teacher-dashboard' })
+      loginStatus.value = 'success'
+      setTimeout(() => router.replace({ name: 'teacher-dashboard' }), 800)
     }
   } catch { /* handled */ } finally { loading.value = false }
 }

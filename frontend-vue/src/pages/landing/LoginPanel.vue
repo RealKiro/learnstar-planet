@@ -2,13 +2,11 @@
 import { ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { useToastStore } from '@/stores/toast'
 import { apiPost, apiGet } from '@/utils/api'
 import { platforms } from './landingData'
 
 const router = useRouter()
 const authStore = useAuthStore()
-const toast = useToastStore()
 
 if (authStore.isLoggedIn) {
   if (authStore.isAdmin) { router.replace({ name: 'admin-dashboard' }) }
@@ -72,7 +70,9 @@ async function doLogin() {
   }
 }
 
+const socialError = ref('')
 async function thirdPartyLogin(key: string) {
+  socialError.value = ''
   try {
     var res = await apiGet<{ data: { auth_url: string } }>('/api/v1/auth/third-party/auth-url', {
       params: { redirect_uri: window.location.origin + '/auth/callback' },
@@ -82,7 +82,8 @@ async function thirdPartyLogin(key: string) {
     var top = (screen.height - h) / 2
     window.open(res.data.auth_url, key, 'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top)
   } catch (e: any) {
-    toast.show(e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择', 'error', { position: 'center', duration: 3000 })
+    socialError.value = e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择'
+    setTimeout(() => { socialError.value = '' }, 3000)
   }
 }
 
@@ -137,6 +138,7 @@ function switchType(t: string) {
             {{ p.label }}
           </button>
         </div>
+        <div v-if="socialError" class="social-error">{{ socialError }}</div>
       </div>
     </div>
   </div>
@@ -207,5 +209,14 @@ function switchType(t: string) {
   display: flex; align-items: center; justify-content: center;
   width: 28px; height: 28px; border-radius: 8px;
   font-size: 14px; color: #fff;
+}
+.social-error {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 12px;
 }
 </style>

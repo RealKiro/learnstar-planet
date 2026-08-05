@@ -25,7 +25,23 @@ interface PKOverview {
 
 const router = useRouter()
 function goToLeaderboard() { router.push({ name: 'teacher-leaderboard' }) }
-function alertDialog(msg: string) { window.alert(msg) }
+
+const pkMsg = ref('')
+const pkStatus = ref<Record<string, 'idle' | 'success'>>({})
+function startPk(clsName: string) {
+  if (pkStatus.value[clsName] === 'success') return
+  pkStatus.value[clsName] = 'success'
+  pkMsg.value = `🚀 已向 ${clsName} 发起挑战！本周内总积分超过对方即可获胜！`
+  setTimeout(() => {
+    pkStatus.value[clsName] = 'idle'
+    pkMsg.value = ''
+  }, 2500)
+}
+// "发起挑战"按钮：默认挑战排名第一的对班
+const challengeDone = computed(() => {
+  const target = classes.value.find(c => !c.isOwn)
+  return target ? pkStatus.value[target.name] === 'success' : false
+})
 
 // ===== 数据 =====
 const students = ref<Student[]>([])
@@ -157,9 +173,10 @@ onMounted(async () => {
           <button
             v-if="!cls.isOwn"
             class="pk-btn"
-            @click="alertDialog(`🚀 向 ${cls.name} 发起挑战！本周内总积分超过对方即可获胜！`)"
+            :class="{ 'pk-btn--done': pkStatus[cls.name] === 'success' }"
+            @click="startPk(cls.name)"
           >
-            ⚔️ PK
+            {{ pkStatus[cls.name] === 'success' ? '已挑战 ✓' : '⚔️ PK' }}
           </button>
           <button v-else class="pk-btn own">
             🏠 本班
@@ -204,10 +221,12 @@ onMounted(async () => {
           </div>
           <button
             class="challenge-btn"
-            @click="alertDialog('🚀 已发起挑战！本周内总积分超过对方即可获胜！')"
+            :class="{ 'challenge-btn--done': challengeDone }"
+            @click="startPk(classes[0] && !classes[0].isOwn ? classes[0].name : '对手班级')"
           >
-            ⚡ 发起挑战
+            {{ challengeDone ? '已发起 ✓' : '⚡ 发起挑战' }}
           </button>
+          <div v-if="pkMsg" class="pk-inline-msg">{{ pkMsg }}</div>
         </div>
       </div>
     </template>
@@ -366,6 +385,16 @@ onMounted(async () => {
 .pk-btn.own:hover {
   transform: none;
 }
+.pk-btn--done {
+  background: rgba(16,185,129,0.12);
+  border-color: rgba(16,185,129,0.3);
+  color: #10B981;
+  cursor: default;
+}
+.pk-btn--done:hover {
+  transform: none;
+  background: rgba(16,185,129,0.12);
+}
 
 /* 详情双栏 */
 .pk-detail-grid {
@@ -437,6 +466,24 @@ onMounted(async () => {
 .challenge-btn:hover {
   background: rgba(167,139,250,0.18);
   transform: translateY(-2px);
+}
+.challenge-btn--done {
+  background: rgba(16,185,129,0.12);
+  border-color: rgba(16,185,129,0.3);
+  color: #10B981;
+}
+.challenge-btn--done:hover {
+  background: rgba(16,185,129,0.12);
+  transform: none;
+}
+.pk-inline-msg {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.2);
+  color: #6ee7b7;
 }
 
 /* 加载 */
