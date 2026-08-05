@@ -47,7 +47,8 @@ instance.interceptors.response.use(
       if (!window.location.pathname.startsWith('/login')) {
         window.location.href = '/login'
       }
-    } else if (error.response?.data?.message) {
+    } else if (error.response?.data?.message && !error.config?.skipToast) {
+      // 组件已用内联提示的请求（skipToast: true）不再弹全局 toast
       toast.show(error.response.data.message, 'error', { position: 'center', duration: 3000 })
     } else if (error.message === 'Network Error') {
       toast.show('网络错误，请稍后重试', 'error', { position: 'center', duration: 3000 })
@@ -59,23 +60,28 @@ instance.interceptors.response.use(
 
 export default instance
 
+// 扩展请求配置：组件已内联提示错误时传 skipToast: true，跳过全局 toast
+export interface ApiRequestConfig extends AxiosRequestConfig {
+  skipToast?: boolean
+}
+
 // 便捷请求方法
-export async function apiGet<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+export async function apiGet<T = unknown>(url: string, config?: ApiRequestConfig): Promise<T> {
   const res = await instance.get<T>(url, config)
   return res.data
 }
 
-export async function apiPost<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
+export async function apiPost<T = unknown>(url: string, data?: unknown, config?: ApiRequestConfig): Promise<T> {
   const res = await instance.post<T>(url, data, config)
   return res.data
 }
 
-export async function apiPut<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
+export async function apiPut<T = unknown>(url: string, data?: unknown, config?: ApiRequestConfig): Promise<T> {
   const res = await instance.put<T>(url, data, config)
   return res.data
 }
 
-export async function apiDelete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+export async function apiDelete<T = unknown>(url: string, config?: ApiRequestConfig): Promise<T> {
   const res = await instance.delete<T>(url, config)
   return res.data
 }

@@ -44,7 +44,7 @@ function importStudents() {
         setTimeout(() => { if (importStatus.value === 'error') importStatus.value = 'idle' }, 3000)
         return
       }
-      await apiPost('/api/v1/teacher/students', { students: importedStudents })
+      await apiPost('/api/v1/teacher/students', { students: importedStudents }, { skipToast: true })
       const res = await apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=200')
       students.value = res.data || []
       importStatus.value = 'success'

@@ -80,7 +80,7 @@ async function submitEdit() {
       email: editForm.value.email,
       personal_role: editForm.value.personalRole || null,
     }
-    await apiPut(`/api/v1/admin/teachers/${props.teacher.id}`, payload)
+    await apiPut(`/api/v1/admin/teachers/${props.teacher.id}`, payload, { skipToast: true })
     editStatus.value = 'success'
     setTimeout(() => emit('update:visible', false), 600)
     emit('updated')

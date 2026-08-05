@@ -18,7 +18,7 @@ type ClassRole = 'head_teacher' | 'co_teacher' | 'subject_teacher'
 
 const classRoleLabel: Record<ClassRole, string> = { head_teacher: '主班主任', co_teacher: '副班主任', subject_teacher: '科任教师' }
 const grades = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
-const subjects = ['语文', '数学', '英语', '科学', '道德与法治', '体育', '音乐', '美术', '信息技术', '综合实践']
+const subjects = ['语文', '数学', '英语', '科学', '道德与法治', '体育', '音乐', '美术', '信息科技', '综合实践']
 
 const teachers = ref<Teacher[]>([])
 const classes = ref<ClassRoom[]>([])

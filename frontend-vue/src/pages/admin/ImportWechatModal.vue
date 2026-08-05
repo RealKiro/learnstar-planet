@@ -50,7 +50,7 @@ function matchClassByDept(deptNames: string[], clsList: ClassItem[]): number | '
 async function loadContacts() {
   loading.value = true
   try {
-    const cRes = await apiGet<{ data: { members: WecomMember[] } }>('/api/v1/admin/third-party/contacts')
+    const cRes = await apiGet<{ data: { members: WecomMember[] } }>('/api/v1/admin/third-party/contacts', { skipToast: true })
     const clsRes = await apiGet<{ data: ClassItem[] }>('/api/v1/admin/classes')
     classes.value = clsRes.data || []
     const members = cRes.data?.members || []
@@ -88,7 +88,7 @@ async function doImport() {
 
   importing.value = true
   try {
-    await apiPost('/api/v1/admin/third-party/import', { teachers, students })
+    await apiPost('/api/v1/admin/third-party/import', { teachers, students }, { skipToast: true })
     close()
     emit('imported')
   } catch (e: any) {

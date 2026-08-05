@@ -169,7 +169,7 @@ async function submitCreate() {
         subject: a.subject || undefined,
       }))
     }
-    await apiPost('/api/v1/admin/teachers', payload)
+    await apiPost('/api/v1/admin/teachers', payload, { skipToast: true })
     createStatus.value = 'success'
     setTimeout(() => {
       emit('update:visible', false)

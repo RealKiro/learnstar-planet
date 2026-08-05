@@ -136,7 +136,7 @@ async function submitAssign() {
         subject: a.subject === '默认科目' ? undefined : a.subject || undefined,
       })),
     }
-    await apiPut(`/api/v1/admin/teachers/${props.teacher.id}/classes`, payload)
+    await apiPut(`/api/v1/admin/teachers/${props.teacher.id}/classes`, payload, { skipToast: true })
     assignStatus.value = 'success'
     setTimeout(() => emit('update:visible', false), 600)
     emit('assigned')

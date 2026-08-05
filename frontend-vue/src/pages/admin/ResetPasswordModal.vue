@@ -68,7 +68,8 @@ async function submitResetPwd() {
   try {
     const res = await apiPost<{ data: { new_password: string } }>(
       `/api/v1/admin/teachers/${props.teacher.id}/reset-password`,
-      { password: resetPwdValue.value || undefined }
+      { password: resetPwdValue.value || undefined },
+      { skipToast: true }
     )
     const newPwd = res?.data?.new_password || resetPwdValue.value || '（已设置）'
     resetPwdValue.value = newPwd

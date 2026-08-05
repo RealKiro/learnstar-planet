@@ -55,7 +55,7 @@ async function confirmDelete() {
   deleteStatus.value = 'loading'
   deleteError.value = ''
   try {
-    await apiDelete(`/api/v1/admin/teachers/${props.teacher.id}`)
+    await apiDelete(`/api/v1/admin/teachers/${props.teacher.id}`, { skipToast: true })
     deleteStatus.value = 'success'
     setTimeout(() => emit('update:visible', false), 600)
     emit('deleted')

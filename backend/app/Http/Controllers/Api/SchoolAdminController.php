@@ -299,10 +299,21 @@ class SchoolAdminController extends Controller
             $settings['personal_role'] = $request->input('personal_role');
             $data['settings'] = $settings;
         }
-        $teacher->fill($data);
-        $teacher->save();
 
-        return response()->json(['message' => '更新成功', 'data' => $teacher->fresh()]);
+        try {
+            $teacher->fill($data);
+            $teacher->save();
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('updateTeacher 保存失败', [
+                'teacher_id' => $id,
+                'payload' => $data,
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json(['message' => '保存失败：' . $e->getMessage()], 500);
+        }
+
+        return response()->json(['message' => '更新成功', 'data' => $teacher]);
     }
 
     /**
@@ -1336,7 +1347,7 @@ class SchoolAdminController extends Controller
             ->where('role', 'teacher')
             ->findOrFail($id);
         $validator = Validator::make($request->all(), [
-            'assignments' => 'required|array|min:1',
+            'assignments' => 'nullable|array',
             'assignments.*.class_id' => 'required|integer|exists:class_rooms,id',
             'assignments.*.role' => 'required|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
             'assignments.*.subject' => 'nullable|string|max:50',
@@ -1344,7 +1355,7 @@ class SchoolAdminController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
         }
-        $reqAssignments = $request->input('assignments');
+        $reqAssignments = $request->input('assignments', []);
         $synced = [];
         foreach ($reqAssignments as $item) {
             $classId = (int) $item['class_id'];
@@ -1368,6 +1379,20 @@ class SchoolAdminController extends Controller
                 'role' => $assignment->role,
                 'subject' => $assignment->subject,
             ];
+        }
+
+        // 删除提交列表中未包含的旧分配（支持清空全部分配）
+        $submittedIds = array_column($reqAssignments, 'class_id');
+        $removed = ClassRoomTeacher::where('user_id', $teacher->id)
+            ->whereNotIn('class_room_id', $submittedIds ?: [0])
+            ->get();
+        foreach ($removed as $old) {
+            $oldClass = ClassRoom::find($old->class_room_id);
+            if ($oldClass && $old->role === 'head_teacher') {
+                $oldClass->teacher_id = null;
+                $oldClass->save();
+            }
+            $old->delete();
         }
 
         return response()->json([
