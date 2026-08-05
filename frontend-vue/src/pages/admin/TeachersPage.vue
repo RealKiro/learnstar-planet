@@ -161,8 +161,10 @@ onMounted(() => loadTeachers(true))
 .head-badge { font-size:10px; font-weight:600; padding:2px 8px; border-radius:8px; white-space:nowrap; }
 .badge-lead { background:rgba(139,92,246,0.2); color:#c4b5fd; }
 .badge-admin { background:rgba(245,158,11,0.2); color:#fcd34d; }
-.head-meta { display:flex; gap:12px; margin-top:2px; flex-wrap:wrap; }
-.meta-item { font-size:11px; color:var(--color-text-secondary); }
+.info-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:0 18px 10px; }
+.info-cell { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:6px 8px; min-width:0; }
+.cell-label { display:block; font-size:10px; color:var(--color-text-secondary); margin-bottom:1px; }
+.cell-value { display:block; font-size:12px; color:var(--color-text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .teacher-no { font-size:12px; font-weight:600; color:var(--color-primary-light); flex-shrink:0; letter-spacing:0.02em; }
 .card-classes { padding:6px 18px 12px; flex:1; display:flex; flex-wrap:wrap; align-content:flex-start; min-height:52px; }
 .class-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:20px; font-size:12px; margin:0 6px 6px 0; }

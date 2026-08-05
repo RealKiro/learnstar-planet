@@ -35,12 +35,13 @@ function classById(id: number) { return classMap.value[id] }
           <span v-if="teacher.personal_role === 'grade_lead'" class="head-badge badge-lead">首席</span>
           <span v-else-if="teacher.personal_role === 'admin_director'" class="head-badge badge-admin">主任</span>
         </div>
-        <div class="head-meta" v-if="teacher.email || teacher.phone">
-          <span v-if="teacher.email" class="meta-item">✉ {{ teacher.email }}</span>
-          <span v-if="teacher.phone" class="meta-item">📱 {{ teacher.phone }}</span>
-        </div>
       </div>
       <span class="teacher-no">{{ no }}</span>
+    </div>
+    <div class="info-grid">
+      <div class="info-cell"><span class="cell-label">账号</span><span class="cell-value">{{ teacher.username }}</span></div>
+      <div class="info-cell"><span class="cell-label">邮箱</span><span class="cell-value">{{ teacher.email || '—' }}</span></div>
+      <div class="info-cell"><span class="cell-label">电话</span><span class="cell-value">{{ teacher.phone || '—' }}</span></div>
     </div>
     <div class="card-classes">
       <div v-for="a in teacher.assignments" :key="a.class_id + '_' + a.role" class="class-tag">
