@@ -32,8 +32,9 @@ function classById(id: number) { return classMap.value[id] }
     </div>
     <div class="tc-classes">
       <span v-for="a in teacher.assignments" :key="a.class_id + '_' + a.role" class="tc-class">
-        {{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}
+        <span class="tc-class-name">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
         <span v-if="a.role === 'head_teacher'" class="role-tag-head">主班</span>
+        <span v-if="a.subject && a.subject !== '默认科目'" class="tc-class-subject">{{ a.subject }}</span>
       </span>
       <span v-if="teacher.assignments.length === 0" class="tc-class-empty">未分配班级</span>
     </div>
@@ -76,6 +77,7 @@ function classById(id: number) { return classMap.value[id] }
   border-radius: 6px; font-size: 12px; color: var(--color-text); box-sizing: border-box;
 }
 .role-tag-head { font-size: 10px; font-weight: 600; padding: 0 6px; border-radius: 4px; background: rgba(250, 204, 21, 0.15); color: #fcd34d; }
+.tc-class-subject { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); }
 .tc-class-empty {
   display: inline-flex; align-items: center; height: 24px; padding: 0 10px; box-sizing: border-box;
   font-size: 12px; color: var(--color-text-secondary);

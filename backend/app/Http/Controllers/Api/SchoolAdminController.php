@@ -284,9 +284,15 @@ class SchoolAdminController extends Controller
         }
         $data = $request->only(['name', 'nickname', 'grade_team', 'phone', 'email', 'status']);
         if ($request->has('personal_role')) {
-            $data['grade_team'] = $data['grade_team'] ?? $teacher->grade_team;
-            // 存储个人角色到 settings JSON
-            $settings = $teacher->settings ?: [];
+            // 空串也保留原值，避免误清空年级团队
+            $gradeTeam = $data['grade_team'] ?? $teacher->grade_team;
+            if ($gradeTeam === null || $gradeTeam === '') {
+                $gradeTeam = $teacher->grade_team;
+            }
+            $data['grade_team'] = $gradeTeam;
+            // 存储个人角色到 settings JSON（防御 settings 被写坏为非数组）
+            $rawSettings = $teacher->settings;
+            $settings = is_array($rawSettings) ? $rawSettings : [];
             $settings['personal_role'] = $request->input('personal_role');
             $data['settings'] = $settings;
         }
