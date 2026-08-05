@@ -31,6 +31,12 @@ const usageCurrency = computed(() => {
   const keys = Object.keys(bp)
   return keys.length ? (bp[keys[0]]?.currency === 'USD' ? '$' : '¥') : '¥'
 })
+// 所有预设模型（去重），供模型输入 datalist 下拉选择，也支持直接输入自定义模型名
+const allModelOptions = computed(() => {
+  const set = new Set<string>()
+  for (const m of providerMeta) for (const mm of m.models) set.add(mm)
+  return Array.from(set)
+})
 
 // ===== 供应商元数据（含计费信息） =====
 interface PricingInfo { input: string; output: string; unit: string; url: string }
@@ -41,7 +47,7 @@ const providerMeta: ProviderMeta[] = [
     models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-3.5-turbo'],
     pricing: { input: '$2.50', output: '$10.00', unit: '/M tokens', url: 'https://openai.com/pricing' }},
   { id: 'claude', label: 'Anthropic Claude', group: '国际', color: '#d97706', site: 'https://console.anthropic.com/',
-    models: ['claude-3-5-sonnet', 'claude-3-haiku', 'claude-3-opus'],
+    models: ['claude-sonnet-5', 'claude-opus-4-8', 'claude-haiku-4-5'],
     pricing: { input: '$3.00', output: '$15.00', unit: '/M tokens', url: 'https://anthropic.com/pricing' }},
   { id: 'google', label: 'Google Gemini', group: '国际', color: '#4285f4', site: 'https://aistudio.google.com/',
     models: ['gemini-2.0-flash', 'gemini-1.5-pro', 'gemini-1.5-flash'],
@@ -53,7 +59,7 @@ const providerMeta: ProviderMeta[] = [
     models: ['mistral-large', 'mistral-small', 'codestral'],
     pricing: { input: '$2.00', output: '$6.00', unit: '/M tokens', url: 'https://mistral.ai/pricing' }},
   { id: 'deepseek', label: 'DeepSeek', group: '国内', color: '#4f6ef7', site: 'https://platform.deepseek.com/',
-    models: ['deepseek-chat', 'deepseek-v3', 'deepseek-r1', 'deepseek-coder'],
+    models: ['deepseek-chat', 'deepseek-reasoner'],
     pricing: { input: '¥1.00', output: '¥2.00', unit: '/M tokens', url: 'https://deepseek.com/pricing' }},
   { id: 'qwen', label: '通义千问（阿里）', group: '国内', color: '#1677ff', site: 'https://dashscope.aliyun.com/',
     models: ['qwen-max', 'qwen-plus', 'qwen-turbo', 'qwen2.5-72b'],
@@ -239,7 +245,7 @@ function addProviderToSettings() {
     input_price_per_m: parsePrice(meta.pricing.input),
     output_price_per_m: parsePrice(meta.pricing.output),
     currency: priceCurrency(meta.pricing.input),
-    _expanded: false,
+    _expanded: true,
   })
   newProvider.value.id = ''
 }
@@ -367,7 +373,7 @@ onMounted(loadData)
           </div>
           <p style="font-size:11px;color:var(--color-text-secondary);margin-top:10px;">💡 从上方下拉框选择供应商开始配置</p>
         </div>
-        <div v-for="(p, i) in standardProviders" :key="p.id" style="margin-bottom:8px;border:1px solid var(--color-border);border-radius:10px;overflow:hidden;">
+        <div v-for="(p, i) in standardProviders" :key="p.id" style="margin-bottom:8px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;background:var(--color-bg-card);">
           <!-- 供应商头部（可点击折叠） -->
           <div @click="p._expanded = !p._expanded" :style="{ background: (getProviderMeta(p.id)?.color || '#7c3aed') + '0a', padding:'10px 14px', display:'flex', alignItems:'center', gap:'10px', cursor:'pointer', borderBottom: p._expanded ? '1px solid var(--color-border)' : 'none' }">
             <span :style="{ width:'10px',height:'10px',borderRadius:'50%',background:p.is_active ? '#10B981' : '#ccc',flexShrink:0 }"></span>
@@ -387,7 +393,7 @@ onMounted(loadData)
           <!-- 配置详情（折叠） -->
           <div v-if="p._expanded" style="padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API Key</label><input v-model="p.api_key" type="password" class="form-input" placeholder="sk-..." style="font-size:11px;padding:5px 8px;"></div>
-            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型</label><select v-model="p.model" class="form-input" style="font-size:11px;padding:5px 8px;"><option v-for="m in getProviderMeta(p.id)?.models || []" :key="m" :value="m">{{ m }}</option></select></div>
+            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型（可自定义）</label><input v-model="p.model" list="ai-model-options" class="form-input" placeholder="选择或输入模型名" style="font-size:11px;padding:5px 8px;"></div>
             <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API 地址</label><input v-model="p.api_base" class="form-input" placeholder="默认官方地址" style="font-size:11px;padding:5px 8px;"></div>
           </div>
           <div v-if="p._expanded && p.billing_enabled" style="padding:0 14px 10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;border-top:1px solid var(--color-border);">
@@ -515,6 +521,9 @@ onMounted(loadData)
       </div>
     </template>
   </div>
+  <datalist id="ai-model-options">
+    <option v-for="m in allModelOptions" :key="m" :value="m"></option>
+  </datalist>
 </template>
 
 <style scoped>

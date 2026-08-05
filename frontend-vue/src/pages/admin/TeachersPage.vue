@@ -145,12 +145,12 @@ onMounted(() => loadTeachers(true))
 .section-badge { font-size:11px;font-weight:600;color:#7c3aed;text-transform:uppercase;letter-spacing:0.05em;background:#ede9fe;padding:3px 10px;border-radius:6px; }
 .page-title { font-size:22px;font-weight:700;margin:0;line-height:1.2; }
 .count-badge { font-size:13px;color:#6b7280;background:var(--color-bg);padding:2px 10px;border-radius:10px; }
-.grade-header { display:flex; align-items:center; gap:10px; margin:20px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--color-border); }
+.grade-header { display:flex; align-items:center; gap:10px; margin:20px 0 12px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08); }
 .grade-dot { width:8px; height:8px; border-radius:50%; background:#8b5cf6; flex-shrink:0; }
 .grade-name { font-size:16px; font-weight:700; }
-.grade-count { font-size:12px; color:var(--color-text-secondary); background:var(--color-bg); padding:0 10px; border-radius:20px; }
+.grade-count { font-size:12px; color:var(--color-text-secondary); background:rgba(255,255,255,0.06); padding:0 10px; border-radius:20px; }
 .card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:14px; }
-.teacher-card { background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:14px; display:flex; flex-direction:column; transition:all 0.25s ease; overflow:hidden; }
+.teacher-card { background:var(--color-bg-card); border:1px solid rgba(255,255,255,0.08); border-radius:14px; display:flex; flex-direction:column; transition:all 0.25s ease; overflow:hidden; }
 .teacher-card:hover { border-color:rgba(124,58,237,0.15); box-shadow:0 8px 24px rgba(0,0,0,0.06); transform:translateY(-2px); }
 .card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:16px 18px 8px; }
 .card-title { display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; }
@@ -159,18 +159,18 @@ onMounted(() => loadTeachers(true))
 .head-badge { font-size:10px; font-weight:600; padding:2px 10px; border-radius:10px; white-space:nowrap; }
 .badge-lead { background:#8b5cf6; color:#fff; }
 .badge-admin { background:#f59e0b; color:#fff; }
-.card-info { display:flex; gap:16px; padding:8px 18px; background:var(--color-bg); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border); flex-wrap:wrap; }
+.card-info { display:flex; gap:16px; padding:8px 18px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
 .info-item { font-size:12px; color:var(--color-text-secondary); }
 .card-classes { padding:10px 18px; flex:1; display:flex; flex-wrap:wrap; align-content:flex-start; min-height:56px; }
-.class-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:20px; font-size:12px; margin:0 6px 6px 0; }
+.class-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:20px; font-size:12px; margin:0 6px 6px 0; }
 .class-name { font-weight:600; color:var(--color-text); }
 .class-subj { font-size:11px; color:var(--color-text-secondary); }
 .role-tag-head { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(250,204,21,0.15); color:#a16207; }
 .role-tag-co { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(156,163,175,0.15); color:#6b7280; }
 .class-empty { padding:8px; text-align:center; font-size:12px; color:var(--color-text-secondary); }
-.card-actions { display:flex; gap:6px; padding:10px 18px 12px; border-top:1px solid var(--color-border); }
-.act-btn { display:inline-flex; align-items:center; justify-content:center; gap:4px; height:32px; padding:0 12px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; transition:0.15s; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-family:inherit; }
-.act-btn:hover { background:var(--color-bg); }
+.card-actions { display:flex; gap:6px; padding:10px 18px 12px; border-top:1px solid rgba(255,255,255,0.06); }
+.act-btn { display:inline-flex; align-items:center; justify-content:center; gap:4px; height:32px; padding:0 12px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; transition:0.15s; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:var(--color-text); font-family:inherit; }
+.act-btn:hover { background:rgba(255,255,255,0.08); }
 .act-del { color:#dc2626; border-color:rgba(239,68,68,0.2); }
 .act-del:hover { background:rgba(239,68,68,0.06); color:#dc2626; }
 .loading-spinner { text-align:center;padding:64px;color:#9ca3af;font-size:15px; }
