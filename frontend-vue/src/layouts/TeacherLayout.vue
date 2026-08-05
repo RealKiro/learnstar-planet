@@ -139,7 +139,10 @@ onMounted(() => {
           <div class="cs-basic-class">{{ classInfo?.name || '当前班级' }}</div>
         </template>
         <template v-else>
-          <div v-if="myClasses.length === 0" class="cs-empty">暂未分配班级</div>
+          <div v-if="myClasses.length === 0" class="cs-empty">
+            <div style="font-weight:600;color:var(--color-text);">未分配班级</div>
+            <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">请联系管理员为你分配班级</div>
+          </div>
           <div v-else class="cs-select-wrap">
             <select
               :value="activeClassId ?? undefined"

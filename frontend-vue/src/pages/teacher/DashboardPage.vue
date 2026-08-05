@@ -177,7 +177,8 @@ onMounted(async () => {
     <!-- 空状态 -->
     <div v-else class="empty-state">
       <div class="empty-icon">📭</div>
-      <p>暂无班级数据</p>
+      <p>暂未分配班级</p>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-top:6px;">请联系管理员为你分配班级后使用</p>
     </div>
   </div>
 </template>
