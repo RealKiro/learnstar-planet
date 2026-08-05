@@ -31,6 +31,11 @@ instance.interceptors.response.use(
       if (isDisplayPath) {
         return Promise.reject(error)
       }
+      // 班级码登录的 401 = 班级码无效，由登录页自行提示具体原因，不当作会话过期
+      const isClassLogin = (error.config?.url || '').includes('/api/v1/auth/class/login')
+      if (isClassLogin) {
+        return Promise.reject(error)
+      }
       const authStore = useAuthStore()
       authStore.logout()
       toast.show('登录已过期，请重新登录', 'error', { position: 'center', duration: 3000 })

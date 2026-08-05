@@ -28,7 +28,8 @@ final class DisplayCodeService
     ];
 
     /**
-     * 年级 → 数字（'三年级'→'3'，'高一'→'10'，不补零），无法解析返回 ''
+     * 年级 → 数字（'三年级'→'3'，不补零）。
+     * 仅接受 1-9 年级（用户规则：暂不考虑 10+），无法解析或超出范围返回 ''
      */
     public static function gradeDigit(?string $grade): string
     {
@@ -45,32 +46,34 @@ final class DisplayCodeService
             }
         }
 
-        return $digit;
+        return (ctype_digit($digit) && (int) $digit >= 1 && (int) $digit <= 9) ? $digit : '';
     }
 
     /**
-     * 班级名 → 班号数字（不补零），支持多种格式，无法解析返回 ''
+     * 班级名 → 班号数字（不补零），支持多种格式。
+     * 仅接受 1-9 班号（用户规则：暂不考虑 10+），无法解析或超出范围返回 ''
      */
     public static function classNo(string $name): string
     {
+        $num = '';
         // 1) 标准：X年级（N）班 / X年级(N)班
         if (preg_match('/[（(]\s*(\d+)\s*[)）]\s*班/', $name, $m)) {
-            return $m[1];
+            $num = $m[1];
         }
         // 2) 无括号数字：一年级1班 / 一年级 1 班
-        if (preg_match('/(\d+)\s*班/', $name, $m)) {
-            return $m[1];
+        elseif (preg_match('/(\d+)\s*班/', $name, $m)) {
+            $num = $m[1];
         }
         // 3) 中文序数：一年级第一班
-        if (preg_match('/第([一二三四五六七八九十]+)班/', $name, $m)) {
-            return self::chineseNumberToArabic($m[1]);
+        elseif (preg_match('/第([一二三四五六七八九十]+)班/', $name, $m)) {
+            $num = self::chineseNumberToArabic($m[1]);
         }
         // 4) 中文数字：一年级一班
-        if (preg_match('/([一二三四五六七八九十]+)班/', $name, $m)) {
-            return self::chineseNumberToArabic($m[1]);
+        elseif (preg_match('/([一二三四五六七八九十]+)班/', $name, $m)) {
+            $num = self::chineseNumberToArabic($m[1]);
         }
 
-        return '';
+        return (ctype_digit($num) && (int) $num >= 1 && (int) $num <= 9) ? $num : '';
     }
 
     /**
