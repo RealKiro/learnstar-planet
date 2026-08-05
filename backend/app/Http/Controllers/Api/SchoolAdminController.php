@@ -452,11 +452,8 @@ class SchoolAdminController extends Controller
             ->get();
         $classes = [];
         foreach ($allClasses as $c) {
-            // 内存中生成班级码展示，不写库（列表只读、避免慢查询）
-            $displayCode = $c->display_code;
-            if (empty($displayCode)) {
-                $displayCode = \App\Services\DisplayCodeService::generate($c);
-            }
+            // 班级码为确定性 4 位（年级2位+班号2位），实时计算展示，不依赖数据库存储
+            $displayCode = \App\Services\DisplayCodeService::generate($c);
             $classes[] = [
                 'id' => $c->id,
                 'name' => $c->name,
@@ -1386,14 +1383,11 @@ class SchoolAdminController extends Controller
     {
         $school = $request->user()->school;
         $classRoom = ClassRoom::where('school_id', $school->id)->findOrFail($classId);
-        if (empty($classRoom->display_code)) {
-            $classRoom->display_code = $this->generateDisplayCode($classRoom);
-            $classRoom->display_code_updated_at = now();
-            $classRoom->save();
-        }
+        // 班级码为确定性 4 位，实时计算返回
+        $code = \App\Services\DisplayCodeService::generate($classRoom);
 
         return response()->json(['data' => [
-            'code' => $classRoom->display_code,
+            'code' => $code,
             'class_name' => $classRoom->name,
             'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
             'student_count' => Student::where('class_id', $classId)->where('status', 'active')->count(),
@@ -1407,20 +1401,22 @@ class SchoolAdminController extends Controller
     {
         $school = $request->user()->school;
         $classRoom = ClassRoom::where('school_id', $school->id)->findOrFail($classId);
-        $classRoom->display_code = $this->generateDisplayCode($classRoom);
+        // 班级码为确定性 4 位，刷新仅更新时间戳并返回计算码
+        $code = \App\Services\DisplayCodeService::generate($classRoom);
+        $classRoom->display_code = $code;
         $classRoom->display_code_updated_at = now();
         $classRoom->save();
         // 通知大屏刷新
         try {
             app(DisplayEventService::class)->publish($classId, 'refresh', [
-                'new_code' => $classRoom->display_code,
+                'new_code' => $code,
             ]);
         } catch (\Throwable $e) {
             logger()->warning('Display event publish failed: ' . $e->getMessage());
         }
 
         return response()->json(['data' => [
-            'code' => $classRoom->display_code,
+            'code' => $code,
             'class_name' => $classRoom->name,
             'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
         ]]);
@@ -1469,14 +1465,6 @@ class SchoolAdminController extends Controller
             $base = $prefix . str_pad((string) $next, 2, '0', STR_PAD_LEFT);
         }
         return $base;
-    }
-
-    /**
-     * 刷新场景使用（4 位数字班级码，确定性：同一班级每次结果一致）
-     */
-    private function generateDisplayCode(ClassRoom $classRoom): string
-    {
-        return \App\Services\DisplayCodeService::generate($classRoom);
     }
 
     /**

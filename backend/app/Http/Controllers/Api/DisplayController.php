@@ -70,18 +70,12 @@ class DisplayController extends Controller
 
         $classRoom = ClassRoom::findOrFail($classId);
 
-        // 首次访问时自动生成班级码
-        if (empty($classRoom->display_code)) {
-            $classRoom->display_code = $this->generateDisplayCode($classRoom);
-            $classRoom->display_code_updated_at = now();
-            $classRoom->save();
-
-            // 缓存班级码 → 班级 ID 映射
-            $this->cacheCodeMapping($classRoom->display_code, $classRoom->id);
-        }
+        // 班级码为确定性 4 位（年级2位+班号2位），实时计算返回，不依赖数据库存储
+        $code = \App\Services\DisplayCodeService::generate($classRoom);
+        $this->cacheCodeMapping($code, $classRoom->id);
 
         return response()->json(['data' => [
-            'code' => $classRoom->display_code,
+            'code' => $code,
             'class_name' => $classRoom->name,
             'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
             'student_count' => Student::where('class_id', $classId)
@@ -104,28 +98,23 @@ class DisplayController extends Controller
 
         $classRoom = ClassRoom::findOrFail($classId);
 
-        // 清除旧码缓存
-        if (!empty($classRoom->display_code)) {
-            Cache::forget(DisplayEventService::codeCacheKey($classRoom->display_code));
-        }
-
-        // 生成新码
-        $oldCode = $classRoom->display_code;
-        $classRoom->display_code = $this->generateDisplayCode($classRoom);
+        // 班级码为确定性 4 位，刷新仅更新时间戳并返回计算码
+        $code = \App\Services\DisplayCodeService::generate($classRoom);
+        $classRoom->display_code = $code;
         $classRoom->display_code_updated_at = now();
         $classRoom->save();
 
-        // 缓存新码映射
-        $this->cacheCodeMapping($classRoom->display_code, $classRoom->id);
+        // 缓存映射
+        $this->cacheCodeMapping($code, $classRoom->id);
 
         // 发送 refresh 事件通知当前大屏刷新
         $this->eventService->publish($classId, 'refresh', [
-            'old_code' => $oldCode,
-            'new_code' => $classRoom->display_code,
+            'old_code' => $code,
+            'new_code' => $code,
         ]);
 
         return response()->json(['data' => [
-            'code' => $classRoom->display_code,
+            'code' => $code,
             'class_name' => $classRoom->name,
             'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
             'message' => '班级码已刷新，旧码已失效',
@@ -447,15 +436,6 @@ class DisplayController extends Controller
     // ============================================================
 
     /**
-     * 生成班级大屏码
-     * 4 位数字：年级2位 + 班号2位（如三年级2班 → 0302），确定性、不随机
-     */
-    private function generateDisplayCode(ClassRoom $classRoom): string
-    {
-        return \App\Services\DisplayCodeService::generate($classRoom);
-    }
-
-    /**
      * 缓存班级码 → 班级 ID 映射
      */
     private function cacheCodeMapping(string $code, int $classId): void
@@ -480,8 +460,11 @@ class DisplayController extends Controller
             return (int) $classId;
         }
 
-        // 缓存未命中，查数据库
+        // 缓存未命中，查数据库；数据库未刷新时按确定性计算码匹配
         $classRoom = ClassRoom::where('display_code', $code)->first();
+        if (!$classRoom) {
+            $classRoom = ClassRoom::get()->first(fn ($c) => \App\Services\DisplayCodeService::generate($c) === $code);
+        }
         if ($classRoom) {
             $this->cacheCodeMapping($code, $classRoom->id);
 

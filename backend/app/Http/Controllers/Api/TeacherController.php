@@ -1183,7 +1183,7 @@ class TeacherController extends Controller
             'total_score' => (int) $totalScore,
             'class_points' => (int) ($class->settings['class_points'] ?? 0),
             'settings' => $class->settings,
-            'display_code' => $class->display_code,
+            'display_code' => \App\Services\DisplayCodeService::generate($class),
         ]]);
     }
 

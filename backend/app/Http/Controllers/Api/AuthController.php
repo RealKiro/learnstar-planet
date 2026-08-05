@@ -141,6 +141,13 @@ class AuthController extends Controller
         $classCode = $request->input('class_code');
         $classes = ClassRoom::where('display_code', $classCode)->get();
 
+        // 班级码为确定性 4 位（年级2位+班号2位），数据库未刷新时按实时计算匹配
+        if ($classes->isEmpty()) {
+            $classes = ClassRoom::get()
+                ->filter(fn ($c) => \App\Services\DisplayCodeService::generate($c) === $classCode)
+                ->values();
+        }
+
         if ($classes->isEmpty()) {
             return response()->json(['message' => '班级码无效，请核对后重试'], 401);
         }
