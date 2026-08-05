@@ -36,9 +36,9 @@ const emit = defineEmits<{
         <input :value="searchQuery" @input="emit('update:searchQuery', ($event.target as HTMLInputElement).value)" class="form-input" placeholder="搜索姓名 / 账号..." />
       </div>
       <div class="action-buttons">
-        <button class="btn" @click="emit('downloadTemplate')">下载模板</button>
-        <button class="btn" @click="emit('openImport')">批量导入</button>
-        <button class="btn btn-primary" @click="emit('openCreate')">+ 创建教师</button>
+        <button class="btn" @click="emit('downloadTemplate')">📥 下载模板</button>
+        <button class="btn" @click="emit('openImport')">📤 批量导入</button>
+        <button class="btn btn-primary" @click="emit('openCreate')">➕ 创建教师</button>
       </div>
     </div>
   </div>

@@ -37,6 +37,10 @@ instance.interceptors.response.use(
         return Promise.reject(error)
       }
       const authStore = useAuthStore()
+      // 基础模式（班级码登录，无教师 token）：接口 401 不当作会话过期，静默拒绝
+      if (!authStore.token && sessionStorage.getItem('class_token')) {
+        return Promise.reject(error)
+      }
       authStore.logout()
       toast.show('登录已过期，请重新登录', 'error', { position: 'center', duration: 3000 })
       // 跳转登录页，用 location.href 确保状态完全重置

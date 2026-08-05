@@ -147,16 +147,16 @@ onMounted(() => loadTeachers(true))
 .badge-admin { background:#f59e0b; color:#fff; }
 .card-info-section { display:flex; gap:16px; padding:8px 18px; background:var(--color-bg); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border); flex-wrap:wrap; }
 .info-item { font-size:12px; color:var(--color-text-secondary); }
-.card-classes { padding:10px 18px; flex:1; display:flex; flex-direction:column; gap:3px; min-height:56px; }
-.class-row { display:flex; align-items:center; gap:6px; padding:6px 10px; background:var(--color-bg); border-radius:6px; font-size:13px; }
-.class-name { font-weight:600; color:var(--color-text); min-width:70px; }
-.class-subj { font-size:12px; color:var(--color-text-secondary); }
+.card-classes { padding:10px 18px; flex:1; display:flex; flex-wrap:wrap; align-content:flex-start; min-height:56px; }
+.class-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:20px; font-size:12px; margin:0 6px 6px 0; }
+.class-name { font-weight:600; color:var(--color-text); }
+.class-subj { font-size:11px; color:var(--color-text-secondary); }
 .role-tag-head { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(250,204,21,0.15); color:#a16207; }
 .role-tag-co { font-size:10px; font-weight:600; padding:1px 8px; border-radius:8px; background:rgba(156,163,175,0.15); color:#6b7280; }
 .class-empty { padding:8px; text-align:center; font-size:12px; color:var(--color-text-secondary); }
 .card-actions { display:flex; gap:6px; padding:10px 18px 12px; border-top:1px solid var(--color-border); }
-.act-btn { padding:5px 12px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; transition:0.15s; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-family:inherit; display:inline-flex; align-items:center; gap:4px; }
-.act-btn:hover { background:var(--color-bg); }
+.act-btn { width:32px; height:32px; border-radius:8px; font-size:15px; cursor:pointer; transition:0.15s; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text-secondary); font-family:inherit; display:inline-flex; align-items:center; justify-content:center; }
+.act-btn:hover { background:var(--color-bg); color:var(--color-text); }
 .act-del { color:#dc2626; border-color:rgba(239,68,68,0.2); }
 .act-del:hover { background:rgba(239,68,68,0.06); }
 .loading-spinner { text-align:center;padding:64px;color:#9ca3af;font-size:15px; }

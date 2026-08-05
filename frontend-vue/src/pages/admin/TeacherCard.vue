@@ -41,7 +41,7 @@ function classById(id: number) { return classMap.value[id] }
       <span v-if="teacher.phone" class="info-item">📱 {{ teacher.phone }}</span>
     </div>
     <div class="card-classes">
-      <div v-for="a in teacher.assignments" :key="a.class_id + '_' + a.role" class="class-row">
+      <div v-for="a in teacher.assignments" :key="a.class_id + '_' + a.role" class="class-tag">
         <span class="class-name">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
         <span v-if="a.role === 'head_teacher'" class="role-tag-head">主班</span>
         <span v-else-if="a.role === 'co_teacher'" class="role-tag-co">副班</span>
@@ -50,10 +50,10 @@ function classById(id: number) { return classMap.value[id] }
       <div v-if="teacher.assignments.length === 0" class="class-empty">暂未分配班级</div>
     </div>
     <div class="card-actions">
-      <button class="act-btn" @click="emit('edit', teacher)">👤 个人信息</button>
-      <button class="act-btn" @click="emit('assign', teacher)">📚 班级管理</button>
-      <button class="act-btn" @click="emit('resetPwd', teacher)">🔑 密码</button>
-      <button class="act-btn act-del" @click="emit('delete', teacher)">🗑️ 删除</button>
+      <button class="act-btn" title="个人信息" @click="emit('edit', teacher)">👤</button>
+      <button class="act-btn" title="班级管理" @click="emit('assign', teacher)">📚</button>
+      <button class="act-btn" title="重置密码" @click="emit('resetPwd', teacher)">🔑</button>
+      <button class="act-btn act-del" title="删除" @click="emit('delete', teacher)">🗑️</button>
     </div>
   </div>
 </template>
