@@ -316,7 +316,7 @@ onMounted(async () => {
             <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">确认切换宠物？</h3>
             <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:16px;">
               将切换为 <strong style="color:var(--md-primary-light);">{{ confirmSwitch.name }}</strong>
-              <br><span style="font-size:12px;">{{ petPickerStudent?.pet_name ? '扣除20积分 · 保留当前等级' : '🎉 首次免费' }}</span>
+              <br><span style="font-size:12px;">{{ petPickerStudent?.pet_name ? '按等级扣除积分 · 保留当前等级' : '🎉 首次免费' }}</span>
             </p>
             <div style="display:flex;gap:10px;">
               <button @click="confirmSwitch = null" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消</button>
@@ -394,7 +394,7 @@ onMounted(async () => {
               <span style="font-size:28px;">{{ petPickerStudent.pet_emoji }}</span>
               <div>
                 <div style="font-size:16px;font-weight:700;">{{ petPickerStudent.name }} · 选择宠物</div>
-                <div style="font-size:12px;color:var(--md-text-secondary);">{{ petPickerStudent.pet_name ? '后续切换扣20积分 · 保留等级' : '🎉 首次免费选择！' }}</div>
+                <div style="font-size:12px;color:var(--md-text-secondary);">{{ petPickerStudent.pet_name ? '后续切换按等级扣积分 · 保留等级' : '🎉 首次免费选择！' }}</div>
               </div>
               <button @click="showPetPicker = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;">✕</button>
             </div>
