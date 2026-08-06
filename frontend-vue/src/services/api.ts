@@ -252,25 +252,3 @@ export const classApi = {
   switchSeries: (seriesId: string) =>
     apiPost('/api/v1/teacher/class/switch-series', { series_id: seriesId }),
 }
-
-// ============================================================
-// 9. 家长端 API
-// ============================================================
-
-export const parentApi = {
-  /** 获取孩子列表和概览 */
-  getHome: () =>
-    apiGet<ApiResponse<{ children: any[] }>>('/api/v1/parent/home'),
-
-  /** 获取宠物详情 */
-  getPet: (studentId: number) =>
-    apiGet<ApiResponse<PetDetail>>(`/api/v1/parent/pet?student_id=${studentId}`),
-
-  /** 获取成长日志 */
-  getGrowthLog: (studentId: number) =>
-    apiGet<ApiResponse<any[]>>(`/api/v1/parent/growth/log?student_id=${studentId}`),
-
-  /** 获取排行榜 */
-  getRanking: (studentId: number) =>
-    apiGet<ApiResponse<any[]>>(`/api/v1/parent/ranking?student_id=${studentId}`),
-}
