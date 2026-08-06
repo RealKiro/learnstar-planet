@@ -50,6 +50,16 @@ const poem = computed(() => {
   const poems = getPoems(species.value?.name || '')
   return poems[stageIdx.value] || poems[poems.length - 1] || ''
 })
+// 诗文按句拆分，两两合成一行，呈现传统上下联排版
+const poemLines = computed(() => {
+  const clauses = poem.value.split('。').filter(s => s.trim())
+  const lines: string[] = []
+  for (let i = 0; i < clauses.length; i += 2) {
+    const pair = clauses.slice(i, i + 2).join('。')
+    if (pair) lines.push(pair + '。')
+  }
+  return lines.length ? lines : [poem.value]
+})
 </script>
 
 <template>
@@ -92,7 +102,9 @@ const poem = computed(() => {
         <div class="profile-row"><span class="profile-label">形态</span><span class="profile-text">{{ profile.form }}</span></div>
         <div class="profile-row"><span class="profile-label">习性</span><span class="profile-text">{{ profile.habit }}</span></div>
         <div class="profile-row profile-row--quote"><span class="profile-label">🎤</span><span class="profile-text">{{ evoLine }}</span></div>
-        <div class="profile-row profile-row--poem"><span class="profile-label">📜</span><span class="profile-text">{{ poem }}</span></div>
+        <div class="profile-row profile-row--poem"><span class="profile-label">📜</span><span class="profile-text poem-block">
+          <span v-for="(line, i) in poemLines" :key="i" class="poem-line" :class="{ 'poem-line--second': i % 2 === 1 }">{{ line }}</span>
+        </span></div>
       </div>
 
       <!-- 预览区域 -->
@@ -342,6 +354,9 @@ const poem = computed(() => {
 .profile-row--poem .profile-label,
 .profile-row--poem .profile-text { color: #C4B5FD; }
 .profile-row--poem .profile-label { background: rgba(139,92,246,0.12); }
+.poem-block { display: flex; flex-direction: column; gap: 3px; }
+.poem-line { display: block; line-height: 1.6; }
+.poem-line--second { padding-left: 1.4em; text-indent: -1.4em; }
 
 /* 预览区 */
 .preview-area {
