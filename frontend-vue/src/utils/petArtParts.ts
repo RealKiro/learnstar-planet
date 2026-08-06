@@ -22,6 +22,8 @@ export interface PetArtConfig {
   body: BodyType
   /** 主色(其余色阶由公式推导) */
   main: string
+  /** 剪影变体：同身体模板下的独立外形（宝可梦/七侠/神话龙等需手绘贴合原型，跨阶段也随 variant 演化） */
+  variant?: string
   /** 各部件出现的等级阈值 */
   parts?: Partial<Record<'horns' | 'wings' | 'tail' | 'fin' | 'halo' | 'crown', number>>
   /** 是否抽象灵体(无实体身体，如量子/星灵) */
@@ -31,6 +33,8 @@ export interface PetArtConfig {
 /** 渲染参数(由 computePetArt 计算) */
 export interface PetArtRender {
   body: BodyType
+  /** 剪影变体(与 body 模板配合，默认空=通用模板) */
+  variant: string
   /** 所属系列 id（特效层/圣衣/剑器选型） */
   seriesId: string
   main: string
@@ -77,28 +81,28 @@ const DEFAULT_PARTS = { horns: 6, wings: 8, tail: 3, fin: 6, halo: 11, crown: 10
 
 export const PET_ART: Record<string, PetArtConfig> = {
   // ===== 古代神话 =====
-  zhulong:       { body: 'dragon', main: '#F59E0B', parts: { horns: 6, wings: 11, tail: 3 } },
-  yinglong:      { body: 'dragon', main: '#10B981', parts: { horns: 6, wings: 7, tail: 3 } },
+  zhulong:       { body: 'dragon', main: '#F59E0B', variant: 'serpent', parts: { horns: 6, wings: 11, tail: 3 } },
+  yinglong:      { body: 'dragon', main: '#10B981', variant: 'feathered', parts: { horns: 6, wings: 7, tail: 3 } },
   nine_tail_fox: { body: 'quadruped', main: '#F1F5F9', parts: { tail: 3, horns: 10 } },
   kunpeng:       { body: 'aquatic', main: '#3B82F6', parts: { tail: 3, fin: 5, wings: 8 } },
   fenghuang:     { body: 'bird', main: '#EF4444', parts: { tail: 5, wings: 6, crown: 7 } },
-  qilin:         { body: 'quadruped', main: '#10B981', parts: { horns: 5, tail: 3, wings: 11 } },
-  // ===== 元素精灵(宝可梦风) =====
-  charmander:    { body: 'quadruped', main: '#F97316', parts: { tail: 3, horns: 7 } },
-  bulbasaur:     { body: 'quadruped', main: '#22C55E', parts: { tail: 4, crown: 6 } },
-  squirtle:      { body: 'quadruped', main: '#3B82F6', parts: { tail: 3, crown: 7 } },
-  eevee:         { body: 'quadruped', main: '#B45309', parts: { tail: 3, horns: 9 } },
-  pikachu:       { body: 'quadruped', main: '#FACC15', parts: { tail: 3, horns: 9 } },
-  riolu:         { body: 'quadruped', main: '#6366F1', parts: { tail: 4, horns: 8 } },
+  qilin:         { body: 'quadruped', main: '#10B981', variant: 'qilin', parts: { horns: 5, tail: 3, wings: 11 } },
+  // ===== 元素精灵(宝可梦风，贴合原型) =====
+  charmander:    { body: 'quadruped', main: '#F97316', variant: 'lizard', parts: { tail: 3, horns: 7 } },
+  bulbasaur:     { body: 'quadruped', main: '#22C55E', variant: 'seed', parts: { tail: 4, crown: 6 } },
+  squirtle:      { body: 'quadruped', main: '#3B82F6', variant: 'turtle', parts: { tail: 3, crown: 7 } },
+  eevee:         { body: 'quadruped', main: '#B45309', variant: 'fox', parts: { tail: 3, horns: 9 } },
+  pikachu:       { body: 'quadruped', main: '#FACC15', variant: 'mouse', parts: { tail: 3, horns: 9 } },
+  riolu:         { body: 'quadruped', main: '#6366F1', variant: 'pup', parts: { tail: 4, horns: 8 } },
   // ===== 国宝守护 =====
   panda:               { body: 'quadruped', main: '#F1F5F9', parts: { tail: 4, crown: 10 } },
   golden_monkey:       { body: 'quadruped', main: '#F59E0B', parts: { tail: 3, crown: 9 } },
   red_crowned_crane:   { body: 'bird', main: '#F1F5F9', parts: { wings: 5, tail: 6, crown: 8 } },
   south_china_tiger:   { body: 'quadruped', main: '#F97316', parts: { tail: 3, horns: 8, wings: 11 } },
-  chinese_alligator:   { body: 'dragon', main: '#64748B', parts: { tail: 3, horns: 9 } },
+  chinese_alligator:   { body: 'dragon', main: '#64748B', variant: 'crocodile', parts: { tail: 3, horns: 9 } },
   crested_ibis:        { body: 'bird', main: '#FBCFE8', parts: { wings: 5, tail: 7, crown: 11 } },
   // ===== 科幻机甲 =====
-  mecha_dragon:  { body: 'dragon', main: '#3B82F6', parts: { horns: 5, tail: 3, wings: 8 } },
+  mecha_dragon:  { body: 'dragon', main: '#3B82F6', variant: 'mecha', parts: { horns: 5, tail: 3, wings: 8 } },
   cyber_cat:     { body: 'quadruped', main: '#8B5CF6', parts: { tail: 3, horns: 7, wings: 10 } },
   space_mecha:   { body: 'mecha', main: '#60A5FA', parts: { wings: 8, crown: 9 } },
   quantum_beast: { body: 'spirit', main: '#A855F7', abstract: true, parts: { halo: 5 } },
@@ -106,13 +110,13 @@ export const PET_ART: Record<string, PetArtConfig> = {
   mecha_shark:   { body: 'aquatic', main: '#94A3B8', parts: { tail: 3, fin: 5, crown: 9 } },
   // ===== 魔法奇幻 =====
   unicorn:       { body: 'quadruped', main: '#F5F3FF', parts: { horns: 5, tail: 4, wings: 8 } },
-  wyvern:        { body: 'dragon', main: '#EF4444', parts: { horns: 5, wings: 6, tail: 3 } },
+  wyvern:        { body: 'dragon', main: '#EF4444', variant: 'wyvern', parts: { horns: 5, wings: 6, tail: 3 } },
   fairy:         { body: 'humanoid', main: '#FBBF24', parts: { wings: 5, crown: 7 } },
   treant:        { body: 'humanoid', main: '#166534', parts: { horns: 7, crown: 10 } },
   griffin:       { body: 'quadruped', main: '#F59E0B', parts: { wings: 6, tail: 4, crown: 8 } },
   mermaid:       { body: 'humanoid', main: '#0EA5E9', parts: { tail: 3, crown: 7, wings: 11 } },
   // ===== 史前生物 =====
-  t_rex:         { body: 'dragon', main: '#65A30D', parts: { tail: 3, horns: 7, crown: 9 } },
+  t_rex:         { body: 'dragon', main: '#65A30D', variant: 'trex', parts: { tail: 3, horns: 7, crown: 9 } },
   triceratops:   { body: 'quadruped', main: '#F59E0B', parts: { horns: 4, tail: 4, crown: 9 } },
   pterosaur:     { body: 'bird', main: '#60A5FA', parts: { wings: 5, tail: 5 } },
   mammoth:       { body: 'quadruped', main: '#A16207', parts: { horns: 5, tail: 4, crown: 9 } },
@@ -139,10 +143,10 @@ export const PET_ART: Record<string, PetArtConfig> = {
   fu_star:       { body: 'humanoid', main: '#EF4444', parts: { crown: 6, halo: 8 } },
   shou_star:     { body: 'humanoid', main: '#F472B6', parts: { crown: 6, halo: 9, wings: 11 } },
   // ===== 扩充：神话四象/凶兽/瑞兽 =====
-  qinglong: { body: 'dragon', main: '#10B981', parts: { horns: 5, tail: 3, wings: 7 } },
-  baihu: { body: 'quadruped', main: '#E2E8F0', parts: { tail: 3, horns: 7, wings: 11 } },
-  zhuque: { body: 'bird', main: '#EF4444', parts: { tail: 5, wings: 6, crown: 7 } },
-  xuanwu: { body: 'dragon', main: '#64748B', parts: { horns: 6, tail: 3 } },
+  qinglong: { body: 'dragon', main: '#22C55E', variant: 'antler', parts: { horns: 5, tail: 3, wings: 7 } },
+  baihu: { body: 'quadruped', main: '#E2E8F0', variant: 'tiger', parts: { tail: 3, horns: 7, wings: 11 } },
+  zhuque: { body: 'bird', main: '#EF4444', variant: 'phoenix', parts: { tail: 5, wings: 6, crown: 7 } },
+  xuanwu: { body: 'dragon', main: '#0F766E', variant: 'xuanwu', parts: { horns: 6, tail: 3 } },
   taotie: { body: 'quadruped', main: '#8B5CF6', parts: { horns: 6, tail: 3, crown: 9 } },
   baize: { body: 'quadruped', main: '#F5F5F4', parts: { tail: 3, horns: 8, crown: 9 } },
   // ===== 扩充：元素 =====
@@ -174,9 +178,9 @@ export const PET_ART: Record<string, PetArtConfig> = {
   nightmare_horse: { body: 'quadruped', main: '#7C3AED', parts: { tail: 4, horns: 7, wings: 11 } },
   lamp_spirit: { body: 'food', main: '#F59E0B', parts: { crown: 7, halo: 10 } },
   // ===== 扩充：史前 =====
-  spinosaurus: { body: 'dragon', main: '#84CC16', parts: { tail: 3, horns: 7, crown: 9 } },
-  ankylosaurus: { body: 'dragon', main: '#78716C', parts: { tail: 3, horns: 7, crown: 9 } },
-  diplodocus: { body: 'dragon', main: '#4D7C0F', parts: { tail: 3, horns: 8, crown: 9 } },
+  spinosaurus: { body: 'dragon', main: '#84CC16', variant: 'sailback', parts: { tail: 3, horns: 7, crown: 9 } },
+  ankylosaurus: { body: 'dragon', main: '#78716C', variant: 'ankylo', parts: { tail: 3, horns: 7, crown: 9 } },
+  diplodocus: { body: 'dragon', main: '#4D7C0F', variant: 'sauropod', parts: { tail: 3, horns: 8, crown: 9 } },
   megalodon: { body: 'aquatic', main: '#1E40AF', parts: { tail: 3, fin: 5, crown: 9 } },
   ground_sloth: { body: 'quadruped', main: '#92400E', parts: { horns: 7, tail: 4, crown: 9 } },
   woolly_rhino: { body: 'quadruped', main: '#A16207', parts: { horns: 5, tail: 4, crown: 9 } },
@@ -200,19 +204,19 @@ export const PET_ART: Record<string, PetArtConfig> = {
   osmanthus_cake: { body: 'food', main: '#FDE047', parts: { crown: 8, halo: 11 } },
   wonton: { body: 'food', main: '#F1F5F9', parts: { crown: 8, halo: 11 } },
   festival_lantern: { body: 'food', main: '#EF4444', parts: { crown: 7, halo: 10 } },
-  // ===== 七侠剑客(虹猫蓝兔七侠传) =====
-  hongmao: { body: 'quadruped', main: '#EF4444', parts: { tail: 3, horns: 7, crown: 8 } },
-  lantu: { body: 'quadruped', main: '#3B82F6', parts: { tail: 3, horns: 7, crown: 8 } },
-  doudou: { body: 'quadruped', main: '#F8FAFC', parts: { tail: 3, horns: 7, crown: 8 } },
-  dabeng: { body: 'quadruped', main: '#92400E', parts: { tail: 3, horns: 7, crown: 8 } },
-  tiaotiao: { body: 'quadruped', main: '#22C55E', parts: { tail: 3, horns: 7, crown: 8 } },
-  shali: { body: 'quadruped', main: '#8B5CF6', parts: { tail: 3, horns: 7, crown: 8 } },
-  dada: { body: 'quadruped', main: '#16A34A', parts: { tail: 3, horns: 7, crown: 8 } },
-  qilin_sacred: { body: 'quadruped', main: '#F59E0B', parts: { horns: 5, tail: 3, crown: 8 } },
-  lingge: { body: 'bird', main: '#E0F2FE', parts: { wings: 5, tail: 5, crown: 8 } },
-  heixinhu: { body: 'quadruped', main: '#1F2937', parts: { tail: 3, horns: 7, crown: 8 } },
-  zhuzhijie: { body: 'quadruped', main: '#F9A8D4', parts: { tail: 3, horns: 8, crown: 8 } },
-  niuxuanfeng: { body: 'quadruped', main: '#78716C', parts: { horns: 5, tail: 3, crown: 8 } },
+  // ===== 七侠剑客(虹猫蓝兔七侠传，贴合原型) =====
+  hongmao: { body: 'quadruped', main: '#EF4444', variant: 'cat', parts: { tail: 3, horns: 7, crown: 8 } },
+  lantu: { body: 'quadruped', main: '#3B82F6', variant: 'rabbit', parts: { tail: 3, horns: 7, crown: 8 } },
+  doudou: { body: 'quadruped', main: '#F8FAFC', variant: 'puppy', parts: { tail: 3, horns: 7, crown: 8 } },
+  dabeng: { body: 'quadruped', main: '#92400E', variant: 'bear', parts: { tail: 3, horns: 7, crown: 8 } },
+  tiaotiao: { body: 'quadruped', main: '#22C55E', variant: 'monkey', parts: { tail: 3, horns: 7, crown: 8 } },
+  shali: { body: 'quadruped', main: '#8B5CF6', variant: 'kitten', parts: { tail: 3, horns: 7, crown: 8 } },
+  dada: { body: 'quadruped', main: '#16A34A', variant: 'panda', parts: { tail: 3, horns: 7, crown: 8 } },
+  qilin_sacred: { body: 'quadruped', main: '#F59E0B', variant: 'qilin', parts: { horns: 5, tail: 3, crown: 8 } },
+  lingge: { body: 'bird', main: '#E0F2FE', variant: 'dove', parts: { wings: 5, tail: 5, crown: 8 } },
+  heixinhu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { tail: 3, horns: 7, crown: 8 } },
+  zhuzhijie: { body: 'quadruped', main: '#F9A8D4', variant: 'kitten', parts: { tail: 3, horns: 8, crown: 8 } },
+  niuxuanfeng: { body: 'quadruped', main: '#78716C', variant: 'bull', parts: { horns: 5, tail: 3, crown: 8 } },
 }
 
 /** 兜底配置(未知物种也保证能渲染) */
@@ -252,6 +256,7 @@ export function computePetArt(speciesId: string, level: number): PetArtRender {
 
   return {
     body: cfg.body,
+    variant: cfg.variant || '',
     seriesId: getSeriesBySpeciesId(speciesId)?.id || '',
     main: cfg.main,
     accent: shade(cfg.main, 0.4),
