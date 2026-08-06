@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { apiGet } from '@/utils/api'
+import { apiGet, apiPost } from '@/utils/api'
 import TeacherFilters from './TeacherFilters.vue'
 import TeacherCard from './TeacherCard.vue'
 import CreateTeacherModal from './CreateTeacherModal.vue'
@@ -78,6 +78,57 @@ const showResetPwdModal = ref(false); const resetTarget = ref<Teacher | null>(nu
 const showImportModal = ref(false)
 const showWechatImport = ref(false)
 
+// 批量选择与操作
+const selectedTeacherIds = ref<number[]>([])
+const allTeachersSelected = computed(() =>
+  teachers.value.length > 0 && selectedTeacherIds.value.length === teachers.value.length
+)
+function toggleSelectTeacher(id: number) {
+  if (selectedTeacherIds.value.includes(id)) selectedTeacherIds.value = selectedTeacherIds.value.filter(x => x !== id)
+  else selectedTeacherIds.value.push(id)
+}
+function toggleSelectAllTeachers() {
+  if (allTeachersSelected.value) selectedTeacherIds.value = []
+  else selectedTeacherIds.value = teachers.value.map(t => t.id)
+}
+const batchOpStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const batchOpMsg = ref('')
+async function batchResetTeacherPwd() {
+  if (!selectedTeacherIds.value.length) { batchOpMsg.value = '请先勾选要重置密码的教师'; return }
+  batchOpStatus.value = 'loading'; batchOpMsg.value = ''
+  try {
+    const res = await apiPost<{ message: string }>('/api/v1/admin/accounts/batch-reset-password', {
+      role: 'teacher', ids: selectedTeacherIds.value,
+    }, { skipToast: true })
+    batchOpStatus.value = 'success'
+    batchOpMsg.value = res.message || '已重置密码（默认 ls123456）'
+    setTimeout(() => { batchOpStatus.value = 'idle'; batchOpMsg.value = ''; selectedTeacherIds.value = [] }, 2500)
+  } catch (e: any) {
+    batchOpStatus.value = 'error'
+    batchOpMsg.value = e?.response?.data?.message || '重置失败，请稍后重试'
+    setTimeout(() => { batchOpStatus.value = 'idle'; batchOpMsg.value = '' }, 3000)
+  }
+}
+async function batchDeleteTeachers() {
+  if (!selectedTeacherIds.value.length) { batchOpMsg.value = '请先勾选要删除的教师'; return }
+  if (!confirm(`确定删除选中的 ${selectedTeacherIds.value.length} 个教师账号？\n将解除其所有班级分配。`)) return
+  batchOpStatus.value = 'loading'; batchOpMsg.value = ''
+  try {
+    const res = await apiPost<{ message: string }>('/api/v1/admin/accounts/batch-delete', {
+      role: 'teacher', ids: selectedTeacherIds.value,
+    }, { skipToast: true })
+    batchOpStatus.value = 'success'
+    batchOpMsg.value = res.message || '已删除'
+    selectedTeacherIds.value = []
+    setTimeout(() => { batchOpStatus.value = 'idle'; batchOpMsg.value = '' }, 2500)
+    refreshTeachers()
+  } catch (e: any) {
+    batchOpStatus.value = 'error'
+    batchOpMsg.value = e?.response?.data?.message || '删除失败，请稍后重试'
+    setTimeout(() => { batchOpStatus.value = 'idle'; batchOpMsg.value = '' }, 3000)
+  }
+}
+
 async function loadTeachers(isInitial = false) {
   if (isInitial) loading.value = true
   try {
@@ -105,6 +156,26 @@ onMounted(() => loadTeachers(true))
       <span class="count-badge" slot="teacherCount">{{ teachers.length }} 人</span>
     </TeacherFilters>
 
+    <!-- 批量操作栏 -->
+    <div v-if="teachers.length > 0" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:8px 12px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:10px;">
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;user-select:none;">
+        <input type="checkbox" :checked="allTeachersSelected" @change="toggleSelectAllTeachers" style="accent-color:#7c3aed;width:15px;height:15px;">
+        全选
+      </label>
+      <span v-if="selectedTeacherIds.length > 0" style="font-size:13px;color:var(--color-text-secondary);">已选 {{ selectedTeacherIds.length }} 个</span>
+      <div style="flex:1;"></div>
+      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :style="{ background: batchOpStatus === 'loading' ? '#f59e0b' : batchOpStatus === 'success' ? '#10b981' : batchOpStatus === 'error' ? '#ef4444' : '', color: batchOpStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: batchOpStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" @click="batchResetTeacherPwd">
+        <template v-if="batchOpStatus === 'loading'">处理中...</template>
+        <template v-else-if="batchOpStatus === 'success'">已重置 ✓</template>
+        <template v-else>🔑 批量重置密码</template>
+      </button>
+      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :style="{ background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca', opacity: !selectedTeacherIds.length ? 0.5 : 1 }" @click="batchDeleteTeachers">
+        批量删除
+      </button>
+    </div>
+    <div v-if="batchOpMsg" style="margin:-4px 0 12px;padding:8px 12px;border-radius:8px;font-size:12px;"
+      :style="{ background: batchOpStatus === 'error' ? 'rgba(239,68,68,0.08)' : 'rgba(16,185,129,0.08)', border: '1px solid ' + (batchOpStatus === 'error' ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)'), color: batchOpStatus === 'error' ? '#fca5a5' : '#6ee7b7' }">{{ batchOpMsg }}</div>
+
     <div v-if="loading" class="loading-spinner">加载中...</div>
     <div v-else-if="filteredTeachers.length === 0" class="empty-state">
       <div class="empty-icon">&#x1F468;&#x200D;&#x1F3EB;</div>
@@ -121,6 +192,7 @@ onMounted(() => loadTeachers(true))
         </div>
         <div class="card-grid">
           <TeacherCard v-for="t in group.teachers" :key="t.id" :teacher="t" :no="t.no" :classes="classes"
+            selectable :selected="selectedTeacherIds.includes(t.id)" @toggleSelect="toggleSelectTeacher"
             @edit="editTarget = $event; showEditModal = true"
             @assign="assignTarget = $event; showAssignModal = true"
             @resetPwd="resetTarget = $event; showResetPwdModal = true"

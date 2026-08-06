@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost, apiDelete } from '@/utils/api'
 import { avatarGradient, platformLabel } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
@@ -24,6 +24,56 @@ interface CreatedParent {
 
 const parents = ref<Parent[]>([])
 const loading = ref(true)
+
+// 批量选择
+const selectedIds = ref<number[]>([])
+const allSelected = computed(() => parents.value.length > 0 && selectedIds.value.length === parents.value.length)
+function toggleAll() {
+  if (allSelected.value) selectedIds.value = []
+  else selectedIds.value = parents.value.map(p => p.id)
+}
+function toggleOne(id: number) {
+  if (selectedIds.value.includes(id)) selectedIds.value = selectedIds.value.filter(x => x !== id)
+  else selectedIds.value.push(id)
+}
+
+// 批量操作
+const batchOpStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const batchOpMsg = ref('')
+async function batchResetPassword() {
+  if (!selectedIds.value.length) { batchOpMsg.value = '请先勾选要重置密码的账号'; return }
+  batchOpStatus.value = 'loading'; batchOpMsg.value = ''
+  try {
+    const res = await apiPost<{ message: string }>('/api/v1/admin/accounts/batch-reset-password', {
+      role: 'parent', ids: selectedIds.value,
+    }, { skipToast: true })
+    batchOpStatus.value = 'success'
+    batchOpMsg.value = res.message || '已重置密码（默认 ls123456）'
+    setTimeout(() => { batchOpStatus.value = 'idle'; batchOpMsg.value = ''; selectedIds.value = [] }, 2500)
+  } catch (e: any) {
+    batchOpStatus.value = 'error'
+    batchOpMsg.value = e?.response?.data?.message || '重置失败，请稍后重试'
+    setTimeout(() => { batchOpStatus.value = 'idle'; batchOpMsg.value = '' }, 3000)
+  }
+}
+async function batchDelete() {
+  if (!selectedIds.value.length) { batchOpMsg.value = '请先勾选要删除的账号'; return }
+  if (!confirm(`确定删除选中的 ${selectedIds.value.length} 个家长账号？\n将解除与学生账号的绑定关系。`)) return
+  batchOpStatus.value = 'loading'; batchOpMsg.value = ''
+  try {
+    const res = await apiPost<{ message: string }>('/api/v1/admin/accounts/batch-delete', {
+      role: 'parent', ids: selectedIds.value,
+    }, { skipToast: true })
+    batchOpStatus.value = 'success'
+    batchOpMsg.value = res.message || '已删除'
+    parents.value = parents.value.filter(p => !selectedIds.value.includes(p.id))
+    setTimeout(() => { batchOpStatus.value = 'idle'; batchOpMsg.value = ''; selectedIds.value = [] }, 2500)
+  } catch (e: any) {
+    batchOpStatus.value = 'error'
+    batchOpMsg.value = e?.response?.data?.message || '删除失败，请稍后重试'
+    setTimeout(() => { batchOpStatus.value = 'idle'; batchOpMsg.value = '' }, 3000)
+  }
+}
 
 // 批量创建弹窗
 const showBatchModal = ref(false)
@@ -105,13 +155,33 @@ async function submitBatchCreate() {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
       <div>
         <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">账号管理</p>
         <h2 style="font-size:24px;font-weight:700;">家长账号</h2>
       </div>
       <button class="btn btn-sm btn-primary" @click="openBatchModal">+ 批量创建</button>
     </div>
+
+    <!-- 批量操作栏 -->
+    <div v-if="parents.length > 0" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:8px 12px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:10px;">
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;user-select:none;">
+        <input type="checkbox" :checked="allSelected" @change="toggleAll" style="accent-color:#7c3aed;width:15px;height:15px;">
+        全选
+      </label>
+      <span v-if="selectedIds.length > 0" style="font-size:13px;color:var(--color-text-secondary);">已选 {{ selectedIds.length }} 个</span>
+      <div style="flex:1;"></div>
+      <button class="btn btn-sm" :disabled="!selectedIds.length || batchOpStatus === 'loading'" :style="{ background: batchOpStatus === 'loading' ? '#f59e0b' : batchOpStatus === 'success' ? '#10b981' : batchOpStatus === 'error' ? '#ef4444' : '', color: batchOpStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: batchOpStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" @click="batchResetPassword">
+        <template v-if="batchOpStatus === 'loading'">处理中...</template>
+        <template v-else-if="batchOpStatus === 'success'">已重置 ✓</template>
+        <template v-else>🔑 批量重置密码</template>
+      </button>
+      <button class="btn btn-sm" :disabled="!selectedIds.length || batchOpStatus === 'loading'" :style="{ background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca', opacity: !selectedIds.length ? 0.5 : 1 }" @click="batchDelete">
+        批量删除
+      </button>
+    </div>
+    <div v-if="batchOpMsg" style="margin:-4px 0 12px;padding:8px 12px;border-radius:8px;font-size:12px;"
+      :style="{ background: batchOpStatus === 'error' ? 'rgba(239,68,68,0.08)' : 'rgba(16,185,129,0.08)', border: '1px solid ' + (batchOpStatus === 'error' ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)'), color: batchOpStatus === 'error' ? '#fca5a5' : '#6ee7b7' }">{{ batchOpMsg }}</div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
 
@@ -122,9 +192,11 @@ async function submitBatchCreate() {
 
     <div v-else style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;">
       <div v-for="p in parents" :key="p.id" class="card"
-        style="display:flex;align-items:flex-start;gap:16px;padding:16px 24px;transition:transform 0.25s;"
+        style="display:flex;align-items:flex-start;gap:12px;padding:16px 20px;transition:transform 0.25s;"
+        :style="{ borderColor: selectedIds.includes(p.id) ? 'rgba(124,58,237,0.5)' : '' }"
         @mouseenter="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'"
         @mouseleave="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = ''">
+        <input type="checkbox" :checked="selectedIds.includes(p.id)" @change="toggleOne(p.id)" style="accent-color:#7c3aed;width:15px;height:15px;margin-top:16px;flex-shrink:0;">
         <div :style="{ width:'48px', height:'48px', borderRadius:'14px', background: avatarGradient(p.name), color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, fontSize:'18px', flexShrink:0 }">
           {{ p.name[0] }}
         </div>

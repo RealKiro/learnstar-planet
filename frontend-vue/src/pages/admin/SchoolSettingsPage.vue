@@ -257,7 +257,7 @@ async function uploadLogo(e: Event) {
           <p style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">未勾选任何平台时，登录页默认显示企业微信/微信/QQ。通讯录导入需配置对应平台的应用凭证。</p>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px;">
-          <button class="btn btn-sm" :style="{ background: restoreStatus === 'loading' ? '#f59e0b' : restoreStatus === 'success' ? '#10b981' : restoreStatus === 'error' ? '#ef4444' : '', color: restoreStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: restoreStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" :disabled="restoreStatus === 'loading'" @click="reload">
+          <button class="btn btn-sm" :style="{ background: restoreStatus === 'loading' ? '#f59e0b' : restoreStatus === 'success' ? '#10b981' : restoreStatus === 'error' ? '#ef4444' : 'var(--color-bg-card)', color: restoreStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: restoreStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" :disabled="restoreStatus === 'loading'" @click="reload">
             <template v-if="restoreStatus === 'loading'">恢复中...</template>
             <template v-else-if="restoreStatus === 'success'">已恢复 ✓</template>
             <template v-else-if="restoreStatus === 'error'">恢复失败 ✗</template>

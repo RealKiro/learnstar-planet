@@ -390,6 +390,95 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => '教师账号已删除']);
     }
 
+    /**
+     * 批量重置账号密码（教师/家长，role 区分）
+     */
+    public function batchResetPassword(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $validator = Validator::make($request->all(), [
+            'role' => 'required|string|in:teacher,parent',
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'integer',
+            'password' => 'nullable|string|min:6|max:50',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+        $newPassword = $request->input('password', 'ls123456');
+        $ids = array_map('intval', $request->input('ids'));
+
+        $count = User::where('school_id', $school->id)
+            ->where('role', $request->input('role'))
+            ->whereIn('id', $ids)
+            ->count();
+
+        if ($count === 0) {
+            return response()->json(['message' => '未找到所选账号'], 404);
+        }
+
+        User::where('school_id', $school->id)
+            ->where('role', $request->input('role'))
+            ->whereIn('id', $ids)
+            ->update([
+                'password' => Hash::make($newPassword),
+                'plain_password' => $newPassword,
+                'password_changed' => false,
+            ]);
+
+        return response()->json([
+            'message' => "已重置 {$count} 个账号的密码为「{$newPassword}」",
+            'data' => ['reset_count' => $count],
+        ]);
+    }
+
+    /**
+     * 批量删除账号（教师/家长，role 区分；解除关联后软删除）
+     */
+    public function batchDeleteAccounts(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $validator = Validator::make($request->all(), [
+            'role' => 'required|string|in:teacher,parent',
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'integer',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+        $role = $request->input('role');
+        $ids = array_map('intval', $request->input('ids'));
+
+        $accounts = User::where('school_id', $school->id)
+            ->where('role', $role)
+            ->whereIn('id', $ids)
+            ->get();
+
+        if ($accounts->isEmpty()) {
+            return response()->json(['message' => '未找到所选账号'], 404);
+        }
+
+        $accountIds = $accounts->pluck('id')->all();
+
+        if ($role === 'teacher') {
+            // 解除教师所有班级关联
+            foreach ($accounts as $t) {
+                ClassRoom::where('teacher_id', $t->id)->update(['teacher_id' => null]);
+                ClassRoomTeacher::where('user_id', $t->id)->delete();
+            }
+        } elseif ($role === 'parent') {
+            // 解除家长与学生的绑定
+            Student::whereIn('parent_id', $accountIds)->update(['parent_id' => null]);
+        }
+
+        User::whereIn('id', $accountIds)->delete();
+
+        return response()->json([
+            'message' => "已删除 {$accounts->count()} 个账号",
+            'data' => ['deleted_count' => $accounts->count()],
+        ]);
+    }
+
     // ===== 家长管理 =====
     /**
      * 批量创建家长账号

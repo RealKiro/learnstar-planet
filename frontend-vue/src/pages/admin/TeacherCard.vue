@@ -9,12 +9,15 @@ const props = defineProps<{
   teacher: Teacher
   classes: ClassRoom[]
   no: string
+  selectable?: boolean
+  selected?: boolean
 }>()
 const emit = defineEmits<{
   edit: [t: Teacher]
   assign: [t: Teacher]
   resetPwd: [t: Teacher]
   delete: [t: Teacher]
+  toggleSelect: [id: number]
 }>()
 const classMap = computed(() => {
   const map: Record<number, ClassRoom> = {}
@@ -36,7 +39,16 @@ const roleMainText = computed(() => {
 })
 </script>
 <template>
-  <div class="teacher-card">
+  <div class="teacher-card" :class="{ 'is-selected': selectable && selected }">
+    <input
+      v-if="selectable"
+      type="checkbox"
+      :checked="selected"
+      class="tc-checkbox"
+      @click.stop
+      @change="emit('toggleSelect', teacher.id)"
+      :title="selected ? '取消选择' : '选择'"
+    >
     <!-- 版块1：身份行（左姓名 / 中角色+主教点连接 / 右编号） -->
     <div class="tc-block tc-header">
       <span class="tc-name-text">{{ teacher.name }}</span>
@@ -72,6 +84,7 @@ const roleMainText = computed(() => {
 
 <style scoped>
 .teacher-card {
+  position: relative;
   background: var(--color-bg-card);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
@@ -85,6 +98,20 @@ const roleMainText = computed(() => {
   border-color: rgba(167, 139, 250, 0.4);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
   transform: translateY(-2px);
+}
+.teacher-card.is-selected {
+  border-color: rgba(124, 58, 237, 0.55);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+.tc-checkbox {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 15px;
+  height: 15px;
+  accent-color: #7c3aed;
+  cursor: pointer;
+  z-index: 2;
 }
 /* 通用版块：左右留白 + 底部分隔线 */
 .tc-block {

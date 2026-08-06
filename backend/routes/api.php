@@ -59,6 +59,9 @@ Route::prefix('v1')->group(function () {
             Route::delete('{id}', [SchoolAdminController::class, 'disableTeacher']);
             Route::put('{id}/classes', [SchoolAdminController::class, 'assignTeacherClasses']);
         });
+        // 批量账号操作（教师/家长通用，role 区分）
+        Route::post('accounts/batch-reset-password', [SchoolAdminController::class, 'batchResetPassword']);
+        Route::post('accounts/batch-delete', [SchoolAdminController::class, 'batchDeleteAccounts']);
         Route::prefix('parents')->group(function () {
             Route::get('/', [SchoolAdminController::class, 'listParents']);
             Route::post('batch-create', [SchoolAdminController::class, 'batchCreateParents']);
