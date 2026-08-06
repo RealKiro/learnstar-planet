@@ -1714,7 +1714,7 @@ class SchoolAdminController extends Controller
         }
         $logs = $query->orderBy('created_at', 'desc')
             ->paginate(50)
-            ->through(fn ($log) => [
+            ->through(fn (\App\Models\DisplayLoginLog $log) => [
                 'id' => $log->id,
                 'class_name' => $log->classRoom?->name,
                 'class_code' => $log->class_code,

@@ -109,7 +109,7 @@ class User extends Authenticatable
     /**
      * @phpstan-return ThirdPartyBinding
      */
-    public function bindWechat(string $openid, string $unionid = null): ThirdPartyBinding
+    public function bindWechat(string $openid, ?string $unionid = null): ThirdPartyBinding
     {
         /** @var ThirdPartyBinding $binding */
         $binding = $this->thirdPartyBindings()->create([
