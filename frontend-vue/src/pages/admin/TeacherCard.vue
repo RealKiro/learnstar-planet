@@ -26,11 +26,6 @@ function classById(id: number) { return classMap.value[id] }
 function isMainSubject(subject: string | undefined) {
   return !!subject && subject !== '默认科目' && subject === props.teacher.subject
 }
-const roleLabel: Record<string, string> = {
-  head_teacher: '主班主任',
-  co_teacher: '副班主任',
-  subject_teacher: '科任教师',
-}
 // 身份行中间区：个人角色 + 主教科目，多项用 · 连接（如「首席 · 信息科技」「主任 · 语文」）
 const roleMainText = computed(() => {
   const parts: string[] = []
@@ -57,9 +52,8 @@ const roleMainText = computed(() => {
       <div v-if="teacher.assignments.length === 0" class="tc-class-empty">暂未分配班级</div>
       <div v-for="a in teacher.assignments" :key="a.class_id + '_' + a.role" class="tc-class-row">
         <span class="tc-class-name">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
-        <span class="tc-class-role">{{ roleLabel[a.role] || a.role }}</span>
         <span v-if="a.subject && a.subject !== '默认科目' && !isMainSubject(a.subject)" class="tc-class-subject">
-          兼任·{{ a.subject }}
+          {{ a.subject }}
         </span>
       </div>
     </div>
@@ -154,8 +148,7 @@ const roleMainText = computed(() => {
   font-size: 12px;
 }
 .tc-class-name { font-weight: 600; color: var(--color-text); flex: 1; min-width: 0; }
-.tc-class-role { font-size: 11px; color: var(--color-accent); flex-shrink: 0; }
-.tc-class-subject { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); flex-shrink: 0; }
+.tc-class-subject { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); flex-shrink: 0; }
 .tc-class-empty {
   padding: 10px;
   text-align: center;
