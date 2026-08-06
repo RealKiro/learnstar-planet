@@ -22,6 +22,8 @@ const navItems = [
   { section: '班级管理', items: [
     { page: 'admin-classes', label: '班级列表', icon: '🏫' },
     { page: 'admin-students', label: '学生管理', icon: '🎒' },
+    { page: 'admin-score-rules', label: '积分规则', icon: '📏' },
+    { page: 'admin-shop', label: '积分商品', icon: '🛍️' },
   ]},
   { section: '学年管理', items: [
     { page: 'admin-upgrade', label: '学年升级', icon: '📅' },

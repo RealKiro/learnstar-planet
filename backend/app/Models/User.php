@@ -36,6 +36,7 @@ class User extends Authenticatable
         'role',              // school_admin / teacher / parent
         'username',          // 管理员分配的账号
         'password',          // 管理员分配的初始密码
+        'plain_password',    // 明文密码（供管理员查看/重置；不在 hidden，可返回给管理端）
         'name',
         'nickname',          // 昵称，默认 = name 的拼音
         'subject',           // 科目，如：语文、数学、英语
