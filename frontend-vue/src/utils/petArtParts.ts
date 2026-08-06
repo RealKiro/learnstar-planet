@@ -95,7 +95,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   xiezhi:        { body: 'quadruped', main: '#F8FAFC', variant: 'xiezhi', parts: { horns: 5, tail: 3 } },
   // ===== 元素精灵(宝可梦风，贴合原型) =====
   charmander:    { body: 'quadruped', main: '#F97316', variant: 'lizard', parts: { tail: 3, horns: 7 } },
-  bulbasaur:     { body: 'quadruped', main: '#22C55E', variant: 'seed', parts: { tail: 4, crown: 6 } },
+  bulbasaur:     { body: 'quadruped', main: '#0D9488', variant: 'seed', parts: { tail: 4, crown: 6 } },
   squirtle:      { body: 'quadruped', main: '#3B82F6', variant: 'turtle', parts: { tail: 3, crown: 7 } },
   eevee:         { body: 'quadruped', main: '#B45309', variant: 'fox', parts: { tail: 3, horns: 9 } },
   pikachu:       { body: 'quadruped', main: '#FACC15', variant: 'mouse', parts: { tail: 3, horns: 9 } },
