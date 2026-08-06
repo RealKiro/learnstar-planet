@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
+import PlatformIcon from '@/components/common/PlatformIcon.vue'
 import type { ApiResponse, User } from '@/types'
 
 const props = withDefaults(defineProps<{ initialRole?: string; mode?: string }>(), { initialRole: 'teacher', mode: 'account' })
@@ -155,20 +156,24 @@ async function handleClassLogin() {
   } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
 }
 
-const platforms = [
-  { key: 'wechat_work', label: '企业微信', icon: '💼', color: '#2B7CE9' },
-  { key: 'dingtalk', label: '钉钉', icon: '🔷', color: '#0089FF' },
-  { key: 'feishu', label: '飞书', icon: '🪶', color: '#3370FF' },
-]
-
+// 第三方登录平台：后台勾选后由 /auth/third-party/options 返回，未配置时默认办公三平台
+interface ThirdPartyOption { key: string; label: string; icon?: string; color?: string }
+const platforms = ref<ThirdPartyOption[]>([])
 const thirdPartyError = ref('')
 
+async function loadThirdPartyOptions() {
+  try {
+    const res = await apiGet<{ data: ThirdPartyOption[] }>('/api/v1/auth/third-party/options')
+    platforms.value = res.data || []
+  } catch { platforms.value = [] }
+}
+
 async function handleThirdPartyLogin(platform: string) {
-  const label = platforms.find(p => p.key === platform)?.label || platform
+  const label = platforms.value.find(p => p.key === platform)?.label || platform
 
   // 仅办公平台扫码（企业微信/钉钉/飞书）接入统一授权入口，其他平台尚未接入 OAuth 流程
   if (!['wechat_work', 'dingtalk', 'feishu'].includes(platform)) {
-    thirdPartyError.value = `「${label}」暂未接入扫码登录，请使用「第三方平台」或账号密码登录`
+    thirdPartyError.value = `「${label}」暂未接入扫码登录，请使用账号密码登录`
     setTimeout(() => { thirdPartyError.value = '' }, 3000)
     return
   }
@@ -247,6 +252,7 @@ async function handleWechatWorkOAuth(code: string) {
 onMounted(() => {
   // 从 /login?expired=1 读取登录过期标记，卡片顶部内联提示
   sessionExpired.value = router.currentRoute.value.query.expired === '1'
+  loadThirdPartyOptions()
   slideTimer = setInterval(() => { currentSlide.value = (currentSlide.value + 1) % slides.length }, 5000)
   window.addEventListener('message', handleOAuthMessage)
 })
@@ -336,9 +342,10 @@ function goToSlide(i: number) {
           <div v-if="teacherLoginError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ teacherLoginError }}</div>
           <div class="login-social">
             <div class="login-social-label"><span class="login-social-line"></span> 扫码登录 <span class="login-social-line"></span></div>
-            <div class="login-social-grid">
+            <div v-if="platforms.length === 0" style="font-size:12px;color:var(--color-text-secondary);padding:8px 0;">暂无可用的扫码登录方式</div>
+            <div v-else class="login-social-grid">
               <button v-for="p in platforms" :key="p.key" class="login-social-btn" @click="handleThirdPartyLogin(p.key)">
-                <span class="login-social-icon" :style="{ background: p.color }">{{ p.icon }}</span>
+                <span class="login-social-icon"><PlatformIcon :platform="p.key" :size="24" /></span>
                 {{ p.label }}
               </button>
             </div>
@@ -654,10 +661,7 @@ function goToSlide(i: number) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px; height: 28px;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #FFFFFF;
+  width: 32px; height: 32px;
 }
 @media (max-width: 768px) {
   .intro { display: none !important; }

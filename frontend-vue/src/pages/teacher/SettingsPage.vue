@@ -2,6 +2,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { apiGet, apiDelete, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
+import PlatformIcon from '@/components/common/PlatformIcon.vue'
 import { platformLabel } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
 
@@ -162,7 +163,7 @@ async function changePassword() {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div v-for="b in bindings" :key="b.platform"
           style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:var(--radius-md);border:1px solid var(--color-border);">
-          <span style="font-size:24px;flex-shrink:0;">{{ b.icon || '🔗' }}</span>
+          <span style="flex-shrink:0;display:flex;"><PlatformIcon :platform="b.platform" :size="32" /></span>
           <div style="flex:1;">
             <div style="font-weight:500;">{{ b.label || platformLabel(b.platform) }}</div>
             <div style="font-size:12px;" :style="{ color: b.bound ? 'var(--color-accent)' : 'var(--color-text-secondary)' }">

@@ -71,8 +71,3 @@ export const stages: Stage[] = [
   { emoji: '🌌', name: '银河' },
 ]
 
-export const platforms: Platform[] = [
-  { key: 'wechat_work', label: '企业微信', icon: '💼', color: '#2B7CE9' },
-  { key: 'dingtalk', label: '钉钉', icon: '🔷', color: '#0089FF' },
-  { key: 'feishu', label: '飞书', icon: '🪶', color: '#3370FF' },
-]

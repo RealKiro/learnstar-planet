@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { apiGet } from '@/utils/api'
+import PlatformIcon from '@/components/common/PlatformIcon.vue'
 import type { ApiResponse } from '@/types'
 
 interface School {
@@ -12,7 +13,16 @@ interface School {
 const loading = ref(true)
 const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const restoreStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
-const form = ref({ name: '', address: '', contact_phone: '', contact_email: '', third_party_platform: '' })
+// 第三方登录平台选项（管理员勾选哪些可用）
+const thirdPartyPlatformOptions = [
+  { key: 'wechat_work', label: '企业微信', icon: '💼', color: '#2B7CE9' },
+  { key: 'dingtalk', label: '钉钉', icon: '🔷', color: '#0089FF' },
+  { key: 'feishu', label: '飞书', icon: '🪶', color: '#3370FF' },
+  { key: 'renren', label: '人人通空间', icon: '🌐', color: '#FF6A00' },
+  { key: 'wechat', label: '微信', icon: '💬', color: '#07C160' },
+  { key: 'qq', label: 'QQ', icon: '🐧', color: '#12B7F5' },
+]
+const form = ref({ name: '', address: '', contact_phone: '', contact_email: '', third_party_platform: '', third_party_platforms: [] as string[] })
 const schoolCode = ref('')
 const schoolStatus = ref('')
 const schoolErrors = reactive<Record<string, string>>({})
@@ -104,7 +114,15 @@ onMounted(async () => {
       fetch('/api/v1/admin/system/status', { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } }).then(r => r.json()).catch(() => ({ data: null })),
     ])
     const s = (schoolRes as unknown as { data: School }).data
-    form.value = { name: s.name || '', address: s.address || '', contact_phone: s.contact_phone || '', contact_email: s.contact_email || '', third_party_platform: (s.settings as any)?.third_party_platform || '' }
+    const st = (s.settings as any) || {}
+    form.value = {
+      name: s.name || '', address: s.address || '',
+      contact_phone: s.contact_phone || '', contact_email: s.contact_email || '',
+      third_party_platform: st.third_party_platform || '',
+      third_party_platforms: Array.isArray(st.enabled_third_party_platforms) && st.enabled_third_party_platforms.length > 0
+        ? st.enabled_third_party_platforms
+        : ['wechat_work', 'wechat', 'qq'],
+    }
     schoolCode.value = s.code || ''
     schoolStatus.value = s.status || ''
     logoPath.value = s.logo_path || ''
@@ -119,7 +137,7 @@ async function save() {
     const res = await fetch('/api/v1/admin/school', {
       method: 'PUT',
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: form.value.name.trim(), address: form.value.address.trim(), contact_phone: form.value.contact_phone.trim(), contact_email: form.value.contact_email.trim(), settings: { third_party_platform: form.value.third_party_platform } }),
+      body: JSON.stringify({ name: form.value.name.trim(), address: form.value.address.trim(), contact_phone: form.value.contact_phone.trim(), contact_email: form.value.contact_email.trim(), settings: { third_party_platform: form.value.third_party_platform, enabled_third_party_platforms: form.value.third_party_platforms } }),
     })
     await res.json()
     if (!res.ok) { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000); return }
@@ -133,7 +151,15 @@ async function reload() {
   try {
     const res = await apiGet<ApiResponse<School>>('/api/v1/admin/school')
     const s = (res as unknown as { data: School }).data
-    form.value = { name: s.name || '', address: s.address || '', contact_phone: s.contact_phone || '', contact_email: s.contact_email || '', third_party_platform: (s.settings as any)?.third_party_platform || '' }
+    const st = (s.settings as any) || {}
+    form.value = {
+      name: s.name || '', address: s.address || '',
+      contact_phone: s.contact_phone || '', contact_email: s.contact_email || '',
+      third_party_platform: st.third_party_platform || '',
+      third_party_platforms: Array.isArray(st.enabled_third_party_platforms) && st.enabled_third_party_platforms.length > 0
+        ? st.enabled_third_party_platforms
+        : ['wechat_work', 'wechat', 'qq'],
+    }
     logoPath.value = s.logo_path || ''
     restoreStatus.value = 'success'
     setTimeout(() => { restoreStatus.value = 'idle' }, 1500)
@@ -210,14 +236,25 @@ async function uploadLogo(e: Event) {
         <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678" :style="{ borderColor: schoolErrors.contact_phone ? '#f87171' : '' }" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_phone }}</div></div>
         <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn" :style="{ borderColor: schoolErrors.contact_email ? '#f87171' : '' }" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_email }}</div></div>
         <div class="form-group">
-          <label>第三方办公平台</label>
-          <select v-model="form.third_party_platform" class="form-input">
-            <option value="">不使用（账号密码登录）</option>
-            <option value="wechat_work">企业微信</option>
-            <option value="dingtalk">钉钉</option>
-            <option value="feishu">飞书</option>
-          </select>
-          <p style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">选择后登录页出现该平台扫码登录；通讯录导入也走该平台。需在对应平台开放平台注册应用并配置凭证。</p>
+          <label>第三方登录平台（勾选的平台才会在登录页显示）</label>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px;">
+            <label
+              v-for="opt in thirdPartyPlatformOptions"
+              :key="opt.key"
+              style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;cursor:pointer;font-size:13px;user-select:none;"
+              :style="{ background: form.third_party_platforms.includes(opt.key) ? 'rgba(124,58,237,0.08)' : 'var(--color-bg-card)', borderColor: form.third_party_platforms.includes(opt.key) ? 'rgba(124,58,237,0.4)' : 'var(--color-border)' }"
+            >
+              <input
+                type="checkbox"
+                :value="opt.key"
+                v-model="form.third_party_platforms"
+                style="accent-color:#7c3aed;width:15px;height:15px;flex-shrink:0;"
+              >
+              <span style="flex-shrink:0;display:flex;"><PlatformIcon :platform="opt.key" :size="20" /></span>
+              <span>{{ opt.label }}</span>
+            </label>
+          </div>
+          <p style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">未勾选任何平台时，登录页默认显示企业微信/微信/QQ。通讯录导入需配置对应平台的应用凭证。</p>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px;">
           <button class="btn btn-sm" :style="{ background: restoreStatus === 'loading' ? '#f59e0b' : restoreStatus === 'success' ? '#10b981' : restoreStatus === 'error' ? '#ef4444' : '', color: restoreStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: restoreStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" :disabled="restoreStatus === 'loading'" @click="reload">

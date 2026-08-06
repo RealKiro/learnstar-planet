@@ -266,6 +266,48 @@ class AuthController extends Controller
     }
 
     /**
+     * 登录页获取学校启用的第三方平台列表（未认证）。
+     * 管理员在后台勾选的平台才显示；未配置时默认企业微信/微信/QQ。
+     */
+    public function thirdPartyOptions(Request $request): JsonResponse
+    {
+        $school = School::first();
+        $platforms = [];
+
+        if ($school) {
+            $enabled = $school->settings['enabled_third_party_platforms'] ?? null;
+            if (is_array($enabled) && count($enabled) > 0) {
+                $platforms = array_values(array_intersect(
+                    ThirdPartyBinding::platforms(),
+                    $enabled
+                ));
+            }
+        }
+
+        // 未配置：默认企业微信/微信/QQ
+        if (count($platforms) === 0) {
+            $platforms = ['wechat_work', 'wechat', 'qq'];
+        }
+
+        $data = collect($platforms)->map(fn ($p) => [
+            'key' => $p,
+            'label' => ThirdPartyBinding::platformLabels()[$p] ?? $p,
+            'icon' => ThirdPartyBinding::platformIcons()[$p] ?? '🔗',
+            'color' => match ($p) {
+                'wechat_work' => '#2B7CE9',
+                'dingtalk' => '#0089FF',
+                'feishu' => '#3370FF',
+                'wechat' => '#07C160',
+                'qq' => '#12B7F5',
+                'renren' => '#FF6A00',
+                default => '#7c3aed',
+            },
+        ]);
+
+        return response()->json(['data' => $data]);
+    }
+
+    /**
      * 第三方平台扫码登录回调（企业微信 / 钉钉 / 飞书，按学校配置的平台分发）
      */
     public function thirdPartyLogin(Request $request): JsonResponse
