@@ -40,15 +40,18 @@ const roleMainText = computed(() => {
 </script>
 <template>
   <div class="teacher-card" :class="{ 'is-selected': selectable && selected }">
-    <input
+    <!-- 钻孔吊牌式圆形勾选：未选=圆环钻孔，选中=孔被打穿填满 -->
+    <button
       v-if="selectable"
-      type="checkbox"
-      :checked="selected"
-      class="tc-checkbox"
-      @click.stop
-      @change="emit('toggleSelect', teacher.id)"
+      type="button"
+      class="tc-hole"
+      :class="{ 'is-checked': selected }"
       :title="selected ? '取消选择' : '选择'"
+      :aria-pressed="selected"
+      @click.stop="emit('toggleSelect', teacher.id)"
     >
+      <span v-if="selected" class="tc-hole-check">✓</span>
+    </button>
     <!-- 版块1：身份行（左姓名 / 中角色+主教点连接 / 右编号） -->
     <div class="tc-block tc-header" :class="{ 'has-select': selectable }">
       <span class="tc-name-text">{{ teacher.name }}</span>
@@ -103,15 +106,42 @@ const roleMainText = computed(() => {
   border-color: rgba(124, 58, 237, 0.55);
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
 }
-.tc-checkbox {
+/* 钻孔吊牌式圆形勾选：右上角，像给卡片钻了个孔 */
+.tc-hole {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 15px;
-  height: 15px;
-  accent-color: #7c3aed;
+  top: 10px;
+  right: 12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  background: transparent;
+  /* 内阴影模拟卡片厚度，呈现"钻孔"立体感 */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+.tc-hole:hover {
+  border-color: rgba(167, 139, 250, 0.7);
+  transform: scale(1.08);
+}
+.tc-hole.is-checked {
+  border-color: #a78bfa;
+  background: radial-gradient(circle at 35% 30%, #a78bfa, #7c3aed);
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.5), inset 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.tc-hole-check {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 /* 通用版块：左右留白 + 底部分隔线 */
 .tc-block {
@@ -130,7 +160,8 @@ const roleMainText = computed(() => {
   gap: 8px;
 }
 .tc-header.has-select {
-  padding-left: 24px;
+  /* 圆孔在右上角，右留白避开编号 */
+  padding-right: 34px;
 }
 .tc-name-text {
   font-size: 18px;
