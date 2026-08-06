@@ -25,10 +25,6 @@ const classMap = computed(() => {
   return map
 })
 function classById(id: number) { return classMap.value[id] }
-// 该班级任教科目是否 = 个人主教科目（主教科目已在头部展示，班级区不重复）
-function isMainSubject(subject: string | undefined) {
-  return !!subject && subject !== '默认科目' && subject === props.teacher.subject
-}
 // 身份行中间区：个人角色 + 主教科目，多项用 · 连接（如「首席 · 信息科技」「主任 · 语文」）
 const roleMainText = computed(() => {
   const parts: string[] = []
@@ -68,7 +64,7 @@ const roleMainText = computed(() => {
       <div v-if="teacher.assignments.length === 0" class="tc-class-empty">暂未分配班级</div>
       <div v-for="a in teacher.assignments" :key="a.class_id + '_' + a.role" class="tc-class-row">
         <span class="tc-class-name">{{ a.class_name || classById(a.class_id)?.name || '#' + a.class_id }}</span>
-        <span v-if="a.subject && a.subject !== '默认科目' && !isMainSubject(a.subject)" class="tc-class-subject">
+        <span v-if="a.subject && a.subject !== '默认科目'" class="tc-class-subject">
           {{ a.subject }}
         </span>
       </div>
