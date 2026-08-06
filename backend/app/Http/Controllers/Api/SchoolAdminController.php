@@ -85,6 +85,20 @@ class SchoolAdminController extends Controller
      */
     public function createTeacher(Request $request): JsonResponse
     {
+        try {
+            return $this->doCreateTeacher($request);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('createTeacher 失败', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json(['message' => '创建失败：' . $e->getMessage()], 500);
+        }
+    }
+
+    private function doCreateTeacher(Request $request): JsonResponse
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
             'nickname' => 'nullable|string|max:80',

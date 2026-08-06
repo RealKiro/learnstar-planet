@@ -259,7 +259,7 @@ async function submitCreate() {
           <div v-if="createAssignments.length > 0" style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
             <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
             <div v-for="(group, gi) in groupedAssignments" :key="gi" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent);">
-              <span style="flex:1;color:var(--color-text);font-weight:500;">{{ shortClassName(group.class_name) }}</span>
+              <span style="flex:1;color:var(--color-text);font-weight:500;">{{ group.class_name }}</span>
               <template v-for="(a, ai) in group.items" :key="ai">
                 <span v-if="a.role === 'subject_teacher'" style="font-size:11px;color:var(--color-text-secondary);">{{ a.subject }}</span>
                 <span v-else style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }} · {{ a.subject }}</span>
