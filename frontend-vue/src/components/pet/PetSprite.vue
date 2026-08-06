@@ -518,6 +518,399 @@ function fxShape(size: number): string {
           <path v-if="level >= 4" d="M96 56 Q100 52 104 56 Q108 52 112 56" :stroke="art.dark" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
         </template>
 
+        <!-- 九尾狐·九尾 -->
+        <template v-else-if="art.variant === 'kitsune'">
+          <g v-if="level >= 4" class="ninetails">
+            <path d="M122 118 Q150 104 154 86 Q158 76 148 78" :fill="art.dark" opacity="0.85"/>
+            <path d="M118 122 Q148 114 158 98 Q162 86 152 88" :fill="art.main" opacity="0.7"/>
+            <path d="M128 120 Q158 110 162 94" :fill="art.dark" opacity="0.5"/>
+            <path d="M126 116 Q144 112 150 102" :fill="art.light" opacity="0.7"/>
+            <path d="M124 114 Q138 108 142 98" :fill="art.dark" opacity="0.6"/>
+          </g>
+          <ellipse cx="100" cy="118" rx="26" ry="23" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="130" rx="16" ry="10" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="78" cy="142" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="142" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M80 60 L72 42 L94 55 Z" :fill="art.main"/>
+            <path d="M120 60 L128 42 L106 55 Z" :fill="art.main"/>
+            <path d="M81 57 L78 49 L90 55 Z" :fill="art.accent" opacity="0.8"/>
+            <path d="M119 57 L122 49 L110 55 Z" :fill="art.accent" opacity="0.8"/>
+          </g>
+        </template>
+
+        <!-- 赛博猫·电路猫 -->
+        <template v-else-if="art.variant === 'cyber'">
+          <ellipse cx="100" cy="120" rx="28" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="132" rx="18" ry="11" :fill="art.dark" opacity="0.5"/>
+          <ellipse cx="78" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M80 60 L72 42 L94 56 Z" :fill="art.main"/>
+            <path d="M120 60 L128 42 L106 56 Z" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 4" class="circuits">
+            <path d="M76 100 L84 100 L84 92 M124 100 L116 100 L116 92" :stroke="art.accent" stroke-width="1.8" fill="none" opacity="0.8"/>
+            <circle cx="84" cy="92" r="2.4" :fill="art.accent"/>
+            <circle cx="116" cy="92" r="2.4" :fill="art.accent"/>
+            <path d="M82 68 L90 68 L90 74" :stroke="art.accent" stroke-width="1.6" fill="none" opacity="0.7"/>
+            <path d="M118 68 L110 68 L110 74" :stroke="art.accent" stroke-width="1.6" fill="none" opacity="0.7"/>
+          </g>
+        </template>
+
+        <!-- 独角兽 -->
+        <template v-else-if="art.variant === 'unicorn'">
+          <path d="M118 116 Q136 110 142 98" :stroke="art.dark" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="100" cy="118" rx="30" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="131" rx="18" ry="11" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="76" cy="142" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="124" cy="142" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M84 60 L78 46 L96 56 Z" :fill="art.main"/>
+            <path d="M116 60 L122 46 L104 56 Z" :fill="art.main"/>
+          </g>
+          <path d="M100 54 L97 38 L103 38 Z" :fill="art.accent" :stroke="art.dark" stroke-width="1"/>
+          <g v-if="level >= 5" class="mane">
+            <path d="M82 66 Q74 80 82 92" :stroke="art.accent" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+            <path d="M78 70 Q70 84 78 96" :stroke="art.light" stroke-width="2.4" fill="none" stroke-linecap="round" opacity="0.7"/>
+          </g>
+        </template>
+
+        <!-- 狮鹫·鹰头狮身 -->
+        <template v-else-if="art.variant === 'griffin'">
+          <g class="wings">
+            <path d="M64 104 Q42 90 36 68 Q52 84 66 90 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+            <path d="M136 104 Q158 90 164 68 Q148 84 134 90 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+          </g>
+          <path d="M126 118 Q148 108 152 94" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="120" rx="32" ry="25" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="132" rx="20" ry="12" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M100 58 Q88 60 84 74 Q88 72 92 74 L100 82 L108 74 Q112 72 116 74 Q112 60 100 58 Z" :fill="art.accent"/>
+          <g class="ears">
+            <path d="M84 60 L78 46 L96 56 Z" :fill="art.main"/>
+            <path d="M116 60 L122 46 L104 56 Z" :fill="art.main"/>
+          </g>
+        </template>
+
+        <!-- 三角龙·颈盾三尖 -->
+        <template v-else-if="art.variant === 'triceratops'">
+          <ellipse cx="100" cy="122" rx="34" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="133" rx="21" ry="12" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="145" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="145" rx="8" ry="6" :fill="art.dark"/>
+          <path d="M100 104 Q66 100 58 88 Q74 82 100 82 Q126 82 142 88 Q134 100 100 104 Z" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M86 82 L80 70 M114 82 L120 70" :stroke="art.accent" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M100 80 L100 66" :stroke="art.accent" stroke-width="2.4" stroke-linecap="round"/>
+          <g v-if="level >= 5" class="frill">
+            <path d="M62 84 Q60 66 72 58 Q84 64 84 82" :stroke="art.accent" stroke-width="2" fill="none"/>
+            <path d="M138 84 Q140 66 128 58 Q116 64 116 82" :stroke="art.accent" stroke-width="2" fill="none"/>
+          </g>
+        </template>
+
+        <!-- 猛犸象·长鼻象牙 -->
+        <template v-else-if="art.variant === 'mammoth'">
+          <path d="M100 120 Q84 126 78 134" :stroke="art.main" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.9"/>
+          <path d="M76 118 Q70 126 74 132" :stroke="art.light" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="104" cy="122" rx="38" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="80" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="126" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <circle cx="100" cy="82" r="28" :fill="`url(#body-grad-${uid})`"/>
+          <g v-if="level >= 5" class="tusks">
+            <path d="M90 96 Q84 104 88 108" :stroke="art.light" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+            <path d="M110 96 Q116 104 112 108" :stroke="art.light" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+          </g>
+          <g class="ears">
+            <ellipse cx="74" cy="70" rx="8" ry="6" :fill="art.main"/>
+            <ellipse cx="126" cy="70" rx="8" ry="6" :fill="art.main"/>
+          </g>
+        </template>
+
+        <!-- 剑齿虎·长獠牙 -->
+        <template v-else-if="art.variant === 'sabertooth'">
+          <path d="M126 118 Q150 106 154 90" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="120" rx="30" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="131" rx="19" ry="12" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="78" cy="143" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="143" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M82 60 L74 44 L96 56 Z" :fill="art.main"/>
+            <path d="M118 60 L126 44 L104 56 Z" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 4" class="fangs">
+            <path d="M90 96 L86 106" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M110 96 L114 106" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+          </g>
+        </template>
+
+        <!-- 年兽·独角鬃毛 -->
+        <template v-else-if="art.variant === 'nian'">
+          <ellipse cx="100" cy="120" rx="32" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="132" rx="20" ry="13" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <circle cx="100" cy="78" r="29" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M80 58 L72 42 L94 54 Z" :fill="art.main"/>
+            <path d="M120 58 L128 42 L106 54 Z" :fill="art.main"/>
+          </g>
+          <path d="M100 52 L97 40 L103 40 Z" :fill="art.accent"/>
+          <g v-if="level >= 5" class="shaggy">
+            <path d="M70 82 Q62 72 72 66 M130 82 Q138 72 128 66" :stroke="art.accent" stroke-width="2.4" fill="none" stroke-linecap="round" opacity="0.7"/>
+          </g>
+        </template>
+
+        <!-- 饕餮·血盆大口 -->
+        <template v-else-if="art.variant === 'taotie'">
+          <ellipse cx="100" cy="122" rx="31" ry="25" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="133" rx="20" ry="12" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <path d="M100 104 Q66 100 58 90 Q76 82 100 82 Q124 82 142 90 Q134 100 100 104 Z" :fill="`url(#body-grad-${uid})`"/>
+          <g v-if="level >= 5" class="maw">
+            <path d="M84 96 Q100 104 116 96 Q108 108 100 108 Q92 108 84 96 Z" fill="#DC2626"/>
+            <path d="M84 96 L88 100 L92 96 L96 100 L100 96 L104 100 L108 96 L112 100 L116 96" fill="none" stroke="#fff" stroke-width="1.4" opacity="0.8"/>
+          </g>
+          <g class="horns">
+            <path d="M84 74 Q74 62 66 60 Q76 66 86 72 Z" :fill="art.accent"/>
+            <path d="M116 74 Q126 62 134 60 Q124 66 114 72 Z" :fill="art.accent"/>
+          </g>
+        </template>
+
+        <!-- 白泽·智慧独角 -->
+        <template v-else-if="art.variant === 'baize'">
+          <path d="M124 118 Q146 110 150 96" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="120" rx="30" ry="25" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="131" rx="19" ry="12" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="78" cy="143" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="143" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M84 60 L78 46 L96 56 Z" :fill="art.main"/>
+            <path d="M116 60 L122 46 L104 56 Z" :fill="art.main"/>
+          </g>
+          <path d="M100 56 L96 42 L104 42 Z" :fill="art.accent"/>
+          <path d="M88 88 Q74 92 66 86" :stroke="art.dark" stroke-width="1.2" fill="none" opacity="0.5"/>
+          <path d="M112 88 Q126 92 134 86" :stroke="art.dark" stroke-width="1.2" fill="none" opacity="0.5"/>
+        </template>
+
+        <!-- 黑豹·流线低伏 -->
+        <template v-else-if="art.variant === 'panther'">
+          <path d="M124 116 Q148 106 152 92 Q156 82 146 84" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="120" rx="32" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="130" rx="20" ry="11" :fill="art.dark" opacity="0.5"/>
+          <ellipse cx="78" cy="142" rx="6" ry="4" :fill="art.dark"/>
+          <ellipse cx="122" cy="142" rx="6" ry="4" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="26" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M82 62 L74 44 L96 57 Z" :fill="art.main"/>
+            <path d="M118 62 L126 44 L104 57 Z" :fill="art.main"/>
+          </g>
+        </template>
+
+        <!-- 犰狳·甲带 -->
+        <template v-else-if="art.variant === 'armadillo'">
+          <path d="M86 134 Q74 134 68 130" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="122" rx="34" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="131" rx="20" ry="12" :fill="art.dark" opacity="0.4"/>
+          <g v-if="level >= 4" class="bands">
+            <path d="M74 122 Q100 114 126 122" :stroke="art.dark" stroke-width="1.8" fill="none" opacity="0.6"/>
+            <path d="M78 130 Q100 122 122 130" :stroke="art.dark" stroke-width="1.8" fill="none" opacity="0.6"/>
+            <path d="M82 138 Q100 130 118 138" :stroke="art.dark" stroke-width="1.6" fill="none" opacity="0.5"/>
+          </g>
+          <ellipse cx="78" cy="144" rx="6" ry="4" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="6" ry="4" :fill="art.dark"/>
+          <path d="M100 100 Q84 98 76 106 Q86 96 100 96 Z" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M86 92 Q82 82 88 78 Q92 84 90 92 Z" :fill="art.main"/>
+            <path d="M114 92 Q118 82 112 78 Q108 84 110 92 Z" :fill="art.main"/>
+          </g>
+        </template>
+
+        <!-- 藏羚羊·细长角 -->
+        <template v-else-if="art.variant === 'antelope'">
+          <path d="M118 112 Q132 108 136 98" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="118" rx="26" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="130" rx="16" ry="10" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="80" cy="141" rx="6" ry="4" :fill="art.dark"/>
+          <ellipse cx="120" cy="141" rx="6" ry="4" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="24" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M86 62 L82 52 L94 58 Z" :fill="art.main"/>
+            <path d="M114 62 L118 52 L106 58 Z" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 4" class="thin-horns">
+            <path d="M92 58 Q88 44 92 34" :stroke="art.dark" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <path d="M108 58 Q112 44 108 34" :stroke="art.dark" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          </g>
+        </template>
+
+        <!-- 雪豹·斑点 -->
+        <template v-else-if="art.variant === 'leopard'">
+          <path d="M126 116 Q150 104 154 88" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="120" rx="30" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="131" rx="19" ry="12" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="78" cy="143" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="143" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M82 60 L74 44 L96 56 Z" :fill="art.main"/>
+            <path d="M118 60 L126 44 L104 56 Z" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 5" class="spots">
+            <circle cx="86" cy="116" r="3" :fill="art.dark" opacity="0.5"/>
+            <circle cx="100" cy="124" r="3" :fill="art.dark" opacity="0.5"/>
+            <circle cx="114" cy="116" r="3" :fill="art.dark" opacity="0.5"/>
+            <circle cx="92" cy="62" r="2.6" :fill="art.dark" opacity="0.5"/>
+            <circle cx="108" cy="64" r="2.6" :fill="art.dark" opacity="0.5"/>
+          </g>
+        </template>
+
+        <!-- 小熊猫·条纹尾 -->
+        <template v-else-if="art.variant === 'redpanda'">
+          <path d="M124 118 Q146 108 150 92 Q154 82 144 84" :fill="art.dark" class="tail"/>
+          <g v-if="level >= 5" class="tail-rings">
+            <path d="M144 88 L140 92 M138 94 L134 98" :stroke="art.accent" stroke-width="2.6" stroke-linecap="round" opacity="0.8"/>
+          </g>
+          <ellipse cx="100" cy="122" rx="28" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="132" rx="18" ry="11" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="78" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="82" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <circle cx="78" cy="60" r="9" :fill="art.main" :stroke="art.dark" stroke-width="1.2"/>
+            <circle cx="122" cy="60" r="9" :fill="art.main" :stroke="art.dark" stroke-width="1.2"/>
+          </g>
+          <g v-if="level >= 4" class="face-mask">
+            <path d="M86 88 Q94 84 100 88 Q106 84 114 88" :stroke="art.dark" stroke-width="1.4" fill="none" opacity="0.5"/>
+          </g>
+        </template>
+
+        <!-- 梦魇马 -->
+        <template v-else-if="art.variant === 'horse'">
+          <path d="M118 114 Q132 108 138 98" :stroke="art.dark" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="100" cy="118" rx="30" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="130" rx="18" ry="11" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="76" cy="141" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="124" cy="141" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M84 60 L78 44 L96 56 Z" :fill="art.main"/>
+            <path d="M116 60 L122 44 L104 56 Z" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 4" class="mane">
+            <path d="M82 62 Q72 76 82 90" :stroke="art.accent" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+            <path d="M118 62 Q128 76 118 90" :stroke="art.accent" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+          </g>
+        </template>
+
+        <!-- 地懒·巨爪 -->
+        <template v-else-if="art.variant === 'sloth'">
+          <ellipse cx="100" cy="122" rx="34" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="133" rx="21" ry="13" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="145" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="145" rx="8" ry="6" :fill="art.dark"/>
+          <circle cx="100" cy="82" r="28" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <circle cx="76" cy="62" r="8" :fill="art.main"/>
+            <circle cx="124" cy="62" r="8" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 4" class="claws">
+            <path d="M76 142 L72 148 M80 144 L78 150 M120 142 L124 148 M116 144 L118 150" :stroke="art.light" stroke-width="2.6" stroke-linecap="round" opacity="0.9"/>
+          </g>
+        </template>
+
+        <!-- 狮·鬃毛 -->
+        <template v-else-if="art.variant === 'lion'">
+          <ellipse cx="100" cy="120" rx="32" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="131" rx="20" ry="13" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <g v-if="level >= 4" class="mane-ring">
+            <circle cx="100" cy="80" r="34" :fill="art.accent" opacity="0.3"/>
+            <path d="M78 58 Q70 48 78 40 M122 58 Q130 48 122 40 M92 48 L100 40 L108 48" :stroke="art.accent" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+          </g>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <circle cx="78" cy="60" r="8" :fill="art.main"/>
+            <circle cx="122" cy="60" r="8" :fill="art.main"/>
+          </g>
+          <path d="M100 100 Q94 108 100 112 Q106 108 100 100 Z" fill="#7C2D12" opacity="0.6"/>
+        </template>
+
+        <!-- 西伯利亚虎·耳簇厚毛 -->
+        <template v-else-if="art.variant === 'siberian'">
+          <path d="M126 116 Q150 104 154 88" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="120" rx="32" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="132" rx="20" ry="13" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="78" r="29" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M80 58 L72 42 L94 54 Z" :fill="art.main"/>
+            <path d="M120 58 L128 42 L106 54 Z" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 5" class="fur">
+            <path d="M72 64 Q66 58 72 52 M128 64 Q134 58 128 52" :stroke="art.dark" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <path d="M70 82 Q62 76 70 70 M130 82 Q138 76 130 70" :stroke="art.dark" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+          </g>
+        </template>
+
+        <!-- 披毛犀·长毛双角 -->
+        <template v-else-if="art.variant === 'woolly'">
+          <ellipse cx="100" cy="122" rx="34" ry="25" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="133" rx="21" ry="12" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="145" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="145" rx="8" ry="6" :fill="art.dark"/>
+          <path d="M100 102 Q78 98 70 88 Q80 82 100 82 Q120 82 130 88 Q122 98 100 102 Z" :fill="`url(#body-grad-${uid})`"/>
+          <g v-if="level >= 5" class="wool">
+            <path d="M66 92 Q58 88 66 82 M134 92 Q142 88 134 82" :stroke="art.dark" stroke-width="2.4" stroke-linecap="round" opacity="0.6"/>
+            <path d="M70 104 Q62 100 70 94 M130 104 Q138 100 130 94" :stroke="art.dark" stroke-width="2.4" stroke-linecap="round" opacity="0.6"/>
+          </g>
+          <path d="M100 80 L97 66 M100 80 L103 72" :stroke="art.dark" stroke-width="2.6" stroke-linecap="round"/>
+        </template>
+
+        <!-- 鹿·鹿角 -->
+        <template v-else-if="art.variant === 'deer'">
+          <path d="M118 112 Q132 106 138 96" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="118" rx="26" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="130" rx="16" ry="10" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="80" cy="141" rx="6" ry="4" :fill="art.dark"/>
+          <ellipse cx="120" cy="141" rx="6" ry="4" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="24" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M86 62 L82 52 L94 58 Z" :fill="art.main"/>
+            <path d="M114 62 L118 52 L106 58 Z" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 4" class="antlers">
+            <path d="M92 58 L86 42 L80 34 M86 46 L76 40" :stroke="art.dark" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            <path d="M108 58 L114 42 L120 34 M114 46 L124 40" :stroke="art.dark" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </g>
+        </template>
+
+        <!-- 犀牛·甲身单角 -->
+        <template v-else-if="art.variant === 'rhino'">
+          <ellipse cx="100" cy="122" rx="34" ry="25" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="133" rx="21" ry="12" :fill="art.dark" opacity="0.4"/>
+          <ellipse cx="78" cy="145" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="145" rx="8" ry="6" :fill="art.dark"/>
+          <path d="M100 102 Q78 98 70 90 Q82 82 100 82 Q118 82 130 90 Q122 98 100 102 Z" :fill="`url(#body-grad-${uid})`"/>
+          <g v-if="level >= 4" class="plates">
+            <path d="M80 96 L86 90 L92 96 L98 90 L104 96" :stroke="art.dark" stroke-width="1.8" fill="none" opacity="0.5"/>
+          </g>
+          <path d="M100 80 L97 64 L103 64 Z" :fill="art.accent"/>
+          <g class="ears">
+            <ellipse cx="82" cy="70" rx="6" ry="5" :fill="art.main" transform="rotate(-15 82 70)"/>
+            <ellipse cx="118" cy="70" rx="6" ry="5" :fill="art.main" transform="rotate(15 118 70)"/>
+          </g>
+        </template>
+
         <!-- 默认四足兽 -->
         <template v-else>
           <path v-if="art.parts.tail" d="M126 120 Q148 108 152 92 Q156 82 146 84" :fill="art.dark" class="tail" />
