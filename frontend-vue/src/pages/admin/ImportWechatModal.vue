@@ -65,10 +65,10 @@ async function loadContacts() {
       selected: true,
     }))
     if (!members.length) {
-      loadError.value = '通讯录为空，请检查企业微信配置'
+      loadError.value = '通讯录为空，请检查第三方平台配置'
     }
   } catch (e: any) {
-    loadError.value = e?.response?.data?.message || '拉取通讯录失败（请确认已配置企业微信 secret）'
+    loadError.value = e?.response?.data?.message || '拉取通讯录失败（请确认已配置第三方平台应用凭证）'
   } finally {
     loading.value = false
   }

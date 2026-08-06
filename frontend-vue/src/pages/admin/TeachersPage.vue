@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
+import { platformLabel } from '@/utils/constants'
 import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import TeacherFilters from './TeacherFilters.vue'
 import TeacherCard from './TeacherCard.vue'
@@ -27,6 +28,19 @@ const loading = ref(true)
 const filterGrade = ref('')
 const filterRole = ref<ClassRole | ''>('')
 const searchQuery = ref('')
+
+// 通讯录导入按钮标签：随学校配置的第三方平台（企微/钉钉/飞书）动态显示，未配置时用通用文案
+const thirdPartyPlatform = ref('')
+const thirdPartyImportLabel = computed(() => {
+  const p = thirdPartyPlatform.value
+  return p ? `${platformLabel(p)}导入` : '📇 通讯录导入'
+})
+async function loadSchoolPlatform() {
+  try {
+    const res = await apiGet<{ data: { settings?: { third_party_platform?: string } } }>('/api/v1/admin/school', { skipToast: true })
+    thirdPartyPlatform.value = res.data?.settings?.third_party_platform || ''
+  } catch { thirdPartyPlatform.value = '' }
+}
 
 const teacherTeams = computed(() => {
   const teams: Record<string, Teacher[]> = {}
@@ -153,11 +167,11 @@ function downloadTemplate() {
   window.open('/api/v1/admin/teachers/template-csv', '_blank')
 }
 
-onMounted(() => loadTeachers(true))
+onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
 </script>
 <template>
   <div class="teachers-admin" style="max-width:1400px;margin:0 auto;padding:0 4px;">
-    <TeacherFilters :grades="grades" :classRoleLabel="classRoleLabel" :filterGrade="filterGrade" :filterRole="filterRole" :searchQuery="searchQuery"
+    <TeacherFilters :grades="grades" :classRoleLabel="classRoleLabel" :filterGrade="filterGrade" :filterRole="filterRole" :searchQuery="searchQuery" :thirdPartyImportLabel="thirdPartyImportLabel"
       @update:filterGrade="filterGrade = $event" @update:filterRole="filterRole = $event as '' | ClassRole" @update:searchQuery="searchQuery = $event"
       @downloadTemplate="downloadTemplate" @openImport="showImportModal = true" @openWechatImport="showWechatImport = true" @openCreate="showCreateModal = true">
       <span class="count-badge" slot="teacherCount">{{ teachers.length }} 人</span>
