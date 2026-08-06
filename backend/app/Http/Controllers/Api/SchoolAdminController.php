@@ -277,7 +277,7 @@ class SchoolAdminController extends Controller
 
         $items = $query->orderBy('category')->orderBy('cost_score')->get()->map(function ($item) {
             $data = $item->toArray();
-            $data['class_name'] = $item->class_id ? ($item->classRoom?->name ?? '#' . $item->class_id) : null;
+            $data['class_name'] = $item->classRoom ? $item->classRoom->name : ($item->class_id ? '#' . $item->class_id : null);
             $data['scope'] = $item->class_id ? 'class' : 'school'; // school=同步所有班级 / class=仅该班级
             return $data;
         });
