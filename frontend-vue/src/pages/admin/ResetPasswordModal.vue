@@ -109,10 +109,11 @@ async function submitResetPwd() {
           </code>
           <button
             type="button"
-            style="flex-shrink:0;padding:4px 10px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;"
+            class="pwd-toggle-btn"
+            style="flex-shrink:0;padding:4px 12px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;color:var(--color-text);font-family:inherit;"
             @click="showResetPwd = !showResetPwd"
           >
-            {{ showResetPwd ? '&#128584; 隐藏' : '&#128065;&#65039; 显示' }}
+            {{ showResetPwd ? '🙈 隐藏' : '👁️ 显示' }}
           </button>
         </div>
       </div>
@@ -129,10 +130,12 @@ async function submitResetPwd() {
           >
           <button
             type="button"
-            style="flex-shrink:0;padding:6px 10px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;"
+            class="pwd-toggle-btn"
+            style="flex-shrink:0;width:38px;padding:6px 0;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:16px;color:var(--color-text);font-family:inherit;"
             @click="showResetPwd = !showResetPwd"
+            :title="showResetPwd ? '隐藏密码' : '显示密码'"
           >
-            {{ showResetPwd ? '&#128584;' : '&#128065;&#65039;' }}
+            {{ showResetPwd ? '🙈' : '👁️' }}
           </button>
         </div>
       </div>
@@ -203,4 +206,10 @@ async function submitResetPwd() {
 .modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
 .flex-row { display:flex; gap:8px; }
 .flex-1 { flex:1; }
+.pwd-toggle-btn { transition: all 0.15s; }
+.pwd-toggle-btn:hover {
+  border-color: var(--color-accent);
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--color-accent);
+}
 </style>
