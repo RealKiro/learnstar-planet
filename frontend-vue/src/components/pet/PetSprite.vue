@@ -218,6 +218,27 @@ function fxShape(size: number): string {
     <!-- ===== 地面阴影 ===== -->
     <ellipse cx="100" cy="158" rx="32" ry="6" fill="#000" opacity="0.12" />
 
+    <!-- ===== 阶段氛围层（成长光点→成熟能量环→传说曜光，跨阶段视觉差异化） ===== -->
+    <g v-if="art.stage === 'growing' || art.stage === 'mature' || art.stage === 'legendary'" class="stage-aura">
+      <!-- 传说级曜光射线 -->
+      <g v-if="art.glow > 0.7" class="legendary-burst">
+        <g v-for="n in 8" :key="n" :transform="`rotate(${n * 45} 100 74)`">
+          <path d="M100 30 L103 42 L100 56 L97 42 Z" :fill="art.accent" opacity="0.35"/>
+        </g>
+      </g>
+      <!-- 成熟期能量地环 -->
+      <g v-if="art.glow >= 0.5" class="mature-ring">
+        <ellipse cx="100" cy="160" rx="42" ry="9" fill="none" :stroke="art.accent" stroke-width="1.6" opacity="0.65"/>
+        <ellipse cx="100" cy="160" rx="30" ry="6" :fill="art.main" opacity="0.12"/>
+      </g>
+      <!-- 成长期漂浮光点 -->
+      <g v-if="art.glow >= 0.3" class="growing-orbs">
+        <circle cx="52" cy="64" r="3.4" :fill="art.accent" opacity="0.85"/>
+        <circle cx="148" cy="92" r="3" :fill="art.accent" opacity="0.7"/>
+        <circle cx="140" cy="52" r="2.2" :fill="art.light" opacity="0.8"/>
+      </g>
+    </g>
+
     <!-- ===== 传说级光环 ===== -->
     <g v-if="art.glow > 0.7" class="aura-wrap">
       <circle cx="100" cy="70" r="58" fill="none" :stroke="art.main" stroke-width="1.6" stroke-dasharray="3 9" opacity="0.65" class="aura-ring aura-ring--a" />
@@ -1988,6 +2009,9 @@ function fxShape(size: number): string {
 .pet-sprite--animated .halo-ring { animation: haloFloat 2.4s ease-in-out infinite; }
 .pet-sprite--animated .flame { animation: flameFlicker 1s ease-in-out infinite; }
 .pet-sprite--animated .fx-item { animation: fxFloat 3s ease-in-out infinite; opacity: 0; }
+.pet-sprite--animated .legendary-burst { animation: burstSpin 28s linear infinite; transform-box: fill-box; transform-origin: center; }
+.pet-sprite--animated .mature-ring { animation: ringPulse 3.2s ease-in-out infinite; }
+.pet-sprite--animated .growing-orbs circle { animation: orbFloat 2.8s ease-in-out infinite; }
 .pet-sprite--animated .sword-aura { animation: swordGlow 1.6s ease-in-out infinite; }
 .pet-sprite--animated .constellation-armor { animation: armorGlow 2s ease-in-out infinite; }
 .pet-sprite--animated .sacred-wings { animation: sacredWings 2.6s ease-in-out infinite; transform-origin: 100px 84px; }
@@ -2068,6 +2092,15 @@ function fxShape(size: number): string {
 @keyframes fxFloat {
   0%, 100% { opacity: 0; transform: translateY(0); }
   50% { opacity: 1; transform: translateY(-9px); }
+}
+@keyframes burstSpin { to { transform: rotate(360deg); } }
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.85; }
+}
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(-7px); opacity: 1; }
 }
 @keyframes swordGlow {
   0%, 100% { opacity: 0.65; }
