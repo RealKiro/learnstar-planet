@@ -245,7 +245,7 @@ export const classApi = {
     apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules'),
 
   /** 创建积分规则 */
-  createRule: (data: { name: string; points: number; category: string; is_penalty: boolean }) =>
+  createRule: (data: { name: string; amount: number; category: string; is_positive: boolean }) =>
     apiPost('/api/v1/teacher/scores/rules', data),
 
   /** 切换班级宠物系列 */

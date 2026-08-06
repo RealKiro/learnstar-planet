@@ -48,7 +48,7 @@ function getUndoStatus(scoreId: number) {
 
 function getBatchBtnText(rule: ScoreRule): string {
   const s = getBatchStatus(rule.id)
-  const map: Record<string, string> = { idle: `${rule.points > 0 ? '+' : ''}${rule.points} ${rule.name}`, loading: '处理中...', success: '已完成', error: '操作失败' }
+  const map: Record<string, string> = { idle: `${rule.amount > 0 ? '+' : ''}${rule.amount} ${rule.name}`, loading: '处理中...', success: '已完成', error: '操作失败' }
   return map[s]
 }
 
@@ -86,8 +86,8 @@ const filteredStudents = computed(() => {
   })
 })
 
-const positiveRules = computed(() => rules.value.filter(r => !r.is_penalty))
-const negativeRules = computed(() => rules.value.filter(r => r.is_penalty))
+const positiveRules = computed(() => rules.value.filter(r => r.is_positive))
+const negativeRules = computed(() => rules.value.filter(r => !r.is_positive))
 
 // ===== 工具函数 =====
 const LEVEL_SCORES = [0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450]
@@ -210,15 +210,15 @@ async function handleBatchRuleScore(rule: ScoreRule) {
   try {
     await apiPost('/api/v1/teacher/scores/batch-give', {
       student_ids: students.value.map(s => s.id),
-      points: rule.points,
+      points: rule.amount,
       reason: rule.name,
     })
     batchStatus.value[rule.id] = 'success'
-    students.value.forEach(s => { s.total_score += rule.points })
+    students.value.forEach(s => { s.total_score += rule.amount })
     setTimeout(() => { batchStatus.value[rule.id] = 'idle' }, 1500)
   } catch {
     batchStatus.value[rule.id] = 'success'
-    students.value.forEach(s => { s.total_score += rule.points })
+    students.value.forEach(s => { s.total_score += rule.amount })
     setTimeout(() => { batchStatus.value[rule.id] = 'idle' }, 1500)
   }
 }
@@ -873,6 +873,16 @@ onMounted(() => {
   margin: 0 auto 12px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* 最近积分记录操作按钮（紧凑尺寸） */
+.btn-xs {
+  padding: 4px 12px;
+  font-size: 12px;
+  border-radius: 16px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.btn-xs:hover { background: rgba(239, 68, 68, 0.15); }
 
 @media (max-width: 768px) {
   .student-grid {

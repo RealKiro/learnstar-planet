@@ -8,7 +8,7 @@ Page({
       app.apiRequest({ path: `/api/v1/teacher/students?per_page=100` }),
       app.apiRequest({ path: `/api/v1/teacher/scores/rules` }),
     ]).then(([students, rules]) => {
-      const ruleList = (rules.data || []).map(r => ({ name: r.name, points: r.points, is_penalty: r.is_penalty }));
+      const ruleList = (rules.data || []).map(r => ({ name: r.name, points: r.amount, is_penalty: r.is_positive === false }));
       this.setData({ students: students.data || [], rules: ruleList, loading: false, selectedRule: ruleList[0]?.name || '' });
     }).catch(() => this.setData({ loading: false }));
   },
