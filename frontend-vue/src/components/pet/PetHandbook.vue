@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue'
 import { getSpeciesById, getLevelRequiredScore, getSeriesBySpeciesId, getSpeciesEmoji, SERIES_SCENES } from '@/utils/petData'
 import { getStagePersonality, getStageAbility } from '@/utils/petTraits'
+import { getPoems, getEvoLines, stageIndexForLevel } from '@/utils/petHandbookData'
+import { getPetProfile } from '@/utils/petProfiles'
 import PetSprite from './PetSprite.vue'
 
 const props = defineProps<{
@@ -36,6 +38,18 @@ function isUnlocked(level: number): boolean {
 function getRequiredForNext(level: number): number {
   return getLevelRequiredScore(level)
 }
+
+// ===== 角色档案：形态 / 习性 / 进化台词 / 专属诗文 =====
+const profile = computed(() => getPetProfile(props.speciesId))
+const stageIdx = computed(() => stageIndexForLevel(previewLevel.value))
+const evoLine = computed(() => {
+  const lines = getEvoLines(species.value?.name || '')
+  return lines[stageIdx.value] || lines[lines.length - 1] || ''
+})
+const poem = computed(() => {
+  const poems = getPoems(species.value?.name || '')
+  return poems[stageIdx.value] || poems[poems.length - 1] || ''
+})
 </script>
 
 <template>
@@ -70,6 +84,15 @@ function getRequiredForNext(level: number): number {
           <!-- 连接线 -->
           <div v-if="i < milestoneLevels.length - 1" class="milestone-connector"></div>
         </div>
+      </div>
+
+      <!-- 角色档案：形态 / 习性 / 进化台词 / 专属诗文 -->
+      <div class="profile-card">
+        <div class="profile-title">📖 角色档案</div>
+        <div class="profile-row"><span class="profile-label">形态</span><span class="profile-text">{{ profile.form }}</span></div>
+        <div class="profile-row"><span class="profile-label">习性</span><span class="profile-text">{{ profile.habit }}</span></div>
+        <div class="profile-row profile-row--quote"><span class="profile-label">🎤</span><span class="profile-text">{{ evoLine }}</span></div>
+        <div class="profile-row profile-row--poem"><span class="profile-label">📜</span><span class="profile-text">{{ poem }}</span></div>
       </div>
 
       <!-- 预览区域 -->
@@ -278,6 +301,47 @@ function getRequiredForNext(level: number): number {
   background: rgba(255,255,255,0.06);
   z-index: -1;
 }
+
+/* 角色档案 */
+.profile-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.profile-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+}
+.profile-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.profile-row:last-child { margin-bottom: 0; }
+.profile-label {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #FDE68A;
+  background: rgba(245,158,11,0.1);
+  padding: 1px 8px;
+  border-radius: 6px;
+}
+.profile-text { flex: 1; }
+.profile-row--quote .profile-label,
+.profile-row--quote .profile-text { color: #93C5FD; }
+.profile-row--quote .profile-label { background: rgba(59,130,246,0.12); }
+.profile-row--poem .profile-label,
+.profile-row--poem .profile-text { color: #C4B5FD; }
+.profile-row--poem .profile-label { background: rgba(139,92,246,0.12); }
 
 /* 预览区 */
 .preview-area {

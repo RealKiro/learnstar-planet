@@ -528,7 +528,24 @@ export function getPoems(speciesName: string): string[] {
   return PET_POEMS[speciesName] || []
 }
 
-/** 获取指定物种的6阶段进化台词 */
+/** 获取指定物种的6阶段进化台词（无专属时用通用兜底，保证每个角色都有台词） */
 export function getEvoLines(speciesName: string): string[] {
-  return PET_EVO_LINES[speciesName] || []
+  return PET_EVO_LINES[speciesName] || [
+    '"我，正在苏醒。"',
+    '"第一次看清这个世界。"',
+    '"力量在体内奔涌。"',
+    '"我已能独当一面。"',
+    '"巅峰之姿，舍我其谁。"',
+    '"这是属于我的传说。"',
+  ]
+}
+
+/** 根据等级换算进化阶段索引(0-5)：新生之卵/幼年/成长期/成熟期/巅峰期/涅槃 */
+export function stageIndexForLevel(level: number): number {
+  if (level <= 1) return 0
+  if (level <= 2) return 1
+  if (level <= 5) return 2
+  if (level <= 8) return 3
+  if (level <= 10) return 4
+  return 5
 }
