@@ -152,6 +152,7 @@ async function handleDelete(rule: ScoreRule) {
             <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
               <span style="font-weight:700;color:var(--color-accent);">+{{ Math.abs(rule.amount) }}</span>
               <span style="font-weight:500;">{{ rule.name }}</span>
+              <span v-if="(rule as any).scope === 'class'" style="font-size:10px;color:#38bdf8;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);padding:1px 6px;border-radius:4px;white-space:nowrap;">{{ (rule as any).class_name || '班级' }}</span>
               <span style="font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;white-space:nowrap;">{{ categoryLabels[rule.category] || rule.category }}</span>
               <span v-if="!rule.is_active" style="font-size:10px;color:#f59e0b;border:1px solid rgba(245,158,11,0.3);padding:1px 6px;border-radius:4px;">停用</span>
             </div>
@@ -179,6 +180,7 @@ async function handleDelete(rule: ScoreRule) {
             <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
               <span style="font-weight:700;color:var(--color-danger);">{{ rule.amount }}</span>
               <span style="font-weight:500;">{{ rule.name }}</span>
+              <span v-if="(rule as any).scope === 'class'" style="font-size:10px;color:#38bdf8;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);padding:1px 6px;border-radius:4px;white-space:nowrap;">{{ (rule as any).class_name || '班级' }}</span>
               <span style="font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;white-space:nowrap;">{{ categoryLabels[rule.category] || rule.category }}</span>
               <span v-if="!rule.is_active" style="font-size:10px;color:#f59e0b;border:1px solid rgba(245,158,11,0.3);padding:1px 6px;border-radius:4px;">停用</span>
             </div>

@@ -72,7 +72,6 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [SchoolAdminController::class, 'adminCreateShopItem']);
             Route::put('{id}', [SchoolAdminController::class, 'adminUpdateShopItem']);
             Route::delete('{id}', [SchoolAdminController::class, 'adminDeleteShopItem']);
-            Route::post('{id}/promote', [SchoolAdminController::class, 'adminPromoteShopItem']);
         });
         Route::prefix('exchange-rates')->group(function () {
             Route::get('/', [SchoolAdminController::class, 'listExchangeRates']);

@@ -208,11 +208,18 @@ class SchoolAdminController extends Controller
     public function adminListScoreRules(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-        $rules = ScoreRule::where('school_id', $school->id)
-            ->whereNull('class_id')
+        // 聚合全校规则：学校级(class_id=null,同步所有班级) + 教师创建的班级级规则
+        $rules = ScoreRule::with('classRoom:id,name')
+            ->where('school_id', $school->id)
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->get();
+            ->get()
+            ->map(function ($rule) {
+                $data = $rule->toArray();
+                $data['class_name'] = $rule->classRoom ? $rule->classRoom->name : null;
+                $data['scope'] = $rule->class_id ? 'class' : 'school';
+                return $data;
+            });
 
         return response()->json(['data' => $rules]);
     }
@@ -349,35 +356,6 @@ class SchoolAdminController extends Controller
         return response()->json(['message' => '商品已删除']);
     }
 
-    /**
-     * 将教师创建的班级级商品推广为学校级商品（同步到全校所有班级）
-     */
-    public function adminPromoteShopItem(Request $request, int $id): JsonResponse
-    {
-        $school = $request->user()->school;
-        $item = ShopItem::where('school_id', $school->id)->findOrFail($id);
-
-        // 已是学校级则无需操作
-        if (!$item->class_id) {
-            return response()->json(['message' => '该商品已是全校共享'], 200);
-        }
-
-        // 若学校已有同名学校级商品，直接删除班级级合并
-        $dup = ShopItem::where('school_id', $school->id)
-            ->whereNull('class_id')
-            ->where('name', $item->name)
-            ->first();
-        if ($dup) {
-            $item->delete();
-
-            return response()->json(['message' => '已推广到全校（与同名全校商品合并）']);
-        }
-
-        $item->class_id = null;
-        $item->save();
-
-        return response()->json(['message' => '已推广到全校，所有班级可见']);
-    }
 
     /**
      * 批量创建教师账号

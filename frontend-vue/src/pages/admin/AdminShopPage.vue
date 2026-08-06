@@ -65,18 +65,6 @@ async function saveRate(r: AdminRate) {
   } catch { rateErrors[String(r.id)] = '保存失败' }
 }
 
-const promoteStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
-async function promoteItem(item: ShopItemExt) {
-  const ok = await openConfirm({ title: '推广到全校', message: `确定把「${item.name}」推广为全校共享商品？所有班级都能兑换。`, danger: false, confirmText: '推广' })
-  if (!ok) return
-  promoteStatus.value[item.id] = 'loading'
-  try {
-    await apiPost(`/api/v1/admin/shop-items/${item.id}/promote`, {}, { skipToast: true })
-    promoteStatus.value[item.id] = 'success'
-    setTimeout(() => { delete promoteStatus.value[item.id]; loadItems() }, 1000)
-  } catch { promoteStatus.value[item.id] = 'error' }
-}
-
 const form = ref({ name: '', description: '', category: 'stationery', cost_score: 10, currency_type: 'score', stock: 0, is_active: true })
 const itemErrors = reactive<Record<string, string>>({})
 function iClr(f: string) { delete itemErrors[f] }
@@ -261,9 +249,6 @@ async function handleDelete(item: ShopItemExt) {
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
           <span style="font-weight:700;color:var(--color-primary);">⭐ {{ item.cost_score }}</span>
           <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
-            <button v-if="item.scope === 'class'" class="btn btn-sm" style="color:#10b981;border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.08);white-space:nowrap;" @click="promoteItem(item)" :disabled="promoteStatus[item.id] === 'loading'">
-              {{ promoteStatus[item.id] === 'loading' ? '推广中' : promoteStatus[item.id] === 'success' ? '已推广 ✓' : promoteStatus[item.id] === 'error' ? '失败' : '推广到全校' }}
-            </button>
             <button class="btn btn-sm btn-ghost" @click="toggleItem(item)" :disabled="getToggleStatus(item.id) === 'loading'" :style="{ color: getToggleStatus(item.id) === 'success' ? '#10b981' : getToggleStatus(item.id) === 'error' ? '#ef4444' : getToggleStatus(item.id) === 'loading' ? '#f59e0b' : item.is_active ? 'var(--color-text-secondary)' : '#f59e0b' }">
               <template v-if="getToggleStatus(item.id) === 'loading'">切换中</template>
               <template v-else-if="getToggleStatus(item.id) === 'success'">已切换</template>
