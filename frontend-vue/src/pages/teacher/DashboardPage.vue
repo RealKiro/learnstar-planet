@@ -65,11 +65,11 @@ onMounted(async () => {
         { name: '张小明', score: 520, pet_name: '九尾天狐', pet_species: 'nine_tail_fox', pet_level: 12 },
         { name: '李小红', score: 480, pet_name: '喷火龙', pet_species: 'charmander', pet_level: 11 },
         { name: '王小刚', score: 410, pet_name: '大熊猫', pet_species: 'panda', pet_level: 9 },
-        { name: '赵小丽', score: 380, pet_name: '机械龙', pet_species: 'mecha_dragon', pet_level: 8 },
+        { name: '赵小丽', score: 380, pet_name: '亚古兽', pet_species: 'mecha_dragon', pet_level: 8 },
         { name: '刘小强', score: 350, pet_name: '独角兽', pet_species: 'unicorn', pet_level: 8 },
       ],
       recent_news: [
-        { icon: '🎉', text: '孙七的【机械龙】进化到了 Lv.8！' },
+        { icon: '🎉', text: '孙七的【亚古兽】进化到了 Lv.8！' },
         { icon: '⭐', text: '周八的【独角兽】+15 分！' },
         { icon: '📝', text: '全班总积分突破 3,000！' },
         { icon: '🌟', text: '张小明【九尾天狐】达到传说级！' },

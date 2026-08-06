@@ -102,12 +102,12 @@ export const PET_ART: Record<string, PetArtConfig> = {
   chinese_alligator:   { body: 'dragon', main: '#64748B', variant: 'crocodile', parts: { tail: 3, horns: 9 } },
   crested_ibis:        { body: 'bird', main: '#FBCFE8', parts: { wings: 5, tail: 7, crown: 11 } },
   // ===== 科幻机甲 =====
-  mecha_dragon:  { body: 'dragon', main: '#3B82F6', variant: 'mecha', parts: { horns: 5, tail: 3, wings: 8 } },
-  cyber_cat:     { body: 'quadruped', main: '#8B5CF6', variant: 'cyber', parts: { tail: 3, horns: 7, wings: 10 } },
-  space_mecha:   { body: 'mecha', main: '#60A5FA', parts: { wings: 8, crown: 9 } },
-  quantum_beast: { body: 'spirit', main: '#A855F7', abstract: true, parts: { halo: 5 } },
-  digital_phoenix: { body: 'bird', main: '#06B6D4', parts: { wings: 5, tail: 6, crown: 9 } },
-  mecha_shark:   { body: 'aquatic', main: '#94A3B8', parts: { tail: 3, fin: 5, crown: 9 } },
+  mecha_dragon:  { body: 'quadruped', main: '#F97316', variant: 'agumon', parts: { tail: 3, horns: 7, crown: 8 } },
+  cyber_cat:     { body: 'quadruped', main: '#F8FAFC', variant: 'tailmon', parts: { tail: 3, horns: 7, crown: 8 } },
+  space_mecha:   { body: 'quadruped', main: '#FDE68A', variant: 'patamon', parts: { tail: 4, horns: 7, wings: 8 } },
+  quantum_beast: { body: 'quadruped', main: '#3B82F6', variant: 'gabumon', parts: { horns: 5, tail: 4, crown: 9 } },
+  digital_phoenix: { body: 'bird', main: '#F472B6', variant: 'biyomon', parts: { wings: 5, tail: 6, crown: 9 } },
+  mecha_shark:   { body: 'aquatic', main: '#E2E8F0', variant: 'gomamon', parts: { tail: 3, fin: 5, crown: 9 } },
   // ===== 魔法奇幻 =====
   unicorn:       { body: 'quadruped', main: '#F5F3FF', variant: 'unicorn', parts: { horns: 5, tail: 4, wings: 8 } },
   wyvern:        { body: 'dragon', main: '#EF4444', variant: 'wyvern', parts: { horns: 5, wings: 6, tail: 3 } },
