@@ -109,6 +109,12 @@ function requestSwitch(speciesId: string, name: string) {
   confirmSwitch.value = { speciesId, name }
 }
 
+// 选择宠物：当前宠物不可再切换（避免触发后端"当前已经是这只宠物啦"）
+function handlePick(speciesId: string, name: string) {
+  if (petPickerStudent.value?.pet_species === speciesId) return
+  requestSwitch(speciesId, name)
+}
+
 async function executeSwitch() {
   if (!confirmSwitch.value) return
   const s = petPickerStudent.value
@@ -338,7 +344,9 @@ onMounted(async () => {
           style="position:fixed;inset:0;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;z-index:300;padding:20px;">
           <div style="background:linear-gradient(180deg,#1a1040,#0d1b2a);border:1px solid rgba(255,255,255,0.08);border-radius:24px;max-width:480px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-              <span style="font-size:48px;">{{ detailStudent.pet_emoji }}</span>
+              <div style="width:64px;height:64px;flex-shrink:0;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+                <PetSprite :species-id="detailStudent.pet_species" :level="detailStudent.pet_level" :animate="true" />
+              </div>
               <div>
                 <div style="font-size:20px;font-weight:700;">{{ getPetLevelName(detailStudent.pet_species, detailStudent.pet_level) || detailStudent.pet_name }}</div>
                 <div style="font-size:13px;color:var(--md-text-secondary);">
@@ -401,14 +409,15 @@ onMounted(async () => {
             <div v-for="series in pickerSeriesList" :key="series.id" style="margin-bottom:12px;">
               <div style="font-size:12px;font-weight:600;color:var(--md-text-secondary);margin-bottom:6px;padding-left:4px;">{{ series.emoji }} {{ series.name }}</div>
               <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;">
-                <button v-for="sp in series.species" :key="sp.id" @click="requestSwitch(sp.id, sp.name)"
-                  :disabled="switchingPet"
+                <button v-for="sp in series.species" :key="sp.id" @click="handlePick(sp.id, sp.name)"
+                  :disabled="switchingPet || petPickerStudent.pet_species === sp.id"
                   style="padding:8px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;transition:0.15s;font-family:inherit;"
-                  :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08);' : ''"
-                  @mouseenter="(e)=>(e.target as HTMLElement).style.background='rgba(255,255,255,0.06)'"
-                  @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent?.pet_species === sp.id ? 'rgba(167,139,250,0.08)' : 'rgba(255,255,255,0.02)'">
+                  :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.08);cursor:default;' : ''"
+                  @mouseenter="(e)=>petPickerStudent?.pet_species === sp.id || ((e.target as HTMLElement).style.background='rgba(255,255,255,0.06)')"
+                  @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent?.pet_species === sp.id ? 'rgba(16,185,129,0.08)' : 'rgba(255,255,255,0.02)'">
                   <div style="font-size:22px;margin-bottom:2px;">{{ getSpeciesEmoji(sp.id) }}</div>
                   <div style="font-size:10px;font-weight:500;color:var(--md-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ sp.name }}</div>
+                  <div v-if="petPickerStudent.pet_species === sp.id" style="font-size:9px;font-weight:700;color:#10B981;">✓ 当前</div>
                 </button>
               </div>
             </div>
