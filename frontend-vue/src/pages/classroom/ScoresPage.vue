@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
 import { getSpeciesEmoji, PET_SERIES, getPetLevelName, getPetLevelDescription } from '@/utils/petData'
+import PetSprite from '@/components/pet/PetSprite.vue'
 import { getPoems, getEvoLines } from '@/utils/petHandbookData'
 
 // 等级所需积分常量
@@ -231,7 +232,10 @@ onMounted(async () => {
             <span style="font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:rgba(255,215,0,0.12);color:var(--md-gold);">Lv.{{ s.pet_level }}</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;" @click="openPetDetail(s)" title="点击查看宠物详情">
-            <span style="font-size:28px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.15)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">{{ s.pet_emoji }}</span>
+            <span v-if="s.pet_species" style="width:40px;height:40px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.15)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">
+              <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+            </span>
+            <span v-else style="font-size:28px;">{{ s.pet_emoji }}</span>
             <span style="font-size:13px;color:var(--md-text-secondary);border-bottom:1px dashed rgba(255,255,255,0.15);">{{ s.pet_name || '未孵化' }}</span>
             <span style="font-size:10px;color:rgba(167,139,250,0.4);margin-left:auto;">换宠</span>
           </div>

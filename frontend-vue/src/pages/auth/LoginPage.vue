@@ -595,13 +595,14 @@ function goToSlide(i: number) {
   margin-bottom: 14px;
 }
 .login-social-line { flex: 1; height: 1px; background: #E5E5EA; }
-.login-social-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.login-social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .login-social-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  padding: 10px 4px;
+  padding: 10px 12px;
+  min-width: 72px;
   background: #F5F5F7;
   border: 1px solid #E5E5EA;
   border-radius: 10px;

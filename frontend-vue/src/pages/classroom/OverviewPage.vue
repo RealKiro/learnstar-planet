@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { apiGet } from '@/utils/api'
 import { getSpeciesEmoji } from '@/utils/petData'
+import PetSprite from '@/components/pet/PetSprite.vue'
 
 interface OverviewData {
   class_name: string; grade: string; student_count: number
@@ -54,8 +55,11 @@ onUnmounted(() => {
         <div class="o-card" v-if="data.star_student">
           <div class="o-label">🏅 班级之星</div>
           <div style="display:flex;align-items:center;gap:16px;">
-            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;font-size:32px;">
-              {{ data.star_student.pet_species ? getSpeciesEmoji(data.star_student.pet_species) : '🌟' }}
+            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+              <div v-if="data.star_student.pet_species" style="width:52px;height:52px;">
+                <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
+              </div>
+              <span v-else style="font-size:32px;">🌟</span>
             </div>
             <div>
               <div style="font-size:20px;font-weight:700;">{{ data.star_student.name }}</div>
@@ -97,7 +101,10 @@ onUnmounted(() => {
             style="text-align:center;padding:16px 12px;border-radius:16px;border:1px solid rgba(255,255,255,0.04);transition:0.25s;"
             :style="i === 0 ? 'background:linear-gradient(180deg,rgba(245,158,11,0.06),transparent);border-color:rgba(245,158,11,0.2);' : ''">
             <div style="font-size:24px;margin-bottom:6px;">{{ ['🥇','🥈','🥉','4','5'][i] }}</div>
-            <div style="font-size:28px;margin-bottom:6px;">{{ s.pet_species ? getSpeciesEmoji(s.pet_species) : '🌟' }}</div>
+            <div v-if="s.pet_species" style="width:44px;height:44px;margin:0 auto 6px;">
+              <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+            </div>
+            <div v-else style="font-size:28px;margin-bottom:6px;">🌟</div>
             <div style="font-size:14px;font-weight:600;">{{ s.name }}</div>
             <div style="font-size:11px;color:var(--md-text-secondary);margin-bottom:6px;">{{ s.pet_name }} · Lv.{{ s.pet_level }}</div>
             <div style="font-size:16px;font-weight:700;color:var(--md-gold);">{{ s.score }} 分</div>
