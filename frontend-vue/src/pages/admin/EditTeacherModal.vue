@@ -38,7 +38,7 @@ const emit = defineEmits<{
   (e: 'updated'): void
 }>()
 
-const editForm = ref({ name: '', nickname: '', grade_team: '', subject: '', phone: '', email: '', personalRole: '' as string })
+const editForm = ref({ name: '', grade_team: '', subject: '', phone: '', email: '', personalRole: '' as string })
 const editError = ref('')
 const editStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
@@ -49,7 +49,6 @@ watch(
       const pRole = t.personal_role === 'grade_lead' ? 'grade_lead' : t.personal_role === 'admin_director' ? 'admin_director' : ''
       editForm.value = {
         name: t.name,
-        nickname: t.nickname || '',
         grade_team: t.grade_team || '',
         subject: t.subject || '',
         phone: t.phone || '',
@@ -73,7 +72,6 @@ async function submitEdit() {
   try {
     const payload: any = {
       name: editForm.value.name,
-      nickname: editForm.value.nickname,
       grade_team: editForm.value.grade_team,
       subject: editForm.value.subject || null,
       phone: editForm.value.phone,
@@ -105,10 +103,6 @@ async function submitEdit() {
         <div class="form-group">
           <label>姓名 <span style="color:#f87171;">*</span></label>
           <input v-model="editForm.name" class="form-input" placeholder="教师姓名">
-        </div>
-        <div class="form-group">
-          <label>昵称</label>
-          <input v-model="editForm.nickname" class="form-input" placeholder="默认拼音">
         </div>
         <div class="form-group">
           <label>年级团队</label>
