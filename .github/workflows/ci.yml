@@ -9,7 +9,7 @@ on:
 jobs:
   # ========== 后端测试（Laravel/PHP）==========
   backend-test:
-    name: Backend Tests (PHP ${{ matrix.php }})
+    name: Backend Tests (PHP ${{ matrix.php }} · ${{ matrix.database }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, pdo_pgsql, redis, gd, zip, bz2
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, pdo_pgsql, pdo_sqlite, sqlite3, redis, gd, zip, bz2
           coverage: xdebug
 
       - name: Copy .env
@@ -45,7 +45,7 @@ jobs:
         run: |
           for attempt in 1 2 3 4 5; do
             echo "Attempt $attempt/5 to start Redis..."
-            docker run -d --name redis -p 6379:6379 redis:7-alpine && break
+            docker run -d --name redis -p 6379:6379 redis:alpine && break
             echo "Redis start failed, retrying in 15s..."
             sleep 15
           done
@@ -151,6 +151,8 @@ jobs:
       - name: Setup database (SQLite)
         if: matrix.database == 'sqlite'
         working-directory: backend
+        env:
+          DB_DATABASE: database/testing.sqlite
         run: |
           touch database/testing.sqlite
           php artisan migrate --force --database=sqlite
