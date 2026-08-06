@@ -100,8 +100,8 @@ services:
   # 默认随 docker-compose up -d 一起启动
   # 使用外部数据库时：docker-compose up -d app --no-deps（跳过此服务）
   mysql:
-    image: mysql:8.0
-    container_name: learnstar-mysql
+    image: mariadb:10
+    container_name: learnstar-mariadb
     restart: unless-stopped
     environment:
       # MySQL root 超管密码（仅用于数据库维护/备份，Laravel 不读取此变量）

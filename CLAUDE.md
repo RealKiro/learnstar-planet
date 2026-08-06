@@ -39,7 +39,7 @@
 ### 基础设施
 
 - Docker 多阶段构建（Node 22 + PHP 8.5-FPM + Nginx + Supervisor）
-- Docker Compose 编排（app + MySQL 8.0 + Redis 8，redis:alpine 最新版）
+- Docker Compose 编排（app + MariaDB 10 + Redis 8，mariadb:10 / redis:alpine）
 - GitHub Container Registry (GHCR) 镜像托管
 - CI/CD: GitHub Actions + Gitee Go
 

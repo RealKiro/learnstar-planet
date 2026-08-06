@@ -91,7 +91,7 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-内置 MySQL 8.0 + Redis 8（`redis:alpine` 最新版），开箱即用。如需使用外部数据库/Redis，修改 `.env` 中 `DB_HOST`/`REDIS_HOST` 后执行 `docker-compose up -d app --no-deps`。
+内置 MariaDB 10（`mariadb:10`）+ Redis 8（`redis:alpine`），开箱即用。如需使用外部数据库/Redis，修改 `.env` 中 `DB_HOST`/`REDIS_HOST` 后执行 `docker-compose up -d app --no-deps`。
 
 ### SQLite（零依赖部署）
 
