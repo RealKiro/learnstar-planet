@@ -493,7 +493,16 @@ class AuthController extends Controller
         $user = $request->user();
         $bindings = ThirdPartyBinding::where('user_id', $user->id)->get();
 
-        $data = collect(ThirdPartyBinding::platforms())->map(fn ($p) => [
+        // 仅展示学校后台启用的平台（未配置时默认企业微信/微信/QQ，与登录页 thirdPartyOptions 一致）
+        $school = School::find($user->school_id);
+        $enabled = $school?->settings['enabled_third_party_platforms'] ?? null;
+        if (is_array($enabled) && count($enabled) > 0) {
+            $platforms = array_values(array_intersect(ThirdPartyBinding::platforms(), $enabled));
+        } else {
+            $platforms = ['wechat_work', 'wechat', 'qq'];
+        }
+
+        $data = collect($platforms)->map(fn ($p) => [
             'platform' => $p,
             'label' => ThirdPartyBinding::platformLabels()[$p] ?? $p,
             'icon' => ThirdPartyBinding::platformIcons()[$p] ?? '🔗',

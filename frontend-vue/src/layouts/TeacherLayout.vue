@@ -30,7 +30,7 @@ const activeClass = computed(() => myClasses.value.find(c => c.class_id === acti
 // 基础模式（班级码进入）只显示课堂核心功能
 const isBasic = computed(() => route.meta?.basic === true)
 
-const fullNav = [
+const FULL_NAV = [
   { section: '概览', items: [
     { page: 'teacher-dashboard', label: '班级总览', icon: '🏠' },
   ]},
@@ -52,7 +52,6 @@ const fullNav = [
     { page: 'teacher-communication', label: '消息中心', icon: '📢' },
   ]},
   { section: '系统管理', items: [
-    { page: 'teacher-ai', label: 'AI助教', icon: '🤖' },
     { page: 'teacher-shop', label: '积分商城', icon: '🛍️' },
   ]},
   { section: '设置', items: [
@@ -88,7 +87,26 @@ const basicNav = computed(() => {
   return nav
 })
 
-const navItems = computed(() => isBasic.value ? basicNav.value : fullNav)
+// 教师端 AI 助教：仅当管理员已配置有效 AI API Key 时显示
+const aiConfigured = ref(false)
+async function checkTeacherAi() {
+  try {
+    const res = await apiGet<{ data: { enabled: boolean } }>('/api/v1/teacher/ai/config')
+    aiConfigured.value = res.data?.enabled || false
+  } catch {
+    aiConfigured.value = false
+  }
+}
+const fullNav = computed(() => {
+  const nav = JSON.parse(JSON.stringify(FULL_NAV)) as typeof FULL_NAV
+  if (aiConfigured.value) {
+    const sys = nav.find(s => s.section === '系统管理')
+    sys?.items.unshift({ page: 'teacher-ai', label: 'AI助教', icon: '🤖' })
+  }
+  return nav
+})
+
+const navItems = computed(() => isBasic.value ? basicNav.value : fullNav.value)
 
 async function loadMyClasses() {
   try {
@@ -120,6 +138,7 @@ onMounted(() => {
   if (ci) { try { classInfo.value = JSON.parse(ci) } catch { /* ignore */ } }
   if (!isBasic.value) loadMyClasses()
   checkAi()
+  if (!isBasic.value) checkTeacherAi()
 })
 </script>
 

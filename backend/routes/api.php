@@ -148,6 +148,7 @@ Route::prefix('v1')->group(function () {
             Route::post('give-by-rule/{ruleId}', [TeacherController::class, 'giveScoreByRule']);
             Route::post('{id}/undo', [TeacherController::class, 'undoScore']);
             Route::get('history/{studentId}', [TeacherController::class, 'scoreHistory']);
+            Route::get('recent', [TeacherController::class, 'recentScores']);
             Route::get('rules', [TeacherController::class, 'listScoreRules']);
             Route::post('rules', [TeacherController::class, 'createScoreRule']);
             Route::put('rules/{id}', [TeacherController::class, 'updateScoreRule']);
@@ -231,6 +232,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('ai')->group(function () {
+            Route::get('config', [TeacherController::class, 'aiConfig']);
             Route::post('chat', [TeacherController::class, 'aiChat']);
             Route::get('commands', [TeacherController::class, 'getAiCommands']);
             Route::get('usage', [TeacherController::class, 'getAiUsage']);
@@ -240,11 +242,12 @@ Route::prefix('v1')->group(function () {
             Route::get('wallets', [TeacherController::class, 'listWallets']);
             Route::post('exchange', [TeacherController::class, 'exchangeCurrency']);
             Route::post('cross-exchange', [TeacherController::class, 'crossExchangeCurrency']);
+        });
+
         Route::prefix('exchange-rates')->group(function () {
             Route::get('/', [TeacherController::class, 'listExchangeRates']);
             Route::post('/', [TeacherController::class, 'createExchangeRate']);
             Route::put('{id}', [TeacherController::class, 'updateExchangeRate']);
-        });
         });
 
         Route::get('display-code', [DisplayController::class, 'getDisplayCode']);

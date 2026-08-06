@@ -94,7 +94,7 @@ async function doExchange() {
   <div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
       <h2 style="font-size:24px;font-weight:700;">💱 兑换中心</h2>
-      <span style="font-size:13px;color:var(--color-text-secondary);">积分按汇率兑换科学币 / 读书币 / 班级积分</span>
+      <span style="font-size:13px;color:var(--color-text-secondary);">积分按汇率兑换科学币 / 读书币 / 体育币</span>
     </div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
@@ -133,7 +133,7 @@ async function doExchange() {
               <div>⭐ 积分: <strong>{{ selectedStudent.total_score }}</strong></div>
               <div>🔬 科学币: <strong>{{ getWallet(selectedStudent.id, 'science') }}</strong></div>
               <div>📚 读书币: <strong>{{ getWallet(selectedStudent.id, 'reading') }}</strong></div>
-              <div>⚽ 班级积分: <strong>{{ getWallet(selectedStudent.id, 'class_point') }}</strong></div>
+              <div>⚽ 体育币: <strong>{{ getWallet(selectedStudent.id, 'class_point') }}</strong></div>
             </div>
           </div>
 
@@ -148,7 +148,7 @@ async function doExchange() {
                 @click="exchangeTarget = 'reading'">📚 读书币</button>
               <button :style="exchangeTarget === 'class_point' ? { background:'var(--color-primary)', color:'white' } : {}"
                 style="padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);cursor:pointer;font-size:13px;"
-                @click="exchangeTarget = 'class_point'">⚽ 班级积分</button>
+                @click="exchangeTarget = 'class_point'">⚽ 体育币</button>
             </div>
           </div>
 
@@ -158,7 +158,7 @@ async function doExchange() {
           </div>
 
           <div style="padding:12px;background:rgba(79,70,229,0.05);border-radius:var(--radius-md);margin-bottom:16px;font-size:13px;color:var(--color-text-secondary);">
-            消耗 <strong>{{ exchangeAmount }}</strong> 积分 → 获得 <strong>{{ Math.round(exchangeAmount * rateFor(exchangeTarget)) }}</strong> {{ exchangeTarget === 'science' ? '🔬 科学币' : exchangeTarget === 'reading' ? '📚 读书币' : '⚽ 班级积分' }}
+            消耗 <strong>{{ exchangeAmount }}</strong> 积分 → 获得 <strong>{{ Math.round(exchangeAmount * rateFor(exchangeTarget)) }}</strong> {{ exchangeTarget === 'science' ? '🔬 科学币' : exchangeTarget === 'reading' ? '📚 读书币' : '⚽ 体育币' }}
             <span style="color:var(--color-text-secondary);">（汇率 1:{{ rateFor(exchangeTarget) }}）</span>
           </div>
 

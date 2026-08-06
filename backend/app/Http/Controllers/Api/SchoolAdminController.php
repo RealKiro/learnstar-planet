@@ -267,14 +267,20 @@ class SchoolAdminController extends Controller
     public function adminListShopItems(Request $request): JsonResponse
     {
         $school = $request->user()->school;
-        $query = ShopItem::where('school_id', $school->id)
-            ->whereNull('class_id');
+        // 聚合全校所有商品：school 级(class_id=null，同步到所有班级) + 教师创建的班级级商品
+        $query = ShopItem::with('classRoom:id,name')
+            ->where('school_id', $school->id);
 
         if ($currency = $request->input('currency_type')) {
             $query->byCurrency($currency);
         }
 
-        $items = $query->orderBy('category')->orderBy('cost_score')->get();
+        $items = $query->orderBy('category')->orderBy('cost_score')->get()->map(function ($item) {
+            $data = $item->toArray();
+            $data['class_name'] = $item->class_id ? ($item->classRoom?->name ?? '#' . $item->class_id) : null;
+            $data['scope'] = $item->class_id ? 'class' : 'school'; // school=同步所有班级 / class=仅该班级
+            return $data;
+        });
 
         return response()->json(['data' => $items]);
     }

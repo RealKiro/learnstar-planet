@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { apiGet, apiDelete, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
 import PlatformIcon from '@/components/common/PlatformIcon.vue'
@@ -8,6 +8,13 @@ import { platformLabel } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
 
 const authStore = useAuthStore()
+
+// 账号与姓名合并展示：相同时只显示一个，不同时「账号（姓名）」
+const identityText = computed(() => {
+  const u = authStore.user?.username || ''
+  const n = authStore.displayName || ''
+  return u === n ? (u || '—') : `${u}（${n}）`
+})
 
 interface BindingInfo { platform: string; label: string; icon?: string; bound: boolean; nick?: string }
 
@@ -110,13 +117,9 @@ async function changePassword() {
     <div class="card" style="margin-bottom:24px;">
       <h3 style="font-size:16px;font-weight:600;margin-bottom:24px;">基本信息</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div class="form-group">
-          <label>账号</label>
-          <input :value="authStore.user?.username" readonly class="form-input" style="background:var(--color-bg);">
-        </div>
-        <div class="form-group">
-          <label>姓名</label>
-          <input :value="authStore.displayName" readonly class="form-input" style="background:var(--color-bg);">
+        <div class="form-group" style="grid-column:1 / -1;">
+          <label>账号 / 姓名</label>
+          <input :value="identityText" readonly class="form-input" style="background:var(--color-bg);">
         </div>
       </div>
       <button class="btn btn-primary" style="margin-top:16px;" @click="openPwdModal">修改密码</button>

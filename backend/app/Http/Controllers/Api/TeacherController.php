@@ -665,6 +665,30 @@ class TeacherController extends Controller
         ]);
     }
 
+    /**
+     * 全班最近积分记录（课堂评价右侧"最近记录"）
+     */
+    public function recentScores(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->teacherClassIds($teacher);
+
+        $recent = Score::whereIn('class_id', $classIds)
+            ->with('student:id,name')
+            ->orderBy('created_at', 'desc')
+            ->limit(20)
+            ->get()
+            ->map(fn ($s) => [
+                'id' => $s->id,
+                'student_name' => $s->student?->name,
+                'amount' => $s->amount,
+                'reason' => $s->reason,
+                'created_at' => $s->created_at?->toDateTimeString(),
+            ]);
+
+        return response()->json(['data' => $recent]);
+    }
+
     // ============================================================
     // Score Rules
 
@@ -703,10 +727,13 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
 
-        $rules = ScoreRule::whereIn('class_id', $classIds)
-            ->orWhereNull('class_id')
-            ->orderBy('sort_order')
-            ->get();
+        // 本班班级规则 + 本校学校级规则（class_id=null 且 school_id=本校），避免跨校泄漏
+        $rules = ScoreRule::where(function ($q) use ($classIds, $teacher) {
+            $q->whereIn('class_id', $classIds)
+              ->orWhere(function ($q2) use ($teacher) {
+                  $q2->whereNull('class_id')->where('school_id', $teacher->school_id);
+              });
+        })->orderBy('sort_order')->get();
 
         // 无规则时自动创建默认规则（学校级别，同校所有教师共享）
         if ($rules->isEmpty() && $teacher->school_id) {
@@ -2229,6 +2256,30 @@ class TeacherController extends Controller
         return response()->json(['data' => $distribution]);
     }
 
+    /**
+     * 教师端 AI 配置状态：管理员未配置有效的 AI API Key 时返回 enabled=false，
+     * 前端据此隐藏 AI 助教入口。
+     */
+    public function aiConfig(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $setting = \App\Models\AiSetting::where('school_id', $teacher->school_id)->first();
+
+        $enabled = false;
+        if ($setting && $setting->enabled) {
+            $providers = $setting->providers ?: [];
+            // 任一启用的供应商配了 api_key 即视为已配置
+            $hasProviderKey = collect($providers)->contains(
+                fn ($p) => !empty($p['is_active']) && !empty($p['api_key'])
+            );
+            // 兼容旧字段（单 provider + api_key）
+            $hasLegacyKey = !empty($setting->provider) && !empty($setting->api_key);
+            $enabled = $hasProviderKey || $hasLegacyKey;
+        }
+
+        return response()->json(['data' => ['enabled' => $enabled]]);
+    }
+
     public function aiChat(Request $request): JsonResponse
     {
         $request->validate(['message' => 'required|string|max:2000']);
@@ -2388,9 +2439,9 @@ class TeacherController extends Controller
         $exists = \App\Models\ExchangeRate::where('school_id', $schoolId)->exists();
         if (!$exists) {
             $defaults = [
-                ['name' => '积分 → 科学币', 'from_currency' => 'score', 'to_currency' => 'science', 'rate' => 0.5],
-                ['name' => '积分 → 读书币', 'from_currency' => 'score', 'to_currency' => 'reading', 'rate' => 0.5],
-                ['name' => '积分 → 班级积分', 'from_currency' => 'score', 'to_currency' => 'class_point', 'rate' => 1],
+                ['name' => '积分 → 科学币', 'from_currency' => 'score', 'to_currency' => 'science', 'rate' => 1],
+                ['name' => '积分 → 读书币', 'from_currency' => 'score', 'to_currency' => 'reading', 'rate' => 1],
+                ['name' => '积分 → 体育币', 'from_currency' => 'score', 'to_currency' => 'class_point', 'rate' => 1],
             ];
             foreach ($defaults as $d) {
                 \App\Models\ExchangeRate::firstOrCreate(

@@ -131,7 +131,7 @@ function selectPet(pet: PetDetail) {
 async function handleFeed() {
   if (!selectedPet.value) return
   try {
-    await apiPost(`/api/v1/teacher/pets/feed/${selectedPet.value.id}`)
+    await apiPost(`/api/v1/teacher/pets/${selectedPet.value.student_id}/feed`)
     feedPoints.value = Math.floor(Math.random() * 15) + 5
     showFeedAnimation.value = true
     // 刷新数据

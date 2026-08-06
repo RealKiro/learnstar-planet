@@ -14,6 +14,7 @@ const students = ref<Student[]>([])
 const rules = ref<ScoreRule[]>([])
 const scoreSummary = ref({ total: 0, today: 0, this_week: 0 })
 const loading = ref(true)
+const loadError = ref('')
 
 // 搜索和筛选
 const searchQuery = ref('')
@@ -230,14 +231,16 @@ async function handleBatchRuleScore(rule: ScoreRule) {
 onMounted(async () => {
   try {
     const [sRes, rRes, sumRes] = await Promise.all([
-      apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=100'),
-      apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules'),
-      apiGet<ApiResponse<{ total: number; today: number; this_week: number }>>('/api/v1/teacher/scores/summary'),
+      apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=100', { skipToast: true }),
+      apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules', { skipToast: true }),
+      apiGet<ApiResponse<{ total: number; today: number; this_week: number }>>('/api/v1/teacher/scores/summary', { skipToast: true }),
     ])
     students.value = sRes.data || []
     rules.value = rRes.data || []
     scoreSummary.value = sumRes.data || { total: 0, today: 0, this_week: 0 }
+    loadError.value = ''
   } catch {
+    loadError.value = '数据加载失败，已显示演示数据'
     // 生成演示数据
     const names = ['张小明', '李小红', '王小刚', '赵小丽', '刘小强', '陈小美', '周小龙', '吴小凤', '郑小天', '孙小艺',
       '胡小勇', '林小静', '郭小峰', '何小婷', '高小磊', '罗小欣', '梁小涛', '宋小敏', '唐小亮', '韩小洁']
@@ -259,7 +262,7 @@ const historyLoading = ref(false)
 async function loadRecentScores() {
   historyLoading.value = true
   try {
-    const res = await apiGet<{ data: Array<{id: number; student_name: string; amount: number; reason: string; created_at: string}> }>('/api/v1/teacher/scores/history/0')
+    const res = await apiGet<{ data: Array<{id: number; student_name: string; amount: number; reason: string; created_at: string}> }>('/api/v1/teacher/scores/recent', { skipToast: true })
     recentScores.value = (res.data || []).slice(0, 20)
   } catch { recentScores.value = [] }
   finally { historyLoading.value = false }
@@ -273,6 +276,10 @@ onMounted(() => {
 
 <template>
   <div class="scores-page">
+    <!-- 加载失败提示 -->
+    <div v-if="loadError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">
+      ⚠️ {{ loadError }}
+    </div>
     <!-- 顶部 -->
     <div class="page-top">
       <div class="page-header">

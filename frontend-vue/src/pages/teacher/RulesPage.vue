@@ -6,6 +6,7 @@ import type { ApiResponse, ScoreRule } from '@/types'
 
 const rules = ref<ScoreRule[]>([])
 const loading = ref(true)
+const loadError = ref('')
 const showModal = ref(false)
 const editingId = ref<number | null>(null)
 
@@ -56,9 +57,12 @@ const categoryLabels: Record<string, string> = {
 
 onMounted(async () => {
   try {
-    const res = await apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules')
+    const res = await apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules', { skipToast: true })
     rules.value = res.data || []
-  } catch { /* handled */ }
+    loadError.value = ''
+  } catch {
+    loadError.value = '规则加载失败，请稍后重试'
+  }
   finally { loading.value = false }
 })
 
@@ -127,6 +131,8 @@ async function handleDelete(rule: ScoreRule) {
       <h2 style="font-size:24px;font-weight:700;">积分规则</h2>
       <button class="btn btn-sm btn-primary" @click="openAdd">添加规则</button>
     </div>
+
+    <div v-if="loadError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">⚠️ {{ loadError }}</div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
 
