@@ -64,7 +64,7 @@ async function loadDisplay() {
     if (e?.response?.status === 400) {
       displayError.value = '请先在教师管理中指定班级'
     } else {
-      displayError.value = '加载失败，请稍后重试'
+      displayError.value = e?.response?.data?.message || '加载失败，请稍后重试'
     }
   } finally {
     loading.value = false

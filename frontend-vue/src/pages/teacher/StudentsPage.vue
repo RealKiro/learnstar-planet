@@ -49,9 +49,9 @@ function importStudents() {
       students.value = res.data || []
       importStatus.value = 'success'
       setTimeout(() => { if (importStatus.value === 'success') importStatus.value = 'idle' }, 1500)
-    } catch {
+    } catch (e: any) {
       importStatus.value = 'error'
-      importError.value = '导入失败，请检查文件格式（CSV: 姓名,学号,班级）'
+      importError.value = e?.response?.data?.message || '导入失败，请检查文件格式（CSV: 姓名,学号,班级）'
       setTimeout(() => { if (importStatus.value === 'error') importStatus.value = 'idle' }, 3000)
     }
   }

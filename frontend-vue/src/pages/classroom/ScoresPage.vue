@@ -50,6 +50,7 @@ const showPetPicker = ref(false)
 const petPickerStudent = ref<StudentEntry | null>(null)
 const switchingPet = ref(false)
 const switchStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const switchError = ref('')
 const allSeriesList = PET_SERIES
 
 function openPetPicker(s: StudentEntry) {
@@ -116,11 +117,16 @@ async function executeSwitch() {
     s.pet_emoji = res.data.pet_emoji
     s.total_score = res.data.total_score
     switchStatus.value = 'success'
+    switchError.value = ''
     setTimeout(() => { switchStatus.value = 'idle' }, 1500)
     showPetPicker.value = false
   } catch (e: any) {
     switchStatus.value = 'error'
-    setTimeout(() => { switchStatus.value = 'idle' }, 3000)
+    switchError.value = e?.response?.data?.message || '切换失败，请稍后重试'
+    setTimeout(() => {
+      switchStatus.value = 'idle'
+      switchError.value = ''
+    }, 3000)
   } finally {
     switchingPet.value = false
   }
@@ -306,6 +312,7 @@ onMounted(async () => {
                 <template v-else>确认切换</template>
               </button>
             </div>
+            <div v-if="switchError" style="margin-top:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ switchError }}</div>
           </div>
         </div>
       </Transition>
