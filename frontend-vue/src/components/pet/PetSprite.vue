@@ -80,6 +80,7 @@ const VARIANT_FACE: Record<string, [number, number]> = {
   ibis: [100, 66],
   magpie: [100, 66],
   dove: [100, 70],
+  xiangliu: [100, 72],
 }
 const VARIANT_HALO: Record<string, [number, number]> = {
   sauropod: [100, 22],
@@ -561,11 +562,15 @@ function fxShape(size: number): string {
         <!-- 九尾狐·九尾 -->
         <template v-else-if="art.variant === 'kitsune'">
           <g v-if="level >= 4" class="ninetails">
-            <path d="M122 118 Q150 104 154 86 Q158 76 148 78" :fill="art.dark" opacity="0.85"/>
-            <path d="M118 122 Q148 114 158 98 Q162 86 152 88" :fill="art.main" opacity="0.7"/>
-            <path d="M128 120 Q158 110 162 94" :fill="art.dark" opacity="0.5"/>
-            <path d="M126 116 Q144 112 150 102" :fill="art.light" opacity="0.7"/>
-            <path d="M124 114 Q138 108 142 98" :fill="art.dark" opacity="0.6"/>
+            <path d="M118 122 Q146 112 152 92" :fill="art.dark" opacity="0.85"/>
+            <path d="M116 120 Q142 108 148 88" :fill="art.main" opacity="0.7"/>
+            <path d="M120 122 Q148 116 156 98" :fill="art.dark" opacity="0.6"/>
+            <path d="M114 118 Q138 102 144 84" :fill="art.light" opacity="0.7"/>
+            <path d="M122 120 Q152 120 160 104" :fill="art.main" opacity="0.5"/>
+            <path d="M124 118 Q150 126 158 110" :fill="art.dark" opacity="0.5"/>
+            <path d="M126 116 Q146 130 150 116" :fill="art.light" opacity="0.5"/>
+            <path d="M118 118 Q142 96 146 82" :fill="art.dark" opacity="0.4"/>
+            <path d="M120 120 Q154 108 162 96" :fill="art.light" opacity="0.4"/>
           </g>
           <ellipse cx="100" cy="118" rx="26" ry="23" :fill="`url(#body-grad-${uid})`" class="body-main"/>
           <ellipse cx="100" cy="130" rx="16" ry="10" :fill="art.light" opacity="0.85"/>
@@ -1296,21 +1301,20 @@ function fxShape(size: number): string {
           </g>
         </template>
 
-        <!-- 相柳·九首蛇身 -->
+        <!-- 相柳·九首蛇身（经典形象：九首齐舞，每首有眼+信子） -->
         <template v-else-if="art.variant === 'xiangliu'">
           <path d="M100 138 C 44 132, 56 96, 100 92 C 150 88, 148 66, 100 64" fill="none" :stroke="`url(#body-grad-${uid})`" stroke-width="20" stroke-linecap="round"/>
           <path d="M100 138 C 44 132, 56 96, 100 92 C 150 88, 148 66, 100 64" fill="none" :stroke="art.dark" stroke-width="24" stroke-linecap="round" opacity="0.14"/>
-          <g v-if="level >= 6" class="nine-heads">
-            <circle cx="74" cy="60" r="8" :fill="`url(#body-grad-${uid})`"/>
-            <circle cx="92" cy="50" r="8" :fill="`url(#body-grad-${uid})`"/>
-            <circle cx="110" cy="50" r="8" :fill="`url(#body-grad-${uid})`"/>
-            <circle cx="128" cy="60" r="8" :fill="`url(#body-grad-${uid})`"/>
-            <circle cx="64" cy="74" r="8" :fill="`url(#body-grad-${uid})`"/>
-            <circle cx="138" cy="74" r="8" :fill="`url(#body-grad-${uid})`"/>
+          <!-- 九首：各带小眼与分叉信子 -->
+          <g v-for="(h, i) in [[62,76],[78,60],[94,50],[110,50],[126,60],[142,76],[70,88],[134,88],[100,72]]" :key="i">
+            <circle :cx="h[0]" :cy="h[1]" r="7" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1"/>
+            <circle :cx="h[0]-2.4" :cy="h[1]-2" r="1.3" :fill="art.dark"/>
+            <path :d="`M${h[0]+6} ${h[1]} L${h[0]+11} ${h[1]}`" :stroke="art.dark" stroke-width="1.1"/>
+            <path :d="`M${h[0]+11} ${h[1]} L${h[0]+14} ${h[1]-2}`" :stroke="art.accent" stroke-width="1"/>
           </g>
-          <circle cx="100" cy="80" r="17" :fill="`url(#body-grad-${uid})`"/>
           <g v-if="level >= 4" class="venom">
-            <path d="M98 66 L96 56 M102 66 L104 56" :stroke="art.accent" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="70" cy="92" r="2.4" :fill="art.accent" opacity="0.7"/>
+            <circle cx="134" cy="92" r="2.4" :fill="art.accent" opacity="0.7"/>
           </g>
         </template>
 
