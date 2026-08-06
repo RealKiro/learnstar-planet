@@ -415,7 +415,9 @@ onMounted(async () => {
                   :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.08);cursor:default;' : ''"
                   @mouseenter="(e)=>petPickerStudent?.pet_species === sp.id || ((e.target as HTMLElement).style.background='rgba(255,255,255,0.06)')"
                   @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent?.pet_species === sp.id ? 'rgba(16,185,129,0.08)' : 'rgba(255,255,255,0.02)'">
-                  <div style="font-size:22px;margin-bottom:2px;">{{ getSpeciesEmoji(sp.id) }}</div>
+                  <div style="width:48px;height:48px;margin:0 auto 2px;">
+                    <PetSprite :species-id="sp.id" :level="6" />
+                  </div>
                   <div style="font-size:10px;font-weight:500;color:var(--md-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ sp.name }}</div>
                   <div v-if="petPickerStudent.pet_species === sp.id" style="font-size:9px;font-weight:700;color:#10B981;">✓ 当前</div>
                 </button>

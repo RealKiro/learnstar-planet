@@ -150,6 +150,12 @@ export const SPECIES_EMOJI: Record<string, string> = {
   kunpeng: '🐋',
   fenghuang: '🦅',
   qilin: '🦄',
+  qiongqi: '🐯',
+  bifang: '🦚',
+  pixiu: '🦁',
+  jingwei: '🕊️',
+  xiangliu: '🐍',
+  xiezhi: '🐐',
   // 宝可梦风
   charmander: '🦎',
   bulbasaur: '🐸',
