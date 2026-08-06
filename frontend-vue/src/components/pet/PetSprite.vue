@@ -1092,6 +1092,23 @@ function fxShape(size: number): string {
           <path d="M110 92 Q120 94 126 90" :stroke="art.dark" stroke-width="1.2" fill="none" opacity="0.5"/>
         </template>
 
+        <!-- 猪·圆润粉猪（猪无戒） -->
+        <template v-else-if="art.variant === 'pig'">
+          <path d="M124 118 Q144 110 148 98" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="122" rx="30" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="132" rx="19" ry="12" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="78" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <circle cx="100" cy="82" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M82 60 L76 46 L94 56 Z" :fill="art.main"/>
+            <path d="M118 60 L124 46 L106 56 Z" :fill="art.main"/>
+          </g>
+          <ellipse cx="100" cy="96" rx="9" ry="6" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+          <circle cx="97" cy="96" r="1.6" :fill="art.dark"/>
+          <circle cx="103" cy="96" r="1.6" :fill="art.dark"/>
+        </template>
+
         <!-- 默认四足兽 -->
         <template v-else>
           <path v-if="art.parts.tail" d="M126 120 Q148 108 152 92 Q156 82 146 84" :fill="art.dark" class="tail" />

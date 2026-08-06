@@ -221,7 +221,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   qilin_sacred: { body: 'quadruped', main: '#F59E0B', variant: 'qilin', parts: { horns: 5, tail: 3, crown: 8 } },
   lingge: { body: 'bird', main: '#E0F2FE', variant: 'dove', parts: { wings: 5, tail: 5, crown: 8 } },
   heixinhu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { tail: 3, horns: 7, crown: 8 } },
-  zhuzhijie: { body: 'quadruped', main: '#F9A8D4', variant: 'kitten', parts: { tail: 3, horns: 8, crown: 8 } },
+  zhuzhijie: { body: 'quadruped', main: '#F9A8D4', variant: 'pig', parts: { tail: 3, horns: 8, crown: 8 } },
   niuxuanfeng: { body: 'quadruped', main: '#78716C', variant: 'bull', parts: { horns: 5, tail: 3, crown: 8 } },
 }
 
