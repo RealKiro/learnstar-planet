@@ -16,7 +16,7 @@
 
 | 层面 | 技术 | 说明 |
 |------|------|------|
-| 框架 | Laravel 13（升级中） | PHP 8.5，RESTful API |
+| 框架 | Laravel 12（升级中） | PHP 8.5，RESTful API |
 | 认证 | Laravel Sanctum 4 | API Token 认证，按角色隔离 |
 | 权限 | spatie/laravel-permission 6 | 基于角色的权限（school_admin / teacher / parent） |
 | 实时 | Livewire 3 + Flux 2 | 教师仪表盘与积分管理的动态 UI |
@@ -282,13 +282,15 @@ npm run build:deploy # 输出到 ../backend/public/
 8. **家长功能目前简约**: 以查看为主（积分、宠物、通知、排名）
 9. **PWA 主要用于离线缓存**: Service Worker 缓存静态资源，网络优先策略
 10. **MCP Server 支持 AI 机器人**: `mcp-server/` 提供标准 MCP 协议服务器，可对接 AstrBot + NapCatQQ/Lagrange 实现 QQ/微信 自然语言积分管理
-11. **Laravel 版本（11 → 13 升级中，2026-08-06 启动）**:
+11. **Laravel 版本（11 → 12 升级中，2026-08-06 启动）**:
 
-    **现状**：原锁定 `laravel/framework: ^11.0`（PHP 8.3），代码为 L11 新结构（`bootstrap/app.php` 的 `Application::configure()`，无 `app/Http/Kernel.php`）。2026-08-06 决定升级 **Laravel 13 + PHP 8.5（最新稳定）**：`composer.json` 声明 `laravel/framework ^13.0`、`php ^8.5`，Dockerfile 基础镜像 `php:8.5-cli-alpine`。
+    **现状**：原锁定 `laravel/framework: ^11.0`（PHP 8.3），代码为 L11 新结构（`bootstrap/app.php` 的 `Application::configure()`，无 `app/Http/Kernel.php`）。2026-08-06 升级 **Laravel 12 + PHP 8.5**：`composer.json` 声明 `laravel/framework ^12.0`、`php ^8.5`，Dockerfile 基础镜像 `php:8.5-cli-alpine`。
+
+    **为什么 12 不是 13**：先尝试 13，但生态未跟上（`laravel/tinker` 2.x 最高 illuminate ^12、`nunomaduro/collision` 无 v9、dusk/larastan 未确认 L13）→ **降回 L12**（发布一年多，生态全兼容，PHP `^8.2` 约束允许 8.5）。等生态跟进后可再升 13。
 
     **升级前置（已完成 2026-08-06）**：
     - ✅ **消除 bootstrap env() 直调**：`bootstrap/app.php` 的 `env('APP_ENV')`/`env('TRUST_ALL_PROXIES')` 改为 `app()->environment('production')` + `config('proxy.trust_all')`（新增 `config/proxy.php`）。**关键理解**：config 文件内的 `env()` 在 `config:cache` 时会被正确解析并序列化，真正失效的是**非 config 位置（bootstrap/控制器/服务）**的 env() 直调。
-    - ⚠️ **composer.json 的 `^13.0` 尚未在 PHP 环境 composer 解析验证**：excel/dompdf/horizon/octane/permission/activitylog/collision 需 L13 兼容版本，`composer update` 可能需放宽个别约束。
+    - ✅ **依赖约束已按 L12 调整**：dompdf ^3.1（v2 只支持 ≤11）、permission ^7.0、collision ^8.0、tinker ^2.0 已加回；horizon/octane/activitylog/dusk 用宽松 ^5.0/^2.0/^4.0/^8.0。**仍待 PHP 环境 composer 解析验证**。
 
     **升级手册（需在 PHP/Docker 环境执行）**：
     ```bash
@@ -301,14 +303,14 @@ npm run build:deploy # 输出到 ../backend/public/
     php artisan optimize
     ```
 
-    **L11→L13 破坏性变更核对清单**：
+    **L11→L12 破坏性变更核对清单**：
     | 项 | 说明 |
     |---|---|
-    | 中间件/异常 | `withMiddleware`/`withExceptions` 结构 L11→L13 延续，基本兼容 |
+    | 中间件/异常 | `withMiddleware`/`withExceptions` 结构 L11→L12 延续，基本兼容 |
     | config:cache env() | bootstrap 已消除；config 文件内 env() 缓存时正常 |
-    | PHP | L13 支持 8.3–8.5，已选 8.5（最新稳定） |
-    | 依赖包 | excel/dompdf/horizon/octane/permission/activitylog/collision 需 L13 兼容版 |
-    | Collection | L12 起部分 Collection 方法更严格，需回归 |
-    | 广播/事件 | `ShouldBroadcastNow` + Redis 广播，L12/13 兼容 |
+    | PHP | L12 的 `php ^8.2` 约束允许 8.5，无碍 |
+    | 依赖包 | dompdf 需 ^3.1（v2 不支持 L12）、permission ^7.0，其余 ^4.0/^5.0 兼容 |
+    | Collection | L12 部分 Collection 方法更严格，需回归 |
+    | 广播/事件 | `ShouldBroadcastNow` + Redis 广播，L12 兼容 |
 
     **结论**：升级前必须确保 bootstrap 无 env() 直调（已完成），composer update 在 PHP 环境跑通并 `php artisan test` 全绿后再推送（否则 CI 的 composer install 会挂）。
