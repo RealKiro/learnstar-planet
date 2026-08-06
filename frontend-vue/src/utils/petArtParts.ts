@@ -90,7 +90,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   qiongqi:       { body: 'quadruped', main: '#374151', variant: 'qiongqi', parts: { tail: 3, horns: 6, wings: 8 } },
   bifang:        { body: 'bird', main: '#38BDF8', variant: 'bifang', parts: { wings: 5, tail: 5, crown: 9 } },
   pixiu:         { body: 'quadruped', main: '#F59E0B', variant: 'pixiu', parts: { tail: 3, horns: 6, wings: 8 } },
-  jingwei:       { body: 'bird', main: '#6366F1', variant: 'jingwei', parts: { wings: 5, tail: 5, crown: 9 } },
+  jingwei:       { body: 'bird', main: '#1F2937', variant: 'jingwei', parts: { wings: 5, tail: 5, crown: 9 } },
   xiangliu:      { body: 'dragon', main: '#16A34A', variant: 'xiangliu', parts: { horns: 6, tail: 3 } },
   xiezhi:        { body: 'quadruped', main: '#F8FAFC', variant: 'xiezhi', parts: { horns: 5, tail: 3 } },
   // ===== 元素精灵(宝可梦风，贴合原型) =====
@@ -122,7 +122,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   griffin:       { body: 'quadruped', main: '#F59E0B', variant: 'griffin', parts: { wings: 6, tail: 4, crown: 8 } },
   mermaid:       { body: 'humanoid', main: '#0EA5E9', variant: 'mermaid', parts: { tail: 3, crown: 7, wings: 11 } },
   // ===== 史前生物 =====
-  t_rex:         { body: 'dragon', main: '#65A30D', variant: 'trex', parts: { tail: 3, horns: 7, crown: 9 } },
+  t_rex:         { body: 'dragon', main: '#4D7C0F', variant: 'trex', parts: { tail: 3, horns: 7, crown: 9 } },
   triceratops:   { body: 'quadruped', main: '#F59E0B', variant: 'triceratops', parts: { horns: 4, tail: 4, crown: 9 } },
   pterosaur:     { body: 'bird', main: '#60A5FA', variant: 'pterosaur', parts: { wings: 5, tail: 5 } },
   mammoth:       { body: 'quadruped', main: '#A16207', variant: 'mammoth', parts: { horns: 5, tail: 4, crown: 9 } },
@@ -153,7 +153,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   baihu: { body: 'quadruped', main: '#E2E8F0', variant: 'tiger', parts: { tail: 3, horns: 7, wings: 11 } },
   zhuque: { body: 'bird', main: '#DC2626', variant: 'zhuque', parts: { tail: 5, wings: 6, crown: 7 } },
   xuanwu: { body: 'dragon', main: '#0F766E', variant: 'xuanwu', parts: { horns: 6, tail: 3 } },
-  taotie: { body: 'quadruped', main: '#8B5CF6', variant: 'taotie', parts: { horns: 6, tail: 3, crown: 9 } },
+  taotie: { body: 'quadruped', main: '#166534', variant: 'taotie', parts: { horns: 6, tail: 3, crown: 9 } },
   baize: { body: 'quadruped', main: '#F5F5F4', variant: 'baize', parts: { tail: 3, horns: 8, crown: 9 } },
   // ===== 扩充：元素 =====
   ice_fox: { body: 'quadruped', main: '#38BDF8', variant: 'fox', parts: { tail: 3, horns: 9 } },
@@ -184,7 +184,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   nightmare_horse: { body: 'quadruped', main: '#7C3AED', variant: 'horse', parts: { tail: 4, horns: 7, wings: 11 } },
   lamp_spirit: { body: 'food', main: '#F59E0B', variant: 'lamp', parts: { crown: 7, halo: 10 } },
   // ===== 扩充：史前 =====
-  spinosaurus: { body: 'dragon', main: '#84CC16', variant: 'sailback', parts: { tail: 3, horns: 7, crown: 9 } },
+  spinosaurus: { body: 'dragon', main: '#D97706', variant: 'sailback', parts: { tail: 3, horns: 7, crown: 9 } },
   ankylosaurus: { body: 'dragon', main: '#78716C', variant: 'ankylo', parts: { tail: 3, horns: 7, crown: 9 } },
   diplodocus: { body: 'dragon', main: '#4D7C0F', variant: 'sauropod', parts: { tail: 3, horns: 8, crown: 9 } },
   megalodon: { body: 'aquatic', main: '#1E40AF', variant: 'shark', parts: { tail: 3, fin: 5, crown: 9 } },
