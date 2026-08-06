@@ -20,7 +20,7 @@ RUN npm run build:ci
 # ============================================================
 # Stage 2: PHP + RoadRunner production runtime
 # ============================================================
-FROM php:8.3-cli-alpine AS app
+FROM php:8.5-cli-alpine AS app
 
 # Install system dependencies for PHP extensions
 RUN apk add --no-cache \

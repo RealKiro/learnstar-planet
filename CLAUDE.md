@@ -16,7 +16,7 @@
 
 | 层面 | 技术 | 说明 |
 |------|------|------|
-| 框架 | Laravel 11 | PHP 8.3，RESTful API |
+| 框架 | Laravel 13（升级中） | PHP 8.5，RESTful API |
 | 认证 | Laravel Sanctum 4 | API Token 认证，按角色隔离 |
 | 权限 | spatie/laravel-permission 6 | 基于角色的权限（school_admin / teacher / parent） |
 | 实时 | Livewire 3 + Flux 2 | 教师仪表盘与积分管理的动态 UI |
@@ -38,7 +38,7 @@
 
 ### 基础设施
 
-- Docker 多阶段构建（Node 22 + PHP 8.3-FPM + Nginx + Supervisor）
+- Docker 多阶段构建（Node 22 + PHP 8.5-FPM + Nginx + Supervisor）
 - Docker Compose 编排（app + MySQL 8.0 + Redis 7）
 - GitHub Container Registry (GHCR) 镜像托管
 - CI/CD: GitHub Actions + Gitee Go
@@ -205,7 +205,7 @@ learnstar-planet/
 - API 版本化：前端统一调用 `/api/v1/*`，后端保留向后兼容旧路由
 - 登录端点速率限制：`throttle:6,1`
 - 异常处理统一返回 JSON
-- Docker 多阶段构建：Node 22 → Vue 3 SPA，PHP 8.3 → Laravel API
+- Docker 多阶段构建：Node 22 → Vue 3 SPA，PHP 8.5 → Laravel API
 
 ---
 
@@ -282,20 +282,33 @@ npm run build:deploy # 输出到 ../backend/public/
 8. **家长功能目前简约**: 以查看为主（积分、宠物、通知、排名）
 9. **PWA 主要用于离线缓存**: Service Worker 缓存静态资源，网络优先策略
 10. **MCP Server 支持 AI 机器人**: `mcp-server/` 提供标准 MCP 协议服务器，可对接 AstrBot + NapCatQQ/Lagrange 实现 QQ/微信 自然语言积分管理
-11. **Laravel 版本选型（11，暂不升级 12/13）**:
+11. **Laravel 版本（11 → 13 升级中，2026-08-06 启动）**:
 
-    **现状**：项目锁定 `laravel/framework: ^11.0`（PHP 8.3），代码为 L11 新结构（`bootstrap/app.php` 的 `Application::configure()`，无 `app/Http/Kernel.php`）。项目创建于 2026-06-22，当时 Laravel 13（2026-03-17 发布）已存在，**11 是主动选型而非"当时最新"**。
+    **现状**：原锁定 `laravel/framework: ^11.0`（PHP 8.3），代码为 L11 新结构（`bootstrap/app.php` 的 `Application::configure()`，无 `app/Http/Kernel.php`）。2026-08-06 决定升级 **Laravel 13 + PHP 8.5（最新稳定）**：`composer.json` 声明 `laravel/framework ^13.0`、`php ^8.5`，Dockerfile 基础镜像 `php:8.5-cli-alpine`。
 
-    **选择 11 的理由**：L11 到项目创建时已运行 2 年+，生产验证充分；依赖生态（Horizon 5 / Octane 2 / Livewire 3 / dompdf 2 / intervention 3 / spatie permission 6）在 11 上为最稳定组合；无 composer.lock（`^11.0` 浮动约束）保持小版本自动升级，大版本需人工评估。
+    **升级前置（已完成 2026-08-06）**：
+    - ✅ **消除 bootstrap env() 直调**：`bootstrap/app.php` 的 `env('APP_ENV')`/`env('TRUST_ALL_PROXIES')` 改为 `app()->environment('production')` + `config('proxy.trust_all')`（新增 `config/proxy.php`）。**关键理解**：config 文件内的 `env()` 在 `config:cache` 时会被正确解析并序列化，真正失效的是**非 config 位置（bootstrap/控制器/服务）**的 env() 直调。
+    - ⚠️ **composer.json 的 `^13.0` 尚未在 PHP 环境 composer 解析验证**：excel/dompdf/horizon/octane/permission/activitylog/collision 需 L13 兼容版本，`composer update` 可能需放宽个别约束。
 
-    **升级到 12/13 的评估**：
-    | 维度 | 影响 |
-    |------|------|
-    | 破坏性变更 | 11→13 跨两个大版本，涉及中间件/异常处理/服务容器/config 结构调整，需全量回归 |
-    | **config 直接 env()** | ⚠️ 高危：`config/ai.php`(6)/`dingtalk.php`(2)/`feishu.php`(2)/`wechat-work.php`(1) 共 11 处直接调 `env()`；部署跑 `config:cache` 时 L11+ 中 env() 返回 null，第三方/AI 凭证会失效。升级前必须改为 `config('...')` 注入 |
-    | 广播/事件 | 使用 `ShouldBroadcastNow` + Redis 广播，L12/13 兼容 |
-    | PHP | 项目 8.3，L13 支持 8.3–8.5，无碍 |
-    | 收益 | L13 的 AI-native 工作流 / JSON:API / 向量搜索对本项目价值低（AI 已自建） |
+    **升级手册（需在 PHP/Docker 环境执行）**：
+    ```bash
+    cd backend
+    composer update --with-all-dependencies
+    php artisan migrate --force
+    php artisan test
+    php artisan config:cache   # 验证 env() 修复后正常
+    php artisan route:list --path=api
+    php artisan optimize
+    ```
 
-    **结论**：短期维持 11（安全修复到 2027 上半年）。当需要 L12/13 新特性、或 L11 临近 EOL 时，做一次专项 11→13 升级，**第一步必须先消除 config 直调 env()**（改为 `env()` 只在服务提供者注入 / 用 `config()` 读取），否则 `config:cache` 后第三方与 AI 凭证会失效。
-�信 自然语言积分管理
+    **L11→L13 破坏性变更核对清单**：
+    | 项 | 说明 |
+    |---|---|
+    | 中间件/异常 | `withMiddleware`/`withExceptions` 结构 L11→L13 延续，基本兼容 |
+    | config:cache env() | bootstrap 已消除；config 文件内 env() 缓存时正常 |
+    | PHP | L13 支持 8.3–8.5，已选 8.5（最新稳定） |
+    | 依赖包 | excel/dompdf/horizon/octane/permission/activitylog/collision 需 L13 兼容版 |
+    | Collection | L12 起部分 Collection 方法更严格，需回归 |
+    | 广播/事件 | `ShouldBroadcastNow` + Redis 广播，L12/13 兼容 |
+
+    **结论**：升级前必须确保 bootstrap 无 env() 直调（已完成），composer update 在 PHP 环境跑通并 `php artisan test` 全绿后再推送（否则 CI 的 composer install 会挂）。

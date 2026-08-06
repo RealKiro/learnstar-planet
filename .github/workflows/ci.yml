@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [8.3]
+        php: [8.5]
         database: [mysql, pgsql, sqlite]
 
     steps:
@@ -169,7 +169,7 @@ jobs:
         run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
 
       - name: Upload coverage to Codecov
-        if: matrix.php == '8.3' && matrix.database == 'mysql'
+        if: matrix.php == '8.5' && matrix.database == 'mysql'
         uses: codecov/codecov-action@v4
         with:
           file: backend/coverage.xml
@@ -186,7 +186,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: 8.5
           extensions: mbstring, xml, ctype, iconv, intl, gd, zip, bz2
           tools: php-cs-fixer, phpstan
 

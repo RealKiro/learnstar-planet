@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
   <img src="https://img.shields.io/github/stars/RealKiro/learnstar-planet?style=social" alt="GitHub stars">
-  <img src="https://img.shields.io/badge/PHP-8.3-777BB4?logo=php" alt="PHP 8.3">
+  <img src="https://img.shields.io/badge/PHP-8.5-777BB4?logo=php" alt="PHP 8.5">
   <img src="https://img.shields.io/badge/Laravel-11-F9322C?logo=laravel" alt="Laravel 11">
   <img src="https://img.shields.io/badge/Vue-3-4FC08D?logo=vue.js" alt="Vue 3">
   <img src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker" alt="Docker">
@@ -75,8 +75,8 @@ docker-compose up -d
 | 部署方式 | 前置依赖 |
 |---------|---------|
 | Docker | Docker Engine + Docker Compose |
-| SQLite 部署 | PHP 8.3 + Composer + Node.js 22 |
-| LAMP 部署 | Nginx + PHP 8.3-FPM + MySQL |
+| SQLite 部署 | PHP 8.5 + Composer + Node.js 22 |
+| LAMP 部署 | Nginx + PHP 8.5-FPM + MySQL |
 
 最低硬件：1 核 CPU、512MB 内存、5GB 磁盘（办公室淘汰 PC 即可）。
 
@@ -172,7 +172,7 @@ server {
         try_files $uri $uri/ /index.php?$query_string;
     }
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.5-fpm.sock;
         include fastcgi_params;
     }
 }
@@ -197,7 +197,7 @@ server {
 
 | 层级 | 技术 |
 |------|------|
-| 后端 | Laravel 11（PHP 8.3） |
+| 后端 | Laravel 13（PHP 8.5） |
 | 数据库 | SQLite / MySQL / MariaDB / PostgreSQL |
 | 缓存与队列 | Redis 7（可降级 file / database） |
 | 前端 | Vue 3 + TypeScript + Tailwind CSS |
