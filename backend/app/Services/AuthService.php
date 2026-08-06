@@ -74,9 +74,7 @@ class AuthService
     public function uniqueUsername(string $base, School $school): string
     {
         return $this->makeUnique($base, function (string $candidate) use ($school) {
-            // withTrashed：软删除账号仍占用 users.username 唯一索引，必须一并算入避免 1062
-            return User::withTrashed()
-                ->where('school_id', $school->id)
+            return User::where('school_id', $school->id)
                 ->where('username', $candidate)
                 ->exists();
         });
@@ -93,8 +91,7 @@ class AuthService
         }
 
         return $this->makeUnique($base, function (string $candidate) use ($school) {
-            return User::withTrashed()
-                ->where('school_id', $school->id)
+            return User::where('school_id', $school->id)
                 ->where('nickname', $candidate)
                 ->exists();
         });

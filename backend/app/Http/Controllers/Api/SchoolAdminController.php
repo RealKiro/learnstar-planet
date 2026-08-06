@@ -121,9 +121,8 @@ class SchoolAdminController extends Controller
             return response()->json(['message' => '未找到学校'], 404);
         }
 
-        // 姓名唯一校验（含软删除账号，占用 username 唯一索引）
-        $existing = \App\Models\User::withTrashed()
-            ->where('school_id', $school->id)
+        // 姓名唯一校验（账号为硬删除，普通查询即可）
+        $existing = \App\Models\User::where('school_id', $school->id)
             ->where('name', $request->input('name'))
             ->first();
         if ($existing && !$request->boolean('force')) {
@@ -134,11 +133,11 @@ class SchoolAdminController extends Controller
             ], 422);
         }
 
-        // force 覆盖：先强制删除旧同名账号（释放 username 唯一索引），再以原名创建
+        // force 覆盖：先删除旧同名账号（释放 username 唯一索引），再以原名创建
         if ($existing && $request->boolean('force')) {
             ClassRoom::where('teacher_id', $existing->id)->update(['teacher_id' => null]);
             ClassRoomTeacher::where('user_id', $existing->id)->delete();
-            $existing->forceDelete();
+            $existing->delete();
         }
 
         $password = $request->input('password') ?: 'ls123456';
@@ -424,7 +423,8 @@ class SchoolAdminController extends Controller
             ->findOrFail($id);
         // 解除该教师的所有班级关联
         ClassRoom::where('teacher_id', $teacher->id)->update(['teacher_id' => null]);
-        // 软删除
+        ClassRoomTeacher::where('user_id', $teacher->id)->delete();
+        // 硬删除（释放 username 索引；积分/通知等学生数据外键已改为 nullOnDelete 不会误删）
         $teacher->delete();
 
         return response()->json(['message' => '教师账号已删除']);
@@ -511,7 +511,10 @@ class SchoolAdminController extends Controller
             Student::whereIn('parent_id', $accountIds)->update(['parent_id' => null]);
         }
 
-        User::whereIn('id', $accountIds)->delete();
+        // 硬删除（释放 username 索引）
+        foreach ($accounts as $acc) {
+            $acc->delete();
+        }
 
         return response()->json([
             'message' => "已删除 {$accounts->count()} 个账号",
@@ -593,6 +596,7 @@ class SchoolAdminController extends Controller
             ->findOrFail($id);
         // 解除学生绑定
         Student::where('parent_id', $parent->id)->update(['parent_id' => null]);
+        // 硬删除（释放 username 索引）
         $parent->delete();
 
         return response()->json(['message' => '家长账号已删除']);
