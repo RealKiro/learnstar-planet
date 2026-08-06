@@ -178,6 +178,7 @@ learnstar-planet/
 | `AiBilling\AiBillingService` | Token 计费：OpenAI/DeepSeek 官方账单查询 + 本地精确计价兜底 |
 | `CurrencyService` | 多币种体系（科学币/读书币/班级积分）：积分兑换、钱包互兑、消费 |
 | `DisplayEventService` | 教室大屏 SSE 实时广播（积分变动/横幅/通知），班级码缓存 |
+| `ThirdParty\ThirdPartyManager` + `WeChatWorkProvider`/`DingTalkProvider`/`LarkProvider` | 多平台第三方扫码（每校选一平台）：authUrl/getUserByCode/fetchContacts |
 | `WechatWorkService` / `WechatWorkAttendanceService` | 企业微信集成：免注册登录、请假同步 |
 
 ---
@@ -274,7 +275,7 @@ npm run build:deploy # 输出到 ../backend/public/
 1. **前端已完成 Vue 3 重构**: `frontend-vue/` 采用 Vue 3 + Vite + TypeScript + Pinia + Vue Router
 2. **无自注册**: 所有账号由管理员在后台创建分配
 3. **角色严格隔离**: 管理员/教师/家长界面和 API 完全不同
-4. **第三方登录仅限教师**: 管理员不支持第三方扫码
+4. **第三方登录仅限教师**: 管理员不支持第三方扫码；后台学校设置可勾选启用平台（企业微信/钉钉/飞书/微信/QQ/人人通空间），登录页按配置动态展示，存储于 `schools.settings.enabled_third_party_platforms`
 5. **AI 功能可选**: 不配置 AI API Key 不影响核心功能
 6. **排行榜使用 Redis ZSET**: 有 MySQL 回退方案
 7. **学年升级不可逆**: 预览→确认→执行，
