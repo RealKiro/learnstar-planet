@@ -9,6 +9,19 @@
   </head>
   <body>
     <div id="app"></div>
+    <!-- 顶部路由加载条 -->
+    <div id="route-loading-bar" aria-hidden="true"></div>
+    <style>
+      #route-loading-bar {
+        position: fixed; top: 0; left: 0; height: 3px; width: 0;
+        background: linear-gradient(90deg, #F59E0B, #EF4444, #8B5CF6, #F59E0B);
+        background-size: 200% 100%;
+        opacity: 0; z-index: 9999; pointer-events: none;
+        transition: width 0.25s ease, opacity 0.2s ease;
+        animation: rlbShine 1.5s linear infinite;
+      }
+      @keyframes rlbShine { to { background-position: 200% 0; } }
+    </style>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
