@@ -1481,22 +1481,32 @@ class TeacherController extends Controller
         // 首次访问自动创建学校级别默认商品
         if ($items->isEmpty() && $teacher->school_id) {
             $defaults = [
-                // 积分充值类
-                ['name' => '班级积分 +10', 'description' => '兑换 10 班级积分', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'class_point'],
+                // 积分充值类（按 2:1 汇率）
+                ['name' => '班级积分 +10', 'description' => '兑换 10 班级积分', 'category' => 'points', 'cost_score' => 20, 'currency_type' => 'class_point'],
                 ['name' => '科学币 +5', 'description' => '兑换 5 科学币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'science'],
                 ['name' => '读书币 +5', 'description' => '兑换 5 读书币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'reading'],
                 ['name' => '体育币 +5', 'description' => '兑换 5 体育币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'class_point'],
-                ['name' => '铅笔', 'description' => '标准 HB 铅笔一支', 'category' => 'stationery', 'cost_score' => 20, 'currency_type' => 'score'],
-                ['name' => '橡皮擦', 'description' => '4B 橡皮擦一块', 'category' => 'stationery', 'cost_score' => 15, 'currency_type' => 'score'],
-                ['name' => '黑色圆珠笔', 'description' => '0.5mm 黑色圆珠笔一支', 'category' => 'stationery', 'cost_score' => 25, 'currency_type' => 'score'],
-                ['name' => '红色圆珠笔', 'description' => '红色批改用笔一支', 'category' => 'stationery', 'cost_score' => 25, 'currency_type' => 'score'],
-                ['name' => '草稿纸', 'description' => 'A4 草稿纸 10 张', 'category' => 'stationery', 'cost_score' => 10, 'currency_type' => 'score'],
-                ['name' => '练习本', 'description' => '方格练习本一本', 'category' => 'stationery', 'cost_score' => 30, 'currency_type' => 'score'],
-                ['name' => '便利贴', 'description' => '彩色便利贴一本', 'category' => 'stationery', 'cost_score' => 20, 'currency_type' => 'score'],
-                ['name' => '苹果', 'description' => '新鲜苹果一个 🍎（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 30, 'currency_type' => 'score'],
-                ['name' => '香蕉', 'description' => '新鲜香蕉一根 🍌（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 25, 'currency_type' => 'score'],
-                ['name' => '饮料', 'description' => '矿泉水/饮料一瓶 🧃', 'category' => 'food', 'cost_score' => 35, 'currency_type' => 'score'],
-                ['name' => '牛奶', 'description' => '纯牛奶一盒 🥛', 'category' => 'food', 'cost_score' => 40, 'currency_type' => 'score'],
+                // 小商品 ≈100（日最高 20 分 × 5 天 = 一周可攒）
+                ['name' => '铅笔', 'description' => '标准 HB 铅笔一支', 'category' => 'stationery', 'cost_score' => 100, 'currency_type' => 'score'],
+                ['name' => '橡皮擦', 'description' => '4B 橡皮擦一块', 'category' => 'stationery', 'cost_score' => 100, 'currency_type' => 'score'],
+                ['name' => '草稿纸', 'description' => 'A4 草稿纸 10 张', 'category' => 'stationery', 'cost_score' => 100, 'currency_type' => 'score'],
+                ['name' => '免罚站一次', 'description' => '免除一次罚站', 'category' => 'privilege', 'cost_score' => 100, 'currency_type' => 'score'],
+                ['name' => '免罚跑步一次', 'description' => '免除一次罚跑步', 'category' => 'privilege', 'cost_score' => 100, 'currency_type' => 'score'],
+                // 中商品 120~150
+                ['name' => '便利贴', 'description' => '彩色便利贴一本', 'category' => 'stationery', 'cost_score' => 120, 'currency_type' => 'score'],
+                ['name' => '黑色圆珠笔', 'description' => '0.5mm 黑色圆珠笔一支', 'category' => 'stationery', 'cost_score' => 150, 'currency_type' => 'score'],
+                ['name' => '蓝色圆珠笔', 'description' => '0.5mm 蓝色圆珠笔一支', 'category' => 'stationery', 'cost_score' => 150, 'currency_type' => 'score'],
+                ['name' => '红色圆珠笔', 'description' => '红色批改用笔一支', 'category' => 'stationery', 'cost_score' => 150, 'currency_type' => 'score'],
+                ['name' => '香蕉', 'description' => '新鲜香蕉一根 🍌（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 150, 'currency_type' => 'score'],
+                ['name' => '免做卫生一次', 'description' => '免除一次值日卫生', 'category' => 'privilege', 'cost_score' => 150, 'currency_type' => 'score'],
+                // 大商品 ≈200（两周可攒）
+                ['name' => '练习本', 'description' => '方格练习本一本', 'category' => 'stationery', 'cost_score' => 180, 'currency_type' => 'score'],
+                ['name' => '苹果', 'description' => '新鲜苹果一个 🍎（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 180, 'currency_type' => 'score'],
+                ['name' => '饮料', 'description' => '矿泉水/饮料一瓶 🧃', 'category' => 'food', 'cost_score' => 200, 'currency_type' => 'score'],
+                ['name' => '牛奶', 'description' => '纯牛奶一盒 🥛', 'category' => 'food', 'cost_score' => 200, 'currency_type' => 'score'],
+                ['name' => '集体观影', 'description' => '全班集体观影一次', 'category' => 'activity', 'cost_score' => 200, 'currency_type' => 'score'],
+                ['name' => '免作业一次', 'description' => '免交一次作业', 'category' => 'privilege', 'cost_score' => 200, 'currency_type' => 'score'],
+                ['name' => '3D打印作品', 'description' => '3D 打印小作品一件', 'category' => 'physical', 'cost_score' => 200, 'currency_type' => 'score'],
             ];
 
             foreach ($defaults as $d) {
@@ -2439,9 +2449,10 @@ class TeacherController extends Controller
         $exists = \App\Models\ExchangeRate::where('school_id', $schoolId)->exists();
         if (!$exists) {
             $defaults = [
-                ['name' => '积分 → 科学币', 'from_currency' => 'score', 'to_currency' => 'science', 'rate' => 1],
-                ['name' => '积分 → 读书币', 'from_currency' => 'score', 'to_currency' => 'reading', 'rate' => 1],
-                ['name' => '积分 → 体育币', 'from_currency' => 'score', 'to_currency' => 'class_point', 'rate' => 1],
+                // 2:1 防通胀：2 积分 = 1 币
+                ['name' => '积分 → 科学币', 'from_currency' => 'score', 'to_currency' => 'science', 'rate' => 0.5],
+                ['name' => '积分 → 读书币', 'from_currency' => 'score', 'to_currency' => 'reading', 'rate' => 0.5],
+                ['name' => '积分 → 体育币', 'from_currency' => 'score', 'to_currency' => 'class_point', 'rate' => 0.5],
             ];
             foreach ($defaults as $d) {
                 \App\Models\ExchangeRate::firstOrCreate(

@@ -38,7 +38,7 @@ const exchangeStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const rates = ref<ExchangeRate[]>([])
 function rateFor(target: string): number {
   const r = rates.value.find(r => r.from_currency === 'score' && r.to_currency === target && r.is_active)
-  return r ? parseFloat(r.rate) : 1
+  return r ? parseFloat(r.rate) : 0.5 // 默认 2:1（2 积分 = 1 币，防通胀）
 }
 
 onMounted(async () => {

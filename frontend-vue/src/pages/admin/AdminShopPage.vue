@@ -13,6 +13,8 @@ interface ShopItemExt {
   category: string
   description?: string
   is_active?: boolean
+  scope?: 'school' | 'class'
+  class_name?: string
 }
 
 const items = ref<ShopItemExt[]>([])
@@ -35,6 +37,45 @@ const currencyOptions = [
   { key: 'reading', label: '📚 读书币' },
   { key: 'class_point', label: '⚽ 体育币' },
 ]
+
+// ===== 积分兑换汇率（全校共享，防通胀默认 2:1） =====
+interface AdminRate { id: number; name?: string; from_currency: string; to_currency: string; rate: string; is_active: boolean }
+const rates = ref<AdminRate[]>([])
+const ratesLoading = ref(true)
+const rateSaving = ref('')
+const rateErrors = reactive<Record<string, string>>({})
+async function loadRates() {
+  try {
+    const res = await apiGet<ApiResponse<AdminRate[]>>('/api/v1/admin/exchange-rates', { skipToast: true })
+    rates.value = res.data || []
+  } catch { rates.value = [] }
+  finally { ratesLoading.value = false }
+}
+function rateLabel(c: string) {
+  return ({ score: '⭐ 积分', science: '🔬 科学币', reading: '📚 读书币', class_point: '⚽ 体育币' } as Record<string, string>)[c] || c
+}
+async function saveRate(r: AdminRate) {
+  const val = parseFloat(String(r.rate))
+  if (!val || val <= 0) { rateErrors[String(r.id)] = '请输入正数'; return }
+  rateSaving.value = String(r.id)
+  rateErrors[String(r.id)] = ''
+  try {
+    await apiPut(`/api/v1/admin/exchange-rates/${r.id}`, { rate: val }, { skipToast: true })
+    rateSaving.value = ''
+  } catch { rateErrors[String(r.id)] = '保存失败' }
+}
+
+const promoteStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+async function promoteItem(item: ShopItemExt) {
+  const ok = await openConfirm({ title: '推广到全校', message: `确定把「${item.name}」推广为全校共享商品？所有班级都能兑换。`, danger: false, confirmText: '推广' })
+  if (!ok) return
+  promoteStatus.value[item.id] = 'loading'
+  try {
+    await apiPost(`/api/v1/admin/shop-items/${item.id}/promote`, {}, { skipToast: true })
+    promoteStatus.value[item.id] = 'success'
+    setTimeout(() => { delete promoteStatus.value[item.id]; loadItems() }, 1000)
+  } catch { promoteStatus.value[item.id] = 'error' }
+}
 
 const form = ref({ name: '', description: '', category: 'stationery', cost_score: 10, currency_type: 'score', stock: 0, is_active: true })
 const itemErrors = reactive<Record<string, string>>({})
@@ -68,12 +109,16 @@ const filteredItems = computed(() => {
 
 const currencyLabel = (key: string) => currencyOptions.find(c => c.key === key)?.label || key
 
-onMounted(async () => {
+async function loadItems() {
   try {
     const res = await apiGet<ApiResponse<ShopItemExt[]>>('/api/v1/admin/shop-items')
     items.value = res.data || []
   } catch { /* handled */ }
   finally { loading.value = false }
+}
+onMounted(() => {
+  loadRates()
+  loadItems()
 })
 
 function openAdd() {
@@ -162,6 +207,26 @@ async function handleDelete(item: ShopItemExt) {
     </div>
     <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;">💡 全校教师共享这些商品，学生可在各班级兑换。</p>
 
+    <!-- 积分兑换汇率（全校共享） -->
+    <div class="card" style="padding:16px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <h3 style="font-size:15px;font-weight:600;margin:0;">💱 积分兑换汇率</h3>
+        <span style="font-size:11px;color:var(--color-text-secondary);">全校共享 · 默认 2:1（2 积分 = 1 币，防通胀）</span>
+      </div>
+      <div v-if="ratesLoading" style="font-size:12px;color:var(--color-text-secondary);">加载中...</div>
+      <div v-else style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
+        <div v-for="r in rates" :key="r.id" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--color-bg);border-radius:8px;">
+          <span style="font-size:13px;flex:1;">{{ rateLabel(r.from_currency) }} → {{ rateLabel(r.to_currency) }}</span>
+          <input :value="r.rate" type="number" step="0.1" min="0.1" style="width:64px;padding:4px 8px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-size:13px;" @change="r.rate = ($event.target as HTMLInputElement).value">
+          <button class="btn btn-sm btn-primary" style="white-space:nowrap;" :disabled="rateSaving === String(r.id)" @click="saveRate(r)">
+            {{ rateSaving === String(r.id) ? '保存中' : '保存' }}
+          </button>
+        </div>
+      </div>
+      <div v-if="Object.keys(rateErrors).length" style="margin-top:8px;color:#f87171;font-size:12px;">{{ Object.values(rateErrors)[0] }}</div>
+      <p style="font-size:11px;color:var(--color-text-secondary);margin:10px 0 0;">💡 示例：2 积分 = 1 科学币/体育币/读书币；小商品约 100 积分（一周可攒），大商品约 200 积分（两周可攒）。</p>
+    </div>
+
     <!-- 分类筛选 -->
     <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
       <button v-for="c in categories" :key="c.key" class="btn btn-sm"
@@ -184,7 +249,10 @@ async function handleDelete(item: ShopItemExt) {
           <span style="font-size:24px;">{{ { points: '⭐', stationery: '✏️', food: '🍎', privilege: '🎁', activity: '🎪' }[item.category] || '📦' }}</span>
           <span v-if="item.is_active === false" style="font-size:10px;color:#f59e0b;border:1px solid rgba(245,158,11,0.3);padding:1px 6px;border-radius:4px;">停用</span>
         </div>
-        <div style="font-weight:600;font-size:15px;">{{ item.name }}</div>
+        <div style="display:flex;align-items:center;gap:6px;font-weight:600;font-size:15px;">
+          {{ item.name }}
+          <span v-if="item.scope === 'class'" style="font-size:10px;color:#38bdf8;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);padding:1px 6px;border-radius:4px;font-weight:500;flex-shrink:0;">{{ item.class_name || '班级' }}</span>
+        </div>
         <div v-if="item.description" style="font-size:12px;color:var(--color-text-secondary);line-height:1.5;">{{ item.description }}</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;">
           <span style="background:var(--color-bg);padding:2px 8px;border-radius:4px;">{{ currencyLabel(item.currency_type || 'score') }}</span>
@@ -192,7 +260,10 @@ async function handleDelete(item: ShopItemExt) {
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
           <span style="font-weight:700;color:var(--color-primary);">⭐ {{ item.cost_score }}</span>
-          <div style="display:flex;gap:4px;">
+          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
+            <button v-if="item.scope === 'class'" class="btn btn-sm" style="color:#10b981;border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.08);white-space:nowrap;" @click="promoteItem(item)" :disabled="promoteStatus[item.id] === 'loading'">
+              {{ promoteStatus[item.id] === 'loading' ? '推广中' : promoteStatus[item.id] === 'success' ? '已推广 ✓' : promoteStatus[item.id] === 'error' ? '失败' : '推广到全校' }}
+            </button>
             <button class="btn btn-sm btn-ghost" @click="toggleItem(item)" :disabled="getToggleStatus(item.id) === 'loading'" :style="{ color: getToggleStatus(item.id) === 'success' ? '#10b981' : getToggleStatus(item.id) === 'error' ? '#ef4444' : getToggleStatus(item.id) === 'loading' ? '#f59e0b' : item.is_active ? 'var(--color-text-secondary)' : '#f59e0b' }">
               <template v-if="getToggleStatus(item.id) === 'loading'">切换中</template>
               <template v-else-if="getToggleStatus(item.id) === 'success'">已切换</template>
