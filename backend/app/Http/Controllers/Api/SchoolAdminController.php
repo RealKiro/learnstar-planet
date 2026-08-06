@@ -1645,7 +1645,7 @@ class SchoolAdminController extends Controller
                     $results[] = [
                         'item' => '教师账号密码状态',
                         'status' => $emptyPwdCount > 0 ? 'fixable' : 'ok',
-                        'detail' => $emptyPwdCount > 0 ? "{$emptyPwdCount} 个教师账号缺明文密码（第三方自动注册历史问题），可一键重置为默认密码" : '',
+                        'detail' => $emptyPwdCount > 0 ? "{$emptyPwdCount} 个教师账号缺明文密码（第三方自动注册历史问题），请在教师列表逐个重置" : '',
                     ];
                 }
             } catch (\Throwable $e) {
@@ -1687,9 +1687,8 @@ class SchoolAdminController extends Controller
             \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
             $output = \Illuminate\Support\Facades\Artisan::output();
             $messages = ['数据库迁移已完成'];
-            $fixedPasswords = 0;
 
-            // 修复第三方自动注册教师账号的密码状态（plain_password 为空 → 重置为默认密码）
+            // 提示历史遗留账号（第三方自动注册、plain_password 为空），需管理员在教师列表逐个重置，不批量改密
             $emptyPwdCount = \App\Models\User::where('role', 'teacher')
                 ->where(function ($q) {
                     $q->whereNull('plain_password')->orWhere('plain_password', '');
@@ -1697,15 +1696,13 @@ class SchoolAdminController extends Controller
                 ->count();
 
             if ($emptyPwdCount > 0) {
-                \Illuminate\Support\Facades\Artisan::call('teacher:fix-passwords');
-                $fixedPasswords = $emptyPwdCount;
-                $messages[] = "已重置 {$fixedPasswords} 个教师账号密码为默认密码（ls123456），请告知教师登录后修改";
+                $messages[] = "检测到 {$emptyPwdCount} 个教师账号缺少明文密码记录（第三方自动注册历史问题），请在「教师管理 → 密码」中逐个重置为默认密码";
             }
 
             return response()->json([
                 'message' => implode('；', $messages),
                 'output' => $output,
-                'fixed_passwords' => $fixedPasswords,
+                'pending_password_resets' => $emptyPwdCount,
             ]);
         } catch (\Throwable $e) {
             return response()->json(['message' => '修复失败: ' . $e->getMessage()], 500);
