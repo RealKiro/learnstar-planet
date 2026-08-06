@@ -307,7 +307,7 @@ export function getSeriesEmoji(seriesId: string): string {
 /** 获取系列名 */
 export function getSeriesName(seriesId: string): string {
   const map: Record<string, string> = {
-    myth: '古代神话',
+    myth: '山海经',
     pokemon: '元素精灵',
     national: '国宝守护',
     mecha: '数码宝贝',
@@ -326,9 +326,9 @@ export function getSeriesName(seriesId: string): string {
 // ============================================================
 
 export const PET_SERIES: PetSeries[] = [
-  // ===== 一、古代神话系列（6种） =====
+  // ===== 一、山海经系列（12种） =====
   {
-    id: 'myth', name: '古代神话', emoji: '🏔️',
+    id: 'myth', name: '山海经', emoji: '🏔️',
     species: [
       {
         id: 'zhulong', name: '烛龙', seriesId: 'myth',
@@ -430,6 +430,108 @@ export const PET_SERIES: PetSeries[] = [
           { level: 10, name: '太平麒麟', description: '脚踏祥云，口衔玉书', stage: 'mature', requiredScore: 315 },
           { level: 11, name: '万瑞之祖', description: '全身七彩，角上刻有福纹', stage: 'legendary', requiredScore: 375 },
           { level: 12, name: '永恒瑞兽', description: '化作巨大玉雕，护佑一方，福气源源', stage: 'legendary', requiredScore: 450 },
+        ],
+      },
+      {
+        id: 'qiongqi', name: '穷奇', seriesId: 'myth',
+        levels: [
+          { level: 1, name: '凶兽卵', description: '灰黑卵壳，隐有翼纹', stage: 'egg', requiredScore: 0 },
+          { level: 2, name: '幼崽', description: '虎形小兽，初生双翼', stage: 'baby', requiredScore: 15 },
+          { level: 3, name: '虎翼兽', description: '背上生翼，吼声渐凶', stage: 'baby', requiredScore: 35 },
+          { level: 4, name: '穷奇雏形', description: '周身生刺，目露凶光', stage: 'baby', requiredScore: 60 },
+          { level: 5, name: '翼虎', description: '翼展成形，能扑食飞禽', stage: 'growing', requiredScore: 90 },
+          { level: 6, name: '凶兽穷奇', description: '状如虎而有翼，可吞食恶人', stage: 'growing', requiredScore: 125 },
+          { level: 7, name: '穷奇·残暴', description: '爪牙更利，嗜食是非', stage: 'growing', requiredScore: 165 },
+          { level: 8, name: '凶神', description: '见善则吞，见恶则饲', stage: 'mature', requiredScore: 210 },
+          { level: 9, name: '穷奇·噬恶', description: '遍体生鳞，翼如利刃', stage: 'mature', requiredScore: 260 },
+          { level: 10, name: '太古凶兽', description: '吞天噬地，恶气缠绕', stage: 'mature', requiredScore: 315 },
+          { level: 11, name: '四凶之穷奇', description: '威震山海，群兽辟易', stage: 'legendary', requiredScore: 375 },
+          { level: 12, name: '凶兽之极', description: '化作凶煞之气，无形无相', stage: 'legendary', requiredScore: 450 },
+        ],
+      },
+      {
+        id: 'bifang', name: '毕方', seriesId: 'myth',
+        levels: [
+          { level: 1, name: '毕方卵', description: '青色卵壳，羽纹如火', stage: 'egg', requiredScore: 0 },
+          { level: 2, name: '雏鸟', description: '一足初现，青色绒毛', stage: 'baby', requiredScore: 15 },
+          { level: 3, name: '一足鸟', description: '独脚而立，白喙微张', stage: 'baby', requiredScore: 35 },
+          { level: 4, name: '毕方雏形', description: '羽毛转青，身绕火星', stage: 'baby', requiredScore: 60 },
+          { level: 5, name: '青鸟', description: '见则火起，声如鹤鸣', stage: 'growing', requiredScore: 90 },
+          { level: 6, name: '毕方', description: '青色单足鸟，白喙赤足', stage: 'growing', requiredScore: 125 },
+          { level: 7, name: '毕方·衔火', description: '喙中衔火，所过之处讹火生', stage: 'growing', requiredScore: 165 },
+          { level: 8, name: '火鸟毕方', description: '周身火光，翼展如炬', stage: 'mature', requiredScore: 210 },
+          { level: 9, name: '毕方·焚风', description: '火焰随翼卷起', stage: 'mature', requiredScore: 260 },
+          { level: 10, name: '火灾之兆', description: '见则其邑有讹火', stage: 'mature', requiredScore: 315 },
+          { level: 11, name: '毕方神鸟', description: '火神之侍，驭火不伤己', stage: 'legendary', requiredScore: 375 },
+          { level: 12, name: '毕方至尊', description: '化作赤色火凰，燃尽旧世', stage: 'legendary', requiredScore: 450 },
+        ],
+      },
+      {
+        id: 'pixiu', name: '貔貅', seriesId: 'myth',
+        levels: [
+          { level: 1, name: '貔貅玉', description: '玉色卵壳，祥云环绕', stage: 'egg', requiredScore: 0 },
+          { level: 2, name: '幼貔貅', description: '头大身小，圆润可爱', stage: 'baby', requiredScore: 15 },
+          { level: 3, name: '貔貅雏形', description: '背生小翼，口衔元宝', stage: 'baby', requiredScore: 35 },
+          { level: 4, name: '招财貔貅', description: '只进不出，聚财纳福', stage: 'baby', requiredScore: 60 },
+          { level: 5, name: '貔貅·纳财', description: '周身金光，宝气环绕', stage: 'growing', requiredScore: 90 },
+          { level: 6, name: '瑞兽貔貅', description: '翼展如金，威而不凶', stage: 'growing', requiredScore: 125 },
+          { level: 7, name: '貔貅·镇宅', description: '坐镇一方，辟邪纳福', stage: 'growing', requiredScore: 165 },
+          { level: 8, name: '金貔貅', description: '通体鎏金，双目放光', stage: 'mature', requiredScore: 210 },
+          { level: 9, name: '貔貅·吞金', description: '吞金吐玉，福泽深厚', stage: 'mature', requiredScore: 260 },
+          { level: 10, name: '招财神兽', description: '脚踏元宝，财源滚滚', stage: 'mature', requiredScore: 315 },
+          { level: 11, name: '貔貅至尊', description: '金色祥光，护佑八方', stage: 'legendary', requiredScore: 375 },
+          { level: 12, name: '瑞兽之极', description: '化金为雨，福泽天下', stage: 'legendary', requiredScore: 450 },
+        ],
+      },
+      {
+        id: 'jingwei', name: '精卫', seriesId: 'myth',
+        levels: [
+          { level: 1, name: '精卫卵', description: '青色卵壳，带点点泪痕', stage: 'egg', requiredScore: 0 },
+          { level: 2, name: '雏鸟', description: '斑驳羽毛，赤足初现', stage: 'baby', requiredScore: 15 },
+          { level: 3, name: '女娃鸟', description: '常衔西山之木石', stage: 'baby', requiredScore: 35 },
+          { level: 4, name: '精卫雏形', description: '赤首白喙，啼声哀婉', stage: 'baby', requiredScore: 60 },
+          { level: 5, name: '衔木鸟', description: '日衔木石，飞往东海', stage: 'growing', requiredScore: 90 },
+          { level: 6, name: '精卫', description: '形如乌，文首白喙赤足', stage: 'growing', requiredScore: 125 },
+          { level: 7, name: '精卫·填海', description: '昼夜不息，衔石填海', stage: 'growing', requiredScore: 165 },
+          { level: 8, name: '填海之志', description: '大海无边，其志不改', stage: 'mature', requiredScore: 210 },
+          { level: 9, name: '精卫·不屈', description: '每一声啼鸣都是誓言', stage: 'mature', requiredScore: 260 },
+          { level: 10, name: '不屈之魂', description: '沧海横流，精魂不灭', stage: 'mature', requiredScore: 315 },
+          { level: 11, name: '精卫神鸟', description: '化为一缕不屈之光', stage: 'legendary', requiredScore: 375 },
+          { level: 12, name: '精卫永恒', description: '衔石填海，永不止息', stage: 'legendary', requiredScore: 450 },
+        ],
+      },
+      {
+        id: 'xiangliu', name: '相柳', seriesId: 'myth',
+        levels: [
+          { level: 1, name: '九首卵', description: '灰色卵壳，九道暗纹', stage: 'egg', requiredScore: 0 },
+          { level: 2, name: '幼蛇', description: '单首小蛇，毒气微生', stage: 'baby', requiredScore: 15 },
+          { level: 3, name: '双首', description: '首部分叉为二，剧毒', stage: 'baby', requiredScore: 35 },
+          { level: 4, name: '三首', description: '三首同鸣，声如婴儿', stage: 'baby', requiredScore: 60 },
+          { level: 5, name: '多首蛇', description: '首数渐增，毒液横流', stage: 'growing', requiredScore: 90 },
+          { level: 6, name: '相柳雏形', description: '九首渐成，自环其尾', stage: 'growing', requiredScore: 125 },
+          { level: 7, name: '相柳', description: '九首蛇身，食于九土', stage: 'growing', requiredScore: 165 },
+          { level: 8, name: '相柳·大泽', description: '所过之处皆为泽水', stage: 'mature', requiredScore: 210 },
+          { level: 9, name: '凶兽相柳', description: '九首齐舞，毒雾蔽天', stage: 'mature', requiredScore: 260 },
+          { level: 10, name: '共工之臣', description: '助共工为虐，洪水滔天', stage: 'mature', requiredScore: 315 },
+          { level: 11, name: '相柳·湮世', description: '毒水漫山，草木皆枯', stage: 'legendary', requiredScore: 375 },
+          { level: 12, name: '大禹诛之', description: '其血腥臭，不可生谷', stage: 'legendary', requiredScore: 450 },
+        ],
+      },
+      {
+        id: 'xiezhi', name: '獬豸', seriesId: 'myth',
+        levels: [
+          { level: 1, name: '獬豸卵', description: '白色卵壳，独角纹', stage: 'egg', requiredScore: 0 },
+          { level: 2, name: '幼羊', description: '羊形小兽，额有小角', stage: 'baby', requiredScore: 15 },
+          { level: 3, name: '独角羊', description: '独角渐长，目光清正', stage: 'baby', requiredScore: 35 },
+          { level: 4, name: '獬豸雏形', description: '能辨忠奸，触不直者', stage: 'baby', requiredScore: 60 },
+          { level: 5, name: '神羊', description: '见争斗则触其不直者', stage: 'growing', requiredScore: 90 },
+          { level: 6, name: '獬豸', description: '独角神羊，明辨曲直', stage: 'growing', requiredScore: 125 },
+          { level: 7, name: '獬豸·司法', description: '立于殿堂，触奸佞', stage: 'growing', requiredScore: 165 },
+          { level: 8, name: '正义之兽', description: '身绕祥光，公正无偏', stage: 'mature', requiredScore: 210 },
+          { level: 9, name: '獬豸·执法', description: '触其角，罪人胆寒', stage: 'mature', requiredScore: 260 },
+          { level: 10, name: '明辨是非', description: '一目了然，绝不冤枉', stage: 'mature', requiredScore: 315 },
+          { level: 11, name: '司法神兽', description: '公正之名，传遍山海', stage: 'legendary', requiredScore: 375 },
+          { level: 12, name: '獬豸至尊', description: '法眼如炬，天理昭彰', stage: 'legendary', requiredScore: 450 },
         ],
       },
     ],

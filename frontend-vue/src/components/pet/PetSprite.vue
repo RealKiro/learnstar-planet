@@ -980,6 +980,66 @@ function fxShape(size: number): string {
           <path d="M100 54 L97 42 L103 42 Z" :fill="art.accent"/>
         </template>
 
+        <!-- 穷奇·虎翼凶兽 -->
+        <template v-else-if="art.variant === 'qiongqi'">
+          <g class="wings">
+            <path d="M64 106 Q40 92 36 70 Q52 86 66 92 Z" :fill="art.dark" opacity="0.85"/>
+            <path d="M136 106 Q160 92 164 70 Q148 86 134 92 Z" :fill="art.dark" opacity="0.85"/>
+          </g>
+          <path d="M126 118 Q150 106 154 90" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="120" rx="30" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="132" rx="19" ry="12" :fill="art.dark" opacity="0.5"/>
+          <ellipse cx="78" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="28" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M82 60 L74 42 L96 56 Z" :fill="art.main"/>
+            <path d="M118 60 L126 42 L104 56 Z" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 6" class="spikes">
+            <path d="M72 74 L64 66 M128 74 L136 66 M78 64 L72 56" :stroke="art.accent" stroke-width="2.6" stroke-linecap="round" opacity="0.8"/>
+          </g>
+          <path d="M96 96 Q100 102 104 96" :stroke="art.accent" stroke-width="1.6" fill="none" opacity="0.7"/>
+        </template>
+
+        <!-- 貔貅·招财瑞兽 -->
+        <template v-else-if="art.variant === 'pixiu'">
+          <g class="wings">
+            <path d="M68 104 Q46 92 42 72 Q58 86 70 90 Z" :fill="art.light" :stroke="art.accent" stroke-width="1"/>
+            <path d="M132 104 Q154 92 158 72 Q142 86 130 90 Z" :fill="art.light" :stroke="art.accent" stroke-width="1"/>
+          </g>
+          <ellipse cx="100" cy="120" rx="32" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="131" rx="20" ry="12" :fill="art.light" opacity="0.8"/>
+          <ellipse cx="78" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="144" rx="8" ry="6" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="28" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <circle cx="78" cy="60" r="9" :fill="art.main"/>
+            <circle cx="122" cy="60" r="9" :fill="art.main"/>
+          </g>
+          <g v-if="level >= 5" class="ingot">
+            <rect x="91" y="64" width="18" height="11" rx="2" fill="#FDE68A" stroke="#B45309" stroke-width="1"/>
+            <path d="M91 64 L100 58 L109 64" fill="none" stroke="#B45309" stroke-width="1"/>
+          </g>
+        </template>
+
+        <!-- 獬豸·独角神羊 -->
+        <template v-else-if="art.variant === 'xiezhi'">
+          <path d="M118 116 Q134 110 138 100" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="120" rx="28" ry="23" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="131" rx="18" ry="11" :fill="art.light" opacity="0.9"/>
+          <ellipse cx="80" cy="142" rx="6" ry="4" :fill="art.dark"/>
+          <ellipse cx="120" cy="142" rx="6" ry="4" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="25" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M84 62 L80 52 L94 58 Z" :fill="art.main"/>
+            <path d="M116 62 L120 52 L106 58 Z" :fill="art.main"/>
+          </g>
+          <path d="M100 58 L97 42 L103 42 Z" :fill="art.accent"/>
+          <path d="M90 92 Q80 94 74 90" :stroke="art.dark" stroke-width="1.2" fill="none" opacity="0.5"/>
+          <path d="M110 92 Q120 94 126 90" :stroke="art.dark" stroke-width="1.2" fill="none" opacity="0.5"/>
+        </template>
+
         <!-- 默认四足兽 -->
         <template v-else>
           <path v-if="art.parts.tail" d="M126 120 Q148 108 152 92 Q156 82 146 84" :fill="art.dark" class="tail" />
@@ -1191,6 +1251,24 @@ function fxShape(size: number): string {
           </g>
         </template>
 
+        <!-- 相柳·九首蛇身 -->
+        <template v-else-if="art.variant === 'xiangliu'">
+          <path d="M100 138 C 44 132, 56 96, 100 92 C 150 88, 148 66, 100 64" fill="none" :stroke="`url(#body-grad-${uid})`" stroke-width="20" stroke-linecap="round"/>
+          <path d="M100 138 C 44 132, 56 96, 100 92 C 150 88, 148 66, 100 64" fill="none" :stroke="art.dark" stroke-width="24" stroke-linecap="round" opacity="0.14"/>
+          <g v-if="level >= 6" class="nine-heads">
+            <circle cx="74" cy="60" r="8" :fill="`url(#body-grad-${uid})`"/>
+            <circle cx="92" cy="50" r="8" :fill="`url(#body-grad-${uid})`"/>
+            <circle cx="110" cy="50" r="8" :fill="`url(#body-grad-${uid})`"/>
+            <circle cx="128" cy="60" r="8" :fill="`url(#body-grad-${uid})`"/>
+            <circle cx="64" cy="74" r="8" :fill="`url(#body-grad-${uid})`"/>
+            <circle cx="138" cy="74" r="8" :fill="`url(#body-grad-${uid})`"/>
+          </g>
+          <circle cx="100" cy="80" r="17" :fill="`url(#body-grad-${uid})`"/>
+          <g v-if="level >= 4" class="venom">
+            <path d="M98 66 L96 56 M102 66 L104 56" :stroke="art.accent" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+          </g>
+        </template>
+
         <!-- 默认龙（未指定变体） -->
         <template v-else>
           <path v-if="art.parts.tail" d="M128 122 Q158 108 166 92 Q172 80 162 82" :fill="art.dark" class="tail" />
@@ -1237,6 +1315,40 @@ function fxShape(size: number): string {
             <path d="M96 54 Q92 44 96 38 Q100 46 100 54 Z" :fill="art.accent" opacity="0.9"/>
           </g>
         </template>
+
+        <!-- 毕方·单足青鸟 -->
+        <template v-else-if="art.variant === 'bifang'">
+          <g class="wings">
+            <path d="M70 104 Q48 94 44 76 Q58 90 72 94 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+            <path d="M130 104 Q152 94 156 76 Q142 90 128 94 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+          </g>
+          <path d="M99 120 L99 138 M101 120 L101 138" :stroke="art.accent" stroke-width="4" stroke-linecap="round"/>
+          <path d="M128 116 L148 122 L134 130 Z" :fill="art.dark"/>
+          <ellipse cx="100" cy="116" rx="26" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <circle cx="100" cy="80" r="24" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M100 58 Q96 52 100 46 Q104 52 100 58 Z" :fill="art.accent" opacity="0.85"/>
+          <path d="M96 86 L100 84 L104 86 L100 88 Z" fill="#FDE047"/>
+          <g v-if="level >= 6" class="blue-fire">
+            <path d="M78 66 Q72 56 78 50 Q84 58 78 66 Z" fill="#7DD3FC" opacity="0.8"/>
+            <path d="M122 66 Q128 56 122 50 Q116 58 122 66 Z" fill="#7DD3FC" opacity="0.8"/>
+          </g>
+        </template>
+
+        <!-- 精卫·衔木填海 -->
+        <template v-else-if="art.variant === 'jingwei'">
+          <path d="M84 102 L118 88" stroke="#92400E" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M96 88 L98 97 M106 84 L110 94" stroke="#78350F" stroke-width="1.4" stroke-linecap="round"/>
+          <g class="wings">
+            <path d="M70 104 Q48 94 44 76 Q58 90 72 94 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+            <path d="M130 104 Q152 94 156 76 Q142 90 128 94 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+          </g>
+          <path d="M128 118 L146 124 L134 132 Z" :fill="art.dark"/>
+          <ellipse cx="100" cy="116" rx="24" ry="21" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <circle cx="100" cy="80" r="23" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M96 86 L100 84 L104 86 L100 88 Z" fill="#FDE047"/>
+          <path d="M92 62 Q88 56 92 50 Q96 56 92 62 Z" :fill="art.accent" opacity="0.8"/>
+        </template>
+
         <template v-else>
           <g v-if="art.parts.tail" class="tail">
             <path d="M128 116 L150 124 L136 130 Z" :fill="art.dark" />

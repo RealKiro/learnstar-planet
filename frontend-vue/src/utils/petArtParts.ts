@@ -87,6 +87,12 @@ export const PET_ART: Record<string, PetArtConfig> = {
   kunpeng:       { body: 'aquatic', main: '#3B82F6', parts: { tail: 3, fin: 5, wings: 8 } },
   fenghuang:     { body: 'bird', main: '#EF4444', parts: { tail: 5, wings: 6, crown: 7 } },
   qilin:         { body: 'quadruped', main: '#10B981', variant: 'qilin', parts: { horns: 5, tail: 3, wings: 11 } },
+  qiongqi:       { body: 'quadruped', main: '#374151', variant: 'qiongqi', parts: { tail: 3, horns: 6, wings: 8 } },
+  bifang:        { body: 'bird', main: '#38BDF8', variant: 'bifang', parts: { wings: 5, tail: 5, crown: 9 } },
+  pixiu:         { body: 'quadruped', main: '#F59E0B', variant: 'pixiu', parts: { tail: 3, horns: 6, wings: 8 } },
+  jingwei:       { body: 'bird', main: '#6366F1', variant: 'jingwei', parts: { wings: 5, tail: 5, crown: 9 } },
+  xiangliu:      { body: 'dragon', main: '#16A34A', variant: 'xiangliu', parts: { horns: 6, tail: 3 } },
+  xiezhi:        { body: 'quadruped', main: '#F8FAFC', variant: 'xiezhi', parts: { horns: 5, tail: 3 } },
   // ===== 元素精灵(宝可梦风，贴合原型) =====
   charmander:    { body: 'quadruped', main: '#F97316', variant: 'lizard', parts: { tail: 3, horns: 7 } },
   bulbasaur:     { body: 'quadruped', main: '#22C55E', variant: 'seed', parts: { tail: 4, crown: 6 } },
