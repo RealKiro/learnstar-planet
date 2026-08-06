@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
 import { getSpeciesEmoji } from '@/utils/petData'
 import type { ApiResponse, Student, ScoreRule } from '@/types'
-
-const router = useRouter()
-
-function goToRules() { router.push({ name: 'teacher-rules' }) }
 
 // ===== 数据 =====
 const students = ref<Student[]>([])
@@ -285,7 +280,6 @@ onMounted(() => {
       <div class="page-header">
         <h2 class="page-title">✏️ 课堂评价</h2>
         <span class="page-subtitle">点击 +/− 选择行为原因</span>
-t        <button class="page-link-btn" @click="goToRules">📋 管理积分规则</button>
       </div>
 
       <!-- 积分统计 -->
@@ -511,8 +505,6 @@ t        <button class="page-link-btn" @click="goToRules">📋 管理积分规�
   margin-bottom: 20px;
 }
 .page-header {
-.page-link-btn { padding:4px 12px; border-radius:8px; border:1px solid var(--color-border); background:transparent; color:var(--color-accent); font-size:12px; font-weight:500; cursor:pointer; white-space:nowrap; transition:0.15s; font-family:inherit; }
-.page-link-btn:hover { background:rgba(79,70,229,0.08); border-color:var(--color-accent); }
   display: flex;
   align-items: baseline;
   gap: 12px;
