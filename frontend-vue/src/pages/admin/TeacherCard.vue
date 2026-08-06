@@ -31,23 +31,24 @@ const roleLabel: Record<string, string> = {
   co_teacher: '副班主任',
   subject_teacher: '科任教师',
 }
+// 身份行中间区：个人角色 + 主教科目，多项用 · 连接（如「首席 · 信息科技」「主任 · 语文」）
+const roleMainText = computed(() => {
+  const parts: string[] = []
+  if (props.teacher.personal_role === 'grade_lead') parts.push('首席')
+  else if (props.teacher.personal_role === 'admin_director') parts.push('主任')
+  if (props.teacher.subject) parts.push(props.teacher.subject)
+  return parts.join(' · ')
+})
 </script>
 <template>
   <div class="teacher-card">
-    <!-- 版块1：身份区 + 主教区（并排一行） -->
+    <!-- 版块1：身份行（左姓名 / 中角色+主教点连接 / 右编号） -->
     <div class="tc-block tc-header">
-      <div class="tc-id">
-        <span class="tc-name-text">{{ teacher.name }}</span>
-        <span v-if="teacher.personal_role === 'grade_lead'" class="head-badge badge-lead">首席</span>
-        <span v-else-if="teacher.personal_role === 'admin_director'" class="head-badge badge-admin">主任</span>
+      <span class="tc-name-text">{{ teacher.name }}</span>
+      <div v-if="roleMainText" class="tc-role-main">
+        <span class="tc-role-main-pill">{{ roleMainText }}</span>
       </div>
-      <div class="tc-id-right">
-        <span v-if="teacher.subject" class="tc-main-subject">
-          <span class="ms-icon">📘</span>
-          <span class="ms-value">{{ teacher.subject }}</span>
-        </span>
-        <span class="tc-no">{{ no }}</span>
-      </div>
+      <span class="tc-no">{{ no }}</span>
     </div>
 
     <!-- 版块3：班级任教区（每班一个子版块） -->
@@ -100,49 +101,45 @@ const roleLabel: Record<string, string> = {
   border-bottom: none;
 }
 
-/* 版块1：身份区 + 主教区（并排一行） */
+/* 版块1：身份行三栏（左姓名 / 中角色+主教 / 右编号） */
 .tc-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
 }
-.tc-id {
+.tc-name-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.3;
+  flex-shrink: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tc-role-main {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
   min-width: 0;
 }
-.tc-id-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-.tc-name-text { font-size: 18px; font-weight: 700; color: var(--color-text); line-height: 1.3; }
-.tc-no { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); flex-shrink: 0; letter-spacing: 0.03em; }
-.head-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 8px; white-space: nowrap; }
-.badge-lead { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
-.badge-admin { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
-
-/* 主教科目：身份区右侧紧凑胶囊 */
-.tc-main-subject {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-.ms-icon { font-size: 13px; }
-.ms-value {
+.tc-role-main-pill {
   font-size: 12px;
   font-weight: 600;
   color: #c4b5fd;
-  padding: 2px 8px;
+  padding: 2px 10px;
   background: rgba(139, 92, 246, 0.18);
   border: 1px solid rgba(139, 92, 246, 0.35);
-  border-radius: 6px;
+  border-radius: 999px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
+.tc-no { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); flex-shrink: 0; letter-spacing: 0.03em; }
 
 /* 版块3：班级任教区 */
 .tc-classes { display: flex; flex-direction: column; gap: 6px; }
