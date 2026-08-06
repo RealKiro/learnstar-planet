@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const activeTab = ref<'demo' | 'diagnose' | 'status'>('demo')
+const activeTab = ref<'diagnose' | 'status'>('diagnose')
 
 interface DiagItem { item: string; status: string; detail?: string }
 const diagnoseStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -168,13 +168,6 @@ function onTabChange(tab: typeof activeTab.value) {
 .tab-btn { flex: 1; padding: 10px 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all 0.2s; }
 .tab-btn:hover { background: rgba(124,58,237,0.06); color: var(--color-text); }
 .tab-btn.active { background: #7c3aed; color: #fff; box-shadow: 0 2px 8px rgba(124,58,237,0.25); }
-
-/* 演示数据 */
-.demo-info { margin-bottom: 12px; }
-.demo-info-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 13px; }
-.demo-label { color: var(--color-text-secondary); min-width: 64px; }
-.demo-info-item code { font-family: monospace; background: var(--color-bg); padding: 2px 8px; border-radius: 4px; font-size: 12px; }
-.demo-warning { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 16px; padding: 8px 12px; background: var(--color-bg); border-radius: 8px; }
 
 /* 诊断 */
 .diag-list { border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden; }

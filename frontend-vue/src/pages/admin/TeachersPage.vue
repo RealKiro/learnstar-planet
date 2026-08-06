@@ -164,7 +164,7 @@ onMounted(() => loadTeachers(true))
       </label>
       <span v-if="selectedTeacherIds.length > 0" style="font-size:13px;color:var(--color-text-secondary);">已选 {{ selectedTeacherIds.length }} 个</span>
       <div style="flex:1;"></div>
-      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :style="{ background: batchOpStatus === 'loading' ? '#f59e0b' : batchOpStatus === 'success' ? '#10b981' : batchOpStatus === 'error' ? '#ef4444' : '', color: batchOpStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: batchOpStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" @click="batchResetTeacherPwd">
+      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :style="{ background: batchOpStatus === 'loading' ? '#f59e0b' : batchOpStatus === 'success' ? '#10b981' : batchOpStatus === 'error' ? '#ef4444' : 'var(--color-bg-card)', color: batchOpStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: batchOpStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" @click="batchResetTeacherPwd">
         <template v-if="batchOpStatus === 'loading'">处理中...</template>
         <template v-else-if="batchOpStatus === 'success'">已重置 ✓</template>
         <template v-else>🔑 批量重置密码</template>
