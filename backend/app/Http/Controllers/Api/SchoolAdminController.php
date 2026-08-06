@@ -111,6 +111,7 @@ class SchoolAdminController extends Controller
             'assignments' => 'nullable|array',
             'assignments.*.class_id' => 'required|integer|exists:class_rooms,id',
             'assignments.*.role' => 'required|string|in:head_teacher,co_teacher,subject_teacher,grade_lead,admin_director',
+            'personal_role' => 'nullable|string|in:grade_lead,admin_director',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
@@ -144,6 +145,17 @@ class SchoolAdminController extends Controller
         $created = $this->authService->createTeacherAccounts($school, [$teacherData]);
         $teacher = $created[0] ?? null;
         if ($teacher) {
+            // 设置个人角色（首席/主任）到 settings JSON（创建时即可指定，无需创建后再编辑）
+            if ($request->has('personal_role')) {
+                $user = \App\Models\User::find($teacher['id']);
+                if ($user) {
+                    $settings = is_array($user->settings) ? $user->settings : [];
+                    $settings['personal_role'] = $request->input('personal_role');
+                    $user->settings = $settings;
+                    $user->save();
+                }
+            }
+
             $assignmentsInput = $request->input('assignments', []);
             $assigned = [];
             foreach ($assignmentsInput as $assignment) {

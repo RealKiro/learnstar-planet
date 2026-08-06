@@ -38,7 +38,7 @@ const emit = defineEmits<{
   'created': []
 }>()
 
-const createForm = ref({ name: '', nickname: '', grade_team: '', subject: '', phone: '', email: '', password: '' })
+const createForm = ref({ name: '', nickname: '', grade_team: '', subject: '', phone: '', email: '', password: '', personalRole: '' as string })
 const createErrors = ref<Record<string, string>>({})
 const createStatus = ref<CreateStatus>('idle')
 const createErrorMsg = ref('')
@@ -86,7 +86,7 @@ function validateField(field: string, value: string) {
 }
 
 function resetForm() {
-  createForm.value = { name: '', nickname: '', grade_team: '', subject: '', phone: '', email: '', password: '' }
+  createForm.value = { name: '', nickname: '', grade_team: '', subject: '', phone: '', email: '', password: '', personalRole: '' }
   createErrors.value = {}
   assignError.value = ''
   createAssignments.value = []
@@ -162,6 +162,7 @@ async function submitCreate() {
     if (createForm.value.phone) payload.phone = createForm.value.phone
     if (createForm.value.email) payload.email = createForm.value.email
     if (createForm.value.password) payload.password = createForm.value.password
+    if (createForm.value.personalRole) payload.personal_role = createForm.value.personalRole
     if (createAssignments.value.length > 0 && createAssignments.value.every(a => a.class_id)) {
       payload.assignments = createAssignments.value.map(a => ({
         class_id: a.class_id,
@@ -224,11 +225,21 @@ async function submitCreate() {
                 <option v-for="g in grades" :key="g" :value="g + '团队'">{{ g }}团队</option>
               </select>
             </div>
+          </div>
+          <div class="flex-row">
             <div class="flex-1 form-group">
               <label>主教科目</label>
               <select v-model="createForm.subject" class="form-input">
                 <option value="">不指定</option>
                 <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
+              </select>
+            </div>
+            <div class="flex-1 form-group">
+              <label>个人角色</label>
+              <select v-model="createForm.personalRole" class="form-input">
+                <option value="">普通教师</option>
+                <option value="grade_lead">首席</option>
+                <option value="admin_director">主任</option>
               </select>
             </div>
           </div>
