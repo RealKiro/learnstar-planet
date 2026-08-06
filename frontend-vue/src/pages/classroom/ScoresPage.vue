@@ -28,6 +28,7 @@ function nextLevelProgress(score: number, level: number): { current: number; nex
 interface StudentEntry {
   id: number; name: string; student_no: string; total_score: number
   pet_name: string; pet_species: string; pet_level: number; pet_emoji: string
+  free_pick?: boolean // 整班切系列后 3 天免费自选窗口
 }
 
 const students = ref<StudentEntry[]>([])
@@ -148,9 +149,10 @@ async function executeSwitch() {
 
 function getStep(sid: number) { return stepValues.value[sid] || 1 }
 
-// 切换宠物所需积分：首次免费；后续按当前宠物等级扣（后端 switchCost = 5×等级）
+// 切换宠物所需积分：首次免费；整班切系列后 3 天免费窗口内免费；否则按当前宠物等级扣（后端 switchCost = 5×等级）
 function getSwitchCost(s: StudentEntry | null): number {
   if (!s || !s.pet_name) return 0
+  if (s.free_pick) return 0
   return 5 * Math.max(1, s.pet_level || 1)
 }
 
@@ -329,7 +331,11 @@ onMounted(async () => {
             <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:12px;">
               将切换为 <strong style="color:var(--md-primary-light);">{{ confirmSwitch.name }}</strong>
             </p>
-            <div v-if="petPickerStudent?.pet_name && getSwitchCost(petPickerStudent) > 0"
+            <div v-if="petPickerStudent?.pet_name && petPickerStudent.free_pick"
+              style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;margin-bottom:16px;">
+              🎉 免费窗口期内，本次切换免费！
+            </div>
+            <div v-else-if="petPickerStudent?.pet_name && getSwitchCost(petPickerStudent) > 0"
               style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#fcd34d;font-weight:700;margin-bottom:16px;">
               💰 本次切换扣除 <strong style="font-size:18px;">{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留当前等级
             </div>
@@ -414,7 +420,8 @@ onMounted(async () => {
               <span style="font-size:28px;">{{ petPickerStudent.pet_emoji }}</span>
               <div>
                 <div style="font-size:16px;font-weight:700;">{{ petPickerStudent.name }} · 选择宠物</div>
-                <div v-if="petPickerStudent.pet_name" style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#fcd34d;font-weight:700;display:inline-block;">
+                <div v-if="petPickerStudent.pet_name && petPickerStudent.free_pick" style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;display:inline-block;">🎉 免费窗口期内，本次切换免费！</div>
+                <div v-else-if="petPickerStudent.pet_name" style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#fcd34d;font-weight:700;display:inline-block;">
                   💰 本次切换扣除 <strong style="font-size:14px;">{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留等级
                 </div>
                 <div v-else style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;display:inline-block;">🎉 首次免费选择，不扣积分</div>

@@ -813,6 +813,7 @@ class DisplayController extends Controller
                 'pet_species' => $s->pet->species ?? '',
                 'pet_level' => $s->pet->level ?? 0,
                 'pet_emoji' => $s->pet ? ($s->pet->currentStage()['emoji'] ?? '🥚') : '🥚',
+                'free_pick' => $s->pet ? \Illuminate\Support\Facades\Cache::has("pet_free_pick:{$s->id}") : false,
             ]);
 
         return response()->json(['data' => $students]);
