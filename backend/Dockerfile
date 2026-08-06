@@ -35,7 +35,8 @@ RUN apk add --no-cache --virtual .build-deps \
         freetype-dev libzip-dev oniguruma-dev libwebp-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j"$(nproc)" \
-        pdo_mysql pdo_pgsql zip gd mbstring pcntl \
+        pdo_mysql pdo_pgsql pdo_sqlite zip gd mbstring pcntl \
+    && docker-php-ext-enable sqlite3 \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del --no-cache .build-deps \
@@ -78,7 +79,9 @@ RUN mkdir -p storage/app/public \
     storage/logs \
     bootstrap/cache \
     && chown -R www-data:www-data /var/www/html 2>/dev/null || true \
-    && chmod -R 755 storage bootstrap/cache public
+    && chmod -R 755 storage bootstrap/cache public \
+    && touch storage/database.sqlite \
+    && chmod 666 storage/database.sqlite
 
 # Copy entrypoint script
 COPY backend/docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh

@@ -34,23 +34,24 @@ services:
       - APP_URL=${APP_URL:-http://localhost}
       - APP_PORT=${APP_PORT:-8080}
 
-      # 数据库配置（在 .env 中修改 DB_HOST 可切换到外部数据库）
-      - DB_CONNECTION=${DB_CONNECTION:-mysql}
-      - DB_HOST=${DB_HOST:-mysql}
+      # 数据库配置（默认内置 SQLite；改 DB_CONNECTION=mysql + DB_HOST 可切换到 MariaDB/MySQL 或外部数据库）
+      - DB_CONNECTION=${DB_CONNECTION:-sqlite}
+      - DB_HOST=${DB_HOST:-}
       - DB_PORT=${DB_PORT:-3306}
-      - DB_DATABASE=${DB_DATABASE:-learnstar}
-      - DB_USERNAME=${DB_USERNAME:-learnstar}
-      - DB_PASSWORD=${DB_PASSWORD:-learnstar_password}
+      - DB_DATABASE=${DB_DATABASE:-}
+      - DB_USERNAME=${DB_USERNAME:-}
+      - DB_PASSWORD=${DB_PASSWORD:-}
 
-      # Redis 配置（在 .env 中修改 REDIS_HOST 可切换到外部 Redis）
-      - REDIS_HOST=${REDIS_HOST:-redis}
+      # Redis 配置（默认无 Redis；改 REDIS_HOST 可切换到内置/外部 Redis）
+      - REDIS_HOST=${REDIS_HOST:-}
       - REDIS_PORT=${REDIS_PORT:-6379}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-}
 
-      # 缓存配置
-      - CACHE_DRIVER=${CACHE_DRIVER:-redis}
-      - SESSION_DRIVER=${SESSION_DRIVER:-redis}
-      - QUEUE_CONNECTION=${QUEUE_CONNECTION:-redis}
+      # 缓存配置（默认 file/database，无需 Redis）
+      - CACHE_DRIVER=${CACHE_DRIVER:-file}
+      - SESSION_DRIVER=${SESSION_DRIVER:-file}
+      - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
+      - BROADCAST_DRIVER=${BROADCAST_DRIVER:-null}
 
       # AI 功能配置（可选）
       - AI_PROVIDER=${AI_PROVIDER:-}
@@ -80,13 +81,8 @@ services:
     volumes:
       - app-uploads:/var/www/html/storage/app/uploads
       - app-logs:/var/www/html/storage/logs
-    # depends_on 确保内置 MySQL/Redis 就绪后再启动 app
-    # 使用外部数据库时加 --no-deps 跳过此依赖
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - app-db:/var/www/html/storage/database.sqlite
+    # 内置 SQLite 默认无需数据库/Redis 依赖；full-stack 模式（--profile full-stack）才起 mariadb+redis
     networks:
       - learnstar-net
     healthcheck:
@@ -97,9 +93,10 @@ services:
       start_period: 40s
 
   # ===== 内置 MySQL 数据库 =====
-  # 默认随 docker-compose up -d 一起启动
+  # 内置 MariaDB（full-stack 模式才启动；默认 SQLite 不需要）
   # 使用外部数据库时：docker-compose up -d app --no-deps（跳过此服务）
   mysql:
+    profiles: ["full-stack"]
     image: mariadb:10
     container_name: learnstar-mariadb
     restart: unless-stopped
@@ -126,9 +123,10 @@ services:
       retries: 5
 
   # ===== 内置 Redis 缓存 =====
-  # 默认随 docker-compose up -d 一起启动
+  # 内置 Redis（full-stack 模式才启动；默认 SQLite 不需要）
   # 使用外部 Redis 时：docker-compose up -d app --no-deps（跳过此服务）
   redis:
+    profiles: ["full-stack"]
     image: redis:alpine
     container_name: learnstar-redis
     restart: unless-stopped
@@ -154,3 +152,4 @@ volumes:
   redis-data:
   app-uploads:
   app-logs:
+  app-db:

@@ -78,7 +78,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => Env::get('DATABASE_URL'),
-            'database' => Env::get('DB_DATABASE', database_path('database.sqlite')),
+            'database' => Env::get('DB_DATABASE', storage_path('database.sqlite')),
             'prefix' => '',
             'prefix_indexes' => true,
         ],

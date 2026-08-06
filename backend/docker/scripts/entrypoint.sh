@@ -16,6 +16,12 @@ mkdir -p storage/app/public \
     storage/logs \
     bootstrap/cache
 
+# 内置 SQLite：确保数据库文件存在（DB_CONNECTION=sqlite 时使用）
+if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ]; then
+    touch storage/database.sqlite
+    chmod 666 storage/database.sqlite
+fi
+
 # 从 Docker 环境变量创建 .env 文件
 if [ ! -f .env ]; then
     echo "📝 从环境变量创建 .env 文件..."

@@ -64,6 +64,11 @@ cp .env.example .env
 docker-compose up -d
 ```
 
+默认**内置 SQLite**（文件数据库），仅启动 app 一个容器，无需数据库/Redis 服务，体积小、省内存。
+
+> 需要完整栈（内置 MariaDB 10 + Redis 8）时：修改 `.env` 为 MySQL 配置后执行 `docker-compose --profile full-stack up -d`。
+> 使用外置数据库/Redis：改 `.env` 的 `DB_HOST`/`REDIS_HOST` 后 `docker-compose up -d app --no-deps`。
+
 启动后：
 - **教室互动**：浏览器打开 `http://<服务器IP>:8080`，输入班级码即可进入
 - **管理后台**：`http://<服务器IP>:8080/login`，使用管理员或教师账号登录
