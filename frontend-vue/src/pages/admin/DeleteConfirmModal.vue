@@ -59,9 +59,9 @@ async function confirmDelete() {
     deleteStatus.value = 'success'
     setTimeout(() => emit('update:visible', false), 600)
     emit('deleted')
-  } catch {
+  } catch (e: any) {
     deleteStatus.value = 'error'
-    deleteError.value = '删除失败，请稍后重试'
+    deleteError.value = e?.response?.data?.message || '删除失败，请稍后重试'
     setTimeout(() => { if (deleteStatus.value === 'error') deleteStatus.value = 'idle' }, 3000)
   }
 }

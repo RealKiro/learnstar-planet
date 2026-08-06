@@ -79,9 +79,9 @@ async function submitResetPwd() {
       emit('update:visible', false)
     }, 1200)
     emit('reset')
-  } catch {
+  } catch (e: any) {
     resetPwdStatus.value = 'error'
-    resetPwdError.value = '重置失败，请稍后重试'
+    resetPwdError.value = e?.response?.data?.message || '重置失败，请稍后重试'
     setTimeout(() => { if (resetPwdStatus.value === 'error') resetPwdStatus.value = 'idle' }, 3000)
   }
 }

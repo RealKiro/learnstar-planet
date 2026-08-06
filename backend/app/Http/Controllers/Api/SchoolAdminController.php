@@ -268,46 +268,51 @@ class SchoolAdminController extends Controller
      */
     public function updateTeacher(Request $request, int $id): JsonResponse
     {
-        $school = $request->user()->school;
-        $teacher = User::where('school_id', $school->id)
-            ->where('role', 'teacher')
-            ->findOrFail($id);
-        $validator = Validator::make($request->all(), [
-            'name' => 'sometimes|required|string|max:50',
-            'nickname' => 'nullable|string|max:80',
-            'grade_team' => 'nullable|string|max:50',
-            'subject' => 'nullable|string|max:50',
-            'phone' => 'nullable|string|max:30',
-            'email' => 'nullable|email|max:100',
-            'status' => 'sometimes|required|in:active,disabled',
-            'personal_role' => 'nullable|string|max:30',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
-        }
-        $data = $request->only(['name', 'nickname', 'grade_team', 'subject', 'phone', 'email', 'status']);
-        if ($request->has('personal_role')) {
-            // 空串也保留原值，避免误清空年级团队
-            $gradeTeam = $data['grade_team'] ?? $teacher->grade_team;
-            if ($gradeTeam === null || $gradeTeam === '') {
-                $gradeTeam = $teacher->grade_team;
-            }
-            $data['grade_team'] = $gradeTeam;
-            // 存储个人角色到 settings JSON（防御 settings 被写坏为非数组）
-            $rawSettings = $teacher->settings;
-            $settings = is_array($rawSettings) ? $rawSettings : [];
-            $settings['personal_role'] = $request->input('personal_role');
-            $data['settings'] = $settings;
-        }
-
         try {
+            $school = $request->user()->school;
+            if (!$school instanceof \App\Models\School) {
+                return response()->json(['message' => '未找到学校，请重新登录'], 404);
+            }
+            $teacher = User::where('school_id', $school->id)
+                ->where('role', 'teacher')
+                ->findOrFail($id);
+            $validator = Validator::make($request->all(), [
+                'name' => 'sometimes|required|string|max:50',
+                'nickname' => 'nullable|string|max:80',
+                'grade_team' => 'nullable|string|max:50',
+                'subject' => 'nullable|string|max:50',
+                'phone' => 'nullable|string|max:30',
+                'email' => 'nullable|email|max:100',
+                'status' => 'sometimes|required|in:active,disabled',
+                'personal_role' => 'nullable|string|max:30',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+            }
+            $data = $request->only(['name', 'nickname', 'grade_team', 'subject', 'phone', 'email', 'status']);
+            if ($request->has('personal_role')) {
+                // 空串也保留原值，避免误清空年级团队
+                $gradeTeam = $data['grade_team'] ?? $teacher->grade_team;
+                if ($gradeTeam === null || $gradeTeam === '') {
+                    $gradeTeam = $teacher->grade_team;
+                }
+                $data['grade_team'] = $gradeTeam;
+                // 存储个人角色到 settings JSON（防御 settings 被写坏为非数组）
+                $rawSettings = $teacher->settings;
+                $settings = is_array($rawSettings) ? $rawSettings : [];
+                $settings['personal_role'] = $request->input('personal_role');
+                $data['settings'] = $settings;
+            }
+
             $teacher->fill($data);
             $teacher->save();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => '教师不存在或已被删除'], 404);
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::error('updateTeacher 保存失败', [
                 'teacher_id' => $id,
-                'payload' => $data,
                 'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json(['message' => '保存失败：' . $e->getMessage()], 500);

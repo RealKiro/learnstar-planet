@@ -84,9 +84,9 @@ async function submitEdit() {
     editStatus.value = 'success'
     setTimeout(() => emit('update:visible', false), 600)
     emit('updated')
-  } catch {
+  } catch (e: any) {
     editStatus.value = 'error'
-    editError.value = '保存失败，请稍后重试'
+    editError.value = e?.response?.data?.message || '保存失败，请稍后重试'
     setTimeout(() => { if (editStatus.value === 'error') editStatus.value = 'idle' }, 3000)
   }
 }
