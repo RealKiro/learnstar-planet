@@ -956,73 +956,74 @@ function fxShape(size: number): string {
           </g>
         </template>
 
-        <!-- 亚古兽·橙色小恐龙 -->
+        <!-- 亚古兽·橙色大头恐龙（数码宝贝经典：大头+黄腹+头侧刺+利齿） -->
         <template v-else-if="art.variant === 'agumon'">
-          <ellipse cx="100" cy="122" rx="24" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <ellipse cx="100" cy="133" rx="15" ry="10" :fill="art.light" opacity="0.8"/>
-          <ellipse cx="82" cy="142" rx="7" ry="5" :fill="art.dark"/>
-          <ellipse cx="118" cy="142" rx="7" ry="5" :fill="art.dark"/>
-          <circle cx="100" cy="78" r="28" :fill="`url(#body-grad-${uid})`"/>
-          <g class="ears">
-            <path d="M84 56 L76 38 L98 52 Z" :fill="art.main"/>
-            <path d="M116 56 L124 38 L102 52 Z" :fill="art.main"/>
-          </g>
-          <path d="M100 102 Q92 106 100 110 Q108 106 100 102 Z" fill="#B45309" opacity="0.55"/>
-          <g v-if="level >= 6">
-            <path d="M88 54 Q82 42 78 40" :stroke="art.accent" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="88" cy="142" rx="9" ry="6" :fill="art.dark"/>
+          <ellipse cx="112" cy="142" rx="9" ry="6" :fill="art.dark"/>
+          <ellipse cx="100" cy="120" rx="21" ry="17" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="127" rx="12" ry="8" :fill="art.light" opacity="0.9"/>
+          <ellipse cx="82" cy="112" rx="5" ry="7" :fill="art.main"/>
+          <ellipse cx="118" cy="112" rx="5" ry="7" :fill="art.main"/>
+          <circle cx="100" cy="76" r="30" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M88 48 L94 36 L100 46 Z" :fill="art.dark"/>
+          <path d="M112 48 L106 36 L100 46 Z" :fill="art.dark"/>
+          <path d="M72 64 L60 56 L74 60 Z" :fill="art.main"/>
+          <path d="M128 64 L140 56 L126 60 Z" :fill="art.main"/>
+          <g v-if="level >= 5" class="fangs">
+            <path d="M90 90 L88 96 M110 90 L112 96" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
           </g>
         </template>
 
-        <!-- 迪路兽·神圣白猫 -->
+        <!-- 迪路兽·白色圣猫（数码宝贝经典：长耳+金色耳片+尾环） -->
         <template v-else-if="art.variant === 'tailmon'">
-          <path d="M124 118 Q146 108 150 92" :fill="art.dark" class="tail"/>
-          <circle cx="150" cy="88" r="4" :fill="art.accent" :stroke="art.dark" stroke-width="1"/>
-          <ellipse cx="100" cy="122" rx="26" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <ellipse cx="100" cy="132" rx="16" ry="10" :fill="art.light" opacity="0.9"/>
-          <ellipse cx="80" cy="143" rx="6" ry="4" :fill="art.dark"/>
-          <ellipse cx="120" cy="143" rx="6" ry="4" :fill="art.dark"/>
-          <circle cx="100" cy="82" r="26" :fill="`url(#body-grad-${uid})`"/>
-          <g class="ears">
-            <path d="M80 62 L72 44 L94 57 Z" :fill="art.main"/>
-            <path d="M120 62 L128 44 L106 57 Z" :fill="art.main"/>
-          </g>
-          <g v-if="level >= 4" class="sacred-ring">
+          <path d="M122 118 Q144 106 148 90" :fill="art.dark" class="tail"/>
+          <circle cx="148" cy="86" r="4" :fill="art.accent" :stroke="art.dark" stroke-width="1"/>
+          <ellipse cx="100" cy="122" rx="24" ry="20" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="130" rx="14" ry="9" :fill="art.light" opacity="0.9"/>
+          <ellipse cx="80" cy="142" rx="6" ry="4" :fill="art.dark"/>
+          <ellipse cx="120" cy="142" rx="6" ry="4" :fill="art.dark"/>
+          <circle cx="100" cy="84" r="25" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M82 64 L72 40 L96 58 Z" :fill="art.main"/>
+          <path d="M118 64 L128 40 L104 58 Z" :fill="art.main"/>
+          <path d="M82 62 L76 48 L92 58 Z" fill="#FDE68A" opacity="0.9"/>
+          <path d="M118 62 L124 48 L108 58 Z" fill="#FDE68A" opacity="0.9"/>
+          <g v-if="level >= 4" class="gold-ring">
             <circle cx="100" cy="56" r="4.5" :fill="art.accent" :stroke="art.dark" stroke-width="1.2"/>
           </g>
         </template>
 
-        <!-- 巴达兽·奶油小天使 -->
+        <!-- 巴达兽·圆润天使（数码宝贝经典：大三角耳+小翅膀+小尾） -->
         <template v-else-if="art.variant === 'patamon'">
           <g class="wings">
-            <path d="M70 94 Q48 84 44 68 Q58 82 72 86 Z" :fill="art.light" :stroke="art.dark" stroke-width="1"/>
-            <path d="M130 94 Q152 84 156 68 Q142 82 128 86 Z" :fill="art.light" :stroke="art.dark" stroke-width="1"/>
+            <path d="M72 92 Q52 82 48 68 Q62 80 74 84 Z" :fill="art.light" :stroke="art.dark" stroke-width="1"/>
+            <path d="M128 92 Q148 82 152 68 Q138 80 126 84 Z" :fill="art.light" :stroke="art.dark" stroke-width="1"/>
           </g>
-          <ellipse cx="100" cy="112" rx="30" ry="28" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <ellipse cx="100" cy="124" rx="19" ry="12" :fill="art.light" opacity="0.9"/>
-          <g class="ears">
-            <path d="M74 88 L64 66 L88 82 Z" :fill="art.main"/>
-            <path d="M126 88 L136 66 L112 82 Z" :fill="art.main"/>
-          </g>
+          <path d="M126 120 L134 126 L128 132 Z" :fill="art.dark"/>
+          <ellipse cx="100" cy="112" rx="28" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="122" rx="17" ry="10" :fill="art.light" opacity="0.9"/>
+          <path d="M76 90 L64 66 L90 82 Z" :fill="art.main"/>
+          <path d="M124 90 L136 66 L110 82 Z" :fill="art.main"/>
           <g v-if="level >= 5" class="wing-halo">
-            <circle cx="100" cy="84" r="17" fill="none" :stroke="art.accent" stroke-width="1.4" opacity="0.6"/>
+            <circle cx="100" cy="86" r="16" fill="none" :stroke="art.accent" stroke-width="1.4" opacity="0.6"/>
           </g>
         </template>
 
-        <!-- 加布兽·披毛蓝狼 -->
+        <!-- 加布兽·披毛蓝狼（数码宝贝经典：蓝角+深色毛皮披肩+黄脸） -->
         <template v-else-if="art.variant === 'gabumon'">
           <path d="M118 118 Q136 112 140 100" :fill="art.dark" class="tail"/>
-          <ellipse cx="100" cy="120" rx="26" ry="23" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <ellipse cx="100" cy="131" rx="16" ry="11" :fill="art.light" opacity="0.85"/>
-          <ellipse cx="80" cy="142" rx="6" ry="4" :fill="art.dark"/>
-          <ellipse cx="120" cy="142" rx="6" ry="4" :fill="art.dark"/>
-          <circle cx="100" cy="80" r="26" :fill="`url(#body-grad-${uid})`"/>
+          <ellipse cx="100" cy="120" rx="24" ry="21" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="129" rx="14" ry="9" :fill="art.light" opacity="0.9"/>
+          <ellipse cx="80" cy="141" rx="6" ry="4" :fill="art.dark"/>
+          <ellipse cx="120" cy="141" rx="6" ry="4" :fill="art.dark"/>
+          <circle cx="100" cy="82" r="24" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M100 60 L96 46 L104 46 Z" :fill="art.accent"/>
+          <path d="M78 96 Q62 90 60 78 Q74 82 78 92 Z" :fill="art.dark" opacity="0.85"/>
+          <path d="M122 96 Q138 90 140 78 Q126 82 122 92 Z" :fill="art.dark" opacity="0.85"/>
+          <ellipse cx="100" cy="88" rx="12" ry="9" :fill="art.light" opacity="0.6"/>
           <g class="ears">
-            <path d="M84 60 L78 44 L96 56 Z" :fill="art.main"/>
-            <path d="M116 60 L122 44 L104 56 Z" :fill="art.main"/>
+            <path d="M84 62 L78 46 L96 58 Z" :fill="art.main"/>
+            <path d="M116 62 L122 46 L104 58 Z" :fill="art.main"/>
           </g>
-          <path d="M78 96 Q62 92 60 80 Q72 84 78 92 Z" :fill="art.main" opacity="0.75"/>
-          <path d="M122 96 Q138 92 140 80 Q128 84 122 92 Z" :fill="art.main" opacity="0.75"/>
-          <path d="M100 54 L97 42 L103 42 Z" :fill="art.accent"/>
         </template>
 
         <!-- 穷奇·虎翼凶兽 -->
@@ -1544,10 +1545,14 @@ function fxShape(size: number): string {
           <path d="M64 122 Q48 118 46 128" :fill="art.dark"/>
           <ellipse cx="100" cy="120" rx="30" ry="20" :fill="`url(#body-grad-${uid})`" class="body-main"/>
           <ellipse cx="100" cy="129" rx="18" ry="10" :fill="art.light" opacity="0.9"/>
+          <g v-if="level >= 4" class="blue-marks">
+            <path d="M86 116 Q92 110 98 116" :stroke="art.dark" stroke-width="2.4" fill="none" opacity="0.7"/>
+            <path d="M106 116 Q112 110 118 116" :stroke="art.dark" stroke-width="2.4" fill="none" opacity="0.7"/>
+          </g>
           <circle cx="100" cy="94" r="19" :fill="`url(#body-grad-${uid})`"/>
           <g class="ears">
-            <ellipse cx="84" cy="78" rx="6" ry="5" :fill="art.main"/>
-            <ellipse cx="116" cy="78" rx="6" ry="5" :fill="art.main"/>
+            <ellipse cx="84" cy="78" rx="7" ry="6" :fill="art.main"/>
+            <ellipse cx="116" cy="78" rx="7" ry="6" :fill="art.main"/>
           </g>
           <path d="M108 98 Q112 102 116 98" :stroke="art.dark" stroke-width="1.4" fill="none"/>
           <path d="M92 98 Q88 102 84 98" :stroke="art.dark" stroke-width="1.4" fill="none"/>
