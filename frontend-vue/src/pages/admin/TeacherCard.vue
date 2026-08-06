@@ -61,9 +61,9 @@ const roleMainText = computed(() => {
     <!-- 版块4：操作区 -->
     <div class="tc-block tc-footer">
       <div class="tc-actions">
-        <button class="act-btn act-icon" title="编辑教师" @click="emit('edit', teacher)">👤</button>
-        <button class="act-btn act-icon" title="分配班级" @click="emit('assign', teacher)">📚</button>
-        <button class="act-btn act-icon" title="重置密码" @click="emit('resetPwd', teacher)">🔑</button>
+        <button class="act-btn" title="编辑教师" @click="emit('edit', teacher)">👤 编辑</button>
+        <button class="act-btn" title="分配班级" @click="emit('assign', teacher)">📚 班级</button>
+        <button class="act-btn" title="重置密码" @click="emit('resetPwd', teacher)">🔑 密码</button>
         <button class="act-btn act-del" @click="emit('delete', teacher)">🗑️ 删除</button>
       </div>
     </div>
@@ -159,16 +159,16 @@ const roleMainText = computed(() => {
 }
 
 /* 版块4：操作区 */
-.tc-footer { display: flex; align-items: center; justify-content: center; }
-.tc-actions { display: flex; gap: 6px; }
+.tc-footer { display: flex; align-items: center; }
+.tc-actions { display: flex; gap: 6px; width: 100%; }
 .act-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 28px;
-  padding: 0 8px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer;
+  flex: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 30px;
+  padding: 0 6px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer;
   transition: 0.15s; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.04);
-  color: var(--color-text); font-family: inherit;
+  color: var(--color-text); font-family: inherit; white-space: nowrap;
 }
 .act-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.14); }
-.act-icon { width: 28px; padding: 0; font-size: 14px; }
 .act-del { color: #fca5a5; border-color: rgba(239, 68, 68, 0.25); }
 .act-del:hover { background: rgba(239, 68, 68, 0.12); color: #fecaca; }
 </style>
