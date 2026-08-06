@@ -121,16 +121,30 @@ class SchoolAdminController extends Controller
             return response()->json(['message' => '未找到学校'], 404);
         }
 
-        // 姓名唯一校验
-        $existing = \App\Models\User::where('school_id', $school->id)->where('name', $request->input('name'))->first();
-        if ($existing) {
-            return response()->json(['message' => '该校已存在同名教师「' . $request->input('name') . '」', 'errors' => ['name' => ['该校已存在同名教师']]], 422);
+        // 姓名唯一校验（含软删除账号，占用 username 唯一索引）
+        $existing = \App\Models\User::withTrashed()
+            ->where('school_id', $school->id)
+            ->where('name', $request->input('name'))
+            ->first();
+        if ($existing && !$request->boolean('force')) {
+            return response()->json([
+                'message' => '该校已存在同名教师「' . $request->input('name') . '」，是否覆盖创建？',
+                'duplicate' => true,
+                'errors' => ['name' => ['该校已存在同名教师']],
+            ], 422);
         }
 
-        // 自动生成唯一用户名（实名：默认用姓名，同名自动加后缀）
+        // force 覆盖：先强制删除旧同名账号（释放 username 唯一索引），再以原名创建
+        if ($existing && $request->boolean('force')) {
+            ClassRoom::where('teacher_id', $existing->id)->update(['teacher_id' => null]);
+            ClassRoomTeacher::where('user_id', $existing->id)->delete();
+            $existing->forceDelete();
+        }
+
         $password = $request->input('password') ?: 'ls123456';
         $gradeTeam = $request->input('grade_team', '');
-        $username = $this->authService->uniqueUsername($request->input('name'), $school);
+        // 覆盖创建直接用姓名作 username（旧账号已删除），不再自动加 _2 后缀
+        $username = $request->input('name');
 
         $teacherData = [
             'name' => $request->input('name'),

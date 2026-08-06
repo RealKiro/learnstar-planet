@@ -152,10 +152,15 @@ async function submitCreate() {
   }
   if (Object.keys(createErrors.value).length > 0) return
 
+  await doSubmit(false)
+}
+
+async function doSubmit(force: boolean) {
   createStatus.value = 'loading'
   createLoading.value = true
   try {
     const payload: Record<string, any> = { name: createForm.value.name.trim() }
+    if (force) payload.force = true
     if (createForm.value.nickname) payload.nickname = createForm.value.nickname
     if (createForm.value.grade_team) payload.grade_team = createForm.value.grade_team
     if (createForm.value.subject) payload.subject = createForm.value.subject
@@ -179,8 +184,18 @@ async function submitCreate() {
     }, 1500)
   } catch (e: any) {
     createStatus.value = 'error'
-    console.error('创建教师失败:', e?.response?.status, e?.response?.data)
-    console.error('发送的payload:', JSON.stringify(e?.config?.data || '(无)'))
+    // 同名教师：非 force 时提示确认覆盖（一般不同名，但避免误伤），确认后 force 重发
+    if (e?.response?.data?.duplicate && !force) {
+      const name = createForm.value.name.trim()
+      if (confirm(`该校已存在同名教师「${name}」。\n确定覆盖创建吗？将删除原同名账号（含其班级分配）。`)) {
+        await doSubmit(true)
+      } else {
+        createStatus.value = 'idle'
+        createErrorMsg.value = `已取消创建同名教师「${name}」`
+        setTimeout(() => { createErrorMsg.value = '' }, 3000)
+      }
+      return
+    }
     const errs = e?.response?.data?.errors
     if (errs) {
       for (const [field, msgs] of Object.entries(errs)) {
