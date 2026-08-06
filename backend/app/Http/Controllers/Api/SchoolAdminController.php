@@ -845,11 +845,22 @@ class SchoolAdminController extends Controller
             } else {
                 $gender = '未知';
             }
+            // 查重：同班级同学号已存在则跳过（避免重复导入重复创建学生）
+            $studentNo = trim($row['student_no'] ?? '');
+            if ($studentNo !== '') {
+                $dup = Student::where('class_id', $classes[$className])
+                    ->where('student_no', $studentNo)
+                    ->exists();
+                if ($dup) {
+                    $errors[] = '第 ' . ($idx + 1) . ' 行：学号「' . $studentNo . '」在班级「' . $className . '」已存在，已跳过';
+                    continue;
+                }
+            }
             $student = Student::create([
                 'class_id' => $classes[$className],
                 'name' => $row['name'],
                 'gender' => $gender,
-                'student_no' => $row['student_no'] ?? null,
+                'student_no' => $studentNo !== '' ? $studentNo : null,
                 'total_score' => 0,
                 'status' => 'active',
             ]);
@@ -2211,9 +2222,17 @@ class SchoolAdminController extends Controller
         $createdStudents = 0;
         $students = $request->input('students', []);
         foreach ($students as $s) {
+            // 查重：同班级同名已存在则跳过（避免重复导入重复创建学生）
+            $name = trim($s['name']);
+            $dup = \App\Models\Student::where('class_id', (int) $s['class_id'])
+                ->where('name', $name)
+                ->exists();
+            if ($dup) {
+                continue;
+            }
             $student = \App\Models\Student::create([
                 'class_id' => (int) $s['class_id'],
-                'name' => trim($s['name']),
+                'name' => $name,
                 'gender' => $s['gender'] ?? null,
                 'status' => 'active',
             ]);

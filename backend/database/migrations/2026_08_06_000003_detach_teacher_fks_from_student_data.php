@@ -17,12 +17,20 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        // SQLite 不支持按名 dropForeign，且默认不强制外键约束，跳过；
+        // MySQL / PostgreSQL 等才需要改外键为 nullOnDelete。
+        if (\Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
         $this->detach('scores', 'given_by');
         $this->detach('notices', 'published_by');
     }
 
     public function down(): void
     {
+        if (\Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
         // 回滚到 cascade（不常用，谨慎）
         $this->reattach('scores', 'given_by');
         $this->reattach('notices', 'published_by');
