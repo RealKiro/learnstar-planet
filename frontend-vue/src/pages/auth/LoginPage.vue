@@ -161,24 +161,7 @@ const platforms = [
   { key: 'feishu', label: '飞书', icon: '🪶', color: '#3370FF' },
 ]
 
-const thirdPartyScanning = ref(false)
 const thirdPartyError = ref('')
-async function thirdPartyScan() {
-  if (thirdPartyScanning.value) return
-  thirdPartyScanning.value = true
-  thirdPartyError.value = ''
-  try {
-    const res = await apiGet<{ data: { auth_url: string; platform: string } }>('/api/v1/auth/third-party/auth-url', {
-      params: { redirect_uri: window.location.origin + '/auth/callback' },
-    })
-    window.open(res.data.auth_url, '_blank', 'width=580,height=640')
-  } catch (e: any) {
-    thirdPartyError.value = e?.response?.data?.message || '未配置第三方平台，请在后台学校设置中选择'
-    setTimeout(() => { thirdPartyError.value = '' }, 3000)
-  } finally {
-    thirdPartyScanning.value = false
-  }
-}
 
 async function handleThirdPartyLogin(platform: string) {
   const label = platforms.find(p => p.key === platform)?.label || platform
@@ -352,21 +335,14 @@ function goToSlide(i: number) {
           </button>
           <div v-if="teacherLoginError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ teacherLoginError }}</div>
           <div class="login-social">
-            <div class="login-social-label"><span class="login-social-line"></span> 快捷登录 <span class="login-social-line"></span></div>
-            <div class="login-social-grid">
-              <button class="login-social-btn" :disabled="thirdPartyScanning" @click="thirdPartyScan">
-                <span class="login-social-icon" style="background:#7c3aed;">🏢</span>
-                {{ thirdPartyScanning ? '请稍候...' : '第三方平台' }}
-              </button>
-            </div>
-            <div v-if="thirdPartyError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ thirdPartyError }}</div>
-            <div class="login-social-label"><span class="login-social-line"></span> 其他方式 <span class="login-social-line"></span></div>
+            <div class="login-social-label"><span class="login-social-line"></span> 扫码登录 <span class="login-social-line"></span></div>
             <div class="login-social-grid">
               <button v-for="p in platforms" :key="p.key" class="login-social-btn" @click="handleThirdPartyLogin(p.key)">
                 <span class="login-social-icon" :style="{ background: p.color }">{{ p.icon }}</span>
                 {{ p.label }}
               </button>
             </div>
+            <div v-if="thirdPartyError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ thirdPartyError }}</div>
           </div>
         </div>
 
