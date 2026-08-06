@@ -368,7 +368,7 @@ class Pet extends Model
     public static function speciesPoolForSeries(string $seriesId): array
     {
         return match ($seriesId) {
-            'myth' => ['zhulong', 'yinglong', 'nine_tail_fox', 'kunpeng', 'fenghuang', 'qilin', 'qinglong', 'baihu', 'zhuque', 'xuanwu', 'taotie', 'baize'],
+            'myth' => ['zhulong', 'yinglong', 'nine_tail_fox', 'kunpeng', 'fenghuang', 'qilin', 'qinglong', 'baihu', 'zhuque', 'xuanwu', 'taotie', 'baize', 'qiongqi', 'bifang', 'pixiu', 'jingwei', 'xiangliu', 'xiezhi'],
             'pokemon' => ['charmander', 'bulbasaur', 'squirtle', 'eevee', 'pikachu', 'riolu', 'ice_fox', 'rock_rhino', 'wind_falcon', 'light_deer', 'dark_panther', 'steel_armadillo'],
             'national' => ['panda', 'golden_monkey', 'red_crowned_crane', 'south_china_tiger', 'chinese_alligator', 'crested_ibis', 'tibetan_antelope', 'snow_leopard', 'milu_deer', 'siberian_tiger', 'red_panda', 'finless_porpoise'],
             'mecha' => ['mecha_dragon', 'cyber_cat', 'space_mecha', 'quantum_beast', 'digital_phoenix', 'mecha_shark', 'lightsaber_warrior', 'fission_giant', 'nano_swarm', 'storm_jet', 'bio_armor', 'starship_core'],
@@ -379,6 +379,26 @@ class Pet extends Model
             'festival' => ['zongzi', 'tangyuan', 'mooncake', 'qingtuan', 'chongyang_cake', 'niangao', 'laba_porridge', 'spring_pancake', 'tanghulu', 'osmanthus_cake', 'wonton', 'festival_lantern'],
             'qixia' => ['hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'qilin_sacred', 'lingge', 'heixinhu', 'zhuzhijie', 'niuxuanfeng'],
             default => [],
+        };
+    }
+
+    /**
+     * 系列中文名（用于报错/提示文案，与前端 petData 系列名对齐）
+     */
+    public static function seriesLabel(string $seriesId): string
+    {
+        return match ($seriesId) {
+            'myth' => '山海经',
+            'pokemon' => '宝可梦风格',
+            'national' => '国宝守护',
+            'mecha' => '数码宝贝',
+            'magic' => '魔法奇幻',
+            'prehistoric' => '史前生物',
+            'constellation' => '星座守护',
+            'folklore' => '民间传说',
+            'festival' => '传统节日',
+            'qixia' => '七侠剑客',
+            default => $seriesId,
         };
     }
 

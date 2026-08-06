@@ -1058,7 +1058,7 @@ class DisplayController extends Controller
             $classSeries = $class->settings['pet_series'] ?? null;
             $seriesPool = $classSeries ? Pet::speciesPoolForSeries($classSeries) : [];
             if ($classSeries && !empty($seriesPool) && !in_array($newSpecies, $seriesPool, true)) {
-                return response()->json(['message' => '只能领养当前类别「' . $classSeries . '」的宠物，不能跨类别领养'], 422);
+                return response()->json(['message' => '只能领养当前类别「' . \App\Models\Pet::seriesLabel($classSeries) . '」的宠物，不能跨类别领养'], 422);
             }
 
             // 免费自选：整班切换后的一次机会（免费）；否则按等级扣积分（等级越高越贵）
@@ -1112,7 +1112,7 @@ class DisplayController extends Controller
         $classSeries = $class->settings['pet_series'] ?? null;
         $seriesPool = $classSeries ? Pet::speciesPoolForSeries($classSeries) : [];
         if ($classSeries && !empty($seriesPool) && !in_array($newSpecies, $seriesPool, true)) {
-            return response()->json(['message' => '只能领养当前类别「' . $classSeries . '」的宠物，不能跨类别领养'], 422);
+            return response()->json(['message' => '只能领养当前类别「' . \App\Models\Pet::seriesLabel($classSeries) . '」的宠物，不能跨类别领养'], 422);
         }
 
         $pet = Pet::create([

@@ -148,6 +148,12 @@ async function executeSwitch() {
 
 function getStep(sid: number) { return stepValues.value[sid] || 1 }
 
+// 切换宠物所需积分：首次免费；后续按当前宠物等级扣（后端 switchCost = 5×等级）
+function getSwitchCost(s: StudentEntry | null): number {
+  if (!s || !s.pet_name) return 0
+  return 5 * Math.max(1, s.pet_level || 1)
+}
+
 const filtered = computed(() => {
   if (!searchQuery.value) return students.value
   return students.value.filter(s => s.name.includes(searchQuery.value))
@@ -320,10 +326,16 @@ onMounted(async () => {
           <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:28px 32px;max-width:380px;width:90%;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;text-align:center;">
             <div style="font-size:36px;margin-bottom:12px;">🔄</div>
             <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">确认切换宠物？</h3>
-            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:16px;">
+            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:12px;">
               将切换为 <strong style="color:var(--md-primary-light);">{{ confirmSwitch.name }}</strong>
-              <br><span style="font-size:12px;">{{ petPickerStudent?.pet_name ? '按等级扣除积分 · 保留当前等级' : '🎉 首次免费' }}</span>
             </p>
+            <div v-if="petPickerStudent?.pet_name && getSwitchCost(petPickerStudent) > 0"
+              style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#fcd34d;font-weight:700;margin-bottom:16px;">
+              💰 本次切换扣除 <strong style="font-size:18px;">{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留当前等级
+            </div>
+            <div v-else style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;margin-bottom:16px;">
+              🎉 首次免费，不扣积分
+            </div>
             <div style="display:flex;gap:10px;">
               <button @click="confirmSwitch = null" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消</button>
               <button @click="executeSwitch" :disabled="switchStatus !== 'idle'" :style="{ flex:'1', padding:'10px', borderRadius:'10px', border:'none', background: switchStatus === 'loading' ? '#f59e0b' : switchStatus === 'success' ? '#10b981' : switchStatus === 'error' ? '#ef4444' : 'rgba(167,139,250,0.15)', color: switchStatus !== 'idle' ? '#fff' : 'var(--md-primary-light)', fontSize:'14px', fontWeight:'600', cursor:'pointer', fontFamily:'inherit' }">
@@ -402,7 +414,10 @@ onMounted(async () => {
               <span style="font-size:28px;">{{ petPickerStudent.pet_emoji }}</span>
               <div>
                 <div style="font-size:16px;font-weight:700;">{{ petPickerStudent.name }} · 选择宠物</div>
-                <div style="font-size:12px;color:var(--md-text-secondary);">{{ petPickerStudent.pet_name ? '后续切换按等级扣积分 · 保留等级' : '🎉 首次免费选择！' }}</div>
+                <div v-if="petPickerStudent.pet_name" style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#fcd34d;font-weight:700;display:inline-block;">
+                  💰 本次切换扣除 <strong style="font-size:14px;">{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留等级
+                </div>
+                <div v-else style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;display:inline-block;">🎉 首次免费选择，不扣积分</div>
               </div>
               <button @click="showPetPicker = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;">✕</button>
             </div>
