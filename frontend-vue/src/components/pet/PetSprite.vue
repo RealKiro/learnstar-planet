@@ -245,7 +245,7 @@ function fxShape(size: number): string {
           <path d="M68 108 Q44 96 40 74 Q52 88 66 92 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.4" />
           <path d="M132 108 Q156 96 160 74 Q148 88 134 92 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.4" />
         </g>
-        <ellipse cx="100" cy="120" rx="34" ry="27" :fill="`url(#body-grad-${uid})`" />
+        <ellipse cx="100" cy="120" rx="34" ry="27" :fill="`url(#body-grad-${uid})`" class="body-main" />
         <ellipse cx="100" cy="128" rx="22" ry="15" :fill="art.light" opacity="0.85" />
         <ellipse cx="80" cy="144" rx="7" ry="5" :fill="art.dark" />
         <ellipse cx="120" cy="144" rx="7" ry="5" :fill="art.dark" />
@@ -265,6 +265,9 @@ function fxShape(size: number): string {
         </g>
         <g v-html="haloSvg" v-if="art.parts.halo" />
         <g v-html="faceSvg" />
+        <!-- 行为动画：张嘴吼 / 爪子扒拉·舔毛 -->
+        <ellipse cx="100" cy="95" rx="7" ry="4.5" :fill="art.dark" class="roar-mouth" />
+        <ellipse cx="127" cy="133" rx="6" ry="4" :fill="art.dark" class="paw-move" />
       </g>
 
       <!-- ---------- 龙 / 长形 ---------- -->
@@ -274,7 +277,7 @@ function fxShape(size: number): string {
           <path d="M62 112 Q34 92 30 66 Q46 84 62 92 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.4" />
           <path d="M138 112 Q166 92 170 66 Q154 84 138 92 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.4" />
         </g>
-        <ellipse cx="100" cy="124" rx="44" ry="24" :fill="`url(#body-grad-${uid})`" />
+        <ellipse cx="100" cy="124" rx="44" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main" />
         <ellipse cx="100" cy="132" rx="30" ry="13" :fill="art.light" opacity="0.8" />
         <g v-if="art.parts.fin">
           <path d="M70 102 L84 88 L92 102 Z" :fill="art.accent" />
@@ -294,6 +297,8 @@ function fxShape(size: number): string {
         </g>
         <g v-html="haloSvg" v-if="art.parts.halo" />
         <g v-html="faceSvg" />
+        <!-- 行为动画：张嘴大吼 -->
+        <ellipse cx="100" cy="97" rx="9" ry="6" :fill="art.dark" class="roar-mouth" />
       </g>
 
       <!-- ---------- 鸟类 ---------- -->
@@ -306,7 +311,7 @@ function fxShape(size: number): string {
           <path d="M70 108 Q44 96 40 72 Q54 88 70 92 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.3" />
           <path d="M130 108 Q156 96 160 72 Q146 88 130 92 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.3" />
         </g>
-        <ellipse cx="100" cy="118" rx="30" ry="24" :fill="`url(#body-grad-${uid})`" />
+        <ellipse cx="100" cy="118" rx="30" ry="24" :fill="`url(#body-grad-${uid})`" class="body-main" />
         <ellipse cx="100" cy="126" rx="19" ry="13" :fill="art.light" opacity="0.85" />
         <circle cx="100" cy="78" r="27" :fill="`url(#body-grad-${uid})`" />
         <g v-if="art.parts.crown" class="crown">
@@ -315,6 +320,8 @@ function fxShape(size: number): string {
         <path d="M94 88 Q100 100 106 88 Q100 94 94 88 Z" fill="#F59E0B" />
         <g v-html="haloSvg" v-if="art.parts.halo" />
         <g v-html="faceSvg" />
+        <!-- 行为动画：张嘴鸣叫 -->
+        <ellipse cx="100" cy="95" rx="6" ry="4" :fill="art.dark" class="roar-mouth" />
       </g>
 
       <!-- ---------- 水生 ---------- -->
@@ -322,17 +329,19 @@ function fxShape(size: number): string {
         <g v-if="art.parts.tail" class="tail">
           <path d="M66 120 Q44 108 40 126 Q56 122 68 128 Z" :fill="art.accent" />
         </g>
-        <g v-if="art.parts.fin">
+        <g v-if="art.parts.fin" class="fin-beat">
           <path d="M88 96 L100 82 L112 96 Z" :fill="art.accent" />
         </g>
         <path d="M86 132 Q72 140 84 142 Z" :fill="art.dark" opacity="0.7" />
-        <ellipse cx="100" cy="122" rx="36" ry="22" :fill="`url(#body-grad-${uid})`" />
+        <ellipse cx="100" cy="122" rx="36" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main" />
         <ellipse cx="106" cy="128" rx="20" ry="12" :fill="art.light" opacity="0.85" />
         <g transform="translate(116 112)">
           <circle :r="sad ? 4.5 : 5.5" :fill="art.dark" />
           <circle cx="-1.6" cy="-1.6" r="1.9" fill="#fff" />
         </g>
         <path v-if="happy" d="M120 122 Q124 125 128 122" :stroke="art.dark" stroke-width="1.6" fill="none" stroke-linecap="round" />
+        <!-- 行为动画：张嘴吐泡 -->
+        <ellipse cx="114" cy="126" rx="5" ry="3.5" :fill="art.dark" class="roar-mouth" />
         <g v-html="haloSvg" v-if="art.parts.halo" />
       </g>
 
@@ -495,6 +504,12 @@ function fxShape(size: number): string {
 .pet-sprite--animated .sword-aura { animation: swordGlow 1.6s ease-in-out infinite; }
 .pet-sprite--animated .constellation-armor { animation: armorGlow 2s ease-in-out infinite; }
 .pet-sprite--animated .sacred-wings { animation: sacredWings 2.6s ease-in-out infinite; transform-origin: 100px 84px; }
+/* ===== 行为动画：耳朵煽动 / 张嘴吼 / 爪子扒拉·舔毛 / 身体呼吸 ===== */
+.pet-sprite--animated .ears { animation: earFlick 5s ease-in-out infinite; transform-origin: 50% 30%; }
+.pet-sprite--animated .roar-mouth { animation: mouthRoar 6s ease-in-out infinite; transform-origin: center; }
+.pet-sprite--animated .paw-move { animation: pawScratch 6.5s ease-in-out infinite; transform-origin: 127px 133px; }
+.pet-sprite--animated .body-main { animation: breathe 3.2s ease-in-out infinite; transform-origin: 100px 120px; }
+.pet-sprite--animated .fin-beat { animation: finBeat 2.4s ease-in-out infinite; transform-origin: 100px 90px; }
 
 @keyframes petBob {
   0%, 100% { transform: translateY(0); }
@@ -578,5 +593,28 @@ function fxShape(size: number): string {
 @keyframes sacredWings {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.06); }
+}
+@keyframes earFlick {
+  0%, 78%, 100% { transform: scale(1) rotate(0deg); }
+  84% { transform: scale(1.14) rotate(6deg); }
+  90% { transform: scale(1.1) rotate(-4deg); }
+}
+@keyframes mouthRoar {
+  0%, 72%, 100% { opacity: 0; transform: scale(0.4); }
+  80% { opacity: 1; transform: scale(1.15); }
+  88% { opacity: 0.85; transform: scale(1); }
+}
+@keyframes pawScratch {
+  0%, 80%, 100% { transform: translate(0, 0) rotate(0deg); }
+  86% { transform: translate(-6px, -12px) rotate(-18deg); }
+  93% { transform: translate(-2px, -5px) rotate(-8deg); }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04, 1.09); }
+}
+@keyframes finBeat {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(8deg); }
 }
 </style>
