@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\Notice;
 use App\Models\Pet;
+use App\Models\PetCollection;
 use App\Models\Score;
 use App\Models\ScoreRule;
 use App\Models\ShopItem;
@@ -16,6 +17,7 @@ use App\Models\Student;
 use App\Models\Wallet;
 use App\Services\CurrencyService;
 use App\Services\DisplayEventService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use App\Services\LeaderboardService;
 use App\Services\ScoreService;
@@ -156,7 +158,7 @@ class TeacherController extends Controller
                 'total_score' => $s->total_score,
                 'has_pet' => $pet !== null,
                 'pet_name' => $pet?->name,
-                'pet_type' => $pet?->type,
+                'pet_species' => $pet?->species,
                 'level' => $pet->level ?? 0,
                 'experience' => $pet->experience ?? 0,
                 'mood' => $pet->mood ?? 0,
@@ -549,14 +551,13 @@ class TeacherController extends Controller
             ->findOrFail($request->input('student_id'));
 
         if (!$student->pet) {
-            $types = array_keys(Pet::petTypes());
-            $randomType = $types[array_rand($types)];
-            $randomName = Pet::petTypes()[$randomType];
+            // 自动造宠：随机神话系列物种（species 体系；旧 type 体系已废弃，level 从 1 起）
+            $pool = Pet::speciesPoolForSeries('myth');
+            $species = $pool[array_rand($pool)] ?? 'zhulong';
             $student->pet()->create([
                 'class_id' => $student->class_id,
-                'type' => $randomType,
-                'name' => $randomName,
-                'level' => 0,
+                'species' => $species,
+                'level' => 1,
                 'experience' => 0,
                 'mood' => 80,
             ]);
@@ -837,7 +838,7 @@ class TeacherController extends Controller
                 'student_id' => $p->student_id,
                 'student_name' => $p->student?->name,
                 'name' => $p->name,
-                'species' => $p->species,
+                'species' => $p->species ?: 'zhulong',
                 'level' => $p->level,
                 'exp' => $p->exp,
                 'mood' => $p->mood,
@@ -863,7 +864,7 @@ class TeacherController extends Controller
         return response()->json(['data' => [
             'id' => $pet->id,
             'name' => $pet->name,
-            'species' => $pet->species,
+            'species' => $pet->species ?: 'zhulong',
             'level' => $pet->level,
             'exp' => $pet->exp,
             'mood' => $pet->mood,
@@ -1201,7 +1202,7 @@ class TeacherController extends Controller
         ]);
 
         $seriesId = $request->input('series_id');
-        $validSeries = ['myth', 'pokemon', 'national', 'mecha', 'magic', 'prehistoric', 'constellation', 'folklore'];
+        $validSeries = ['myth', 'pokemon', 'national', 'mecha', 'magic', 'prehistoric', 'constellation', 'folklore', 'festival', 'qixia'];
 
         if (!in_array($seriesId, $validSeries, true)) {
             return response()->json(['message' => '无效的系列ID，可选值：' . implode(', ', $validSeries)], 422);
@@ -1218,27 +1219,21 @@ class TeacherController extends Controller
         $class->settings = $settings;
         $class->save();
 
-        // 刷新所有学生的宠物为新的系列（保留等级和经验）
+        // 发放「免费自选」机会：整班切换后 3 天内每人可免费切换一次当前类别的宠物，过期作废
         $students = \App\Models\Student::where('class_id', $classId)
             ->where('status', 'active')
-            ->with('pet')
             ->get();
-
-        $updatedCount = 0;
         foreach ($students as $student) {
-            if ($student->pet) {
-                $student->pet->type = $seriesId . '_' . $student->pet->type;
-                $student->pet->save();
-                $updatedCount++;
-            }
+            Cache::put("pet_free_pick:{$student->id}", 1, now()->addDays(3));
         }
 
         return response()->json([
-            'message' => "已切换系列为「{$seriesId}」，已更新 {$updatedCount} 只宠物",
+            'message' => "已切换系列为「{$seriesId}」，全班 {$students->count()} 人各获一次免费自选该系列宠物的机会",
             'data' => [
                 'series_id' => $seriesId,
                 'class_id' => $classId,
-                'updated_pets' => $updatedCount,
+                'free_pick_granted' => true,
+                'granted_students' => $students->count(),
             ],
         ]);
     }
@@ -1254,57 +1249,168 @@ class TeacherController extends Controller
         $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
 
         $request->validate([
-            'pet_type' => 'required|string|max:50',
+            'pet_species' => 'required|string|max:50',
             'pet_name' => 'nullable|string|max:20',
         ]);
 
-        $petType = $request->input('pet_type');
-        $petName = $request->input('pet_name', $petType);
-
-        if (!in_array($petType, array_keys(Pet::petTypes()))) {
-            return response()->json(['message' => '无效的宠物类型'], 422);
-        }
+        $petSpecies = $request->input('pet_species');
+        $petName = $request->input('pet_name', $petSpecies);
+        $now = now();
 
         $pet = $student->pet;
-        $switchCost = 5;
+
+        // ===== 同物种切换守卫(不扣费、不重置冷却) =====
+        if ($pet && $pet->species === $petSpecies) {
+            return response()->json(['message' => '当前已经是这只宠物啦'], 422);
+        }
+
+        // ===== 类别限制：只能在本班当前类别内更换，不能跨类别领养 =====
+        // 注：旧系列 id(cosmic/cute/all 等)在 speciesPoolForSeries 返回空池 → 视为不限制
+        $classSeries = ClassRoom::find($student->class_id)?->settings['pet_series'] ?? null;
+        $seriesPool = $classSeries ? Pet::speciesPoolForSeries($classSeries) : [];
+        if ($classSeries && !empty($seriesPool) && !in_array($petSpecies, $seriesPool, true)) {
+            return response()->json([
+                'message' => '只能领养当前类别「' . $classSeries . '」的宠物，不能跨类别领养',
+            ], 422);
+        }
+
+        // ===== 免费自选：整班切换后的一次机会（限当前类别，免费） =====
+        $usedFreePick = false;
+        $switchCost = $pet ? Pet::switchCost($pet->level) : 0;
+        if ($pet && Cache::has("pet_free_pick:{$student->id}")) {
+            $usedFreePick = true;
+            $switchCost = 0;
+        }
+
+        // ===== 目标物种收藏进度（切回时恢复） =====
+        $collection = $pet
+            ? PetCollection::where('student_id', $student->id)->where('species', $petSpecies)->first()
+            : null;
 
         if ($pet) {
-            $pet->experience = max(0, $pet->experience - $switchCost);
-            $pet->type = $petType;
+            // 1) 先扣积分（等级越高越贵；免费自选不扣）——积分不足直接拒绝，不留脏数据
+            if (!$usedFreePick) {
+                if ($student->total_score < $switchCost) {
+                    return response()->json(['message' => "积分不足，更换宠物需 {$switchCost} 积分"], 400);
+                }
+                $student->total_score -= $switchCost;
+                $student->save();
+            }
+
+            // 2) 保存当前宠物进度到图鉴（进度全保留）
+            PetCollection::updateOrCreate(
+                ['student_id' => $student->id, 'species' => $pet->species],
+                ['level' => $pet->level, 'experience' => $pet->experience, 'mood' => $pet->mood, 'is_active' => false]
+            );
+
+            // 3) 恢复目标物种进度（新物种为初始形态；进度全保留）
+            if ($collection) {
+                $pet->species = $petSpecies;
+                $pet->level = $collection->level;
+                $pet->experience = $collection->experience;
+                $pet->mood = $collection->mood;
+            } else {
+                $pet->species = $petSpecies;
+                $pet->level = 1;
+                $pet->experience = 0;
+                $pet->mood = 80;
+            }
             $pet->name = $petName;
+            $pet->last_switched_at = $now;
             $pet->save();
 
+            // 4) 目标物种标记激活
+            PetCollection::updateOrCreate(
+                ['student_id' => $student->id, 'species' => $petSpecies],
+                ['level' => $pet->level, 'experience' => $pet->experience, 'mood' => $pet->mood, 'is_active' => true]
+            );
+
+            // 免费自选机会使用即失效
+            if ($usedFreePick) {
+                Cache::forget("pet_free_pick:{$student->id}");
+            }
+
             return response()->json([
-                'message' => '宠物已切换为「' . $petName . '」（扣除 ' . $switchCost . ' 成长值）',
+                'message' => $usedFreePick
+                    ? '✅ 已使用整班切换的免费自选机会！'
+                    : '宠物已更换为「' . $petName . '」（扣除 ' . $switchCost . ' 积分）',
                 'data' => [
                     'pet_name' => $pet->name,
-                    'pet_type' => $pet->type,
+                    'pet_species' => $pet->species,
                     'level' => $pet->level,
                     'experience' => $pet->experience,
                     'cost' => $switchCost,
+                    'free_pick_used' => $usedFreePick,
                 ],
             ]);
         }
 
+        // 无宠物：创建新宠物并收入图鉴
         $pet = Pet::create([
             'student_id' => $student->id,
             'class_id' => $student->class_id,
             'name' => $petName,
-            'type' => $petType,
-            'level' => 0,
+            'species' => $petSpecies,
+            'level' => 1,
             'experience' => 0,
             'mood' => 80,
+        ]);
+        PetCollection::create([
+            'student_id' => $student->id,
+            'species' => $petSpecies,
+            'level' => 1,
+            'experience' => 0,
+            'mood' => 80,
+            'is_active' => true,
         ]);
 
         return response()->json([
             'message' => '已为您分配宠物「' . $petName . '」',
             'data' => [
                 'pet_name' => $pet->name,
-                'pet_type' => $pet->type,
+                'pet_species' => $pet->species,
                 'level' => $pet->level,
                 'experience' => $pet->experience,
             ],
         ]);
+    }
+
+    /**
+     * 学生宠物图鉴收藏
+     */
+    public function petCollection(Request $request, int $studentId): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->teacherClassIds($teacher);
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
+
+        $activePet = $student->pet;
+
+        // 确保当前激活宠物在收藏中
+        if ($activePet && $activePet->species) {
+            PetCollection::firstOrCreate(
+                ['student_id' => $student->id, 'species' => $activePet->species],
+                ['level' => $activePet->level, 'experience' => $activePet->experience, 'mood' => $activePet->mood, 'is_active' => true]
+            );
+        }
+
+        $collections = PetCollection::where('student_id', $student->id)->orderBy('species')->get();
+
+        return response()->json(['data' => [
+            'student_id' => $student->id,
+            'student_name' => $student->name,
+            'total_score' => $student->total_score,
+            'unlock_slots' => PetCollection::unlockSlotsForScore($student->total_score),
+            'class_series' => ClassRoom::find($student->class_id)?->settings['pet_series'] ?? null,
+            'active_species' => $activePet?->species,
+            'collection' => $collections->map(fn (PetCollection $c) => [
+                'species' => $c->species,
+                'level' => $c->level,
+                'experience' => $c->experience,
+                'mood' => $c->mood,
+                'is_active' => $c->is_active,
+            ])->values(),
+        ]]);
     }
 
     public function getPetTypes(): JsonResponse

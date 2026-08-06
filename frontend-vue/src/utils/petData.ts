@@ -1,6 +1,8 @@
 // ===== 学趣星球 · 宠物数据系统 =====
-// 8 个系列、54 个物种、每个物种 12 级进化
-// 数据来源：宠物系列设计.txt
+// 10 个系列、120 个物种、每个物种 12 级进化
+// 基础 8 系列数据来源：宠物系列设计.txt；扩充物种见 petDataExtended.ts
+
+import { EXTRA_SPECIES, EXTRA_SERIES } from './petDataExtended'
 
 /** 系列定义 */
 export interface PetSeries {
@@ -29,18 +31,18 @@ export interface PetLevel {
   requiredScore: number
 }
 
-/** 获取等级所需积分 */
+/** 获取等级所需累计积分(与各物种 requiredScore 一致的统一阈值表 Lv.0~12) */
 export function getLevelRequiredScore(level: number): number {
-  const scores = [0, 0, 15, 41, 68, 96, 125, 155, 185, 217, 250, 283, 318, 353, 390, 427, 465, 504, 545, 586, 628, 671, 715, 760, 805, 852, 900, 949, 998, 1049, 1100, 1153, 1206, 1261, 1316, 1372, 1429, 1487, 1546, 1606, 1667, 1729, 1792, 1856, 1921, 1986, 2053, 2120, 2189, 2258, 2329, 2400]
+  const scores = [0, 0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450]
   return scores[level] ?? 450
 }
 
-/** 判断等级阶段 */
+/** 判断等级阶段(Lv.1-2 卵生 / 3-5 幼年 / 6-8 成长 / 9-10 成熟 / 11-12 传说) */
 export function getLevelStage(level: number): PetLevel['stage'] {
-  if (level <= 5) return 'egg'
-  if (level <= 15) return 'baby'
-  if (level <= 25) return 'growing'
-  if (level <= 35) return 'mature'
+  if (level <= 2) return 'egg'
+  if (level <= 5) return 'baby'
+  if (level <= 8) return 'growing'
+  if (level <= 10) return 'mature'
   return 'legendary'
 }
 
@@ -125,6 +127,18 @@ export const SERIES_SCENES: Record<string, SceneConfig> = {
     decor: ['🏮', '🧧', '🎊', '🐉'],
     scene: '古风小镇 · 万家灯火',
   },
+  festival: {
+    primaryColor: '#EF4444',
+    bgGradient: 'linear-gradient(180deg, #2a0a1a 0%, #4a1026 30%, #6b1a2a 60%, #2a0a1a 100%)',
+    decor: ['🎊', '🏮', '🎆', '🥮'],
+    scene: '节庆长街 · 灯火与诗',
+  },
+  qixia: {
+    primaryColor: '#EF4444',
+    bgGradient: 'linear-gradient(180deg, #1a0a0a 0%, #3a1210 30%, #5a1a0a 60%, #1a0a0a 100%)',
+    decor: ['⚔️', '🐉', '🌲', '🏯'],
+    scene: '七剑峡谷 · 侠影重重',
+  },
 }
 
 /** 系列与物种的Emoji映射 */
@@ -191,6 +205,81 @@ export const SPECIES_EMOJI: Record<string, string> = {
   dumpling: '🥟',
   fu_star: '⭐',
   shou_star: '🍑',
+  // 神话·扩充
+  qinglong: '🐉',
+  baihu: '🐯',
+  zhuque: '🐦',
+  xuanwu: '🐢',
+  taotie: '😋',
+  baize: '📖',
+  // 元素·扩充
+  ice_fox: '🦊',
+  rock_rhino: '🦏',
+  wind_falcon: '🦅',
+  light_deer: '🦌',
+  dark_panther: '🐈‍⬛',
+  steel_armadillo: '🦔',
+  // 国宝·扩充
+  tibetan_antelope: '🐐',
+  snow_leopard: '🐆',
+  milu_deer: '🦌',
+  siberian_tiger: '🐯',
+  red_panda: '🐼',
+  finless_porpoise: '🐬',
+  // 机甲·扩充
+  lightsaber_warrior: '🗡️',
+  fission_giant: '🤖',
+  nano_swarm: '🐜',
+  storm_jet: '✈️',
+  bio_armor: '🦠',
+  starship_core: '🚀',
+  // 魔法·扩充
+  grey_wizard: '🧙',
+  wand_cat: '🐱',
+  dragon_knight: '🐲',
+  alchemy_golem: '🗿',
+  nightmare_horse: '🐴',
+  lamp_spirit: '🧞',
+  // 史前·扩充
+  spinosaurus: '🦖',
+  ankylosaurus: '🦕',
+  diplodocus: '🦕',
+  megalodon: '🦈',
+  ground_sloth: '🦥',
+  woolly_rhino: '🦏',
+  // 民间·扩充
+  lion_dance: '🦁',
+  god_of_wealth: '💰',
+  door_god: '🚪',
+  kitchen_god: '🍚',
+  magpie: '🐦',
+  firework_spirit: '🎆',
+  // 传统节日
+  zongzi: '🫔',
+  tangyuan: '🍡',
+  mooncake: '🥮',
+  qingtuan: '🍡',
+  chongyang_cake: '🍰',
+  niangao: '🍥',
+  laba_porridge: '🥣',
+  spring_pancake: '🥞',
+  tanghulu: '🍢',
+  osmanthus_cake: '🍮',
+  wonton: '🥟',
+  festival_lantern: '🏮',
+  // 七侠剑客
+  hongmao: '🐱',
+  lantu: '🐰',
+  doudou: '🐶',
+  dabeng: '🐻',
+  tiaotiao: '🐒',
+  shali: '🦊',
+  dada: '🐼',
+  qilin_sacred: '🦄',
+  lingge: '🕊️',
+  heixinhu: '🐯',
+  zhuzhijie: '🐷',
+  niuxuanfeng: '🐂',
 }
 
 /** 获取物种Emoji */
@@ -209,6 +298,8 @@ export function getSeriesEmoji(seriesId: string): string {
     prehistoric: '🦕',
     constellation: '♈',
     folklore: '🏮',
+    festival: '🎊',
+    qixia: '⚔️',
   }
   return map[seriesId] || '🌟'
 }
@@ -217,13 +308,15 @@ export function getSeriesEmoji(seriesId: string): string {
 export function getSeriesName(seriesId: string): string {
   const map: Record<string, string> = {
     myth: '古代神话',
-    pokemon: '宝可梦风格',
-    national: '国宝',
+    pokemon: '元素精灵',
+    national: '国宝守护',
     mecha: '科幻机甲',
     magic: '魔法奇幻',
     prehistoric: '史前生物',
     constellation: '星座守护',
     folklore: '民间传说',
+    festival: '传统节日',
+    qixia: '七侠剑客',
   }
   return map[seriesId] || '未知'
 }
@@ -1207,6 +1300,28 @@ export const PET_SERIES: PetSeries[] = [
     ],
   },
 ]
+
+// ============================================================
+// 扩充数据合并：每系列补齐到 12 种 + 新增「传统节日」「七侠剑客」系列
+// 构成 10 系列 × 12 物种 = 120 种
+// ============================================================
+
+for (const series of PET_SERIES) {
+  const extra = EXTRA_SPECIES[series.id]
+  if (extra?.length) {
+    series.species.push(...extra)
+  }
+}
+PET_SERIES.push(...EXTRA_SERIES)
+
+// 统一每级阶段字段（旧数据用旧映射，统一到 Lv.1-2 卵生/3-5 幼年/6-8 成长/9-10 成熟/11-12 传说）
+for (const series of PET_SERIES) {
+  for (const sp of series.species) {
+    for (const lvl of sp.levels) {
+      lvl.stage = getLevelStage(lvl.level)
+    }
+  }
+}
 
 /** 根据物种ID获取宠物数据 */
 export function getSpeciesById(speciesId: string): PetSpecies | undefined {

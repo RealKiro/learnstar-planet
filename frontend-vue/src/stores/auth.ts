@@ -14,7 +14,6 @@ export const useAuthStore = defineStore('auth', () => {
   const isLoggedIn = computed(() => !!token.value)
   const isAdmin = computed(() => user.value?.role === 'school_admin')
   const isTeacher = computed(() => user.value?.role === 'teacher')
-  const isParent = computed(() => user.value?.role === 'parent')
   const userName = computed(() => user.value?.name || '')
   const displayName = computed(() => user.value?.nickname || user.value?.name || '')
 
@@ -32,5 +31,5 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('currentUser')
   }
 
-  return { token, user, isLoggedIn, isAdmin, isTeacher, isParent, userName, displayName, setAuth, logout }
+  return { token, user, isLoggedIn, isAdmin, isTeacher, userName, displayName, setAuth, logout }
 })

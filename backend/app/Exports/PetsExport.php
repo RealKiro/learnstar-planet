@@ -31,7 +31,7 @@ class PetsExport implements FromCollection, WithHeadings, WithTitle
             return [
                 'student_name' => $student->name,
                 'pet_name' => optional($pet)->name ?? '无',
-                'pet_type' => optional($pet)->type ?? '',
+                'pet_species' => optional($pet)->species ?? '',
                 'level' => optional($pet)->level ?? 0,
                 'stage' => optional($pet)->currentStage()['name'] ?? '未孵化',
                 'experience' => optional($pet)->experience ?? 0,

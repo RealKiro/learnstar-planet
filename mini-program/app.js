@@ -3,7 +3,7 @@ App({
   globalData: {
     apiBase: 'https://your-domain.com/api',
     userInfo: null,
-    role: null,       // teacher / parent / admin
+    role: null,       // teacher / school_admin
     schoolId: null,
     classId: null,
     openid: null,
@@ -108,11 +108,9 @@ App({
     wx.setStorageSync('role', this.globalData.role);
     wx.setStorageSync('userInfo', this.globalData.userInfo);
 
-    // 根据角色跳转不同首页
+    // 根据角色跳转首页（家长端已移除，仅教师/教室端）
     if (this.globalData.role === 'teacher') {
       wx.switchTab({ url: '/pages/dashboard/dashboard' });
-    } else if (this.globalData.role === 'parent') {
-      wx.redirectTo({ url: '/pages/parent-home/parent-home' });
     }
   },
 

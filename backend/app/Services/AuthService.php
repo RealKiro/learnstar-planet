@@ -117,43 +117,6 @@ class AuthService
         return $candidate;
     }
 
-    /**
-     * 学校管理员创建家长账号（绑定学生）
-     *
-     * username 默认 = 家长姓名
-     * nickname 默认 = 姓名拼音
-     *
-     * 返回数组（含明文初始密码），方便管理员一次性下发给家长
-     */
-    public function createParentAccount(School $school, array $parentData): array
-    {
-        $name = $parentData['name'];
-        $username = $parentData['username'] ?? $this->uniqueUsername($name, $school);
-        $nickname = $parentData['nickname'] ?? $this->uniqueNickname($name, $school);
-        $initialPassword = $parentData['password'] ?? 'ls123456';
-
-        $parent = User::create([
-            'school_id' => $school->id,
-            'role' => 'parent',
-            'username' => $username,
-            'password' => Hash::make($initialPassword),
-            'name' => $name,
-            'nickname' => $nickname,
-            'avatar_path' => $parentData['avatar_path'] ?? null,
-            'phone' => $parentData['phone'] ?? null,
-            'password_changed' => false,
-            'status' => 'active',
-        ]);
-
-        return [
-            'id' => $parent->id,
-            'username' => $parent->username,
-            'nickname' => $parent->nickname,
-            'initial_password' => $initialPassword,
-            'name' => $parent->name,
-        ];
-    }
-
     // ========== 账号密码登录（教师和管理员分开） ==========
 
     /**
@@ -185,26 +148,6 @@ class AuthService
     {
         $user = User::where('username', $username)
             ->where('role', 'school_admin')
-            ->where('status', 'active')
-            ->first();
-
-        if (!$user || !Hash::check($password, $user->password)) {
-            return null;
-        }
-
-        $user->update(['last_login_at' => now()]);
-
-        return $user;
-    }
-
-    /**
-     * 家长账号密码登录
-     * 仅允许 role=parent 的账号通过此接口登录
-     */
-    public function parentLoginWithCredentials(string $username, string $password): ?User
-    {
-        $user = User::where('username', $username)
-            ->where('role', 'parent')
             ->where('status', 'active')
             ->first();
 

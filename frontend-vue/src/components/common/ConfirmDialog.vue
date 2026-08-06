@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts">
 import { reactive } from 'vue'
 
 // 全局单例确认弹窗状态（模块级，可在任意组件 import 调用）
@@ -43,34 +43,39 @@ export function openConfirm(opts: {
     }
   })
 }
+</script>
+
+<script setup lang="ts">
+// 模块级 confirmState 与 setup 共享模块作用域；经 state 别名暴露给模板
+const state = confirmState
 
 function doConfirm() {
-  if (confirmState.loading) return
-  confirmState.onConfirm?.()
+  if (state.loading) return
+  state.onConfirm?.()
 }
 function doCancel() {
-  confirmState.onCancel?.()
+  state.onCancel?.()
 }
 </script>
 
 <template>
   <Teleport to="body">
     <Transition name="confirm-fade">
-      <div v-if="confirmState.visible" class="confirm-overlay" @click.self="doCancel">
+      <div v-if="state.visible" class="confirm-overlay" @click.self="doCancel">
         <div class="confirm-box">
           <div class="confirm-header">
-            <h3 class="confirm-title">{{ confirmState.title }}</h3>
+            <h3 class="confirm-title">{{ state.title }}</h3>
             <button class="confirm-close" @click="doCancel">✕</button>
           </div>
           <div class="confirm-body">
-            <div class="confirm-icon" :class="{ danger: confirmState.danger }">
-              {{ confirmState.danger ? '⚠️' : '❓' }}
+            <div class="confirm-icon" :class="{ danger: state.danger }">
+              {{ state.danger ? '⚠️' : '❓' }}
             </div>
-            <p class="confirm-message">{{ confirmState.message }}</p>
+            <p class="confirm-message">{{ state.message }}</p>
           </div>
           <div class="confirm-footer">
-            <button class="cf-btn cf-cancel" @click="doCancel">{{ confirmState.cancelText }}</button>
-            <button class="cf-btn cf-ok" :class="{ danger: confirmState.danger }" @click="doConfirm">{{ confirmState.confirmText }}</button>
+            <button class="cf-btn cf-cancel" @click="doCancel">{{ state.cancelText }}</button>
+            <button class="cf-btn cf-ok" :class="{ danger: state.danger }" @click="doConfirm">{{ state.confirmText }}</button>
           </div>
         </div>
       </div>

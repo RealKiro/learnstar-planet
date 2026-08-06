@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DisplayController;
-use App\Http\Controllers\Api\ParentController;
 use App\Http\Controllers\Api\SchoolAdminController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\TeacherController;
@@ -20,7 +19,6 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('teacher/login', [AuthController::class, 'teacherLoginWithCredentials'])->middleware('throttle:6,1');
         Route::post('admin/login', [AuthController::class, 'adminLoginWithCredentials'])->middleware('throttle:6,1');
-        Route::post('parent/login', [AuthController::class, 'parentLoginWithCredentials'])->middleware('throttle:6,1');
         Route::post('class/login', [AuthController::class, 'classLogin'])->middleware('throttle:10,1');
         Route::get('third-party/auth-url', [AuthController::class, 'thirdPartyAuthUrl']);
         Route::get('third-party/options', [AuthController::class, 'thirdPartyOptions']);
@@ -74,11 +72,6 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [SchoolAdminController::class, 'adminCreateShopItem']);
             Route::put('{id}', [SchoolAdminController::class, 'adminUpdateShopItem']);
             Route::delete('{id}', [SchoolAdminController::class, 'adminDeleteShopItem']);
-        });
-        Route::prefix('parents')->group(function () {
-            Route::get('/', [SchoolAdminController::class, 'listParents']);
-            Route::post('batch-create', [SchoolAdminController::class, 'batchCreateParents']);
-            Route::delete('{id}', [SchoolAdminController::class, 'deleteParent']);
         });
         Route::prefix('classes')->group(function () {
             Route::get('/', [SchoolAdminController::class, 'index']);
@@ -165,6 +158,7 @@ Route::prefix('v1')->group(function () {
             Route::get('types', [TeacherController::class, 'getPetTypes']);
             Route::get('overview', [TeacherController::class, 'classPetsOverview']);
             Route::get('{studentId}', [TeacherController::class, 'getPet']);
+            Route::get('{studentId}/collection', [TeacherController::class, 'petCollection']);
             Route::post('{studentId}/switch', [TeacherController::class, 'switchPet']);
             Route::post('{studentId}/feed', [TeacherController::class, 'feedPet']);
             Route::post('{studentId}/rename', [TeacherController::class, 'renamePet']);
@@ -257,29 +251,7 @@ Route::prefix('v1')->group(function () {
         Route::post('display-code/refresh', [DisplayController::class, 'refreshDisplayCode']);
     });
 
-    // ===== 4. 家长端 =====
-    Route::prefix('parent')->middleware(['auth:sanctum', 'role:parent'])->group(function () {
-        Route::get('home', [ParentController::class, 'home']);
-        Route::prefix('scores')->group(function () {
-            Route::get('detail', [ParentController::class, 'scoreDetail']);
-            Route::get('history', [ParentController::class, 'scoreHistory']);
-        });
-        Route::prefix('growth')->group(function () {
-            Route::get('log', [ParentController::class, 'growthLog']);
-            Route::get('timeline', [ParentController::class, 'growthTimeline']);
-        });
-        Route::prefix('pet')->group(function () {
-            Route::get('/', [ParentController::class, 'petStatus']);
-            Route::post('feed', [ParentController::class, 'feedPet']);
-        });
-        Route::get('ranking', [ParentController::class, 'ranking']);
-        Route::prefix('notices')->group(function () {
-            Route::get('/', [ParentController::class, 'listNotices']);
-            Route::get('{id}', [ParentController::class, 'readNotice']);
-        });
-    });
-
-    // ===== 5. 班级大屏 / 教室端 (班级码 Token) =====
+    // ===== 4. 班级大屏 / 教室端 (班级码 Token) =====
     Route::prefix('display')->group(function () {
         Route::post('login', [DisplayController::class, 'login'])->middleware('throttle:10,1');
         Route::get('initial-data', [DisplayController::class, 'initialData']);

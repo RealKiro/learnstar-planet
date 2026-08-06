@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { getSpeciesById, getLevelRequiredScore, getSeriesBySpeciesId, getSpeciesEmoji, SERIES_SCENES } from '@/utils/petData'
+import { getStagePersonality, getStageAbility } from '@/utils/petTraits'
+import PetSprite from './PetSprite.vue'
 
 const props = defineProps<{
   speciesId: string
@@ -73,7 +75,9 @@ function getRequiredForNext(level: number): number {
       <!-- 预览区域 -->
       <div class="preview-area">
         <div class="preview-scene" v-if="scene" :style="{ background: scene.bgGradient }">
-          <div class="preview-emoji">{{ getSpeciesEmoji(speciesId) }}</div>
+          <div class="preview-sprite">
+            <PetSprite :species-id="speciesId" :level="previewLevel" :animate="true" />
+          </div>
           <div class="preview-level-badge">Lv.{{ previewLevel }}</div>
         </div>
 
@@ -84,6 +88,16 @@ function getRequiredForNext(level: number): number {
             <span v-else class="detail-locked">🔒 未解锁</span>
           </div>
           <p class="detail-desc">{{ levels.find(l => l.level === previewLevel)?.description }}</p>
+
+          <!-- 本阶段角色特点与技能 -->
+          <div class="detail-trait">
+            <span class="trait-icon">🎭</span>
+            <span>{{ getStagePersonality(speciesId, previewLevel) }}</span>
+          </div>
+          <div class="detail-trait trait--ability">
+            <span class="trait-icon">⚡</span>
+            <span>{{ getStageAbility(speciesId, previewLevel) }}</span>
+          </div>
 
           <div class="detail-stats">
             <div class="stat-item">
@@ -286,8 +300,9 @@ function getRequiredForNext(level: number): number {
   position: relative;
   overflow: hidden;
 }
-.preview-emoji {
-  font-size: 48px;
+.preview-sprite {
+  width: 76px;
+  height: 76px;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 .preview-level-badge {
@@ -326,8 +341,22 @@ function getRequiredForNext(level: number): number {
   font-size: 13px;
   color: rgba(255,255,255,0.6);
   line-height: 1.5;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
 }
+.detail-trait {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #FDE68A;
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.15);
+  border-radius: 8px;
+  padding: 4px 10px;
+  margin-bottom: 6px;
+}
+.trait--ability { color: #93C5FD; background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.18); }
+.trait-icon { flex-shrink: 0; }
 .detail-stats {
   display: flex;
   gap: 16px;

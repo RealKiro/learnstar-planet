@@ -61,7 +61,6 @@ const router = createRouter({
         { path: '', redirect: { name: 'admin-dashboard' } },
         { path: 'dashboard', name: 'admin-dashboard', component: () => import('@/pages/admin/DashboardPage.vue') },
         { path: 'teachers', name: 'admin-teachers', component: () => import('@/pages/admin/TeachersPage.vue') },
-        { path: 'parents', name: 'admin-parents', component: () => import('@/pages/admin/ParentsPage.vue') },
         { path: 'classes', name: 'admin-classes', component: () => import('@/pages/admin/ClassesPage.vue') },
         { path: 'students', name: 'admin-students', component: () => import('@/pages/admin/StudentsPage.vue') },
         { path: 'score-rules', name: 'admin-score-rules', component: () => import('@/pages/admin/AdminScoreRulesPage.vue') },
@@ -71,20 +70,6 @@ const router = createRouter({
         { path: 'school', name: 'admin-school', component: () => import('@/pages/admin/SchoolSettingsPage.vue') },
         { path: 'ai', name: 'admin-ai', component: () => import('@/pages/admin/AICenterPage.vue') },
         { path: 'debug', name: 'admin-debug', component: () => import('@/pages/admin/AdminDebugPage.vue') },
-      ],
-    },
-    {
-      path: '/parent',
-      component: () => import('@/layouts/ParentLayout.vue'),
-      meta: { requiresAuth: true, role: 'parent' },
-      children: [
-        { path: '', redirect: { name: 'parent-home' } },
-        { path: 'home', name: 'parent-home', component: () => import('@/pages/parent/HomePage.vue') },
-        { path: 'scores', name: 'parent-scores', component: () => import('@/pages/parent/ScoresPage.vue') },
-        { path: 'growth', name: 'parent-growth', component: () => import('@/pages/parent/GrowthPage.vue') },
-        { path: 'pet', name: 'parent-pet', component: () => import('@/pages/parent/PetDetailPage.vue') },
-        { path: 'ranking', name: 'parent-ranking', component: () => import('@/pages/parent/RankingPage.vue') },
-        { path: 'notices', name: 'parent-notices', component: () => import('@/pages/parent/NoticesPage.vue') },
       ],
     },
     // ===== 班级大屏（无认证，使用班级码 Token） =====
@@ -125,7 +110,6 @@ router.beforeEach((to, _from, next) => {
   if (to.meta.role && authStore.user?.role !== to.meta.role) {
     if (authStore.isAdmin) return next({ name: 'admin-dashboard' })
     if (authStore.isTeacher) return next({ name: 'teacher-dashboard' })
-    if (authStore.isParent) return next({ name: 'parent-home' })
     return next({ name: 'landing' })
   }
 

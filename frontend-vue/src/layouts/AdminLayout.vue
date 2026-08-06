@@ -17,7 +17,6 @@ const navItems = [
   ]},
   { section: '账号管理', items: [
     { page: 'admin-teachers', label: '教师账号', icon: '👨‍🏫' },
-    { page: 'admin-parents', label: '家长账号', icon: '👪' },
   ]},
   { section: '班级管理', items: [
     { page: 'admin-classes', label: '班级列表', icon: '🏫' },

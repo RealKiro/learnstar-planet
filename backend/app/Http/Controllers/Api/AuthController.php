@@ -95,41 +95,6 @@ class AuthController extends Controller
     }
 
     /**
-     * 家长账号密码登录
-     */
-    public function parentLoginWithCredentials(Request $request): JsonResponse
-    {
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        $user = $this->authService->parentLoginWithCredentials(
-            $request->input('username'),
-            $request->input('password')
-        );
-
-        if (!$user) {
-            return response()->json(['message' => '账号或密码错误，请核对后重试'], 401);
-        }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'data' => [
-                'token' => $token,
-                'user' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'name' => $user->name,
-                    'role' => $user->role,
-                    'school_id' => $user->school_id,
-                ],
-            ],
-        ]);
-    }
-
-    /**
      * 班级码登录（学生端/班级大屏统一入口）
      */
     public function classLogin(Request $request): JsonResponse

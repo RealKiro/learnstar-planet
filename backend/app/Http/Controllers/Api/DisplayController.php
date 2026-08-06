@@ -10,6 +10,7 @@ use App\Models\ClassRoom;
 use App\Models\ClassRoomTeacher;
 use App\Models\DisplayLoginLog;
 use App\Models\Pet;
+use App\Models\PetCollection;
 use App\Models\Score;
 use App\Models\ShopItem;
 use App\Models\ShopRedemption;
@@ -231,17 +232,17 @@ class DisplayController extends Controller
             ->orderByRaw('CAST(student_no AS UNSIGNED) ASC, id ASC')
             ->get();
 
-        // 没有宠物的学生自动分配一只（兼容旧数据）
-        $cuteTypes = ['orange_cat', 'husky', 'shiba', 'guinea_pig', 'hamster', 'bunny', 'parrot', 'hedgehog', 'chinchilla', 'teacup_pig', 'sugar_glider', 'alpaca'];
+        // 没有宠物的学生自动分配一只（species 体系；旧 type 体系已废弃）
+        $pool = Pet::speciesPoolForSeries('myth');
         foreach ($students as $s) {
             if (!$s->pet) {
-                $type = $cuteTypes[array_rand($cuteTypes)];
+                $species = $pool[array_rand($pool)] ?? 'zhulong';
                 $s->pet()->create([
                     'student_id' => $s->id,
                     'class_id' => $s->class_id,
                     'name' => $s->name . '的萌宠',
-                    'type' => $type,
-                    'level' => 0,
+                    'species' => $species,
+                    'level' => 1,
                     'experience' => 0,
                     'mood' => 80,
                 ]);
@@ -520,7 +521,7 @@ class DisplayController extends Controller
     {
         return $students->map(function (Student $s): array {
             $pet = $s->pet;
-            $stage = $this->getPetStageInfo($pet->level ?? 0, $pet->type ?? null);
+            $stage = $pet ? $pet->currentStage() : $this->fallbackPetStage();
 
             return [
             'student_id' => $s->id,
@@ -529,7 +530,7 @@ class DisplayController extends Controller
                 'total_score' => $s->total_score,
                 'has_pet' => $pet !== null,
                 'pet_name' => $pet?->name,
-                'pet_type' => $pet?->type,
+                'pet_species' => $pet?->species,
                 'level' => $pet->level ?? 0,
                 'experience' => $pet->experience ?? 0,
                 'mood' => $pet->mood ?? 50,
@@ -544,19 +545,19 @@ class DisplayController extends Controller
     }
 
     /**
-     * 获取宠物阶段信息（复用 Pet 模型定义）
+     * 无宠物时的兜底阶段信息
      */
-    private function getPetStageInfo(int $level, ?string $petType = null): array
+    private function fallbackPetStage(): array
     {
-        if ($petType) {
-            $stages = Pet::evolutionStagesForType($petType);
-        } else {
-            $stages = Pet::evolutionStages();
-        }
-        $stage = $stages[min($level, 10)] ?? $stages[0];
-        $stage['exp_max'] = ($level + 1) * 10;
-
-        return $stage;
+        return [
+            'stage' => 'egg',
+            'name' => '未孵化',
+            'title' => '等待破壳',
+            'emoji' => '🥚',
+            'color' => '#94a3b8',
+            'level' => 0,
+            'exp_max' => 10,
+        ];
     }
 
     // ============================================================
@@ -755,7 +756,7 @@ class DisplayController extends Controller
             'name' => $s->name,
             'score' => $s->total_score,
             'pet_name' => $s->pet->name ?? '',
-            'pet_species' => $s->pet->type ?? '',
+            'pet_species' => $s->pet->species ?? '',
             'pet_level' => $s->pet->level ?? 0,
         ]);
 
@@ -780,7 +781,7 @@ class DisplayController extends Controller
             'star_student' => $starStudent ? [
                 'name' => $starStudent->name,
                 'pet_name' => $starStudent->pet->name ?? '',
-                'pet_species' => $starStudent->pet->type ?? '',
+                'pet_species' => $starStudent->pet->species ?? '',
                 'pet_level' => $starStudent->pet->level ?? 0,
                 'score' => $starStudent->total_score,
             ] : null,
@@ -809,7 +810,7 @@ class DisplayController extends Controller
                 'student_no' => $s->student_no,
                 'total_score' => $s->total_score,
                 'pet_name' => $s->pet->name ?? '',
-                'pet_species' => $s->pet->type ?? '',
+                'pet_species' => $s->pet->species ?? '',
                 'pet_level' => $s->pet->level ?? 0,
                 'pet_emoji' => $s->pet ? ($s->pet->currentStage()['emoji'] ?? '🥚') : '🥚',
             ]);
@@ -972,7 +973,7 @@ class DisplayController extends Controller
 
         $request->validate(['series_id' => 'required|string|max:50']);
         $seriesId = $request->input('series_id');
-        $validSeries = ['myth', 'pokemon', 'national', 'mecha', 'magic', 'prehistoric', 'constellation', 'folklore'];
+        $validSeries = ['myth', 'pokemon', 'national', 'mecha', 'magic', 'prehistoric', 'constellation', 'folklore', 'festival', 'qixia'];
 
         if (!in_array($seriesId, $validSeries, true)) {
             return response()->json(['message' => '无效的系列ID'], 422);
@@ -1001,10 +1002,11 @@ class DisplayController extends Controller
             ], 400);
         }
 
-        // 扣除每个学生20积分
+        // 扣除每个学生20积分，并发放「免费自选」机会（整班切换后 3 天内免费切换一次当前类别，过期作废）
         foreach ($students as $student) {
             $student->total_score -= $costPerStudent;
             $student->save();
+            Cache::put("pet_free_pick:{$student->id}", 1, now()->addDays(3));
         }
 
         // 更新班级配置
@@ -1014,11 +1016,12 @@ class DisplayController extends Controller
         $class->save();
 
         return response()->json([
-            'message' => "已切换至「{$seriesId}」系列，全班 {$activeCount} 人各扣除 {$costPerStudent} 积分",
+            'message' => "已切换至「{$seriesId}」系列：全班 {$activeCount} 人各扣 {$costPerStudent} 积分，并各获一次免费自选该系列宠物的机会",
             'data' => [
                 'series_id' => $seriesId,
                 'cost_per_student' => $costPerStudent,
                 'affected_students' => $activeCount,
+                'free_pick_granted' => true,
             ],
         ]);
     }
@@ -1039,54 +1042,85 @@ class DisplayController extends Controller
         ]);
 
         $classId = (int) $classInfo['class_id'];
+        $class = ClassRoom::findOrFail($classId);
         $student = Student::where('class_id', $classId)->findOrFail((int) $request->input('student_id'));
         $newSpecies = $request->input('pet_species');
 
         $pet = $student->pet;
 
         if ($pet) {
-            // 检查是否首次切换
-            $switchCount = (int) Cache::get("pet_switch_count:{$pet->id}", 0);
-            $cost = 0;
+            // 同物种守卫：不扣分不消耗免费机会
+            if ($pet->species === $newSpecies) {
+                return response()->json(['message' => '当前已经是这只宠物啦'], 422);
+            }
 
-            if ($switchCount > 0) {
-                // 后续切换扣20积分
-                $cost = 20;
+            // 类别限制：只能在本班当前类别内更换，不能跨类别领养（旧系列 id 空池视为不限制）
+            $classSeries = $class->settings['pet_series'] ?? null;
+            $seriesPool = $classSeries ? Pet::speciesPoolForSeries($classSeries) : [];
+            if ($classSeries && !empty($seriesPool) && !in_array($newSpecies, $seriesPool, true)) {
+                return response()->json(['message' => '只能领养当前类别「' . $classSeries . '」的宠物，不能跨类别领养'], 422);
+            }
+
+            // 免费自选：整班切换后的一次机会（免费）；否则按等级扣积分（等级越高越贵）
+            $usedFreePick = Cache::has("pet_free_pick:{$student->id}");
+            $cost = $usedFreePick ? 0 : Pet::switchCost($pet->level);
+
+            if (!$usedFreePick) {
                 if ($student->total_score < $cost) {
-                    return response()->json(['message' => "积分不足，切换需要 {$cost} 积分"], 400);
+                    return response()->json(['message' => "积分不足，更换宠物需 {$cost} 积分"], 400);
                 }
                 $student->total_score -= $cost;
                 $student->save();
-        }
+            }
 
-            // 保留等级和经验，只换种类
-            $pet->type = $newSpecies;
+            // 保留等级和经验，只换种类；旧物种进度存入图鉴
+            PetCollection::updateOrCreate(
+                ['student_id' => $student->id, 'species' => $pet->species],
+                ['level' => $pet->level, 'experience' => $pet->experience, 'mood' => $pet->mood, 'is_active' => false]
+            );
+            $pet->species = $newSpecies;
             $pet->save();
 
-            Cache::put("pet_switch_count:{$pet->id}", $switchCount + 1, now()->addYears(1));
+            // 目标物种标记激活（课堂端同样记录到图鉴，避免"已拥有却显示未拥有"）
+            PetCollection::updateOrCreate(
+                ['student_id' => $student->id, 'species' => $newSpecies],
+                ['level' => $pet->level, 'experience' => $pet->experience, 'mood' => $pet->mood, 'is_active' => true]
+            );
+
+            if ($usedFreePick) {
+                Cache::forget("pet_free_pick:{$student->id}");
+            }
 
             $stage = $pet->currentStage();
 
             return response()->json([
-                'message' => $switchCount === 0 ? '✅ 首次切换免费！' : "✅ 已切换，扣除 {$cost} 积分",
+                'message' => $usedFreePick
+                    ? '✅ 已使用整班切换的免费自选机会！'
+                    : "✅ 已更换为「{$pet->name}」，扣除 {$cost} 积分",
                 'data' => [
                     'pet_emoji' => $stage['emoji'] ?? '🐾',
                     'pet_name' => $pet->name,
                     'pet_species' => $newSpecies,
                     'total_score' => $student->fresh()->total_score,
-                    'switch_count' => $switchCount + 1,
-                    'cost' => $switchCount > 0 ? $cost : 0,
+                    'cost' => $cost,
+                    'free_pick_used' => $usedFreePick,
                 ],
             ]);
         }
 
-        // 无宠物：创建新宠物
+        // 无宠物：创建新宠物（同样限当前类别；旧系列 id 空池视为不限制）
+        $classSeries = $class->settings['pet_series'] ?? null;
+        $seriesPool = $classSeries ? Pet::speciesPoolForSeries($classSeries) : [];
+        if ($classSeries && !empty($seriesPool) && !in_array($newSpecies, $seriesPool, true)) {
+            return response()->json(['message' => '只能领养当前类别「' . $classSeries . '」的宠物，不能跨类别领养'], 422);
+        }
+
         $pet = Pet::create([
             'student_id' => $student->id,
             'class_id' => $classId,
             'name' => $student->name . '的伙伴',
-            'type' => $newSpecies,
-            'level' => 0,
+            'species' => $newSpecies,
+            'level' => 1,
             'experience' => 0,
             'mood' => 80,
         ]);
@@ -1100,7 +1134,6 @@ class DisplayController extends Controller
                 'pet_name' => $pet->name,
                 'pet_species' => $newSpecies,
                 'total_score' => $student->total_score,
-                'switch_count' => 0,
                 'cost' => 0,
             ],
         ]);

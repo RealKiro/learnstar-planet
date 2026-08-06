@@ -12,14 +12,12 @@ const router = useRouter()
 const authStore = useAuthStore()
 const toast = useToastStore()
 
-const loginType = ref<'teacher' | 'admin' | 'parent' | 'class'>((props.mode === 'code' ? 'class' : props.initialRole) as 'teacher' | 'admin' | 'parent' | 'class')
+const loginType = ref<'teacher' | 'admin' | 'class'>((props.mode === 'code' ? 'class' : props.initialRole) as 'teacher' | 'admin' | 'class')
 const teacherUsername = ref('')
 const teacherLoginError = ref('')
 const teacherPassword = ref('')
 const adminUsername = ref('')
 const adminPassword = ref('')
-const parentUsername = ref('')
-const parentPassword = ref('')
 const classCode = ref('')
 const classCodeError = ref('')
 const classInfo = ref<{ class_name: string; student_count: number } | null>(null)
@@ -41,8 +39,6 @@ function validateLoginField(field: string, val: string): boolean {
   if (field === 'teacherPassword' && !val.trim()) { loginErrors.teacherPassword = '请输入教师登录密码'; return false }
   if (field === 'adminUsername' && !val.trim()) { loginErrors.adminUsername = '请输入管理员账号'; return false }
   if (field === 'adminPassword' && !val.trim()) { loginErrors.adminPassword = '请输入管理员密码'; return false }
-  if (field === 'parentUsername' && !val.trim()) { loginErrors.parentUsername = '请输入家长账号'; return false }
-  if (field === 'parentPassword' && !val.trim()) { loginErrors.parentPassword = '请输入家长密码'; return false }
   if (field === 'classCode' && !val.trim()) { loginErrors.classCode = '请输入班级码'; return false }
   clearLoginErr(field); return true
 }
@@ -54,9 +50,6 @@ function validateLoginForm(type: string): boolean {
   } else if (type === 'admin') {
     if (!adminUsername.value.trim()) loginErrors.adminUsername = '请输入管理员账号'
     if (!adminPassword.value.trim()) loginErrors.adminPassword = '请输入管理员密码'
-  } else if (type === 'parent') {
-    if (!parentUsername.value.trim()) loginErrors.parentUsername = '请输入家长账号'
-    if (!parentPassword.value.trim()) loginErrors.parentPassword = '请输入家长密码'
   } else if (type === 'class') {
     if (!classCode.value.trim()) loginErrors.classCode = '请输入班级码'
   }
@@ -65,14 +58,12 @@ function validateLoginForm(type: string): boolean {
 
 const teacherPwdRef = ref<HTMLInputElement>()
 const adminPwdRef = ref<HTMLInputElement>()
-const parentPwdRef = ref<HTMLInputElement>()
 
 let teacherAttempts = 0
 const MAX_ATTEMPTS = 3
 
 function focusTeacherPwd() { if (teacherUsername.value.trim()) nextTick(() => teacherPwdRef.value?.focus()) }
 function focusAdminPwd() { if (adminUsername.value.trim()) nextTick(() => adminPwdRef.value?.focus()) }
-function focusParentPwd() { if (parentUsername.value.trim()) nextTick(() => parentPwdRef.value?.focus()) }
 
 async function handleTeacherLogin() {
   if (!validateLoginForm('teacher')) return
@@ -113,20 +104,6 @@ async function handleAdminLogin() {
     authStore.setAuth(res.data.token, res.data.user)
     loginStatus.value = 'success'
     setTimeout(() => router.replace({ name: 'admin-dashboard' }), 800)
-  } catch { loginStatus.value = 'error'; setTimeout(() => { if (loginStatus.value === 'error') loginStatus.value = 'idle' }, 3000) } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
-}
-
-async function handleParentLogin() {
-  if (!validateLoginForm('parent')) return
-  loading.value = true
-  loginStatus.value = 'loading'
-  try {
-    const res = await apiPost<ApiResponse<{ token: string; user: User }>>('/api/v1/auth/parent/login', {
-      username: parentUsername.value.trim(), password: parentPassword.value,
-    })
-    authStore.setAuth(res.data.token, res.data.user)
-    loginStatus.value = 'success'
-    setTimeout(() => router.replace({ name: 'parent-home' }), 800)
   } catch { loginStatus.value = 'error'; setTimeout(() => { if (loginStatus.value === 'error') loginStatus.value = 'idle' }, 3000) } finally { loading.value = false; if (loginStatus.value === 'loading') loginStatus.value = 'idle' }
 }
 
@@ -316,10 +293,10 @@ function goToSlide(i: number) {
         <div v-if="sessionExpired" class="session-expired-banner">⏰ 登录已过期，请重新登录</div>
         <div class="login-tabs">
           <button
-            v-for="t in (['teacher', 'admin', 'parent', 'class'] as const)" :key="t"
+            v-for="t in (['teacher', 'admin', 'class'] as const)" :key="t"
             :class="['login-tab', { 'login-tab--active': loginType === t }]"
             @click="loginType = t"
-          >{{ t === 'teacher' ? '教师' : t === 'admin' ? '管理员' : t === 'parent' ? '家长' : '🔑 班级码' }}</button>
+          >{{ t === 'teacher' ? '教师' : t === 'admin' ? '管理员' : '🔑 班级码' }}</button>
         </div>
 
         <div v-if="loginType === 'teacher'" class="login-form">
@@ -372,26 +349,7 @@ function goToSlide(i: number) {
           </button>
         </div>
 
-        <div v-if="loginType === 'parent'" class="login-form">
-          <div class="form-group">
-            <label>账号</label>
-            <input v-model="parentUsername" class="form-input" :style="{ borderColor: loginErrors.parentUsername ? '#f87171' : '' }" @blur="validateLoginField('parentUsername', parentUsername)" @input="clearLoginErr('parentUsername')" placeholder="家长账号" @keydown.enter="focusParentPwd">
-            <div v-if="loginErrors.parentUsername" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.parentUsername }}</div>
-          </div>
-          <div class="form-group">
-            <label>密码</label>
-            <input ref="parentPwdRef" v-model="parentPassword" type="password" class="form-input" :style="{ borderColor: loginErrors.parentPassword ? '#f87171' : '' }" @blur="validateLoginField('parentPassword', parentPassword)" @input="clearLoginErr('parentPassword')" placeholder="输入密码" @keydown.enter="handleParentLogin">
-            <div v-if="loginErrors.parentPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.parentPassword }}</div>
-          </div>
-          <button class="login-submit login-submit--green" :disabled="loginStatus === 'loading'" @click="handleParentLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#10b981' }">
-            <span v-if="loginStatus === 'idle'">🚀 登录</span>
-            <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
-            <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
-            <span v-else>❌ 登录失败</span>
-          </button>
-        </div>
-
-        <!-- 班级码登录（学生端/大屏入口） -->
+        <!-- 班级码登录（教室端入口） -->
         <div v-if="loginType === 'class'" class="login-form">
           <div v-if="classInfo" class="class-login-success">
             <div class="success-icon">✅</div>

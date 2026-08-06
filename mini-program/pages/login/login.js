@@ -153,12 +153,8 @@ Page({
 
   navigateByRole() {
     const app = getApp();
-    if (app.globalData.role === 'teacher') {
+    if (app.globalData.role === 'teacher' || app.globalData.role === 'school_admin') {
       wx.switchTab({ url: '/pages/dashboard/dashboard' });
-    } else if (app.globalData.role === 'parent') {
-      wx.redirectTo({ url: '/pages/parent-home/parent-home' });
-    } else if (app.globalData.role === 'school_admin') {
-      wx.redirectTo({ url: '/pages/dashboard/dashboard' });
     }
   }
 });

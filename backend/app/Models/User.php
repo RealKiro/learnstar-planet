@@ -230,11 +230,6 @@ class User extends Authenticatable
         return $this->role === 'teacher';
     }
 
-    public function isParent(): bool
-    {
-        return $this->role === 'parent';
-    }
-
     // ========== Settings helper ==========
 
     /**

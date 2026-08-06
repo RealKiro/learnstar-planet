@@ -3,11 +3,12 @@ import { computed } from 'vue'
 import {
   getSeriesBySpeciesId,
   SERIES_SCENES,
-  getSpeciesEmoji,
   getPetLevelName,
   getPetLevelDescription,
   getLevelStage,
 } from '@/utils/petData'
+import { getStagePersonality, getStageAbility } from '@/utils/petTraits'
+import PetSprite from './PetSprite.vue'
 
 const props = defineProps<{
   speciesId: string
@@ -31,7 +32,8 @@ const scene = computed(() => {
 const stageName = computed(() => getPetLevelName(props.speciesId, props.level))
 const stageDesc = computed(() => getPetLevelDescription(props.speciesId, props.level))
 const stage = computed(() => getLevelStage(props.level))
-const emoji = computed(() => getSpeciesEmoji(props.speciesId))
+const petPersonality = computed(() => getStagePersonality(props.speciesId, props.level))
+const petAbility = computed(() => getStageAbility(props.speciesId, props.level))
 
 const moodEmoji = computed(() => {
   if (!props.mood || props.mood < 20) return '😢'
@@ -106,20 +108,24 @@ const glowColor = computed(() => {
       }"
     ></div>
 
-    <!-- 宠物主体 -->
+    <!-- 宠物主体(SVG) -->
     <div class="pet-body" :style="{ transform: `scale(${petScale})` }">
       <div
-        class="pet-emoji-main"
+        class="pet-sprite-wrap"
         :class="{
           'pet-emoji--glint': glintActive,
           'pet-emoji--glow': glowActive,
-          'pet-emoji--aura': auraActive,
         }"
         :style="{
           filter: glowActive ? `drop-shadow(0 0 12px ${glowColor})` : 'none',
         }"
       >
-        {{ emoji }}
+        <PetSprite
+          :species-id="speciesId"
+          :level="level"
+          :mood="mood ?? 60"
+          :animate="animate"
+        />
       </div>
 
       <!-- 传说级特效环绕 -->
@@ -164,6 +170,8 @@ const glowColor = computed(() => {
       <div class="pet-name">{{ name || stageName }}</div>
       <div class="pet-stage">{{ stageName }}</div>
       <div v-if="stageDesc" class="pet-desc">{{ stageDesc }}</div>
+      <div v-if="petPersonality" class="pet-trait">🎭 {{ petPersonality }}</div>
+      <div v-if="petAbility" class="pet-trait trait--ability">⚡ {{ petAbility }}</div>
     </div>
 
     <!-- 互动按钮 -->
@@ -255,15 +263,15 @@ const glowColor = computed(() => {
   align-items: center;
   justify-content: center;
 }
-.pet-emoji-main {
-  font-size: 72px;
-  line-height: 1;
+.pet-sprite-wrap {
+  width: 72px;
+  height: 72px;
   transition: all 0.3s ease;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
-.pet-size--sm .pet-emoji-main { font-size: 48px; }
-.pet-size--lg .pet-emoji-main { font-size: 96px; }
-.pet-size--xl .pet-emoji-main { font-size: 120px; }
+.pet-size--sm .pet-sprite-wrap { width: 48px; height: 48px; }
+.pet-size--lg .pet-sprite-wrap { width: 96px; height: 96px; }
+.pet-size--xl .pet-sprite-wrap { width: 120px; height: 120px; }
 
 .pet-emoji--glint {
   animation: petGlint 2s ease-in-out infinite;
@@ -381,6 +389,22 @@ const glowColor = computed(() => {
   margin-left: auto;
   margin-right: auto;
   text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.pet-trait {
+  font-size: 9px;
+  color: #FDE68A;
+  background: rgba(245,158,11,0.12);
+  border-radius: 6px;
+  padding: 1px 6px;
+  margin-top: 3px;
+  max-width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+.pet-trait.trait--ability {
+  color: #93C5FD;
+  background: rgba(59,130,246,0.14);
 }
 
 .pet-feed-btn {

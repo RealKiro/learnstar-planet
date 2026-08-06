@@ -7,7 +7,6 @@ const app = getApp();
 Page({
   data: {
     isTeacher: false,
-    isParent: false,
     classRooms: [],
     currentClassId: null,
     freeBadge: true
@@ -17,14 +16,11 @@ Page({
     const role = app.globalData.role;
     this.setData({
       isTeacher: role === 'teacher',
-      isParent: role === 'parent',
       freeBadge: true
     });
 
     if (role === 'teacher') {
       this.loadTeacherData();
-    } else {
-      this.loadParentData();
     }
   },
 
@@ -44,16 +40,6 @@ Page({
   },
 
   /**
-   * 家长端：加载孩子列表
-   */
-  loadParentData() {
-    app.apiRequest('/parent/children', 'GET', {}, (data) => {
-      this.setData({ children: data });
-      wx.switchTab({ url: '/pages/parent-home/parent-home' });
-    });
-  },
-
-  /**
    * 选择班级
    */
   selectClass(e) {
@@ -64,14 +50,10 @@ Page({
   },
 
   /**
-   * 切换角色（用于演示）
+   * 切换角色（用于演示，家长端已移除）
    */
   switchRole() {
-    const newRole = this.data.isTeacher ? 'parent' : 'teacher';
-    app.globalData.role = newRole;
-    this.setData({
-      isTeacher: newRole === 'teacher',
-      isParent: newRole === 'parent'
-    });
+    app.globalData.role = 'teacher';
+    this.setData({ isTeacher: true });
   }
 });

@@ -6,13 +6,15 @@ import {
   getAllSeries,
   getSeriesBySpeciesId,
   getSpeciesById,
-  getSpeciesEmoji,
   SERIES_SCENES,
   getPetLevelName,
   getLevelStage,
 } from '@/utils/petData'
 import type { ApiResponse, Pet, PetDetail } from '@/types'
 import PetDisplay from '@/components/pet/PetDisplay.vue'
+import PetSprite from '@/components/pet/PetSprite.vue'
+import PetCollection from '@/components/pet/PetCollection.vue'
+import PetClassEffect from '@/components/pet/PetClassEffect.vue'
 import PetEvolutionTree from '@/components/pet/PetEvolutionTree.vue'
 import PetFeedAnimation from '@/components/pet/PetFeedAnimation.vue'
 import PetHandbook from '@/components/pet/PetHandbook.vue'
@@ -28,6 +30,7 @@ const selectedPet = ref<PetDetail | null>(null)
 const showFeedAnimation = ref(false)
 const feedPoints = ref(0)
 const showHandbook = ref(false)
+const showCollection = ref(false)
 const showDetailPanel = ref(false)
 const activeTab = ref<'info' | 'evolution' | 'tasks'>('info')
 const streakDays = ref(0)
@@ -153,6 +156,19 @@ function openHandbook() {
   showHandbook.value = true
 }
 
+function openCollection() {
+  showCollection.value = true
+}
+
+// 切换宠物成功后刷新列表并重新选中该学生
+async function onSwitched() {
+  await loadPets()
+  if (selectedPet.value) {
+    const updated = pets.value.find(p => p.student_id === selectedPet.value?.student_id)
+    if (updated) selectedPet.value = updated
+  }
+}
+
 // 随机宠物语录
 const petQuotes = [
   '我感觉身体里有一股神秘力量！✨',
@@ -201,6 +217,9 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+
+    <!-- 系列联动班级成就 -->
+    <PetClassEffect :pets="pets" />
 
     <!-- 系列筛选 -->
     <div class="series-filter">
@@ -262,9 +281,9 @@ onMounted(async () => {
               :style="{ background: SERIES_SCENES[pet.seriesId || 'myth']?.bgGradient }"
             ></div>
 
-            <!-- 宠物 Emoji -->
+            <!-- 宠物 SVG -->
             <div class="card-emoji">
-              {{ getSpeciesEmoji(pet.species) }}
+              <PetSprite :species-id="pet.species" :level="pet.level" :mood="pet.mood" :animate="true" />
             </div>
 
             <!-- 等级徽章 -->
@@ -346,7 +365,11 @@ onMounted(async () => {
               </button>
               <button class="action-btn btn-handbook" @click="openHandbook">
                 <span class="btn-icon">📖</span>
-                <span>图鉴</span>
+                <span>进化</span>
+              </button>
+              <button class="action-btn btn-collection" @click="openCollection">
+                <span class="btn-icon">📚</span>
+                <span>收藏</span>
               </button>
             </div>
           </div>
@@ -393,13 +416,22 @@ onMounted(async () => {
       @close="showFeedAnimation = false"
     />
 
-    <!-- 图鉴弹窗 -->
+    <!-- 图鉴弹窗(单物种进化) -->
     <PetHandbook
       v-if="showHandbook && selectedPet"
       :species-id="selectedPet.species"
       :current-level="selectedPet.level"
       :current-score="selectedPet.exp"
       @close="showHandbook = false"
+    />
+
+    <!-- 收藏图鉴弹窗(全系列收集+切换) -->
+    <PetCollection
+      v-if="showCollection && selectedPet"
+      :visible="showCollection"
+      :student-id="selectedPet.student_id"
+      @close="showCollection = false"
+      @switched="onSwitched"
     />
   </div>
 </template>
@@ -543,7 +575,8 @@ onMounted(async () => {
 .card-emoji {
   position: relative;
   z-index: 1;
-  font-size: 40px;
+  width: 46px;
+  height: 46px;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
   transition: transform 0.3s var(--ease-bounce);
 }
@@ -721,6 +754,11 @@ onMounted(async () => {
   border-color: #6366F1;
   color: #6366F1;
   background: rgba(99,102,241,0.05);
+}
+.btn-collection:hover {
+  border-color: #10B981;
+  color: #10B981;
+  background: rgba(16,185,129,0.05);
 }
 
 /* Tab 切换 */

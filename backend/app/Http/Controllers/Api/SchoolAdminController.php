@@ -580,7 +580,7 @@ class SchoolAdminController extends Controller
     {
         $school = $request->user()->school;
         $validator = Validator::make($request->all(), [
-            'role' => 'required|string|in:teacher,parent',
+            'role' => 'required|string|in:teacher',
             'ids' => 'required|array|min:1',
             'ids.*' => 'integer',
             'password' => 'nullable|string|min:6|max:50',
@@ -622,7 +622,7 @@ class SchoolAdminController extends Controller
     {
         $school = $request->user()->school;
         $validator = Validator::make($request->all(), [
-            'role' => 'required|string|in:teacher,parent',
+            'role' => 'required|string|in:teacher',
             'ids' => 'required|array|min:1',
             'ids.*' => 'integer',
         ]);
@@ -643,17 +643,6 @@ class SchoolAdminController extends Controller
 
         $accountIds = $accounts->pluck('id')->all();
 
-        if ($role === 'teacher') {
-            // 解除教师所有班级关联
-            foreach ($accounts as $t) {
-                ClassRoom::where('teacher_id', $t->id)->update(['teacher_id' => null]);
-                ClassRoomTeacher::where('user_id', $t->id)->delete();
-            }
-        } elseif ($role === 'parent') {
-            // 解除家长与学生的绑定
-            Student::whereIn('parent_id', $accountIds)->update(['parent_id' => null]);
-        }
-
         // 硬删除（释放 username 索引）
         foreach ($accounts as $acc) {
             $acc->delete();
@@ -663,86 +652,6 @@ class SchoolAdminController extends Controller
             'message' => "已删除 {$accounts->count()} 个账号",
             'data' => ['deleted_count' => $accounts->count()],
         ]);
-    }
-
-    // ===== 家长管理 =====
-    /**
-     * 批量创建家长账号
-     */
-    public function batchCreateParents(Request $request): JsonResponse
-    {
-        $validator = Validator::make($request->all(), [
-            'parents' => 'required|array|min:1',
-            'parents.*.name' => 'required|string|max:50',
-            'parents.*.password' => 'required|string|min:6|max:50',
-            'parents.*.phone' => 'nullable|string|max:30',
-            'parents.*.student_id' => 'nullable|integer|exists:students,id',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
-        }
-        $school = $request->user()->school;
-        if (!$school instanceof \App\Models\School) {
-            return response()->json(['message' => '未找到学校'], 404);
-        }
-        $created = [];
-        foreach ($request->input('parents') as $parentData) {
-            $result = $this->authService->createParentAccount($school, $parentData);
-            if (!empty($parentData['student_id'])) {
-                Student::where('id', $parentData['student_id'])->update(['parent_id' => $result['id']]);
-            }
-            $created[] = $result;
-        }
-
-        return response()->json(['data' => $created]);
-    }
-
-    /**
-     * 家长列表
-     */
-    public function listParents(Request $request): JsonResponse
-    {
-        $school = $request->user()->school;
-        /** @var \Illuminate\Database\Eloquent\Collection<int, User> $parentUsers */
-        $parentUsers = User::where('school_id', $school->id)
-            ->where('role', 'parent')
-            ->with('children')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        $parents = $parentUsers->map(function (User $p) {
-            $childrenNames = $p->children->pluck('name')->toArray();
-
-            return [
-                'id' => $p->id,
-                'username' => $p->username,
-                'name' => $p->name,
-                'nickname' => $p->nickname,
-                'avatar_path' => $p->avatar_path,
-                'phone' => $p->phone,
-                'status' => $p->status,
-                'children' => $childrenNames,
-                'created_at' => $p->created_at?->toDateTimeString(),
-            ];
-        });
-
-        return response()->json(['data' => $parents]);
-    }
-
-    /**
-     * 软删除家长账号
-     */
-    public function deleteParent(Request $request, int $id): JsonResponse
-    {
-        $school = $request->user()->school;
-        $parent = User::where('school_id', $school->id)
-            ->where('role', 'parent')
-            ->findOrFail($id);
-        // 解除学生绑定
-        Student::where('parent_id', $parent->id)->update(['parent_id' => null]);
-        // 硬删除（释放 username 索引）
-        $parent->delete();
-
-        return response()->json(['message' => '家长账号已删除']);
     }
 
     // ===== 班级管理 =====
@@ -1340,7 +1249,6 @@ class SchoolAdminController extends Controller
         $school = $request->user()->school;
         $classCount = ClassRoom::where('school_id', $school->id)->count();
         $teacherCount = User::where('school_id', $school->id)->where('role', 'teacher')->where('status', 'active')->count();
-        $parentCount = User::where('school_id', $school->id)->where('role', 'parent')->where('status', 'active')->count();
         $studentCount = Student::whereIn('class_id', ClassRoom::where('school_id', $school->id)->pluck('id'))->count();
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
@@ -1361,7 +1269,6 @@ class SchoolAdminController extends Controller
             'data' => [
                 'class_count' => $classCount,
                 'teacher_count' => $teacherCount,
-                'parent_count' => $parentCount,
                 'student_count' => $studentCount,
                 'monthly_score' => $monthlyScore,
                 'last_month_score' => $lastMonthScore,
@@ -1758,14 +1665,15 @@ class SchoolAdminController extends Controller
      */
     private function assignDefaultPet(Student $student): void
     {
-        $cuteTypes = ['orange_cat', 'husky', 'shiba', 'guinea_pig', 'hamster', 'bunny', 'parrot', 'hedgehog', 'chinchilla', 'teacup_pig', 'sugar_glider', 'alpaca'];
-        $type = $cuteTypes[array_rand($cuteTypes)];
+        // 随机神话系列物种（species 体系；旧 type 体系已废弃，level 从 1 起）
+        $pool = Pet::speciesPoolForSeries('myth');
+        $species = $pool[array_rand($pool)] ?? 'zhulong';
         Pet::create([
             'student_id' => $student->id,
             'class_id' => $student->class_id,
             'name' => $student->name . '的萌宠',
-            'type' => $type,
-            'level' => 0,
+            'species' => $species,
+            'level' => 1,
             'experience' => 0,
             'mood' => 80,
         ]);

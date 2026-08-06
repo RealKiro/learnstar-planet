@@ -8,11 +8,6 @@
     "pages/leaderboard/leaderboard",
     "pages/shop/shop",
     "pages/notices/notices",
-    "pages/parent-home/parent-home",
-    "pages/parent-scores/parent-scores",
-    "pages/parent-growth/parent-growth",
-    "pages/parent-ranking/parent-ranking",
-    "pages/parent-notices/parent-notices",
     "pages/settings/settings"
   ],
   "window": {
