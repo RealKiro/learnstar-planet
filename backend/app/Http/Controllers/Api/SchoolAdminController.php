@@ -353,11 +353,17 @@ class SchoolAdminController extends Controller
             ->findOrFail($id);
 
         if (empty($teacher->plain_password)) {
+            // 无明文密码记录时自动生成（常见于第三方扫码自动注册的账号），
+            // 这会重置该教师密码——记录日志便于追踪，管理员应告知教师新密码
             $newPassword = str()->random(8);
             $teacher->password = \Illuminate\Support\Facades\Hash::make($newPassword);
             $teacher->plain_password = $newPassword;
             $teacher->password_changed = false;
             $teacher->save();
+            \Illuminate\Support\Facades\Log::warning('查看密码时自动重置了教师密码', [
+                'admin_id' => $request->user()->id,
+                'teacher_id' => $id,
+            ]);
         }
 
         return response()->json([
