@@ -40,25 +40,26 @@ const roleMainText = computed(() => {
 </script>
 <template>
   <div class="teacher-card" :class="{ 'is-selected': selectable && selected }">
-    <!-- 钻孔吊牌式圆形勾选：未选=圆环钻孔，选中=孔被打穿填满 -->
-    <button
-      v-if="selectable"
-      type="button"
-      class="tc-hole"
-      :class="{ 'is-checked': selected }"
-      :title="selected ? '取消选择' : '选择'"
-      :aria-pressed="selected"
-      @click.stop="emit('toggleSelect', teacher.id)"
-    >
-      <span v-if="selected" class="tc-hole-check">✓</span>
-    </button>
-    <!-- 版块1：身份行（左姓名 / 中角色+主教点连接 / 右编号） -->
+    <!-- 版块1：身份行（左姓名 / 中角色+主教 / 右编号 + 钻孔吊牌式圆形勾选） -->
     <div class="tc-block tc-header" :class="{ 'has-select': selectable }">
       <span class="tc-name-text">{{ teacher.name }}</span>
       <div v-if="roleMainText" class="tc-role-main">
         <span class="tc-role-main-pill">{{ roleMainText }}</span>
       </div>
-      <span class="tc-no">{{ no }}</span>
+      <div class="tc-right">
+        <span class="tc-no">{{ no }}</span>
+        <button
+          v-if="selectable"
+          type="button"
+          class="tc-hole"
+          :class="{ 'is-checked': selected }"
+          :title="selected ? '取消选择' : '选择'"
+          :aria-pressed="selected"
+          @click.stop="emit('toggleSelect', teacher.id)"
+        >
+          <span v-if="selected" class="tc-hole-check">✓</span>
+        </button>
+      </div>
     </div>
 
     <!-- 版块3：班级任教区（每班一个子版块） -->
@@ -106,21 +107,23 @@ const roleMainText = computed(() => {
   border-color: rgba(124, 58, 237, 0.55);
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
 }
-/* 钻孔吊牌式圆形勾选：右上角，像给卡片钻了个孔 */
+/* 钻孔吊牌式圆形勾选：身份行右端，与编号垂直居中，像给卡片钻了个孔 */
+.tc-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
 .tc-hole {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.22);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
   background: transparent;
   /* 内阴影模拟卡片厚度，呈现"钻孔"立体感 */
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  z-index: 2;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -129,15 +132,15 @@ const roleMainText = computed(() => {
 }
 .tc-hole:hover {
   border-color: rgba(167, 139, 250, 0.7);
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 .tc-hole.is-checked {
   border-color: #a78bfa;
   background: radial-gradient(circle at 35% 30%, #a78bfa, #7c3aed);
-  box-shadow: 0 0 10px rgba(124, 58, 237, 0.5), inset 0 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.5), inset 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 .tc-hole-check {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
   color: #fff;
   line-height: 1;
@@ -158,10 +161,6 @@ const roleMainText = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-}
-.tc-header.has-select {
-  /* 圆孔在右上角，右留白避开编号 */
-  padding-right: 34px;
 }
 .tc-name-text {
   font-size: 18px;
