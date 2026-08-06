@@ -53,6 +53,13 @@ const switchingPet = ref(false)
 const switchStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const switchError = ref('')
 const allSeriesList = PET_SERIES
+// 宠物选择器：班级配置了当前系列(pet_series)时只展示该系列，未配置时展示全部（与后端类别限制一致）
+const classPetSeries = ref('')
+const pickerSeriesList = computed(() => {
+  if (!classPetSeries.value) return PET_SERIES
+  const hit = PET_SERIES.find(s => s.id === classPetSeries.value)
+  return hit ? [hit] : PET_SERIES
+})
 
 function openPetPicker(s: StudentEntry) {
   petPickerStudent.value = s
@@ -189,6 +196,10 @@ onMounted(async () => {
       pet_emoji: s.pet_species ? getSpeciesEmoji(s.pet_species) : '🥚',
     }))
   } catch { /* ignore */ } finally { loading.value = false }
+  try {
+    const cRes = await apiGet<{ data: { pet_series?: string | null } }>('/api/v1/display/class-settings', { params: { token: token.value } })
+    classPetSeries.value = cRes.data?.pet_series || ''
+  } catch { classPetSeries.value = '' }
 })
 </script>
 
@@ -374,7 +385,7 @@ onMounted(async () => {
         </div>
       </Transition>
 
-      <!-- 宠物选择器（展示所有物种） -->
+      <!-- 宠物选择器（班级配置当前系列时只展示该系列物种） -->
       <Transition name="fade">
         <div v-if="showPetPicker && petPickerStudent" @click.self="showPetPicker = false"
           style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:300;">
@@ -387,7 +398,7 @@ onMounted(async () => {
               </div>
               <button @click="showPetPicker = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;">✕</button>
             </div>
-            <div v-for="series in allSeriesList" :key="series.id" style="margin-bottom:12px;">
+            <div v-for="series in pickerSeriesList" :key="series.id" style="margin-bottom:12px;">
               <div style="font-size:12px;font-weight:600;color:var(--md-text-secondary);margin-bottom:6px;padding-left:4px;">{{ series.emoji }} {{ series.name }}</div>
               <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;">
                 <button v-for="sp in series.species" :key="sp.id" @click="requestSwitch(sp.id, sp.name)"
