@@ -1713,13 +1713,13 @@ class SchoolAdminController extends Controller
             $query->whereDate('created_at', $date);
         }
         $logs = $query->orderBy('created_at', 'desc')->paginate(50);
-        $items = collect($logs->items())->map(fn (\App\Models\DisplayLoginLog $log) => [
+        $items = collect($logs->items())->map(fn (\App\Models\DisplayLoginLog $log): array => [
             'id' => $log->id,
-            'class_name' => $log->classRoom?->name,
+            'class_name' => $log->classRoom?->name ?? '',
             'class_code' => $log->class_code,
             'ip_address' => $log->ip_address,
             'user_agent' => $log->user_agent,
-            'login_at' => $log->created_at?->toDateTimeString(),
+            'login_at' => $log->created_at?->toDateTimeString() ?? '',
         ])->all();
 
         return response()->json(['data' => $items, 'meta' => [
