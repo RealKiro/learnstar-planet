@@ -1440,23 +1440,6 @@ class TeacherController extends Controller
         ]]);
     }
 
-    public function getPetTypes(): JsonResponse
-    {
-        $categories = Pet::petCategories();
-        $allTypes = Pet::petTypes();
-        $result = [];
-
-        foreach ($categories as $catKey => $catName) {
-            $types = [];
-            foreach (Pet::petTypesBySeries($catKey) as $typeKey => $typeName) {
-                $types[] = ['key' => $typeKey, 'name' => $typeName];
-            }
-            $result[] = ['category' => $catKey, 'category_name' => $catName, 'pets' => $types];
-        }
-
-        return response()->json(['data' => $result]);
-    }
-
     // ============================================================
     // Shop
     // ============================================================

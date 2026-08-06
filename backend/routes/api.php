@@ -161,7 +161,6 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('pets')->group(function () {
-            Route::get('types', [TeacherController::class, 'getPetTypes']);
             Route::get('overview', [TeacherController::class, 'classPetsOverview']);
             Route::get('{studentId}', [TeacherController::class, 'getPet']);
             Route::get('{studentId}/collection', [TeacherController::class, 'petCollection']);
@@ -288,8 +287,6 @@ Route::prefix('v1')->group(function () {
 
     // ===== 6. 公共接口 =====
     Route::prefix('common')->group(function () {
-        Route::get('pet-types', [StudentController::class, 'petTypes']);
-        Route::get('evolution-stages', [StudentController::class, 'evolutionStages']);
         Route::get('score-categories', [StudentController::class, 'scoreCategories']);
     });
 

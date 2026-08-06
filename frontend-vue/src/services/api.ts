@@ -164,10 +164,6 @@ export const petApi = {
   renamePet: (petId: number, name: string) =>
     apiPut(`/api/v1/teacher/pets/${petId}/rename`, { name }),
 
-  /** 获取宠物系列列表 */
-  getSeries: () =>
-    apiGet<ApiResponse<{ id: string; name: string; icon: string; description: string; species: any[] }[]>>('/api/v1/common/pet-types'),
-
   /** 切换班级宠物系列 */
   switchSeries: (seriesId: string) =>
     apiPost('/api/v1/teacher/class/switch-series', { series_id: seriesId }),
@@ -224,12 +220,6 @@ export const leaderboardApi = {
 // ============================================================
 // 7. 宠物图鉴模块
 // ============================================================
-
-export const handbookApi = {
-  /** 获取全部系列数据 */
-  getAllSeries: () =>
-    apiGet<ApiResponse<any[]>>('/api/v1/common/pet-types'),
-}
 
 // ============================================================
 // 8. 班级管理模块
