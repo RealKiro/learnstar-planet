@@ -83,13 +83,12 @@ const activePoem = computed(() => {
 const poemChars = computed(() => activePoem.value.split(''))
 const legendCount = computed(() => props.pets.filter(p => p.level >= 12).length)
 
-// ===== 全屏动画：首次检测到成就时播放一次 =====
+// ===== 全屏动画：每个浏览器会话仅播放一次(避免每次进入宠物花园都重放) =====
 const overlayShow = ref(false)
-let played = false
 
 function maybePlay() {
-  if (achievements.value.length && !played) {
-    played = true
+  if (achievements.value.length && !sessionStorage.getItem('pet_fx_played')) {
+    sessionStorage.setItem('pet_fx_played', '1')
     overlayShow.value = true
     setTimeout(() => { overlayShow.value = false }, 5200)
   }
