@@ -9,12 +9,12 @@ const loading = ref(true)
 const showModal = ref(false)
 const editingId = ref<number | null>(null)
 
-const form = ref({ name: '', points: 1, category: 'classroom', is_penalty: false })
+const form = ref({ name: '', amount: 1, category: 'classroom', is_positive: true })
 const ruleErrors = reactive<Record<string, string>>({})
 function rClr(f: string) { delete ruleErrors[f] }
 function rVld(field: string): boolean {
   if (field === 'name' && !form.value.name.trim()) { ruleErrors.name = '请填写规则名称，如"举手发言"'; return false }
-  if (field === 'points' && (!form.value.points || form.value.points < 1)) { ruleErrors.points = '分值至少为 1'; return false }
+  if (field === 'amount' && (!form.value.amount || form.value.amount < 1)) { ruleErrors.amount = '分值至少为 1'; return false }
   delete ruleErrors[field]; return true
 }
 
@@ -46,8 +46,8 @@ function getDeleteBtnText(ruleId: number): string {
   return map[s]
 }
 
-const positiveRules = computed(() => rules.value.filter(r => !r.is_penalty))
-const negativeRules = computed(() => rules.value.filter(r => r.is_penalty))
+const positiveRules = computed(() => rules.value.filter(r => r.is_positive))
+const negativeRules = computed(() => rules.value.filter(r => !r.is_positive))
 
 const categoryLabels: Record<string, string> = {
   classroom: '📖 课堂表现', homework: '📝 作业管理', behavior: '🌟 行为习惯',
@@ -64,26 +64,26 @@ onMounted(async () => {
 
 function openAdd() {
   editingId.value = null
-  form.value = { name: '', points: 1, category: '', is_penalty: false }
+  form.value = { name: '', amount: 1, category: '', is_positive: true }
   showModal.value = true
 }
 
 function openEdit(rule: ScoreRule) {
   editingId.value = rule.id
-  form.value = { name: rule.name, points: Math.abs(rule.points), category: rule.category, is_penalty: rule.is_penalty }
+  form.value = { name: rule.name, amount: Math.abs(rule.amount), category: rule.category, is_positive: rule.is_positive }
   showModal.value = true
 }
 
 async function handleSubmit() {
   const nameOk = rVld('name')
-  const pointsOk = rVld('points')
+  const pointsOk = rVld('amount')
   if (!nameOk || !pointsOk) return
   saveStatus.value = 'loading'
   const payload = {
     name: form.value.name.trim(),
-    points: form.value.is_penalty ? -Math.abs(form.value.points) : Math.abs(form.value.points),
+    amount: form.value.is_positive ? Math.abs(form.value.amount) : -Math.abs(form.value.amount),
     category: form.value.category.trim() || '默认',
-    is_penalty: form.value.is_penalty,
+    is_positive: form.value.is_positive,
   }
   try {
     if (editingId.value) {
@@ -144,7 +144,7 @@ async function handleDelete(rule: ScoreRule) {
           <div v-for="rule in positiveRules" :key="rule.id" class="card"
             style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(16,185,129,0.3);">
             <div>
-              <span style="font-weight:700;color:var(--color-accent);">+{{ Math.abs(rule.points) }}</span>
+              <span style="font-weight:700;color:var(--color-accent);">+{{ Math.abs(rule.amount) }}</span>
               <span style="margin-left:8px;font-weight:500;">{{ rule.name }}</span>
               <span style="margin-left:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;">{{ categoryLabels[rule.category] || rule.category }}</span>
             </div>
@@ -164,7 +164,7 @@ async function handleDelete(rule: ScoreRule) {
           <div v-for="rule in negativeRules" :key="rule.id" class="card"
             style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(239,68,68,0.3);">
             <div>
-              <span style="font-weight:700;color:var(--color-danger);">{{ rule.points }}</span>
+              <span style="font-weight:700;color:var(--color-danger);">{{ rule.amount }}</span>
               <span style="margin-left:8px;font-weight:500;">{{ rule.name }}</span>
               <span style="margin-left:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;">{{ categoryLabels[rule.category] || rule.category }}</span>
             </div>
@@ -188,8 +188,8 @@ async function handleDelete(rule: ScoreRule) {
         </div>
         <div class="form-group">
           <label>分值</label>
-          <input v-model.number="form.points" type="number" min="1" class="form-input" placeholder="如：5" :style="{ borderColor: ruleErrors.points ? '#f87171' : '' }" @blur="rVld('points')" @input="rClr('points')">
-          <div v-if="ruleErrors.points" style="color:#f87171;font-size:11px;margin-top:2px;">{{ ruleErrors.points }}</div>
+          <input v-model.number="form.amount" type="number" min="1" class="form-input" placeholder="如：5" :style="{ borderColor: ruleErrors.amount ? '#f87171' : '' }" @blur="rVld('amount')" @input="rClr('amount')">
+          <div v-if="ruleErrors.amount" style="color:#f87171;font-size:11px;margin-top:2px;">{{ ruleErrors.amount }}</div>
         </div>
         <div class="form-group">
           <label>分类</label>
@@ -199,9 +199,9 @@ async function handleDelete(rule: ScoreRule) {
         </div>
         <div class="form-group">
           <label>类型</label>
-          <select v-model="form.is_penalty" class="form-select">
-            <option :value="false">加分规则</option>
-            <option :value="true">扣分规则</option>
+          <select v-model="form.is_positive" class="form-select">
+            <option :value="true">加分规则</option>
+            <option :value="false">扣分规则</option>
           </select>
         </div>
         <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px;">

@@ -50,7 +50,7 @@ const roleMainText = computed(() => {
       :title="selected ? '取消选择' : '选择'"
     >
     <!-- 版块1：身份行（左姓名 / 中角色+主教点连接 / 右编号） -->
-    <div class="tc-block tc-header">
+    <div class="tc-block tc-header" :class="{ 'has-select': selectable }">
       <span class="tc-name-text">{{ teacher.name }}</span>
       <div v-if="roleMainText" class="tc-role-main">
         <span class="tc-role-main-pill">{{ roleMainText }}</span>
@@ -106,7 +106,7 @@ const roleMainText = computed(() => {
 .tc-checkbox {
   position: absolute;
   top: 8px;
-  right: 8px;
+  left: 8px;
   width: 15px;
   height: 15px;
   accent-color: #7c3aed;
@@ -128,6 +128,9 @@ const roleMainText = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+}
+.tc-header.has-select {
+  padding-left: 24px;
 }
 .tc-name-text {
   font-size: 18px;

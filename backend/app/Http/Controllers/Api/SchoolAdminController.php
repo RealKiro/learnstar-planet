@@ -10,6 +10,8 @@ use App\Models\ClassRoomTeacher;
 use App\Models\DisplayLoginLog;
 use App\Models\Pet;
 use App\Models\Score;
+use App\Models\ScoreRule;
+use App\Models\ShopItem;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\AuthService;
@@ -198,6 +200,147 @@ class SchoolAdminController extends Controller
             'message' => '已创建教师「' . ($teacher['name'] ?? '') . '」',
             'data' => $teacher + ['plain_password' => $password, 'username' => $username],
         ], 201);
+    }
+
+    // ===== 管理员端：全校积分规则与商品管理 =====
+    // 学校级（school_id = 当前校，class_id = null），全校教师共享、即时可见。
+
+    public function adminListScoreRules(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $rules = ScoreRule::where('school_id', $school->id)
+            ->whereNull('class_id')
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+
+        return response()->json(['data' => $rules]);
+    }
+
+    public function adminCreateScoreRule(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'amount' => 'required|integer|not_in:0',
+            'category' => 'nullable|string|max:50',
+            'is_positive' => 'nullable|boolean',
+        ]);
+
+        $rule = ScoreRule::create([
+            'class_id' => null,
+            'school_id' => $school->id,
+            'name' => $request->input('name'),
+            'amount' => (int) $request->input('amount'),
+            'category' => $request->input('category', 'custom'),
+            'is_positive' => $request->boolean('is_positive', true),
+            'is_active' => $request->boolean('is_active', true),
+            'sort_order' => 0,
+        ]);
+
+        return response()->json(['message' => '规则创建成功', 'data' => $rule], 201);
+    }
+
+    public function adminUpdateScoreRule(Request $request, int $id): JsonResponse
+    {
+        $school = $request->user()->school;
+        $rule = ScoreRule::where('school_id', $school->id)
+            ->whereNull('class_id')
+            ->findOrFail($id);
+
+        $rule->update($request->only(['name', 'amount', 'category', 'is_positive', 'is_active', 'sort_order']));
+
+        return response()->json(['message' => '规则更新成功', 'data' => $rule]);
+    }
+
+    public function adminDeleteScoreRule(Request $request, int $id): JsonResponse
+    {
+        $school = $request->user()->school;
+        $rule = ScoreRule::where('school_id', $school->id)
+            ->whereNull('class_id')
+            ->findOrFail($id);
+        $rule->delete();
+
+        return response()->json(['message' => '规则已删除']);
+    }
+
+    public function adminListShopItems(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $query = ShopItem::where('school_id', $school->id)
+            ->whereNull('class_id');
+
+        if ($currency = $request->input('currency_type')) {
+            $query->byCurrency($currency);
+        }
+
+        $items = $query->orderBy('category')->orderBy('cost_score')->get();
+
+        return response()->json(['data' => $items]);
+    }
+
+    public function adminCreateShopItem(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string',
+            'category' => 'nullable|string|max:50',
+            'cost_score' => 'required|integer|min:1',
+            'currency_type' => 'nullable|string|max:50',
+            'event_tag' => 'nullable|string|max:50',
+            'stock' => 'nullable|integer|min:0',
+            'image_path' => 'nullable|string|max:255',
+        ]);
+
+        $item = ShopItem::create([
+            'class_id' => null,
+            'school_id' => $school->id,
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'category' => $request->input('category', 'physical'),
+            'cost_score' => (int) $request->input('cost_score'),
+            'currency_type' => $request->input('currency_type', 'score'),
+            'event_tag' => $request->input('event_tag'),
+            'stock' => (int) $request->input('stock', 0),
+            'image_path' => $request->input('image_path'),
+            'is_active' => $request->boolean('is_active', true),
+        ]);
+
+        return response()->json(['message' => '商品已添加', 'data' => $item], 201);
+    }
+
+    public function adminUpdateShopItem(Request $request, int $id): JsonResponse
+    {
+        $school = $request->user()->school;
+        $item = ShopItem::where('school_id', $school->id)
+            ->whereNull('class_id')
+            ->findOrFail($id);
+
+        $item->update($request->only([
+            'name',
+            'description',
+            'category',
+            'cost_score',
+            'currency_type',
+            'event_tag',
+            'stock',
+            'image_path',
+            'is_active',
+        ]));
+
+        return response()->json(['message' => '商品已更新', 'data' => $item]);
+    }
+
+    public function adminDeleteShopItem(Request $request, int $id): JsonResponse
+    {
+        $school = $request->user()->school;
+        $item = ShopItem::where('school_id', $school->id)
+            ->whereNull('class_id')
+            ->findOrFail($id);
+        $item->delete();
+
+        return response()->json(['message' => '商品已删除']);
     }
 
     /**

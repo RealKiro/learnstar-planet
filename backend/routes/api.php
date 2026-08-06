@@ -62,6 +62,19 @@ Route::prefix('v1')->group(function () {
         // 批量账号操作（教师/家长通用，role 区分）
         Route::post('accounts/batch-reset-password', [SchoolAdminController::class, 'batchResetPassword']);
         Route::post('accounts/batch-delete', [SchoolAdminController::class, 'batchDeleteAccounts']);
+        // 管理员端：全校积分规则与商品（学校级共享）
+        Route::prefix('score-rules')->group(function () {
+            Route::get('/', [SchoolAdminController::class, 'adminListScoreRules']);
+            Route::post('/', [SchoolAdminController::class, 'adminCreateScoreRule']);
+            Route::put('{id}', [SchoolAdminController::class, 'adminUpdateScoreRule']);
+            Route::delete('{id}', [SchoolAdminController::class, 'adminDeleteScoreRule']);
+        });
+        Route::prefix('shop-items')->group(function () {
+            Route::get('/', [SchoolAdminController::class, 'adminListShopItems']);
+            Route::post('/', [SchoolAdminController::class, 'adminCreateShopItem']);
+            Route::put('{id}', [SchoolAdminController::class, 'adminUpdateShopItem']);
+            Route::delete('{id}', [SchoolAdminController::class, 'adminDeleteShopItem']);
+        });
         Route::prefix('parents')->group(function () {
             Route::get('/', [SchoolAdminController::class, 'listParents']);
             Route::post('batch-create', [SchoolAdminController::class, 'batchCreateParents']);

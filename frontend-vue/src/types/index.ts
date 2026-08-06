@@ -37,9 +37,11 @@ export interface ClassRoom {
 export interface ScoreRule {
   id: number
   name: string
-  points: number
+  amount: number
   category: string
-  is_penalty: boolean
+  is_positive: boolean
+  is_active?: boolean
+  school_id?: number
   class_id?: number
 }
 
