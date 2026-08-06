@@ -167,30 +167,30 @@ function closeModal() {
       </div>
 
       <!-- 选择器 -->
-      <div class="flex-row" style="align-items:flex-end;margin-bottom:12px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:100px;" class="form-group">
+      <div class="flex-row assign-row" style="align-items:flex-end;margin-bottom:12px;flex-wrap:wrap;">
+        <div class="assign-col form-group">
           <label>年级</label>
           <select v-model="assignGradeFilter" class="form-input">
             <option value="">全部</option>
             <option v-for="g in grades" :key="g" :value="g">{{ g }}</option>
           </select>
         </div>
-        <div style="flex:1;min-width:120px;" class="form-group">
+        <div class="assign-col form-group">
           <label>班级</label>
           <select v-model="newAssignClassId" class="form-input">
             <option :value="null">请选择</option>
             <option v-for="c in filteredAssignClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option>
           </select>
         </div>
-        <div style="flex:1;" class="form-group">
+        <div class="assign-col form-group">
           <label>角色</label>
-          <select v-model="newAssignRole" class="form-input" style="font-size:12px;padding:5px 8px;">
+          <select v-model="newAssignRole" class="form-input">
             <option value="head_teacher">主班主任</option>
             <option value="co_teacher">副班主任</option>
             <option value="subject_teacher">科任教师</option>
           </select>
         </div>
-        <div style="flex:1;min-width:110px;" class="form-group">
+        <div class="assign-col form-group">
           <label>科目</label>
           <select v-model="newAssignSubject" class="form-input">
             <option value="">请选择科目</option>
@@ -198,9 +198,9 @@ function closeModal() {
           </select>
         </div>
         <button
+          class="assign-add-btn"
           @click="addAssignRowNew"
           :disabled="!newAssignClassId"
-          style="padding:8px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap;height:36px;flex-shrink:0;align-self:flex-end;"
         >
           &#10133; 添加
         </button>
@@ -274,10 +274,12 @@ function closeModal() {
 .form-input {
   color: var(--color-text);
   width: 100%;
-  padding: 8px 12px;
+  height: 36px;
+  padding: 0 12px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   font-size: 13px;
+  line-height: 36px;
   outline: none;
   transition: border-color 0.15s;
   box-sizing: border-box;
@@ -289,6 +291,38 @@ function closeModal() {
 .form-input option {
   color: #1E293B;
   background: #fff;
+}
+/* 分配弹窗四列等宽对齐：年级/班级/角色/科目 */
+.assign-row { gap: 10px; }
+.assign-col {
+  flex: 1 1 0;
+  min-width: 120px;
+}
+.assign-col .form-input {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 13px;
+  line-height: 36px;
+}
+.assign-add-btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-accent);
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--color-accent);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-end;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.assign-add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 /* Modal utility classes */
 .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--color-border); flex-shrink:0; }
