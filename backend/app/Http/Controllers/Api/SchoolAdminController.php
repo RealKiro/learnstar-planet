@@ -1712,18 +1712,17 @@ class SchoolAdminController extends Controller
         if ($date = $request->input('date')) {
             $query->whereDate('created_at', $date);
         }
-        $logs = $query->orderBy('created_at', 'desc')
-            ->paginate(50)
-            ->through(fn (\App\Models\DisplayLoginLog $log) => [
-                'id' => $log->id,
-                'class_name' => $log->classRoom?->name,
-                'class_code' => $log->class_code,
-                'ip_address' => $log->ip_address,
-                'user_agent' => $log->user_agent,
-                'login_at' => $log->created_at?->toDateTimeString(),
-            ]);
+        $logs = $query->orderBy('created_at', 'desc')->paginate(50);
+        $items = collect($logs->items())->map(fn (\App\Models\DisplayLoginLog $log) => [
+            'id' => $log->id,
+            'class_name' => $log->classRoom?->name,
+            'class_code' => $log->class_code,
+            'ip_address' => $log->ip_address,
+            'user_agent' => $log->user_agent,
+            'login_at' => $log->created_at?->toDateTimeString(),
+        ])->all();
 
-        return response()->json(['data' => $logs->items(), 'meta' => [
+        return response()->json(['data' => $items, 'meta' => [
             'current_page' => $logs->currentPage(),
             'last_page' => $logs->lastPage(),
             'total' => $logs->total(),
