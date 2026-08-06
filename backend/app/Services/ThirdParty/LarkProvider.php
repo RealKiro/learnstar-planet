@@ -40,6 +40,7 @@ class LarkProvider implements ThirdPartyProvider
             'platform_id' => (string) ($data['union_id'] ?? $data['open_id'] ?? $code),
             'name' => (string) ($data['name'] ?? ''),
             'mobile' => (string) ($data['mobile'] ?? ''),
+            'email' => (string) ($data['email'] ?? ''),
             'avatar' => (string) ($data['avatar_url'] ?? ''),
         ];
     }

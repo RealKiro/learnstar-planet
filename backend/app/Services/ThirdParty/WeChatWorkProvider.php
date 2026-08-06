@@ -35,6 +35,7 @@ class WeChatWorkProvider implements ThirdPartyProvider
             'platform_id' => $userid,
             'name' => $detail['name'] ?: $userid,
             'mobile' => $detail['mobile'] ?? '',
+            'email' => $detail['email'] ?? '',
             'avatar' => $detail['avatar'] ?? '',
         ];
     }
@@ -58,6 +59,7 @@ class WeChatWorkProvider implements ThirdPartyProvider
         return [
             'name' => (string) ($r['name'] ?? ''),
             'mobile' => (string) ($r['mobile'] ?? ''),
+            'email' => (string) ($r['email'] ?? ''),
             'avatar' => (string) ($r['avatar'] ?? ''),
         ];
     }

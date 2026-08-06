@@ -363,6 +363,7 @@ class AuthService
             'name' => $displayName,
             'nickname' => $nickname,
             'phone' => $phone,
+            'email' => (string) ($userInfo['email'] ?? '') ?: null,
             'avatar_path' => $avatar,
             'status' => 'active',
         ]);

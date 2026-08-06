@@ -39,6 +39,7 @@ class DingTalkProvider implements ThirdPartyProvider
             'platform_id' => (string) ($me['unionId'] ?? $me['userId'] ?? $code),
             'name' => (string) ($me['nick'] ?? $me['name'] ?? ''),
             'mobile' => (string) ($me['mobile'] ?? ''),
+            'email' => (string) ($me['email'] ?? ''),
             'avatar' => (string) ($me['avatarUrl'] ?? ''),
         ];
     }

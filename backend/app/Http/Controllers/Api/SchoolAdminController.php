@@ -2025,6 +2025,13 @@ class SchoolAdminController extends Controller
         $createdTeachers = 0;
         $teachers = $request->input('teachers', []);
         if (!empty($teachers)) {
+            // 通讯录用 mobile 字段，createTeacherAccounts 存 phone —— 统一映射，避免手机号丢失
+            $teachers = array_map(function (array $t): array {
+                $t['phone'] = $t['phone'] ?? $t['mobile'] ?? null;
+                unset($t['mobile']);
+
+                return $t;
+            }, $teachers);
             $result = $this->authService->createTeacherAccounts($school, $teachers);
             $createdTeachers = count($result);
         }
