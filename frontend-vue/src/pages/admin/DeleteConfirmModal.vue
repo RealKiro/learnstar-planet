@@ -30,14 +30,12 @@ const emit = defineEmits<{
   (e: 'deleted'): void
 }>()
 
-const deleteConfirmName = ref('')
 const deleteError = ref('')
 const deleteStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 watch(
   () => props.teacher,
   () => {
-    deleteConfirmName.value = ''
     deleteError.value = ''
     deleteStatus.value = 'idle'
   },
@@ -86,17 +84,6 @@ async function confirmDelete() {
         >
           &#9888;&#65039; 该教师是部分班级的班主任，删除后这些班级将无班主任。
         </div>
-        <div style="margin-top:10px;">
-          <label style="display:block;font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;text-align:left;">
-            请输入教师姓名「{{ teacher?.name }}」以确认删除
-          </label>
-          <input
-            v-model="deleteConfirmName"
-            class="form-input"
-            :placeholder="'请输入 ' + (teacher?.name || '')"
-            style="font-size:12px;text-align:center;"
-          >
-        </div>
       </div>
       <div v-if="deleteError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ deleteError }}</div>
       <div class="modal-footer" style="justify-content:flex-end;">
@@ -108,12 +95,11 @@ async function confirmDelete() {
         </button>
         <button
           @click="confirmDelete"
-          :disabled="deleteConfirmName !== teacher?.name || deleteStatus === 'loading'"
+          :disabled="deleteStatus === 'loading'"
           :style="{
             padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer',
             background: deleteStatus === 'loading' ? '#f59e0b' : deleteStatus === 'success' ? '#10b981' : deleteStatus === 'error' ? '#ef4444' : '#dc2626',
-            border: 'none', color: '#fff',
-            opacity: deleteConfirmName === teacher?.name ? 1 : 0.5
+            border: 'none', color: '#fff'
           }"
         >
           {{ deleteStatus === 'loading' ? '删除中...' : deleteStatus === 'success' ? '已删除 ✓' : deleteStatus === 'error' ? '删除失败 ✗' : '确认删除' }}
