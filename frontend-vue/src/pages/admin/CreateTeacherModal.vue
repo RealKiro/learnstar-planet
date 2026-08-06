@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { apiPost } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import ModalGlass from '@/components/common/ModalGlass.vue'
 
 interface ClassRoom {
@@ -187,7 +188,13 @@ async function doSubmit(force: boolean) {
     // 同名教师：非 force 时提示确认覆盖（一般不同名，但避免误伤），确认后 force 重发
     if (e?.response?.data?.duplicate && !force) {
       const name = createForm.value.name.trim()
-      if (confirm(`该校已存在同名教师「${name}」。\n确定覆盖创建吗？将删除原同名账号（含其班级分配）。`)) {
+      const ok = await openConfirm({
+        title: '同名教师覆盖',
+        message: `该校已存在同名教师「${name}」。\n确定覆盖创建吗？将删除原同名账号（含其班级分配）。`,
+        danger: true,
+        confirmText: '覆盖创建',
+      })
+      if (ok) {
         await doSubmit(true)
       } else {
         createStatus.value = 'idle'

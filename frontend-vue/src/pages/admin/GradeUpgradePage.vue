@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import type { ApiResponse, GradeUpgradePreview } from '@/types'
 
 const preview = ref<GradeUpgradePreview | null>(null)
@@ -23,7 +24,13 @@ async function executeUpgrade() {
   if (!preview.value) return
   const upgradeCount = preview.value.summary.upgrade_class_count
   const graduateCount = preview.value.summary.graduate_class_count
-  if (!confirm(`确认执行年级升级？\n\n将升级 ${upgradeCount} 个班级，毕业 ${graduateCount} 个班级。\n此操作不可撤销！`)) return
+  const ok = await openConfirm({
+    title: '执行年级升级',
+    message: `确认执行年级升级？\n\n将升级 ${upgradeCount} 个班级，毕业 ${graduateCount} 个班级。\n此操作不可撤销！`,
+    danger: true,
+    confirmText: '确认执行',
+  })
+  if (!ok) return
   executing.value = true
   executeStatus.value = 'loading'
   try {

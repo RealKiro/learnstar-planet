@@ -3,6 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { apiGet, apiDelete, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
 import PlatformIcon from '@/components/common/PlatformIcon.vue'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import { platformLabel } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
 
@@ -39,7 +40,8 @@ onMounted(async () => {
 })
 
 async function unbind(platform: string) {
-  if (!confirm(`确定要解绑 ${platformLabel(platform)} 吗？`)) return
+  const ok = await openConfirm({ title: '解绑账号', message: `确定要解绑 ${platformLabel(platform)} 吗？`, danger: true, confirmText: '确认解绑' })
+  if (!ok) return
   unbindStatus.value[platform] = 'loading'
   try {
     await apiDelete(`/api/v1/auth/unbind/${platform}`)

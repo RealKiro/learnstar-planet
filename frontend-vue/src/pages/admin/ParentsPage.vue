@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost, apiDelete } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import { avatarGradient, platformLabel } from '@/utils/constants'
 import type { ApiResponse } from '@/types'
 
@@ -58,7 +59,13 @@ async function batchResetPassword() {
 }
 async function batchDelete() {
   if (!selectedIds.value.length) { batchOpMsg.value = '请先勾选要删除的账号'; return }
-  if (!confirm(`确定删除选中的 ${selectedIds.value.length} 个家长账号？\n将解除与学生账号的绑定关系。`)) return
+  const ok = await openConfirm({
+    title: '批量删除家长账号',
+    message: `确定删除选中的 ${selectedIds.value.length} 个家长账号？\n将解除与学生账号的绑定关系。`,
+    danger: true,
+    confirmText: '确认删除',
+  })
+  if (!ok) return
   batchOpStatus.value = 'loading'; batchOpMsg.value = ''
   try {
     const res = await apiPost<{ message: string }>('/api/v1/admin/accounts/batch-delete', {
@@ -99,7 +106,13 @@ async function reloadParents() {
 }
 
 async function deleteParent(p: Parent) {
-  if (!confirm(`确定删除家长账号「${p.name}」？\n该账号与学生的绑定关系将被解除。`)) return
+  const ok = await openConfirm({
+    title: '删除家长账号',
+    message: `确定删除家长账号「${p.name}」？\n该账号与学生的绑定关系将被解除。`,
+    danger: true,
+    confirmText: '确认删除',
+  })
+  if (!ok) return
   deleteStatus.value = 'loading'
   deleteTargetId.value = p.id
   try {

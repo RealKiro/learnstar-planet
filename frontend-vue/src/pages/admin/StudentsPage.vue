@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import { avatarGradient } from '@/utils/constants'
 import type { ApiResponse, Student, ClassRoom } from '@/types'
 
@@ -159,7 +160,8 @@ async function submitForm() {
 }
 
 async function deleteStudent(s: Student) {
-  if (!confirm(`确定删除学生「${s.name}」？`)) return
+  const ok = await openConfirm({ title: '删除学生', message: `确定删除学生「${s.name}」？`, danger: true, confirmText: '确认删除' })
+  if (!ok) return
   deleteStatusMap.value[s.id] = 'loading'
   try {
     await apiDelete(`/api/v1/admin/students/${s.id}`)
@@ -185,7 +187,8 @@ function toggleSelectAll() {
 }
 
 async function batchDelete() {
-  if (!confirm(`确定批量删除 ${selectedIds.value.length} 名学生？`)) return
+  const ok = await openConfirm({ title: '批量删除学生', message: `确定批量删除 ${selectedIds.value.length} 名学生？`, danger: true, confirmText: '确认删除' })
+  if (!ok) return
   batchDeleteStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/students/batch-delete', { student_ids: selectedIds.value })

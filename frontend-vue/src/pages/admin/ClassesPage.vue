@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import type { ApiResponse, ClassRoom } from '@/types'
 
 const classes = ref<ClassRoom[]>([])
@@ -114,7 +115,8 @@ function collapseAll() {
 }
 
 async function deleteClass(cls: ClassRoom) {
-  if (!confirm(`确定删除班级「${cls.name}」？\n班级下所有学生记录也会一并删除。`)) return
+  const ok = await openConfirm({ title: '删除班级', message: `确定删除班级「${cls.name}」？\n班级下所有学生记录也会一并删除。`, danger: true, confirmText: '确认删除' })
+  if (!ok) return
   deleteStatus.value[cls.id] = 'loading'
   try {
     await apiDelete(`/api/v1/admin/classes/${cls.id}`)

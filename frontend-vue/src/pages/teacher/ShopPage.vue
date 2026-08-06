@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiDelete } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import type { ApiResponse } from '@/types'
 
 interface ShopItemExt {
@@ -114,7 +115,8 @@ async function submitRedeem() {
 }
 
 async function deleteItem(item: ShopItemExt) {
-  if (!confirm(`确定删除商品「${item.name}」？`)) return
+  const ok = await openConfirm({ title: '删除商品', message: `确定删除商品「${item.name}」？`, danger: true, confirmText: '确认删除' })
+  if (!ok) return
   deleteStatusMap.value[item.id] = 'loading'
   try {
     await apiDelete(`/api/v1/teacher/shop/items/${item.id}`)

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import type { ApiResponse, ScoreRule } from '@/types'
 
 const rules = ref<ScoreRule[]>([])
@@ -105,7 +106,8 @@ async function handleSubmit() {
 }
 
 async function handleDelete(rule: ScoreRule) {
-  if (!confirm(`确认删除规则「${rule.name}」？`)) return
+  const ok = await openConfirm({ title: '删除积分规则', message: `确认删除规则「${rule.name}」？`, danger: true, confirmText: '确认删除' })
+  if (!ok) return
   deleteStatus.value[rule.id] = 'loading'
   try {
     await apiDelete(`/api/v1/teacher/scores/rules/${rule.id}`)

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import TeacherFilters from './TeacherFilters.vue'
 import TeacherCard from './TeacherCard.vue'
 import CreateTeacherModal from './CreateTeacherModal.vue'
@@ -111,7 +112,13 @@ async function batchResetTeacherPwd() {
 }
 async function batchDeleteTeachers() {
   if (!selectedTeacherIds.value.length) { batchOpMsg.value = '请先勾选要删除的教师'; return }
-  if (!confirm(`确定删除选中的 ${selectedTeacherIds.value.length} 个教师账号？\n将解除其所有班级分配。`)) return
+  const ok = await openConfirm({
+    title: '批量删除教师',
+    message: `确定删除选中的 ${selectedTeacherIds.value.length} 个教师账号？\n将解除其所有班级分配。`,
+    danger: true,
+    confirmText: '确认删除',
+  })
+  if (!ok) return
   batchOpStatus.value = 'loading'; batchOpMsg.value = ''
   try {
     const res = await apiPost<{ message: string }>('/api/v1/admin/accounts/batch-delete', {
