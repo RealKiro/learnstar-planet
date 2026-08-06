@@ -16,8 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // 信任反向代理头（Cloudflare Tunnel / Nginx / Traefik 等）
         // 服务器部署模式下默认信任所有代理，确保 HTTPS 和域名正确识别
-        // 用 app()->environment()/config() 替代 env()，避免 config:cache 后 env() 失效
-        if (app()->environment('production') || config('proxy.trust_all')) {
+        // ⚠️ withMiddleware 闭包里 env() 可用（.env 先于 bootstrap 加载），app()->environment() 会因 'env' 绑定未就绪而报错
+        if (env('APP_ENV') === 'production' || env('TRUST_ALL_PROXIES', false)) {
             $middleware->trustProxies(at: '*');
         }
 

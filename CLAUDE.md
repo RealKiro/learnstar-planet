@@ -289,8 +289,8 @@ npm run build:deploy # 输出到 ../backend/public/
     **为什么 12 不是 13**：先尝试 13，但生态未跟上（`laravel/tinker` 2.x 最高 illuminate ^12、`nunomaduro/collision` 无 v9、dusk/larastan 未确认 L13）→ **降回 L12**（发布一年多，生态全兼容，PHP `^8.2` 约束允许 8.5）。等生态跟进后可再升 13。
 
     **升级前置（已完成 2026-08-06）**：
-    - ✅ **消除 bootstrap env() 直调**：`bootstrap/app.php` 的 `env('APP_ENV')`/`env('TRUST_ALL_PROXIES')` 改为 `app()->environment('production')` + `config('proxy.trust_all')`（新增 `config/proxy.php`）。**关键理解**：config 文件内的 `env()` 在 `config:cache` 时会被正确解析并序列化，真正失效的是**非 config 位置（bootstrap/控制器/服务）**的 env() 直调。
-    - ✅ **依赖约束已按 L12 调整**：dompdf ^3.1（v2 只支持 ≤11）、permission ^7.0、collision ^8.0、tinker ^2.0 已加回；horizon/octane/activitylog/dusk 用宽松 ^5.0/^2.0/^4.0/^8.0。**仍待 PHP 环境 composer 解析验证**。
+    - ✅ **依赖约束已按 L12 调整**：laravel/framework ^12.0、dompdf ^3.1（v2 只支持 ≤11）、permission ^7.0、tinker ^2.0、collision ^8.0；horizon/octane/activitylog/dusk 用宽松 ^5.0/^2.0/^4.0/^8.0。已通过 composer 解析（CI 报错到 phpstan 说明依赖装上了）。
+    - ⚠️ **不要改 bootstrap/app.php 的 env()**：曾误改为 `app()->environment()`，结果 `withMiddleware` 闭包里 `'env'` 容器绑定未就绪 → `Target class [env] does not exist`，已回退。**关键理解**：bootstrap 阶段 .env 已先加载，`env()` 可用；真正需要避免的是控制器/服务里在 config:cache 之后用 env()。config 文件内的 env() 在缓存时会被正确序列化。
 
     **升级手册（需在 PHP/Docker 环境执行）**：
     ```bash
@@ -298,7 +298,7 @@ npm run build:deploy # 输出到 ../backend/public/
     composer update --with-all-dependencies
     php artisan migrate --force
     php artisan test
-    php artisan config:cache   # 验证 env() 修复后正常
+    php artisan config:cache   # 验证正常
     php artisan route:list --path=api
     php artisan optimize
     ```
@@ -307,10 +307,10 @@ npm run build:deploy # 输出到 ../backend/public/
     | 项 | 说明 |
     |---|---|
     | 中间件/异常 | `withMiddleware`/`withExceptions` 结构 L11→L12 延续，基本兼容 |
-    | config:cache env() | bootstrap 已消除；config 文件内 env() 缓存时正常 |
+    | config:cache env() | bootstrap 用 env() 正常（.env 先加载）；控制器/服务避免 config:cache 后 env() |
     | PHP | L12 的 `php ^8.2` 约束允许 8.5，无碍 |
     | 依赖包 | dompdf 需 ^3.1（v2 不支持 L12）、permission ^7.0，其余 ^4.0/^5.0 兼容 |
     | Collection | L12 部分 Collection 方法更严格，需回归 |
     | 广播/事件 | `ShouldBroadcastNow` + Redis 广播，L12 兼容 |
 
-    **结论**：升级前必须确保 bootstrap 无 env() 直调（已完成），composer update 在 PHP 环境跑通并 `php artisan test` 全绿后再推送（否则 CI 的 composer install 会挂）。
+    **结论**：composer 已可解析，剩 phpstan/test 跑通（当前卡在 phpstan 报 `Target class [env]`，已回退 bootstrap 修复）。
