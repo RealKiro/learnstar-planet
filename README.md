@@ -91,7 +91,7 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-内置 MySQL 8.0 + Redis 7，开箱即用。如需使用外部数据库，修改 `.env` 中 `DB_HOST` 后执行 `docker-compose up -d app --no-deps`。
+内置 MySQL 8.0 + Redis 8（`redis:alpine` 最新版），开箱即用。如需使用外部数据库/Redis，修改 `.env` 中 `DB_HOST`/`REDIS_HOST` 后执行 `docker-compose up -d app --no-deps`。
 
 ### SQLite（零依赖部署）
 
@@ -199,7 +199,7 @@ server {
 |------|------|
 | 后端 | Laravel 13（PHP 8.5） |
 | 数据库 | SQLite / MySQL / MariaDB / PostgreSQL |
-| 缓存与队列 | Redis 7（可降级 file / database） |
+| 缓存与队列 | Redis 8（可降级 file / database） |
 | 前端 | Vue 3 + TypeScript + Tailwind CSS |
 | 实时推送 | SSE 协议（后端实现，前端 EventSource 优先 / 轮询降级） |
 | 小程序 | 微信原生（教师端 / 教室端） |
