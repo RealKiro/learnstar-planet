@@ -151,15 +151,19 @@ class ScoreService
 
     public function batchGiveScore(array $studentIds, int $amount, string $reason, int $givenBy, ?int $scoreRuleId = null): array
     {
+        // 一次性加载学生 + 宠物(避免 N+1 懒加载),整个批量在一个事务里提交(避免 N 次提交)
+        // 宠物也带上其学生,避免 syncLevelWithScore 里 $this->student 懒加载 N 次
+        $students = Student::whereIn('id', $studentIds)->with('pet.student')->get()->keyBy('id');
+
         $results = [];
-
-        foreach ($studentIds as $studentId) {
-            $student = Student::find($studentId);
-
-            if ($student) {
-                $results[] = $this->giveScore($student, $amount, $reason, $givenBy, $scoreRuleId);
+        DB::transaction(function () use ($students, $studentIds, $amount, $reason, $givenBy, $scoreRuleId, &$results) {
+            foreach ($studentIds as $studentId) {
+                $student = $students->get($studentId);
+                if ($student) {
+                    $results[] = $this->giveScore($student, $amount, $reason, $givenBy, $scoreRuleId);
+                }
             }
-        }
+        });
 
         return $results;
     }
