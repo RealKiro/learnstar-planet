@@ -74,6 +74,12 @@ const VARIANT_FACE: Record<string, [number, number]> = {
   phoenix: [92, 66],
   zhuque: [94, 66],
   crane: [99, 62],
+  biyomon: [106, 68],
+  bifang: [100, 64],
+  jingwei: [100, 66],
+  ibis: [100, 66],
+  magpie: [100, 66],
+  dove: [100, 70],
 }
 const VARIANT_HALO: Record<string, [number, number]> = {
   sauropod: [100, 22],
@@ -83,6 +89,12 @@ const VARIANT_HALO: Record<string, [number, number]> = {
   phoenix: [92, 34],
   zhuque: [94, 34],
   crane: [99, 30],
+  biyomon: [106, 36],
+  bifang: [100, 32],
+  jingwei: [100, 34],
+  ibis: [100, 34],
+  magpie: [100, 34],
+  dove: [100, 38],
 }
 
 function buildFace(
@@ -1212,19 +1224,24 @@ function fxShape(size: number): string {
           </g>
         </template>
 
-        <!-- 玄武·龟蛇合体 -->
+        <!-- 玄武·神龟背负玄蛇（经典形象：龟 + 蛇缠绕） -->
         <template v-else-if="art.variant === 'xuanwu'">
-          <path d="M96 118 C 72 112, 56 118, 52 130" :stroke="art.dark" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.6"/>
-          <path d="M58 118 Q56 106 66 102" :stroke="art.dark" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <path d="M52 128 Q46 124 48 118" :stroke="art.dark" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-          <ellipse cx="104" cy="124" rx="40" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <path d="M74 124 Q100 96 126 124 Q140 130 130 138 Q100 150 70 138 Q60 130 74 124 Z" :fill="art.main" :stroke="art.dark" stroke-width="1.6"/>
-          <path d="M88 124 L100 108 L112 124 L100 140 Z" :fill="art.light" opacity="0.5"/>
-          <ellipse cx="100" cy="78" rx="20" ry="17" :fill="`url(#body-grad-${uid})`"/>
-          <path d="M92 92 Q100 100 108 92" :stroke="art.dark" stroke-width="1.4" fill="none"/>
+          <!-- 缠绕龟身的蛇 -->
+          <path d="M66 122 C 54 106, 66 86, 88 78 C 110 70, 132 76, 134 94 C 136 110, 120 118, 104 114" :stroke="art.dark" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M104 114 Q100 106 104 98" :stroke="art.dark" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="105" cy="92" r="6" :fill="art.main" :stroke="art.dark" stroke-width="1.2"/>
+          <path d="M110 90 L118 86 L110 95 Z" fill="#EF4444"/>
+          <!-- 龟壳 -->
+          <path d="M82 112 Q100 88 120 112 Q126 124 112 134 Q100 140 88 134 Q74 124 82 112 Z" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="2"/>
+          <path d="M88 114 L100 98 L112 114 M100 98 L100 136 M88 114 L100 124 L112 114" :stroke="art.dark" stroke-width="1.4" fill="none" opacity="0.6"/>
+          <path d="M84 128 L76 136 L88 134 Z" :fill="art.main"/>
+          <path d="M118 128 L126 136 L114 134 Z" :fill="art.main"/>
+          <!-- 龟头 -->
+          <path d="M100 110 Q100 96 100 86" :stroke="art.main" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <circle cx="100" cy="76" r="10" :fill="`url(#body-grad-${uid})`"/>
           <g v-if="art.parts.horns">
-            <path d="M94 64 Q90 54 96 50" :stroke="art.accent" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <path d="M106 64 Q110 54 104 50" :stroke="art.accent" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M94 68 Q90 60 96 56" :stroke="art.accent" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M106 68 Q110 60 104 56" :stroke="art.accent" stroke-width="2" fill="none" stroke-linecap="round"/>
           </g>
         </template>
 
@@ -1334,14 +1351,12 @@ function fxShape(size: number): string {
             <path d="M130 104 Q152 94 156 76 Q142 90 128 94 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
           </g>
           <path d="M128 116 L148 122 L134 130 Z" :fill="art.dark"/>
-          <ellipse cx="100" cy="116" rx="26" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <ellipse cx="100" cy="125" rx="16" ry="11" :fill="art.light" opacity="0.85"/>
-          <circle cx="100" cy="80" r="24" :fill="`url(#body-grad-${uid})`"/>
-          <path d="M92 60 Q96 48 104 48 Q108 56 104 60 Z" :fill="art.accent"/>
-          <path d="M96 90 Q100 96 104 90 Q100 94 96 90 Z" fill="#F97316"/>
-          <g v-if="level >= 6" class="crest">
-            <path d="M96 54 Q92 44 96 38 Q100 46 100 54 Z" :fill="art.accent" opacity="0.9"/>
-          </g>
+          <ellipse cx="102" cy="114" rx="24" ry="20" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="102" cy="122" rx="15" ry="10" :fill="art.light" opacity="0.85"/>
+          <path d="M96 98 Q92 86 96 74 Q100 66 108 70" fill="none" :stroke="`url(#body-grad-${uid})`" stroke-width="11" stroke-linecap="round"/>
+          <circle cx="106" cy="68" r="10" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M102 60 Q98 50 104 44 Q108 50 106 60 Z" :fill="art.accent"/>
+          <path d="M114 66 L122 62 L114 72 Z" fill="#F59E0B"/>
         </template>
 
         <!-- 毕方·单足青鸟 -->
@@ -1352,13 +1367,14 @@ function fxShape(size: number): string {
           </g>
           <path d="M99 120 L99 138 M101 120 L101 138" :stroke="art.accent" stroke-width="4" stroke-linecap="round"/>
           <path d="M128 116 L148 122 L134 130 Z" :fill="art.dark"/>
-          <ellipse cx="100" cy="116" rx="26" ry="22" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <circle cx="100" cy="80" r="24" :fill="`url(#body-grad-${uid})`"/>
-          <path d="M100 58 Q96 52 100 46 Q104 52 100 58 Z" :fill="art.accent" opacity="0.85"/>
-          <path d="M96 86 L100 84 L104 86 L100 88 Z" fill="#FDE047"/>
+          <ellipse cx="102" cy="114" rx="24" ry="20" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <path d="M96 98 Q92 86 96 74 Q100 66 104 68" fill="none" :stroke="`url(#body-grad-${uid})`" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="100" cy="64" r="9" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M96 56 Q92 48 98 44 Q102 50 100 56 Z" :fill="art.accent" opacity="0.85"/>
+          <path d="M108 62 L116 59 L108 68 Z" fill="#FDE047"/>
           <g v-if="level >= 6" class="blue-fire">
-            <path d="M78 66 Q72 56 78 50 Q84 58 78 66 Z" fill="#7DD3FC" opacity="0.8"/>
-            <path d="M122 66 Q128 56 122 50 Q116 58 122 66 Z" fill="#7DD3FC" opacity="0.8"/>
+            <path d="M82 52 Q76 44 82 38 Q88 46 82 52 Z" fill="#7DD3FC" opacity="0.8"/>
+            <path d="M118 52 Q124 44 118 38 Q112 46 118 52 Z" fill="#7DD3FC" opacity="0.8"/>
           </g>
         </template>
 
@@ -1371,10 +1387,11 @@ function fxShape(size: number): string {
             <path d="M130 104 Q152 94 156 76 Q142 90 128 94 Z" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
           </g>
           <path d="M128 118 L146 124 L134 132 Z" :fill="art.dark"/>
-          <ellipse cx="100" cy="116" rx="24" ry="21" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <circle cx="100" cy="80" r="23" :fill="`url(#body-grad-${uid})`"/>
-          <path d="M96 86 L100 84 L104 86 L100 88 Z" fill="#FDE047"/>
-          <path d="M92 62 Q88 56 92 50 Q96 56 92 62 Z" :fill="art.accent" opacity="0.8"/>
+          <ellipse cx="102" cy="114" rx="22" ry="19" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <path d="M96 98 Q92 86 96 74 Q100 66 106 68" fill="none" :stroke="`url(#body-grad-${uid})`" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="100" cy="66" r="9" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M108 64 L116 60 L108 70 Z" fill="#FDE047"/>
+          <path d="M96 58 Q92 50 98 46 Q102 52 100 58 Z" :fill="art.accent" opacity="0.8"/>
         </template>
 
         <!-- 凤凰·优雅长尾（经典形象：长颈+凤冠+华丽长尾羽） -->
@@ -1431,10 +1448,11 @@ function fxShape(size: number): string {
 
         <!-- 朱鹮·弯喙凤冠 -->
         <template v-else-if="art.variant === 'ibis'">
-          <ellipse cx="100" cy="116" rx="25" ry="21" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <circle cx="100" cy="82" r="22" :fill="`url(#body-grad-${uid})`"/>
-          <path d="M98 64 Q94 56 90 58" :stroke="art.accent" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-          <path d="M112 74 Q120 72 122 78" :stroke="art.dark" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="102" cy="114" rx="24" ry="20" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <path d="M96 98 Q92 86 96 74 Q100 66 106 68" fill="none" :stroke="`url(#body-grad-${uid})`" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="100" cy="66" r="9" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M96 58 Q92 50 96 46 Q100 52 100 58 Z" :fill="art.accent"/>
+          <path d="M108 64 Q116 62 118 68" :stroke="art.dark" stroke-width="2.2" fill="none" stroke-linecap="round"/>
           <g class="wings">
             <path d="M72 104 Q50 94 46 78 Q60 90 74 92 Z" :fill="art.light" :stroke="art.accent" stroke-width="1"/>
             <path d="M128 104 Q150 94 154 78 Q140 90 126 92 Z" :fill="art.light" :stroke="art.accent" stroke-width="1"/>
@@ -1473,9 +1491,11 @@ function fxShape(size: number): string {
             <path d="M72 104 Q50 94 46 78 Q60 90 74 92 Z" :fill="art.dark" opacity="0.8"/>
             <path d="M128 104 Q150 94 154 78 Q140 90 126 92 Z" :fill="art.dark" opacity="0.8"/>
           </g>
-          <ellipse cx="100" cy="116" rx="25" ry="21" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <circle cx="100" cy="82" r="22" :fill="`url(#body-grad-${uid})`"/>
-          <path d="M92 66 Q96 60 102 62" :stroke="art.accent" stroke-width="1.8" fill="none" opacity="0.7"/>
+          <ellipse cx="102" cy="114" rx="24" ry="20" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <path d="M96 98 Q92 86 96 74 Q100 66 106 68" fill="none" :stroke="`url(#body-grad-${uid})`" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="100" cy="66" r="9" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M108 64 L116 60 L108 70 Z" fill="#F59E0B"/>
+          <path d="M96 58 Q92 50 98 46 Q102 52 100 58 Z" :fill="art.accent" opacity="0.7"/>
         </template>
 
         <!-- 翎歌·灵巧信使 -->
@@ -1484,9 +1504,10 @@ function fxShape(size: number): string {
             <path d="M72 102 Q52 92 48 76 Q62 88 74 90 Z" :fill="art.light" :stroke="art.dark" stroke-width="1"/>
             <path d="M128 102 Q148 92 152 76 Q138 88 126 90 Z" :fill="art.light" :stroke="art.dark" stroke-width="1"/>
           </g>
-          <ellipse cx="100" cy="114" rx="24" ry="21" :fill="`url(#body-grad-${uid})`" class="body-main"/>
-          <circle cx="100" cy="82" r="21" :fill="`url(#body-grad-${uid})`"/>
-          <path d="M96 88 Q100 92 104 88 Q100 90 96 88 Z" fill="#F59E0B"/>
+          <ellipse cx="102" cy="112" rx="22" ry="19" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <path d="M96 96 Q92 86 96 76 Q100 68 106 70" fill="none" :stroke="`url(#body-grad-${uid})`" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="100" cy="70" r="8" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M108 68 L116 64 L108 74 Z" fill="#F59E0B"/>
         </template>
 
         <template v-else>
