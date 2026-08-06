@@ -1633,12 +1633,38 @@ class SchoolAdminController extends Controller
                 ];
             }
 
+            // 5. 检查教师账号 plain_password 状态（第三方自动注册历史问题）
+            try {
+                $hasPlain = $db->getSchemaBuilder()->hasColumn('users', 'plain_password');
+                if ($hasPlain) {
+                    $emptyPwdCount = \App\Models\User::where('role', 'teacher')
+                        ->where(function ($q) {
+                            $q->whereNull('plain_password')->orWhere('plain_password', '');
+                        })
+                        ->count();
+                    $results[] = [
+                        'item' => '教师账号密码状态',
+                        'status' => $emptyPwdCount > 0 ? 'fixable' : 'ok',
+                        'detail' => $emptyPwdCount > 0 ? "{$emptyPwdCount} 个教师账号缺明文密码（第三方自动注册历史问题），可一键重置为默认密码" : '',
+                    ];
+                }
+            } catch (\Throwable $e) {
+                $results[] = [
+                    'item' => '教师账号密码状态',
+                    'status' => 'error',
+                    'detail' => $e->getMessage(),
+                ];
+            }
+
             $missingCount = count(array_filter($results, fn($r) => $r['status'] === 'missing'));
+            $fixableCount = count(array_filter($results, fn($r) => $r['status'] === 'fixable'));
+            $hasIssues = $missingCount > 0 || $fixableCount > 0;
 
             return response()->json([
                 'data' => $results,
-                'has_issues' => $missingCount > 0,
-                'message' => $missingCount > 0 ? '检测到数据库结构缺失，可执行修复' : '数据库结构完整',
+                'has_issues' => $hasIssues,
+                'message' => $missingCount > 0 ? '检测到数据库结构缺失，可执行修复'
+                    : ($fixableCount > 0 ? '检测到可修复的数据问题，可执行修复' : '系统状态正常'),
             ]);
         } catch (\Throwable $e) {
             return response()->json([
@@ -1660,10 +1686,26 @@ class SchoolAdminController extends Controller
         try {
             \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
             $output = \Illuminate\Support\Facades\Artisan::output();
+            $messages = ['数据库迁移已完成'];
+            $fixedPasswords = 0;
+
+            // 修复第三方自动注册教师账号的密码状态（plain_password 为空 → 重置为默认密码）
+            $emptyPwdCount = \App\Models\User::where('role', 'teacher')
+                ->where(function ($q) {
+                    $q->whereNull('plain_password')->orWhere('plain_password', '');
+                })
+                ->count();
+
+            if ($emptyPwdCount > 0) {
+                \Illuminate\Support\Facades\Artisan::call('teacher:fix-passwords');
+                $fixedPasswords = $emptyPwdCount;
+                $messages[] = "已重置 {$fixedPasswords} 个教师账号密码为默认密码（ls123456），请告知教师登录后修改";
+            }
 
             return response()->json([
-                'message' => '数据库迁移已完成',
+                'message' => implode('；', $messages),
                 'output' => $output,
+                'fixed_passwords' => $fixedPasswords,
             ]);
         } catch (\Throwable $e) {
             return response()->json(['message' => '修复失败: ' . $e->getMessage()], 500);

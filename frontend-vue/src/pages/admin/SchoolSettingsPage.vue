@@ -292,9 +292,11 @@ async function uploadLogo(e: Event) {
       </div>
       <div v-if="diagResult">
         <div v-for="(r, i) in diagResult" :key="i" style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-bottom:1px solid var(--color-border);font-size:13px;">
-          <span v-if="r.status === 'ok'" style="color:#10B981;">✅</span><span v-else style="color:#EF4444;">❌</span>
+          <span v-if="r.status === 'ok'" style="color:#10B981;">✅</span>
+          <span v-else-if="r.status === 'fixable'" style="color:#F59E0B;">⚠️</span>
+          <span v-else style="color:#EF4444;">❌</span>
           <span style="flex:1;">{{ r.item }}</span>
-          <span :style="{ color: r.status === 'ok' ? '#10B981' : '#EF4444', fontWeight:600 }">{{ r.status === 'ok' ? '正常' : (r.detail || '缺失') }}</span>
+          <span :style="{ color: r.status === 'ok' ? '#10B981' : r.status === 'fixable' ? '#F59E0B' : '#EF4444', fontWeight:600 }">{{ r.status === 'ok' ? '正常' : (r.detail || '缺失') }}</span>
         </div>
         <div v-if="repairDone" style="padding:8px 12px;font-size:13px;color:#10B981;font-weight:500;">✅ 修复已完成</div>
       </div>
