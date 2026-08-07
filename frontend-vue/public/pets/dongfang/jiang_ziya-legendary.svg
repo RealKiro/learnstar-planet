@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="姜子牙·五阶·封神·封神榜启">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="52%" r="62%">
+      <stop offset="0%" stop-color="#5B2A8A"/>
+      <stop offset="55%" stop-color="#3A1A5E"/>
+      <stop offset="100%" stop-color="#1E0E34"/>
+    </radialGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F5D742"/>
+      <stop offset="100%" stop-color="#C9A227"/>
+    </linearGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    </radialGradient>
+
+    <g id="jiangziya-head">
+      <ellipse cx="0" cy="0" rx="17" ry="16" fill="#F5EEDC" stroke="#D8C0A0" stroke-width="1"/>
+      <path d="M -10 -6 Q -6 -10 -2 -8 M 10 -6 Q 6 -10 2 -8" fill="none" stroke="#8E7A5A" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M -8 -4 Q -5 -2 -2 -4 M 8 -4 Q 5 -2 2 -4" fill="none" stroke="#5A4A3A" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M -1 0 L 1 0 L 0 3" fill="none" stroke="#C0A884" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M -4 7 Q 0 9 4 7" fill="none" stroke="#A08A68" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M -14 -8 Q -10 -18 0 -20 Q 10 -18 14 -8 Q 8 -14 0 -15 Q -8 -14 -14 -8 Z" fill="#FFFFFF" opacity="0.95"/>
+      <circle cx="0" cy="-22" r="5" fill="#FFFFFF" opacity="0.9"/>
+      <path d="M -7 10 Q -4 20 0 24 Q 4 20 7 10 Q 3 14 0 15 Q -3 14 -7 10 Z" fill="#FFFFFF" opacity="0.9"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 完整背光（呼吸） -->
+  <g>
+    <animate attributeName="opacity" values="1;0.7;1" dur="3.2s" repeatCount="indefinite"/>
+    <circle cx="100" cy="104" r="86" fill="#F5D742" opacity="0.1"/>
+    <circle cx="100" cy="104" r="78" fill="none" stroke="#F5D742" stroke-width="2" opacity="0.45"/>
+    <circle cx="100" cy="104" r="68" fill="none" stroke="#F5D742" stroke-width="1" opacity="0.22"/>
+  </g>
+
+  <!-- 云台 -->
+  <path d="M 30 178 C 50 170 66 178 84 172 Q 100 166 116 174" fill="none" stroke="#C9B37E" stroke-width="2.2" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- 封神榜（身侧） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3s" repeatCount="indefinite"/>
+    <rect x="30" y="60" width="24" height="92" rx="3" fill="#D8B894" opacity="0.85"/>
+    <path d="M 34 66 L 50 66 M 34 76 L 50 76 M 34 86 L 48 86 M 34 130 L 50 130" stroke="#C9B37E" stroke-width="1.2" opacity="0.8"/>
+  </g>
+
+  <!-- 金甲法衣（受封） -->
+  <path d="M 82 96 Q 100 88 118 96 L 116 128 Q 100 138 84 128 Z" fill="url(#robe)"/>
+  <path d="M 92 94 L 90 130 M 100 92 L 100 134 M 108 94 L 110 130" stroke="#8E6E14" stroke-width="1.8" opacity="0.8"/>
+  <circle cx="80" cy="106" r="7" fill="#F5D742"/>
+  <circle cx="120" cy="106" r="7" fill="#F5D742"/>
+  <!-- 下摆 -->
+  <path d="M 84 128 Q 100 122 116 128 L 122 152 Q 100 164 78 152 Z" fill="#C9A227" opacity="0.7"/>
+
+  <!-- 手臂（一持打神鞭，一扶榜） -->
+  <path d="M 92 102 C 86 108 82 116 84 124" fill="none" stroke="#C9A227" stroke-width="7" stroke-linecap="round"/>
+  <path d="M 108 104 C 118 110 122 118 120 126" fill="none" stroke="#C9A227" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="119" cy="130" r="4" fill="#D8C0A0"/>
+
+  <!-- 打神鞭（在手） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 126 96;4 126 96;0 126 96" dur="2.6s" repeatCount="indefinite"/>
+    <line x1="112" y1="120" x2="136" y2="60" stroke="#F5D742" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 136 60 L 142 52 L 136 56 L 140 48 Z" fill="#FFF7D6"/>
+  </g>
+
+  <!-- 头（头部模板 scale 1.05） -->
+  <use href="#jiangziya-head" transform="translate(100,80) scale(1.05)"/>
+
+  <!-- 仙髻法冠（金冠） -->
+  <path d="M 80 62 Q 100 52 120 62 L 120 52 Q 100 42 80 52 Z" fill="#F5D742" opacity="0.95"/>
+  <path d="M 88 54 L 88 42 M 96 50 L 96 38 M 104 50 L 104 38 M 112 54 L 112 44" stroke="#C9A227" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
+  <circle cx="100" cy="38" r="4" fill="#F5D742">
+    <animate attributeName="r" values="4;5;4" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 祥光放射（对称） -->
+  <g stroke="#F5D742" stroke-width="1.4" opacity="0.4" stroke-linecap="round">
+    <path d="M 36 70 L 28 62"/>
+    <path d="M 164 70 L 172 62"/>
+    <path d="M 44 38 L 38 28"/>
+    <path d="M 156 38 L 162 28"/>
+  </g>
+
+  <!-- 神光粒子 -->
+  <g fill="#F5D742">
+    <circle cx="56" cy="114">
+      <animate attributeName="cy" values="114;104;114" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.85;0.2;0.85" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="146" cy="114">
+      <animate attributeName="cy" values="114;104;114" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.85;0.2;0.85" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
