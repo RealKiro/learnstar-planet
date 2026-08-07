@@ -3,6 +3,8 @@ import { ref, computed, onMounted } from 'vue'
 import { apiGet } from '@/utils/api'
 import { avatarGradient } from '@/utils/constants'
 import { getSpeciesEmoji } from '@/utils/petData'
+import PetSprite from '@/components/pet/PetSprite.vue'
+import PetHandbook from '@/components/pet/PetHandbook.vue'
 import type { ApiResponse, LeaderboardEntry } from '@/types'
 
 type LbType = 'total' | 'weekly' | 'pet'
@@ -10,6 +12,12 @@ type LbType = 'total' | 'weekly' | 'pet'
 const activeTab = ref<LbType>('total')
 const entries = ref<LeaderboardEntry[]>([])
 const loading = ref(false)
+// 点击宠物 SVG 打开的图鉴弹窗
+const handbook = ref<{ speciesId: string; level: number; score: number } | null>(null)
+function openHandbook(e: LeaderboardEntry) {
+  if (!e.pet_species) return
+  handbook.value = { speciesId: e.pet_species, level: e.pet_level || 1, score: parseFloat(String(e.score)) || 0 }
+}
 
 const tabs: Array<{ key: LbType; label: string; icon: string }> = [
   { key: 'total', label: '总积分榜', icon: '🏆' },
@@ -27,7 +35,7 @@ const restEntries = computed(() => entries.value.slice(3))
 const maxProgress = computed(() => {
   if (activeTab.value !== 'weekly' || entries.value.length === 0) return null
   const e = entries.value[0]
-  return { name: e.student_name, points: e.score, change: '+120分' }
+  return { name: e.name, points: e.score, change: '+120分' }
 })
 
 async function fetchData(type: LbType) {
@@ -53,9 +61,10 @@ function generateDemoData(type: LbType): LeaderboardEntry[] {
   return names.map((name, i) => ({
     rank: i + 1,
     student_id: i + 1,
-    student_name: name,
+    name,
+    student_no: String(1001 + i),
     score: type === 'pet' ? Math.max(1, baseScore - i * 1.5).toString() : String(Math.max(1, baseScore - i * (type === 'weekly' ? 5 : 40))),
-    pet_name: `${name}的伙伴`,
+    pet_name: '',
     pet_level: Math.max(1, Math.floor(baseScore - i * 1.2)),
     pet_species: species[i],
     pet_emoji: getSpeciesEmoji(species[i]),
@@ -126,11 +135,15 @@ onMounted(() => fetchData('total'))
               i === 1 ? 'linear-gradient(135deg, #94A3B8, #CBD5E1)' :
               'linear-gradient(135deg, #D97706, #F59E0B)',
           }">
-            <span class="avatar-emoji">{{ e.pet_emoji || '🌟' }}</span>
+            <span v-if="e.pet_species" class="champion-sprite" @click="openHandbook(e)" title="点击查看宠物介绍">
+              <PetSprite :species-id="e.pet_species" :level="e.pet_level || 1" :animate="true" />
+            </span>
+            <span v-else class="avatar-emoji">{{ e.pet_emoji || '🌟' }}</span>
           </div>
 
-          <div class="champion-name">{{ e.student_name }}</div>
+          <div class="champion-name">{{ e.name }}</div>
 
+          <div v-if="e.student_no" class="champion-no">学号 {{ e.student_no }}</div>
           <div v-if="e.pet_name" class="champion-pet">{{ e.pet_name }}</div>
 
           <!-- 进度条 -->
@@ -157,11 +170,12 @@ onMounted(() => fetchData('total'))
           class="rank-item"
         >
           <span class="rank-num">{{ e.rank }}</span>
-          <div class="rank-avatar" :style="{ background: avatarGradient(e.student_name) }">
-            {{ e.student_name.charAt(0) }}
+          <div class="rank-avatar" :style="{ background: avatarGradient(e.name) }">
+            {{ e.name.charAt(0) }}
           </div>
           <div class="rank-info">
-            <span class="rank-name">{{ e.student_name }}</span>
+            <span class="rank-name">{{ e.name }}</span>
+            <span v-if="e.student_no" class="rank-no">{{ e.student_no }}</span>
             <span v-if="e.pet_name" class="rank-pet">{{ e.pet_name }}</span>
           </div>
           <div class="rank-score">
@@ -182,6 +196,9 @@ onMounted(() => fetchData('total'))
           <span class="award-change">{{ maxProgress.change }}</span>
         </div>
       </div>
+
+      <!-- 宠物图鉴弹窗 -->
+      <PetHandbook v-if="handbook" :species-id="handbook.speciesId" :current-level="handbook.level" :current-score="handbook.score" @close="handbook = null" />
     </template>
   </div>
 </template>
@@ -294,6 +311,23 @@ onMounted(() => fetchData('total'))
 }
 .avatar-emoji {
   font-size: 28px;
+}
+.champion-sprite {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.champion-no {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+.rank-no {
+  font-size: 11px;
+  color: var(--color-text-secondary);
 }
 
 .champion-name {

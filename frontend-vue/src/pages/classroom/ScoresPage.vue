@@ -253,10 +253,13 @@ onMounted(async () => {
           :style="{ borderLeftColor: s.pet_level >= 10 ? '#f59e0b' : s.pet_level >= 7 ? '#8b5cf6' : s.pet_level >= 4 ? '#3b82f6' : '#6b7280', borderLeftWidth: '4px' }">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
             <span style="font-size:16px;font-weight:700;">{{ s.name }}</span>
-            <span style="font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:rgba(255,215,0,0.12);color:var(--md-gold);">Lv.{{ s.pet_level }}</span>
+            <span style="display:flex;align-items:center;gap:6px;">
+              <span v-if="s.student_no" style="font-size:10px;color:var(--md-text-secondary);background:var(--tint-2);padding:1px 8px;border-radius:6px;">{{ s.student_no }}</span>
+              <span style="font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:rgba(255,215,0,0.12);color:var(--md-gold);">Lv.{{ s.pet_level }}</span>
+            </span>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;" @click="openPetDetail(s)" title="点击查看宠物详情">
-            <span v-if="s.pet_species" style="width:40px;height:40px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.15)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;" @click="openPetDetail(s)" title="点击查看宠物详情">
+            <span v-if="s.pet_species" style="width:52px;height:52px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.12)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">
               <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
             </span>
             <span v-else style="font-size:28px;">{{ s.pet_emoji }}</span>

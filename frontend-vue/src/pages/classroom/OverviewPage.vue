@@ -2,18 +2,29 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { apiGet } from '@/utils/api'
 import PetSprite from '@/components/pet/PetSprite.vue'
+import PetHandbook from '@/components/pet/PetHandbook.vue'
 
+interface CardStudent {
+  name: string; student_no?: string; score: number
+  pet_name?: string; pet_species: string; pet_level: number
+}
 interface OverviewData {
   class_name: string; grade: string; student_count: number
   total_score: number; avg_pet_level: number; peak_count: number; weekly_score: number
-  star_student: { name: string; pet_name: string; pet_species: string; pet_level: number; score: number } | null
-  top5: Array<{ name: string; score: number; pet_name: string; pet_species: string; pet_level: number }>
+  star_student: CardStudent | null
+  top5: CardStudent[]
   recent_news: Array<{ icon: string; text: string }>
 }
 
 const data = ref<OverviewData | null>(null)
 const loading = ref(true)
 const token = ref('')
+// 点击宠物 SVG 打开的图鉴弹窗
+const handbook = ref<{ speciesId: string; level: number; score: number } | null>(null)
+function openHandbook(s: CardStudent) {
+  if (!s.pet_species) return
+  handbook.value = { speciesId: s.pet_species, level: s.pet_level, score: s.score }
+}
 
 onMounted(async () => {
   token.value = sessionStorage.getItem('class_token') || ''
@@ -51,18 +62,19 @@ onUnmounted(() => {
     <template v-else-if="data">
       <div class="overview-grid" style="display:grid;grid-template-columns:1.2fr 1.4fr 1fr;gap:20px;margin-bottom:28px;">
         <!-- 班级之星 -->
-        <div class="o-card" v-if="data.star_student">
+        <div class="o-card" v-if="data.star_student" style="position:relative;">
           <div class="o-label">🏅 班级之星</div>
+          <div v-if="data.star_student.student_no" style="position:absolute;top:20px;right:24px;font-size:11px;color:var(--md-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px;">学号 {{ data.star_student.student_no }}</div>
           <div style="display:flex;align-items:center;gap:16px;">
-            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;overflow:hidden;">
-              <div v-if="data.star_student.pet_species" style="width:52px;height:52px;">
+            <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;" @click="openHandbook(data.star_student)" title="点击查看宠物介绍">
+              <div v-if="data.star_student.pet_species" style="width:68px;height:68px;">
                 <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
               </div>
               <span v-else style="font-size:32px;">🌟</span>
             </div>
             <div>
               <div style="font-size:20px;font-weight:700;">{{ data.star_student.name }}</div>
-              <div style="font-size:13px;color:var(--md-text-secondary);">{{ data.star_student.pet_name }} · Lv.{{ data.star_student.pet_level }}</div>
+              <div style="font-size:13px;color:var(--md-text-secondary);">Lv.{{ data.star_student.pet_level }}</div>
               <div style="font-size:22px;font-weight:800;color:var(--md-gold);">{{ data.star_student.score }} 分</div>
             </div>
           </div>
@@ -97,15 +109,18 @@ onUnmounted(() => {
         <div style="font-size:15px;font-weight:700;margin-bottom:16px;">🏆 班级 TOP 5</div>
         <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;">
           <div v-for="(s, i) in data.top5" :key="s.name"
-            style="text-align:center;padding:16px 12px;border-radius:16px;border:1px solid var(--tint-2);transition:0.25s;"
+            style="position:relative;text-align:center;padding:16px 12px;border-radius:16px;border:1px solid var(--tint-2);transition:0.25s;"
             :style="i === 0 ? 'background:linear-gradient(180deg,rgba(245,158,11,0.06),transparent);border-color:rgba(245,158,11,0.2);' : ''">
-            <div style="font-size:24px;margin-bottom:6px;">{{ ['🥇','🥈','🥉','4','5'][i] }}</div>
-            <div v-if="s.pet_species" style="width:44px;height:44px;margin:0 auto 6px;">
-              <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+            <div style="position:absolute;top:8px;left:10px;font-size:18px;">{{ ['🥇','🥈','🥉','4','5'][i] }}</div>
+            <div v-if="s.student_no" style="position:absolute;top:10px;right:10px;font-size:10px;color:var(--md-text-secondary);background:var(--tint-2);padding:1px 6px;border-radius:6px;">{{ s.student_no }}</div>
+            <div style="margin-top:6px;">
+              <div v-if="s.pet_species" style="width:60px;height:60px;margin:0 auto 6px;cursor:pointer;" @click="openHandbook(s)" title="点击查看宠物介绍">
+                <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+              </div>
+              <div v-else style="font-size:30px;margin-bottom:6px;">🌟</div>
             </div>
-            <div v-else style="font-size:28px;margin-bottom:6px;">🌟</div>
             <div style="font-size:14px;font-weight:600;">{{ s.name }}</div>
-            <div style="font-size:11px;color:var(--md-text-secondary);margin-bottom:6px;">{{ s.pet_name }} · Lv.{{ s.pet_level }}</div>
+            <div style="font-size:11px;color:var(--md-text-secondary);margin-bottom:6px;">Lv.{{ s.pet_level }}</div>
             <div style="font-size:16px;font-weight:700;color:var(--md-gold);">{{ s.score }} 分</div>
             <div style="height:4px;background:var(--tint-3);border-radius:2px;overflow:hidden;margin-top:6px;">
               <div :style="{ width: (s.score / data.top5[0].score) * 100 + '%', height:'100%', background: i === 0 ? 'linear-gradient(90deg,#f59e0b,#fcd34d)' : 'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'2px', transition:'width 0.5s' }"></div>
@@ -113,6 +128,9 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
+
+      <!-- 宠物图鉴弹窗 -->
+      <PetHandbook v-if="handbook" :species-id="handbook.speciesId" :current-level="handbook.level" :current-score="handbook.score" @close="handbook = null" />
     </template>
   </div>
 </template>

@@ -754,6 +754,7 @@ class DisplayController extends Controller
         $sorted = $students->sortByDesc('total_score')->values();
         $top5 = $sorted->take(5)->map(fn ($s) => [
             'name' => $s->name,
+            'student_no' => $s->student_no,
             'score' => $s->total_score,
             'pet_name' => $s->pet->name ?? '',
             'pet_species' => $s->pet->species ?? '',
@@ -780,6 +781,7 @@ class DisplayController extends Controller
                 ->where('created_at', '>=', now()->startOfWeek())->sum('amount'),
             'star_student' => $starStudent ? [
                 'name' => $starStudent->name,
+                'student_no' => $starStudent->student_no,
                 'pet_name' => $starStudent->pet->name ?? '',
                 'pet_species' => $starStudent->pet->species ?? '',
                 'pet_level' => $starStudent->pet->level ?? 0,

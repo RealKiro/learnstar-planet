@@ -235,7 +235,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
   // ===== 四、科幻机甲 · 补 6 种 =====
   mecha: [
     {
-      id: 'lightsaber_warrior', name: '光剑武士', seriesId: 'mecha',
+      id: 'lightsaber_warrior', name: '光剑武士', seriesId: 'digimon',
       levels: [
         Lv(1, '剑柄核心', '一把悬浮的光剑柄，平时“嗡嗡”待机', 'egg'),
         Lv(2, '学徒机体', '能拿起剑柄，但还不会发光', 'egg'),
@@ -252,7 +252,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
       ],
     },
     {
-      id: 'fission_giant', name: '裂变巨人', seriesId: 'mecha',
+      id: 'fission_giant', name: '裂变巨人', seriesId: 'digimon',
       levels: [
         Lv(1, '纳米核心', '一颗纳米球，能分裂成一群小球追着玩', 'egg'),
         Lv(2, '分裂体', '能一分为二，两个一起做鬼脸', 'egg'),
@@ -269,7 +269,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
       ],
     },
     {
-      id: 'nano_swarm', name: '纳米虫群', seriesId: 'mecha',
+      id: 'nano_swarm', name: '纳米虫群', seriesId: 'digimon',
       levels: [
         Lv(1, '微核', '一小撮闪烁的微粒，像把会动的星沙', 'egg'),
         Lv(2, '微群', '微粒聚成一小团，嗡嗡作响', 'egg'),
@@ -286,7 +286,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
       ],
     },
     {
-      id: 'storm_jet', name: '磁暴战机', seriesId: 'mecha',
+      id: 'storm_jet', name: '磁暴战机', seriesId: 'digimon',
       levels: [
         Lv(1, '磁核', '带磁场的飞行核，一靠近黑板就被吸住', 'egg'),
         Lv(2, '小滑翔机', '机身小巧，能贴地滑翔', 'egg'),
@@ -303,7 +303,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
       ],
     },
     {
-      id: 'bio_armor', name: '生化装甲', seriesId: 'mecha',
+      id: 'bio_armor', name: '生化装甲', seriesId: 'digimon',
       levels: [
         Lv(1, '细胞核', '一颗跳动的生物质核心，会“咕叽咕叽”叫', 'egg'),
         Lv(2, '黏液幼体', '软乎乎的，能变形但要慢慢想', 'egg'),
@@ -320,7 +320,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
       ],
     },
     {
-      id: 'starship_core', name: '星舰核心', seriesId: 'mecha',
+      id: 'starship_core', name: '星舰核心', seriesId: 'digimon',
       levels: [
         Lv(1, '曲率核心', '发光引擎核心，像一颗微型太阳', 'egg'),
         Lv(2, '小舰体', '舰体拼装中，航行翻跟头', 'egg'),
@@ -1103,40 +1103,6 @@ export const EXTRA_SERIES: PetSeries[] = [
         ],
       },
       {
-        id: 'qilin_sacred', name: '麒麟', seriesId: 'qixia',
-        levels: [
-          Lv(1, '祥云玉卵', '碧玉祥云，温润如玉，是所有侠客要护住的宝贝', 'egg'),
-          Lv(2, '幼麒麟', '会奶声奶气地给侠客们打气', 'egg'),
-          Lv(3, '小麒麟', '祥瑞环绕，谁靠近都安心', 'baby'),
-          Lv(4, '瑞兽', '团宠担当', 'baby'),
-          Lv(5, '祥瑞麒麟', '福气满满', 'baby'),
-          Lv(6, '护佑麒麟', '希望化身', 'growing'),
-          Lv(7, '万瑞麒麟', '祥光普照', 'growing'),
-          Lv(8, '祥瑞之源', '护佑七侠', 'growing'),
-          Lv(9, '万瑞之主', '祥云随身', 'mature'),
-          Lv(10, '瑞气满天', '福泽深厚', 'mature'),
-          Lv(11, '麒麟尊者', '七彩流光，祥和神圣', 'legendary'),
-          Lv(12, '麒麟祥瑞', '我不需要变强，因为有人护着我就够温暖了', 'legendary'),
-        ],
-      },
-      {
-        id: 'lingge', name: '灵鸽', seriesId: 'qixia',
-        levels: [
-          Lv(1, '白羽卵', '白羽蛋，自带风声，天生爱飞', 'egg'),
-          Lv(2, '雏鸽', '认路超强，帮同学传小纸条(从不泄密)', 'egg'),
-          Lv(3, '小信鸽', '眼睛亮晶晶，能记住所有人', 'baby'),
-          Lv(4, '信鸽', '送信又快又准', 'baby'),
-          Lv(5, '传讯灵鸽', '消息灵通，是班级情报网', 'baby'),
-          Lv(6, '千里传书', '一飞就准', 'growing'),
-          Lv(7, '信使鸽', '运动会送信担当', 'growing'),
-          Lv(8, '九天信鸽', '飞得再高也不迷路', 'growing'),
-          Lv(9, '云中使者', '白云之上，从不迷途', 'mature'),
-          Lv(10, '青鸟信使', '信达四方', 'mature'),
-          Lv(11, '信鸽尊者', '雪白流光，轻盈迅捷', 'legendary'),
-          Lv(12, '九天信使', '最远的路，我来替你跑', 'legendary'),
-        ],
-      },
-      {
         id: 'heixinhu', name: '黑心虎', seriesId: 'qixia',
         levels: [
           Lv(1, '暗影虎意', '一团黑雾，被七剑气息镇着，蠢蠢欲动', 'egg'),
@@ -1154,37 +1120,20 @@ export const EXTRA_SERIES: PetSeries[] = [
         ],
       },
       {
-        id: 'zhuzhijie', name: '猪无戒', seriesId: 'qixia',
+        id: 'heixiaohu', name: '黑小虎', seriesId: 'qixia',
         levels: [
-          Lv(1, '幻影猪卵', '肉粉圆蛋，自带“哼唧”音效', 'egg'),
-          Lv(2, '小猪崽', '鬼主意一堆，但没一次成功', 'egg'),
-          Lv(3, '机灵猪', '一肚子小聪明', 'baby'),
-          Lv(4, '狡黠猪', '变戏法一流，哄哭的同学一绝', 'baby'),
-          Lv(5, '幻影猪', '能变出假分身，一眼被看穿', 'baby'),
-          Lv(6, '幻影初成', '越来越像真的', 'growing'),
-          Lv(7, '笑面猪', '笑里藏善，机灵但不害人', 'growing'),
-          Lv(8, '幻影大师', '气氛担当', 'growing'),
-          Lv(9, '千面猪', '扮谁像谁', 'mature'),
-          Lv(10, '笑里藏刀', '刀是善刀，专切烦恼', 'mature'),
-          Lv(11, '幻影尊者', '粉金流光，诙谐从容', 'legendary'),
-          Lv(12, '笑里藏刀', '我笑里没有刀，只有糖', 'legendary'),
-        ],
-      },
-      {
-        id: 'niuxuanfeng', name: '牛旋风', seriesId: 'qixia',
-        levels: [
-          Lv(1, '蛮牛卵', '铁灰色蛮牛卵，横冲直撞但专撞“坏事”', 'egg'),
-          Lv(2, '小牛犊', '憨厚老实，谁喊帮忙都到', 'egg'),
-          Lv(3, '牛宝宝', '眼神坚定，慢热', 'baby'),
-          Lv(4, '旋风牛', '跑起来带起一阵风', 'baby'),
-          Lv(5, '蛮力牛', '力气见长，值日重活全包', 'baby'),
-          Lv(6, '忠勇牛', '忠诚满分', 'growing'),
-          Lv(7, '牛气冲天', '越挫越勇', 'growing'),
-          Lv(8, '忠勇牛王', '后盾担当', 'growing'),
-          Lv(9, '蛮牛将军', '一声令下', 'mature'),
-          Lv(10, '忠诚之牛', '认定的路走到黑', 'mature'),
-          Lv(11, '牛之尊者', '铁灰流光，忠勇无双', 'legendary'),
-          Lv(12, '万牛奔腾', '我不用花招，蛮力也是真心', 'legendary'),
+          Lv(1, '暗影虎卵', '黑雾环绕的虎卵，是黑心虎之子的宿命起点', 'egg'),
+          Lv(2, '幼年虎仔', '一身黑毛，学着父亲的样子，却藏不住少年心', 'egg'),
+          Lv(3, '黑毛小虎', '初露锋芒，抓坏的第一把剑是父亲给的', 'baby'),
+          Lv(4, '利爪幼虎', '爪风凌厉，进步神速', 'baby'),
+          Lv(5, '黑风小虎', '虎啸带风，与七侠的初见已成宿敌', 'baby'),
+          Lv(6, '少年黑虎', '跟着父亲习武，心中却埋着疑惑', 'growing'),
+          Lv(7, '黑小虎·剑', '使起剑来狠辣，是继承霸业的第一步', 'growing'),
+          Lv(8, '黑小虎·谋', '毒药暗器，手段越来越像父亲', 'growing'),
+          Lv(9, '黑小虎·狂', '一心要赢过虹猫，争强好胜到极致', 'mature'),
+          Lv(10, '魔王之影', '渐渐迷失，路越走越偏', 'mature'),
+          Lv(11, '幽暗少主', '墨紫流光，冷厉孤傲', 'legendary'),
+          Lv(12, '黑虎魔王', '若有人愿意拉我一把，我也不会走到今天', 'legendary'),
         ],
       },
     ],

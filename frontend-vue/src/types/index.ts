@@ -82,7 +82,8 @@ export interface PetDetail extends Pet {
 export interface LeaderboardEntry {
   rank: number
   student_id: number
-  student_name: string
+  name: string
+  student_no?: string
   score: number | string
   /** 宠物相关扩展 */
   pet_name?: string

@@ -88,6 +88,7 @@ class LeaderboardService
                 'rank' => $rank,
                 'student_id' => $studentId,
                 'name' => $student->name,
+                'student_no' => $student->student_no,
                 'avatar' => $student->avatar_path,
                 'score' => (int) $score,
             ];
@@ -124,6 +125,7 @@ class LeaderboardService
                 'rank' => $rank,
                 'student_id' => $student->id,
                 'name' => $student->name,
+                'student_no' => $student->student_no,
                 'avatar' => $student->avatar_path,
                 'score' => $student->total_score,
             ];

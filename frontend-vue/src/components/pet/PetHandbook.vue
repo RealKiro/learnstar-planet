@@ -4,6 +4,7 @@ import { getSpeciesById, getLevelRequiredScore, getSeriesBySpeciesId, getSpecies
 import { getStagePersonality, getStageAbility } from '@/utils/petTraits'
 import { getPoems, getEvoLines, stageIndexForLevel, poemToLines } from '@/utils/petHandbookData'
 import { getPetProfile } from '@/utils/petProfiles'
+import { useThemeStore } from '@/stores/theme'
 import PetSprite from './PetSprite.vue'
 
 const props = defineProps<{
@@ -24,6 +25,19 @@ const levels = computed(() => species.value?.levels || [])
 const scene = computed(() => series.value ? SERIES_SCENES[series.value.id] : null)
 
 const previewLevel = computed(() => selectedLevel.value || props.currentLevel)
+const themeStore = useThemeStore()
+
+// 当前预览阶段的大众熟知名字（默认取宠物当前等级所在阶段名）
+const previewLevelName = computed(() =>
+  levels.value.find(l => l.level === previewLevel.value)?.name || species.value?.name || ''
+)
+
+// 预览场景背景：夜间保留系列深色渐变，日间用系列主色淡染成浅色背景
+const sceneBg = computed(() => {
+  const primary = scene.value?.primaryColor || '#6366F1'
+  if (themeStore.isDark) return scene.value?.bgGradient || `linear-gradient(180deg, ${primary}, #0d1b2a)`
+  return `linear-gradient(180deg, ${primary}2e, var(--color-bg-card))`
+})
 
 // 获取关键里程碑等级展示（1, 3, 5, 8, 12）
 const milestoneLevels = computed(() => {
@@ -62,7 +76,7 @@ const poemLines = computed(() => poemToLines(poem.value))
         <div class="header-info">
           <span class="header-emoji">{{ getSpeciesEmoji(speciesId) }}</span>
           <div>
-            <h2 class="header-title">{{ species?.name }} · 进化图鉴</h2>
+            <h2 class="header-title">{{ previewLevelName }} · 进化图鉴</h2>
             <p class="header-series">{{ series?.name }}系列</p>
           </div>
         </div>
@@ -101,7 +115,7 @@ const poemLines = computed(() => poemToLines(poem.value))
 
       <!-- 预览区域 -->
       <div class="preview-area">
-        <div class="preview-scene" v-if="scene" :style="{ background: scene.bgGradient }">
+        <div class="preview-scene" v-if="scene" :style="{ background: sceneBg }">
           <div class="preview-sprite">
             <PetSprite :species-id="speciesId" :level="previewLevel" :animate="true" />
           </div>

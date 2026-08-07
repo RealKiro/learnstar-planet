@@ -24,6 +24,10 @@ export interface PetArtConfig {
   main: string
   /** 剪影变体：同身体模板下的独立外形（宝可梦/七侠/神话龙等需手绘贴合原型，跨阶段也随 variant 演化） */
   variant?: string
+  /** 各阶段剪影变体（重点角色手调：随进化换更强模板） */
+  stageVariants?: Partial<Record<'egg' | 'baby' | 'growing' | 'mature' | 'legendary', string>>
+  /** 各阶段主色覆盖（未配置时用程序化阶段明暗） */
+  stageMain?: Partial<Record<'egg' | 'baby' | 'growing' | 'mature' | 'legendary', string>>
   /** 各部件出现的等级阈值 */
   parts?: Partial<Record<'horns' | 'wings' | 'tail' | 'fin' | 'halo' | 'crown', number>>
   /** 是否抽象灵体(无实体身体，如量子/星灵) */
@@ -94,9 +98,9 @@ export const PET_ART: Record<string, PetArtConfig> = {
   xiangliu:      { body: 'dragon', main: '#16A34A', variant: 'xiangliu', parts: { horns: 6, tail: 3 } },
   xiezhi:        { body: 'quadruped', main: '#F8FAFC', variant: 'xiezhi', parts: { horns: 5, tail: 3 } },
   // ===== 元素精灵(宝可梦风，贴合原型) =====
-  charmander:    { body: 'quadruped', main: '#F97316', variant: 'lizard', parts: { tail: 3, horns: 7 } },
-  bulbasaur:     { body: 'quadruped', main: '#0D9488', variant: 'seed', parts: { tail: 4, crown: 6 } },
-  squirtle:      { body: 'quadruped', main: '#3B82F6', variant: 'turtle', parts: { tail: 3, crown: 7 } },
+  charmander:    { body: 'quadruped', main: '#F97316', variant: 'lizard', parts: { tail: 3, horns: 7 }, stageMain: { egg: '#FCA5A5', baby: '#FB923C', growing: '#F97316', mature: '#EA580C', legendary: '#C2410C' } },
+  bulbasaur:     { body: 'quadruped', main: '#0D9488', variant: 'seed', parts: { tail: 4, crown: 6 }, stageMain: { egg: '#99F6E4', baby: '#2DD4BF', growing: '#0D9488', mature: '#0F766E', legendary: '#115E59' } },
+  squirtle:      { body: 'quadruped', main: '#3B82F6', variant: 'turtle', parts: { tail: 3, crown: 7 }, stageMain: { egg: '#93C5FD', baby: '#60A5FA', growing: '#3B82F6', mature: '#2563EB', legendary: '#1E40AF' } },
   eevee:         { body: 'quadruped', main: '#B45309', variant: 'fox', parts: { tail: 3, horns: 9 } },
   pikachu:       { body: 'quadruped', main: '#FACC15', variant: 'mouse', parts: { tail: 3, horns: 9 } },
   riolu:         { body: 'quadruped', main: '#6366F1', variant: 'pup', parts: { tail: 4, horns: 8 } },
@@ -211,18 +215,15 @@ export const PET_ART: Record<string, PetArtConfig> = {
   wonton: { body: 'food', main: '#F1F5F9', parts: { crown: 8, halo: 11 } },
   festival_lantern: { body: 'food', main: '#EF4444', variant: 'hexlantern', parts: { crown: 7, halo: 10 } },
   // ===== 七侠剑客(虹猫蓝兔七侠传，贴合原型) =====
-  hongmao: { body: 'quadruped', main: '#EF4444', variant: 'cat', parts: { tail: 3, horns: 7, crown: 8 } },
-  lantu: { body: 'quadruped', main: '#3B82F6', variant: 'rabbit', parts: { tail: 3, horns: 7, crown: 8 } },
+  hongmao: { body: 'quadruped', main: '#EF4444', variant: 'cat', parts: { tail: 3, horns: 7, crown: 8 }, stageMain: { egg: '#FECACA', baby: '#F87171', growing: '#EF4444', mature: '#DC2626', legendary: '#991B1B' } },
+  lantu: { body: 'quadruped', main: '#3B82F6', variant: 'rabbit', parts: { tail: 3, horns: 7, crown: 8 }, stageMain: { egg: '#BFDBFE', baby: '#93C5FD', growing: '#3B82F6', mature: '#2563EB', legendary: '#1D4ED8' } },
   doudou: { body: 'quadruped', main: '#F8FAFC', variant: 'puppy', parts: { tail: 3, horns: 7, crown: 8 } },
   dabeng: { body: 'quadruped', main: '#92400E', variant: 'bear', parts: { tail: 3, horns: 7, crown: 8 } },
   tiaotiao: { body: 'quadruped', main: '#22C55E', variant: 'monkey', parts: { tail: 3, horns: 7, crown: 8 } },
   shali: { body: 'quadruped', main: '#8B5CF6', variant: 'kitten', parts: { tail: 3, horns: 7, crown: 8 } },
   dada: { body: 'quadruped', main: '#16A34A', variant: 'panda', parts: { tail: 3, horns: 7, crown: 8 } },
-  qilin_sacred: { body: 'quadruped', main: '#F59E0B', variant: 'qilin', parts: { horns: 5, tail: 3, crown: 8 } },
-  lingge: { body: 'bird', main: '#E0F2FE', variant: 'dove', parts: { wings: 5, tail: 5, crown: 8 } },
-  heixinhu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { tail: 3, horns: 7, crown: 8 } },
-  zhuzhijie: { body: 'quadruped', main: '#F9A8D4', variant: 'pig', parts: { tail: 3, horns: 8, crown: 8 } },
-  niuxuanfeng: { body: 'quadruped', main: '#78716C', variant: 'bull', parts: { horns: 5, tail: 3, crown: 8 } },
+  heixinhu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { tail: 3, horns: 7, crown: 8 }, stageMain: { egg: '#9CA3AF', baby: '#6B7280', growing: '#1F2937', mature: '#111827', legendary: '#0B0F19' } },
+  heixiaohu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { horns: 6, tail: 3, crown: 8, wings: 11 }, stageMain: { egg: '#9CA3AF', baby: '#6B7280', growing: '#1F2937', mature: '#111827', legendary: '#0B0F19' } },
 }
 
 /** 兜底配置(未知物种也保证能渲染) */
@@ -260,23 +261,40 @@ export function computePetArt(speciesId: string, level: number): PetArtRender {
     egg: 'serene', baby: 'big', growing: 'normal', mature: 'sharp', legendary: 'serene',
   }
 
+  // 程序化阶段主色：幼年提亮、成熟加深、传说提亮（重点角色可用 stageMain 覆盖）
+  const stageShade: Record<string, number> = {
+    egg: 0.45, baby: 0.28, growing: 0.05, mature: -0.18, legendary: 0.12,
+  }
+  const baseMain = cfg.stageMain?.[stage] || cfg.main
+  const main = stageShade[stage] ? shade(baseMain, stageShade[stage]) : baseMain
+
+  // 阶段部件开放：幼年只保留基础尾，成长加角，成熟加翅膀/鳍，传说加光环/王冠
+  const stageAllowed: Record<string, { horns: boolean; wings: boolean; fin: boolean; halo: boolean; crown: boolean }> = {
+    egg:      { horns: false, wings: false, fin: false, halo: false, crown: false },
+    baby:     { horns: false, wings: false, fin: false, halo: false, crown: false },
+    growing:  { horns: true,  wings: false, fin: false, halo: false, crown: false },
+    mature:   { horns: true,  wings: true,  fin: true,  halo: false, crown: false },
+    legendary:{ horns: true,  wings: true,  fin: true,  halo: true,  crown: true },
+  }
+  const allowed = stageAllowed[stage] || stageAllowed.growing
+
   return {
     body: cfg.body,
-    variant: cfg.variant || '',
+    variant: cfg.stageVariants?.[stage] || cfg.variant || '',
     seriesId: getSeriesBySpeciesId(speciesId)?.id || '',
-    main: cfg.main,
-    accent: shade(cfg.main, 0.4),
-    dark: shade(cfg.main, -0.45),
-    light: shade(cfg.main, 0.62),
+    main,
+    accent: shade(main, 0.4),
+    dark: shade(main, -0.45),
+    light: shade(main, 0.62),
     scale: scaleByStage[stage],
     glow: glowByStage[stage],
     parts: {
-      horns: level >= (partsCfg.horns ?? 99),
-      wings: level >= (partsCfg.wings ?? 99),
+      horns: allowed.horns && level >= (partsCfg.horns ?? 99),
+      wings: allowed.wings && level >= (partsCfg.wings ?? 99),
       tail: level >= (partsCfg.tail ?? 99),
-      fin: level >= (partsCfg.fin ?? 99),
-      halo: level >= (partsCfg.halo ?? 99),
-      crown: level >= (partsCfg.crown ?? 99),
+      fin: allowed.fin && level >= (partsCfg.fin ?? 99),
+      halo: allowed.halo && level >= (partsCfg.halo ?? 99),
+      crown: allowed.crown && level >= (partsCfg.crown ?? 99),
     },
     stage,
     eyes: eyesByStage[stage],

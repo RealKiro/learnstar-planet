@@ -100,7 +100,7 @@ function generateDemoPets(): PetDetail[] {
       id: i + 1,
       student_id: i + 1,
       student_name: name,
-      name: `${name}的${species?.name || '宠物'}`,
+      name: levelData?.name || species?.name || '宠物',
       species: speciesId,
       level,
       exp: Math.floor(Math.random() * 100),
