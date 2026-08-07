@@ -28,7 +28,7 @@ const STAGES = [
   { key: 'growing', zh: '道法初成', startLv: 5 },
   { key: 'mature', zh: '大劫淬炼', startLv: 7 },
   { key: 'legendary', zh: '封神登天', startLv: 9 },
-  { key: 'transcendent', zh: '归真永恒', startLv: 11 },
+  { key: 'transcendent', zh: '道果圆满', startLv: 11 },
 ]
 
 // ===== 系列视觉规范 =====
@@ -44,7 +44,7 @@ const SERIES = {
       '异兽神通初显，与山川灵气共鸣，身上浮现神秘纹路，散发古老力量',
       '上古大劫降临，水火风雷交加，异兽浴劫淬炼，直面生死蜕变',
       '神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方',
-      '神游天地、化身山海图腾，云白祥光中归真永恒，与洪荒同寿',
+      '图腾显圣，山海为印，洪荒万古唯此一尊',
     ],
     sceneEn: ['nascent chaos', 'wandering ancient wilds', 'awakening power', 'trial by elements', 'divine coronation', 'eternal harmony'],
     colors: [
@@ -66,7 +66,7 @@ const SERIES = {
       '道法初成，法宝显威，法相庄严初现',
       '天劫淬炼、心魔试炼，仙体历经大劫而不灭',
       '功行圆满封神登天，位列仙班，金光紫气环绕',
-      '归真永恒，紫气东来，化身天地大道的一部分',
+      '道果圆满，紫气东来，万法皆通证道果',
     ],
     sceneEn: ['spiritual genesis', 'mortal wandering', 'dao awakening', 'heavenly tribulation', 'ascension to immortals', 'union with dao'],
     colors: [
@@ -132,7 +132,7 @@ const SERIES = {
       '青年期活力四射，嬉戏打闹，探索栖息地',
       '成年期沉稳担当，守护领地与族群，历经风雨',
       '成为族群的传奇，祥瑞光环，被守护与敬仰',
-      '升华化为生态图腾，与自然合一，永恒守护栖息地',
+      '生态图腾显圣，祥瑞护世，生生不息',
     ],
     sceneEn: ['newborn glow', 'wobbly cub', 'playful youth', 'guardian prime', 'legend of the species', 'guardian spirit'],
     colors: [
@@ -154,7 +154,7 @@ const SERIES = {
       '魔力觉醒，脚下浮现法阵，魔法光辉绽放',
       '黑暗试炼、魔力对决，在深渊边缘淬炼',
       '大法师或神话生物完全体，威震大陆，法阵与冠冕加身',
-      '与元素本源共鸣，永恒守护，光与秘术合一',
+      '元素法相圆满，光与秘术铸就神格，威震大陆',
     ],
     sceneEn: ['arcane genesis', 'curious novice', 'magic circle awakening', 'abyssal trial', 'archmage glory', 'elemental oneness'],
     colors: [
@@ -176,7 +176,7 @@ const SERIES = {
       '成长中的捕猎或迁徙，展露力量与速度',
       '严酷的冰河或火山环境下生存试炼，与天争命',
       '成为领地霸主，王者的姿态与威严',
-      '化为远古图腾与化石传说，冰川岩层间的永恒',
+      '远古霸主图腾显圣，冰川之巅威压万古',
     ],
     sceneEn: ['fossil dawn', 'wandering calf', 'growing hunter', 'survival trial', 'apex predator', 'ancient totem'],
     colors: [
@@ -242,7 +242,7 @@ const SERIES = {
       '剑法初成，行走江湖，惩恶扬善',
       '七剑合璧，魔教大战，刀光剑影中淬炼',
       '七侠之名扬天下，快意恩仇，豪情万丈',
-      '剑道归真，返璞归真，守护苍生的宗师气象',
+      '剑道圆满，一剑开天，守护苍生的宗师气象',
     ],
     sceneEn: ['sword spirit', 'martial training', 'journeying hero', 'seven swords battle', 'legendary hero', 'master of the blade'],
     colors: [
@@ -251,7 +251,7 @@ const SERIES = {
       [{ name: '江湖橙', hex: '#FF7043' }, { name: '侠气蓝', hex: '#29B6F6' }],
       [{ name: '魔教紫', hex: '#4A148C' }, { name: '血战红', hex: '#E53935' }],
       [{ name: '七剑金', hex: '#FFD700' }, { name: '侠名白', hex: '#FFFFFF' }],
-      [{ name: '剑道白', hex: '#F5F0E8' }, { name: '归真蓝', hex: '#90CAF9' }],
+      [{ name: '剑道白', hex: '#F5F0E8' }, { name: '圆满蓝', hex: '#90CAF9' }],
     ],
   },
 }
@@ -382,7 +382,7 @@ lines.push('## 一、使用说明')
 lines.push('')
 lines.push('- **中文主句**（每段首行）：复制给即梦 / 通义万相 / Stable Diffusion（中文模型）。')
 lines.push('- **EN 行**：复制给 Midjourney / DALL·E / Stable Diffusion（英文模型）。')
-lines.push('- **六阶等级制**：灵胎初醒(Lv1) → 凡尘砺心(Lv3) → 道法初成(Lv5) → 大劫淬炼(Lv7) → 封神登天(Lv9) → 归真永恒(Lv11)。')
+lines.push('- **六阶等级制**：灵胎初醒(Lv1) → 凡尘砺心(Lv3) → 道法初成(Lv5) → 大劫淬炼(Lv7) → 封神登天(Lv9) → 道果圆满(Lv11)。')
 lines.push('- **精修四维度**：每阶段含 神态 / 动作 / 衣着 / 梳造 四维描述（重点角色手写，其余按大类基座），见 `frontend-vue/src/utils/petRefine.ts`。')
 lines.push('- **画布**：800×1000 竖版，角色主体居中偏下占约 60%，正面 3/4 视角，无文字无水印。')
 lines.push('- **命名规范**：产物存 `frontend-vue/public/pets/{seriesId}/{speciesId}-{stage}.webp`。')
