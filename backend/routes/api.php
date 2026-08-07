@@ -279,6 +279,7 @@ Route::prefix('v1')->group(function () {
         Route::get('dashboard', [DisplayController::class, 'classroomDashboard']);
         Route::get('students', [DisplayController::class, 'classroomStudents']);
         Route::post('scores/give', [DisplayController::class, 'classroomGiveScore']);
+        Route::post('scores/batch-give', [DisplayController::class, 'classroomBatchGiveScore']);
         Route::get('pets/overview', [DisplayController::class, 'classroomPetsOverview']);
         Route::post('switch-series', [DisplayController::class, 'classroomSwitchSeries']);
         Route::post('pets/switch', [DisplayController::class, 'classroomSwitchPet']);

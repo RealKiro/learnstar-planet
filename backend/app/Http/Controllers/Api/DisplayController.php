@@ -886,6 +886,87 @@ class DisplayController extends Controller
     }
 
     /**
+     * 教室端 · 批量加减分（多选学生，复用 ScoreService 单事务+审计）
+     */
+    public function classroomBatchGiveScore(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+
+        $request->validate([
+            'student_ids' => 'required|array|min:1|max:50',
+            'student_ids.*' => 'integer',
+            'points' => 'required|integer|not_in:0',
+            'reason' => 'required|string|max:200',
+        ]);
+
+        $classId = (int) $classInfo['class_id'];
+        $amount = (int) $request->input('points');
+
+        // 班级码模式限制：单次加减分不得超过 ±30
+        if (abs($amount) >= 30) {
+            return response()->json(['message' => '单次加减分超过 30 分，请使用教师账号登录操作'], 403);
+        }
+
+        $studentIds = array_map('intval', $request->input('student_ids'));
+        // 仅处理属于该班级的学生
+        $validIds = Student::where('class_id', $classId)
+            ->whereIn('id', $studentIds)
+            ->pluck('id')
+            ->all();
+
+        if (empty($validIds)) {
+            return response()->json(['message' => '未找到可操作的学生'], 422);
+        }
+
+        $teacherId = $this->getClassTeacherId($classId);
+        if (!$teacherId) {
+            $teacherId = \App\Models\User::whereIn('role', ['school_admin', 'admin'])->value('id') ?? 1;
+        }
+        $reason = $request->input('reason');
+
+        // 与单学生 classroomGiveScore 行为一致：max(0) 兜底 + 宠物经验增减（ScoreService::giveScore 无负数保护，故不复用）
+        try {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($validIds, $classId, $amount, $reason, $teacherId) {
+                foreach ($validIds as $sid) {
+                    $student = Student::where('class_id', $classId)->find($sid);
+                    if (!$student) {
+                        continue;
+                    }
+                    $student->total_score = max(0, $student->total_score + $amount);
+                    $student->save();
+
+                    if ($student->pet) {
+                        if ($amount > 0) {
+                            $student->pet->addExperience($amount);
+                        } else {
+                            $student->pet->removeExperience(abs($amount));
+                        }
+                    }
+
+                    \App\Models\Score::create([
+                        'student_id' => $student->id,
+                        'class_id' => $classId,
+                        'amount' => $amount,
+                        'reason' => $reason,
+                        'given_by' => $teacherId,
+                    ]);
+                }
+            });
+        } catch (Throwable $e) {
+            Log::error('classroomBatchGiveScore failed: ' . $e->getMessage());
+            return response()->json(['message' => '操作失败: ' . $e->getMessage()], 500);
+        }
+
+        return response()->json([
+            'message' => '批量操作完成，处理了 ' . count($validIds) . ' 名学生',
+            'data' => ['count' => count($validIds), 'points' => $amount],
+        ]);
+    }
+
+    /**
      * 教室端 · 宠物概览
      */
     public function classroomPetsOverview(Request $request): JsonResponse

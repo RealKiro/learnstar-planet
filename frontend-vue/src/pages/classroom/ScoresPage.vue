@@ -47,6 +47,48 @@ const reasonsSub = ['⚠️ 上课走神', '📕 作业缺交', '🗣️ 打扰�
 const floatTexts = ref<Array<{ id: number; x: number; y: number; text: string; color: string }>>([])
 let floatId = 0
 
+// 批量加减分：多选学生（挖空圆形）
+const selectedIds = ref<number[]>([])
+const batchModal = ref(false)
+const batchType = ref<'add' | 'sub'>('add')
+const batchError = ref('')
+const batchBusy = ref(false)
+
+function isSelected(sid: number) { return selectedIds.value.includes(sid) }
+function toggleSelect(sid: number) {
+  const i = selectedIds.value.indexOf(sid)
+  if (i >= 0) selectedIds.value.splice(i, 1)
+  else selectedIds.value.push(sid)
+}
+function clearSelect() { selectedIds.value = [] }
+function openBatchModal(type: 'add' | 'sub') { batchType.value = type; batchError.value = ''; batchModal.value = true }
+
+async function executeBatch(reason: string) {
+  const ids = selectedIds.value
+  if (!ids.length || batchBusy.value) return
+  const step = getStep(ids[0])
+  const points = batchType.value === 'add' ? step : -step
+  batchBusy.value = true
+  try {
+    await apiPost('/api/v1/display/scores/batch-give', { token: token.value, student_ids: ids, points, reason })
+    for (const s of students.value) {
+      if (ids.includes(s.id)) {
+        s.total_score = Math.max(0, s.total_score + points)
+        showFloatText(s.id, points)
+      }
+    }
+    batchError.value = ''
+    batchModal.value = false
+    clearSelect()
+  } catch (e: any) {
+    const msg = e?.response?.data?.message || ''
+    batchError.value = msg.includes('30') ? '单次超过 30 分需要教师账号登录操作' : (msg || '操作失败，请稍后重试')
+    setTimeout(() => { batchError.value = '' }, 3000)
+  } finally {
+    batchBusy.value = false
+  }
+}
+
 // 宠物切换
 const showPetPicker = ref(false)
 const petPickerStudent = ref<StudentEntry | null>(null)
@@ -245,6 +287,17 @@ onMounted(async () => {
         </div>
       </div>
 
+      <!-- 批量操作栏：选中学生后出现 -->
+      <div v-if="selectedIds.length > 0" style="display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--tint-1);border:1px solid var(--tint-3);border-radius:12px;margin-bottom:14px;flex-wrap:wrap;">
+        <span style="font-size:13px;color:var(--md-text-secondary);">已选 <strong style="color:var(--md-primary);font-size:16px;">{{ selectedIds.length }}</strong> 名学生</span>
+        <button @click="openBatchModal('add')"
+          style="padding:6px 16px;border-radius:10px;border:none;background:rgba(16,185,129,0.12);color:#10b981;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">✨ 批量加分</button>
+        <button @click="openBatchModal('sub')"
+          style="padding:6px 16px;border-radius:10px;border:none;background:rgba(239,68,68,0.12);color:#ef4444;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">📉 批量减分</button>
+        <button @click="clearSelect"
+          style="padding:6px 12px;border-radius:10px;border:1px solid var(--tint-3);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">取消选择</button>
+      </div>
+
       <div v-if="filtered.length === 0" style="text-align:center;padding:60px;color:var(--md-text-secondary);">👀 没有找到学生</div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;">
@@ -253,8 +306,11 @@ onMounted(async () => {
           :style="{ borderLeftColor: s.pet_level >= 10 ? '#f59e0b' : s.pet_level >= 7 ? '#8b5cf6' : s.pet_level >= 4 ? '#3b82f6' : '#6b7280', borderLeftWidth: '4px' }">
           <!-- 学号：独立右上角 -->
           <span v-if="s.student_no" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--md-text-secondary);background:var(--tint-2);padding:1px 8px;border-radius:6px;letter-spacing:0.5px;">📛{{ s.student_no }}</span>
-          <!-- 姓名行 -->
-          <div style="padding-right:56px;">
+          <!-- 姓名行 + 多选挖空圆 -->
+          <div style="padding-right:56px;display:flex;align-items:center;gap:8px;">
+            <div class="pick-circle" :class="{ picked: isSelected(s.id) }" @click.stop="toggleSelect(s.id)" title="多选后批量加减分">
+              <svg v-if="isSelected(s.id)" viewBox="0 0 10 10" style="width:9px;height:9px;flex-shrink:0;"><path d="M1.2 5.2 L4 8 L8.8 2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
             <span style="font-size:16px;font-weight:700;">{{ s.name }}</span>
           </div>
           <!-- 宠物：SVG 放大居中（不显示"xx的萌宠"文字） -->
@@ -322,6 +378,28 @@ onMounted(async () => {
         style="position:fixed;pointer-events:none;font-size:24px;font-weight:800;z-index:999;animation:floatUp 1.2s ease-out forwards;"
         :style="{ left: f.x + 'px', top: f.y + 'px', color: f.color }">{{ f.text }}</div>
     </Teleport>
+
+      <!-- 批量加减分弹窗 -->
+      <Teleport to="body">
+        <Transition name="fade">
+          <div v-if="batchModal" @click.self="batchModal = false"
+            style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:300;">
+            <div style="background:var(--color-bg-card);border:1px solid var(--tint-3);border-radius:var(--md-radius);padding:28px 32px;max-width:420px;width:90%;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
+              <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">{{ batchType === 'add' ? '✨ 批量加分' : '📉 批量减分' }}</h3>
+              <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:20px;">为 <strong style="color:var(--color-text);">{{ selectedIds.length }}</strong> 名学生选择原因（每人 <strong style="color:var(--md-gold);">{{ getStep(selectedIds[0]) }}</strong> 分）</p>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+                <button v-for="r in (batchType === 'add' ? reasonsAdd : reasonsSub)" :key="r" :disabled="batchBusy" @click="executeBatch(r)"
+                  style="padding:12px 16px;border-radius:12px;border:1px solid var(--tint-3);background:var(--tint-1);color:var(--color-text);font-size:15px;text-align:left;cursor:pointer;transition:0.15s;font-family:inherit;">
+                  {{ r }}
+                </button>
+              </div>
+              <div v-if="batchError" style="margin-bottom:12px;padding:10px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;color: var(--color-danger-text);font-size:13px;text-align:center;">{{ batchError }}</div>
+              <button @click="batchModal = false"
+                style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--tint-3);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消</button>
+            </div>
+          </div>
+        </Transition>
+      </Teleport>
 
       <!-- 切换确认对话框 -->
       <Transition name="fade">
@@ -459,6 +537,15 @@ onMounted(async () => {
       @keyframes floatUp { 0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); } 100% { opacity: 0; transform: translateX(-50%) translateY(-80px) scale(1.3); } }
       .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
       .fade-enter-from, .fade-leave-to { opacity: 0; }
+      /* 多选挖空圆 checkbox */
+      .pick-circle {
+        width: 18px; height: 18px; border-radius: 50%;
+        border: 2px solid var(--tint-4);
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: 0.15s; flex-shrink: 0; background: transparent;
+      }
+      .pick-circle:hover { border-color: var(--md-primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
+      .pick-circle.picked { background: var(--md-primary); border-color: var(--md-primary); }
     </style>
   </div>
 </template>
