@@ -102,11 +102,16 @@ const poemLines = computed(() => poemToLines(poem.value))
         </div>
       </div>
 
-      <!-- 角色档案：形态 / 习性 / 进化台词 / 专属诗文 -->
+      <!-- 角色档案：形态 / 习性 / 本源 / 别称 / 标志动作 / 意象 / 主题句 / 进化台词 / 专属诗文 -->
       <div class="profile-card">
         <div class="profile-title">📖 角色档案</div>
         <div class="profile-row"><span class="profile-label">形态</span><span class="profile-text">{{ profile.form }}</span></div>
         <div class="profile-row"><span class="profile-label">习性</span><span class="profile-text">{{ profile.habit }}</span></div>
+        <div v-if="profile.origin" class="profile-row"><span class="profile-label">本源</span><span class="profile-text">{{ profile.origin }}</span></div>
+        <div v-if="profile.epithet" class="profile-row"><span class="profile-label">别称</span><span class="profile-text">{{ profile.epithet }}</span></div>
+        <div v-if="profile.movement" class="profile-row"><span class="profile-label">标志</span><span class="profile-text">{{ profile.movement }}</span></div>
+        <div v-if="profile.symbol" class="profile-row"><span class="profile-label">意象</span><span class="profile-text">{{ profile.symbol }}</span></div>
+        <div v-if="profile.theme" class="profile-row profile-row--theme"><span class="profile-label">主题</span><span class="profile-text">{{ profile.theme }}</span></div>
         <div class="profile-row profile-row--quote"><span class="profile-label">🎤</span><span class="profile-text">{{ evoLine }}</span></div>
         <div class="profile-row profile-row--poem"><span class="profile-label">📜</span><span class="profile-text poem-block">
           <span v-for="(line, i) in poemLines" :key="i" class="poem-line" :class="{ 'poem-line--second': i % 2 === 1 }">{{ line }}</span>
@@ -360,6 +365,9 @@ const poemLines = computed(() => poemToLines(poem.value))
 .profile-row--poem .profile-label,
 .profile-row--poem .profile-text { color: var(--color-primary); }
 .profile-row--poem .profile-label { background: rgba(139,92,246,0.12); }
+.profile-row--theme .profile-label,
+.profile-row--theme .profile-text { font-style: italic; color: var(--color-warning-text); }
+.profile-row--theme .profile-label { background: rgba(245,158,11,0.12); }
 .poem-block { display: flex; flex-direction: column; gap: 3px; }
 .poem-line { display: block; line-height: 1.6; }
 .poem-line--second { padding-left: 1.4em; text-indent: -1.4em; }
