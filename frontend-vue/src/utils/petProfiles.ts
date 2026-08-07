@@ -97,13 +97,8 @@ export const PET_PROFILES: Record<string, PetProfile> = {
   aquarius:      { form: '冰蓝圣衣星灵，周身凝霜，水光流转。', habit: '水瓶宫守护者，冷静严师，曙光女神之宽恕可达绝对零度。' },
   pisces:        { form: '绯红圣衣星灵，周身缠绕玫瑰藤蔓。', habit: '双鱼宫守护者，玫瑰之兵的美战士，毒与美集于一身。' },
 
-  // ===== 民间传说 =====
-  nian:          { form: '红毛独角，獠牙外露。', habit: '岁末而出，畏爆竹与红色，后成驱邪纳吉之兽。' },
   taotie:        { form: '巨口凶兽，双角狰狞。', habit: '贪食无度，吞天噬地，名列四大凶兽。' },
   baize:         { form: '白身独角，通体智慧纹。', habit: '知天下万物之名，能言善解，是智慧的祥兽。' },
-  lion_dance:    { form: '红金狮头，绣球相伴。', habit: '逢年过节起舞助兴，驱邪纳吉，热闹喜庆。' },
-  magpie:        { form: '青黑白腹，长尾如扇。', habit: '报喜之鸟，爱在枝头叽喳，最讨人欢喜。' },
-  firework_spirit: { form: '粉色灵光，烟花形态。', habit: '逢节绽放，璀璨一瞬却也灿烂一瞬。' },
   zongzi:        { form: '翠绿粽形，系着绳结。', habit: '端午登场，糯米裹着思念，清香四溢。' },
   tangyuan:      { form: '雪白圆润，浮于甜汤。', habit: '元宵团圆之食，软糯甜糯，寓意和美。' },
   mooncake:      { form: '棕金饼形，压花纹章。', habit: '中秋月圆时登场，内藏豆沙蛋黄，甜而不腻。' },
@@ -131,7 +126,6 @@ export const PET_PROFILES: Record<string, PetProfile> = {
   // ===== 水生 =====
   mosasaur:      { form: '深海巨蜥龙，鳍状四肢。', habit: '远古海洋的顶级掠食者，游弋于苍茫汪洋。' },
   finless_porpoise: { form: '圆头无背鳍，灰蓝光滑。', habit: '性情温顺爱嬉水，嘴角常挂微笑，是江中的微笑天使。' },
-  dragon_boat:   { form: '龙首舟身，彩旗飘飘。', habit: '端午竞渡的主角，锣鼓一响便破浪争先。' },
 
   // ===== 鸟 =====
   zhuque:        { form: '赤红神鸟，周身烈焰。', habit: '四象之一镇守南方，浴火重生，永不言败。' },
@@ -144,16 +138,8 @@ export const PET_PROFILES: Record<string, PetProfile> = {
   bio_armor:     { form: '翠绿生化铠甲。', habit: '与宿主共生，能自我修复，越战越坚。' },
   starship_core: { form: '紫光核心，星轨环绕。', habit: '星舰的心脏，能量无穷，静待启航。' },
 
-  // ===== 人形·神灵 =====
-  fu_star:       { form: '红衣福童，怀抱福字。', habit: '天官赐福，所到之处福气满满。' },
-  shou_star:     { form: '白须仙翁，手拄寿杖。', habit: '寿比南山，慈祥仁厚，赠人长寿。' },
-  god_of_wealth: { form: '金袍财神，怀抱金元宝。', habit: '招财进宝，逢年过节人皆奉之，喜气盈门。' },
-  door_god:      { form: '赤面武将，手持门戟。', habit: '镇守门户，驱邪避鬼，威严刚正不阿。' },
-  kitchen_god:   { form: '橙袍灶君，端坐灶前。', habit: '掌管一家烟火，岁末上天言一家好事。' },
 
   // ===== 补齐 =====
-  lantern:       { form: '白纸灯笼，竹骨为身。', habit: '夜里为人照路，烛火摇曳间传递人间温暖。' },
-  dumpling:      { form: '白皮元宝形，褶边如花。', habit: '冬至除夕的团圆味，馅料藏满家的牵挂。' },
   qinglong:      { form: '青鳞神龙，鹿角长须。', habit: '四象之首镇东方，行云布雨，佑一方风调雨顺。' },
   baihu:         { form: '白毛巨虎，金纹隐现。', habit: '四象之一镇西方，威震百兽，为战神之象。' },
   ice_fox:       { form: '冰蓝狐狸，尾带霜华。', habit: '生于极寒雪原，行动如风，所过之处凝霜成路。' },
@@ -161,6 +147,18 @@ export const PET_PROFILES: Record<string, PetProfile> = {
   light_deer:    { form: '金光神鹿，鹿角如炬。', habit: '在光影中穿行，能驱散黑暗，是光的信使。' },
   dark_panther:  { form: '墨黑豹影，身姿流线。', habit: '潜伏于暗夜，出击快如闪电，无声无息。' },
   steel_armadillo: { form: '钢甲犰狳，甲带如鳞。', habit: '遇敌便蜷成铁球，刀枪不入，坚不可摧。' },
+
+  // ===== 封神演义 =====
+  jiang_ziya:    { form: '白发道袍，手持杏黄旗，背负封神榜。', habit: '垂钓渭水待明主，辅周伐纣，执掌封神大典，号令天下诸神。' },
+  nezha:         { form: '莲花化身灵童子，火尖枪挑乾坤。', habit: '脚踩风火轮，身缠混天绫，手掷乾坤圈，天生天不怕地不怕。' },
+  yang_jian:     { form: '银甲神将，额生天目，手持三尖两刃刀。', habit: '身边哮天犬相随，玄功变化无穷，天眼能辨一切妖邪。' },
+  lei_zhenzi:    { form: '鸟面人身，青面獠牙，背生双翼。', habit: '持黄金棍，振翅可飞千里，雷声为其号令，忠勇护西岐。' },
+  huang_tianhua: { form: '青面红发，手持莫邪宝剑，胯下玉麒麟。', habit: '武成王之子，性如烈火，为救父奋不顾身，少年英雄。' },
+  tu_xingsun:    { form: '矮小身形，手持镔铁棍，擅遁地术。', habit: '日行千里不出地，机灵狡黠，常以土遁之术立奇功。' },
+  yang_ren:      { form: '双目长于掌中，手持飞电枪，坐骑云霞兽。', habit: '商朝忠臣，被剜目后经仙家救治，掌中生目能视地三尺。' },
+  wei_hu:        { form: '身披金甲，手持降魔杵，法相庄严。', habit: '道行天尊之徒，护法金刚，降魔杵所向妖邪辟易。' },
+  daji:          { form: '千年九尾狐化身绝色美人，狐尾隐现。', habit: '受命祸乱商纣，魅惑君王，倾覆朝纲，狐火幻术无双。' },
+  shen_gongbao:  { form: '黑袍道人，身负双剑，面容阴鸷。', habit: '善以花言巧语搬弄是非，四处邀仙下山助纣为虐。' },
 }
 
 export function getPetProfile(speciesId: string): PetProfile {

@@ -976,7 +976,7 @@ class DisplayController extends Controller
 
         $request->validate(['series_id' => 'required|string|max:50']);
         $seriesId = $request->input('series_id');
-        $validSeries = ['myth', 'pokemon', 'national', 'mecha', 'magic', 'prehistoric', 'constellation', 'folklore', 'festival', 'qixia'];
+        $validSeries = ['myth', 'pokemon', 'national', 'digimon', 'magic', 'prehistoric', 'constellation', 'festival', 'qixia', 'fengshen'];
 
         if (!in_array($seriesId, $validSeries, true)) {
             return response()->json(['message' => '无效的系列ID'], 422);

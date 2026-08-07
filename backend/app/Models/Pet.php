@@ -206,13 +206,13 @@ class Pet extends Model
             'myth' => ['zhulong', 'yinglong', 'nine_tail_fox', 'kunpeng', 'fenghuang', 'qilin', 'qinglong', 'baihu', 'zhuque', 'xuanwu', 'taotie', 'baize', 'qiongqi', 'bifang', 'pixiu', 'jingwei', 'xiangliu', 'xiezhi'],
             'pokemon' => ['charmander', 'bulbasaur', 'squirtle', 'eevee', 'pikachu', 'riolu', 'ice_fox', 'rock_rhino', 'wind_falcon', 'light_deer', 'dark_panther', 'steel_armadillo'],
             'national' => ['panda', 'golden_monkey', 'red_crowned_crane', 'south_china_tiger', 'chinese_alligator', 'crested_ibis', 'tibetan_antelope', 'snow_leopard', 'milu_deer', 'siberian_tiger', 'red_panda', 'finless_porpoise'],
-            'mecha' => ['mecha_dragon', 'cyber_cat', 'space_mecha', 'quantum_beast', 'digital_phoenix', 'mecha_shark', 'lightsaber_warrior', 'fission_giant', 'nano_swarm', 'storm_jet', 'bio_armor', 'starship_core'],
+            'digimon' => ['mecha_dragon', 'cyber_cat', 'space_mecha', 'quantum_beast', 'digital_phoenix', 'mecha_shark', 'lightsaber_warrior', 'fission_giant', 'nano_swarm', 'storm_jet', 'bio_armor', 'starship_core'],
             'magic' => ['unicorn', 'wyvern', 'fairy', 'treant', 'griffin', 'mermaid', 'grey_wizard', 'wand_cat', 'dragon_knight', 'alchemy_golem', 'nightmare_horse', 'lamp_spirit'],
             'prehistoric' => ['t_rex', 'triceratops', 'pterosaur', 'mammoth', 'sabertooth', 'mosasaur', 'spinosaurus', 'ankylosaurus', 'diplodocus', 'megalodon', 'ground_sloth', 'woolly_rhino'],
             'constellation' => ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'],
-            'folklore' => ['nian', 'dragon_boat', 'lantern', 'dumpling', 'fu_star', 'shou_star', 'lion_dance', 'god_of_wealth', 'door_god', 'kitchen_god', 'magpie', 'firework_spirit'],
             'festival' => ['zongzi', 'tangyuan', 'mooncake', 'qingtuan', 'chongyang_cake', 'niangao', 'laba_porridge', 'spring_pancake', 'tanghulu', 'osmanthus_cake', 'wonton', 'festival_lantern'],
-            'qixia' => ['hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'qilin_sacred', 'lingge', 'heixinhu', 'zhuzhijie', 'niuxuanfeng'],
+            'qixia' => ['hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'heixinhu', 'heixiaohu'],
+            'fengshen' => ['jiang_ziya', 'nezha', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao'],
             default => [],
         };
     }
@@ -226,13 +226,13 @@ class Pet extends Model
             'myth' => '山海经',
             'pokemon' => '宝可梦风格',
             'national' => '国宝守护',
-            'mecha' => '数码宝贝',
+            'digimon' => '数码宝贝',
             'magic' => '魔法奇幻',
             'prehistoric' => '史前生物',
             'constellation' => '星座守护',
-            'folklore' => '民间传说',
             'festival' => '传统节日',
             'qixia' => '七侠剑客',
+            'fengshen' => '封神演义',
             default => $seriesId,
         };
     }

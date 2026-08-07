@@ -121,12 +121,6 @@ export const SERIES_SCENES: Record<string, SceneConfig> = {
     decor: ['⭐', '🌌', '✨', '🌠'],
     scene: '星空深处 · 银河旋转',
   },
-  folklore: {
-    primaryColor: '#F97316',
-    bgGradient: 'linear-gradient(180deg, #1a0a00 0%, #3a1a00 30%, #5a2a00 60%, #1a0a00 100%)',
-    decor: ['🏮', '🧧', '🎊', '🐉'],
-    scene: '古风小镇 · 万家灯火',
-  },
   festival: {
     primaryColor: '#EF4444',
     bgGradient: 'linear-gradient(180deg, #2a0a1a 0%, #4a1026 30%, #6b1a2a 60%, #2a0a1a 100%)',
@@ -138,6 +132,12 @@ export const SERIES_SCENES: Record<string, SceneConfig> = {
     bgGradient: 'linear-gradient(180deg, #1a0a0a 0%, #3a1210 30%, #5a1a0a 60%, #1a0a0a 100%)',
     decor: ['⚔️', '🐉', '🌲', '🏯'],
     scene: '七剑峡谷 · 侠影重重',
+  },
+  fengshen: {
+    primaryColor: '#D97706',
+    bgGradient: '线性渐变(古战场·封神台·祥云)深色调',
+    decor: ['🗡️', '📜', '⚡', '☁️'],
+    scene: '封神台 · 阐截相争',
   },
 }
 
@@ -204,13 +204,6 @@ export const SPECIES_EMOJI: Record<string, string> = {
   capricorn: '🐐',
   aquarius: '🏺',
   pisces: '🐟',
-  // 民间
-  nian: '🦁',
-  dragon_boat: '🚣',
-  lantern: '🏮',
-  dumpling: '🥟',
-  fu_star: '⭐',
-  shou_star: '🍑',
   // 神话·扩充
   qinglong: '🐉',
   baihu: '🐯',
@@ -253,13 +246,6 @@ export const SPECIES_EMOJI: Record<string, string> = {
   megalodon: '🦈',
   ground_sloth: '🦥',
   woolly_rhino: '🦏',
-  // 民间·扩充
-  lion_dance: '🦁',
-  god_of_wealth: '💰',
-  door_god: '🚪',
-  kitchen_god: '🍚',
-  magpie: '🐦',
-  firework_spirit: '🎆',
   // 传统节日
   zongzi: '🫔',
   tangyuan: '🍡',
@@ -283,6 +269,17 @@ export const SPECIES_EMOJI: Record<string, string> = {
   dada: '🐼',
   heixinhu: '🐯',
   heixiaohu: '🐯',
+  // 封神演义
+  jiang_ziya: '📜',
+  nezha: '🔥',
+  yang_jian: '⚔️',
+  lei_zhenzi: '⚡',
+  huang_tianhua: '🗡️',
+  tu_xingsun: '⛏️',
+  yang_ren: '👁️',
+  wei_hu: '🔱',
+  daji: '🦊',
+  shen_gongbao: '🐆',
 }
 
 /** 获取物种Emoji */
@@ -300,9 +297,9 @@ export function getSeriesEmoji(seriesId: string): string {
     magic: '🦄',
     prehistoric: '🦕',
     constellation: '♈',
-    folklore: '🏮',
     festival: '🎊',
     qixia: '⚔️',
+    fengshen: '🗡️',
   }
   return map[seriesId] || '🌟'
 }
@@ -317,9 +314,9 @@ export function getSeriesName(seriesId: string): string {
     magic: '魔法奇幻',
     prehistoric: '史前生物',
     constellation: '星座守护',
-    folklore: '民间传说',
     festival: '传统节日',
     qixia: '七侠剑客',
+    fengshen: '封神演义',
   }
   return map[seriesId] || '未知'
 }
@@ -1296,114 +1293,6 @@ export const PET_SERIES: PetSeries[] = [
     ],
   },
 
-  // ===== 八、民间传说系列（6种） =====
-  {
-    id: 'folklore', name: '民间传说', emoji: '🏮',
-    species: [
-      {
-        id: 'nian', name: '年兽', seriesId: 'folklore',
-        levels: [
-          { level: 1, name: '红纸团', description: '红色纸团，内有金光', stage: 'egg', requiredScore: 0 },
-          { level: 2, name: '小兽探头', description: '露出毛茸茸头部，有角', stage: 'baby', requiredScore: 15 },
-          { level: 3, name: '红色幼兽', description: '全身红色，四蹄踏火', stage: 'baby', requiredScore: 35 },
-          { level: 4, name: '长角年兽', description: '角变长，身体披鳞', stage: 'baby', requiredScore: 60 },
-          { level: 5, name: '春节使者', description: '身绕鞭炮，带来喜庆', stage: 'growing', requiredScore: 90 },
-          { level: 6, name: '驱邪灵兽', description: '双眼放光，可震慑', stage: 'growing', requiredScore: 125 },
-          { level: 7, name: '瑞兽临门', description: '体型增大，身边祥云', stage: 'growing', requiredScore: 165 },
-          { level: 8, name: '吉祥年兽', description: '全身中国结，福字环绕', stage: 'mature', requiredScore: 210 },
-          { level: 9, name: '福星高照', description: '头顶有金色福光', stage: 'mature', requiredScore: 260 },
-          { level: 10, name: '太平神兽', description: '脚踏铜钱，身披红绸', stage: 'mature', requiredScore: 315 },
-          { level: 11, name: '万象更新', description: '周身四季花卉轮流开放', stage: 'legendary', requiredScore: 375 },
-          { level: 12, name: '永恒瑞兽', description: '化作福字高悬，护佑全班', stage: 'legendary', requiredScore: 450 },
-        ],
-      },
-      {
-        id: 'dragon_boat', name: '龙舟精灵', seriesId: 'folklore',
-        levels: [
-          { level: 1, name: '船桨芽', description: '小木浆形状', stage: 'egg', requiredScore: 0 },
-          { level: 2, name: '龙头显形', description: '龙首浮现', stage: 'baby', requiredScore: 15 },
-          { level: 3, name: '龙舟幼体', description: '龙头船身，可滑行', stage: 'baby', requiredScore: 35 },
-          { level: 4, name: '龙舟', description: '彩绘龙身，旗帜', stage: 'baby', requiredScore: 60 },
-          { level: 5, name: '竞渡龙舟', description: '速度提升，水花四溅', stage: 'growing', requiredScore: 90 },
-          { level: 6, name: '红金龙舟', description: '红金配色', stage: 'growing', requiredScore: 125 },
-          { level: 7, name: '绿玉龙舟', description: '碧绿，有玉鳞', stage: 'growing', requiredScore: 165 },
-          { level: 8, name: '王者龙舟', description: '头戴金冠', stage: 'mature', requiredScore: 210 },
-          { level: 9, name: '飞天龙舟', description: '可腾空', stage: 'mature', requiredScore: 260 },
-          { level: 10, name: '神龙舟', description: '化为龙形', stage: 'mature', requiredScore: 315 },
-          { level: 11, name: '四海龙舟', description: '可在湖海穿行', stage: 'legendary', requiredScore: 375 },
-          { level: 12, name: '永恒龙舟', description: '化作彩虹桥', stage: 'legendary', requiredScore: 450 },
-        ],
-      },
-      {
-        id: 'lantern', name: '灯笼精', seriesId: 'folklore',
-        levels: [
-          { level: 1, name: '纸灯笼', description: '白纸糊', stage: 'egg', requiredScore: 0 },
-          { level: 2, name: '烛光内燃', description: '点亮', stage: 'baby', requiredScore: 15 },
-          { level: 3, name: '萌眼现', description: '出现眼睛', stage: 'baby', requiredScore: 35 },
-          { level: 4, name: '小灯笼精', description: '会漂浮，发光', stage: 'baby', requiredScore: 60 },
-          { level: 5, name: '节庆灯笼', description: '红色，有穗', stage: 'growing', requiredScore: 90 },
-          { level: 6, name: '福字灯笼', description: '印福字', stage: 'growing', requiredScore: 125 },
-          { level: 7, name: '祥云灯笼', description: '带云纹', stage: 'growing', requiredScore: 165 },
-          { level: 8, name: '龙凤灯笼', description: '双面雕龙画凤', stage: 'mature', requiredScore: 210 },
-          { level: 9, name: '天灯', description: '能升空', stage: 'mature', requiredScore: 260 },
-          { level: 10, name: '宫灯', description: '精致，多角', stage: 'mature', requiredScore: 315 },
-          { level: 11, name: '神灯', description: '可许愿', stage: 'legendary', requiredScore: 375 },
-          { level: 12, name: '永恒明灯', description: '永不熄灭，照亮前程', stage: 'legendary', requiredScore: 450 },
-        ],
-      },
-      {
-        id: 'dumpling', name: '福饺', seriesId: 'folklore',
-        levels: [
-          { level: 1, name: '面团', description: '白色圆团', stage: 'egg', requiredScore: 0 },
-          { level: 2, name: '褶子出现', description: '有花边', stage: 'baby', requiredScore: 15 },
-          { level: 3, name: '笑脸', description: '出现笑脸', stage: 'baby', requiredScore: 35 },
-          { level: 4, name: '小福饺', description: '包子形，红脸蛋', stage: 'baby', requiredScore: 60 },
-          { level: 5, name: '元宝饺', description: '元宝形', stage: 'growing', requiredScore: 90 },
-          { level: 6, name: '彩饺', description: '彩色面皮', stage: 'growing', requiredScore: 125 },
-          { level: 7, name: '金饺', description: '金色', stage: 'growing', requiredScore: 165 },
-          { level: 8, name: '银饺', description: '银色', stage: 'mature', requiredScore: 210 },
-          { level: 9, name: '福禄饺', description: '内有硬币（装饰）', stage: 'mature', requiredScore: 260 },
-          { level: 10, name: '团圆饺', description: '大团圆', stage: 'mature', requiredScore: 315 },
-          { level: 11, name: '如意饺', description: '镶如意纹', stage: 'legendary', requiredScore: 375 },
-          { level: 12, name: '福神饺', description: '化为福神，赐福全班', stage: 'legendary', requiredScore: 450 },
-        ],
-      },
-      {
-        id: 'fu_star', name: '福星', seriesId: 'folklore',
-        levels: [
-          { level: 1, name: '福光', description: '一团红光', stage: 'egg', requiredScore: 0 },
-          { level: 2, name: '福字初现', description: '浮现"福"字', stage: 'baby', requiredScore: 15 },
-          { level: 3, name: '童子形', description: '小小童子', stage: 'baby', requiredScore: 35 },
-          { level: 4, name: '福星童', description: '手持福牌', stage: 'baby', requiredScore: 60 },
-          { level: 5, name: '赐福童子', description: '撒福气', stage: 'growing', requiredScore: 90 },
-          { level: 6, name: '福星高照', description: '头顶光环', stage: 'growing', requiredScore: 125 },
-          { level: 7, name: '大福星', description: '身披红袍', stage: 'growing', requiredScore: 165 },
-          { level: 8, name: '天官赐福', description: '手持如意', stage: 'mature', requiredScore: 210 },
-          { level: 9, name: '福神', description: '威严慈祥', stage: 'mature', requiredScore: 260 },
-          { level: 10, name: '万福之主', description: '周身福字环绕', stage: 'mature', requiredScore: 315 },
-          { level: 11, name: '永恒福星', description: '化为福气', stage: 'legendary', requiredScore: 375 },
-          { level: 12, name: '福满天下', description: '福泽全班', stage: 'legendary', requiredScore: 450 },
-        ],
-      },
-      {
-        id: 'shou_star', name: '寿星', seriesId: 'folklore',
-        levels: [
-          { level: 1, name: '寿桃', description: '粉色桃形', stage: 'egg', requiredScore: 0 },
-          { level: 2, name: '桃生笑', description: '出现笑脸', stage: 'baby', requiredScore: 15 },
-          { level: 3, name: '小寿童', description: '童子持桃', stage: 'baby', requiredScore: 35 },
-          { level: 4, name: '寿星童', description: '头大，拄拐', stage: 'baby', requiredScore: 60 },
-          { level: 5, name: '赐寿童子', description: '撒寿桃', stage: 'growing', requiredScore: 90 },
-          { level: 6, name: '寿星', description: '白须，额高', stage: 'growing', requiredScore: 125 },
-          { level: 7, name: '南极仙翁', description: '骑鹿', stage: 'growing', requiredScore: 165 },
-          { level: 8, name: '长寿星', description: '手捧寿桃', stage: 'mature', requiredScore: 210 },
-          { level: 9, name: '万寿神', description: '周身寿字', stage: 'mature', requiredScore: 260 },
-          { level: 10, name: '寿与天齐', description: '紫气东来', stage: 'mature', requiredScore: 315 },
-          { level: 11, name: '永恒寿星', description: '化为仙鹤', stage: 'legendary', requiredScore: 375 },
-          { level: 12, name: '寿比南山', description: '化为南山松柏', stage: 'legendary', requiredScore: 450 },
-        ],
-      },
-    ],
-  },
 ]
 
 // ============================================================

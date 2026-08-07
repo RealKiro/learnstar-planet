@@ -117,7 +117,7 @@ function getLevelColor(lv: number): string {
 
 function getStudentPetSpecies(student: Student): string {
   // 根据学生ID映射不同宠物（演示用）
-  const species = ['zhulong', 'nine_tail_fox', 'charmander', 'pikachu', 'panda', 'cyber_cat', 'unicorn', 't_rex', 'nian', 'fenghuang']
+  const species = ['zhulong', 'nine_tail_fox', 'charmander', 'pikachu', 'panda', 'cyber_cat', 'unicorn', 't_rex', 'fenghuang']
   return species[(student.id - 1) % species.length]
 }
 

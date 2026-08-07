@@ -88,7 +88,7 @@ async function loadPets() {
 
 // 演示数据
 function generateDemoPets(): PetDetail[] {
-  const demoSpecies = ['zhulong', 'nine_tail_fox', 'charmander', 'pikachu', 'panda', 'cyber_cat', 'unicorn', 't_rex', 'nian']
+  const demoSpecies = ['zhulong', 'nine_tail_fox', 'charmander', 'pikachu', 'panda', 'cyber_cat', 'unicorn', 't_rex']
   const demoStudents = ['张小明', '李小红', '王小刚', '赵小丽', '刘小强', '陈小美', '周小龙', '吴小凤', '郑小天', '孙小艺']
   return demoStudents.map((name, i) => {
     const speciesId = demoSpecies[i % demoSpecies.length]

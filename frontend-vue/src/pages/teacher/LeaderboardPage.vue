@@ -57,7 +57,7 @@ async function fetchData(type: LbType) {
 function generateDemoData(type: LbType): LeaderboardEntry[] {
   const names = ['张小明', '李小红', '王小刚', '赵小丽', '刘小强', '陈小美', '周小龙', '吴小凤']
   const baseScore = type === 'weekly' ? 50 : type === 'pet' ? 12 : 500
-  const species = ['zhulong', 'nine_tail_fox', 'charmander', 'pikachu', 'panda', 'unicorn', 't_rex', 'nian']
+  const species = ['zhulong', 'nine_tail_fox', 'charmander', 'pikachu', 'panda', 'unicorn', 't_rex']
   return names.map((name, i) => ({
     rank: i + 1,
     student_id: i + 1,

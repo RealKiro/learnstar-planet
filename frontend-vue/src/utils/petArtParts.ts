@@ -14,7 +14,7 @@ export type BodyType =
   | 'mecha'      // 机甲(星际机甲 裂变巨人 纳米虫群 光剑武士)
   | 'spirit'     // 灵体/星灵(量子兽 星座守护 精灵 梦魇)
   | 'food'       // 物化萌物(灯笼 饺子 月饼 粽子 汤圆)
-  | 'humanoid'   // 人形(精灵 树人 美人鱼 福星 寿星 圣斗士)
+  | 'humanoid'   // 人形(精灵 树人 美人鱼 圣斗士)
 
 /** 物种艺术配置 */
 export interface PetArtConfig {
@@ -145,13 +145,6 @@ export const PET_ART: Record<string, PetArtConfig> = {
   capricorn:     { body: 'spirit', main: '#3B82F6', parts: { horns: 5, tail: 5, halo: 7, crown: 8 } },
   aquarius:      { body: 'spirit', main: '#38BDF8', parts: { halo: 6, crown: 8 } },
   pisces:        { body: 'spirit', main: '#0EA5E9', parts: { tail: 4, halo: 7, crown: 8 } },
-  // ===== 民间传说 =====
-  nian:          { body: 'quadruped', main: '#EF4444', variant: 'nian', parts: { horns: 4, tail: 3, crown: 8 } },
-  dragon_boat:   { body: 'aquatic', main: '#F97316', variant: 'boat', parts: { tail: 4, crown: 8, wings: 11 } },
-  lantern:       { body: 'food', main: '#F59E0B', parts: { crown: 7, halo: 10 } },
-  dumpling:      { body: 'food', main: '#F1F5F9', parts: { crown: 8, halo: 11 } },
-  fu_star:       { body: 'humanoid', main: '#EF4444', variant: 'fu', parts: { crown: 6, halo: 8 } },
-  shou_star:     { body: 'humanoid', main: '#F472B6', variant: 'shou', parts: { crown: 6, halo: 9, wings: 11 } },
   // ===== 扩充：神话四象/凶兽/瑞兽 =====
   qinglong: { body: 'dragon', main: '#22C55E', variant: 'antler', parts: { horns: 5, tail: 3, wings: 7 } },
   baihu: { body: 'quadruped', main: '#E2E8F0', variant: 'tiger', parts: { tail: 3, horns: 7, wings: 11 } },
@@ -194,13 +187,6 @@ export const PET_ART: Record<string, PetArtConfig> = {
   megalodon: { body: 'aquatic', main: '#1E40AF', variant: 'shark', parts: { tail: 3, fin: 5, crown: 9 } },
   ground_sloth: { body: 'quadruped', main: '#92400E', variant: 'sloth', parts: { horns: 7, tail: 4, crown: 9 } },
   woolly_rhino: { body: 'quadruped', main: '#A16207', variant: 'woolly', parts: { horns: 5, tail: 4, crown: 9 } },
-  // ===== 扩充：民间 =====
-  lion_dance: { body: 'quadruped', main: '#EF4444', variant: 'lion', parts: { horns: 5, tail: 3, crown: 8 } },
-  god_of_wealth: { body: 'humanoid', main: '#F59E0B', variant: 'wealth', parts: { crown: 6, halo: 8 } },
-  door_god: { body: 'humanoid', main: '#DC2626', variant: 'doorgod', parts: { horns: 7, crown: 7 } },
-  kitchen_god: { body: 'humanoid', main: '#F97316', variant: 'kitchen', parts: { crown: 6, halo: 8 } },
-  magpie: { body: 'bird', main: '#0EA5E9', variant: 'magpie', parts: { wings: 5, tail: 5, crown: 8 } },
-  firework_spirit: { body: 'spirit', main: '#F472B6', variant: 'firework', abstract: true, parts: { halo: 6 } },
   // ===== 传统节日(诗词典故) =====
   zongzi: { body: 'food', main: '#16A34A', parts: { crown: 8, halo: 11 } },
   tangyuan: { body: 'food', main: '#F8FAFC', parts: { crown: 8, halo: 11 } },
@@ -224,6 +210,17 @@ export const PET_ART: Record<string, PetArtConfig> = {
   dada: { body: 'quadruped', main: '#16A34A', variant: 'panda', parts: { tail: 3, horns: 7, crown: 8 } },
   heixinhu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { tail: 3, horns: 7, crown: 8 }, stageMain: { egg: '#9CA3AF', baby: '#6B7280', growing: '#1F2937', mature: '#111827', legendary: '#0B0F19' } },
   heixiaohu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { horns: 6, tail: 3, crown: 8, wings: 11 }, stageMain: { egg: '#9CA3AF', baby: '#6B7280', growing: '#1F2937', mature: '#111827', legendary: '#0B0F19' } },
+  // ===== 封神演义(神话) =====
+  jiang_ziya:    { body: 'humanoid', main: '#F59E0B', variant: 'wizard', parts: { crown: 7, halo: 11 } },
+  nezha:         { body: 'humanoid', main: '#EF4444', variant: 'knight', parts: { crown: 8, wings: 11 } },
+  yang_jian:     { body: 'humanoid', main: '#3B82F6', variant: 'knight', parts: { crown: 8 } },
+  lei_zhenzi:    { body: 'bird', main: '#F59E0B', variant: 'falcon', parts: { wings: 5, tail: 5 } },
+  huang_tianhua: { body: 'humanoid', main: '#F97316', variant: 'knight', parts: { crown: 8 } },
+  tu_xingsun:    { body: 'humanoid', main: '#A16207', variant: 'golem', parts: { crown: 9 } },
+  yang_ren:      { body: 'humanoid', main: '#22C55E', variant: 'wizard', parts: { halo: 10, crown: 8 } },
+  wei_hu:        { body: 'humanoid', main: '#6366F1', variant: 'giant', parts: { crown: 8, halo: 11 } },
+  daji:          { body: 'quadruped', main: '#EC4899', variant: 'kitsune', parts: { tail: 3, horns: 10 } },
+  shen_gongbao:  { body: 'humanoid', main: '#7C3AED', variant: 'wizard', parts: { crown: 7 } },
 }
 
 /** 兜底配置(未知物种也保证能渲染) */

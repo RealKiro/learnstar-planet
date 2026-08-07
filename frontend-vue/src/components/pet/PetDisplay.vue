@@ -67,7 +67,6 @@ const glowColor = computed(() => {
     magic: '#8B5CF6',
     prehistoric: '#D97706',
     constellation: '#6366F1',
-    folklore: '#F97316',
   }
   const series = getSeriesBySpeciesId(props.speciesId)
   return colors[series?.id || ''] || '#F59E0B'
