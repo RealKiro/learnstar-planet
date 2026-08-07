@@ -251,20 +251,20 @@ onMounted(async () => {
         <div v-for="s in filtered" :key="s.id" :id="'card-' + s.id"
           style="background:var(--tint-1);border-radius:var(--md-radius);padding:16px 14px 12px;border:1px solid var(--tint-2);position:relative;overflow:hidden;transition:0.25s;"
           :style="{ borderLeftColor: s.pet_level >= 10 ? '#f59e0b' : s.pet_level >= 7 ? '#8b5cf6' : s.pet_level >= 4 ? '#3b82f6' : '#6b7280', borderLeftWidth: '4px' }">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <!-- 学号：独立右上角 -->
+          <span v-if="s.student_no" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--md-text-secondary);background:var(--tint-2);padding:1px 8px;border-radius:6px;letter-spacing:0.5px;">📛{{ s.student_no }}</span>
+          <!-- 姓名行 -->
+          <div style="padding-right:56px;">
             <span style="font-size:16px;font-weight:700;">{{ s.name }}</span>
-            <span style="display:flex;align-items:center;gap:6px;">
-              <span v-if="s.student_no" style="font-size:10px;color:var(--md-text-secondary);background:var(--tint-2);padding:1px 8px;border-radius:6px;">{{ s.student_no }}</span>
-              <span style="font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:rgba(255,215,0,0.12);color:var(--md-gold);">Lv.{{ s.pet_level }}</span>
-            </span>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;" @click="openPetDetail(s)" title="点击查看宠物详情">
-            <span v-if="s.pet_species" style="width:52px;height:52px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.12)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">
+          <!-- 宠物：SVG 放大居中（不显示"xx的萌宠"文字） -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0 12px;cursor:pointer;" @click="openPetDetail(s)" title="点击查看宠物详情">
+            <span v-if="s.pet_species" style="width:104px;height:104px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.08)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">
               <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
             </span>
-            <span v-else style="font-size:28px;">{{ s.pet_emoji }}</span>
-            <span style="font-size:13px;color:var(--md-text-secondary);border-bottom:1px dashed var(--tint-4);">{{ s.pet_name || '未孵化' }}</span>
-            <span style="font-size:10px;color:rgba(167,139,250,0.4);margin-left:auto;">换宠</span>
+            <span v-else style="font-size:56px;line-height:1;">{{ s.pet_emoji }}</span>
+            <span style="font-size:11px;font-weight:700;color:var(--md-gold);background:rgba(255,215,0,0.1);padding:1px 10px;border-radius:10px;">Lv.{{ s.pet_level }}</span>
+            <span v-if="!s.pet_species" style="font-size:11px;color:var(--md-text-secondary);margin-top:2px;">未孵化 · 点击认养</span>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--md-text-secondary);margin-bottom:4px;">
             <span>⭐ 积分</span>
