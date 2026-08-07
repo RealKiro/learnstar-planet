@@ -6,15 +6,23 @@ import PetSprite from '@/components/pet/PetSprite.vue'
 
 const students = ref<Student[]>([])
 const loading = ref(true)
+const loadError = ref('')
 const importError = ref('')
 const importStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
-onMounted(async () => {
+async function loadStudents() {
+  loading.value = true
   try {
     const res = await apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=200')
     students.value = res.data || []
-  } catch { students.value = [] } finally { loading.value = false }
-})
+    loadError.value = ''
+  } catch {
+    students.value = []
+    loadError.value = '学生数据加载失败'
+  } finally { loading.value = false }
+}
+
+onMounted(loadStudents)
 
 function getStatusLabel(status: string): string {
   const map: Record<string, string> = { active: '活跃', graduated: '已毕业', disabled: '停用' }
@@ -62,16 +70,13 @@ function importStudents() {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <h2 style="font-size:24px;font-weight:700;">🎒 学生列表</h2>
-      <div style="display:flex;gap:8px;align-items:center;">
+    <div class="page-header">
+      <h2 class="page-title">🎒 学生列表</h2>
+      <div class="header-actions">
         <button
           class="btn btn-sm"
+          :class="importStatus === 'loading' ? 'btn-state-loading' : importStatus === 'success' ? 'btn-state-success' : importStatus === 'error' ? 'btn-state-error' : 'btn-solid'"
           :disabled="importStatus === 'loading'"
-          :style="{
-            background: importStatus === 'loading' ? '#f59e0b' : importStatus === 'success' ? '#10b981' : importStatus === 'error' ? '#ef4444' : 'var(--color-primary)',
-            color: '#fff', border: '1px solid transparent'
-          }"
           @click="importStudents"
         >
           {{ importStatus === 'loading' ? '导入中...' : importStatus === 'success' ? '已导入 ✓' : importStatus === 'error' ? '导入失败' : '📥 批量导入' }}
@@ -79,12 +84,18 @@ function importStudents() {
       </div>
     </div>
 
-    <div v-if="importError" style="margin:-12px 0 16px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ importError }}</div>
+    <div v-if="importError" class="error-banner error-banner--top">{{ importError }}</div>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
 
-    <div v-else-if="students.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">📭</div>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__msg">{{ loadError }}</p>
+      <button class="btn btn-sm btn-primary" @click="loadStudents">重试</button>
+    </div>
+
+    <div v-else-if="students.length === 0" class="card empty-state">
+      <div class="empty-state__icon">📭</div>
       <p>暂无学生数据</p>
     </div>
 
@@ -93,19 +104,19 @@ function importStudents() {
         <thead><tr><th>姓名</th><th>学号</th><th>宠物</th><th>积分</th><th>状态</th></tr></thead>
         <tbody>
           <tr v-for="s in students" :key="s.id">
-            <td style="font-weight:600;">{{ s.name }}</td>
-            <td style="color:var(--color-text-secondary);">{{ s.student_no || '-' }}</td>
+            <td class="student-name">{{ s.name }}</td>
+            <td class="student-no">{{ s.student_no || '-' }}</td>
             <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div style="width:32px;height:32px;flex-shrink:0;">
+              <div class="pet-cell">
+                <div class="pet-avatar">
                   <PetSprite v-if="(s as any).pet_species" :species-id="(s as any).pet_species" :level="(s as any).pet_level || 1" :animate="true" />
-                  <span v-else style="font-size:18px;">🥚</span>
+                  <span v-else class="pet-egg">🥚</span>
                 </div>
-                <span v-if="(s as any).pet_level" style="font-size:11px;color:var(--color-text-secondary);">Lv.{{ (s as any).pet_level }}</span>
+                <span v-if="(s as any).pet_level" class="pet-level">Lv.{{ (s as any).pet_level }}</span>
               </div>
             </td>
-            <td style="font-weight:700;color:var(--color-primary);">{{ s.total_score || 0 }}</td>
-            <td :style="{ color: s.status === 'active' ? 'var(--color-accent)' : 'var(--color-text-secondary)' }">
+            <td class="score-text">{{ s.total_score || 0 }}</td>
+            <td :class="s.status === 'active' ? 'status-active' : 'status-other'">
               {{ getStatusLabel(s.status) }}
             </td>
           </tr>
@@ -114,3 +125,24 @@ function importStudents() {
     </div>
   </div>
 </template>
+
+<style scoped>
+/* ===== 页头 ===== */
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.page-title { font-size: 24px; font-weight: 700; }
+.header-actions { display: flex; gap: 8px; align-items: center; }
+
+/* ===== 错误横幅（顶置，覆盖全局 error-banner 的 margin-right） ===== */
+.error-banner--top { margin: -12px 0 16px; }
+
+/* ===== 表格 ===== */
+.student-name { font-weight: 600; }
+.student-no { color: var(--color-text-secondary); }
+.pet-cell { display: flex; align-items: center; gap: 6px; }
+.pet-avatar { width: 32px; height: 32px; flex-shrink: 0; }
+.pet-egg { font-size: 18px; }
+.pet-level { font-size: 11px; color: var(--color-text-secondary); }
+.score-text { font-weight: 700; color: var(--color-primary); }
+.status-active { color: var(--color-accent); }
+.status-other { color: var(--color-text-secondary); }
+</style>

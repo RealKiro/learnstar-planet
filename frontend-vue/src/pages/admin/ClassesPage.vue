@@ -7,6 +7,7 @@ import type { ApiResponse, ClassRoom } from '@/types'
 
 const classes = ref<ClassRoom[]>([])
 const loading = ref(true)
+const loadError = ref('')
 const deleteStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
 const displayCodeStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
 const copyCodeStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
@@ -90,10 +91,15 @@ const groupedClasses = computed(() => {
 })
 
 onMounted(async () => {
+  loading.value = true
   try {
     const res = await apiGet<ApiResponse<ClassRoom[]>>('/api/v1/admin/classes')
     classes.value = res.data || []
-  } catch { classes.value = [] }
+    loadError.value = ''
+  } catch {
+    classes.value = []
+    loadError.value = '班级列表加载失败'
+  }
   finally { loading.value = false }
 })
 
@@ -259,10 +265,13 @@ async function reloadClasses(expandGrade?: string) {
   try {
     const res = await apiGet<ApiResponse<ClassRoom[]>>('/api/v1/admin/classes')
     classes.value = res.data || []
+    loadError.value = ''
     if (expandGrade) {
       expandGradeAfterCreate(expandGrade)
     }
-  } catch { /* handled */ }
+  } catch {
+    loadError.value = '班级列表加载失败'
+  }
 }
 
 function expandGradeAfterCreate(grade: string) {
@@ -324,111 +333,101 @@ async function submitAssignTeacher() {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-header">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">班级管理</p>
-        <h2 style="font-size:24px;font-weight:700;">班级列表</h2>
+        <p class="page-subtitle">班级管理</p>
+        <h2 class="page-title">班级列表</h2>
       </div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="openImportModal()">📥 导入学生</button>
+      <div class="header-actions">
+        <button class="btn btn-sm btn-ghost-card" @click="openImportModal()">📥 导入学生</button>
         <button class="btn btn-sm btn-primary" @click="showBatchClassModal = true">+ 批量添加班级</button>
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showSingleClassModal = true">+ 添加班级</button>
+        <button class="btn btn-sm btn-ghost-card" @click="showSingleClassModal = true">+ 添加班级</button>
       </div>
     </div>
 
     <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
 
-    <div v-else-if="classes.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">🏫</div>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__msg">{{ loadError }}</p>
+      <button class="btn btn-sm btn-primary" @click="reloadClasses()">重试</button>
+    </div>
+
+    <div v-else-if="classes.length === 0" class="card empty-state">
+      <div class="empty-state__icon">🏫</div>
       <p>暂无班级</p>
     </div>
 
     <div v-else>
-      <div style="display:flex;gap:8px;margin-bottom:16px;">
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="fullyExpand">📂 全部展开</button>
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="collapseAll">📁 全部收起</button>
+      <div class="toolbar">
+        <button class="btn btn-sm btn-ghost-card" @click="fullyExpand">📂 全部展开</button>
+        <button class="btn btn-sm btn-ghost-card" @click="collapseAll">📁 全部收起</button>
       </div>
 
-      <div v-for="group in groupedClasses" :key="group.grade" style="margin-bottom:16px;">
+      <div v-for="group in groupedClasses" :key="group.grade" class="grade-group">
         <div
+          class="grade-header"
+          :class="{ 'grade-header--expanded': isExpanded(group.grade) }"
           @click="toggleGrade(group.grade)"
-          style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:12px;cursor:pointer;transition:all 0.15s;"
-          :style="isExpanded(group.grade) ? { borderBottomLeftRadius: '0', borderBottomRightRadius: '0', borderBottomColor: 'transparent' } : {}"
         >
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:22px;">{{ gradeEmojis[group.grade] || '📚' }}</span>
+          <div class="grade-header__left">
+            <span class="grade-header__emoji">{{ gradeEmojis[group.grade] || '📚' }}</span>
             <div>
-              <div style="font-size:15px;font-weight:700;">{{ group.grade }}</div>
-              <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px;">
-                {{ group.classes.length }} 个班级 · {{ group.total }} 名学生
-              </div>
+              <div class="grade-header__name">{{ group.grade }}</div>
+              <div class="grade-header__meta">{{ group.classes.length }} 个班级 · {{ group.total }} 名学生</div>
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;">
+          <div class="grade-header__right">
             <button
-              class="btn btn-sm"
-              style="background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border);font-size:11px;"
+              class="btn btn-sm btn-tool"
               @click.stop="openImportModal()"
             >📥 导入</button>
-            <span style="font-size:18px;color:var(--color-text-secondary);transition:transform 0.2s;display:inline-block;" :style="isExpanded(group.grade) ? { transform: 'rotate(180deg)' } : {}">▾</span>
+            <span class="grade-chevron" :class="{ 'grade-chevron--open': isExpanded(group.grade) }">▾</span>
           </div>
         </div>
 
         <div
           v-show="isExpanded(group.grade)"
-          style="background:var(--color-bg-card);border:1px solid var(--color-border);border-top:none;border-radius:0 0 12px 12px;overflow:hidden;"
+          class="grade-body"
         >
           <div
             v-for="(c, i) in group.classes"
             :key="c.id"
-            :style="{
-              display: 'grid',
-              gridTemplateColumns: '1fr auto auto auto auto auto',
-              alignItems: 'center',
-              padding: '12px 20px',
-              borderBottom: i < group.classes.length - 1 ? '1px solid var(--color-border)' : 'none',
-              transition: 'background 0.1s',
-            }"
+            class="class-row"
+            :class="{ 'class-row--last': i === group.classes.length - 1 }"
           >
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div :style="{
-                width: '36px', height: '36px', borderRadius: '10px',
-                background: 'linear-gradient(135deg, rgba(79,70,229,0.12), rgba(99,102,241,0.06))',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontWeight: 700, fontSize: '18px', color: 'var(--color-primary)'
-              }">
-                {{ c.name.replace(group.grade, '').replace(/（(\d+)）班/, '$1') }}
-              </div>
+            <div class="class-main">
+              <div class="class-avatar">{{ c.name.replace(group.grade, '').replace(/（(\d+)）班/, '$1') }}</div>
               <div>
-                <div style="font-weight:600;font-size:14px;">{{ c.name }}</div>
-                <div v-if="c.teacher_name" style="font-size:12px;color:var(--color-text-secondary);">{{ c.teacher_name }}</div>
+                <div class="class-name">{{ c.name }}</div>
+                <div v-if="c.teacher_name" class="class-teacher">{{ c.teacher_name }}</div>
               </div>
             </div>
             <!-- 班级码 -->
-            <div style="display:flex;align-items:center;gap:8px;margin-right:16px;padding:4px 10px 4px 8px;border:1px solid rgba(79,70,229,0.12);border-radius:8px;background:rgba(79,70,229,0.02);min-width:140px;">
-              <span style="font-size:11px;color:var(--color-text-secondary);white-space:nowrap;">🖥️</span>
-              <code style="font-size:13px;font-weight:700;color:var(--color-primary);letter-spacing:0.08em;font-family:'SF Mono',monospace;">{{ c.display_code || '--' }}</code>
-              <div style="display:flex;gap:2px;margin-left:auto;">
-                <button v-if="c.display_code" class="btn btn-sm" :style="copyCodeStatus[c.id] === 'success' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #a7f3d0', background: '#d1fae5', color: '#059669', minWidth: '0', borderRadius: '6px' } : copyCodeStatus[c.id] === 'error' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #fecaca', background: '#fee2e2', color: '#dc2626', minWidth: '0', borderRadius: '6px' } : { padding: '2px 6px', fontSize: '11px', border: '1px solid var(--color-border)', background: 'transparent', color: 'var(--color-text-secondary)', minWidth: '0', borderRadius: '6px' }" @click.stop="copyDisplayCode(c)" title="复制班级码">{{ copyCodeStatus[c.id] === 'success' ? '✅' : copyCodeStatus[c.id] === 'error' ? '❌' : '📋' }}</button>
-                <button class="btn btn-sm" :style="displayCodeStatus[c.id] === 'loading' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #d1d5db', background: '#e5e7eb', color: '#9ca3af', minWidth: '0', borderRadius: '6px' } : displayCodeStatus[c.id] === 'success' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #a7f3d0', background: '#d1fae5', color: '#059669', minWidth: '0', borderRadius: '6px' } : displayCodeStatus[c.id] === 'error' ? { padding: '2px 6px', fontSize: '11px', border: '1px solid #fecaca', background: '#fee2e2', color: '#dc2626', minWidth: '0', borderRadius: '6px' } : { padding: '2px 6px', fontSize: '11px', border: '1px solid var(--color-border)', background: 'transparent', color: 'var(--color-text-secondary)', minWidth: '0', borderRadius: '6px' }" @click.stop="generateDisplayCode(c)" :disabled="displayCodeStatus[c.id] === 'loading'" title="刷新班级码旧码失效">{{ displayCodeStatus[c.id] === 'loading' ? '⏳' : displayCodeStatus[c.id] === 'success' ? '✅' : displayCodeStatus[c.id] === 'error' ? '❌' : '🔄' }}</button>
+            <div class="code-chip">
+              <span class="code-chip__icon">🖥️</span>
+              <code class="code-chip__value">{{ c.display_code || '--' }}</code>
+              <div class="code-chip__actions">
+                <button v-if="c.display_code" class="btn btn-sm code-btn" :class="copyCodeStatus[c.id] === 'loading' ? 'btn-state-loading' : copyCodeStatus[c.id] === 'success' ? 'btn-state-success' : copyCodeStatus[c.id] === 'error' ? 'btn-state-error' : ''" @click.stop="copyDisplayCode(c)" title="复制班级码">{{ copyCodeStatus[c.id] === 'success' ? '✅' : copyCodeStatus[c.id] === 'error' ? '❌' : '📋' }}</button>
+                <button class="btn btn-sm code-btn" :class="displayCodeStatus[c.id] === 'loading' ? 'btn-state-loading' : displayCodeStatus[c.id] === 'success' ? 'btn-state-success' : displayCodeStatus[c.id] === 'error' ? 'btn-state-error' : ''" @click.stop="generateDisplayCode(c)" :disabled="displayCodeStatus[c.id] === 'loading'" title="刷新班级码旧码失效">{{ displayCodeStatus[c.id] === 'loading' ? '⏳' : displayCodeStatus[c.id] === 'success' ? '✅' : displayCodeStatus[c.id] === 'error' ? '❌' : '🔄' }}</button>
               </div>
             </div>
             <select
+              class="pet-select"
               :value="(c as any).settings?.pet_series || 'all'"
               @change="updatePetSeries(c, ($event.target as HTMLSelectElement).value)"
               @click.stop
-              style="margin-right:16px;padding:4px 8px;border-radius:8px;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:12px;cursor:pointer;"
             >
               <option v-for="opt in petSeriesOptions" :key="opt.value" :value="opt.value">{{ opt.emoji }} {{ opt.label }}</option>
             </select>
-            <span v-if="seriesStatus[c.id] === 'loading'" style="font-size:11px;color:var(--color-text-secondary);margin-right:16px;">⏳</span>
-            <span v-else-if="seriesStatus[c.id] === 'success'" style="font-size:11px;color:#059669;margin-right:16px;">✓</span>
-            <span v-else-if="seriesStatus[c.id] === 'error'" style="font-size:11px;color:#dc2626;margin-right:16px;">✗</span>
-            <span style="margin-right:16px;font-weight:600;font-size:13px;color:var(--color-text-secondary);min-width:60px;text-align:right;">{{ c.student_count }} 人</span>
-            <div style="display:flex;gap:6px;">
-              <button class="btn btn-sm" style="background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border);font-size:12px;" @click="openImportModal(c.name)">导入</button>
-              <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);font-size:12px;" @click="openAssignTeacherModal(c)">👨‍🏫 班主任</button>
-              <button class="btn btn-sm" :style="deleteStatus[c.id] === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db', fontSize: '12px' } : deleteStatus[c.id] === 'error' ? { background: '#fecaca', color: '#b91c1c', border: '1px solid #fca5a5', fontSize: '12px' } : { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca', fontSize: '12px' }" :disabled="deleteStatus[c.id] === 'loading'" @click="deleteClass(c)">{{ deleteStatus[c.id] === 'loading' ? '删除中...' : deleteStatus[c.id] === 'error' ? '删除失败' : '删除' }}</button>
+            <span v-if="seriesStatus[c.id] === 'loading'" class="status-icon">⏳</span>
+            <span v-else-if="seriesStatus[c.id] === 'success'" class="status-icon status-icon--success">✓</span>
+            <span v-else-if="seriesStatus[c.id] === 'error'" class="status-icon status-icon--error">✗</span>
+            <span class="student-count">{{ c.student_count }} 人</span>
+            <div class="row-actions">
+              <button class="btn btn-sm btn-mini" @click="openImportModal(c.name)">导入</button>
+              <button class="btn btn-sm btn-ghost-card" @click="openAssignTeacherModal(c)">👨‍🏫 班主任</button>
+              <button class="btn btn-sm" :class="deleteStatus[c.id] === 'loading' ? 'btn-state-loading' : deleteStatus[c.id] === 'success' ? 'btn-state-success' : deleteStatus[c.id] === 'error' ? 'btn-state-error' : 'btn-danger'" :disabled="deleteStatus[c.id] === 'loading'" @click="deleteClass(c)">{{ deleteStatus[c.id] === 'loading' ? '删除中...' : deleteStatus[c.id] === 'error' ? '删除失败' : '删除' }}</button>
             </div>
           </div>
         </div>
@@ -437,9 +436,9 @@ async function submitAssignTeacher() {
 
     <!-- 批量添加班级弹窗 -->
     <ModalGlass :visible="showBatchClassModal" @update:visible="showBatchClassModal = $event">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h3 style="font-size:18px;font-weight:700;">批量添加班级</h3>
-        <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showBatchClassModal = false">×</button>
+      <div class="modal-header">
+        <h3 class="modal-title">批量添加班级</h3>
+        <button class="modal-close" @click="showBatchClassModal = false">×</button>
       </div>
       <div class="form-group">
         <label>年级</label>
@@ -455,23 +454,23 @@ async function submitAssignTeacher() {
         <label>学年</label>
         <input v-model.number="batchYear" type="number" class="form-input">
       </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;">
-        <div v-if="batchError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ batchError }}</div>
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showBatchClassModal = false">取消</button>
-        <button class="btn btn-sm" :style="batchStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : batchStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : batchStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="batchStatus === 'loading'" @click="submitBatchClass">{{ batchStatus === 'loading' ? '创建中...' : batchStatus === 'success' ? '已创建 ✓' : batchStatus === 'error' ? '创建失败' : '创建' }}</button>
+      <div class="modal-actions">
+        <div v-if="batchError" class="error-banner">{{ batchError }}</div>
+        <button class="btn btn-sm btn-ghost-card" @click="showBatchClassModal = false">取消</button>
+        <button class="btn btn-sm" :class="batchStatus === 'loading' ? 'btn-state-loading' : batchStatus === 'success' ? 'btn-state-success' : batchStatus === 'error' ? 'btn-state-error' : 'btn-solid'" :disabled="batchStatus === 'loading'" @click="submitBatchClass">{{ batchStatus === 'loading' ? '创建中...' : batchStatus === 'success' ? '已创建 ✓' : batchStatus === 'error' ? '创建失败' : '创建' }}</button>
       </div>
     </ModalGlass>
 
     <!-- 单个添加班级弹窗 -->
     <ModalGlass :visible="showSingleClassModal" @update:visible="showSingleClassModal = $event">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h3 style="font-size:18px;font-weight:700;">添加班级</h3>
-        <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showSingleClassModal = false">×</button>
+      <div class="modal-header">
+        <h3 class="modal-title">添加班级</h3>
+        <button class="modal-close" @click="showSingleClassModal = false">×</button>
       </div>
       <div class="form-group">
         <label>班级名称</label>
         <input v-model="newClassName" class="form-input" placeholder="如：3" @keydown.enter="submitSingleClass">
-        <p style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">输入班级编号，自动生成"{{ newClassGrade }}（{{ newClassName || '...' }}）班"</p>
+        <p class="modal-hint">输入班级编号，自动生成"{{ newClassGrade }}（{{ newClassName || '...' }}）班"</p>
       </div>
       <div class="form-group">
         <label>年级</label>
@@ -483,24 +482,20 @@ async function submitAssignTeacher() {
         <label>学年</label>
         <input v-model.number="newClassYear" type="number" class="form-input">
       </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;">
-        <div v-if="singleClassError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ singleClassError }}</div>
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showSingleClassModal = false">取消</button>
-        <button class="btn btn-sm" :style="createStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : createStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : createStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="createStatus === 'loading'" @click="submitSingleClass">{{ createStatus === 'loading' ? '创建中...' : createStatus === 'success' ? '已创建 ✓' : createStatus === 'error' ? '创建失败' : '创建' }}</button>
+      <div class="modal-actions">
+        <div v-if="singleClassError" class="error-banner">{{ singleClassError }}</div>
+        <button class="btn btn-sm btn-ghost-card" @click="showSingleClassModal = false">取消</button>
+        <button class="btn btn-sm" :class="createStatus === 'loading' ? 'btn-state-loading' : createStatus === 'success' ? 'btn-state-success' : createStatus === 'error' ? 'btn-state-error' : 'btn-solid'" :disabled="createStatus === 'loading'" @click="submitSingleClass">{{ createStatus === 'loading' ? '创建中...' : createStatus === 'success' ? '已创建 ✓' : createStatus === 'error' ? '创建失败' : '创建' }}</button>
       </div>
     </ModalGlass>
 
-
-
     <!-- 分配班主任弹窗 -->
     <ModalGlass :visible="showAssignTeacherModal" @update:visible="showAssignTeacherModal = $event">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h3 style="font-size:18px;font-weight:700;">分配班主任</h3>
-        <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showAssignTeacherModal = false">×</button>
+      <div class="modal-header">
+        <h3 class="modal-title">分配班主任</h3>
+        <button class="modal-close" @click="showAssignTeacherModal = false">×</button>
       </div>
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
-        为 <b>{{ assigningClass?.name }}</b> 分配班主任
-      </p>
+      <p class="assign-hint">为 <b>{{ assigningClass?.name }}</b> 分配班主任</p>
       <div class="form-group">
         <label>班主任</label>
         <select v-model="selectedTeacherId" class="form-select">
@@ -508,9 +503,9 @@ async function submitAssignTeacher() {
           <option v-for="t in teacherList" :key="t.id" :value="t.id">{{ t.name }}</option>
         </select>
       </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;">
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showAssignTeacherModal = false">取消</button>
-        <button class="btn btn-sm" :style="assignTeacherStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : assignTeacherStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : assignTeacherStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="assignTeacherStatus === 'loading'" @click="submitAssignTeacher">
+      <div class="modal-actions">
+        <button class="btn btn-sm btn-ghost-card" @click="showAssignTeacherModal = false">取消</button>
+        <button class="btn btn-sm" :class="assignTeacherStatus === 'loading' ? 'btn-state-loading' : assignTeacherStatus === 'success' ? 'btn-state-success' : assignTeacherStatus === 'error' ? 'btn-state-error' : 'btn-solid'" :disabled="assignTeacherStatus === 'loading'" @click="submitAssignTeacher">
           {{ assignTeacherStatus === 'loading' ? '保存中...' : assignTeacherStatus === 'success' ? '已保存 ✓' : assignTeacherStatus === 'error' ? '保存失败' : '保存' }}
         </button>
       </div>
@@ -518,25 +513,25 @@ async function submitAssignTeacher() {
 
     <!-- 导入学生弹窗 -->
     <ModalGlass :visible="showImportModal" @update:visible="showImportModal = $event">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h3 style="font-size:18px;font-weight:700;">导入学生</h3>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);font-size:12px;" @click="downloadStudentTemplate">📥 模板</button>
-          <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showImportModal = false">×</button>
+      <div class="modal-header">
+        <h3 class="modal-title">导入学生</h3>
+        <div class="modal-header__right">
+          <button class="btn btn-sm btn-ghost-card" @click="downloadStudentTemplate">📥 模板</button>
+          <button class="modal-close" @click="showImportModal = false">×</button>
         </div>
       </div>
 
       <div v-if="importResult">
-        <div style="text-align:center;padding:24px 0;">
-          <div style="font-size:36px;font-weight:700;color:var(--color-accent);">{{ importResult.success }}</div>
-          <div style="color:var(--color-text-secondary);font-size:13px;">导入成功</div>
-          <div v-if="importResult.failed > 0" style="margin-top:8px;color:var(--color-danger);font-size:13px;">失败 {{ importResult.failed }} 人</div>
+        <div class="import-result">
+          <div class="import-result__count">{{ importResult.success }}</div>
+          <div class="import-result__label">导入成功</div>
+          <div v-if="importResult.failed > 0" class="import-result__failed">失败 {{ importResult.failed }} 人</div>
         </div>
-        <div v-if="importResult.errors?.length" style="margin-bottom:16px;">
-          <p style="font-size:12px;color:var(--color-danger);margin-bottom:4px;">错误详情：</p>
-          <pre style="font-size:12px;color:var(--color-danger);max-height:120px;overflow-y:auto;background:rgba(239,68,68,0.05);padding:8px;border-radius:8px;">{{ importResult.errors.join('\n') }}</pre>
+        <div v-if="importResult.errors?.length" class="error-details">
+          <p class="error-details__title">错误详情：</p>
+          <pre class="error-details__list">{{ importResult.errors.join('\n') }}</pre>
         </div>
-        <button class="btn btn-primary" style="width:100%;" @click="showImportModal = false">完成</button>
+        <button class="btn btn-primary btn-block" @click="showImportModal = false">完成</button>
       </div>
 
       <div v-else>
@@ -546,20 +541,193 @@ async function submitAssignTeacher() {
         </div>
         <div class="form-group">
           <label>学生数据</label>
-          <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">每行一位：姓名,班级,性别,学号（班级可留空使用上方默认）</p>
+          <p class="modal-hint">每行一位：姓名,班级,性别,学号（班级可留空使用上方默认）</p>
           <textarea
             v-model="importText"
-            class="form-input"
-            style="width:100%;min-height:160px;font-family:monospace;"
+            class="form-input textarea-monospace"
             placeholder="张小明,三年级（1）班,男,2026001&#10;李小红,三年级（1）班,女,2026002&#10;王刚,,男,2026003"
           ></textarea>
         </div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <div v-if="importError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ importError }}</div>
-          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showImportModal = false">取消</button>
-          <button class="btn btn-sm" :style="importStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : importStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : importStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="importStatus === 'loading'" @click="submitImport">{{ importStatus === 'loading' ? '导入中...' : importStatus === 'success' ? '已导入 ✓' : importStatus === 'error' ? '导入失败' : '开始导入' }}</button>
+        <div class="modal-actions">
+          <div v-if="importError" class="error-banner">{{ importError }}</div>
+          <button class="btn btn-sm btn-ghost-card" @click="showImportModal = false">取消</button>
+          <button class="btn btn-sm" :class="importStatus === 'loading' ? 'btn-state-loading' : importStatus === 'success' ? 'btn-state-success' : importStatus === 'error' ? 'btn-state-error' : 'btn-solid'" :disabled="importStatus === 'loading'" @click="submitImport">{{ importStatus === 'loading' ? '导入中...' : importStatus === 'success' ? '已导入 ✓' : importStatus === 'error' ? '导入失败' : '开始导入' }}</button>
         </div>
       </div>
     </ModalGlass>
   </div>
 </template>
+
+<style scoped>
+/* ===== 页头 ===== */
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.page-subtitle { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.page-title { font-size: 24px; font-weight: 700; }
+.header-actions { display: flex; gap: 8px; }
+
+/* ===== 次要按钮（btn-ghost-card 已全局化） ===== */
+.btn-mini {
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+}
+.btn-tool {
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  font-size: 11px;
+}
+
+/* ===== 工具栏 ===== */
+.toolbar { display: flex; gap: 8px; margin-bottom: 16px; }
+
+/* ===== 年级分组 ===== */
+.grade-group { margin-bottom: 16px; }
+.grade-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.grade-header:hover { border-color: var(--tint-4); }
+.grade-header--expanded {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+}
+.grade-header__left { display: flex; align-items: center; gap: 12px; }
+.grade-header__emoji { font-size: 22px; }
+.grade-header__name { font-size: 15px; font-weight: 700; }
+.grade-header__meta { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.grade-header__right { display: flex; align-items: center; gap: 8px; }
+.grade-chevron {
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.grade-chevron--open { transform: rotate(180deg); }
+.grade-body {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+/* ===== 班级行 ===== */
+.class-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto auto auto;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.1s;
+}
+.class-row:hover { background: var(--tint-1); }
+.class-row--last { border-bottom: none; }
+.class-main { display: flex; align-items: center; gap: 10px; }
+.class-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(79,70,229,0.12), rgba(99,102,241,0.06));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-primary);
+}
+.class-name { font-weight: 600; font-size: 14px; }
+.class-teacher { font-size: 12px; color: var(--color-text-secondary); }
+
+/* ===== 班级码 ===== */
+.code-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  padding: 4px 10px 4px 8px;
+  border: 1px solid rgba(79,70,229,0.12);
+  border-radius: 8px;
+  background: rgba(79,70,229,0.02);
+  min-width: 140px;
+}
+.code-chip__icon { font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; }
+.code-chip__value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+  font-family: 'SF Mono', monospace;
+}
+.code-chip__actions { display: flex; gap: 2px; margin-left: auto; }
+
+/* ===== 状态小按钮（复制/刷新班级码，状态色用全局 btn-state-*） ===== */
+.code-btn {
+  padding: 2px 6px;
+  font-size: 11px;
+  min-width: 0;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+/* ===== 宠物系列下拉 ===== */
+.pet-select {
+  margin-right: 16px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* ===== 状态图标 & 人数 ===== */
+.status-icon { font-size: 11px; margin-right: 16px; }
+.status-icon--success { color: var(--color-success-text); }
+.status-icon--error { color: var(--color-danger-text); }
+.student-count {
+  margin-right: 16px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  min-width: 60px;
+  text-align: right;
+}
+.row-actions { display: flex; gap: 6px; }
+
+/* ===== 弹窗（modal-header/title/close/actions/hint + error-banner 已全局化） ===== */
+.modal-header__right { display: flex; align-items: center; gap: 12px; }
+.assign-hint { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px; }
+
+/* ===== 导入结果 ===== */
+.import-result { text-align: center; padding: 24px 0; }
+.import-result__count { font-size: 36px; font-weight: 700; color: var(--color-accent); }
+.import-result__label { color: var(--color-text-secondary); font-size: 13px; }
+.import-result__failed { margin-top: 8px; color: var(--color-danger); font-size: 13px; }
+.error-details { margin-bottom: 16px; }
+.error-details__title { font-size: 12px; color: var(--color-danger); margin-bottom: 4px; }
+.error-details__list {
+  font-size: 12px;
+  color: var(--color-danger);
+  max-height: 120px;
+  overflow-y: auto;
+  background: rgba(239,68,68,0.05);
+  padding: 8px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+.btn-block { width: 100%; }
+.textarea-monospace { width: 100%; min-height: 160px; font-family: monospace; }
+</style>

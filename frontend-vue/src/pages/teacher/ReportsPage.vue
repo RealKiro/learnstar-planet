@@ -12,6 +12,7 @@ interface StudentProgress { student_id: number; student_name: string; scores: nu
 interface ClassOption { class_id: number; class_name: string }
 
 const loading = ref(true)
+const loadError = ref('')
 const exportStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const scoreTrend = ref<ScoreTrend | null>(null)
 const petDist = ref<PetDist[]>([])
@@ -26,6 +27,12 @@ const maxTrendValue = computed(() => {
 
 const trendArrow = (t: string) => t === 'up' ? '↑' : t === 'down' ? '↓' : '→'
 const trendColor = (t: string) => t === 'up' ? 'var(--color-accent)' : t === 'down' ? 'var(--color-danger)' : 'var(--color-text-secondary)'
+
+const exportBtnClass = computed(() =>
+  exportStatus.value === 'loading' ? 'btn-state-loading'
+  : exportStatus.value === 'success' ? 'btn-state-success'
+  : exportStatus.value === 'error' ? 'btn-state-error' : '',
+)
 
 async function exportFile(type: string) {
   exportStatus.value = 'loading'
@@ -57,7 +64,8 @@ async function exportFile(type: string) {
   }
 }
 
-onMounted(async () => {
+async function loadAll() {
+  loading.value = true
   try {
     const [clsRes, trendRes, petRes, progressRes] = await Promise.all([
       apiGet<{ data: ClassOption[] }>('/api/v1/teacher/my-classes'),
@@ -70,9 +78,14 @@ onMounted(async () => {
     scoreTrend.value = trendRes.data || null
     petDist.value = petRes.data || []
     studentProgress.value = progressRes.data || []
-  } catch { /* handled */ }
+    loadError.value = ''
+  } catch {
+    loadError.value = '报表数据加载失败'
+  }
   finally { loading.value = false }
-})
+}
+
+onMounted(loadAll)
 
 function stageLevel(name: string): number {
   const idx = ['星尘','月芽','灵苗','青藤','慧树','蝶灵','鹰慧','狮睿','灵角','星耀','银河'].indexOf(name)
@@ -82,25 +95,25 @@ function stageLevel(name: string): number {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <h2 style="font-size:24px;font-weight:700;">数据报表</h2>
-      <div style="display:flex;gap:12px;align-items:center;">
-        <select v-model.number="selectedClassId" class="form-select" style="width:auto;padding:6px 12px;">
+    <div class="page-header">
+      <h2 class="page-title">数据报表</h2>
+      <div class="header-actions">
+        <select v-model.number="selectedClassId" class="form-select class-select">
           <option v-for="c in myClasses" :key="c.class_id" :value="c.class_id">{{ c.class_name }}</option>
         </select>
-        <button class="btn btn-sm btn-primary" :style="{ background: exportStatus === 'loading' ? '#f59e0b' : exportStatus === 'success' ? '#10b981' : exportStatus === 'error' ? '#ef4444' : '' }" :disabled="exportStatus === 'loading'" @click="exportFile('scores')">
+        <button class="btn btn-sm btn-primary" :class="exportBtnClass" :disabled="exportStatus === 'loading'" @click="exportFile('scores')">
           <template v-if="exportStatus === 'loading'">导出中...</template>
           <template v-else-if="exportStatus === 'success'">导出成功 ✓</template>
           <template v-else-if="exportStatus === 'error'">导出失败 ✗</template>
           <template v-else>📥 导出积分</template>
         </button>
-        <button class="btn btn-sm btn-primary" :style="{ background: exportStatus === 'loading' ? '#f59e0b' : exportStatus === 'success' ? '#10b981' : exportStatus === 'error' ? '#ef4444' : '' }" :disabled="exportStatus === 'loading'" @click="exportFile('pets')">
+        <button class="btn btn-sm btn-primary" :class="exportBtnClass" :disabled="exportStatus === 'loading'" @click="exportFile('pets')">
           <template v-if="exportStatus === 'loading'">导出中...</template>
           <template v-else-if="exportStatus === 'success'">导出成功 ✓</template>
           <template v-else-if="exportStatus === 'error'">导出失败 ✗</template>
           <template v-else>📥 导出宠物</template>
         </button>
-        <button class="btn btn-sm btn-primary" :style="{ background: exportStatus === 'loading' ? '#f59e0b' : exportStatus === 'success' ? '#10b981' : exportStatus === 'error' ? '#ef4444' : '' }" :disabled="exportStatus === 'loading'" @click="exportFile('attendance')">
+        <button class="btn btn-sm btn-primary" :class="exportBtnClass" :disabled="exportStatus === 'loading'" @click="exportFile('attendance')">
           <template v-if="exportStatus === 'loading'">导出中...</template>
           <template v-else-if="exportStatus === 'success'">导出成功 ✓</template>
           <template v-else-if="exportStatus === 'error'">导出失败 ✗</template>
@@ -111,34 +124,36 @@ function stageLevel(name: string): number {
 
     <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
 
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__msg">{{ loadError }}</p>
+      <button class="btn btn-sm btn-primary" @click="loadAll">重试</button>
+    </div>
+
     <template v-else>
       <!-- 1. 积分趋势柱状图 -->
-      <div class="card" style="margin-bottom:24px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:24px;">近7日积分趋势</h3>
-        <div v-if="!scoreTrend || scoreTrend.labels.length === 0" style="text-align:center;padding:32px;color:var(--color-text-secondary);">
+      <div class="card report-card">
+        <h3 class="card-title">近7日积分趋势</h3>
+        <div v-if="!scoreTrend || scoreTrend.labels.length === 0" class="empty-chart">
           暂无趋势数据
         </div>
         <div v-else>
-          <div style="display:flex;align-items:flex-end;gap:12px;height:200px;padding:0 8px;">
-            <div v-for="(label, i) in scoreTrend.labels" :key="i" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;">
-              <div style="display:flex;gap:4px;align-items:flex-end;height:100%;">
+          <div class="chart-wrap">
+            <div v-for="(label, i) in scoreTrend.labels" :key="i" class="chart-col">
+              <div class="chart-bars">
                 <div v-for="ds in scoreTrend.datasets" :key="ds.label"
-                  :style="{
-                    width: '24px',
-                    height: `${(ds.data[i] || 0) / maxTrendValue * 160}px`,
-                    background: ds.label.includes('扣') || ds.label.includes('减') ? 'var(--color-danger)' : 'var(--color-primary)',
-                    borderRadius: '4px 4px 0 0',
-                    minHeight: '2px',
-                  }"
+                  class="chart-bar"
+                  :class="ds.label.includes('扣') || ds.label.includes('减') ? 'chart-bar--deduct' : ''"
+                  :style="{ height: `${(ds.data[i] || 0) / maxTrendValue * 160}px` }"
                   :title="`${ds.label}: ${ds.data[i] || 0}`">
                 </div>
               </div>
-              <span style="font-size:12px;color:var(--color-text-secondary);">{{ label }}</span>
+              <span class="chart-label">{{ label }}</span>
             </div>
           </div>
-          <div style="display:flex;gap:16px;margin-top:16px;justify-content:center;">
-            <span v-for="ds in scoreTrend.datasets" :key="ds.label" style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);">
-              <span :style="{ width:'10px',height:'10px',borderRadius:'2px',background: ds.label.includes('扣')||ds.label.includes('减') ? 'var(--color-danger)' : 'var(--color-primary)' }"></span>
+          <div class="chart-legend">
+            <span v-for="ds in scoreTrend.datasets" :key="ds.label" class="legend-item">
+              <span class="legend-swatch" :class="ds.label.includes('扣') || ds.label.includes('减') ? 'legend-swatch--deduct' : ''"></span>
               {{ ds.label }}
             </span>
           </div>
@@ -146,39 +161,29 @@ function stageLevel(name: string): number {
       </div>
 
       <!-- 2. 宠物进化阶段分布 -->
-      <div class="card" style="margin-bottom:24px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:24px;">宠物进化阶段分布</h3>
-        <div v-if="petDist.length === 0" style="text-align:center;padding:32px;color:var(--color-text-secondary);">
+      <div class="card report-card">
+        <h3 class="card-title">宠物进化阶段分布</h3>
+        <div v-if="petDist.length === 0" class="empty-chart">
           暂无宠物数据
         </div>
-        <div v-else style="display:flex;flex-direction:column;gap:12px;">
-          <div v-for="pet in petDist" :key="pet.stage_name" style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:20px;width:28px;text-align:center;">{{ getStageEmoji(stageLevel(pet.stage_name)) }}</span>
-            <span style="width:60px;font-size:13px;font-weight:500;">{{ pet.stage_name }}</span>
-            <div style="flex:1;height:24px;background:var(--color-bg);border-radius:var(--radius-sm);overflow:hidden;">
-              <div :style="{
-                width: `${pet.percentage}%`,
-                height: '100%',
-                background: 'var(--gradient-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                paddingRight: '8px',
-                color: 'white',
-                fontSize: '12px',
-                fontWeight: '600',
-                minWidth: pet.count > 0 ? '32px' : '0',
-              }">{{ pet.count }}</div>
+        <div v-else class="dist-list">
+          <div v-for="pet in petDist" :key="pet.stage_name" class="dist-row">
+            <span class="dist-emoji">{{ getStageEmoji(stageLevel(pet.stage_name)) }}</span>
+            <span class="dist-name">{{ pet.stage_name }}</span>
+            <div class="dist-track">
+              <div class="dist-fill"
+                :style="{ width: `${pet.percentage}%`, minWidth: pet.count > 0 ? '32px' : '0' }"
+              >{{ pet.count }}</div>
             </div>
-            <span style="width:48px;text-align:right;font-size:12px;color:var(--color-text-secondary);">{{ pet.percentage }}%</span>
+            <span class="dist-pct">{{ pet.percentage }}%</span>
           </div>
         </div>
       </div>
 
       <!-- 3. 学生进步情况 -->
       <div class="card">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">学生进步情况</h3>
-        <div v-if="studentProgress.length === 0" style="text-align:center;padding:32px;color:var(--color-text-secondary);">
+        <h3 class="card-title card-title--sm">学生进步情况</h3>
+        <div v-if="studentProgress.length === 0" class="empty-chart">
           暂无学生进度数据
         </div>
         <div v-else class="data-table">
@@ -186,16 +191,16 @@ function stageLevel(name: string): number {
             <thead><tr><th>学生</th><th>近期积分</th><th>变化</th><th>趋势</th></tr></thead>
             <tbody>
               <tr v-for="s in studentProgress" :key="s.student_id">
-                <td style="font-weight:600;">{{ s.student_name }}</td>
+                <td class="student-name">{{ s.student_name }}</td>
                 <td>
-                  <span style="font-family:monospace;font-size:13px;color:var(--color-text-secondary);">
+                  <span class="mono-scores">
                     {{ s.scores.join(' · ') }}
                   </span>
                 </td>
-                <td :style="{ color: trendColor(s.trend), fontWeight: '600' }">
+                <td class="trend-change" :style="{ color: trendColor(s.trend) }">
                   {{ s.change > 0 ? '+' : '' }}{{ s.change }}
                 </td>
-                <td :style="{ color: trendColor(s.trend), fontSize: '18px', fontWeight: '700' }">
+                <td class="trend-arrow" :style="{ color: trendColor(s.trend) }">
                   {{ trendArrow(s.trend) }}
                 </td>
               </tr>
@@ -206,3 +211,54 @@ function stageLevel(name: string): number {
     </template>
   </div>
 </template>
+
+<style scoped>
+/* ===== 页头 ===== */
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.page-title { font-size: 24px; font-weight: 700; }
+.header-actions { display: flex; gap: 12px; align-items: center; }
+.class-select { width: auto; padding: 6px 12px; }
+
+/* ===== 报表卡片 ===== */
+.report-card { margin-bottom: 24px; }
+.card-title { font-size: 16px; font-weight: 600; margin-bottom: 24px; }
+.card-title--sm { margin-bottom: 16px; }
+.empty-chart { text-align: center; padding: 32px; color: var(--color-text-secondary); }
+
+/* ===== 积分趋势柱状图 ===== */
+.chart-wrap { display: flex; align-items: flex-end; gap: 12px; height: 200px; padding: 0 8px; }
+.chart-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; height: 100%; justify-content: flex-end; }
+.chart-bars { display: flex; gap: 4px; align-items: flex-end; height: 100%; }
+.chart-bar { width: 24px; border-radius: 4px 4px 0 0; min-height: 2px; background: var(--color-primary); }
+.chart-bar--deduct { background: var(--color-danger); }
+.chart-label { font-size: 12px; color: var(--color-text-secondary); }
+.chart-legend { display: flex; gap: 16px; margin-top: 16px; justify-content: center; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-secondary); }
+.legend-swatch { width: 10px; height: 10px; border-radius: 2px; background: var(--color-primary); }
+.legend-swatch--deduct { background: var(--color-danger); }
+
+/* ===== 宠物分布 ===== */
+.dist-list { display: flex; flex-direction: column; gap: 12px; }
+.dist-row { display: flex; align-items: center; gap: 12px; }
+.dist-emoji { font-size: 20px; width: 28px; text-align: center; }
+.dist-name { width: 60px; font-size: 13px; font-weight: 500; }
+.dist-track { flex: 1; height: 24px; background: var(--color-bg); border-radius: var(--radius-sm); overflow: hidden; }
+.dist-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.dist-pct { width: 48px; text-align: right; font-size: 12px; color: var(--color-text-secondary); }
+
+/* ===== 学生进步表 ===== */
+.student-name { font-weight: 600; }
+.mono-scores { font-family: monospace; font-size: 13px; color: var(--color-text-secondary); }
+.trend-change { font-weight: 600; }
+.trend-arrow { font-size: 18px; font-weight: 700; }
+</style>

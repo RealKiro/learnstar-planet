@@ -153,6 +153,66 @@ a:hover { color: var(--md-primary-light); }
   background: var(--tint-2);
   color: var(--color-text);
 }
+/* 小按钮（跨页统一，原散落于各页 scoped 重复定义） */
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+
+/* 按钮三态（跨页统一：内联状态反馈的 loading/success/error 色） */
+.btn-state-loading { background: var(--tint-2); color: var(--color-text-secondary); border: 1px solid var(--tint-3); }
+.btn-state-success { background: rgba(16,185,129,0.12); color: var(--color-success-text); border: 1px solid rgba(16,185,129,0.3); }
+.btn-state-error { background: rgba(239,68,68,0.12); color: var(--color-danger-text); border: 1px solid rgba(239,68,68,0.3); }
+/* 危险（删除类）默认态 */
+.btn-danger { background: rgba(239,68,68,0.08); color: var(--color-danger-text); border: 1px solid rgba(239,68,68,0.2); }
+.btn-danger:hover { background: rgba(239,68,68,0.16); }
+/* 实心主按钮（提交/创建默认态） */
+.btn-solid { background: var(--color-primary); color: #fff; border: 1px solid var(--color-primary); }
+.btn-solid:hover { filter: brightness(1.06); }
+/* 次级白卡按钮（卡片背景 + 描边） */
+.btn-ghost-card { background: var(--color-bg-card); color: var(--color-text); border: 1px solid var(--color-border); }
+
+/* ===== 空态（跨页统一） ===== */
+.empty-state { text-align: center; padding: 48px; color: var(--color-text-secondary); }
+.empty-state__icon { font-size: 48px; margin-bottom: 8px; }
+
+/* ===== 弹窗脚手架（跨页统一，配合 ModalGlass 使用） ===== */
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-title { font-size: 18px; font-weight: 700; }
+.modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--color-text-secondary); line-height: 1; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
+.modal-hint { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
+
+/* ===== 表单错误横幅（内联校验错误，跨页统一） ===== */
+.error-banner {
+  margin-right: auto;
+  padding: 8px 12px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 8px;
+  color: var(--color-danger-text);
+  font-size: 12px;
+}
+
+/* ===== 统一错误态（列表加载失败 + 重试按钮，跨页复用） ===== */
+.error-state {
+  text-align: center;
+  padding: 60px;
+  color: var(--color-text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.error-state__icon { font-size: 40px; }
+.error-state__msg { font-size: 14px; }
+
+/* 表单分组（跨页统一） */
+.form-group { margin-bottom: 12px; }
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
 
 /* ===== 表单 ===== */
 .form-input {

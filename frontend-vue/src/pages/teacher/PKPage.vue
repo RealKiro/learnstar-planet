@@ -62,16 +62,6 @@ const overview = ref<PKOverview>({
 const loading = ref(true)
 const loadError = ref('')
 
-const LEVEL_SCORES = [0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450]
-
-function calcLevel(score: number): number {
-  let lv = 1
-  for (let i = LEVEL_SCORES.length - 1; i >= 0; i--) {
-    if (score >= LEVEL_SCORES[i]) { lv = i + 1; break }
-  }
-  return Math.min(lv, 12)
-}
-
 const maxScore = computed(() => Math.max(...classes.value.map(c => c.totalScore), 1))
 
 const rankBadge = computed(() => {
@@ -183,10 +173,10 @@ onMounted(async () => {
           <button
             v-if="!cls.isOwn"
             class="pk-btn"
-            :class="{ 'pk-btn--done': pkStatus[cls.name] === 'success' }"
-            @click="startPk(cls.name)"
+            :class="{ 'pk-btn--done': pkStatus === 'success' }"
+            @click="startPk()"
           >
-            {{ pkStatus[cls.name] === 'success' ? '已挑战 ✓' : '⚔️ PK' }}
+            {{ pkStatus === 'success' ? '已挑战 ✓' : '⚔️ PK' }}
           </button>
           <button v-else class="pk-btn own">
             🏠 本班
