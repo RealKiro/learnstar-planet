@@ -1,25 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·二阶·凡尘·花果山王">
   <defs>
-    <!-- 背景：黛青 -->
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#5B6B7A"/>
       <stop offset="100%" stop-color="#414E5A"/>
     </linearGradient>
-    <!-- 侧光 -->
     <linearGradient id="side" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#E8B84B" stop-opacity="0.28"/>
       <stop offset="100%" stop-color="#E8B84B" stop-opacity="0"/>
     </linearGradient>
-    <!-- 金毛 -->
     <radialGradient id="fur" cx="42%" cy="36%" r="74%">
       <stop offset="0%" stop-color="#EBC55A"/>
       <stop offset="60%" stop-color="#E0B13B"/>
       <stop offset="100%" stop-color="#C08E26"/>
     </radialGradient>
-    <!-- 桃心脸 -->
-    <radialGradient id="face" cx="45%" cy="36%" r="70%">
-      <stop offset="0%" stop-color="#F7E6C6"/>
-      <stop offset="100%" stop-color="#E8D3A8"/>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C9B37E" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#C9B37E" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
@@ -30,48 +26,58 @@
   <path d="M 12 168 Q 60 163 108 166 T 196 162" fill="none" stroke="#333F4A" stroke-width="2" opacity="0.7"/>
   <path d="M 150 164 l 3 -11 M 158 163 l 2 -8 M 146 165 l 2 -6" stroke="#4A5A66" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
 
-  <!-- 尾巴（长而卷） -->
-  <path d="M 116 138 C 140 142 154 128 152 110 C 151 100 144 96 140 100" fill="none" stroke="url(#fur)" stroke-width="6" stroke-linecap="round"/>
+  <!-- 晨光灵光（呼吸） -->
+  <circle cx="100" cy="120" r="66" fill="url(#core)">
+    <animate attributeName="r" values="66;74;66" dur="3s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- 腿（蹲姿） -->
-  <path d="M 92 138 C 88 150 84 156 80 160" fill="none" stroke="url(#fur)" stroke-width="8" stroke-linecap="round"/>
-  <path d="M 108 138 C 112 150 116 156 120 160" fill="none" stroke="url(#fur)" stroke-width="8" stroke-linecap="round"/>
-  <ellipse cx="78" cy="161" rx="7" ry="5" fill="#C08E26"/>
-  <ellipse cx="122" cy="161" rx="7" ry="5" fill="#C08E26"/>
+  <!-- 尾巴（长卷，猴尾） -->
+  <path d="M 114 136 C 140 140 154 126 152 108 C 151 100 144 96 140 101" fill="none" stroke="url(#fur)" stroke-width="5.5" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate" values="0 118 118;7 118 118;0 118 118" dur="2.6s" repeatCount="indefinite"/>
+  </path>
 
-  <!-- 躯干（细长，精瘦猴形，非蛋形） -->
-  <path d="M 92 96 Q 88 112 92 132 Q 100 142 110 138 Q 116 120 114 100 Q 108 92 92 96 Z" fill="url(#fur)"/>
-  <!-- 藤叶衣（腰间） -->
-  <path d="M 92 128 Q 100 122 110 128 L 108 138 Q 100 142 92 136 Z" fill="#6B7A5A" opacity="0.9"/>
-  <path d="M 104 130 L 110 140 L 118 134 Z" fill="#7A8A68" opacity="0.9"/>
+  <!-- 蹲姿腿（弯曲在前） -->
+  <path d="M 92 134 C 84 146 80 154 78 160" fill="none" stroke="url(#fur)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 108 134 C 114 146 118 154 120 160" fill="none" stroke="url(#fur)" stroke-width="8" stroke-linecap="round"/>
+  <ellipse cx="76" cy="162" rx="7" ry="5" fill="#C08E26"/>
+  <ellipse cx="122" cy="162" rx="7" ry="5" fill="#C08E26"/>
 
-  <!-- 手臂（一挠头，一撑膝） -->
-  <path d="M 98 100 C 90 96 84 92 84 86" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
-  <circle cx="84" cy="84" r="4" fill="#C08E26"/>
-  <path d="M 112 102 C 120 108 124 118 124 126" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
+  <!-- 躯干（蹲踞前倾，精瘦） -->
+  <path d="M 94 94 Q 84 110 88 130 Q 100 140 112 130 Q 118 110 112 96 Q 104 90 94 94 Z" fill="url(#fur)"/>
+  <!-- 藤叶衣 -->
+  <path d="M 90 124 Q 100 118 110 124 L 112 138 Q 100 144 88 136 Z" fill="#6B7A5A" opacity="0.9"/>
+  <path d="M 106 126 L 112 136 L 120 130 Z" fill="#7A8A68" opacity="0.9"/>
 
-  <!-- 头（桃心脸雏形，回望朝左） -->
-  <ellipse cx="86" cy="72" rx="15" ry="13" fill="url(#fur)" transform="rotate(-10 86 72)"/>
-  <!-- 桃心脸（上宽下尖） -->
-  <path d="M 86 62 C 93 62 96 69 94 75 C 92 80 88 83 86 85 C 84 83 80 80 78 75 C 76 69 79 62 86 62 Z" fill="url(#face)"/>
-  <!-- 耳 -->
-  <circle cx="74" cy="70" r="4.5" fill="#C08E26"/>
+  <!-- 手臂（一挠头·猴性，一撑地） -->
+  <path d="M 100 100 C 96 96 90 94 86 90" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="85" cy="88" r="4" fill="#C08E26"/>
+  <path d="M 112 102 C 120 108 126 118 128 128" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
 
-  <!-- 金毛（头顶簇） -->
-  <path d="M 84 62 Q 82 56 86 52 Q 88 56 90 60" fill="none" stroke="#C08E26" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- 头（尖桃心脸雏形） -->
+  <ellipse cx="86" cy="70" rx="14" ry="12" fill="url(#fur)" transform="rotate(-10 86 70)"/>
+  <path d="M 86 60 C 95 60 99 68 97 75 C 95 81 90 85 86 87 C 82 85 77 81 75 75 C 73 68 77 60 86 60 Z" fill="#F5E6C6"/>
+  <!-- 猴耳 -->
+  <circle cx="72" cy="68" r="4.5" fill="#C08E26"/>
+  <!-- 金毛 -->
+  <path d="M 84 62 Q 81 55 86 51 Q 88 56 90 60" fill="none" stroke="#C08E26" stroke-width="2.2" stroke-linecap="round"/>
 
-  <!-- 丹凤眼雏形（细长上挑）+ 红晕 -->
-  <path d="M 80 68 Q 84 65 88 68 Q 84 70 80 68 Z" fill="#2A1A0A"/>
-  <path d="M 78 69 Q 80 71 82 70" fill="none" stroke="#C85A4A" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+  <!-- 丹凤眼雏形（细长上挑） -->
+  <path d="M 79 68 Q 85 62 91 66 Q 85 70 79 68 Z" fill="#1A0A0A"/>
+  <circle cx="85" cy="66" r="1.1" fill="#F5D742"/>
+  <path d="M 77 69 Q 79 72 82 70" fill="none" stroke="#C85A4A" stroke-width="1.5" stroke-linecap="round" opacity="0.75"/>
 
-  <!-- 雷公嘴雏形（嘴部微凸） -->
-  <path d="M 82 79 Q 86 82 90 79 Q 86 84 82 79 Z" fill="#B0852A"/>
+  <!-- 雷公嘴雏形（凸） -->
+  <path d="M 80 78 Q 86 83 92 78 Q 86 86 80 78 Z" fill="#B0852A"/>
 
-  <!-- 手持树枝（生活道具） -->
-  <line x1="66" y1="158" x2="80" y2="112" stroke="#7A5A2A" stroke-width="3" stroke-linecap="round"/>
-
-  <!-- 晨光微粒 -->
-  <circle cx="34" cy="112" r="1.3" fill="#E8B84B" opacity="0.6"/>
-  <circle cx="150" cy="120" r="1.1" fill="#E8B84B" opacity="0.4"/>
-  <circle cx="120" cy="156" r="1" fill="#E8B84B" opacity="0.35"/>
+  <!-- 晨光微粒（飘浮） -->
+  <g fill="#E8B84B">
+    <circle cx="34" cy="112">
+      <animate attributeName="cy" values="112;104;112" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="120">
+      <animate attributeName="cy" values="120;112;120" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
 </svg>

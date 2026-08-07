@@ -1,12 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·六阶·归真·斗战胜佛">
   <defs>
-    <!-- 背景：素白通透 -->
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#EDE8DE"/>
       <stop offset="70%" stop-color="#E6E4E0"/>
       <stop offset="100%" stop-color="#CBCFD6"/>
     </linearGradient>
-    <!-- 淡紫佛光 -->
     <radialGradient id="glow" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#9A8FB8" stop-opacity="0.45"/>
       <stop offset="100%" stop-color="#9A8FB8" stop-opacity="0"/>
@@ -15,7 +13,6 @@
       <stop offset="0%" stop-color="#F7EEDC"/>
       <stop offset="100%" stop-color="#E8DCC0"/>
     </radialGradient>
-    <!-- 袈裟（庄重红，半透明） -->
     <linearGradient id="kasaya" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#C85A4A" stop-opacity="0.85"/>
       <stop offset="100%" stop-color="#A8462E" stop-opacity="0.6"/>
@@ -24,9 +21,14 @@
 
   <rect width="200" height="200" fill="url(#bg)"/>
 
-  <!-- 佛光（头后光环 + 全身柔光） -->
-  <circle cx="100" cy="104" r="82" fill="url(#glow)"/>
-  <circle cx="100" cy="84" r="42" fill="none" stroke="#9A8FB8" stroke-width="1.8" opacity="0.5"/>
+  <!-- 佛光（头后光环 + 全身柔光，呼吸） -->
+  <circle cx="100" cy="104" r="82" fill="url(#glow)">
+    <animate attributeName="r" values="82;92;82" dur="3.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3.6s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="84" r="42" fill="none" stroke="#9A8FB8" stroke-width="1.8" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.75;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
 
   <!-- 环境：远山云海 -->
   <path d="M 0 168 Q 40 152 80 160 Q 120 172 150 156 Q 175 144 200 154 L 200 200 L 0 200 Z" fill="#B7BDC9" opacity="0.5"/>
@@ -39,7 +41,6 @@
   <!-- 袈裟（端坐，庄重垂落） -->
   <path d="M 74 96 Q 100 88 126 96 L 120 150 Q 100 162 80 150 Z" fill="url(#kasaya)"/>
   <path d="M 84 100 Q 100 94 116 100 L 112 146 Q 100 154 88 146 Z" fill="#9A3A2A" opacity="0.4"/>
-  <!-- 袈裟金格 -->
   <path d="M 86 104 L 86 146 M 96 100 L 96 152 M 106 100 L 106 152 M 114 104 L 114 146" stroke="#C9B37E" stroke-width="1" opacity="0.6"/>
   <path d="M 82 116 Q 100 110 118 116 M 84 130 Q 100 124 116 130" stroke="#C9B37E" stroke-width="1" opacity="0.5"/>
 
@@ -47,15 +48,13 @@
   <path d="M 94 108 Q 100 112 106 108 L 102 122 Q 100 124 98 122 Z" fill="#F5EEDC" opacity="0.9"/>
   <path d="M 94 106 Q 100 110 106 106" fill="none" stroke="#C9B37E" stroke-width="1.2" opacity="0.8"/>
 
-  <!-- 头（桃心脸，垂目庄严） -->
-  <ellipse cx="100" cy="64" rx="15" ry="13" fill="#E8DCC0" opacity="0.4"/>
-  <path d="M 100 50 C 113 50 118 60 116 70 C 114 79 106 86 100 88 C 94 86 86 79 84 70 C 82 60 87 50 100 50 Z" fill="url(#face)"/>
-  <!-- 耳 -->
+  <!-- 头（尖桃心脸，垂目庄严） -->
+  <path d="M 100 48 C 116 48 121 60 119 72 C 117 83 107 92 100 95 C 93 92 83 83 81 72 C 79 60 84 48 100 48 Z" fill="url(#face)"/>
   <circle cx="83" cy="62" r="4.5" fill="#E8DCC0" opacity="0.9"/>
   <circle cx="117" cy="62" r="4.5" fill="#E8DCC0" opacity="0.9"/>
 
   <!-- 金毛（归于平静） -->
-  <path d="M 94 52 Q 92 47 96 44 Q 100 48 102 46 Q 105 48 106 52" fill="none" stroke="#C9B37E" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 94 52 Q 92 46 96 43 Q 100 47 102 45 Q 105 47 106 52" fill="none" stroke="#C9B37E" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
 
   <!-- 垂目（庄严，丹凤眼微阖） -->
   <path d="M 87 64 Q 93 61 99 63" fill="none" stroke="#8E7A5A" stroke-width="2" stroke-linecap="round"/>
@@ -76,12 +75,15 @@
     <circle cx="122" cy="92" r="1.7" opacity="0.85"/>
   </g>
 
-  <!-- 佛光粒子 -->
+  <!-- 佛光粒子（飘浮） -->
   <g fill="#9A8FB8">
-    <circle cx="56" cy="112" r="1.4" opacity="0.55"/>
-    <circle cx="144" cy="112" r="1.4" opacity="0.55"/>
-    <circle cx="100" cy="186" r="1.2" opacity="0.45"/>
-    <circle cx="72" cy="130" r="1" opacity="0.45"/>
-    <circle cx="128" cy="130" r="1" opacity="0.45"/>
+    <circle cx="56" cy="112">
+      <animate attributeName="cy" values="112;102;112" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.15;0.55" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="144" cy="112">
+      <animate attributeName="cy" values="112;102;112" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.15;0.55" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
   </g>
 </svg>
