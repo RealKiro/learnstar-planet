@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="烛龙·三阶·初成·衔烛而行">
+  <defs>
+    <!-- 背景：暖色，光芒从角色内部透出 -->
+    <radialGradient id="bg" cx="50%" cy="58%" r="62%">
+      <stop offset="0%" stop-color="#8B2E2E"/>
+      <stop offset="55%" stop-color="#5E1F1F"/>
+      <stop offset="100%" stop-color="#38141A"/>
+    </radialGradient>
+    <radialGradient id="body" cx="42%" cy="36%" r="74%">
+      <stop offset="0%" stop-color="#B03A3A"/>
+      <stop offset="60%" stop-color="#8B2E2E"/>
+      <stop offset="100%" stop-color="#6E2222"/>
+    </radialGradient>
+    <radialGradient id="head" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#BD4444"/>
+      <stop offset="70%" stop-color="#8B2E2E"/>
+      <stop offset="100%" stop-color="#6E2222"/>
+    </radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FBBF24" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FBBF24" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="55%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#FDE68A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 氛围：体内之光扩散 -->
+  <circle cx="100" cy="118" r="78" fill="url(#core)"/>
+
+  <!-- 角色：盘立昂首（画幅正中，舒展） -->
+  <!-- 底部圆盘 -->
+  <circle cx="100" cy="150" r="34" fill="none" stroke="url(#body)" stroke-width="24"/>
+  <!-- 圆盘中心光 -->
+  <circle cx="100" cy="150" r="14" fill="url(#core)"/>
+  <!-- 金鳞纹 -->
+  <path d="M 74 138 Q 82 132 90 137" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 110 162 Q 118 168 126 162" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- 颈部（S 形竖立） -->
+  <path d="M 100 128 C 86 112 86 82 100 66" fill="none" stroke="url(#body)" stroke-width="16" stroke-linecap="round"/>
+
+  <!-- 头（昂首） -->
+  <ellipse cx="100" cy="58" rx="15" ry="13" fill="url(#head)"/>
+  <!-- 吻部 -->
+  <ellipse cx="100" cy="72" rx="9" ry="7" fill="url(#head)"/>
+
+  <!-- 双角初成（鎏金） -->
+  <path d="M 90 48 C 85 38 87 32 93 28 L 96 36 L 99 31" fill="none" stroke="#D4AF37" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 110 48 C 115 38 113 32 107 28 L 104 36 L 101 31" fill="none" stroke="#D4AF37" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 竖瞳（眸光锐亮） -->
+  <ellipse cx="93" cy="56" rx="2.6" ry="4.4" fill="#1A0A0A"/>
+  <ellipse cx="107" cy="56" rx="2.6" ry="4.4" fill="#1A0A0A"/>
+  <ellipse cx="93" cy="56" rx="0.9" ry="3.4" fill="#D4AF37"/>
+  <ellipse cx="107" cy="56" rx="0.9" ry="3.4" fill="#D4AF37"/>
+
+  <!-- 口衔烛（焰光大） -->
+  <path d="M 95 78 Q 100 82 105 78" fill="none" stroke="#6E2222" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="97" y="80" width="6" height="8" rx="1.4" fill="#D4AF37"/>
+  <path d="M 100 78 C 94 66 97 58 100 53 C 103 58 106 66 100 78 Z" fill="url(#flame)"/>
+  <path d="M 100 74 C 97 67 98.6 62 100 59.5 C 101.4 62 103 67 100 74 Z" fill="#FFF3C4"/>
+
+  <!-- 须如流云 -->
+  <path d="M 84 70 C 76 76 70 74 66 80" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
+  <path d="M 116 70 C 124 76 130 74 134 80" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- 神性：第一圈光晕 -->
+  <circle cx="100" cy="58" r="26" fill="none" stroke="#D4AF37" stroke-width="1.6" opacity="0.5"/>
+
+  <!-- 觉醒光点 -->
+  <circle cx="58" cy="120" r="1.6" fill="#D4AF37" opacity="0.7"/>
+  <circle cx="142" cy="116" r="1.4" fill="#D4AF37" opacity="0.6"/>
+  <circle cx="100" cy="186" r="1.3" fill="#FBBF24" opacity="0.5"/>
+</svg>

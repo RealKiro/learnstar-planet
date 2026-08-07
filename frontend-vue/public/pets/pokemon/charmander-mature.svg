@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="小火龙·四阶·淬炼·烈火恐龙">
+  <defs>
+    <!-- 背景：玄黑 + 四周火光 -->
+    <radialGradient id="bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#1A0A0A"/>
+      <stop offset="70%" stop-color="#120606"/>
+      <stop offset="100%" stop-color="#2B0E0E"/>
+    </radialGradient>
+    <radialGradient id="body" cx="42%" cy="36%" r="76%">
+      <stop offset="0%" stop-color="#F0503A"/>
+      <stop offset="60%" stop-color="#E53935"/>
+      <stop offset="100%" stop-color="#B82E2A"/>
+    </radialGradient>
+    <radialGradient id="belly" cx="45%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#FFE8D0"/>
+      <stop offset="100%" stop-color="#FFD2A8"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#D43A2A"/>
+      <stop offset="55%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#FFC24A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 环境：雷电 -->
+  <path d="M 30 46 L 46 62 L 36 66 L 52 84" fill="none" stroke="#FFE3D6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+  <path d="M 172 96 L 158 108 L 168 112 L 152 130" fill="none" stroke="#FFE3D6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+
+  <!-- 环境：火丛 -->
+  <path d="M 20 188 Q 32 170 44 182 Q 54 164 68 178 Q 80 160 92 176 Q 104 162 116 178 Q 128 164 140 182 Q 152 168 164 184 Q 172 172 182 188 Z" fill="#8B1A1A" opacity="0.5"/>
+  <path d="M 30 190 Q 42 174 54 186 Q 66 170 80 182 Q 92 168 104 182 Q 116 170 128 184 Q 140 174 152 186 Q 162 176 172 190 Z" fill="#D43A2A" opacity="0.35"/>
+
+  <!-- 翼（展翅跃起，动态） -->
+  <path d="M 66 78 C 36 62 22 34 26 16 C 50 28 72 48 78 72 Z" fill="url(#body)" opacity="0.95"/>
+  <path d="M 134 76 C 166 58 182 30 178 14 C 154 26 130 46 124 70 Z" fill="url(#body)" opacity="0.95"/>
+  <path d="M 52 64 C 38 56 32 44 30 34 C 46 42 56 54 60 62 Z" fill="#FFC24A" opacity="0.8"/>
+  <path d="M 148 60 C 162 52 168 40 170 30 C 154 38 144 50 140 58 Z" fill="#FFC24A" opacity="0.8"/>
+
+  <!-- 尾（甩动，大焰） -->
+  <path d="M 132 128 C 160 130 174 116 174 96" fill="none" stroke="url(#body)" stroke-width="13" stroke-linecap="round"/>
+  <path d="M 175 88 C 167 72 171 60 175 52 C 179 60 183 72 175 88 Z" fill="url(#flame)"/>
+
+  <!-- 腿（蹬地跃起） -->
+  <ellipse cx="78" cy="162" rx="12" ry="8" fill="#B82E2A" transform="rotate(12 78 162)"/>
+  <ellipse cx="120" cy="150" rx="11" ry="7" fill="#B82E2A" transform="rotate(-16 120 150)"/>
+
+  <!-- 身体（前倾爆发） -->
+  <ellipse cx="100" cy="122" rx="32" ry="37" fill="url(#body)" transform="rotate(-10 100 122)"/>
+  <ellipse cx="104" cy="132" rx="18" ry="24" fill="url(#belly)" transform="rotate(-10 104 132)"/>
+
+  <!-- 战损裂纹 -->
+  <path d="M 72 108 L 82 116 L 76 126" fill="none" stroke="#8B1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <path d="M 128 118 L 118 126 L 124 136" fill="none" stroke="#8B1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+
+  <!-- 手（前抓） -->
+  <ellipse cx="70" cy="112" rx="8" ry="10" fill="#B82E2A"/>
+  <ellipse cx="132" cy="106" rx="8" ry="10" fill="#B82E2A" transform="rotate(-20 132 106)"/>
+
+  <!-- 头（怒目） -->
+  <ellipse cx="100" cy="70" rx="29" ry="27" fill="url(#body)" transform="rotate(-8 100 70)"/>
+  <ellipse cx="103" cy="84" rx="15" ry="10" fill="url(#belly)" transform="rotate(-8 103 84)"/>
+  <circle cx="97" cy="79" r="1.6" fill="#8B1A1A"/>
+  <circle cx="109" cy="78" r="1.6" fill="#8B1A1A"/>
+
+  <!-- 怒目（红瞳） -->
+  <circle cx="88" cy="67" r="7.6" fill="#140A0A"/>
+  <circle cx="114" cy="66" r="7.6" fill="#140A0A"/>
+  <circle cx="88" cy="67" r="4" fill="#F0503A"/>
+  <circle cx="114" cy="66" r="4" fill="#F0503A"/>
+  <path d="M 76 56 Q 88 51 100 56" fill="none" stroke="#8B1A1A" stroke-width="2.6" stroke-linecap="round"/>
+
+  <!-- 燃烧光环（碎裂） -->
+  <circle cx="100" cy="120" r="62" fill="none" stroke="#D43A2A" stroke-width="1.6" opacity="0.5" stroke-dasharray="7 6"/>
+
+  <!-- 火星 -->
+  <circle cx="54" cy="120" r="1.9" fill="#FF6A4A" opacity="0.85"/>
+  <circle cx="148" cy="122" r="1.6" fill="#D43A2A" opacity="0.7"/>
+  <circle cx="100" cy="180" r="1.4" fill="#FFC24A" opacity="0.6"/>
+</svg>

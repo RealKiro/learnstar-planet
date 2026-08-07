@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="小火龙·三阶·初成·烈火小龙">
+  <defs>
+    <!-- 背景：暖色，光芒从体内透出 -->
+    <radialGradient id="bg" cx="50%" cy="58%" r="62%">
+      <stop offset="0%" stop-color="#FF8C42"/>
+      <stop offset="60%" stop-color="#D96B2C"/>
+      <stop offset="100%" stop-color="#7A3A1A"/>
+    </radialGradient>
+    <radialGradient id="body" cx="42%" cy="36%" r="76%">
+      <stop offset="0%" stop-color="#FFA049"/>
+      <stop offset="60%" stop-color="#FF8C42"/>
+      <stop offset="100%" stop-color="#E87A2E"/>
+    </radialGradient>
+    <radialGradient id="belly" cx="45%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#FFF6E0"/>
+      <stop offset="100%" stop-color="#FFE0B8"/>
+    </radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FBBF24" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FBBF24" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="55%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#FDE68A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 体内之光扩散 -->
+  <circle cx="100" cy="120" r="72" fill="url(#core)"/>
+
+  <!-- 神性：第一圈光晕 -->
+  <circle cx="100" cy="120" r="58" fill="none" stroke="#FFD54F" stroke-width="1.6" opacity="0.45"/>
+
+  <!-- 脚 -->
+  <ellipse cx="87" cy="158" rx="11" ry="8" fill="#E87A2E"/>
+  <ellipse cx="113" cy="158" rx="11" ry="8" fill="#E87A2E"/>
+
+  <!-- 尾（上扬旺焰） -->
+  <path d="M 130 146 C 158 140 172 116 168 88" fill="none" stroke="url(#body)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M 169 82 C 162 68 166 58 169 51 C 172 58 176 68 169 82 Z" fill="url(#flame)"/>
+
+  <!-- 身体（挺立） -->
+  <ellipse cx="100" cy="130" rx="29" ry="35" fill="url(#body)"/>
+  <ellipse cx="100" cy="139" rx="17" ry="23" fill="url(#belly)"/>
+
+  <!-- 手（展臂鼓劲） -->
+  <ellipse cx="66" cy="116" rx="7" ry="9" fill="#E87A2E"/>
+  <ellipse cx="134" cy="116" rx="7" ry="9" fill="#E87A2E"/>
+
+  <!-- 头（昂首） -->
+  <ellipse cx="100" cy="72" rx="27" ry="25" fill="url(#body)"/>
+  <ellipse cx="100" cy="86" rx="14" ry="9" fill="url(#belly)"/>
+  <circle cx="95" cy="82" r="1.4" fill="#D96B2C"/>
+  <circle cx="105" cy="82" r="1.4" fill="#D96B2C"/>
+
+  <!-- 晶亮大眼 -->
+  <circle cx="88" cy="69" r="6.6" fill="#1A1A2E"/>
+  <circle cx="112" cy="69" r="6.6" fill="#1A1A2E"/>
+  <circle cx="90" cy="66.5" r="2.5" fill="#FFF"/>
+  <circle cx="114" cy="66.5" r="2.5" fill="#FFF"/>
+
+  <!-- 鼓腮 -->
+  <circle cx="73" cy="80" r="5.5" fill="#FFBC82"/>
+  <circle cx="127" cy="80" r="5.5" fill="#FFBC82"/>
+
+  <!-- 喷火花 -->
+  <path d="M 100 88 C 90 94 96 100 92 106 C 102 100 104 94 100 88 Z" fill="url(#flame)"/>
+  <path d="M 100 88 C 110 94 104 100 108 106 C 98 100 96 94 100 88 Z" fill="url(#flame)"/>
+
+  <!-- 电光蓝能量点 -->
+  <circle cx="56" cy="108" r="1.7" fill="#4FC3F7" opacity="0.9"/>
+  <circle cx="146" cy="116" r="1.4" fill="#4FC3F7" opacity="0.75"/>
+  <circle cx="100" cy="182" r="1.3" fill="#4FC3F7" opacity="0.6"/>
+</svg>

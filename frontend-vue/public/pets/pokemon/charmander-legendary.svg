@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="小火龙·五阶·封神·喷火龙">
+  <defs>
+    <!-- 背景：紫金辉煌 -->
+    <radialGradient id="bg" cx="50%" cy="52%" r="62%">
+      <stop offset="0%" stop-color="#4A2460"/>
+      <stop offset="55%" stop-color="#2E1738"/>
+      <stop offset="100%" stop-color="#180D20"/>
+    </radialGradient>
+    <radialGradient id="body" cx="44%" cy="38%" r="76%">
+      <stop offset="0%" stop-color="#FF8C5A"/>
+      <stop offset="60%" stop-color="#FF7043"/>
+      <stop offset="100%" stop-color="#E8602E"/>
+    </radialGradient>
+    <radialGradient id="belly" cx="45%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#FFF2DA"/>
+      <stop offset="100%" stop-color="#FFE2BC"/>
+    </radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD54F" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FFD54F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="55%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#FFF3A6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 神性：完整圆形背光 -->
+  <circle cx="100" cy="106" r="84" fill="#FFD54F" opacity="0.1"/>
+  <circle cx="100" cy="106" r="76" fill="none" stroke="#FFD54F" stroke-width="2" opacity="0.45"/>
+  <circle cx="100" cy="106" r="66" fill="none" stroke="#FFD54F" stroke-width="1" opacity="0.22"/>
+
+  <!-- 云台（对称祥云） -->
+  <path d="M 24 180 C 44 170 56 178 74 172 C 88 168 96 176 100 172 C 96 178 84 176 72 180 C 56 186 40 184 24 180 Z" fill="#C9B37E" opacity="0.32"/>
+  <path d="M 176 180 C 156 170 144 178 126 172 C 112 168 104 176 100 172 C 104 178 116 176 128 180 C 144 186 160 184 176 180 Z" fill="#C9B37E" opacity="0.32"/>
+
+  <!-- 双翼（对称展开） -->
+  <path d="M 62 84 C 28 66 12 36 18 14 C 48 28 72 52 78 80 Z" fill="url(#body)"/>
+  <path d="M 138 84 C 172 66 188 36 182 14 C 152 28 128 52 122 80 Z" fill="url(#body)"/>
+  <path d="M 48 70 C 30 60 20 46 20 34 C 40 44 52 56 58 66 Z" fill="#FFD54F" opacity="0.95"/>
+  <path d="M 152 70 C 170 60 180 46 180 34 C 160 44 148 56 142 66 Z" fill="#FFD54F" opacity="0.95"/>
+
+  <!-- 金鬃（颈后对称） -->
+  <path d="M 86 48 C 76 40 76 28 86 20 C 96 28 98 40 94 48 Z" fill="#FFD54F"/>
+  <path d="M 114 48 C 124 40 124 28 114 20 C 104 28 102 40 106 48 Z" fill="#FFD54F"/>
+
+  <!-- 尾（右侧大焰） -->
+  <path d="M 132 148 C 162 140 176 116 170 88" fill="none" stroke="url(#body)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M 171 80 C 163 64 167 52 171 44 C 175 52 179 64 171 80 Z" fill="url(#flame)"/>
+
+  <!-- 脚（对称端坐） -->
+  <ellipse cx="86" cy="158" rx="13" ry="9" fill="#E8602E"/>
+  <ellipse cx="114" cy="158" rx="13" ry="9" fill="#E8602E"/>
+
+  <!-- 身体（端正） -->
+  <ellipse cx="100" cy="126" rx="37" ry="42" fill="url(#body)"/>
+  <ellipse cx="100" cy="137" rx="22" ry="28" fill="url(#belly)"/>
+  <!-- 金色祥纹（对称） -->
+  <path d="M 72 106 Q 82 112 74 124" fill="none" stroke="#FFD54F" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+  <path d="M 128 106 Q 118 112 126 124" fill="none" stroke="#FFD54F" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- 手（对称，抱胸威仪） -->
+  <ellipse cx="74" cy="116" rx="8" ry="11" fill="#E8602E"/>
+  <ellipse cx="126" cy="116" rx="8" ry="11" fill="#E8602E"/>
+
+  <!-- 头（俯视） -->
+  <ellipse cx="100" cy="70" rx="31" ry="29" fill="url(#body)"/>
+  <ellipse cx="100" cy="85" rx="16" ry="11" fill="url(#belly)"/>
+  <circle cx="93" cy="80" r="1.6" fill="#D84A20"/>
+  <circle cx="107" cy="80" r="1.6" fill="#D84A20"/>
+
+  <!-- 目光如炬（俯视威仪） -->
+  <circle cx="86" cy="66" r="8" fill="#1A0F0A"/>
+  <circle cx="114" cy="66" r="8" fill="#1A0F0A"/>
+  <circle cx="86" cy="66" r="4.4" fill="#FFD54F"/>
+  <circle cx="114" cy="66" r="4.4" fill="#FFD54F"/>
+  <path d="M 74 54 Q 86 48 98 54" fill="none" stroke="#E8602E" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 126 54 Q 114 48 102 54" fill="none" stroke="#E8602E" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 头后光环 -->
+  <circle cx="100" cy="68" r="38" fill="none" stroke="#FFD54F" stroke-width="1.6" opacity="0.55"/>
+
+  <!-- 祥光放射（对称） -->
+  <g stroke="#FFD54F" stroke-width="1.4" opacity="0.4" stroke-linecap="round">
+    <path d="M 34 70 L 26 62"/>
+    <path d="M 166 70 L 174 62"/>
+    <path d="M 44 38 L 38 28"/>
+    <path d="M 156 38 L 162 28"/>
+    <path d="M 28 120 L 20 118"/>
+    <path d="M 172 120 L 180 118"/>
+  </g>
+
+  <!-- 王者光点（对称） -->
+  <circle cx="54" cy="118" r="1.9" fill="#FFD54F" opacity="0.85"/>
+  <circle cx="146" cy="118" r="1.9" fill="#FFD54F" opacity="0.85"/>
+  <circle cx="100" cy="186" r="1.5" fill="#FFD54F" opacity="0.6"/>
+</svg>

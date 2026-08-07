@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="小火龙·二阶·凡尘·蹒跚火苗">
+  <defs>
+    <!-- 背景：青灰压抑 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A545E"/>
+      <stop offset="100%" stop-color="#303841"/>
+    </linearGradient>
+    <!-- 晨光（左上照入） -->
+    <linearGradient id="side" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E8B84B" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#E8B84B" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="body" cx="42%" cy="38%" r="74%">
+      <stop offset="0%" stop-color="#FFB072"/>
+      <stop offset="60%" stop-color="#FFA07A"/>
+      <stop offset="100%" stop-color="#F08558"/>
+    </radialGradient>
+    <radialGradient id="head" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#FFBC82"/>
+      <stop offset="70%" stop-color="#FFA07A"/>
+      <stop offset="100%" stop-color="#F08558"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="55%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#FDE68A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <polygon points="0,0 140,0 30,200 0,200" fill="url(#side)"/>
+
+  <!-- 环境：地面 + 小草 -->
+  <path d="M 12 168 Q 60 164 108 166 T 196 162" fill="none" stroke="#222A31" stroke-width="2" opacity="0.7"/>
+  <path d="M 150 164 l 3 -10 M 158 163 l 2 -7 M 146 165 l 2 -6" stroke="#3A444D" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- 角色：侧身行走回望（中偏下，方向感） -->
+  <!-- 后腿 / 前腿 -->
+  <ellipse cx="96" cy="150" rx="7" ry="5" fill="#F08558"/>
+  <ellipse cx="118" cy="152" rx="8" ry="5" fill="#F08558" transform="rotate(-12 118 152)"/>
+
+  <!-- 身体（向右倾） -->
+  <ellipse cx="110" cy="136" rx="23" ry="17" fill="url(#body)" transform="rotate(16 110 136)"/>
+
+  <!-- 尾（向右上扬，尾焰） -->
+  <path d="M 128 140 C 152 136 164 118 166 98" fill="none" stroke="url(#body)" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 166 94 C 161 84 163 78 166 73 C 169 78 171 84 166 94 Z" fill="url(#flame)"/>
+
+  <!-- 头（回望朝左） -->
+  <ellipse cx="86" cy="118" rx="15" ry="13" fill="url(#head)" transform="rotate(-14 86 118)"/>
+  <!-- 吻部 -->
+  <ellipse cx="73" cy="121" rx="8" ry="6" fill="url(#head)" transform="rotate(-14 73 121)"/>
+
+  <!-- 大眼（回望） -->
+  <circle cx="84" cy="114" r="4.8" fill="#1A1A2E"/>
+  <circle cx="85.4" cy="112.6" r="1.8" fill="#FFF"/>
+
+  <!-- 嘴（怯生生） -->
+  <path d="M 70 124 Q 75 127 80 124" fill="none" stroke="#E07048" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- 晨光微粒 -->
+  <circle cx="34" cy="110" r="1.3" fill="#E8B84B" opacity="0.6"/>
+  <circle cx="150" cy="124" r="1.1" fill="#E8B84B" opacity="0.4"/>
+  <circle cx="120" cy="156" r="1" fill="#E8B84B" opacity="0.35"/>
+</svg>

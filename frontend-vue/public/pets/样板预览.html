@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG 角色六阶段 · 样板预览</title>
+<style>
+  body { font-family: 'PingFang SC','Microsoft YaHei',sans-serif; background:#f3f1ec; color:#2a2a2e; margin:0; padding:32px; }
+  h1 { font-size:22px; margin:0 0 8px; }
+  .sub { color:#888; font-size:13px; margin-bottom:28px; }
+  .species { background:#fff; border-radius:16px; padding:24px; margin-bottom:32px; box-shadow:0 4px 18px rgba(0,0,0,.06); }
+  .species h2 { margin:0 0 4px; font-size:18px; }
+  .species .tag { font-size:12px; color:#8a6; margin-bottom:16px; }
+  .row { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
+  .stage { border-radius:12px; overflow:hidden; border:1px solid #eee; background:#fff; }
+  .stage img { width:100%; display:block; aspect-ratio:1/1; object-fit:cover; }
+  .stage .name { font-size:12px; text-align:center; padding:6px 4px; background:#faf8f4; color:#666; border-top:1px solid #eee; }
+  @media (max-width: 900px){ .row{ grid-template-columns:repeat(3,1fr); } }
+</style>
+</head>
+<body>
+  <h1>🎨 SVG 角色六阶段 · 样板预览</h1>
+  <p class="sub">按《SVG角色六阶段视觉设计策划方案》重做：构图/体态/尺寸递进 + 完整背景分层。浏览器直接打开本文件即可。</p>
+
+  <div class="species">
+    <h2>🐉 烛龙（山海经 · 国风）</h2>
+    <p class="tag">一阶蜷缩灵种 → 六阶化入云光</p>
+    <div class="row">
+      <div class="stage"><img src="myth/zhulong-egg.svg" alt="一阶"><div class="name">一阶·灵胎</div></div>
+      <div class="stage"><img src="myth/zhulong-baby.svg" alt="二阶"><div class="name">二阶·凡尘</div></div>
+      <div class="stage"><img src="myth/zhulong-growing.svg" alt="三阶"><div class="name">三阶·初成</div></div>
+      <div class="stage"><img src="myth/zhulong-mature.svg" alt="四阶"><div class="name">四阶·淬炼</div></div>
+      <div class="stage"><img src="myth/zhulong-legendary.svg" alt="五阶"><div class="name">五阶·封神</div></div>
+      <div class="stage"><img src="myth/zhulong-transcendent.svg" alt="六阶"><div class="name">六阶·归真</div></div>
+    </div>
+  </div>
+
+  <div class="species">
+    <h2>🦎 小火龙（宝可梦 · 卡通）</h2>
+    <p class="tag">一阶蜷缩蛋 → 六阶融于圣光</p>
+    <div class="row">
+      <div class="stage"><img src="pokemon/charmander-egg.svg" alt="一阶"><div class="name">一阶·灵胎</div></div>
+      <div class="stage"><img src="pokemon/charmander-baby.svg" alt="二阶"><div class="name">二阶·凡尘</div></div>
+      <div class="stage"><img src="pokemon/charmander-growing.svg" alt="三阶"><div class="name">三阶·初成</div></div>
+      <div class="stage"><img src="pokemon/charmander-mature.svg" alt="四阶"><div class="name">四阶·淬炼</div></div>
+      <div class="stage"><img src="pokemon/charmander-legendary.svg" alt="五阶"><div class="name">五阶·封神</div></div>
+      <div class="stage"><img src="pokemon/charmander-transcendent.svg" alt="六阶"><div class="name">六阶·归真</div></div>
+    </div>
+  </div>
+</body>
+</html>
