@@ -66,11 +66,11 @@ onUnmounted(() => {
           <div class="o-label">🏅 班级之星</div>
           <div v-if="data.star_student.student_no" style="position:absolute;top:20px;right:24px;font-size:11px;color:var(--md-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px;">学号 {{ data.star_student.student_no }}</div>
           <div style="display:flex;align-items:center;gap:16px;">
-            <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;" @click="openHandbook(data.star_student)" title="点击查看宠物介绍">
-              <div v-if="data.star_student.pet_species" style="width:68px;height:68px;">
+            <div style="width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;box-shadow:0 4px 14px rgba(240,147,251,0.25);" @click="openHandbook(data.star_student)" title="点击查看宠物介绍">
+              <div v-if="data.star_student.pet_species" style="width:86px;height:86px;">
                 <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
               </div>
-              <span v-else style="font-size:32px;">🌟</span>
+              <span v-else style="font-size:36px;">🌟</span>
             </div>
             <div>
               <div style="font-size:20px;font-weight:700;">{{ data.star_student.name }}</div>
@@ -114,10 +114,10 @@ onUnmounted(() => {
             <div style="position:absolute;top:8px;left:10px;font-size:18px;">{{ ['🥇','🥈','🥉','4','5'][i] }}</div>
             <div v-if="s.student_no" style="position:absolute;top:10px;right:10px;font-size:10px;color:var(--md-text-secondary);background:var(--tint-2);padding:1px 6px;border-radius:6px;">{{ s.student_no }}</div>
             <div style="margin-top:6px;">
-              <div v-if="s.pet_species" style="width:60px;height:60px;margin:0 auto 6px;cursor:pointer;" @click="openHandbook(s)" title="点击查看宠物介绍">
+              <div v-if="s.pet_species" style="width:72px;height:72px;margin:0 auto 6px;cursor:pointer;" @click="openHandbook(s)" title="点击查看宠物介绍">
                 <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
               </div>
-              <div v-else style="font-size:30px;margin-bottom:6px;">🌟</div>
+              <div v-else style="font-size:34px;margin-bottom:6px;">🌟</div>
             </div>
             <div style="font-size:14px;font-weight:600;">{{ s.name }}</div>
             <div style="font-size:11px;color:var(--md-text-secondary);margin-bottom:6px;">Lv.{{ s.pet_level }}</div>

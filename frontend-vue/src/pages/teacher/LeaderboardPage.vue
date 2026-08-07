@@ -313,12 +313,13 @@ onMounted(() => fetchData('total'))
   font-size: 28px;
 }
 .champion-sprite {
-  width: 48px;
-  height: 48px;
+  width: 88px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
 }
 .champion-no {
   font-size: 11px;
