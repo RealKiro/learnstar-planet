@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="杨任·五阶·甲子太岁·掌目化作二十四节气光轮">
+  <defs>
+    <!-- 背景：太岁神殿浩瀚岁月 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A4256"/>
+      <stop offset="55%" stop-color="#2E3448"/>
+      <stop offset="100%" stop-color="#1E2230"/>
+    </linearGradient>
+    <!-- 岁月金光 -->
+    <radialGradient id="aura" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 太岁神袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8C86A"/>
+      <stop offset="100%" stop-color="#A88A3E"/>
+    </linearGradient>
+    <!-- 昼夜蓝 -->
+    <linearGradient id="cycle" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E9EF0"/>
+      <stop offset="100%" stop-color="#2E4E8E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0D8BC"/>
+      <stop offset="100%" stop-color="#D8BC98"/>
+    </radialGradient>
+
+    <!-- 头部模板：国字脸·白眉·掌目温润（脸中心 0,0） -->
+    <g id="yangren-face">
+      <ellipse cx="0" cy="0" rx="11" ry="11.5" fill="url(#skin)" stroke="#C8B090" stroke-width="0.9"/>
+      <!-- 束发 -->
+      <path d="M -5 -10 Q 0 -13 5 -10 Q 3 -14 0 -14 Q -3 -14 -5 -10 Z" fill="#E8E0D0"/>
+      <!-- 白眉 -->
+      <path d="M -9 -2 Q -5.5 -4 -2 -3 M 9 -2 Q 5.5 -4 2 -3" stroke="#E8E0D0" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <!-- 眼睑轻合 -->
+      <path d="M -7.5 0.5 Q -4.5 0.6 -1.8 0.5 L -1.8 1.6 Q -4.5 1.5 -7.5 1.8 Z" fill="#8E7A68"/>
+      <path d="M 7.5 0.5 Q 4.5 0.6 1.8 0.5 L 1.8 1.6 Q 4.5 1.5 7.5 1.8 Z" fill="#8E7A68"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1 L 0 3.4" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 嘴角肃穆 -->
+      <path d="M -3.2 6.4 Q 0 7.4 3.2 6.4" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 岁月金光 -->
+  <circle cx="100" cy="94" r="86" fill="url(#aura)">
+    <animate attributeName="opacity" values="1;0.7;1" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 二十四节气光轮（环绕，SMIL 旋转） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 100 94;360 100 94" dur="48s" repeatCount="indefinite"/>
+    <!-- 主轮 -->
+    <circle cx="100" cy="94" r="62" fill="none" stroke="#F5D742" stroke-width="1.6" opacity="0.8" stroke-dasharray="4 10"/>
+    <circle cx="100" cy="94" r="54" fill="none" stroke="#F5D742" stroke-width="1" opacity="0.5"/>
+    <!-- 节气点（二十四等分示意，画十二个亮点） -->
+    <g fill="#FFE066">
+      <circle cx="100" cy="32" r="2"/>
+      <circle cx="138" cy="42" r="2"/>
+      <circle cx="162" cy="74" r="2"/>
+      <circle cx="166" cy="112" r="2"/>
+      <circle cx="146" cy="144" r="2"/>
+      <circle cx="100" cy="156" r="2"/>
+      <circle cx="54" cy="144" r="2"/>
+      <circle cx="34" cy="112" r="2"/>
+      <circle cx="38" cy="74" r="2"/>
+      <circle cx="62" cy="42" r="2"/>
+    </g>
+    <!-- 昼夜蓝光弧（四季流转） -->
+    <path d="M 52 62 Q 100 24 148 62" fill="none" stroke="url(#cycle)" stroke-width="2.4" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 52 126 Q 100 164 148 126" fill="none" stroke="#B8C8E0" stroke-width="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="4.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 云海托足 -->
+  <g opacity="0.7">
+    <path d="M 0 140 Q 50 132 100 138 Q 150 144 200 136 L 200 200 L 0 200 Z" fill="#3E4660">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 2;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 身后四季景象流转（简化为四块光斑） -->
+  <g opacity="0.6">
+    <circle cx="30" cy="92" r="10" fill="#7EB080"/>
+    <circle cx="170" cy="92" r="10" fill="#B8C8E0"/>
+    <path d="M 44 108 L 46 122 L 42 122 L 42 108 Z" fill="#E8D8A8"/>
+  </g>
+
+  <!-- 角色：甲子太岁（神袍文臣，端坐） -->
+  <!-- 神袍下摆（端坐） -->
+  <path d="M 80 118 Q 96 130 118 118 L 124 136 Q 100 150 76 136 Z" fill="url(#robe)"/>
+  <!-- 上身 -->
+  <path d="M 86 82 Q 82 100 88 120 Q 100 126 112 120 Q 118 100 114 82 Q 100 76 86 82 Z" fill="url(#robe)" stroke="#8E702E" stroke-width="1"/>
+  <!-- 袍纹 -->
+  <path d="M 90 92 Q 92 98 90 104 M 108 92 Q 106 98 108 104" stroke="#C8A84E" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.8"/>
+  <!-- 腰绦 -->
+  <path d="M 86 106 L 112 106" stroke="#F5D742" stroke-width="2"/>
+  <!-- 双腿盘坐 -->
+  <path d="M 84 122 Q 92 134 112 126 Q 118 122 114 116 Q 104 128 88 120 Z" fill="#A88A3E"/>
+
+  <!-- 头（面部模板，白眉） -->
+  <use href="#yangren-face" transform="translate(100,74) scale(1)"/>
+  <!-- 神冠 -->
+  <path d="M 88 66 Q 100 58 112 66 L 110 62 Q 100 54 90 62 Z" fill="#F5D742" opacity="0.9"/>
+  <circle cx="100" cy="56" r="3" fill="#FFE066">
+    <animate attributeName="r" values="3;4;3" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 左掌（掌目温润，托光轮一角） -->
+  <g>
+    <path d="M 88 86 C 80 90 74 96 70 104" fill="none" stroke="#E8C86A" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="69" cy="106" r="6" fill="#E8D8C0" stroke="#B8A888" stroke-width="0.8"/>
+    <ellipse cx="69" cy="106" rx="3.4" ry="3" fill="#3A2A1E"/>
+    <circle cx="69.6" cy="105.2" r="1.1" fill="#FFF"/>
+  </g>
+
+  <!-- 右掌（掌目温润，执岁月） -->
+  <g>
+    <path d="M 112 86 C 120 90 126 96 130 104" fill="none" stroke="#E8C86A" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="131" cy="106" r="6" fill="#E8D8C0" stroke="#B8A888" stroke-width="0.8"/>
+    <ellipse cx="131" cy="106" rx="3.4" ry="3" fill="#3A2A1E"/>
+    <circle cx="131.6" cy="105.2" r="1.1" fill="#FFF"/>
+  </g>
+
+  <!-- 神性金尘 -->
+  <g fill="#FFE066">
+    <circle cx="44" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="60">
+      <animate attributeName="cy" values="60;50;60" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

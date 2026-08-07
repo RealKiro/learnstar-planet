@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="杨任·二阶·剜目之祸·血溅朝堂忠魂不灭">
+  <defs>
+    <!-- 背景：残阳荒郊 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E3A2E"/>
+      <stop offset="50%" stop-color="#4E2820"/>
+      <stop offset="100%" stop-color="#2A1814"/>
+    </linearGradient>
+    <!-- 残阳 -->
+    <radialGradient id="sun" cx="80%" cy="30%" r="34%">
+      <stop offset="0%" stop-color="#E8553A" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#E8553A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 朝服染血 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E3428"/>
+      <stop offset="100%" stop-color="#5E2016"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8D0B4"/>
+      <stop offset="100%" stop-color="#C8B090"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 残阳如血 -->
+  <circle cx="160" cy="60" r="50" fill="url(#sun)">
+    <animate attributeName="opacity" values="1;0.75;1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="160" cy="60" r="15" fill="#D84830" opacity="0.8">
+    <animate attributeName="r" values="15;17;15" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远处朝堂飞檐（如笼） -->
+  <g opacity="0.45">
+    <path d="M 24 20 L 66 20 L 54 36 Q 38 42 26 38 Z" fill="#1E1618"/>
+    <path d="M 20 20 L 24 74 L 34 74 L 30 20" stroke="#1E1618" stroke-width="2.4"/>
+    <path d="M 60 20 L 62 70 L 52 70 L 56 20" stroke="#1E1618" stroke-width="2.4"/>
+  </g>
+
+  <!-- 荒野地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#3A2418" opacity="0.8"/>
+  <path d="M 0 150 L 200 150" stroke="#4A3224" stroke-width="1.4" opacity="0.6"/>
+  <!-- 荒草 -->
+  <path d="M 30 168 Q 32 158 30 150 M 150 170 Q 153 160 151 152" stroke="#3E3028" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- 被弃文臣（倒伏路边，血染朝服，手攥谏章） -->
+  <!-- 仰卧身躯 -->
+  <path d="M 70 138 Q 66 146 72 152 Q 92 162 112 152 Q 120 146 116 136 Q 96 128 70 138 Z" fill="url(#robe)" stroke="#4E1A12" stroke-width="1"/>
+  <!-- 血痕 -->
+  <path d="M 74 140 Q 78 146 74 150 M 110 138 Q 114 144 110 148" stroke="#A8281A" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+  <!-- 玉带（沾血） -->
+  <path d="M 76 142 L 114 144" stroke="#E8D8A8" stroke-width="2"/>
+  <!-- 双腿 -->
+  <path d="M 70 144 L 64 164 L 70 166 L 74 148 Z" fill="#5E2016"/>
+  <path d="M 112 146 L 120 162 L 115 164 L 108 148 Z" fill="#5E2016"/>
+
+  <!-- 头（侧卧，面无血色，双目殷红） -->
+  <circle cx="84" cy="130" r="10.5" fill="url(#skin)" stroke="#C0A884" stroke-width="0.8"/>
+  <!-- 散发 -->
+  <path d="M 74 126 Q 70 120 74 116 M 76 128 Q 72 122 76 118" stroke="#1E1814" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M 84 120 Q 80 116 84 114" stroke="#1E1814" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- 眉紧蹙 -->
+  <path d="M 78 126 Q 81 124.5 84 125.5 M 86 125.5 Q 89 124.5 92 126" stroke="#1E1008" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- 双目殷红（剜目） -->
+  <path d="M 79 129 L 89 130 M 80 133 L 89 133" stroke="#B0301E" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="84" cy="130.5" r="1.2" fill="#B0301E"/>
+  <!-- 唇紧抿 -->
+  <path d="M 80 137 Q 84 136.5 88 137" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 手中仍攥谏章 -->
+  <g>
+    <rect x="86" y="138" width="13" height="18" rx="2" fill="#C8B48E" stroke="#8E7A4E" stroke-width="0.8" transform="rotate(24 92 147)"/>
+    <line x1="89" y1="140" x2="89" y2="154" stroke="#8E7A4E" stroke-width="0.7" transform="rotate(24 92 147)"/>
+    <line x1="92" y1="140" x2="92" y2="154" stroke="#8E7A4E" stroke-width="0.7" transform="rotate(24 92 147)"/>
+    <!-- 攥章之手 -->
+    <circle cx="84" cy="145" r="3" fill="#E8D0B4"/>
+  </g>
+
+  <!-- 忠魂不散（一点金光上浮） -->
+  <g fill="#E8C07A">
+    <circle cx="92" cy="96">
+      <animate attributeName="cy" values="96;80;96" dur="2.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.1;0.7" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="106" cy="88">
+      <animate attributeName="cy" values="88;72;88" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.08;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 血雾 -->
+  <g fill="#B0301E">
+    <circle cx="120" cy="140">
+      <animate attributeName="cy" values="140;150;140" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.08;0.4" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="64" cy="152">
+      <animate attributeName="cy" values="152;162;152" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.07;0.35" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
