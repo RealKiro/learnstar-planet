@@ -11,13 +11,14 @@
       <stop offset="100%" stop-color="#E8B84B" stop-opacity="0"/>
     </linearGradient>
     <!-- 金毛 -->
-    <radialGradient id="fur" cx="42%" cy="38%" r="74%">
+    <radialGradient id="fur" cx="42%" cy="36%" r="74%">
       <stop offset="0%" stop-color="#EBC55A"/>
       <stop offset="60%" stop-color="#E0B13B"/>
-      <stop offset="100%" stop-color="#C9982A"/>
+      <stop offset="100%" stop-color="#C08E26"/>
     </radialGradient>
-    <radialGradient id="face" cx="45%" cy="38%" r="70%">
-      <stop offset="0%" stop-color="#F5E3C0"/>
+    <!-- 桃心脸 -->
+    <radialGradient id="face" cx="45%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#F7E6C6"/>
       <stop offset="100%" stop-color="#E8D3A8"/>
     </radialGradient>
   </defs>
@@ -29,41 +30,48 @@
   <path d="M 12 168 Q 60 163 108 166 T 196 162" fill="none" stroke="#333F4A" stroke-width="2" opacity="0.7"/>
   <path d="M 150 164 l 3 -11 M 158 163 l 2 -8 M 146 165 l 2 -6" stroke="#4A5A66" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
 
-  <!-- 尾（卷曲） -->
-  <path d="M 128 138 C 148 138 158 126 154 112" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
+  <!-- 尾巴（长而卷） -->
+  <path d="M 116 138 C 140 142 154 128 152 110 C 151 100 144 96 140 100" fill="none" stroke="url(#fur)" stroke-width="6" stroke-linecap="round"/>
 
-  <!-- 身体（金毛，侧身） -->
-  <ellipse cx="112" cy="132" rx="21" ry="16" fill="url(#fur)" transform="rotate(14 112 132)"/>
-  <!-- 藤叶衣 -->
-  <path d="M 98 140 Q 106 148 118 142 Q 112 152 100 148 Z" fill="#6B7A5A" opacity="0.9"/>
-  <path d="M 108 148 Q 114 156 124 150 Z" fill="#7A8A68" opacity="0.9"/>
+  <!-- 腿（蹲姿） -->
+  <path d="M 92 138 C 88 150 84 156 80 160" fill="none" stroke="url(#fur)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 108 138 C 112 150 116 156 120 160" fill="none" stroke="url(#fur)" stroke-width="8" stroke-linecap="round"/>
+  <ellipse cx="78" cy="161" rx="7" ry="5" fill="#C08E26"/>
+  <ellipse cx="122" cy="161" rx="7" ry="5" fill="#C08E26"/>
 
-  <!-- 金箍棒（斜持） -->
-  <line x1="64" y1="162" x2="96" y2="108" stroke="#F5D742" stroke-width="4" stroke-linecap="round"/>
-  <line x1="64" y1="162" x2="96" y2="108" stroke="#C9A227" stroke-width="1.2" opacity="0.6"/>
+  <!-- 躯干（细长，精瘦猴形，非蛋形） -->
+  <path d="M 92 96 Q 88 112 92 132 Q 100 142 110 138 Q 116 120 114 100 Q 108 92 92 96 Z" fill="url(#fur)"/>
+  <!-- 藤叶衣（腰间） -->
+  <path d="M 92 128 Q 100 122 110 128 L 108 138 Q 100 142 92 136 Z" fill="#6B7A5A" opacity="0.9"/>
+  <path d="M 104 130 L 110 140 L 118 134 Z" fill="#7A8A68" opacity="0.9"/>
 
-  <!-- 手（抓棒） -->
-  <circle cx="92" cy="112" r="4" fill="#C9982A"/>
+  <!-- 手臂（一挠头，一撑膝） -->
+  <path d="M 98 100 C 90 96 84 92 84 86" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="84" cy="84" r="4" fill="#C08E26"/>
+  <path d="M 112 102 C 120 108 124 118 124 126" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
 
-  <!-- 头（回望朝左） -->
-  <ellipse cx="86" cy="116" rx="14" ry="13" fill="url(#fur)" transform="rotate(-14 86 116)"/>
-  <!-- 猴脸 -->
-  <path d="M 78 116 Q 78 126 86 130 Q 94 126 94 116 Q 88 108 78 116 Z" fill="url(#face)"/>
-  <!-- 耳朵 -->
-  <circle cx="76" cy="110" r="4" fill="#C9982A"/>
-  <!-- 金毛簇 -->
-  <path d="M 86 106 Q 84 100 88 96 Q 90 100 90 104" fill="none" stroke="#C9982A" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- 头（桃心脸雏形，回望朝左） -->
+  <ellipse cx="86" cy="72" rx="15" ry="13" fill="url(#fur)" transform="rotate(-10 86 72)"/>
+  <!-- 桃心脸（上宽下尖） -->
+  <path d="M 86 62 C 93 62 96 69 94 75 C 92 80 88 83 86 85 C 84 83 80 80 78 75 C 76 69 79 62 86 62 Z" fill="url(#face)"/>
+  <!-- 耳 -->
+  <circle cx="74" cy="70" r="4.5" fill="#C08E26"/>
 
-  <!-- 火眼金睛（回望） -->
-  <circle cx="84" cy="115" r="4.6" fill="#F5D742"/>
-  <circle cx="84" cy="115" r="2.2" fill="#8B1A1A"/>
-  <circle cx="85.4" cy="113.6" r="1.6" fill="#FFF"/>
+  <!-- 金毛（头顶簇） -->
+  <path d="M 84 62 Q 82 56 86 52 Q 88 56 90 60" fill="none" stroke="#C08E26" stroke-width="2.4" stroke-linecap="round"/>
 
-  <!-- 嘴 -->
-  <path d="M 82 126 Q 86 129 90 126" fill="none" stroke="#B0852A" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- 丹凤眼雏形（细长上挑）+ 红晕 -->
+  <path d="M 80 68 Q 84 65 88 68 Q 84 70 80 68 Z" fill="#2A1A0A"/>
+  <path d="M 78 69 Q 80 71 82 70" fill="none" stroke="#C85A4A" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- 雷公嘴雏形（嘴部微凸） -->
+  <path d="M 82 79 Q 86 82 90 79 Q 86 84 82 79 Z" fill="#B0852A"/>
+
+  <!-- 手持树枝（生活道具） -->
+  <line x1="66" y1="158" x2="80" y2="112" stroke="#7A5A2A" stroke-width="3" stroke-linecap="round"/>
 
   <!-- 晨光微粒 -->
-  <circle cx="34" cy="110" r="1.3" fill="#E8B84B" opacity="0.6"/>
-  <circle cx="150" cy="124" r="1.1" fill="#E8B84B" opacity="0.4"/>
+  <circle cx="34" cy="112" r="1.3" fill="#E8B84B" opacity="0.6"/>
+  <circle cx="150" cy="120" r="1.1" fill="#E8B84B" opacity="0.4"/>
   <circle cx="120" cy="156" r="1" fill="#E8B84B" opacity="0.35"/>
 </svg>
