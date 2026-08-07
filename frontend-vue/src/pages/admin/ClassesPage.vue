@@ -493,77 +493,73 @@ async function submitAssignTeacher() {
 
 
     <!-- 分配班主任弹窗 -->
-    <div v-if="showAssignTeacherModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
-      <div class="card" style="width:90%;max-width:420px;padding:32px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-          <h3 style="font-size:18px;font-weight:700;">分配班主任</h3>
-          <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showAssignTeacherModal = false">×</button>
-        </div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
-          为 <b>{{ assigningClass?.name }}</b> 分配班主任
-        </p>
-        <div class="form-group">
-          <label>班主任</label>
-          <select v-model="selectedTeacherId" class="form-select">
-            <option value="">不分配（解除班主任）</option>
-            <option v-for="t in teacherList" :key="t.id" :value="t.id">{{ t.name }}</option>
-          </select>
-        </div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showAssignTeacherModal = false">取消</button>
-          <button class="btn btn-sm" :style="assignTeacherStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : assignTeacherStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : assignTeacherStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="assignTeacherStatus === 'loading'" @click="submitAssignTeacher">
-            {{ assignTeacherStatus === 'loading' ? '保存中...' : assignTeacherStatus === 'success' ? '已保存 ✓' : assignTeacherStatus === 'error' ? '保存失败' : '保存' }}
-          </button>
-        </div>
+    <ModalGlass :visible="showAssignTeacherModal" @update:visible="showAssignTeacherModal = $event">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:700;">分配班主任</h3>
+        <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showAssignTeacherModal = false">×</button>
       </div>
-    </div>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
+        为 <b>{{ assigningClass?.name }}</b> 分配班主任
+      </p>
+      <div class="form-group">
+        <label>班主任</label>
+        <select v-model="selectedTeacherId" class="form-select">
+          <option value="">不分配（解除班主任）</option>
+          <option v-for="t in teacherList" :key="t.id" :value="t.id">{{ t.name }}</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showAssignTeacherModal = false">取消</button>
+        <button class="btn btn-sm" :style="assignTeacherStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : assignTeacherStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : assignTeacherStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="assignTeacherStatus === 'loading'" @click="submitAssignTeacher">
+          {{ assignTeacherStatus === 'loading' ? '保存中...' : assignTeacherStatus === 'success' ? '已保存 ✓' : assignTeacherStatus === 'error' ? '保存失败' : '保存' }}
+        </button>
+      </div>
+    </ModalGlass>
 
     <!-- 导入学生弹窗 -->
-    <div v-if="showImportModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
-      <div class="card" style="width:90%;max-width:560px;max-height:85vh;overflow-y:auto;padding:32px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-          <h3 style="font-size:18px;font-weight:700;">导入学生</h3>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);font-size:12px;" @click="downloadStudentTemplate">📥 模板</button>
-            <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showImportModal = false">×</button>
-          </div>
-        </div>
-
-        <div v-if="importResult">
-          <div style="text-align:center;padding:24px 0;">
-            <div style="font-size:36px;font-weight:700;color:var(--color-accent);">{{ importResult.success }}</div>
-            <div style="color:var(--color-text-secondary);font-size:13px;">导入成功</div>
-            <div v-if="importResult.failed > 0" style="margin-top:8px;color:var(--color-danger);font-size:13px;">失败 {{ importResult.failed }} 人</div>
-          </div>
-          <div v-if="importResult.errors?.length" style="margin-bottom:16px;">
-            <p style="font-size:12px;color:var(--color-danger);margin-bottom:4px;">错误详情：</p>
-            <pre style="font-size:12px;color:var(--color-danger);max-height:120px;overflow-y:auto;background:rgba(239,68,68,0.05);padding:8px;border-radius:8px;">{{ importResult.errors.join('\n') }}</pre>
-          </div>
-          <button class="btn btn-primary" style="width:100%;" @click="showImportModal = false">完成</button>
-        </div>
-
-        <div v-else>
-          <div class="form-group">
-            <label>默认班级（学生未填班级时使用）</label>
-            <input v-model="importClassName" class="form-input" placeholder="如：三年级（1）班">
-          </div>
-          <div class="form-group">
-            <label>学生数据</label>
-            <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">每行一位：姓名,班级,性别,学号（班级可留空使用上方默认）</p>
-            <textarea
-              v-model="importText"
-              class="form-input"
-              style="width:100%;min-height:160px;font-family:monospace;"
-              placeholder="张小明,三年级（1）班,男,2026001&#10;李小红,三年级（1）班,女,2026002&#10;王刚,,男,2026003"
-            ></textarea>
-          </div>
-          <div style="display:flex;gap:8px;justify-content:flex-end;">
-            <div v-if="importError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ importError }}</div>
-            <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showImportModal = false">取消</button>
-            <button class="btn btn-sm" :style="importStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : importStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : importStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="importStatus === 'loading'" @click="submitImport">{{ importStatus === 'loading' ? '导入中...' : importStatus === 'success' ? '已导入 ✓' : importStatus === 'error' ? '导入失败' : '开始导入' }}</button>
-          </div>
+    <ModalGlass :visible="showImportModal" @update:visible="showImportModal = $event">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:700;">导入学生</h3>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);font-size:12px;" @click="downloadStudentTemplate">📥 模板</button>
+          <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showImportModal = false">×</button>
         </div>
       </div>
-    </div>
+
+      <div v-if="importResult">
+        <div style="text-align:center;padding:24px 0;">
+          <div style="font-size:36px;font-weight:700;color:var(--color-accent);">{{ importResult.success }}</div>
+          <div style="color:var(--color-text-secondary);font-size:13px;">导入成功</div>
+          <div v-if="importResult.failed > 0" style="margin-top:8px;color:var(--color-danger);font-size:13px;">失败 {{ importResult.failed }} 人</div>
+        </div>
+        <div v-if="importResult.errors?.length" style="margin-bottom:16px;">
+          <p style="font-size:12px;color:var(--color-danger);margin-bottom:4px;">错误详情：</p>
+          <pre style="font-size:12px;color:var(--color-danger);max-height:120px;overflow-y:auto;background:rgba(239,68,68,0.05);padding:8px;border-radius:8px;">{{ importResult.errors.join('\n') }}</pre>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" @click="showImportModal = false">完成</button>
+      </div>
+
+      <div v-else>
+        <div class="form-group">
+          <label>默认班级（学生未填班级时使用）</label>
+          <input v-model="importClassName" class="form-input" placeholder="如：三年级（1）班">
+        </div>
+        <div class="form-group">
+          <label>学生数据</label>
+          <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">每行一位：姓名,班级,性别,学号（班级可留空使用上方默认）</p>
+          <textarea
+            v-model="importText"
+            class="form-input"
+            style="width:100%;min-height:160px;font-family:monospace;"
+            placeholder="张小明,三年级（1）班,男,2026001&#10;李小红,三年级（1）班,女,2026002&#10;王刚,,男,2026003"
+          ></textarea>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <div v-if="importError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ importError }}</div>
+          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showImportModal = false">取消</button>
+          <button class="btn btn-sm" :style="importStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : importStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : importStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="importStatus === 'loading'" @click="submitImport">{{ importStatus === 'loading' ? '导入中...' : importStatus === 'success' ? '已导入 ✓' : importStatus === 'error' ? '导入失败' : '开始导入' }}</button>
+        </div>
+      </div>
+    </ModalGlass>
   </div>
 </template>

@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost, apiPut } from '@/utils/api'
 import type { ApiResponse, Notice } from '@/types'
+import ModalGlass from '@/components/common/ModalGlass.vue'
 
 const notices = ref<Notice[]>([])
 const loading = ref(true)
@@ -52,37 +53,32 @@ const typeLabels: Record<string, string> = { info: '通知', event: '活动', ur
     </div>
 
     <!-- 发布弹窗 -->
-    <Teleport to="body">
-      <div v-if="showCreate" @click.self="showCreate = false"
-        style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:var(--color-bg-card);border-radius:16px;padding:24px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">发布通知</h3>
-          <div class="form-group" style="margin-bottom:12px;">
-            <label>类型</label>
-            <select v-model="form.type" class="form-select" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--color-border);">
-              <option value="info">📢 通知</option>
-              <option value="event">🎉 活动</option>
-              <option value="urgent">🔔 紧急</option>
-            </select>
-          </div>
-          <div class="form-group" style="margin-bottom:12px;">
-            <label>标题</label>
-            <input v-model="form.title" class="form-input" placeholder="通知标题" maxlength="200">
-          </div>
-          <div class="form-group" style="margin-bottom:20px;">
-            <label>内容</label>
-            <textarea v-model="form.content" class="form-input" style="min-height:80px;resize:vertical;" placeholder="通知内容"></textarea>
-          </div>
-          <div v-if="formError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ formError }}</div>
-          <div style="display:flex;gap:12px;">
-            <button class="btn" style="flex:1;" @click="showCreate = false">取消</button>
-            <button class="btn" style="flex:1;color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[publishStatus] }" :disabled="publishStatus === 'loading'" @click="createNotice">
-              {{ { idle: '确认发布', loading: '发布中...', success: '已发布 ✓', error: '失败' }[publishStatus] }}
-            </button>
-          </div>
-        </div>
+    <ModalGlass :visible="showCreate" @update:visible="showCreate = $event">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">发布通知</h3>
+      <div class="form-group" style="margin-bottom:12px;">
+        <label>类型</label>
+        <select v-model="form.type" class="form-select" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--color-border);">
+          <option value="info">📢 通知</option>
+          <option value="event">🎉 活动</option>
+          <option value="urgent">🔔 紧急</option>
+        </select>
       </div>
-    </Teleport>
+      <div class="form-group" style="margin-bottom:12px;">
+        <label>标题</label>
+        <input v-model="form.title" class="form-input" placeholder="通知标题" maxlength="200">
+      </div>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>内容</label>
+        <textarea v-model="form.content" class="form-input" style="min-height:80px;resize:vertical;" placeholder="通知内容"></textarea>
+      </div>
+      <div v-if="formError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ formError }}</div>
+      <div style="display:flex;gap:12px;">
+        <button class="btn" style="flex:1;" @click="showCreate = false">取消</button>
+        <button class="btn" style="flex:1;color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[publishStatus] }" :disabled="publishStatus === 'loading'" @click="createNotice">
+          {{ { idle: '确认发布', loading: '发布中...', success: '已发布 ✓', error: '失败' }[publishStatus] }}
+        </button>
+      </div>
+    </ModalGlass>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
 
