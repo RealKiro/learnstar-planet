@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·三阶·初成·筋斗云">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·三阶·初成·学艺归来">
   <defs>
     <radialGradient id="bg" cx="50%" cy="58%" r="62%">
       <stop offset="0%" stop-color="#B8502E"/>
@@ -14,24 +14,39 @@
       <stop offset="0%" stop-color="#F5D742" stop-opacity="0.8"/>
       <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
     </radialGradient>
+
+    <g id="wukong-head">
+      <path d="M 0 -34 C 16 -34 21 -20 19 -7 C 17 5 9 13 0 16 C -9 13 -17 5 -19 -7 C -21 -20 -16 -34 0 -34 Z" fill="#F7E6C6" stroke="#8B6914" stroke-width="1.2"/>
+      <circle cx="-21" cy="-8" r="5" fill="#E0B13B"/>
+      <circle cx="21" cy="-8" r="5" fill="#E0B13B"/>
+      <path d="M -8 -33 Q -6 -42 -1 -46 Q 3 -43 5 -40 Q 8 -44 12 -42 Q 10 -34 6 -32" fill="none" stroke="#C08E26" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M -18 -10 Q -25 -6 -27 -1 M 18 -10 Q 25 -6 27 -1" fill="none" stroke="#C08E26" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+      <path d="M -12 -6 Q -6 -14 2 -9 Q -6 -3 -12 -6 Z" fill="#1A0A0A"/>
+      <path d="M -2 -9 Q 6 -14 12 -6 Q 6 -3 -2 -9 Z" fill="#1A0A0A"/>
+      <circle cx="-4" cy="-9" r="1.4" fill="#F5D742"/>
+      <circle cx="4" cy="-9" r="1.4" fill="#F5D742"/>
+      <path d="M -13 -7 Q -11 -3 -8 -5" fill="none" stroke="#C85A4A" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
+      <path d="M 13 -7 Q 11 -3 8 -5" fill="none" stroke="#C85A4A" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
+      <path d="M -6 8 Q 0 14 6 8 Q 0 16 -6 8 Z" fill="#B0852A"/>
+      <path d="M -4 10 Q 0 13 4 10" fill="none" stroke="#8E5A14" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+      <circle cx="-15" cy="2" r="4" fill="#C85A4A" opacity="0.25"/>
+      <circle cx="15" cy="2" r="4" fill="#C85A4A" opacity="0.25"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
-
-  <!-- 体内之光（呼吸） -->
-  <circle cx="100" cy="116" r="70" fill="url(#core)">
-    <animate attributeName="opacity" values="0.9;0.45;0.9" dur="3s" repeatCount="indefinite"/>
+  <circle cx="100" cy="112" r="68" fill="url(#core)">
+    <animate attributeName="opacity" values="0.85;0.4;0.85" dur="3s" repeatCount="indefinite"/>
   </circle>
-  <!-- 神性光晕 -->
-  <circle cx="100" cy="112" r="56" fill="none" stroke="#F5D742" stroke-width="1.6" opacity="0.45">
+  <circle cx="100" cy="108" r="56" fill="none" stroke="#F5D742" stroke-width="1.6" opacity="0.45">
     <animate attributeName="opacity" values="0.45;0.2;0.45" dur="3s" repeatCount="indefinite"/>
   </circle>
 
-  <!-- 筋斗云（微微起伏） -->
+  <!-- 筋斗云（微起伏） -->
   <g>
     <animateTransform attributeName="transform" type="translate" values="0 0;0 2;0 0" dur="3.5s" repeatCount="indefinite"/>
-    <path d="M 44 170 C 58 162 70 170 84 164 C 94 160 104 166 112 162 C 124 156 140 164 154 158 C 142 170 122 170 104 170 C 86 170 66 172 44 170 Z" fill="#FFFFFF" opacity="0.92"/>
-    <path d="M 56 178 C 74 172 90 180 108 174 C 124 168 140 176 154 172" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+    <path d="M 44 168 C 58 160 70 168 84 162 C 94 158 104 164 112 160 C 124 154 140 162 154 156 C 142 168 122 168 104 168 C 86 168 66 170 44 168 Z" fill="#FFFFFF" opacity="0.92"/>
+    <path d="M 56 176 C 74 170 90 178 108 172 C 124 166 140 174 154 170" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
   </g>
 
   <!-- 腿（精瘦长腿，微弯） -->
@@ -40,66 +55,40 @@
   <ellipse cx="82" cy="162" rx="8" ry="6" fill="#C08E26"/>
   <ellipse cx="118" cy="162" rx="8" ry="6" fill="#C08E26"/>
 
-  <!-- 躯干（精瘦，弯腰微前倾，猴立姿） -->
+  <!-- 躯干（精瘦，挺立微弯腰） -->
   <path d="M 92 94 Q 82 112 88 132 Q 100 142 114 132 Q 120 112 114 96 Q 104 90 92 94 Z" fill="url(#fur)"/>
 
   <!-- 虎皮裙（黄底黑条纹） -->
   <path d="M 86 120 Q 100 112 114 120 L 116 142 Q 100 150 84 142 Z" fill="#E8C34A"/>
   <path d="M 92 120 L 90 142 M 100 116 L 100 146 M 108 120 L 110 142" stroke="#3A2A12" stroke-width="2.6" stroke-linecap="round" opacity="0.95"/>
 
-  <!-- 尾巴（长卷，猴尾） -->
+  <!-- 尾巴（长卷，轻摆） -->
   <path d="M 112 134 C 138 138 154 124 152 106 C 151 98 144 94 140 99" fill="none" stroke="url(#fur)" stroke-width="5.5" stroke-linecap="round">
-    <animateTransform attributeName="transform" type="rotate" values="0 120 120;8 120 120;0 120 120" dur="2.6s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="rotate" values="0 120 118;8 120 118;0 120 118" dur="2.6s" repeatCount="indefinite"/>
   </path>
 
-  <!-- 金箍棒（两端金箍·中间红，扛在肩后） -->
-  <line x1="124" y1="42" x2="74" y2="150" stroke="#C22A1A" stroke-width="5.5" stroke-linecap="round"/>
-  <line x1="124" y1="42" x2="74" y2="150" stroke="#F5D742" stroke-width="1.6" opacity="0.9"/>
-  <rect x="123" y="38" width="7" height="6" rx="1.2" fill="#F5D742"/>
-  <rect x="70" y="150" width="7" height="6" rx="1.2" fill="#F5D742"/>
+  <!-- 金箍棒雏形（斜持，红金两色） -->
+  <line x1="124" y1="44" x2="76" y2="148" stroke="#C22A1A" stroke-width="5.5" stroke-linecap="round"/>
+  <line x1="124" y1="44" x2="76" y2="148" stroke="#F5D742" stroke-width="1.6" opacity="0.9"/>
+  <rect x="123" y="40" width="7" height="6" rx="1.2" fill="#F5D742"/>
+  <rect x="72" y="148" width="7" height="6" rx="1.2" fill="#F5D742"/>
 
-  <!-- 手臂（一扛棒，一挠头·猴性） -->
-  <path d="M 104 100 C 108 94 112 88 112 82" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
-  <circle cx="112" cy="78" r="4.4" fill="#C08E26"/>
-  <path d="M 96 98 C 88 100 84 104 84 112" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
-  <circle cx="83" cy="116" r="4" fill="#C08E26"/>
+  <!-- 手臂（一持棒，一叉腰） -->
+  <path d="M 104 100 C 108 92 112 86 112 80" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="112" cy="76" r="4.4" fill="#C08E26"/>
+  <path d="M 96 100 C 88 104 84 110 84 118" fill="none" stroke="url(#fur)" stroke-width="7" stroke-linecap="round"/>
 
-  <!-- 头（桃心脸·上宽下尖） -->
-  <ellipse cx="100" cy="60" rx="17" ry="15" fill="url(#fur)"/>
-  <path d="M 100 42 C 117 42 123 57 120 71 C 118 85 107 95 100 99 C 93 95 82 85 80 71 C 77 57 83 42 100 42 Z" fill="#F7E6C6"/>
-  <!-- 猴耳 -->
-  <circle cx="80" cy="58" r="5.5" fill="#C08E26"/>
-  <circle cx="120" cy="58" r="5.5" fill="#C08E26"/>
+  <!-- 头（头部模板 scale 1.0，身体正上方） -->
+  <use href="#wukong-head" transform="translate(100,76) scale(1)"/>
 
-  <!-- 金毛（头顶翘毛 + 鬓毛，有层次） -->
-  <path d="M 94 48 Q 90 38 96 33 Q 99 40 101 37 Q 105 32 109 40 Q 106 44 103 46" fill="none" stroke="#C08E26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 82 64 Q 74 68 72 74 M 118 64 Q 126 68 128 74" fill="none" stroke="#C08E26" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
-
-  <!-- 丹凤眼（细长上挑·柳叶） -->
-  <path d="M 84 62 Q 92 51 101 57 Q 92 64 84 62 Z" fill="#1A0A0A"/>
-  <path d="M 99 57 Q 108 51 116 62 Q 108 64 99 57 Z" fill="#1A0A0A"/>
-  <circle cx="93" cy="59" r="1.5" fill="#F5D742"/>
-  <circle cx="107" cy="59" r="1.5" fill="#F5D742"/>
-  <path d="M 82 63 Q 84 67 87 65" fill="none" stroke="#C85A4A" stroke-width="1.8" stroke-linecap="round" opacity="0.9"/>
-  <path d="M 118 63 Q 116 67 113 65" fill="none" stroke="#C85A4A" stroke-width="1.8" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- 雷公嘴（凸出猴嘴） -->
-  <path d="M 92 80 Q 100 88 108 80 Q 100 92 92 80 Z" fill="#B0852A"/>
-  <path d="M 95 82 Q 100 86 105 82" fill="none" stroke="#8E5A14" stroke-width="1.4" stroke-linecap="round" opacity="0.8"/>
-
-  <!-- 凤翅紫金冠（初戴） -->
-  <path d="M 80 50 C 70 40 70 30 80 24 L 90 36 L 96 28 L 100 42" fill="none" stroke="#F5D742" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 120 50 C 130 40 130 30 120 24 L 110 36 L 104 28 L 100 42" fill="none" stroke="#F5D742" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 80 56 Q 100 48 120 56" fill="none" stroke="#F5D742" stroke-width="3.2" stroke-linecap="round"/>
-
-  <!-- 漂浮粒子 -->
+  <!-- 悟道光点（飘浮） -->
   <g fill="#F5D742">
-    <circle cx="60" cy="108">
+    <circle cx="62" cy="108">
       <animate attributeName="cy" values="108;100;108" dur="3.2s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0.8;0.2;0.8" dur="3.2s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="142" cy="100">
-      <animate attributeName="cy" values="100;92;100" dur="3.8s" repeatCount="indefinite"/>
+    <circle cx="140" cy="102">
+      <animate attributeName="cy" values="102;94;102" dur="3.8s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3.8s" repeatCount="indefinite"/>
     </circle>
   </g>
