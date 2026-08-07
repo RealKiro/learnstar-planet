@@ -110,7 +110,7 @@ onMounted(async () => {
           <div v-if="data.star_student.student_no" style="position:absolute;top:20px;right:24px;font-size:11px;color:var(--color-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px;">学号 {{ data.star_student.student_no }}</div>
           <div class="star-display">
             <div class="star-avatar" :style="{ background: starBg, cursor: 'pointer' }" @click="openHandbook(data.star_student)" title="点击查看宠物介绍">
-              <div v-if="data.star_student.pet_species" style="width:52px;height:52px;">
+              <div v-if="data.star_student.pet_species" style="width:84px;height:84px;">
                 <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
               </div>
               <span v-else class="star-emoji">🌟</span>
@@ -172,7 +172,7 @@ onMounted(async () => {
             <div class="rank-badge" style="position:absolute;top:8px;left:10px;">{{ ['🥇', '🥈', '🥉', '4', '5'][i] }}</div>
             <div v-if="s.student_no" style="position:absolute;top:10px;right:10px;font-size:10px;color:var(--color-text-secondary);background:var(--tint-2);padding:1px 6px;border-radius:6px;">{{ s.student_no }}</div>
             <div class="rank-avatar" style="cursor:pointer;" @click="openHandbook(s)" title="点击查看宠物介绍">
-              <div v-if="s.pet_species" style="width:44px;height:44px;">
+              <div v-if="s.pet_species" style="width:64px;height:64px;">
                 <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
               </div>
               <span v-else class="rank-emoji">🌟</span>
@@ -276,15 +276,16 @@ onMounted(async () => {
   gap: 16px;
 }
 .star-avatar {
-  width: 64px;
-  height: 64px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
-.star-emoji { font-size: 32px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+.star-emoji { font-size: 40px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
 .star-name { font-size: 20px; font-weight: 700; }
 .star-pet { font-size: 13px; color: var(--color-text-secondary); }
 .star-score { font-size: 22px; font-weight: 800; color: var(--color-primary); }
@@ -350,7 +351,7 @@ onMounted(async () => {
 }
 .rank-badge { font-size: 24px; margin-bottom: 6px; }
 .rank-avatar { margin-bottom: 6px; }
-.rank-emoji { font-size: 28px; }
+.rank-emoji { font-size: 34px; }
 .rank-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
 .rank-pet { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px; }
 .rank-score { font-size: 16px; font-weight: 700; color: var(--color-primary); margin-bottom: 6px; }
