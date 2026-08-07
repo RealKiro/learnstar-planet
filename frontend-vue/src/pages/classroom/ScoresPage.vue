@@ -300,7 +300,7 @@ onMounted(async () => {
 
       <div v-if="filtered.length === 0" style="text-align:center;padding:60px;color:var(--md-text-secondary);">👀 没有找到学生</div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:14px;">
         <div v-for="s in filtered" :key="s.id" :id="'card-' + s.id"
           style="background:var(--tint-1);border-radius:var(--md-radius);padding:16px 14px 12px;border:1px solid var(--tint-2);position:relative;overflow:hidden;transition:0.25s;"
           :style="{ borderLeftColor: s.pet_level >= 10 ? '#f59e0b' : s.pet_level >= 7 ? '#8b5cf6' : s.pet_level >= 4 ? '#3b82f6' : '#6b7280', borderLeftWidth: '4px' }">
@@ -315,7 +315,7 @@ onMounted(async () => {
           </div>
           <!-- 宠物：SVG 放大居中（不显示"xx的萌宠"文字） -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0 12px;cursor:pointer;" @click="openPetDetail(s)" title="点击查看宠物详情">
-            <span v-if="s.pet_species" style="width:104px;height:104px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.08)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">
+            <span v-if="s.pet_species" style="width:120px;height:120px;transition:transform 0.2s;" @mouseenter="(e)=>(e.target as HTMLElement).style.transform='scale(1.08)'" @mouseleave="(e)=>(e.target as HTMLElement).style.transform=''">
               <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
             </span>
             <span v-else style="font-size:56px;line-height:1;">{{ s.pet_emoji }}</span>

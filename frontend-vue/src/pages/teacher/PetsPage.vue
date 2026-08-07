@@ -261,8 +261,11 @@ onMounted(async () => {
             class="pet-card"
             :class="{
               'card--selected': selectedPet?.id === pet.id,
-              'card--legendary': pet.level >= 11,
-              'card--mature': pet.level >= 8 && pet.level < 11,
+              'stage-egg': pet.stage === 'egg',
+              'stage-young': pet.stage === 'baby' || pet.stage === 'growing',
+              'stage-mature': pet.stage === 'mature',
+              'stage-legendary': pet.stage === 'legendary',
+              'stage-transcendent': pet.stage === 'transcendent',
             }"
             :style="{
               '--card-accent': SERIES_SCENES[pet.seriesId || 'myth']?.primaryColor || '#6366F1',
@@ -520,23 +523,23 @@ onMounted(async () => {
 }
 .pet-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 14px;
 }
 
 .pet-card {
   position: relative;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   cursor: pointer;
-  padding: 16px 12px 12px;
+  padding: 18px 12px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   border: 2px solid transparent;
   transition: all 0.3s var(--ease-smooth);
-  min-height: 160px;
+  min-height: 218px;
 }
 .pet-card:hover {
   transform: translateY(-4px);
@@ -547,11 +550,21 @@ onMounted(async () => {
   border-color: var(--card-accent) !important;
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--card-accent) 25%, transparent), 0 8px 24px rgba(0,0,0,0.1);
 }
-.card--legendary {
-  box-shadow: 0 0 20px rgba(245,158,11,0.15);
+/* 按阶段分档光晕（模块化类别视觉） */
+.stage-egg {
+  box-shadow: 0 0 10px rgba(148,163,184,0.12);
 }
-.card--mature {
-  box-shadow: 0 0 12px rgba(139,92,246,0.1);
+.stage-young {
+  box-shadow: 0 0 12px rgba(59,130,246,0.12);
+}
+.stage-mature {
+  box-shadow: 0 0 14px rgba(139,92,246,0.16);
+}
+.stage-legendary {
+  box-shadow: 0 0 20px rgba(245,158,11,0.18);
+}
+.stage-transcendent {
+  box-shadow: 0 0 24px rgba(216,180,254,0.22), 0 0 42px rgba(255,255,255,0.07);
 }
 
 .card-bg {
@@ -567,9 +580,9 @@ onMounted(async () => {
 .card-emoji {
   position: relative;
   z-index: 1;
-  width: 46px;
-  height: 46px;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+  width: 104px;
+  height: 104px;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.18));
   transition: transform 0.3s var(--ease-bounce);
 }
 .pet-card:hover .card-emoji {
@@ -589,9 +602,22 @@ onMounted(async () => {
   color: white;
   backdrop-filter: blur(4px);
 }
+.stage--egg {
+  background: linear-gradient(135deg, rgba(148,163,184,0.5), rgba(100,116,139,0.5));
+}
+.stage--baby, .stage--growing {
+  background: linear-gradient(135deg, rgba(59,130,246,0.55), rgba(16,185,129,0.55));
+}
+.stage--mature {
+  background: linear-gradient(135deg, rgba(139,92,246,0.55), rgba(59,130,246,0.55));
+}
 .stage--legendary {
   background: linear-gradient(135deg, rgba(245,158,11,0.6), rgba(239,68,68,0.6));
   animation: legendaryGlow 2s ease-in-out infinite;
+}
+.stage--transcendent {
+  background: linear-gradient(135deg, rgba(216,180,254,0.6), rgba(129,140,248,0.6));
+  box-shadow: 0 0 10px rgba(216,180,254,0.5);
 }
 @keyframes legendaryGlow {
   0%, 100% { box-shadow: 0 0 4px rgba(245,158,11,0.3); }
