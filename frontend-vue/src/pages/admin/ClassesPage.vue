@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
 import { openConfirm } from '@/components/common/ConfirmDialog.vue'
+import ModalGlass from '@/components/common/ModalGlass.vue'
 import type { ApiResponse, ClassRoom } from '@/types'
 
 const classes = ref<ClassRoom[]>([])
@@ -435,63 +436,59 @@ async function submitAssignTeacher() {
     </div>
 
     <!-- 批量添加班级弹窗 -->
-    <div v-if="showBatchClassModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
-      <div class="card" style="width:90%;max-width:420px;padding:32px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-          <h3 style="font-size:18px;font-weight:700;">批量添加班级</h3>
-          <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showBatchClassModal = false">×</button>
-        </div>
-        <div class="form-group">
-          <label>年级</label>
-          <select v-model="batchGrade" class="form-select">
-            <option v-for="g in gradeOptions" :key="g" :value="g">{{ g }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>班级数量</label>
-          <input v-model.number="batchCount" type="number" min="1" max="20" class="form-input">
-        </div>
-        <div class="form-group">
-          <label>学年</label>
-          <input v-model.number="batchYear" type="number" class="form-input">
-        </div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <div v-if="batchError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ batchError }}</div>
-          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showBatchClassModal = false">取消</button>
-          <button class="btn btn-sm" :style="batchStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : batchStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : batchStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="batchStatus === 'loading'" @click="submitBatchClass">{{ batchStatus === 'loading' ? '创建中...' : batchStatus === 'success' ? '已创建 ✓' : batchStatus === 'error' ? '创建失败' : '创建' }}</button>
-        </div>
+    <ModalGlass :visible="showBatchClassModal" @update:visible="showBatchClassModal = $event">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:700;">批量添加班级</h3>
+        <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showBatchClassModal = false">×</button>
       </div>
-    </div>
+      <div class="form-group">
+        <label>年级</label>
+        <select v-model="batchGrade" class="form-select">
+          <option v-for="g in gradeOptions" :key="g" :value="g">{{ g }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>班级数量</label>
+        <input v-model.number="batchCount" type="number" min="1" max="20" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>学年</label>
+        <input v-model.number="batchYear" type="number" class="form-input">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <div v-if="batchError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ batchError }}</div>
+        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showBatchClassModal = false">取消</button>
+        <button class="btn btn-sm" :style="batchStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : batchStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : batchStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="batchStatus === 'loading'" @click="submitBatchClass">{{ batchStatus === 'loading' ? '创建中...' : batchStatus === 'success' ? '已创建 ✓' : batchStatus === 'error' ? '创建失败' : '创建' }}</button>
+      </div>
+    </ModalGlass>
 
     <!-- 单个添加班级弹窗 -->
-    <div v-if="showSingleClassModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;" @click.stop>
-      <div class="card" style="width:90%;max-width:420px;padding:32px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-          <h3 style="font-size:18px;font-weight:700;">添加班级</h3>
-          <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showSingleClassModal = false">×</button>
-        </div>
-        <div class="form-group">
-          <label>班级名称</label>
-          <input v-model="newClassName" class="form-input" placeholder="如：3" @keydown.enter="submitSingleClass">
-          <p style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">输入班级编号，自动生成"{{ newClassGrade }}（{{ newClassName || '...' }}）班"</p>
-        </div>
-        <div class="form-group">
-          <label>年级</label>
-          <select v-model="newClassGrade" class="form-select">
-            <option v-for="g in gradeOptions" :key="g" :value="g">{{ g }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>学年</label>
-          <input v-model.number="newClassYear" type="number" class="form-input">
-        </div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <div v-if="singleClassError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ singleClassError }}</div>
-          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showSingleClassModal = false">取消</button>
-          <button class="btn btn-sm" :style="createStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : createStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : createStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="createStatus === 'loading'" @click="submitSingleClass">{{ createStatus === 'loading' ? '创建中...' : createStatus === 'success' ? '已创建 ✓' : createStatus === 'error' ? '创建失败' : '创建' }}</button>
-        </div>
+    <ModalGlass :visible="showSingleClassModal" @update:visible="showSingleClassModal = $event">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:700;">添加班级</h3>
+        <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--color-text-secondary);" @click="showSingleClassModal = false">×</button>
       </div>
-    </div>
+      <div class="form-group">
+        <label>班级名称</label>
+        <input v-model="newClassName" class="form-input" placeholder="如：3" @keydown.enter="submitSingleClass">
+        <p style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">输入班级编号，自动生成"{{ newClassGrade }}（{{ newClassName || '...' }}）班"</p>
+      </div>
+      <div class="form-group">
+        <label>年级</label>
+        <select v-model="newClassGrade" class="form-select">
+          <option v-for="g in gradeOptions" :key="g" :value="g">{{ g }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>学年</label>
+        <input v-model.number="newClassYear" type="number" class="form-input">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <div v-if="singleClassError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ singleClassError }}</div>
+        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showSingleClassModal = false">取消</button>
+        <button class="btn btn-sm" :style="createStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : createStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : createStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="createStatus === 'loading'" @click="submitSingleClass">{{ createStatus === 'loading' ? '创建中...' : createStatus === 'success' ? '已创建 ✓' : createStatus === 'error' ? '创建失败' : '创建' }}</button>
+      </div>
+    </ModalGlass>
 
 
 
