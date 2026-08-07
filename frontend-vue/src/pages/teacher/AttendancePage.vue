@@ -157,9 +157,9 @@ async function confirmAbsent() {
 
     <div v-if="showAbsentModal" class="modal-overlay" @click.self="showAbsentModal = false">
       <div class="modal-card">
-        <div class="modal-header" style="background:#FEF2F2;"><h3 style="color:#991B1B;">确认缺勤 - {{ absentStudentName }}</h3><button class="modal-close" @click="showAbsentModal = false">&times;</button></div>
+        <div class="modal-header" style="background:rgba(239,68,68,0.1);"><h3 style="color: var(--color-danger-text);">确认缺勤 - {{ absentStudentName }}</h3><button class="modal-close" @click="showAbsentModal = false">&times;</button></div>
         <div class="modal-body">
-          <p style="font-size:14px;color:#991B1B;margin-bottom:12px;background:#FEF2F2;padding:10px 12px;border-radius:8px;">该学生未到校且无请假记录，建议先联系家长后再标记缺勤。</p>
+          <p style="font-size:14px;color: var(--color-danger-text);margin-bottom:12px;background:rgba(239,68,68,0.08);padding:10px 12px;border-radius:8px;">该学生未到校且无请假记录，建议先联系家长后再标记缺勤。</p>
           <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">备注（可选）</label>
           <textarea v-model="absentRemark" placeholder="例：电话未接通，稍后再联系" rows="2" style="width:100%;padding:10px 12px;border:1px solid #e5e5ea;border-radius:10px;font-size:14px;resize:vertical;outline:none;"></textarea>
         </div>

@@ -456,7 +456,7 @@ async function submitAssignTeacher() {
           <input v-model.number="batchYear" type="number" class="form-input">
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <div v-if="batchError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ batchError }}</div>
+          <div v-if="batchError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ batchError }}</div>
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showBatchClassModal = false">取消</button>
           <button class="btn btn-sm" :style="batchStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : batchStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : batchStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="batchStatus === 'loading'" @click="submitBatchClass">{{ batchStatus === 'loading' ? '创建中...' : batchStatus === 'success' ? '已创建 ✓' : batchStatus === 'error' ? '创建失败' : '创建' }}</button>
         </div>
@@ -486,7 +486,7 @@ async function submitAssignTeacher() {
           <input v-model.number="newClassYear" type="number" class="form-input">
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <div v-if="singleClassError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ singleClassError }}</div>
+          <div v-if="singleClassError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ singleClassError }}</div>
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showSingleClassModal = false">取消</button>
           <button class="btn btn-sm" :style="createStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : createStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : createStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="createStatus === 'loading'" @click="submitSingleClass">{{ createStatus === 'loading' ? '创建中...' : createStatus === 'success' ? '已创建 ✓' : createStatus === 'error' ? '创建失败' : '创建' }}</button>
         </div>
@@ -561,7 +561,7 @@ async function submitAssignTeacher() {
             ></textarea>
           </div>
           <div style="display:flex;gap:8px;justify-content:flex-end;">
-            <div v-if="importError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ importError }}</div>
+            <div v-if="importError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ importError }}</div>
             <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showImportModal = false">取消</button>
             <button class="btn btn-sm" :style="importStatus === 'loading' ? { background: '#e5e7eb', color: '#9ca3af', border: '1px solid #d1d5db' } : importStatus === 'success' ? { background: '#d1fae5', color: '#059669', border: '1px solid #a7f3d0' } : importStatus === 'error' ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' } : { background: 'var(--color-primary)', color: '#fff', border: '1px solid var(--color-primary)' }" :disabled="importStatus === 'loading'" @click="submitImport">{{ importStatus === 'loading' ? '导入中...' : importStatus === 'success' ? '已导入 ✓' : importStatus === 'error' ? '导入失败' : '开始导入' }}</button>
           </div>

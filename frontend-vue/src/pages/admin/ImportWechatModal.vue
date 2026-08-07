@@ -114,7 +114,7 @@ async function doImport() {
           <button class="btn btn-primary" :disabled="loading" @click="loadContacts">
             {{ loading ? '拉取中...' : '📥 拉取通讯录' }}
           </button>
-          <div v-if="loadError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ loadError }}</div>
+          <div v-if="loadError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ loadError }}</div>
         </div>
 
         <div v-else>
@@ -159,7 +159,7 @@ async function doImport() {
             </table>
           </div>
           <p style="font-size:11px;color:var(--color-text-secondary);margin-top:8px;">💡 学生班级已按部门名自动匹配，可手动调整；教师默认以姓名作为登录账号（实名）。</p>
-          <div v-if="importError" style="margin-top:8px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ importError }}</div>
+          <div v-if="importError" style="margin-top:8px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ importError }}</div>
         </div>
       </div>
 
@@ -179,8 +179,8 @@ async function doImport() {
 .modal-footer { display:flex; gap:8px; padding-top:12px; border-top:1px solid var(--color-border); margin-top:16px; }
 .preview-table-wrapper { max-height: 380px; overflow: auto; }
 .preview-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.preview-table th { background: rgba(255,255,255,0.03); padding: 6px 8px; text-align: left; border: 1px solid rgba(255,255,255,0.06); font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; }
-.preview-table td { padding: 5px 8px; border: 1px solid rgba(255,255,255,0.06); white-space: nowrap; color: var(--color-text); }
+.preview-table th { background: var(--tint-1); padding: 6px 8px; text-align: left; border: 1px solid var(--tint-3); font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; }
+.preview-table td { padding: 5px 8px; border: 1px solid var(--tint-3); white-space: nowrap; color: var(--color-text); }
 .btn { padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; font-family: inherit; }
 .btn-primary { background: #7c3aed; color: #fff; border-color: #7c3aed; }
 .btn-primary:hover { background: #6d28d9; }

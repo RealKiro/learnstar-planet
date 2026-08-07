@@ -81,7 +81,6 @@ const activePoem = computed(() => {
   return a?.desc || ''
 })
 const poemChars = computed(() => activePoem.value.split(''))
-const legendCount = computed(() => props.pets.filter(p => p.level >= 12).length)
 
 // ===== 全屏动画：每个浏览器会话仅播放一次(避免每次进入宠物花园都重放) =====
 const overlayShow = ref(false)
@@ -184,9 +183,9 @@ watch(() => props.pets.map(p => `${p.species}:${p.level}`).join('|'), maybePlay)
 .ach-chip {
   font-size: 12px; font-weight: 600;
   padding: 3px 10px; border-radius: 20px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.85);
+  background: var(--tint-3);
+  border: 1px solid var(--tint-4);
+  color: var(--color-text);
 }
 .chip--qixia { border-color: rgba(239,68,68,0.4); color: #FCA5A5; }
 .chip--constellation { border-color: rgba(245,158,11,0.45); color: #FCD34D; }

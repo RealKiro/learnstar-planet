@@ -85,7 +85,7 @@ async function confirmDelete() {
           &#9888;&#65039; 该教师是部分班级的班主任，删除后这些班级将无班主任。
         </div>
       </div>
-      <div v-if="deleteError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ deleteError }}</div>
+      <div v-if="deleteError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ deleteError }}</div>
       <div class="modal-footer" style="justify-content:flex-end;">
         <button
           @click="closeModal"

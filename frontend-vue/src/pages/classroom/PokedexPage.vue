@@ -79,7 +79,7 @@ onUnmounted(() => clearInterval(timer))
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <label style="font-size:13px;color:var(--md-text-secondary);">🏷️ 系列</label>
         <select v-model="currentSeries"
-          style="padding:8px 14px;border-radius:var(--md-radius);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:#fff;font-size:14px;font-weight:500;outline:none;cursor:pointer;font-family:inherit;">
+          style="padding:8px 14px;border-radius:var(--md-radius);background:var(--tint-3);border:1px solid var(--tint-3);color:var(--color-text);font-size:14px;font-weight:500;outline:none;cursor:pointer;font-family:inherit;">
           <option v-for="s in allSeries" :key="s.id" :value="s.id" style="background:#1a1a2e;color:#f1f1f1;">{{ s.emoji }} {{ s.name }}</option>
         </select>
         <button @click="switchSeries" :disabled="switching"
@@ -90,8 +90,8 @@ onUnmounted(() => clearInterval(timer))
     </div>
 
     <!-- 切换消息 -->
-    <div v-if="switchMsg" style="margin-bottom:16px;padding:10px 16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);border-radius:var(--md-radius);color:#6ee7b7;font-size:13px;">{{ switchMsg }}</div>
-    <div v-if="switchError" style="margin-bottom:16px;padding:10px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);border-radius:var(--md-radius);color:#fca5a5;font-size:13px;">{{ switchError }}</div>
+    <div v-if="switchMsg" style="margin-bottom:16px;padding:10px 16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);border-radius:var(--md-radius);color: var(--color-success-text);font-size:13px;">{{ switchMsg }}</div>
+    <div v-if="switchError" style="margin-bottom:16px;padding:10px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);border-radius:var(--md-radius);color: var(--color-danger-text);font-size:13px;">{{ switchError }}</div>
 
     <!-- 物种大图（点击物种后展示） -->
     <Transition name="fade">
@@ -134,7 +134,7 @@ onUnmounted(() => clearInterval(timer))
             <!-- 进化台词 -->
             <div v-if="detailEvoLines[detailStage]" style="padding:12px 16px;background:rgba(245,158,11,0.06);border-radius:12px;border-left:3px solid #F59E0B;margin-bottom:12px;">
               <div style="font-size:11px;color:rgba(245,158,11,0.6);font-weight:600;margin-bottom:4px;">💬 进化台词</div>
-              <div style="font-size:16px;color:#fcd34d;font-style:italic;">{{ detailEvoLines[detailStage] }}</div>
+              <div style="font-size:16px;color: var(--color-warning-text);font-style:italic;">{{ detailEvoLines[detailStage] }}</div>
             </div>
 
             <!-- 诗歌 -->
@@ -157,19 +157,19 @@ onUnmounted(() => clearInterval(timer))
     </Transition>
 
     <!-- 图鉴轮播 -->
-    <div style="position:relative;background:rgba(255,255,255,0.02);border-radius:var(--md-radius);padding:24px;border:1px solid rgba(255,255,255,0.04);overflow:hidden;min-height:400px;">
+    <div style="position:relative;background:var(--tint-1);border-radius:var(--md-radius);padding:24px;border:1px solid var(--tint-2);overflow:hidden;min-height:400px;">
       <div v-for="(series, si) in seriesList" :key="series.id"
         :style="{ display: currentSlide === si ? 'block' : 'none', animation: 'fadeIn 0.5s ease' }">
         <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
           <span style="font-size:48px;">{{ series.emoji }}</span>
           <span style="font-size:28px;font-weight:700;">{{ series.name }}</span>
         </div>
-        <div style="color:var(--md-text-secondary);font-size:14px;margin-bottom:20px;padding:12px 16px;background:rgba(255,255,255,0.03);border-radius:12px;border-left:3px solid var(--md-primary);">
+        <div style="color:var(--md-text-secondary);font-size:14px;margin-bottom:20px;padding:12px 16px;background:var(--tint-1);border-radius:12px;border-left:3px solid var(--md-primary);">
           {{ series.species.length }}种宠物 · 点击物种查看详细进化信息
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;">
           <div v-for="sp in series.species" :key="sp.id" @click="openDetail(sp.id, sp.name)"
-            style="background:rgba(255,255,255,0.03);border-radius:12px;padding:14px 12px;text-align:center;border:1px solid rgba(255,255,255,0.04);transition:0.2s;cursor:pointer;">
+            style="background:var(--tint-1);border-radius:12px;padding:14px 12px;text-align:center;border:1px solid var(--tint-2);transition:0.2s;cursor:pointer;">
             <span style="font-size:36px;display:block;margin-bottom:4px;">{{ getSpeciesEmoji(sp.id) }}</span>
             <div style="font-weight:600;font-size:16px;">{{ sp.name }}</div>
             <div style="font-size:12px;color:var(--md-text-secondary);margin-top:4px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">
@@ -179,7 +179,7 @@ onUnmounted(() => clearInterval(timer))
               <span v-for="lvl in 12" :key="lvl"
                 :style="{
                   display:'inline-block', width:'8px', height:'8px', borderRadius:'50%',
-                  background: lvl === 12 ? '#f472b6' : (lvl <= 3 ? 'rgba(252,211,77,0.3)' : 'rgba(255,255,255,0.1)'),
+                  background: lvl === 12 ? '#f472b6' : (lvl <= 3 ? 'rgba(252,211,77,0.3)' : 'var(--tint-4)'),
                   boxShadow: lvl === 12 ? '0 0 8px rgba(244,114,182,0.3)' : 'none',
                 }"></span>
             </div>
@@ -193,7 +193,7 @@ onUnmounted(() => clearInterval(timer))
             width: currentSlide === i ? '32px' : '12px', height:'12px',
             borderRadius: currentSlide === i ? '6px' : '50%',
             border: 'none', cursor:'pointer',
-            background: currentSlide === i ? 'var(--md-primary)' : 'rgba(255,255,255,0.1)',
+            background: currentSlide === i ? 'var(--md-primary)' : 'var(--tint-4)',
             boxShadow: currentSlide === i ? '0 0 12px rgba(167,139,250,0.3)' : 'none',
             transition:'0.2s',
           }"

@@ -71,7 +71,7 @@ onUnmounted(() => {
     </div>
 
     <div v-if="loading" style="text-align:center;padding:60px;color:var(--md-text-secondary);">加载中...</div>
-    <div v-else-if="error" style="text-align:center;padding:60px;color:#fca5a5;">
+    <div v-else-if="error" style="text-align:center;padding:60px;color: var(--color-danger-text);">
       <p>{{ error }}</p>
       <p style="font-size:13px;color:var(--md-text-secondary);margin-top:8px;">请确保班级有同年级的其他班级数据</p>
     </div>
@@ -81,12 +81,12 @@ onUnmounted(() => {
         <div v-for="(cls, idx) in classes" :key="cls.name"
           :style="{
             display:'flex', alignItems:'center', gap:'14px', padding:'14px 20px',
-            background: cls.isOwn ? 'linear-gradient(135deg,rgba(245,158,11,0.03),transparent)' : 'rgba(255,255,255,0.02)',
-            border: '1px solid ' + (cls.isOwn ? 'rgba(245,158,11,0.2)' : 'rgba(255,255,255,0.04)'),
+            background: cls.isOwn ? 'linear-gradient(135deg,rgba(245,158,11,0.03),transparent)' : 'var(--tint-1)',
+            border: '1px solid ' + (cls.isOwn ? 'rgba(245,158,11,0.2)' : 'var(--tint-2)'),
             borderRadius:'var(--md-radius)', transition:'0.25s',
           }">
           <div style="font-size:22px;font-weight:800;width:44px;text-align:center;"
-            :style="{ color: idx === 0 ? '#F59E0B' : idx === 1 ? '#94A3B8' : idx === 2 ? '#D97706' : 'rgba(255,255,255,0.2)' }">
+            :style="{ color: idx === 0 ? '#F59E0B' : idx === 1 ? '#94A3B8' : idx === 2 ? '#D97706' : 'var(--color-text-secondary)' }">
             {{ getMedal(idx) }}
           </div>
           <div style="width:130px;flex-shrink:0;">
@@ -94,7 +94,7 @@ onUnmounted(() => {
             <span v-if="cls.isOwn" style="font-size:10px;padding:1px 8px;border-radius:4px;background:rgba(245,158,11,0.1);color:#F59E0B;font-weight:600;">本班</span>
           </div>
           <div style="flex:1;display:flex;align-items:center;gap:12px;">
-            <div style="flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;">
+            <div style="flex:1;height:8px;background:var(--tint-3);border-radius:4px;overflow:hidden;">
               <div :style="{ width: (cls.totalScore / maxScore) * 100 + '%', height:'100%', background: idx === 0 ? 'linear-gradient(90deg,#f59e0b,#fcd34d)' : 'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'4px', transition:'width 0.8s' }"></div>
             </div>
             <span style="font-weight:700;font-size:15px;min-width:70px;text-align:right;">{{ cls.totalScore.toLocaleString() }}</span>
@@ -108,15 +108,15 @@ onUnmounted(() => {
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-        <div style="background:rgba(255,255,255,0.02);border-radius:var(--md-radius);padding:20px 24px;border:1px solid rgba(255,255,255,0.04);">
+        <div style="background:var(--tint-1);border-radius:var(--md-radius);padding:20px 24px;border:1px solid var(--tint-2);">
           <h4 style="font-size:14px;color:var(--md-text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">📊 本班战力分析</h4>
-          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:15px;">
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--tint-1);font-size:15px;">
             <span>总积分</span><span style="font-weight:700;">{{ myScore.toLocaleString() }}</span>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:15px;">
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--tint-1);font-size:15px;">
             <span>当前排名</span><span style="font-weight:700;">#{{ myRank }}</span>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:15px;">
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--tint-1);font-size:15px;">
             <span>与第1名差距</span><span style="font-weight:700;color:#F59E0B;">{{ gapToFirst.toLocaleString() }} 分</span>
           </div>
           <div v-if="classes[1]" style="display:flex;justify-content:space-between;padding:8px 0;font-size:15px;">
@@ -124,7 +124,7 @@ onUnmounted(() => {
             <span style="font-weight:700;">{{ (classes[myRank-2]?.totalScore || 0) - myScore > 0 ? ((classes[myRank-2]?.totalScore || 0) - myScore).toLocaleString() + ' 分' : '-' }}</span>
           </div>
         </div>
-        <div style="background:rgba(255,255,255,0.02);border-radius:var(--md-radius);padding:20px 24px;border:1px solid rgba(255,255,255,0.04);">
+        <div style="background:var(--tint-1);border-radius:var(--md-radius);padding:20px 24px;border:1px solid var(--tint-2);">
           <h4 style="font-size:14px;color:var(--md-text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">⚔️ 挑战建议</h4>
           <div v-if="gapToFirst > 0" style="font-size:15px;color:var(--md-text-secondary);line-height:1.6;">
             💪 距离第1名还差 <strong style="color:#F59E0B;font-size:18px;">{{ gapToFirst.toLocaleString() }}</strong> 分！<br>

@@ -5,17 +5,6 @@ const props = defineProps<{
   size?: number
 }>()
 const size = props.size || 24
-
-// 各平台官方品牌色
-const colors: Record<string, string> = {
-  wechat_work: '#0082EF',
-  dingtalk: '#0089FF',
-  feishu: '#3370FF',
-  renren: '#F36C1D',
-  wechat: '#07C160',
-  qq: '#12B7F5',
-}
-const color = colors[props.platform] || '#7c3aed'
 </script>
 
 <template>

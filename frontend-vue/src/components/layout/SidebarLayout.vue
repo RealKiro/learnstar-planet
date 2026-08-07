@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 import { computed } from 'vue'
+import { useThemeStore } from '@/stores/theme'
 
 const props = defineProps<{
   roleLabel: string
@@ -15,6 +16,7 @@ const emit = defineEmits<{ logout: [] }>()
 
 const router = useRouter()
 const route = useRoute()
+const themeStore = useThemeStore()
 
 const activeNav = computed(() => String(route.name))
 
@@ -51,8 +53,11 @@ function navigate(name: string) {
         <slot name="sidebar-extra" />
       </div>
 
-      <!-- 底部：退出按钮 -->
+      <!-- 底部：主题切换 + 退出按钮 -->
       <div class="sidebar-footer">
+        <button class="theme-toggle" @click="themeStore.toggle()" :title="themeStore.isDark ? '切换到日间主题' : '切换到夜间主题'">
+          {{ themeStore.isDark ? '☀️ 日间' : '🌙 夜间' }}
+        </button>
         <button v-if="props.showLogout" class="exit-btn" @click="emit('logout')">✕ 退出登录</button>
       </div>
     </nav>
@@ -76,7 +81,7 @@ function navigate(name: string) {
 .sidebar {
   width: var(--md-sidebar-width);
   background: var(--md-surface-2);
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid var(--tint-2);
   padding: 24px 16px 20px;
   display: flex;
   flex-direction: column;
@@ -98,7 +103,7 @@ function navigate(name: string) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--tint-2);
   padding-bottom: 12px;
 }
 
@@ -117,11 +122,20 @@ function navigate(name: string) {
   -webkit-text-fill-color: initial;
 }
 
-.sidebar-footer { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
+.sidebar-footer { border-top: 1px solid var(--tint-2); padding-top: 12px; }
+.theme-toggle {
+  width: 100%; padding: 10px; border-radius: var(--md-radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-card); color: var(--color-text);
+  font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: 0.2s; font-family: inherit;
+  margin-bottom: 8px;
+}
+.theme-toggle:hover { background: var(--tint-2); }
 .exit-btn {
   width: 100%; padding: 10px; border-radius: var(--md-radius);
   border: 1px solid rgba(255,100,100,0.15);
-  background: rgba(255,100,100,0.08); color: #fca5a5;
+  background: rgba(255,100,100,0.08); color: var(--color-danger-text);
   font-size: 14px; font-weight: 500;
   cursor: pointer; transition: 0.2s; font-family: inherit;
 }
@@ -154,13 +168,13 @@ function navigate(name: string) {
 }
 
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
+  background: var(--tint-2);
+  color: var(--color-text);
 }
 
 .nav-item.active {
   background: rgba(167, 139, 250, 0.15);
-  color: var(--md-primary-light);
+  color: var(--color-primary);
   box-shadow: inset 3px 0 0 var(--md-primary);
 }
 
@@ -174,7 +188,7 @@ function navigate(name: string) {
 .series-selector {
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--tint-2);
 }
 
 /* ===== 主内容 ===== */
@@ -196,7 +210,7 @@ function navigate(name: string) {
     flex-wrap: wrap;
     padding: 12px 16px;
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--tint-2);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
   .logo {

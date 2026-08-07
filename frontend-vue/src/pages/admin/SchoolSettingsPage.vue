@@ -377,7 +377,7 @@ async function uploadLogo(e: Event) {
 .mig-list { max-height:360px; overflow-y:auto; border:1px solid var(--color-border); border-radius:8px; }
 .mig-row { display:flex; align-items:center; gap:8px; padding:6px 12px; border-bottom:1px solid var(--color-border); font-size:11px; }
 .mig-row:last-child { border-bottom:none; }
-.mig-batch { display:inline-block; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#7c3aed; font-weight:700; font-size:10px; flex-shrink:0; }
+.mig-batch { display:inline-block; padding:1px 6px; border-radius:4px; background:rgba(167,139,250,0.15); color:var(--md-primary-light); font-weight:700; font-size:10px; flex-shrink:0; }
 .mig-name { color:var(--color-text-secondary); word-break:break-all; }
 .loading-spinner { text-align:center; padding:48px; color:var(--color-text-secondary); font-size:15px; }
 .btn { padding:8px 16px; border-radius:8px; font-size:13px; font-weight:500; cursor:pointer; border:1px solid transparent; transition:all 0.15s; }

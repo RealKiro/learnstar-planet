@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
   <img src="https://img.shields.io/github/stars/RealKiro/learnstar-planet?style=social" alt="GitHub stars">
   <img src="https://img.shields.io/badge/PHP-8.5-777BB4?logo=php" alt="PHP 8.5">
-  <img src="https://img.shields.io/badge/Laravel-11-F9322C?logo=laravel" alt="Laravel 11">
+  <img src="https://img.shields.io/badge/Laravel-12-F9322C?logo=laravel" alt="Laravel 12">
   <img src="https://img.shields.io/badge/Vue-3-4FC08D?logo=vue.js" alt="Vue 3">
   <img src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker" alt="Docker">
 </p>
@@ -202,7 +202,7 @@ server {
 
 | 层级 | 技术 |
 |------|------|
-| 后端 | Laravel 13（PHP 8.5） |
+| 后端 | Laravel 12（PHP 8.5） |
 | 数据库 | SQLite / MySQL / MariaDB / PostgreSQL |
 | 缓存与队列 | Redis 8（可降级 file / database） |
 | 前端 | Vue 3 + TypeScript + Tailwind CSS |
@@ -216,8 +216,8 @@ server {
 ```
 learnstar-planet/
 ├── frontend-vue/          # Vue 3 SPA（管理员端 / 教师端 / 教室端）
-├── backend/               # Laravel 11 API（23 模型，210+ 端点）
-├── mini-program/          # 微信小程序（14 页面）
+├── backend/               # Laravel 12 API（24 模型，214 端点）
+├── mini-program/          # 微信小程序（10 页面，教师端）
 ├── pwa/                   # PWA 离线配置
 ├── mcp-server/            # MCP 机器人服务
 └── docker-compose.yml     # Docker 编排

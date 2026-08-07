@@ -149,10 +149,10 @@ function getRemainingScore(level: number): number {
 
 <style scoped>
 .evolution-tree {
-  background: rgba(255,255,255,0.04);
+  background: var(--tint-2);
   border-radius: 16px;
   padding: 20px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--tint-3);
 }
 
 .tree-header {
@@ -180,7 +180,7 @@ function getRemainingScore(level: number): number {
 .rail-track {
   width: 100%;
   height: 4px;
-  background: rgba(255,255,255,0.08);
+  background: var(--tint-3);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -216,8 +216,8 @@ function getRemainingScore(level: number): number {
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  background: rgba(255,255,255,0.06);
-  border: 2px solid rgba(255,255,255,0.1);
+  background: var(--tint-3);
+  border: 2px solid var(--tint-4);
   transition: all 0.3s ease;
 }
 .dot--unlocked .dot-inner {
@@ -237,7 +237,7 @@ function getRemainingScore(level: number): number {
 .dot-level {
   font-size: 9px;
   font-weight: 600;
-  color: rgba(255,255,255,0.4);
+  color: var(--color-text-secondary);
 }
 
 /* 等级列表 */
@@ -249,7 +249,7 @@ function getRemainingScore(level: number): number {
   overflow-y: auto;
 }
 .level-list::-webkit-scrollbar { width: 3px; }
-.level-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+.level-list::-webkit-scrollbar-thumb { background: var(--tint-4); border-radius: 2px; }
 
 .stage-divider {
   padding: 8px 0 4px;
@@ -258,7 +258,7 @@ function getRemainingScore(level: number): number {
 .stage-tag {
   font-size: 10px;
   font-weight: 600;
-  color: rgba(255,255,255,0.3);
+  color: var(--color-text-secondary);
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -271,7 +271,7 @@ function getRemainingScore(level: number): number {
   border: 1px solid transparent;
 }
 .level-item:hover {
-  background: rgba(255,255,255,0.04);
+  background: var(--tint-2);
 }
 .item--current {
   background: rgba(245,158,11,0.08);
@@ -296,7 +296,7 @@ function getRemainingScore(level: number): number {
 .level-num {
   font-size: 11px;
   font-weight: 700;
-  color: rgba(255,255,255,0.5);
+  color: var(--color-text-secondary);
 }
 .item--current .level-num {
   color: #F59E0B;
@@ -323,7 +323,7 @@ function getRemainingScore(level: number): number {
 }
 .item-desc {
   font-size: 10px;
-  color: rgba(255,255,255,0.4);
+  color: var(--color-text-secondary);
   margin-top: 1px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -339,7 +339,7 @@ function getRemainingScore(level: number): number {
 }
 .require-score {
   font-size: 10px;
-  color: rgba(255,255,255,0.4);
+  color: var(--color-text-secondary);
 }
 .require-score strong {
   color: #F59E0B;
@@ -356,7 +356,7 @@ function getRemainingScore(level: number): number {
 .exp-track {
   flex: 1;
   height: 4px;
-  background: rgba(255,255,255,0.06);
+  background: var(--tint-3);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -368,7 +368,7 @@ function getRemainingScore(level: number): number {
 }
 .exp-text {
   font-size: 9px;
-  color: rgba(255,255,255,0.3);
+  color: var(--color-text-secondary);
   white-space: nowrap;
 }
 </style>

@@ -248,7 +248,7 @@ async function submitMove() {
       <span style="font-size:13px;color:var(--color-text-secondary);">已选择 <b style="color:var(--color-primary);">{{ selectedIds.length }}</b> 名学生</span>
       <div style="display:flex;gap:8px;">
         <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="openMoveModal">🔁 批量调班</button>
-        <button class="btn btn-sm" :style="batchDeleteStatus === 'loading' ? 'background:#e0e7ff;color:#4f46e5;border:1px solid #c7d2fe;' : batchDeleteStatus === 'success' ? 'background:#dcfce7;color:#16a34a;border:1px solid #bbf7d0;' : batchDeleteStatus === 'error' ? 'background:#fecaca;color:#dc2626;border:1px solid #fca5a5;' : 'background:#fee2e2;color:#dc2626;border:1px solid #fecaca;'" :disabled="batchDeleteStatus === 'loading'" @click="batchDelete">{{ batchDeleteStatus === 'loading' ? '删除中...' : batchDeleteStatus === 'success' ? '已删除' : batchDeleteStatus === 'error' ? '删除失败' : '🗑 批量删除' }}</button>
+        <button class="btn btn-sm" :style="batchDeleteStatus === 'loading' ? 'background:rgba(79,70,229,0.18);color:#a5b4fc;border:1px solid rgba(79,70,229,0.35);' : batchDeleteStatus === 'success' ? 'background:rgba(16,185,129,0.15);color: var(--color-success-text);border:1px solid rgba(16,185,129,0.3);' : batchDeleteStatus === 'error' ? 'background:rgba(239,68,68,0.15);color: var(--color-danger-text);border:1px solid rgba(239,68,68,0.3);' : 'background:rgba(239,68,68,0.08);color: var(--color-danger-text);border:1px solid rgba(239,68,68,0.2);'" :disabled="batchDeleteStatus === 'loading'" @click="batchDelete">{{ batchDeleteStatus === 'loading' ? '删除中...' : batchDeleteStatus === 'success' ? '已删除' : batchDeleteStatus === 'error' ? '删除失败' : '🗑 批量删除' }}</button>
       </div>
     </div>
 
@@ -284,7 +284,7 @@ async function submitMove() {
             <td>
               <div style="display:flex;gap:4px;">
                 <button class="btn btn-sm" style="background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border);" @click="openEditModal(s)">编辑</button>
-                <button class="btn btn-sm" :style="deleteStatusMap[s.id] === 'loading' ? 'background:#e0e7ff;color:#4f46e5;border:1px solid #c7d2fe;' : deleteStatusMap[s.id] === 'success' ? 'background:#dcfce7;color:#16a34a;border:1px solid #bbf7d0;' : deleteStatusMap[s.id] === 'error' ? 'background:#fecaca;color:#dc2626;border:1px solid #fca5a5;' : 'background:#fee2e2;color:#dc2626;border:1px solid #fecaca;'" :disabled="deleteStatusMap[s.id] === 'loading'" @click="deleteStudent(s)">{{ deleteStatusMap[s.id] === 'loading' ? '删除中...' : deleteStatusMap[s.id] === 'success' ? '已删除' : deleteStatusMap[s.id] === 'error' ? '删除失败' : '删除' }}</button>
+                <button class="btn btn-sm" :style="deleteStatusMap[s.id] === 'loading' ? 'background:rgba(79,70,229,0.18);color:#a5b4fc;border:1px solid rgba(79,70,229,0.35);' : deleteStatusMap[s.id] === 'success' ? 'background:rgba(16,185,129,0.15);color: var(--color-success-text);border:1px solid rgba(16,185,129,0.3);' : deleteStatusMap[s.id] === 'error' ? 'background:rgba(239,68,68,0.15);color: var(--color-danger-text);border:1px solid rgba(239,68,68,0.3);' : 'background:rgba(239,68,68,0.08);color: var(--color-danger-text);border:1px solid rgba(239,68,68,0.2);'" :disabled="deleteStatusMap[s.id] === 'loading'" @click="deleteStudent(s)">{{ deleteStatusMap[s.id] === 'loading' ? '删除中...' : deleteStatusMap[s.id] === 'success' ? '已删除' : deleteStatusMap[s.id] === 'error' ? '删除失败' : '删除' }}</button>
               </div>
             </td>
           </tr>
@@ -328,9 +328,9 @@ async function submitMove() {
           <input v-model="form.student_no" class="form-input" placeholder="可选" @keydown.enter="submitForm">
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <div v-if="formError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ formError }}</div>
+          <div v-if="formError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ formError }}</div>
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showEditModal = false">取消</button>
-          <button class="btn btn-sm" :class="submitStatus === 'idle' ? 'btn-primary' : ''" :style="submitStatus === 'error' ? 'background:#fee2e2;color:#dc2626;border:1px solid #fecaca;' : submitStatus === 'success' ? 'background:#dcfce7;color:#16a34a;border:1px solid #bbf7d0;' : ''" :disabled="submitStatus === 'loading'" @click="submitForm">{{ submitStatus === 'loading' ? '保存中...' : submitStatus === 'success' ? '已保存' : submitStatus === 'error' ? '保存失败' : '保存' }}</button>
+          <button class="btn btn-sm" :class="submitStatus === 'idle' ? 'btn-primary' : ''" :style="submitStatus === 'error' ? 'background:rgba(239,68,68,0.15);color: var(--color-danger-text);border:1px solid rgba(239,68,68,0.3);' : submitStatus === 'success' ? 'background:rgba(16,185,129,0.15);color: var(--color-success-text);border:1px solid rgba(16,185,129,0.3);' : ''" :disabled="submitStatus === 'loading'" @click="submitForm">{{ submitStatus === 'loading' ? '保存中...' : submitStatus === 'success' ? '已保存' : submitStatus === 'error' ? '保存失败' : '保存' }}</button>
         </div>
       </div>
     </div>
@@ -357,9 +357,9 @@ async function submitMove() {
           </select>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <div v-if="moveError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ moveError }}</div>
+          <div v-if="moveError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ moveError }}</div>
           <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showMoveModal = false">取消</button>
-          <button class="btn btn-sm" :class="moveStatus === 'idle' ? 'btn-primary' : ''" :style="moveStatus === 'error' ? 'background:#fee2e2;color:#dc2626;border:1px solid #fecaca;' : moveStatus === 'success' ? 'background:#dcfce7;color:#16a34a;border:1px solid #bbf7d0;' : ''" :disabled="moveStatus === 'loading'" @click="submitMove">{{ moveStatus === 'loading' ? '调班中...' : moveStatus === 'success' ? '调班成功' : moveStatus === 'error' ? '调班失败' : '确认调班' }}</button>
+          <button class="btn btn-sm" :class="moveStatus === 'idle' ? 'btn-primary' : ''" :style="moveStatus === 'error' ? 'background:rgba(239,68,68,0.15);color: var(--color-danger-text);border:1px solid rgba(239,68,68,0.3);' : moveStatus === 'success' ? 'background:rgba(16,185,129,0.15);color: var(--color-success-text);border:1px solid rgba(16,185,129,0.3);' : ''" :disabled="moveStatus === 'loading'" @click="submitMove">{{ moveStatus === 'loading' ? '调班中...' : moveStatus === 'success' ? '调班成功' : moveStatus === 'error' ? '调班失败' : '确认调班' }}</button>
         </div>
       </div>
     </div>

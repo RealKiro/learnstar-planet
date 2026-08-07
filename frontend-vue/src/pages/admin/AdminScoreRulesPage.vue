@@ -248,6 +248,6 @@ async function handleDelete(rule: ScoreRule) {
 .btn-primary { background: #7c3aed; color: white; }
 .btn-primary:hover { background: #6d28d9; }
 .btn-ghost { background: transparent; color: var(--color-text-secondary); border: 1px solid var(--color-border); }
-.btn-ghost:hover { background: rgba(255,255,255,0.06); }
+.btn-ghost:hover { background: var(--tint-3); }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
 </style>

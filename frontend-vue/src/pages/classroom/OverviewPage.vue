@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { apiGet } from '@/utils/api'
-import { getSpeciesEmoji } from '@/utils/petData'
 import PetSprite from '@/components/pet/PetSprite.vue'
 
 interface OverviewData {
@@ -74,7 +73,7 @@ onUnmounted(() => {
           <div class="o-label">📊 班级概况</div>
           <div style="font-size:36px;font-weight:800;line-height:1;margin-bottom:4px;">{{ data.total_score.toLocaleString() }}</div>
           <div style="font-size:13px;color:var(--md-text-secondary);margin-bottom:14px;">总积分 · 共 {{ data.student_count }} 人</div>
-          <div style="display:flex;gap:20px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);">
+          <div style="display:flex;gap:20px;padding-top:12px;border-top:1px solid var(--tint-3);">
             <div><span style="display:block;font-size:11px;color:var(--md-text-secondary);">平均等级</span><strong style="font-size:18px;">{{ data.avg_pet_level.toFixed(1) }}</strong></div>
             <div><span style="display:block;font-size:11px;color:var(--md-text-secondary);">巅峰 Lv.10+</span><strong style="font-size:18px;color:#8B5CF6;">{{ data.peak_count }}</strong></div>
             <div><span style="display:block;font-size:11px;color:var(--md-text-secondary);">本周增长</span><strong style="font-size:18px;color:#10B981;">+{{ data.weekly_score }}</strong></div>
@@ -85,7 +84,7 @@ onUnmounted(() => {
         <div class="o-card">
           <div class="o-label">📢 最新动态</div>
           <div style="display:flex;flex-direction:column;gap:8px;max-height:160px;overflow-y:auto;">
-            <div v-for="(n, i) in data.recent_news" :key="i" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:10px;font-size:13px;border-left:2px solid var(--md-primary);">
+            <div v-for="(n, i) in data.recent_news" :key="i" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--tint-1);border-radius:10px;font-size:13px;border-left:2px solid var(--md-primary);">
               <span>{{ n.icon }}</span>
               <span style="color:var(--md-text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ n.text }}</span>
             </div>
@@ -94,11 +93,11 @@ onUnmounted(() => {
       </div>
 
       <!-- TOP 5 -->
-      <div style="background:rgba(255,255,255,0.02);border-radius:var(--md-radius);padding:16px 24px;border:1px solid rgba(255,255,255,0.04);">
+      <div style="background:var(--tint-1);border-radius:var(--md-radius);padding:16px 24px;border:1px solid var(--tint-2);">
         <div style="font-size:15px;font-weight:700;margin-bottom:16px;">🏆 班级 TOP 5</div>
         <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;">
           <div v-for="(s, i) in data.top5" :key="s.name"
-            style="text-align:center;padding:16px 12px;border-radius:16px;border:1px solid rgba(255,255,255,0.04);transition:0.25s;"
+            style="text-align:center;padding:16px 12px;border-radius:16px;border:1px solid var(--tint-2);transition:0.25s;"
             :style="i === 0 ? 'background:linear-gradient(180deg,rgba(245,158,11,0.06),transparent);border-color:rgba(245,158,11,0.2);' : ''">
             <div style="font-size:24px;margin-bottom:6px;">{{ ['🥇','🥈','🥉','4','5'][i] }}</div>
             <div v-if="s.pet_species" style="width:44px;height:44px;margin:0 auto 6px;">
@@ -108,7 +107,7 @@ onUnmounted(() => {
             <div style="font-size:14px;font-weight:600;">{{ s.name }}</div>
             <div style="font-size:11px;color:var(--md-text-secondary);margin-bottom:6px;">{{ s.pet_name }} · Lv.{{ s.pet_level }}</div>
             <div style="font-size:16px;font-weight:700;color:var(--md-gold);">{{ s.score }} 分</div>
-            <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:6px;">
+            <div style="height:4px;background:var(--tint-3);border-radius:2px;overflow:hidden;margin-top:6px;">
               <div :style="{ width: (s.score / data.top5[0].score) * 100 + '%', height:'100%', background: i === 0 ? 'linear-gradient(90deg,#f59e0b,#fcd34d)' : 'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'2px', transition:'width 0.5s' }"></div>
             </div>
           </div>
@@ -120,10 +119,10 @@ onUnmounted(() => {
 
 <style scoped>
 .o-card {
-  background: rgba(255,255,255,0.03);
+  background: var(--tint-1);
   border-radius: var(--md-radius);
   padding: 24px;
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid var(--tint-2);
   backdrop-filter: blur(8px);
 }
 .o-label {

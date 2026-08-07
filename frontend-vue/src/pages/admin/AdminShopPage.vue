@@ -231,7 +231,7 @@ async function handleDelete(item: ShopItemExt) {
 
     <div v-else style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
       <div v-for="item in filteredItems" :key="item.id" class="card"
-        style="padding:16px;display:flex;flex-direction:column;gap:8px;border-color:rgba(255,255,255,0.06);"
+        style="padding:16px;display:flex;flex-direction:column;gap:8px;border-color:var(--tint-3);"
         :style="{ opacity: item.is_active === false ? 0.6 : 1 }">
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-size:24px;">{{ { points: '⭐', stationery: '✏️', food: '🍎', privilege: '🎁', activity: '🎪' }[item.category] || '📦' }}</span>
@@ -319,6 +319,6 @@ async function handleDelete(item: ShopItemExt) {
 .btn-primary { background: #7c3aed; color: white; }
 .btn-primary:hover { background: #6d28d9; }
 .btn-ghost { background: transparent; color: var(--color-text-secondary); border: 1px solid var(--color-border); }
-.btn-ghost:hover { background: rgba(255,255,255,0.06); }
+.btn-ghost:hover { background: var(--tint-3); }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
 </style>

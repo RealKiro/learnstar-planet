@@ -272,7 +272,7 @@ onMounted(() => {
 <template>
   <div class="scores-page">
     <!-- 加载失败提示 -->
-    <div v-if="loadError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">
+    <div v-if="loadError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">
       ⚠️ {{ loadError }}
     </div>
     <!-- 顶部 -->
@@ -451,7 +451,7 @@ onMounted(() => {
               {{ giveStatus !== 'idle' && activeReason === reason ? (giveStatus === 'loading' ? '处理中...' : giveStatus === 'success' ? '操作成功' : '操作失败') : reason }}
             </button>
           </div>
-          <div v-if="modalError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ modalError }}</div>
+          <div v-if="modalError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ modalError }}</div>
           <button class="cancel-btn" @click="closeModal">取消操作</button>
         </div>
       </div>

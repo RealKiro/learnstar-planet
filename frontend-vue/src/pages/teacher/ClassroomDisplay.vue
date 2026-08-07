@@ -178,7 +178,7 @@ onUnmounted(() => {
     <div v-if="loading" class="loading">加载中...</div>
     <div v-else-if="displayError" class="empty">
       <div class="empty-icon">⚠️</div>
-      <p style="color:#fca5a5;">{{ displayError }}</p>
+      <p style="color:var(--color-danger-text);">{{ displayError }}</p>
     </div>
     <div v-else-if="!data || data.pets.length === 0" class="empty">
       <div class="empty-icon">📭</div>
@@ -224,8 +224,8 @@ onUnmounted(() => {
 <style scoped>
 .classroom-display {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0c0a20 0%, #1a1040 30%, #0d1b2a 70%, #0a1628 100%);
-  color: #e8e6f0;
+  background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-card) 100%);
+  color: var(--color-text);
   font-family: "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
   padding: 12px 16px 20px;
   position: relative;
@@ -242,24 +242,24 @@ onUnmounted(() => {
 /* Header */
 .classroom-header {
   display: flex; justify-content: space-between; align-items: center;
-  padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 10px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--tint-3); margin-bottom: 10px;
 }
 .header-left { display: flex; align-items: baseline; gap: 12px; }
-.class-name { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: 0.03em; color: #f0ecff; }
-.class-meta { font-size: 13px; color: rgba(200, 190, 240, 0.6); }
+.class-name { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: 0.03em; color: var(--color-text); }
+.class-meta { font-size: 13px; color: var(--color-text-secondary); }
 .header-right { display: flex; align-items: center; gap: 10px; }
 .mode-badge {
   font-size: 11px; padding: 3px 10px; border-radius: 20px;
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
-  color: rgba(200,190,240,0.7); font-weight: 500;
+  background: var(--tint-2); border: 1px solid var(--tint-3);
+  color: var(--color-text-secondary); font-weight: 500;
 }
 .unlock-trigger {
-  background: none; border: 1px solid rgba(255,255,255,0.08); color: rgba(200,190,240,0.5);
+  background: none; border: 1px solid var(--tint-3); color: var(--color-text-secondary);
   width: 32px; height: 32px; border-radius: 10px; font-size: 16px;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
   transition: all 0.2s; opacity: 0.4;
 }
-.unlock-trigger:hover { opacity: 1; border-color: rgba(255,255,255,0.2); color: #fff; }
+.unlock-trigger:hover { opacity: 1; border-color: var(--tint-4); color: var(--color-text); }
 
 /* Grid */
 .pet-grid {
@@ -268,14 +268,14 @@ onUnmounted(() => {
 }
 .grid-cell {
   aspect-ratio: 1; border-radius: 14px;
-  background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.04);
+  background: var(--tint-1); border: 1px solid var(--tint-2);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 4px; position: relative; overflow: hidden;
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-.grid-cell:not(.empty):hover { transform: scale(1.04); border-color: rgba(255,255,255,0.12); box-shadow: 0 4px 20px rgba(100,60,220,0.15); }
+.grid-cell:not(.empty):hover { transform: scale(1.04); border-color: var(--tint-4); box-shadow: 0 4px 20px rgba(100,60,220,0.15); }
 .grid-cell.flash { border-color: rgba(255,200,60,0.25); }
-.grid-cell.empty { background: transparent; border-style: dashed; border-color: rgba(255,255,255,0.03); }
+.grid-cell.empty { background: transparent; border-style: dashed; border-color: var(--tint-1); }
 .empty-slot { width: 100%; height: 100%; }
 
 /* Pet emoji */
@@ -293,7 +293,7 @@ onUnmounted(() => {
 
 /* EXP bar */
 .pet-exp {
-  width: 80%; height: 3px; background: rgba(255,255,255,0.06);
+  width: 80%; height: 3px; background: var(--tint-3);
   border-radius: 2px; margin: 3px 0; overflow: hidden;
 }
 .exp-fill {
@@ -307,30 +307,30 @@ onUnmounted(() => {
   margin-top: 1px;
 }
 .cell-name {
-  font-size: 10px; font-weight: 600; color: rgba(220,210,250,0.8);
+  font-size: 10px; font-weight: 600; color: var(--color-text);
   max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   line-height: 1.2;
 }
 .cell-no {
-  font-size: 8px; color: rgba(200,190,240,0.4); font-weight: 500;
+  font-size: 8px; color: var(--color-text-secondary); font-weight: 500;
 }
 
 /* Score ticker */
 .score-ticker {
   position: fixed; bottom: 12px; left: 16px; right: 16px;
-  background: rgba(20,16,50,0.85); backdrop-filter: blur(12px);
-  border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);
+  background: var(--color-modal-bg); backdrop-filter: blur(12px);
+  border-radius: 12px; border: 1px solid var(--tint-3);
   padding: 6px 14px; display: flex; align-items: center; gap: 10px;
   max-width: 1100px; margin: 0 auto;
 }
 .ticker-label {
-  font-size: 10px; font-weight: 600; color: rgba(200,190,240,0.5);
-  white-space: nowrap; background: rgba(255,255,255,0.04); padding: 2px 8px; border-radius: 6px;
+  font-size: 10px; font-weight: 600; color: var(--color-text-secondary);
+  white-space: nowrap; background: var(--tint-2); padding: 2px 8px; border-radius: 6px;
 }
 .ticker-items { display: flex; gap: 16px; overflow: hidden; }
-.ticker-item { font-size: 11px; white-space: nowrap; color: rgba(200,190,240,0.7); }
-.ticker-item .positive { color: #4ade80; }
-.ticker-item .negative { color: #f87171; }
+.ticker-item { font-size: 11px; white-space: nowrap; color: var(--color-text-secondary); }
+.ticker-item .positive { color: var(--color-success-text); }
+.ticker-item .negative { color: var(--color-danger-text); }
 
 /* Message overlay */
 .message-overlay {

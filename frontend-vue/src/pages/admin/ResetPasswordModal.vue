@@ -150,7 +150,7 @@ async function submitResetPwd() {
         </button>
       </div>
 
-      <div v-if="resetPwdError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ resetPwdError }}</div>
+      <div v-if="resetPwdError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ resetPwdError }}</div>
 
       <div class="flex-row" style="gap:12px;">
         <button

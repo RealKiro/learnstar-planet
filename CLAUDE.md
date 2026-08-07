@@ -16,9 +16,9 @@
 
 | 层面 | 技术 | 说明 |
 |------|------|------|
-| 框架 | Laravel 12（升级中） | PHP 8.5，RESTful API |
+| 框架 | Laravel 12 | PHP 8.5，RESTful API |
 | 认证 | Laravel Sanctum 4 | API Token 认证，按角色隔离 |
-| 权限 | spatie/laravel-permission 6 | 基于角色的权限（school_admin / teacher / parent） |
+| 权限 | 自定义 RoleMiddleware（users.role 列） | 按角色隔离（school_admin / teacher） |
 | 实时 | Livewire 3 + Flux 2 | 教师仪表盘与积分管理的动态 UI |
 | 缓存 | Redis (Predis 2) | 排行榜用 ZSET，队列用 Horizon 5 |
 | 数据库 | MySQL 8.0+ / MariaDB 10.3+ / PostgreSQL 14+ / SQLite 3.8+ | 四种数据库均支持 |
@@ -33,7 +33,7 @@
 | 端 | 技术 | 说明 |
 |------|------|------|
 | Web | Vue 3 + Vite + TypeScript | `frontend-vue/` 目录，组件化 SPA，需 `npm run build` 构建 |
-| 小程序 | 微信小程序原生 | `mini-program/` 目录，14 个页面，教师端 + 家长端 |
+| 小程序 | 微信小程序原生 | `mini-program/` 目录，10 个页面，教师端 |
 | PWA | 原生 Service Worker | `pwa/` 目录，离线缓存、推送通知、后台同步 |
 
 ### 基础设施
@@ -71,18 +71,18 @@ learnstar-planet/
 ├── LICENSE                         # MIT 开源许可证
 ├── README.md                       # 项目说明
 │
-├── backend/                        # Laravel 11 API
+├── backend/                        # Laravel 12 API
 │   ├── Dockerfile                  # 生产环境多阶段构建（Node + PHP + Nginx）
 │   ├── Dockerfile.dev              # 开发环境构建
 │   ├── app/
-│   │   ├── Models/                 # 23 个 Eloquent 模型
-│   │   ├── Http/Controllers/Api/  # 7 个 API 控制器
-│   │   ├── Services/              # 9 个业务服务
+│   │   ├── Models/                 # 24 个 Eloquent 模型
+│   │   ├── Http/Controllers/Api/  # 6 个 API 控制器
+│   │   ├── Services/              # 22 个业务服务（含 AiBilling / ThirdParty 子目录）
 │   │   ├── Http/Requests/         # Form Request 验证类
 │   │   ├── Http/Resources/        # JsonResource 响应类
 │   │   └── Livewire/              # 2 个 Livewire 组件
-│   ├── database/migrations/       # 21 个迁移（含 2026_08_05 计费/班级码/汇率）
-│   └── routes/api.php             # ~210 个 API 端点
+│   ├── database/migrations/       # 32 个迁移（含 2026_08_05 计费/班级码/汇率）
+│   └── routes/api.php             # 214 个 API 端点
 │
 ├── mini-program/                   # 微信小程序
 │   └── pages/                     # 14 个页面
@@ -101,7 +101,7 @@ learnstar-planet/
 
 ---
 
-## 数据库架构（21 张表）
+## 数据库架构（31 张表）
 
 ### 基础表
 | 表名 | 说明 | 关键字段 |
@@ -132,9 +132,21 @@ learnstar-planet/
 | `quiz_submissions` | 测验提交 |
 | `grades` | 成绩 |
 
+### 增值功能表
+| 表名 | 说明 |
+|------|------|
+| `wallets` | 多币种钱包 |
+| `exchange_rates` / `exchange_logs` | 币种汇率 / 兑换记录 |
+| `ai_settings` / `ai_conversations` | AI 模型配置 / 对话记录 |
+| `display_login_logs` | 班级码大屏登录日志（含 IP）|
+| `pet_collections` | 宠物图鉴收藏 |
+| `class_room_teachers` | 班级-教师多对多关联 |
+| `wechat_work_leave_records` | 企业微信请假同步记录 |
+| `personal_access_tokens` | Sanctum API Token |
+
 ---
 
-## API 架构（~210 个端点）
+## API 架构（214 个端点）
 
 ### `/api/v1/auth/*` — 认证
 - POST teacher/login, admin/login, teacher/login/{platform}
@@ -142,7 +154,7 @@ learnstar-planet/
 - 需认证: logout, change-password, refresh, bind/{platform}, unbind/{platform}, GET bindings
 
 ### `/api/v1/admin/*` — 学校管理员
-- 学校 CRUD、教师/家长批量创建与管理
+- 学校 CRUD、教师批量创建与管理
 - 班级 CRUD + 批量创建 + 班主任分配
 - 学生导入/CRUD/批量删除/批量转班
 - 学年升级预览与执行
@@ -157,9 +169,6 @@ learnstar-planet/
 - notices/ (CRUD + publish)
 - reports/ (trend, distribution, progress, export)
 - broadcasts/, attendance/, homework/, quizzes/, question-banks/, grades/, ai/
-
-### `/api/v1/parent/*` — 家长
-- home, scores, growth, pet, ranking, notices
 
 ### `/api/v1/common/*` — 公开
 - pet-types, evolution-stages, score-categories
@@ -200,7 +209,7 @@ learnstar-planet/
 ### API 设计约定
 - 所有 API 返回 JSON，格式: `{ data, message, meta }`
 - 认证使用 Bearer Token（Sanctum）
-- 角色中间件 `role:school_admin|teacher|parent` 控制访问
+- 角色中间件 `role:school_admin|teacher` 控制访问
 - 401 时前端自动清除 token 并跳转登录
 - API 版本化：前端统一调用 `/api/v1/*`，后端保留向后兼容旧路由
 - 登录端点速率限制：`throttle:6,1`
@@ -274,15 +283,15 @@ npm run build:deploy # 输出到 ../backend/public/
 
 1. **前端已完成 Vue 3 重构**: `frontend-vue/` 采用 Vue 3 + Vite + TypeScript + Pinia + Vue Router
 2. **无自注册**: 所有账号由管理员在后台创建分配
-3. **角色严格隔离**: 管理员/教师/家长界面和 API 完全不同
+3. **角色严格隔离**: 管理员/教师界面和 API 完全不同；学生无需登录，凭班级码进入教室端（以班级为单元）
 4. **第三方登录仅限教师**: 管理员不支持第三方扫码；后台学校设置可勾选启用平台（企业微信/钉钉/飞书/微信/QQ/人人通空间），登录页按配置动态展示，存储于 `schools.settings.enabled_third_party_platforms`
 5. **AI 功能可选**: 不配置 AI API Key 不影响核心功能
 6. **排行榜使用 Redis ZSET**: 有 MySQL 回退方案
 7. **学年升级不可逆**: 预览→确认→执行，
-8. **家长功能目前简约**: 以查看为主（积分、宠物、通知、排名）
+8. **三端口架构**: 仅管理员端 / 教师端 / 教室端三个入口，学生 = 班级 = 教室，通过班级码进入
 9. **PWA 主要用于离线缓存**: Service Worker 缓存静态资源，网络优先策略
 10. **MCP Server 支持 AI 机器人**: `mcp-server/` 提供标准 MCP 协议服务器，可对接 AstrBot + NapCatQQ/Lagrange 实现 QQ/微信 自然语言积分管理
-11. **Laravel 版本（11 → 12 升级中，2026-08-06 启动）**:
+11. **Laravel 12 升级（2026-08-06 完成）**:
 
     **现状**：原锁定 `laravel/framework: ^11.0`（PHP 8.3），代码为 L11 新结构（`bootstrap/app.php` 的 `Application::configure()`，无 `app/Http/Kernel.php`）。2026-08-06 升级 **Laravel 12 + PHP 8.5**：`composer.json` 声明 `laravel/framework ^12.0`、`php ^8.5`，Dockerfile 基础镜像 `php:8.5-cli-alpine`。
 
@@ -313,4 +322,4 @@ npm run build:deploy # 输出到 ../backend/public/
     | Collection | L12 部分 Collection 方法更严格，需回归 |
     | 广播/事件 | `ShouldBroadcastNow` + Redis 广播，L12 兼容 |
 
-    **结论**：composer 已可解析，剩 phpstan/test 跑通（当前卡在 phpstan 报 `Target class [env]`，已回退 bootstrap 修复）。
+    **结论**：升级已完成，composer 解析 / PHPStan（Level 5）/ 测试全部跑通；bootstrap 阶段 `env()` 可用（.env 已先加载），仅需避免控制器/服务在 config:cache 之后调用 `env()`。

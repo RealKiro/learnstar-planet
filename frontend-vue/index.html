@@ -6,6 +6,19 @@
     <title>学趣星球 - 让学习充满乐趣的成长平台</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+      /* 主题防闪烁：绘制前按 localStorage / 系统偏好设置 <html> 的 dark 类 */
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          var dark;
+          if (t === 'dark') dark = true;
+          else if (t === 'light') dark = false;
+          else dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', !!dark);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>

@@ -205,7 +205,7 @@ function closeModal() {
           &#10133; 添加
         </button>
       </div>
-      <div v-if="assignError" style="margin:-6px 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ assignError }}</div>
+      <div v-if="assignError" style="margin:-6px 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ assignError }}</div>
 
       <!-- 已分配列表 -->
       <div style="margin-bottom:12px;">

@@ -178,7 +178,7 @@ onMounted(() => {
             <span class="cs-role">{{ { head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任', grade_lead: '年级首席', admin_director: '分管行政' }[activeClass.role] || activeClass.role }}</span>
             <span class="cs-grade">{{ activeClass.grade }}</span>
           </div>
-          <div v-if="switchError" style="margin-top:8px;padding:8px 10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ switchError }}</div>
+          <div v-if="switchError" style="margin-top:8px;padding:8px 10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ switchError }}</div>
         </template>
         <div v-if="isBasic" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--color-border);">
           <button class="cs-login-btn" @click="goToTeacherLogin">🔑 高级设置</button>
@@ -192,7 +192,7 @@ onMounted(() => {
 .class-switcher { font-size: 12px; }
 .cs-label { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 6px; letter-spacing: 0.03em; }
 .cs-empty { font-size: 12px; color: var(--color-text-secondary); padding: 8px 0; text-align: center; }
-.cs-basic-class { padding: 8px 10px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; color: var(--color-text); }
+.cs-basic-class { padding: 8px 10px; background: var(--tint-2); border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; color: var(--color-text); }
 .cs-select-wrap { position: relative; }
 .cs-select { width: 100%; padding: 8px 10px; border-radius: 10px; background: var(--color-bg); border: 1px solid var(--color-border); color: var(--color-text); font-size: 13px; font-weight: 500; outline: none; cursor: pointer; font-family: inherit; appearance: auto; }
 .cs-select:disabled { opacity: 0.5; cursor: not-allowed; }

@@ -483,7 +483,7 @@ onMounted(async () => {
   font-size: 13px;
   background: rgba(16,185,129,0.08);
   border: 1px solid rgba(16,185,129,0.2);
-  color: #6ee7b7;
+  color: var(--color-success-text);
 }
 
 /* 加载 */

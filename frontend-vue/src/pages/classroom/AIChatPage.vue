@@ -61,8 +61,8 @@ async function sendMsg() {
         <p>有什么学习上的问题可以问我哦！</p>
       </div>
     </div>
-    <div style="display:flex;gap:8px;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);">
-      <input v-model="input" @keyup.enter="sendMsg" placeholder="输入你的问题..." style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:var(--md-surface-2);color:var(--md-text);font-size:14px;outline:none;font-family:inherit;">
+    <div style="display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--tint-3);">
+      <input v-model="input" @keyup.enter="sendMsg" placeholder="输入你的问题..." style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--tint-3);background:var(--md-surface-2);color:var(--md-text);font-size:14px;outline:none;font-family:inherit;">
       <button @click="sendMsg" :disabled="sending" style="padding:10px 20px;border-radius:10px;border:none;background:var(--md-primary);color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">{{ sending ? '...' : '发送' }}</button>
     </div>
   </div>

@@ -141,7 +141,7 @@ async function uploadImport(isDry: boolean) {
         <button
           v-if="importPreview.length > 0"
           class="btn"
-          style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d;"
+          style="background:rgba(245,158,11,0.12);color:var(--md-gold);border:1px solid rgba(245,158,11,0.3);"
           :disabled="importLoading"
           @click="uploadImport(true)"
         >
@@ -195,7 +195,8 @@ async function uploadImport(isDry: boolean) {
   font-size: 12px;
 }
 .preview-table th {
-  background: #f9fafb;
+  background: var(--tint-1);
+  color: var(--color-text-secondary);
   padding: 6px 8px;
   text-align: left;
   border: 1px solid var(--color-border);

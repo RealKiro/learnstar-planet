@@ -116,7 +116,7 @@ function onActiveTabChange(tab: typeof activeTab.value) {
           <div class="form-group"><label>目标币种</label><select v-model="newRate.to_currency" class="form-input"><option v-for="(label, key) in currencyLabels" :key="key" :value="key" :disabled="key === newRate.from_currency">{{ label }}</option></select></div>
           <div class="form-group"><label>汇率 (1:?)</label><input v-model.number="newRate.rate" type="number" step="0.01" min="0.01" class="form-input"></div>
         </div>
-        <div v-if="rateError" style="margin:0 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ rateError }}</div>
+        <div v-if="rateError" style="margin:0 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ rateError }}</div>
         <button v-if="showAddRate" class="btn btn-primary" style="margin-bottom:16px;" :disabled="addRateStatus !== 'idle'"
           :style="{ background: addRateStatus === 'loading' ? '#f59e0b' : addRateStatus === 'success' ? '#10b981' : addRateStatus === 'error' ? '#ef4444' : '#7c3aed' }"
           @click="addRate">

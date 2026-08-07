@@ -3,7 +3,6 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
 import {
   getAllSeries,
-  getSeriesBySpeciesId,
   getPetLevelName,
   SERIES_SCENES,
   getSeriesName,
@@ -117,6 +116,7 @@ async function load() {
       student_name: '该学生',
       total_score: 0,
       unlock_slots: 1,
+      class_series: null,
       active_species: null,
       collection: [],
     }

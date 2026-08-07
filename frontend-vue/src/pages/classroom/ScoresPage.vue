@@ -53,7 +53,6 @@ const petPickerStudent = ref<StudentEntry | null>(null)
 const switchingPet = ref(false)
 const switchStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const switchError = ref('')
-const allSeriesList = PET_SERIES
 // 宠物选择器：班级配置了当前系列(pet_series)时只展示该系列，未配置时展示全部（与后端类别限制一致）
 const classPetSeries = ref('')
 const pickerSeriesList = computed(() => {
@@ -239,10 +238,10 @@ onMounted(async () => {
       </div>
 
       <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.06);border-radius:30px;flex:1;min-width:200px;max-width:360px;">
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--tint-2);border:1px solid var(--tint-3);border-radius:30px;flex:1;min-width:200px;max-width:360px;">
           <span>🔍</span>
           <input v-model="searchQuery" type="text" placeholder="搜索学生姓名..."
-            style="background:transparent;border:none;outline:none;color:#fff;font-size:14px;width:100%;font-family:inherit;">
+            style="background:transparent;border:none;outline:none;color:var(--color-text);font-size:14px;width:100%;font-family:inherit;">
         </div>
       </div>
 
@@ -250,7 +249,7 @@ onMounted(async () => {
 
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;">
         <div v-for="s in filtered" :key="s.id" :id="'card-' + s.id"
-          style="background:rgba(255,255,255,0.03);border-radius:var(--md-radius);padding:16px 14px 12px;border:1px solid rgba(255,255,255,0.04);position:relative;overflow:hidden;transition:0.25s;"
+          style="background:var(--tint-1);border-radius:var(--md-radius);padding:16px 14px 12px;border:1px solid var(--tint-2);position:relative;overflow:hidden;transition:0.25s;"
           :style="{ borderLeftColor: s.pet_level >= 10 ? '#f59e0b' : s.pet_level >= 7 ? '#8b5cf6' : s.pet_level >= 4 ? '#3b82f6' : '#6b7280', borderLeftWidth: '4px' }">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
             <span style="font-size:16px;font-weight:700;">{{ s.name }}</span>
@@ -261,7 +260,7 @@ onMounted(async () => {
               <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
             </span>
             <span v-else style="font-size:28px;">{{ s.pet_emoji }}</span>
-            <span style="font-size:13px;color:var(--md-text-secondary);border-bottom:1px dashed rgba(255,255,255,0.15);">{{ s.pet_name || '未孵化' }}</span>
+            <span style="font-size:13px;color:var(--md-text-secondary);border-bottom:1px dashed var(--tint-4);">{{ s.pet_name || '未孵化' }}</span>
             <span style="font-size:10px;color:rgba(167,139,250,0.4);margin-left:auto;">换宠</span>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--md-text-secondary);margin-bottom:4px;">
@@ -270,26 +269,26 @@ onMounted(async () => {
           </div>
           <!-- 距离下一级进度 -->
           <div v-if="s.pet_level > 0" style="margin-bottom:6px;">
-            <div style="height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-bottom:2px;">
+            <div style="height:3px;background:var(--tint-3);border-radius:2px;overflow:hidden;margin-bottom:2px;">
               <div :style="{ width: nextLevelProgress(s.total_score, s.pet_level).percent + '%', height:'100%', background:'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'2px' }"></div>
             </div>
             <div style="font-size:10px;color:var(--md-text-secondary);text-align:right;">
               <span v-if="nextLevelProgress(s.total_score, s.pet_level).remaining > 0">距 Lv.{{ s.pet_level + 1 }} 还差 <strong style="color:var(--md-gold);">{{ nextLevelProgress(s.total_score, s.pet_level).remaining }}</strong> 分</span><span v-else>✅ 已达到 Lv.{{ s.pet_level + 1 }} 条件</span>
             </div>
           </div>
-          <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);">
+          <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding-top:8px;border-top:1px solid var(--tint-2);">
             <button @click="openModal(s, 'sub')"
-              style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.04);color:#fca5a5;font-size:20px;font-weight:700;cursor:pointer;transition:0.15s;">−</button>
+              style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.04);color: var(--color-danger-text);font-size:20px;font-weight:700;cursor:pointer;transition:0.15s;">−</button>
             <!-- 可编辑步长 -->
             <input v-if="editingStep === s.id" v-model="editInput" type="number" min="1" max="100"
               @blur="saveEdit(s.id)" @keydown.enter="saveEdit(s.id, $event)" autofocus
-              style="width:40px;text-align:center;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;color:#fff;font-size:16px;font-weight:700;outline:none;font-family:inherit;">
+              style="width:40px;text-align:center;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;color:var(--color-text);font-size:16px;font-weight:700;outline:none;font-family:inherit;">
             <span v-else @click="startEdit(s.id)"
               style="font-size:18px;font-weight:700;min-width:32px;text-align:center;cursor:pointer;padding:2px 4px;border-radius:8px;transition:background 0.15s;user-select:none;"
-              @mouseenter="(e) => (e.target as HTMLElement).style.background='rgba(255,255,255,0.06)'"
+              @mouseenter="(e) => (e.target as HTMLElement).style.background='var(--tint-3)'"
               @mouseleave="(e) => (e.target as HTMLElement).style.background=''">{{ getStep(s.id) }}</span>
             <button @click="openModal(s, 'add')"
-              style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(16,185,129,0.2);background:rgba(16,185,129,0.04);color:#6ee7b7;font-size:20px;font-weight:700;cursor:pointer;transition:0.15s;">+</button>
+              style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(16,185,129,0.2);background:rgba(16,185,129,0.04);color: var(--color-success-text);font-size:20px;font-weight:700;cursor:pointer;transition:0.15s;">+</button>
           </div>
         </div>
       </div>
@@ -309,7 +308,7 @@ onMounted(async () => {
                 {{ r }}
               </button>
             </div>
-            <div v-if="actionError" style="margin-bottom:12px;padding:10px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;color:#fca5a5;font-size:13px;text-align:center;">{{ actionError }}</div>
+            <div v-if="actionError" style="margin-bottom:12px;padding:10px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;color: var(--color-danger-text);font-size:13px;text-align:center;">{{ actionError }}</div>
             <button @click="showModal = false; actionError = ''"
               style="width:100%;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消操作</button>
           </div>
@@ -332,14 +331,14 @@ onMounted(async () => {
               将切换为 <strong style="color:var(--md-primary-light);">{{ confirmSwitch.name }}</strong>
             </p>
             <div v-if="petPickerStudent?.pet_name && petPickerStudent.free_pick"
-              style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;margin-bottom:16px;">
+              style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color: var(--color-success-text);font-weight:700;margin-bottom:16px;">
               🎉 免费窗口期内，本次切换免费！
             </div>
             <div v-else-if="petPickerStudent?.pet_name && getSwitchCost(petPickerStudent) > 0"
-              style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#fcd34d;font-weight:700;margin-bottom:16px;">
+              style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color: var(--color-warning-text);font-weight:700;margin-bottom:16px;">
               💰 本次切换扣除 <strong style="font-size:18px;">{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留当前等级
             </div>
-            <div v-else style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;margin-bottom:16px;">
+            <div v-else style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color: var(--color-success-text);font-weight:700;margin-bottom:16px;">
               🎉 首次免费，不扣积分
             </div>
             <div style="display:flex;gap:10px;">
@@ -351,7 +350,7 @@ onMounted(async () => {
                 <template v-else>确认切换</template>
               </button>
             </div>
-            <div v-if="switchError" style="margin-top:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ switchError }}</div>
+            <div v-if="switchError" style="margin-top:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ switchError }}</div>
           </div>
         </div>
       </Transition>
@@ -383,7 +382,7 @@ onMounted(async () => {
             <!-- 进化台词 -->
             <div v-if="getPetDetailEvo(detailStudent.pet_species, detailStudent.pet_level)" style="padding:12px 16px;background:rgba(245,158,11,0.06);border-radius:12px;border-left:3px solid #F59E0B;margin-bottom:12px;">
               <div style="font-size:11px;color:rgba(245,158,11,0.6);font-weight:600;margin-bottom:4px;">💬 进化台词</div>
-              <div style="font-size:15px;color:#fcd34d;font-style:italic;">{{ getPetDetailEvo(detailStudent.pet_species, detailStudent.pet_level) }}</div>
+              <div style="font-size:15px;color: var(--color-warning-text);font-style:italic;">{{ getPetDetailEvo(detailStudent.pet_species, detailStudent.pet_level) }}</div>
             </div>
 
             <!-- 诗文 -->
@@ -420,11 +419,11 @@ onMounted(async () => {
               <span style="font-size:28px;">{{ petPickerStudent.pet_emoji }}</span>
               <div>
                 <div style="font-size:16px;font-weight:700;">{{ petPickerStudent.name }} · 选择宠物</div>
-                <div v-if="petPickerStudent.pet_name && petPickerStudent.free_pick" style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;display:inline-block;">🎉 免费窗口期内，本次切换免费！</div>
-                <div v-else-if="petPickerStudent.pet_name" style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#fcd34d;font-weight:700;display:inline-block;">
+                <div v-if="petPickerStudent.pet_name && petPickerStudent.free_pick" style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color: var(--color-success-text);font-weight:700;display:inline-block;">🎉 免费窗口期内，本次切换免费！</div>
+                <div v-else-if="petPickerStudent.pet_name" style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color: var(--color-warning-text);font-weight:700;display:inline-block;">
                   💰 本次切换扣除 <strong style="font-size:14px;">{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留等级
                 </div>
-                <div v-else style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-weight:700;display:inline-block;">🎉 首次免费选择，不扣积分</div>
+                <div v-else style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color: var(--color-success-text);font-weight:700;display:inline-block;">🎉 首次免费选择，不扣积分</div>
               </div>
               <button @click="showPetPicker = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;">✕</button>
             </div>

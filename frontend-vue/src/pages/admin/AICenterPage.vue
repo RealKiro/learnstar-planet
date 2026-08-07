@@ -289,7 +289,7 @@ onMounted(loadData)
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
     <div v-else-if="loadError" style="text-align:center;padding:40px;color:var(--color-text-secondary);">
       <div style="font-size:36px;margin-bottom:8px;">⚠️</div>
-      <div style="font-size:13px;color:#fca5a5;margin-bottom:16px;">{{ loadError }}</div>
+      <div style="font-size:13px;color: var(--color-danger-text);margin-bottom:16px;">{{ loadError }}</div>
       <button class="btn btn-primary btn-sm" @click="loadData">🔄 重试</button>
     </div>
     <template v-else>
@@ -396,7 +396,7 @@ onMounted(loadData)
           </div>
           <p style="font-size:11px;color:var(--color-text-secondary);margin-top:10px;">💡 从上方下拉框选择供应商开始配置</p>
         </div>
-        <div v-for="(p, i) in standardProviders" :key="p.id" style="margin-bottom:8px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;background:var(--color-bg-card);">
+        <div v-for="(p, i) in standardProviders" :key="p.id" style="margin-bottom:8px;border:1px solid var(--tint-3);border-radius:10px;overflow:hidden;background:var(--color-bg-card);">
           <!-- 供应商头部（可点击折叠） -->
           <div @click="p._expanded = !p._expanded" :style="{ background: (getProviderMeta(p.id)?.color || '#7c3aed') + '0a', padding:'10px 14px', display:'flex', alignItems:'center', gap:'10px', cursor:'pointer', borderBottom: p._expanded ? '1px solid var(--color-border)' : 'none' }">
             <span :style="{ width:'10px',height:'10px',borderRadius:'50%',background:p.is_active ? '#10B981' : '#ccc',flexShrink:0 }"></span>
@@ -420,7 +420,7 @@ onMounted(loadData)
               <label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型</label>
               <div style="display:flex;gap:6px;align-items:center;">
                 <input v-model="p.model" :list="'model-list-' + p.id" class="form-input" placeholder="选择或输入" style="font-size:11px;padding:5px 8px;flex:1;min-width:0;">
-                <button type="button" :disabled="p._fetching" @click="fetchModels(p)" style="flex-shrink:0;padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--color-text-secondary);font-family:inherit;">{{ p._fetching ? '拉取中' : '🔄 官方模型' }}</button>
+                <button type="button" :disabled="p._fetching" @click="fetchModels(p)" style="flex-shrink:0;padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--tint-3);background:var(--tint-1);color:var(--color-text-secondary);font-family:inherit;">{{ p._fetching ? '拉取中' : '🔄 官方模型' }}</button>
               </div>
               <div v-if="p._fetch_msg" style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">{{ p._fetch_msg }}</div>
               <datalist :id="'model-list-' + p.id">

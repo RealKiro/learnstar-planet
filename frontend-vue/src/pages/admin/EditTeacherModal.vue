@@ -146,7 +146,7 @@ async function submitEdit() {
           <input v-model="editForm.email" class="form-input" placeholder="邮箱地址">
         </div>
       </div>
-      <div v-if="editError" style="margin-top:16px;margin-bottom:-12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ editError }}</div>
+      <div v-if="editError" style="margin-top:16px;margin-bottom:-12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ editError }}</div>
       <div class="modal-footer" style="justify-content:flex-end;margin-top:20px;">
         <button
           @click="closeModal"

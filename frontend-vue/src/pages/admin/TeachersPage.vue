@@ -238,13 +238,13 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
 </template>
 
 <style scoped>
-.section-badge { font-size:11px;font-weight:600;color:#7c3aed;text-transform:uppercase;letter-spacing:0.05em;background:#ede9fe;padding:3px 10px;border-radius:6px; }
+.section-badge { font-size:11px;font-weight:600;color:var(--md-primary-light);text-transform:uppercase;letter-spacing:0.05em;background:rgba(167,139,250,0.12);padding:3px 10px;border-radius:6px; }
 .page-title { font-size:22px;font-weight:700;margin:0;line-height:1.2; }
 .count-badge { font-size:13px;color:#6b7280;background:var(--color-bg);padding:2px 10px;border-radius:10px; }
-.grade-header { display:flex; align-items:center; gap:10px; margin:20px 0 12px; padding:0 0 8px 4px; border-bottom:1px solid rgba(255,255,255,0.06); }
+.grade-header { display:flex; align-items:center; gap:10px; margin:20px 0 12px; padding:0 0 8px 4px; border-bottom:1px solid var(--tint-3); }
 .grade-dot { width:8px; height:8px; border-radius:50%; background:#8b5cf6; flex-shrink:0; }
 .grade-name { font-size:16px; font-weight:700; }
-.grade-count { font-size:12px; color:var(--color-text-secondary); background:rgba(255,255,255,0.06); padding:0 10px; border-radius:20px; }
+.grade-count { font-size:12px; color:var(--color-text-secondary); background:var(--tint-3); padding:0 10px; border-radius:20px; }
 .card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:16px; }
 .loading-spinner { text-align:center;padding:64px;color:#9ca3af;font-size:15px; }
 .empty-state { text-align:center;padding:64px 20px;color:#9ca3af; }

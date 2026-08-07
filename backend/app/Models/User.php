@@ -33,7 +33,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'school_id',
-        'role',              // school_admin / teacher / parent
+        'role',              // school_admin / teacher
         'username',          // 管理员分配的账号
         'password',          // 管理员分配的初始密码
         'plain_password',    // 明文密码（供管理员查看/重置；不在 hidden，可返回给管理端）

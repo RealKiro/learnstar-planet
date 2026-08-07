@@ -97,7 +97,7 @@ function doCancel() {
 }
 .confirm-box {
   background: var(--color-bg-card, #1a1a2e);
-  border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+  border: 1px solid var(--color-border, var(--tint-3));
   border-radius: 16px;
   width: 92%;
   max-width: 380px;
@@ -164,10 +164,10 @@ function doCancel() {
 }
 .cf-cancel {
   background: var(--color-bg, #0e0e1a);
-  border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+  border: 1px solid var(--color-border, var(--tint-3));
   color: var(--color-text, #f1f1f1);
 }
-.cf-cancel:hover { background: rgba(255,255,255,0.06); }
+.cf-cancel:hover { background: var(--tint-3); }
 .cf-ok {
   background: #7c3aed;
   color: #fff;

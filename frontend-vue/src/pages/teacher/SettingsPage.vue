@@ -185,7 +185,7 @@ async function changePassword() {
           <button v-else class="btn btn-sm btn-primary" @click="handleBind(b.platform)">绑定</button>
         </div>
       </div>
-      <div v-if="bindMsg" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ bindMsg }}</div>
+      <div v-if="bindMsg" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ bindMsg }}</div>
     </div>
   </div>
 </template>

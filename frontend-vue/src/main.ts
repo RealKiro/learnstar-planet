@@ -31,7 +31,7 @@ function prefetchRouteChunks() {
   router.getRoutes().forEach((r) => {
     const loader = r.components?.default
     if (typeof loader === 'function') {
-      loader().catch(() => { /* 预热失败忽略 */ })
+      (loader as () => Promise<unknown>)().catch(() => { /* 预热失败忽略 */ })
     }
   })
 }

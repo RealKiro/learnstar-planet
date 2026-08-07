@@ -86,7 +86,7 @@ const roleMainText = computed(() => {
 .teacher-card {
   position: relative;
   background: var(--color-bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--tint-3);
   border-radius: 12px;
   padding: 0;
   display: flex;
@@ -114,7 +114,7 @@ const roleMainText = computed(() => {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border: 1.5px solid var(--tint-4);
   background: transparent;
   /* 内阴影模拟卡片厚度，呈现"钻孔"立体感 */
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -145,7 +145,7 @@ const roleMainText = computed(() => {
 /* 通用版块：左右留白 + 底部分隔线 */
 .tc-block {
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--tint-3);
 }
 .tc-block:last-child {
   border-bottom: none;
@@ -210,7 +210,7 @@ const roleMainText = computed(() => {
   text-align: center;
   font-size: 12px;
   color: var(--color-text-secondary);
-  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border: 1px dashed var(--tint-4);
   border-radius: 6px;
 }
 
@@ -221,10 +221,10 @@ const roleMainText = computed(() => {
   flex: 1;
   display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 30px;
   padding: 0 6px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer;
-  transition: 0.15s; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.04);
+  transition: 0.15s; border: 1px solid var(--tint-3); background: var(--tint-2);
   color: var(--color-text); font-family: inherit; white-space: nowrap;
 }
-.act-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.14); }
-.act-del { color: #fca5a5; border-color: rgba(239, 68, 68, 0.25); }
+.act-btn:hover { background: var(--tint-3); border-color: var(--tint-4); }
+.act-del { color: var(--color-danger-text); border-color: rgba(239, 68, 68, 0.25); }
 .act-del:hover { background: rgba(239, 68, 68, 0.12); color: #fecaca; }
 </style>

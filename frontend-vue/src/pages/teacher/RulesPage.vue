@@ -132,7 +132,7 @@ async function handleDelete(rule: ScoreRule) {
       <button class="btn btn-sm btn-primary" @click="openAdd">添加规则</button>
     </div>
 
-    <div v-if="loadError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">⚠️ {{ loadError }}</div>
+    <div v-if="loadError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">⚠️ {{ loadError }}</div>
 
     <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
 

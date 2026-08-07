@@ -3,14 +3,12 @@ import { ref, reactive, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
-import { useToastStore } from '@/stores/toast'
 import PlatformIcon from '@/components/common/PlatformIcon.vue'
 import type { ApiResponse, User } from '@/types'
 
 const props = withDefaults(defineProps<{ initialRole?: string; mode?: string }>(), { initialRole: 'teacher', mode: 'account' })
 const router = useRouter()
 const authStore = useAuthStore()
-const toast = useToastStore()
 
 const loginType = ref<'teacher' | 'admin' | 'class'>((props.mode === 'code' ? 'class' : props.initialRole) as 'teacher' | 'admin' | 'class')
 const teacherUsername = ref('')
@@ -310,23 +308,23 @@ function goToSlide(i: number) {
             <input ref="teacherPwdRef" v-model="teacherPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleTeacherLogin">
             <div v-if="loginErrors.teacherPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.teacherPassword }}</div>
           </div>
-          <button class="login-submit" :disabled="loginStatus === 'loading'" @click="handleTeacherLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : 'var(--color-primary)' }">
+          <button class="login-submit" :disabled="loginStatus === 'loading'" @click="handleTeacherLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#5E5CE6' }">
             <span v-if="loginStatus === 'idle'">🚀 登录</span>
             <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
             <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
             <span v-else>❌ 登录失败</span>
           </button>
-          <div v-if="teacherLoginError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ teacherLoginError }}</div>
+          <div v-if="teacherLoginError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#dc2626;font-size:12px;">{{ teacherLoginError }}</div>
           <div class="login-social">
             <div class="login-social-label"><span class="login-social-line"></span> 扫码登录 <span class="login-social-line"></span></div>
-            <div v-if="platforms.length === 0" style="font-size:12px;color:var(--color-text-secondary);padding:8px 0;">暂无可用的扫码登录方式</div>
+            <div v-if="platforms.length === 0" style="font-size:12px;color:#6E6E73;padding:8px 0;">暂无可用的扫码登录方式</div>
             <div v-else class="login-social-grid">
               <button v-for="p in platforms" :key="p.key" class="login-social-btn" @click="handleThirdPartyLogin(p.key)">
                 <span class="login-social-icon"><PlatformIcon :platform="p.key" :size="24" /></span>
                 {{ p.label }}
               </button>
             </div>
-            <div v-if="thirdPartyError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#fca5a5;font-size:12px;">{{ thirdPartyError }}</div>
+            <div v-if="thirdPartyError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#dc2626;font-size:12px;">{{ thirdPartyError }}</div>
           </div>
         </div>
 
@@ -362,7 +360,7 @@ function goToSlide(i: number) {
               <input :value="classCode" class="form-input" placeholder="输入班级码（如 LS11）" maxlength="8" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @input="onClassCodeInput" @blur="validateLoginField('classCode', classCode)" @keydown.enter="handleClassLogin">
               <div v-if="loginErrors.classCode" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.classCode }}</div>
             </div>
-            <p class="input-hint" style="font-size:12px;color:var(--color-text-secondary);margin:-8px 0 0;">如 LS11（一年级1班）</p>
+            <p class="input-hint" style="font-size:12px;color:#6E6E73;margin:-8px 0 0;">如 LS11（一年级1班）</p>
             <div v-if="classCodeError" class="error-msg" style="color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px;">{{ classCodeError }}</div>
             <button class="login-submit login-submit--purple" :disabled="loginStatus === 'loading' || classCode.length < 3" @click="handleClassLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
               <span v-if="loginStatus === 'idle'">🚀 进入班级</span>

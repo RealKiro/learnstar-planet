@@ -131,7 +131,7 @@ async function executeUpgrade() {
             <tbody>
               <tr v-for="(c, i) in preview.upgrade_classes" :key="i">
                 <td style="font-weight:600;">{{ c.class_name }}</td>
-                <td><span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;background:rgba(107,114,128,0.1);color:#6B7280;">{{ c.old_grade }}</span></td>
+                <td><span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;background:rgba(107,114,128,0.1);color:var(--color-text-secondary);">{{ c.old_grade }}</span></td>
                 <td style="color:var(--color-text-secondary);">→</td>
                 <td style="font-weight:600;">{{ c.new_name }}</td>
                 <td><span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(79,70,229,0.08);color:var(--color-primary);">{{ c.new_grade }}</span></td>

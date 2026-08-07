@@ -77,12 +77,12 @@ function useCommand(cmd: AICommand) {
 
     <div v-else class="card" style="display:flex;flex-direction:column;height:calc(100vh - 200px);min-height:400px;">
       <!-- 配置提示 -->
-      <div v-if="showHint" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:13px;color:#92400e;display:flex;flex-direction:column;gap:6px;">
+      <div v-if="showHint" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--md-gold);display:flex;flex-direction:column;gap:6px;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span>⚠️</span>
           <span>AI 功能尚未配置</span>
         </div>
-        <div style="font-size:12px;padding-left:24px;color:#b45309;line-height:1.6;">
+        <div style="font-size:12px;padding-left:24px;color: var(--color-warning-text);line-height:1.6;">
           请管理员在后台「AI 中心」添加并启用一个供应商（支持 30+ 供应商），即可开始使用。
         </div>
       </div>
