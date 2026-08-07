@@ -25,7 +25,7 @@ export interface PetLevel {
   level: number       // 1-12
   name: string
   description: string
-  /** 等级阶段分类(6阶段): 1-2卵生, 3-4幼年, 5-6成长, 7-8成熟, 9-10传说, 11-12归真 */
+  /** 等级阶段分类(6阶段): 1-2卵生, 3-4幼年, 5-6成长, 7-8成熟, 9-10传说, 11-12道果 */
   stage: 'egg' | 'baby' | 'growing' | 'mature' | 'legendary' | 'transcendent'
   /** 所需累计积分 */
   requiredScore: number

@@ -1,28 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·六阶·归真·斗战胜佛">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·六阶·道果·斗战胜佛·持棒降魔">
   <defs>
+    <!-- 背景：赤金法相（斗战胜佛威仪，非素淡） -->
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#EDE8DE"/>
-      <stop offset="70%" stop-color="#E6E4E0"/>
-      <stop offset="100%" stop-color="#CBCFD6"/>
+      <stop offset="0%" stop-color="#7A3220"/>
+      <stop offset="55%" stop-color="#5A2014"/>
+      <stop offset="100%" stop-color="#34120C"/>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    <radialGradient id="halo" cx="50%" cy="40%" r="54%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#FFE066" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#FFE066" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="kasaya" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#C85A4A" stop-opacity="0.85"/>
-      <stop offset="100%" stop-color="#A8462E" stop-opacity="0.6"/>
+      <stop offset="0%" stop-color="#D8604A"/>
+      <stop offset="100%" stop-color="#9A3626"/>
     </linearGradient>
+    <radialGradient id="gold" cx="45%" cy="40%" r="72%">
+      <stop offset="0%" stop-color="#FFE066"/>
+      <stop offset="100%" stop-color="#C8A020"/>
+    </radialGradient>
+    <radialGradient id="fur" cx="45%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#FFE9C0"/>
+      <stop offset="100%" stop-color="#E0B13B"/>
+    </radialGradient>
 
     <g id="wukong-head">
       <path d="M 0 -34 C 16 -34 21 -20 19 -7 C 17 5 9 13 0 16 C -9 13 -17 5 -19 -7 C -21 -20 -16 -34 0 -34 Z" fill="#F7EEDC" stroke="#8B6914" stroke-width="1.2"/>
       <circle cx="-21" cy="-8" r="5" fill="#E0B13B"/>
       <circle cx="21" cy="-8" r="5" fill="#E0B13B"/>
       <path d="M -8 -33 Q -6 -42 -1 -46 Q 3 -43 5 -40 Q 8 -44 12 -42 Q 10 -34 6 -32" fill="none" stroke="#C0A070" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- 金瞳（斗战胜佛·锐） -->
       <path d="M -12 -6 Q -6 -14 2 -9 Q -6 -3 -12 -6 Z" fill="#3A2A1A"/>
       <path d="M -2 -9 Q 6 -14 12 -6 Q 6 -3 -2 -9 Z" fill="#3A2A1A"/>
-      <circle cx="-4" cy="-9" r="1.3" fill="#C9B37E"/>
-      <circle cx="4" cy="-9" r="1.3" fill="#C9B37E"/>
+      <circle cx="-4" cy="-9" r="1.6" fill="#FFE066"/>
+      <circle cx="4" cy="-9" r="1.6" fill="#FFE066"/>
       <path d="M -13 -7 Q -11 -3 -8 -5" fill="none" stroke="#C85A4A" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
       <path d="M 13 -7 Q 11 -3 8 -5" fill="none" stroke="#C85A4A" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
       <path d="M -6 8 Q 0 14 6 8 Q 0 16 -6 8 Z" fill="#C0A070"/>
@@ -34,51 +45,80 @@
 
   <rect width="200" height="200" fill="url(#bg)"/>
 
-  <!-- 佛光（呼吸） -->
-  <circle cx="100" cy="104" r="82" fill="url(#glow)">
-    <animate attributeName="r" values="82;92;82" dur="3.6s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3.6s" repeatCount="indefinite"/>
+  <!-- 金色法相圆光（斗战胜佛·破云威光） -->
+  <circle cx="100" cy="94" r="86" fill="url(#halo)">
+    <animate attributeName="opacity" values="1;0.72;1" dur="3.4s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="100" cy="84" r="42" fill="none" stroke="#F5D742" stroke-width="1.6" opacity="0.5">
-    <animate attributeName="opacity" values="0.5;0.75;0.5" dur="3s" repeatCount="indefinite"/>
+  <circle cx="100" cy="94" r="64" fill="none" stroke="#FFE066" stroke-width="2.4" opacity="0.8">
+    <animate attributeName="r" values="64;68;64" dur="3.4s" repeatCount="indefinite"/>
   </circle>
+  <circle cx="100" cy="94" r="56" fill="none" stroke="#FFE066" stroke-width="1.2" opacity="0.45">
+    <animate attributeName="r" values="56;59;56" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 法相雷符（佛光护法） -->
+  <path d="M 100 30 L 102 34 L 99.5 34.5 L 101 38" fill="none" stroke="#FFE066" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M 46 62 L 49 65 L 47.5 65.5 L 49.5 68.5" fill="none" stroke="#FFE066" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M 154 62 L 151 65 L 152.5 65.5 L 150.5 68.5" fill="none" stroke="#FFE066" stroke-width="1.3" stroke-linecap="round"/>
 
-  <!-- 莲花座 -->
-  <path d="M 84 166 Q 88 154 92 164 Q 96 150 100 162 Q 104 150 108 164 Q 112 154 116 166 Q 104 174 84 166 Z" fill="#F5EEDC" opacity="0.9"/>
-  <path d="M 70 170 Q 84 158 96 170 Q 110 158 122 168 Q 112 178 96 174 Q 84 176 70 170 Z" fill="#E8DCC0" opacity="0.8"/>
+  <!-- 莲台祥云 -->
+  <path d="M 60 178 Q 80 168 100 176 Q 120 168 140 178 Q 150 184 138 192 Q 100 200 62 192 Q 50 184 60 178 Z" fill="#C8A020" opacity="0.35"/>
 
+  <!-- 莲花座（金色，威仪） -->
+  <g fill="url(#gold)" stroke="#A88210" stroke-width="0.7">
+    <path d="M 84 162 Q 88 150 92 160 Q 96 146 100 158 Q 104 146 108 160 Q 112 150 116 162 Q 104 170 84 162 Z"/>
+    <path d="M 68 168 Q 80 156 94 168 Q 106 156 118 166 Q 110 176 94 174 Q 82 176 68 168 Z"/>
+  </g>
+
+  <!-- 角色：斗战胜佛（持棒端坐，结降魔印） -->
   <!-- 锦斓袈裟（端坐，金格纹） -->
-  <path d="M 74 96 Q 100 88 126 96 L 120 148 Q 100 160 80 148 Z" fill="url(#kasaya)"/>
-  <path d="M 84 100 Q 100 94 116 100 L 112 144 Q 100 152 88 144 Z" fill="#9A3A2A" opacity="0.4"/>
-  <path d="M 86 102 L 86 144 M 96 98 L 96 150 M 106 98 L 106 150 M 114 102 L 114 144" stroke="#C9B37E" stroke-width="1" opacity="0.6"/>
-  <path d="M 82 114 Q 100 108 118 114 M 84 128 Q 100 122 116 128" stroke="#C9B37E" stroke-width="1" opacity="0.5"/>
+  <path d="M 74 94 Q 100 86 126 94 L 120 148 Q 100 160 80 148 Z" fill="url(#kasaya)"/>
+  <path d="M 84 100 Q 100 94 116 100 L 112 144 Q 100 152 88 144 Z" fill="#8E2A1A" opacity="0.4"/>
+  <path d="M 86 102 L 86 144 M 96 98 L 96 150 M 106 98 L 106 150 M 114 102 L 114 144" stroke="#FFE066" stroke-width="1" opacity="0.65"/>
+  <path d="M 82 114 Q 100 108 118 114 M 84 128 Q 100 122 116 128" stroke="#FFE066" stroke-width="1" opacity="0.5"/>
+  <!-- 胸前佛珠 -->
+  <circle cx="90" cy="110" r="2.2" fill="#FFE066" opacity="0.9"/>
+  <circle cx="95" cy="112" r="2.2" fill="#FFE066" opacity="0.9"/>
+  <circle cx="100" cy="113" r="2.2" fill="#FFE066" opacity="0.9"/>
 
-  <!-- 合十手（胸前，庄严） -->
-  <path d="M 94 108 Q 100 112 106 108 L 102 122 Q 100 124 98 122 Z" fill="#F5EEDC" opacity="0.9"/>
-  <path d="M 94 106 Q 100 110 106 106" fill="none" stroke="#C9B37E" stroke-width="1.2" opacity="0.8"/>
+  <!-- 左手竖掌（结降魔印，胸前） -->
+  <path d="M 90 116 L 92 104 L 104 106 L 102 118 Z" fill="#F5EEDC" opacity="0.95"/>
+  <path d="M 94 108 L 98 106 M 94 112 L 98 110" stroke="#C9B37E" stroke-width="0.9" opacity="0.7"/>
 
-  <!-- 金箍棒（收起，横放身侧） -->
-  <line x1="134" y1="146" x2="176" y2="146" stroke="#C22A1A" stroke-width="4.5" stroke-linecap="round" opacity="0.8"/>
-  <rect x="133" y="143" width="5" height="5" rx="1" fill="#F5D742" opacity="0.8"/>
-  <rect x="175" y="143" width="5" height="5" rx="1" fill="#F5D742" opacity="0.8"/>
+  <!-- 右手拄金箍棒（竖立身侧，斗战胜） -->
+  <ellipse cx="122" cy="140" r="5" ry="7" fill="#F5EEDC" opacity="0.95"/>
+  <!-- 金箍棒（竖立，红金） -->
+  <line x1="132" y1="150" x2="132" y2="52" stroke="#C22A1A" stroke-width="4.6" stroke-linecap="round"/>
+  <rect x="128" y="50" width="9" height="6" rx="2" fill="#FFE066" opacity="0.95"/>
+  <rect x="128" y="146" width="9" height="6" rx="2" fill="#FFE066" opacity="0.95"/>
+  <!-- 棒顶佛光 -->
+  <circle cx="132" cy="46" r="7" fill="#FFE066" opacity="0.45">
+    <animate attributeName="r" values="7;10;7" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- 头（头部模板 scale 0.95，庄严肃穆眉眼留猴性） -->
-  <use href="#wukong-head" transform="translate(100,74) scale(0.95)"/>
+  <!-- 头（金瞳威仪，留猴性） -->
+  <use href="#wukong-head" transform="translate(100,68) scale(0.95)"/>
+  <!-- 毗卢帽 -->
+  <path d="M 82 44 Q 100 34 118 44 L 118 32 Q 100 22 82 32 Z" fill="#C22A1A" opacity="0.95"/>
+  <path d="M 88 36 L 88 26 M 96 32 L 96 22 M 104 32 L 104 22 M 112 36 L 112 26" stroke="#FFE066" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+  <path d="M 92 26 Q 100 22 108 26 Q 104 32 100 32 Q 96 32 92 26 Z" fill="#FFE066" opacity="0.9"/>
+  <circle cx="100" cy="18" r="3.4" fill="#FFE066">
+    <animate attributeName="r" values="3.4;4.6;3.4" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- 毗卢帽（佛帽） -->
-  <path d="M 82 48 Q 100 38 118 48 L 118 36 Q 100 26 82 36 Z" fill="#C22A1A" opacity="0.9"/>
-  <path d="M 88 40 L 88 30 M 96 36 L 96 26 M 104 36 L 104 26 M 112 40 L 112 30" stroke="#F5D742" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
-  <path d="M 92 30 Q 100 26 108 30 Q 104 36 100 36 Q 96 36 92 30 Z" fill="#F5D742" opacity="0.9"/>
+  <!-- 祥云光符 -->
+  <g stroke="#FFE066" stroke-width="1.4" opacity="0.5" stroke-linecap="round">
+    <path d="M 40 88 L 32 80 M 160 88 L 168 80 M 46 118 L 38 122 M 154 118 L 162 122"/>
+  </g>
 
-  <!-- 佛光粒子（飘浮） -->
-  <g fill="#F5D742">
-    <circle cx="54" cy="112">
+  <!-- 佛光粒子 -->
+  <g fill="#FFE066">
+    <circle cx="56" cy="112">
       <animate attributeName="cy" values="112;102;112" dur="3.4s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0.55;0.15;0.55" dur="3.4s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="146" cy="112">
-      <animate attributeName="cy" values="112;102;112" dur="3.8s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.55;0.15;0.55" dur="3.8s" repeatCount="indefinite"/>
+    <circle cx="146" cy="108">
+      <animate attributeName="cy" values="108;98;108" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.8s" repeatCount="indefinite"/>
     </circle>
   </g>
 </svg>

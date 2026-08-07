@@ -262,7 +262,7 @@ export function computePetArt(speciesId: string, level: number): PetArtRender {
     egg: 'serene', baby: 'big', growing: 'normal', mature: 'sharp', legendary: 'serene', transcendent: 'serene',
   }
 
-  // 程序化阶段主色：幼年提亮、成熟加深、传说提亮、归真提亮（重点角色可用 stageMain 覆盖）
+  // 程序化阶段主色：幼年提亮、成熟加深、传说提亮、道果提亮（重点角色可用 stageMain 覆盖）
   const stageShade: Record<string, number> = {
     egg: 0.45, baby: 0.28, growing: 0.05, mature: -0.18, legendary: 0.12, transcendent: 0.2,
   }

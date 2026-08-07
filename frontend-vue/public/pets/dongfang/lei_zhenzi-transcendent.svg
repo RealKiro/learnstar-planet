@@ -1,0 +1,247 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="雷震子·六阶·肉身成圣·雷部正神·奉旨布雷诛邪护人间">
+  <defs>
+    <!-- 背景：云白淡青之上，破云紫金法相 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DCE4E8"/>
+      <stop offset="46%" stop-color="#A8BCC8"/>
+      <stop offset="100%" stop-color="#7E94A4"/>
+    </linearGradient>
+    <!-- 破云法相金光 -->
+    <radialGradient id="aura" cx="50%" cy="38%" r="58%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.95"/>
+      <stop offset="42%" stop-color="#FFE066" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFE066" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 紫金圣甲 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8D8A0"/>
+      <stop offset="100%" stop-color="#9A8056"/>
+    </linearGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8A6AB8"/>
+      <stop offset="100%" stop-color="#5E448E"/>
+    </linearGradient>
+    <linearGradient id="faceBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8EACFF"/>
+      <stop offset="100%" stop-color="#4E6CC8"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7E9CF0"/>
+      <stop offset="100%" stop-color="#2E50A0"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFE066"/>
+      <stop offset="100%" stop-color="#D8A020"/>
+    </linearGradient>
+
+    <g id="leizhenzi-face">
+      <ellipse cx="0" cy="0" rx="16" ry="15" fill="url(#faceBlue)" stroke="#2E4488" stroke-width="1"/>
+      <path d="M -15 -3 Q -14 -15 -5 -15 Q 0 -14 5 -15 Q 14 -15 15 -3 Q 8 -9 0 -8 Q -8 -9 -15 -3 Z" fill="#E04E2A"/>
+      <path d="M -15 -2 Q -17 4 -14 8 Q -13 3 -15 -2 Z" fill="#E04E2A"/>
+      <path d="M 15 -2 Q 17 4 14 8 Q 13 3 15 -2 Z" fill="#E04E2A"/>
+      <path d="M -13 -9 Q -9 -11 -6 -10 M 13 -9 Q 9 -11 6 -10" fill="none" stroke="#C04A2A" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M -12 -4 L -6 -7 L -6 0 Z" fill="#FFF8E0" stroke="#C04A2A" stroke-width="0.8"/>
+      <path d="M 12 -4 L 6 -7 L 6 0 Z" fill="#FFF8E0" stroke="#C04A2A" stroke-width="0.8"/>
+      <circle cx="-9" cy="-3" r="1.7" fill="#FFE066"/>
+      <circle cx="9" cy="-3" r="1.7" fill="#FFE066"/>
+      <path d="M 0 -12 L 1.4 -9 L -1.4 -8.6 L 0 -5.5" fill="none" stroke="#FFE066" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M -3.5 3 Q 0 8.5 3.5 3 L 0 5 Z" fill="#F0B040" stroke="#D0902A" stroke-width="0.7"/>
+      <path d="M -5 7 L -4 10.5 L -3 7 Z" fill="#FFFDF2"/>
+      <path d="M 5 7 L 4 10.5 L 3 7 Z" fill="#FFFDF2"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 破云法相金光 -->
+  <circle cx="100" cy="88" r="88" fill="url(#aura)">
+    <animate attributeName="opacity" values="1;0.72;1" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色法相圆光（双环 + 雷符饰） -->
+  <g>
+    <circle cx="100" cy="88" r="62" fill="none" stroke="#FFE066" stroke-width="2.6" opacity="0.85">
+      <animate attributeName="r" values="62;66;62" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="88" r="54" fill="none" stroke="#FFE066" stroke-width="1.2" opacity="0.5">
+      <animate attributeName="r" values="54;57;54" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 100 26 L 102 30 L 99.5 30.5 L 101 34" fill="none" stroke="#FFE066" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 46 60 L 49 63 L 47.5 63.5 L 49.5 66.5" fill="none" stroke="#FFE066" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M 154 60 L 151 63 L 152.5 63.5 L 150.5 66.5" fill="none" stroke="#FFE066" stroke-width="1.3" stroke-linecap="round"/>
+  </g>
+
+  <!-- 上层云海 -->
+  <g opacity="0.75">
+    <path d="M 0 116 Q 50 108 100 114 Q 150 120 200 112 L 200 130 L 0 130 Z" fill="#9EB4C2">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 2;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 152 Q 60 144 120 150 Q 170 154 200 148 L 200 200 L 0 200 Z" fill="#6E8494" opacity="0.7">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-5 1;0 0" dur="8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 妖邪（右下云隙，被雷钉住） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1.5 0.8;0 0" dur="0.7s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.85;1" dur="0.7s" repeatCount="indefinite"/>
+    <!-- 妖气团 -->
+    <path d="M 132 156 Q 122 162 126 172 Q 134 180 146 176 Q 158 170 154 160 Q 150 152 140 152 Q 134 152 132 156 Z" fill="#4A2A4E"/>
+    <!-- 触手 -->
+    <path d="M 128 164 Q 120 168 118 176 M 150 170 Q 158 176 162 184 M 142 178 Q 144 186 140 192" stroke="#3A1E3E" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <!-- 妖眼（暗红） -->
+    <circle cx="138" cy="160" r="1.8" fill="#C8402A"/>
+    <circle cx="146" cy="160" r="1.8" fill="#C8402A"/>
+  </g>
+
+  <!-- 角色：雷部正神（奉旨布雷诛邪） -->
+  <!-- 法云托足 -->
+  <path d="M 82 126 Q 100 118 118 126 Q 128 132 120 138 Q 100 146 80 138 Q 70 132 82 126 Z" fill="#F5F2EA" opacity="0.9"/>
+  <!-- 紫袍下摆 -->
+  <path d="M 86 118 Q 100 126 114 118 L 118 138 Q 100 148 82 138 Z" fill="url(#robe)"/>
+  <!-- 金甲上身 -->
+  <path d="M 88 78 Q 84 102 92 120 Q 108 122 112 114 Q 116 98 112 80 Q 100 74 88 78 Z" fill="url(#armor)" stroke="#A8905A" stroke-width="1"/>
+  <path d="M 94 80 L 96 116 M 106 80 L 104 114" stroke="#C8B478" stroke-width="1.2" opacity="0.8"/>
+  <circle cx="84" cy="84" r="9" fill="#FFE066" stroke="#D8A020" stroke-width="1"/>
+  <circle cx="116" cy="84" r="9" fill="#FFE066" stroke="#D8A020" stroke-width="1"/>
+
+  <!-- 头（鸟面，紫金冠） -->
+  <use href="#leizhenzi-face" transform="translate(100,56) scale(1.06)"/>
+  <path d="M 86 42 Q 100 34 114 42 L 114 37 Q 100 28 86 37 Z" fill="#FFE066" opacity="0.95"/>
+  <circle cx="100" cy="31" r="3.4" fill="#FFE066">
+    <animate attributeName="r" values="3.4;4.6;3.4" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 双翅威仪展开 -->
+  <g fill="url(#wing)" stroke="#2E50A0" stroke-width="0.9">
+    <path d="M 82 80 Q 54 58 38 62 Q 46 80 78 86 Z"/>
+    <path d="M 80 88 Q 48 76 34 82 Q 42 96 76 94 Z"/>
+    <path d="M 78 96 Q 46 94 36 102 Q 46 112 74 102 Z"/>
+    <path d="M 76 104 Q 50 108 42 118 Q 54 126 72 110 Z"/>
+    <path d="M 118 80 Q 146 58 162 62 Q 154 80 122 86 Z"/>
+    <path d="M 120 88 Q 152 76 166 82 Q 158 96 124 94 Z"/>
+    <path d="M 122 96 Q 154 94 164 102 Q 154 112 126 102 Z"/>
+    <path d="M 124 104 Q 150 108 158 118 Q 146 126 128 110 Z"/>
+  </g>
+  <circle cx="84" cy="86" r="7.5" fill="#FFE066" opacity="0.95">
+    <animate attributeName="r" values="7.5;9;7.5" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="116" cy="86" r="7.5" fill="#FFE066" opacity="0.95">
+    <animate attributeName="r" values="7.5;9;7.5" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <path d="M 82 82 L 86 86 L 83.5 86 L 86 89 L 84 86.5 L 83 87 Z" fill="#2E4488"/>
+  <path d="M 118 82 L 114 86 L 116.5 86 L 114 89 L 116 86.5 L 117 87 Z" fill="#2E4488"/>
+
+  <!-- 肩披风雷环（职责：执掌风雷） -->
+  <g fill="none" stroke="#FFE066" stroke-width="1.3" opacity="0.85">
+    <path d="M 78 66 Q 70 58 76 50 Q 84 56 80 64 Z">
+      <animateTransform attributeName="transform" type="rotate" values="0 78 58;360 78 58" dur="4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 122 66 Q 130 58 124 50 Q 116 56 120 64 Z">
+      <animateTransform attributeName="transform" type="rotate" values="0 122 58;360 122 58" dur="4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 左手擎雷令法旨（奉天庭意旨） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 轴杆 -->
+    <rect x="66" y="90" width="4" height="20" rx="2" fill="#8E6E3A"/>
+    <rect x="94" y="90" width="4" height="20" rx="2" fill="#8E6E3A"/>
+    <!-- 金绢诏书 -->
+    <rect x="68" y="88" width="28" height="24" rx="3" fill="#FFE066" stroke="#D8A020" stroke-width="1"/>
+    <path d="M 68 88 L 96 88" stroke="#E8C850" stroke-width="1"/>
+    <!-- 雷令符印 -->
+    <path d="M 79 94 L 84 98 L 81 98.5 L 84 104 L 82 99 L 80.5 99 Z" fill="#B0402A"/>
+    <path d="M 72 108 Q 76 106 80 108 Q 84 110 88 108" stroke="#D8A020" stroke-width="0.8" fill="none"/>
+    <!-- 左手握住下轴 -->
+    <ellipse cx="82" cy="112" r="4.5" ry="6" fill="#8EACFF"/>
+  </g>
+
+  <!-- 右手黄金棍（引雷下指诛邪） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-3 120 100;0 120 100;-3 120 100" dur="2.4s" repeatCount="indefinite"/>
+    <line x1="120" y1="100" x2="136" y2="150" stroke="url(#gold)" stroke-width="3.6" stroke-linecap="round"/>
+    <rect x="115" y="95" width="9" height="5" rx="2" fill="#D8A020" transform="rotate(26 119 97)"/>
+    <rect x="131" y="145" width="9" height="5" rx="2" fill="#D8A020" transform="rotate(26 135 147)"/>
+    <circle cx="137" cy="151" r="5" fill="#FFE066" opacity="0.55">
+      <animate attributeName="r" values="5;8;5" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 雷光手 -->
+    <ellipse cx="120" cy="101" r="4.5" ry="6" fill="#8EACFF"/>
+  </g>
+
+  <!-- 金雷数道（从棍端/法相劈向妖邪，诛邪锁镇） -->
+  <g stroke-linecap="round" fill="none">
+    <path d="M 134 150 L 140 162 L 136 162 L 142 176" stroke="#B8D8FF" stroke-width="2.2" opacity="0.95">
+      <animate attributeName="opacity" values="0.95;0.3;0.95" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 146 146 L 152 156 L 148 156 L 156 168" stroke="#FFF3C4" stroke-width="1.6" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.25;0.85" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 126 138 L 130 148 L 126.5 148 L 132 160" stroke="#B8D8FF" stroke-width="1.6" opacity="0.75">
+      <animate attributeName="opacity" values="0.75;0.2;0.75" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 152 160 L 154 168 L 150.5 168 L 154 178" stroke="#E0EAFF" stroke-width="1.3" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 人间城郊（职责所护：校场 + 放风筝孩童） -->
+  <!-- 城郊城墙角（右下，妖邪旁安然） -->
+  <path d="M 30 150 L 30 138 L 40 138 L 40 150 M 52 150 L 52 142 L 62 142 L 62 150 L 96 150 L 96 200 L 0 200 L 0 150 Z" fill="#6E8494" opacity="0.8"/>
+  <path d="M 30 150 L 96 150" stroke="#5A7284" stroke-width="2" opacity="0.7"/>
+  <!-- 校场小树 -->
+  <g opacity="0.9">
+    <path d="M 20 192 Q 18 176 20 164" stroke="#6E5A44" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <circle cx="20" cy="160" r="9" fill="#7AA078"/>
+    <circle cx="13" cy="163" r="5" fill="#6E946E"/>
+    <circle cx="27" cy="163" r="5" fill="#6E946E"/>
+  </g>
+  <path d="M 0 182 Q 30 178 60 182 Q 80 186 96 180 L 96 200 L 0 200 Z" fill="#8EAE7C" opacity="0.6"/>
+
+  <!-- 放风筝孩童（护生锚点） -->
+  <g opacity="0.95">
+    <circle cx="50" cy="174" r="4.5" fill="#E8D8BC"/>
+    <path d="M 47 170 Q 50 167 53 170 Q 52 172 50 172 Q 48 172 47 170 Z" fill="#2E2620"/>
+    <path d="M 48 178 Q 46 188 48 194 Q 52 194 52 178 Z" fill="#C8B498"/>
+    <path d="M 49 180 L 53 168" fill="none" stroke="#E8D8BC" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- 风筝（被正神气流托起，安然） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;-2 -4;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 64 116 L 74 124 L 64 132 L 54 124 Z" fill="#4E6CC8" stroke="#FFE066" stroke-width="1.2"/>
+    <path d="M 64 124 L 72 130 M 64 128 L 56 134" stroke="#FFE066" stroke-width="0.9" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 64 132 L 52 168" stroke="#8A7A5E" stroke-width="0.9" opacity="0.8"/>
+  </g>
+  <!-- 俯身护风筝的一口气 -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -3;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 94 70 Q 84 90 68 110" fill="none" stroke="#FFF3C4" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+    <path d="M 70 110 Q 62 114 58 106 M 62 108 Q 54 110 54 102" fill="none" stroke="#FFF3C4" stroke-width="1.2" stroke-linecap="round" opacity="0.45">
+      <animate attributeName="opacity" values="0.45;0.15;0.45" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 神性金光 -->
+  <g fill="#FFE066">
+    <circle cx="44" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="94">
+      <animate attributeName="cy" values="94;84;94" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="126" cy="44">
+      <animate attributeName="cy" values="44;36;44" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 云端散光 -->
+  <g stroke="#FFE066" stroke-width="1.4" opacity="0.45" stroke-linecap="round">
+    <path d="M 100 16 L 100 6"/><path d="M 60 40 L 52 32"/><path d="M 140 40 L 148 32"/>
+  </g>
+</svg>

@@ -60,7 +60,7 @@
   <!-- 竹杖（手边） -->
   <line x1="104" y1="120" x2="100" y2="168" stroke="#8E6E3A" stroke-width="2.2" stroke-linecap="round"/>
 
-  <!-- 归真粒子（飘浮） -->
+  <!-- 余晖粒子（飘浮） -->
   <g fill="#C0B0A0">
     <circle cx="56" cy="116">
       <animate attributeName="cy" values="116;108;116" dur="3.6s" repeatCount="indefinite"/>

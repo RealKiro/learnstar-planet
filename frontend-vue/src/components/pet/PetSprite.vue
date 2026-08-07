@@ -577,7 +577,7 @@ function fxShape(size: number): string {
           </g>
         </template>
 
-        <!-- 皮卡丘·传说/归真（雷丘威猛形态，金色电光缭绕） -->
+        <!-- 皮卡丘·传说/道果（雷丘威猛形态，金色电光缭绕） -->
         <template v-else-if="art.variant === 'mouse-legend'">
           <path d="M120 120 Q152 96 160 76 L150 96 L146 78 L136 94" :fill="art.dark" class="tail"/>
           <ellipse cx="100" cy="125" rx="35" ry="31" :fill="`url(#body-grad-${uid})`" class="body-main"/>

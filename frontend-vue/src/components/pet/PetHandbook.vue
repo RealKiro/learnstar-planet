@@ -153,7 +153,7 @@ const poemLines = computed(() => poemToLines(poem.value))
             <div class="stat-item">
               <span class="stat-label">阶段</span>
               <span class="stat-value stage-badge" :class="'stage--' + (levels.find(l => l.level === previewLevel)?.stage || 'egg')">
-                {{ { egg: '新生', baby: '幼年', growing: '成长期', mature: '成熟期', legendary: '传说级', transcendent: '归真' }[(levels.find(l => l.level === previewLevel)?.stage || 'egg')] }}
+                {{ { egg: '新生', baby: '幼年', growing: '成长期', mature: '成熟期', legendary: '传说级', transcendent: '道果' }[(levels.find(l => l.level === previewLevel)?.stage || 'egg')] }}
               </span>
             </div>
           </div>

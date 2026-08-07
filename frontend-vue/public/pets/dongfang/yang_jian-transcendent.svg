@@ -63,7 +63,7 @@
     <animate attributeName="opacity" values="0.6;0.3;0.6" dur="3.2s" repeatCount="indefinite"/>
   </circle>
 
-  <!-- 归真粒子 -->
+  <!-- 余晖粒子 -->
   <g fill="#C0B0A0">
     <circle cx="56" cy="114">
       <animate attributeName="cy" values="114;106;114" dur="3.6s" repeatCount="indefinite"/>
