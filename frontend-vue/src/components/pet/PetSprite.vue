@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, useId } from 'vue'
 import { computePetArt, CONSTELLATION_LINES } from '@/utils/petArtParts'
+import { getPetImageUrl } from '@/utils/petImage'
 import type { BodyType, PetArtRender } from '@/utils/petArtParts'
 
 const props = withDefaults(defineProps<{
@@ -17,6 +18,9 @@ const props = withDefaults(defineProps<{
 const uid = useId()
 
 const art = computed(() => computePetArt(props.speciesId, props.level))
+
+/** AI 生成图（若该物种已在 MANIFEST 登记），命中则整图替代 SVG */
+const imgUrl = computed(() => getPetImageUrl(props.speciesId, art.value.stage))
 
 const happy = computed(() => (props.mood ?? 60) >= 60)
 const sad = computed(() => (props.mood ?? 60) < 35)
@@ -205,7 +209,16 @@ function fxShape(size: number): string {
 </script>
 
 <template>
+  <img
+    v-if="imgUrl"
+    :src="imgUrl"
+    :alt="`宠物 Lv.${level}`"
+    class="pet-sprite pet-img"
+    :class="{ 'pet-sprite--animated': animate }"
+    draggable="false"
+  />
   <svg
+    v-else
     viewBox="0 0 200 200"
     class="pet-sprite"
     :class="{ 'pet-sprite--animated': animate }"
@@ -1905,6 +1918,10 @@ function fxShape(size: number): string {
   height: 100%;
   display: block;
   overflow: visible;
+}
+.pet-img {
+  object-fit: contain;
+  border-radius: 8px;
 }
 .pet-sprite--animated .egg-body { animation: eggPulse 2.2s ease-in-out infinite; }
 .pet-sprite--animated .egg-glow { animation: eggGlowPulse 2.2s ease-in-out infinite; }
