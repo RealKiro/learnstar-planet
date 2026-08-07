@@ -76,7 +76,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'xuanwu', name: '玄武', seriesId: 'myth',
       levels: [
-        Lv(1, '水灵卵', '墨蓝卵沉在水底像鹅卵石，半天不动', 'egg'),
+        Lv(1, '水灵珠', '玄青珠身内蕴龟蛇之影，北冥之水流转其间', 'egg'),
         Lv(2, '破壳龟蛇', '龟背蛇尾，慢吞吞探出头', 'egg'),
         Lv(3, '小玄龟', '背着比自己大的壳，走路像推土机', 'baby'),
         Lv(4, '玄水龟', '能背水而游，默写稳如老龟', 'baby'),
@@ -131,7 +131,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'tibetan_antelope', name: '藏羚羊', seriesId: 'national',
       levels: [
-        Lv(1, '雪卵', '白蓝蛋，喜欢高原风，一吹就精神', 'egg'),
+        Lv(1, '雪原灵胎', '白褐绒毛初生，喜欢高原风，一吹就精神', 'egg'),
         Lv(2, '破壳小羚', '四蹄还软，站起来就是一蹦三尺高', 'egg'),
         Lv(3, '小羚羊', '跑得快跳得远，短跑种子选手', 'baby'),
         Lv(4, '角尖羚', '角尖如玉，晨跑打卡从不断', 'baby'),
@@ -148,7 +148,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'snow_leopard', name: '雪豹', seriesId: 'national',
       levels: [
-        Lv(1, '斑雪卵', '带斑点的白蛋，藏在雪堆里找不到(它在捉迷藏)', 'egg'),
+        Lv(1, '斑雪灵胎', '灰白绒毛缀着黑斑，藏在雪堆里找不到(它在捉迷藏)', 'egg'),
         Lv(2, '破壳雪豹', '灰蓝小豹，从雪堆里探出脑袋', 'egg'),
         Lv(3, '小雪豹', '独来独往，神秘高冷，却会偷偷帮同学捡东西', 'baby'),
         Lv(4, '岩雪豹', '爬山如履平地，单杠第一名', 'baby'),
@@ -165,7 +165,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'milu_deer', name: '麋鹿', seriesId: 'national',
       levels: [
-        Lv(1, '角卵', '角状纹路蛋，会自己找水坑，天生会游泳', 'egg'),
+        Lv(1, '泽畔灵胎', '浅褐绒毛沾着水汽，会自己找水坑，天生会游泳', 'egg'),
         Lv(2, '破壳小麋', '角、颈、蹄、尾各有各的想法，走路顺拐', 'egg'),
         Lv(3, '小麋鹿', '四不像的呆萌，走路容易顺拐', 'baby'),
         Lv(4, '四不像', '沼泽里来去自如，值日擦地全校第一', 'baby'),
@@ -182,7 +182,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'siberian_tiger', name: '东北虎', seriesId: 'national',
       levels: [
-        Lv(1, '雪虎蛋', '白橙条纹蛋，比华南虎蛋大一圈', 'egg'),
+        Lv(1, '雪虎灵胎', '白橙条纹在厚绒毛间隐现，比华南虎胚胎大一圈', 'egg'),
         Lv(2, '破壳胖虎', '出生就胖乎乎的，吼声却奶', 'egg'),
         Lv(3, '小东北虎', '奶凶加倍，冬天最抗冻', 'baby'),
         Lv(4, '巨虎崽', '体型碾压，却最会照顾弱小', 'baby'),
@@ -199,7 +199,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'red_panda', name: '小熊猫', seriesId: 'national',
       levels: [
-        Lv(1, '红绒蛋', '红棕蛋毛茸茸，像颗会呼吸的栗子', 'egg'),
+        Lv(1, '红绒灵胎', '火红绒毛裹着竹香，像颗会呼吸的栗子', 'egg'),
         Lv(2, '破壳红尾', '红棕小尾巴先探出来，再露出圆脸', 'egg'),
         Lv(3, '小熊猫', '圆脸大眼，爱抱竹叶，萌度直逼大熊猫', 'baby'),
         Lv(4, '尾巴猫熊', '蓬松大尾，走哪都拖着', 'baby'),
@@ -216,7 +216,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'finless_porpoise', name: '江豚', seriesId: 'national',
       levels: [
-        Lv(1, '江卵', '淡蓝圆蛋，在水里滚，自带微笑胎记', 'egg'),
+        Lv(1, '江流灵胎', '圆头灰蓝泛着水光，在水里滚，自带微笑弧度', 'egg'),
         Lv(2, '破壳小豚', '破壳就“咕噜”冒出水面吐个泡泡', 'egg'),
         Lv(3, '小江豚', '天生笑脸，见谁都笑，班级开心果', 'baby'),
         Lv(4, '微笑豚', '游泳如飞，会捞掉进水里的小球', 'baby'),
@@ -517,7 +517,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'ground_sloth', name: '大地懒', seriesId: 'prehistoric',
       levels: [
-        Lv(1, '巨爪蛋', '带爪印的蛋，爪尖自带挖土基因', 'egg'),
+        Lv(1, '巨爪灵胎', '长毛初生，巨爪雏形蜷在胸前，爪尖自带挖土基因', 'egg'),
         Lv(2, '小地懒', '动作慢吞吞，但爪子力气大', 'egg'),
         Lv(3, '巨爪兽', '能开罐头，一爪子一个准', 'baby'),
         Lv(4, '慢行者', '慢是慢，但从不掉队', 'baby'),
@@ -534,7 +534,7 @@ export const EXTRA_SPECIES: Record<string, PetSpecies[]> = {
     {
       id: 'woolly_rhino', name: '冰河犀牛', seriesId: 'prehistoric',
       levels: [
-        Lv(1, '冰角蛋', '带冰纹的蛋，摸起来凉凉的，夏天解暑神器', 'egg'),
+        Lv(1, '冰角灵胎', '厚毛覆着霜气，双角雏形凝成，摸起来凉凉的，夏天解暑神器', 'egg'),
         Lv(2, '小冰犀', '毛绒绒圆滚滚，像颗会跑的雪球', 'egg'),
         Lv(3, '披毛犀', '长毛披身，抗寒', 'baby'),
         Lv(4, '冰河小犀', '一滚就刹不住，雪地里的欢乐', 'baby'),

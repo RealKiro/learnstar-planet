@@ -674,7 +674,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'golden_monkey', name: '金丝猴', seriesId: 'national',
         levels: [
-          { level: 1, name: '金丝卵', description: '浅金色蛋，有茸毛', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '金丝灵胎', description: '淡金绒毛初生，蓝面轮廓隐约，山涧灵光中的灵胎', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '灰白幼猴', description: '全身灰白，紧抱树干', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '初显金毛', description: '金色毛发逐渐显现', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '少年金猴', description: '金毛半覆，活泼好动', stage: 'baby', requiredScore: 60 },
@@ -708,7 +708,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'south_china_tiger', name: '华南虎', seriesId: 'national',
         levels: [
-          { level: 1, name: '虎蛋', description: '橙黄色蛋，条纹状', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '虎纹胚胎', description: '橙黑斑纹初显，额间「王」字虚影，卧于虎穴微光中', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '虎崽', description: '小虎，条纹初现，奶凶可爱', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '幼虎', description: '能奔跑，眼睛有神', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '少年虎', description: '体型渐长，开始独立', stage: 'baby', requiredScore: 60 },
@@ -1035,7 +1035,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'mammoth', name: '猛犸象', seriesId: 'prehistoric',
         levels: [
-          { level: 1, name: '毛蛋', description: '长毛覆盖', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '长毛灵胎', description: '厚绒毛裹着霜晶，象形初具的冰原灵胎', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '小猛犸', description: '长毛，象牙初露', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '象牙变长', description: '牙突出', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '猛犸象', description: '标准，长毛', stage: 'baby', requiredScore: 60 },
@@ -1052,7 +1052,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'sabertooth', name: '剑齿虎', seriesId: 'prehistoric',
         levels: [
-          { level: 1, name: '虎卵', description: '剑齿纹', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '剑齿灵胎', description: '肌肉初成，上颚獠牙的锋利雏形若隐若现', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '幼剑齿', description: '上犬齿突出', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '长牙初成', description: '牙变长', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '剑齿虎', description: '标准，牙如剑', stage: 'baby', requiredScore: 60 },
