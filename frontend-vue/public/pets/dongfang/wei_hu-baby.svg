@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="韦护·二阶·金光护体·一掌推出初露神通">
+  <defs>
+    <!-- 背景：山间道场晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8B8AC"/>
+      <stop offset="55%" stop-color="#8E9E90"/>
+      <stop offset="100%" stop-color="#6E7E72"/>
+    </linearGradient>
+    <!-- 护体金光 -->
+    <radialGradient id="gold" cx="50%" cy="45%" r="52%">
+      <stop offset="0%" stop-color="#FFE9A8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青布道袍（洗得发白） -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#B8C4B8"/>
+      <stop offset="100%" stop-color="#9AA89A"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 晨光山影 -->
+  <radialGradient id="morning" cx="50%" cy="30%" r="60%">
+    <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+  </radialGradient>
+  <circle cx="100" cy="60" r="80" fill="url(#morning)"/>
+  <!-- 山影 -->
+  <path d="M 0 140 Q 40 120 90 130 Q 140 138 200 126 L 200 200 L 0 200 Z" fill="#7E8E7E" opacity="0.5"/>
+
+  <!-- 道场石台 -->
+  <path d="M 30 164 L 160 156 L 168 174 L 20 174 Z" fill="#7E8E84"/>
+  <path d="M 30 164 L 160 156" stroke="#9AA89E" stroke-width="1.6" opacity="0.6"/>
+
+  <!-- 山石（练掌处） -->
+  <path d="M 132 120 Q 140 112 150 116 Q 158 122 156 132 Q 152 140 140 140 Q 130 138 132 120 Z" fill="#8A948A" stroke="#6E786E" stroke-width="1.2"/>
+  <path d="M 136 124 L 138 136" stroke="#6E786E" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- 少年道人（4头身，一掌推出，金光随掌而起） -->
+  <!-- 腿（弓步） -->
+  <path d="M 90 132 L 84 158 L 90 158 L 96 134 Z" fill="#9AA89A"/>
+  <path d="M 104 132 L 112 160 L 106 160 L 100 134 Z" fill="#9AA89A"/>
+  <!-- 道袍 -->
+  <path d="M 88 98 Q 84 116 90 132 Q 100 138 108 132 Q 114 116 110 98 Q 98 92 88 98 Z" fill="url(#robe)" stroke="#7E8C7E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 88 114 L 110 114" stroke="#8E9A6E" stroke-width="1.6"/>
+  <!-- 左臂（护胸） -->
+  <path d="M 90 102 C 84 106 82 112 84 120" fill="none" stroke="#9AA89A" stroke-width="4.4" stroke-linecap="round"/>
+
+  <!-- 右掌推出（金光随掌） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-5 108 100;3 108 100;-5 108 100" dur="2s" repeatCount="indefinite"/>
+    <path d="M 108 100 C 114 96 120 94 124 90" fill="none" stroke="#9AA89A" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="126" cy="89" r="4" fill="#DCC4A0"/>
+  </g>
+  <!-- 掌中金光 -->
+  <circle cx="130" cy="86" r="18" fill="url(#gold)">
+    <animate attributeName="r" values="18;24;18" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 周身护体金光 -->
+  <circle cx="99" cy="104" r="44" fill="url(#gold)" opacity="0.35">
+    <animate attributeName="r" values="44;50;44" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 头（圆脸沉静，束发） -->
+  <circle cx="99" cy="90" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 束发 -->
+  <path d="M 95 81 Q 99 78 103 81 Q 101 76 99 76 Q 97 76 95 81 Z" fill="#2E2620"/>
+  <!-- 额发 -->
+  <path d="M 90 88 Q 94 83 99 83 Q 104 83 108 88 Q 104 84 99 84 Q 94 84 90 88 Z" fill="#2E2620"/>
+  <!-- 眉目沉静 -->
+  <path d="M 91 88 Q 94 87 97 87.5 M 101 87.5 Q 104 87 107 88" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+  <!-- 眼含金光 -->
+  <circle cx="95" cy="91" r="2.5" fill="#1E1008"/>
+  <circle cx="103" cy="91" r="2.5" fill="#1E1008"/>
+  <circle cx="95.6" cy="90.2" r="0.8" fill="#FFE9A8"/>
+  <circle cx="103.6" cy="90.2" r="0.8" fill="#FFE9A8"/>
+  <!-- 鼻梁 -->
+  <path d="M 99 92 L 99 94.5" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+  <!-- 笃定 -->
+  <path d="M 94 98 Q 99 100 104 98" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 金光粒子 -->
+  <g fill="#FFE9A8">
+    <circle cx="40" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="60">
+      <animate attributeName="cy" values="60;52;60" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="56" cy="130">
+      <animate attributeName="cy" values="130;122;130" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.12;0.55" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

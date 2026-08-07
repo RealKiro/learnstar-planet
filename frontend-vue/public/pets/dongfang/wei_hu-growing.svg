@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="韦护·三阶·降魔杵成·一杵砸下妖氛尽散">
+  <defs>
+    <!-- 背景：山中试杵高崖 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8B8AC"/>
+      <stop offset="52%" stop-color="#8E9E90"/>
+      <stop offset="100%" stop-color="#6E7E72"/>
+    </linearGradient>
+    <!-- 神杵金光迸溅 -->
+    <radialGradient id="burst" cx="50%" cy="62%" r="52%">
+      <stop offset="0%" stop-color="#FFE066" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FFE066" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 护法金甲 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8D880"/>
+      <stop offset="100%" stop-color="#B8964E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：方脸庄严·剑眉·眼含威光（脸中心 0,0） -->
+    <g id="weihu-face">
+      <ellipse cx="0" cy="0" rx="11" ry="11.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.9"/>
+      <!-- 束发 -->
+      <path d="M -5 -10 Q 0 -13 5 -10 Q 3 -14 0 -14 Q -3 -14 -5 -10 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -10 -4 Q -6 -9 0 -9 Q 6 -9 10 -4 Q 6 -8 0 -8 Q -6 -8 -10 -4 Z" fill="#2E2620"/>
+      <!-- 剑眉 -->
+      <path d="M -9 -2 Q -5.5 -4 -2 -3 M 9 -2 Q 5.5 -4 2 -3" stroke="#1E1008" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <!-- 眼含威光 -->
+      <circle cx="-5" cy="0.5" r="2.2" fill="#1E1008"/>
+      <circle cx="5" cy="0.5" r="2.2" fill="#1E1008"/>
+      <circle cx="-5.5" cy="-0.3" r="0.8" fill="#FFE9A8"/>
+      <circle cx="4.5" cy="-0.3" r="0.8" fill="#FFE9A8"/>
+      <!-- 鼻梁挺 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇紧抿 -->
+      <path d="M -3.2 6.4 Q 0 7.2 3.2 6.4" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 高崖山影 -->
+  <path d="M 0 136 Q 40 118 90 128 Q 140 136 200 124 L 200 200 L 0 200 Z" fill="#7E8E7E" opacity="0.5"/>
+
+  <!-- 降魔杵砸落金光迸溅 -->
+  <circle cx="100" cy="150" r="70" fill="url(#burst)">
+    <animate attributeName="r" values="70;80;70" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 妖氛四散（左右黑气） -->
+  <g opacity="0.55">
+    <path d="M 24 96 Q 14 102 18 112 Q 24 118 32 112 Q 36 104 28 100 Z" fill="#4A3A48">
+      <animate attributeName="opacity" values="0.55;0.2;0.55" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 172 92 Q 184 96 182 108 Q 176 116 168 110 Q 162 102 172 96 Z" fill="#4A3A48">
+      <animate attributeName="opacity" values="0.55;0.2;0.55" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 山石崩裂 -->
+  <path d="M 96 160 Q 88 154 92 148 Q 100 144 108 148 Q 112 156 104 162 Z" fill="#8A948A" stroke="#6E786E" stroke-width="1"/>
+  <path d="M 92 158 L 100 150 M 104 160 L 100 152" stroke="#6E786E" stroke-width="1.2" opacity="0.7"/>
+
+  <!-- 护法道人（6头身，金甲持杵） -->
+  <!-- 腿 -->
+  <path d="M 88 132 L 84 158 L 90 158 L 94 134 Z" fill="#A8904E"/>
+  <path d="M 106 132 L 114 160 L 108 160 L 102 134 Z" fill="#A8904E"/>
+  <!-- 金甲下摆 -->
+  <path d="M 86 124 Q 98 134 110 126 Q 114 120 110 112 Q 104 124 96 120 Q 88 124 86 124 Z" fill="url(#armor)"/>
+  <!-- 金甲上身 -->
+  <path d="M 88 92 Q 84 108 90 124 Q 100 130 110 124 Q 116 108 112 92 Q 100 86 88 92 Z" fill="url(#armor)" stroke="#8E7032" stroke-width="1"/>
+  <path d="M 92 96 L 96 120 M 104 96 L 100 120" stroke="#E8C860" stroke-width="1" opacity="0.7"/>
+  <!-- 肩甲 -->
+  <circle cx="87" cy="94" r="4.4" fill="#E8B64C" stroke="#A87E26" stroke-width="0.8"/>
+  <circle cx="111" cy="94" r="4.4" fill="#E8B64C" stroke="#A87E26" stroke-width="0.8"/>
+  <!-- 腰带 -->
+  <path d="M 88 112 L 112 112" stroke="#E8D8A8" stroke-width="2"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#weihu-face" transform="translate(100,84) scale(1)"/>
+
+  <!-- 左臂横护 -->
+  <path d="M 90 96 C 82 100 78 106 78 114" fill="none" stroke="#E8D880" stroke-width="4.4" stroke-linecap="round"/>
+
+  <!-- 右臂持降魔杵（斜砸） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 112 96;3 112 96;-4 112 96" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M 108 96 C 116 92 122 88 128 82" fill="none" stroke="#E8D880" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="130" cy="80" r="3.6" fill="#DCC4A0"/>
+    <!-- 降魔杵 -->
+    <path d="M 130 82 L 148 60" stroke="#E8C860" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M 148 60 L 154 54" stroke="#FFE066" stroke-width="4.2" stroke-linecap="round"/>
+    <!-- 杵端金光 -->
+    <circle cx="152" cy="56" r="9" fill="#FFE066" opacity="0.8">
+      <animate attributeName="r" values="9;13;9" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 杵影金光 -->
+  <g stroke="#FFE066" stroke-width="1.6" opacity="0.45" stroke-linecap="round">
+    <path d="M 96 150 Q 90 146 88 140">
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 104 152 Q 110 146 114 140">
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 金光粒子 -->
+  <g fill="#FFE066">
+    <circle cx="48" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="40">
+      <animate attributeName="cy" values="40;30;40" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

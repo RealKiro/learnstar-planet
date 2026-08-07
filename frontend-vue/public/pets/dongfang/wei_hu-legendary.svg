@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="韦护·五阶·肉身成圣·护法韦陀山门前">
+  <defs>
+    <!-- 背景：巍峨山门前 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8E9E98"/>
+      <stop offset="52%" stop-color="#6E8078"/>
+      <stop offset="100%" stop-color="#4E6058"/>
+    </linearGradient>
+    <!-- 佛光 -->
+    <radialGradient id="aura" cx="50%" cy="38%" r="56%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 韦陀金身 -->
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8D880"/>
+      <stop offset="100%" stop-color="#B8964E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：韦陀方脸·剑眉·怒目含威·宝相 -->
+    <g id="weihu-face">
+      <ellipse cx="0" cy="0" rx="11" ry="11.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.9"/>
+      <!-- 束发 -->
+      <path d="M -5 -10 Q 0 -13 5 -10 Q 3 -14 0 -14 Q -3 -14 -5 -10 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -10 -4 Q -6 -9 0 -9 Q 6 -9 10 -4 Q 6 -8 0 -8 Q -6 -8 -10 -4 Z" fill="#2E2620"/>
+      <!-- 剑眉 -->
+      <path d="M -9 -2 Q -5.5 -4 -2 -3 M 9 -2 Q 5.5 -4 2 -3" stroke="#1E1008" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <!-- 怒目含威 -->
+      <ellipse cx="-5" cy="0.5" rx="2.3" ry="1.9" fill="#1E1008"/>
+      <ellipse cx="5" cy="0.5" rx="2.3" ry="1.9" fill="#1E1008"/>
+      <circle cx="-5.5" cy="-0.3" r="0.8" fill="#FFF7E0"/>
+      <circle cx="4.5" cy="-0.3" r="0.8" fill="#FFF7E0"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇抿 -->
+      <path d="M -3.2 6.4 Q 0 7.2 3.2 6.4" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 佛光 -->
+  <circle cx="100" cy="92" r="88" fill="url(#aura)">
+    <animate attributeName="opacity" values="0.9;0.65;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色圆光 -->
+  <g>
+    <circle cx="100" cy="92" r="62" fill="none" stroke="#FFE066" stroke-width="2.4" opacity="0.85">
+      <animate attributeName="r" values="62;67;62" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="92" r="54" fill="none" stroke="#FFE066" stroke-width="1.1" opacity="0.5">
+      <animate attributeName="r" values="54;57;54" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 云山道场（山门后） -->
+  <path d="M 0 130 Q 40 112 90 122 Q 140 130 200 118 L 200 200 L 0 200 Z" fill="#5E7668" opacity="0.7"/>
+  <!-- 幢幡（两侧） -->
+  <g opacity="0.8">
+    <path d="M 26 20 L 26 96" stroke="#6E5A3E" stroke-width="2"/>
+    <path d="M 26 20 L 48 28 L 26 36 Z" fill="#E8D8A8"/>
+    <path d="M 174 20 L 174 96" stroke="#6E5A3E" stroke-width="2"/>
+    <path d="M 174 20 L 152 28 L 174 36 Z" fill="#E8D8A8"/>
+  </g>
+
+  <!-- 云海托足 -->
+  <path d="M 0 148 Q 50 140 100 146 Q 150 152 200 144 L 200 200 L 0 200 Z" fill="#FFF7E0" opacity="0.55">
+    <animateTransform attributeName="transform" type="translate" values="0 0;6 2;0 0" dur="7s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 护法韦陀金身（7头身，持杵斜立） -->
+  <!-- 腿 -->
+  <path d="M 88 132 L 84 156 L 90 156 L 94 134 Z" fill="#A8904E"/>
+  <path d="M 106 132 L 114 158 L 108 158 L 102 134 Z" fill="#A8904E"/>
+  <!-- 金身下摆 -->
+  <path d="M 86 124 Q 98 134 110 126 Q 114 120 110 112 Q 104 124 96 120 Q 88 124 86 124 Z" fill="url(#gold)"/>
+  <!-- 金身上身 -->
+  <path d="M 88 90 Q 84 106 90 124 Q 100 130 110 124 Q 116 106 112 90 Q 100 84 88 90 Z" fill="url(#gold)" stroke="#8E7032" stroke-width="1"/>
+  <path d="M 92 94 L 96 118 M 104 94 L 100 118" stroke="#E8C860" stroke-width="1" opacity="0.7"/>
+  <!-- 肩甲 -->
+  <circle cx="87" cy="92" r="4.4" fill="#E8B64C" stroke="#A87E26" stroke-width="0.8"/>
+  <circle cx="111" cy="92" r="4.4" fill="#E8B64C" stroke="#A87E26" stroke-width="0.8"/>
+  <!-- 腰带 -->
+  <path d="M 88 110 L 112 110" stroke="#FFF7E0" stroke-width="2"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#weihu-face" transform="translate(100,82) scale(1)"/>
+
+  <!-- 左臂竖掌（护法印） -->
+  <path d="M 90 94 C 82 100 78 106 78 116" fill="none" stroke="#E8D880" stroke-width="4.4" stroke-linecap="round"/>
+  <circle cx="77" cy="118" r="3.6" fill="#DCC4A0"/>
+
+  <!-- 右臂持降魔杵（杵尖向下斜立） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-2 112 94;2 112 94;-2 112 94" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 108 94 C 116 90 122 86 128 80" fill="none" stroke="#E8D880" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="130" cy="78" r="3.6" fill="#DCC4A0"/>
+    <path d="M 130 80 L 146 112" stroke="#E8C860" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M 146 112 L 149 120" stroke="#FFE066" stroke-width="4.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 杵尖金光 -->
+  <circle cx="148" cy="116" r="8" fill="#FFE066" opacity="0.7">
+    <animate attributeName="r" values="8;12;8" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 佛光粒子 -->
+  <g fill="#FFF7E0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="54">
+      <animate attributeName="cy" values="54;44;54" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 云端散光 -->
+  <g stroke="#FFE066" stroke-width="1.4" opacity="0.45" stroke-linecap="round">
+    <path d="M 100 22 L 100 12"/><path d="M 56 44 L 48 36"/><path d="M 144 44 L 152 36"/>
+  </g>
+</svg>

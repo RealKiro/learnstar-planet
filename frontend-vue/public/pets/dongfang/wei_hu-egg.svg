@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="韦护·一阶·山中少年·溪边吐纳道心初萌">
+  <defs>
+    <!-- 背景：云雾山间 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AA8A0"/>
+      <stop offset="55%" stop-color="#7E8E86"/>
+      <stop offset="100%" stop-color="#5E6E68"/>
+    </linearGradient>
+    <!-- 山间晨光 -->
+    <radialGradient id="glow" cx="50%" cy="36%" r="58%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青布道袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E8E7E"/>
+      <stop offset="100%" stop-color="#4E6E5E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="70" r="80" fill="url(#glow)"/>
+
+  <!-- 远山 -->
+  <path d="M 0 130 Q 40 108 90 118 Q 140 126 200 112 L 200 200 L 0 200 Z" fill="#6E8278" opacity="0.5"/>
+
+  <!-- 古松（右） -->
+  <path d="M 166 96 Q 162 76 166 58" stroke="#4E5E4E" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+  <path d="M 166 70 Q 150 64 142 68 M 166 62 Q 182 56 190 60 M 166 76 Q 178 72 184 78" stroke="#4E5E4E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+  <!-- 飞瀑（左） -->
+  <path d="M 34 56 Q 32 80 36 110" stroke="#B8CCD8" stroke-width="3" stroke-linecap="round" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.5;0.8" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <path d="M 30 60 Q 28 84 32 114" stroke="#D0DCE4" stroke-width="1.6" stroke-linecap="round" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3.4s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 山溪（前景） -->
+  <path d="M 0 158 Q 40 152 80 158 Q 120 164 160 156 Q 180 152 200 156 L 200 200 L 0 200 Z" fill="#7E9AA8"/>
+  <path d="M 20 170 Q 60 164 100 170 Q 140 176 180 168" stroke="#9AB8C8" stroke-width="1.6" opacity="0.7">
+    <animateTransform attributeName="transform" type="translate" values="0 0;4 0;0 0" dur="4s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 山鸟 -->
+  <g fill="#3A4E42">
+    <path d="M 120 50 Q 124 46 128 50 Q 124 52 120 50 Z">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-8 -2;0 0" dur="4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 青袍少年道童（4头身，溪边吐纳练气） -->
+  <!-- 腿（盘坐） -->
+  <path d="M 88 138 Q 94 146 106 142 Q 110 138 108 132 Q 100 142 92 136 Z" fill="#4E6E5E"/>
+  <!-- 道袍 -->
+  <path d="M 86 100 Q 82 118 88 136 Q 100 142 110 136 Q 116 118 112 100 Q 98 94 86 100 Z" fill="url(#robe)" stroke="#3E5E4E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 86 116 L 112 116" stroke="#8E9A6E" stroke-width="1.6"/>
+  <!-- 领口 -->
+  <path d="M 94 100 Q 99 104 104 100" stroke="#3E5E4E" stroke-width="1.4" fill="none"/>
+  <!-- 双手结印于膝 -->
+  <circle cx="92" cy="128" r="3.2" fill="#DCC4A0"/>
+  <circle cx="106" cy="128" r="3.2" fill="#DCC4A0"/>
+
+  <!-- 头（圆脸憨厚，束发） -->
+  <circle cx="99" cy="92" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 束发 -->
+  <path d="M 95 83 Q 99 80 103 83 Q 101 78 99 78 Q 97 78 95 83 Z" fill="#2E2620"/>
+  <!-- 额发 -->
+  <path d="M 90 90 Q 94 85 99 85 Q 104 85 108 90 Q 104 86 99 86 Q 94 86 90 90 Z" fill="#2E2620"/>
+  <!-- 眉目柔和 -->
+  <path d="M 91 90 Q 94 89 97 89.5 M 101 89.5 Q 104 89 107 90" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+  <!-- 大眼而正 -->
+  <circle cx="95" cy="93" r="2.6" fill="#1E1008"/>
+  <circle cx="103" cy="93" r="2.6" fill="#1E1008"/>
+  <circle cx="96" cy="92.2" r="0.9" fill="#FFF"/>
+  <circle cx="104" cy="92.2" r="0.9" fill="#FFF"/>
+  <!-- 鼻梁直 -->
+  <path d="M 99 94 L 99 96.5" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+  <!-- 憨笑 -->
+  <path d="M 94 99 Q 99 101.6 104 99" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 气旋（吐纳气息） -->
+  <g stroke="#FFF7E0" stroke-width="1.4" opacity="0.5" fill="none">
+    <circle cx="99" cy="120" r="8">
+      <animate attributeName="r" values="8;12;8" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="99" cy="120" r="14">
+      <animate attributeName="r" values="14;18;14" dur="2.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.1;0.35" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 金尘（道心微光） -->
+  <g fill="#FFF7E0">
+    <circle cx="46" cy="110">
+      <animate attributeName="cy" values="110;102;110" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
