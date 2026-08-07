@@ -200,7 +200,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   osmanthus_cake: { body: 'food', main: '#FDE047', parts: { crown: 8, halo: 11 } },
   wonton: { body: 'food', main: '#F1F5F9', parts: { crown: 8, halo: 11 } },
   festival_lantern: { body: 'food', main: '#EF4444', variant: 'hexlantern', parts: { crown: 7, halo: 10 } },
-  // ===== 七侠剑客(虹猫蓝兔七侠传，贴合原型) =====
+  // ===== 虹猫蓝兔七侠传(虹猫蓝兔七侠传，贴合原型) =====
   hongmao: { body: 'quadruped', main: '#EF4444', variant: 'cat', parts: { tail: 3, horns: 7, crown: 8 }, stageMain: { egg: '#FECACA', baby: '#F87171', growing: '#EF4444', mature: '#DC2626', legendary: '#991B1B' } },
   lantu: { body: 'quadruped', main: '#3B82F6', variant: 'rabbit', parts: { tail: 3, horns: 7, crown: 8 }, stageMain: { egg: '#BFDBFE', baby: '#93C5FD', growing: '#3B82F6', mature: '#2563EB', legendary: '#1D4ED8' } },
   doudou: { body: 'quadruped', main: '#F8FAFC', variant: 'puppy', parts: { tail: 3, horns: 7, crown: 8 } },

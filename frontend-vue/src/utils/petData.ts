@@ -259,7 +259,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   osmanthus_cake: '🍮',
   wonton: '🥟',
   festival_lantern: '🏮',
-  // 七侠剑客
+  // 虹猫蓝兔七侠传
   hongmao: '🐱',
   lantu: '🐰',
   doudou: '🐶',
@@ -325,7 +325,7 @@ export function getSeriesName(seriesId: string): string {
     prehistoric: '史前生物',
     constellation: '星座守护',
     festival: '传统节日',
-    qixia: '七侠剑客',
+    qixia: '虹猫蓝兔七侠传',
     dongfang: '东方神话',
   }
   return map[seriesId] || '未知'
@@ -547,9 +547,9 @@ export const PET_SERIES: PetSeries[] = [
     ],
   },
 
-  // ===== 二、宝可梦风格系列（6种） =====
+  // ===== 二、宝可梦系列（6种） =====
   {
-    id: 'pokemon', name: '宝可梦风格', emoji: '⚡',
+    id: 'pokemon', name: '宝可梦', emoji: '⚡',
     species: [
       {
         id: 'charmander', name: '小火龙→喷火龙', seriesId: 'pokemon',
@@ -626,7 +626,7 @@ export const PET_SERIES: PetSeries[] = [
           { level: 2, name: '皮丘', description: '小型，脸颊无电', stage: 'baby', requiredScore: 15 },
           { level: 3, name: '皮丘萌动', description: '能站立，脸颊微电', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '皮卡丘', description: '标准形态，脸颊带电，尾巴闪电状', stage: 'baby', requiredScore: 60 },
-          { level: 5, name: '电光鼠', description: '电力增强，奔跑带光', stage: 'growing', requiredScore: 90 },
+          { level: 5, name: '蓄电皮卡丘', description: '电力增强，奔跑带光', stage: 'growing', requiredScore: 90 },
           { level: 6, name: '雷丘雏形', description: '体型增大，尾巴变粗', stage: 'growing', requiredScore: 125 },
           { level: 7, name: '雷丘', description: '完全形态，电力十足', stage: 'growing', requiredScore: 165 },
           { level: 8, name: '冲浪皮卡丘', description: '尾巴可当冲浪板', stage: 'mature', requiredScore: 210 },
@@ -1306,7 +1306,7 @@ export const PET_SERIES: PetSeries[] = [
 ]
 
 // ============================================================
-// 扩充数据合并：每系列补齐到 12 种 + 新增「传统节日」「七侠剑客」系列
+// 扩充数据合并：每系列补齐到 12 种 + 新增「传统节日」「虹猫蓝兔七侠传」系列
 // 构成 10 系列 × 12 物种 = 120 种
 // ============================================================
 

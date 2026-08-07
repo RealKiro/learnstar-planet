@@ -224,14 +224,14 @@ class Pet extends Model
     {
         return match ($seriesId) {
             'myth' => '山海经',
-            'pokemon' => '宝可梦风格',
+            'pokemon' => '宝可梦',
             'national' => '国宝守护',
             'digimon' => '数码宝贝',
             'magic' => '魔法奇幻',
             'prehistoric' => '史前生物',
             'constellation' => '星座守护',
             'festival' => '传统节日',
-            'qixia' => '七侠剑客',
+            'qixia' => '虹猫蓝兔七侠传',
             'dongfang' => '封神演义',
             default => $seriesId,
         };

@@ -112,7 +112,7 @@ export const PET_PROFILES: Record<string, PetProfile> = {
   wonton:        { form: '薄皮小馄饨，汤鲜味美。', habit: '街巷里的一碗热汤，皮薄馅嫩，暖心暖胃。' },
   festival_lantern: { form: '红彩花灯，烛光摇曳。', habit: '元宵提灯夜游，照亮团圆的路。' },
 
-  // ===== 七侠剑客 =====
+  // ===== 虹猫蓝兔七侠传 =====
   hongmao:       { form: '红毛小猫，手持长虹剑。', habit: '机智勇敢，侠肝义胆，长虹剑法出神入化。' },
   lantu:         { form: '蓝毛白兔，冰魄剑在手。', habit: '冰雪聪明，温柔而坚定，剑出便是一道冰魄寒光。' },
   doudou:        { form: '白色小狗，爱玩爱闹。', habit: '调皮捣蛋却心地纯善，是七侠中的开心果。' },
