@@ -1229,7 +1229,7 @@ class TeacherController extends Controller
         ]);
 
         $seriesId = $request->input('series_id');
-        $validSeries = ['myth', 'pokemon', 'national', 'digimon', 'magic', 'prehistoric', 'constellation', 'festival', 'qixia', 'fengshen'];
+        $validSeries = ['myth', 'pokemon', 'national', 'digimon', 'magic', 'prehistoric', 'constellation', 'festival', 'qixia', 'dongfang'];
 
         if (!in_array($seriesId, $validSeries, true)) {
             return response()->json(['message' => '无效的系列ID，可选值：' . implode(', ', $validSeries)], 422);

@@ -212,7 +212,7 @@ class Pet extends Model
             'constellation' => ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'],
             'festival' => ['zongzi', 'tangyuan', 'mooncake', 'qingtuan', 'chongyang_cake', 'niangao', 'laba_porridge', 'spring_pancake', 'tanghulu', 'osmanthus_cake', 'wonton', 'festival_lantern'],
             'qixia' => ['hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'heixinhu', 'heixiaohu'],
-            'fengshen' => ['jiang_ziya', 'nezha', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao'],
+            'dongfang' => ['jiang_ziya', 'nezha', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao'],
             default => [],
         };
     }
@@ -232,7 +232,7 @@ class Pet extends Model
             'constellation' => '星座守护',
             'festival' => '传统节日',
             'qixia' => '七侠剑客',
-            'fengshen' => '封神演义',
+            'dongfang' => '封神演义',
             default => $seriesId,
         };
     }

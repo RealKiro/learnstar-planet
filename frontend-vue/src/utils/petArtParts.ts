@@ -210,7 +210,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   dada: { body: 'quadruped', main: '#16A34A', variant: 'panda', parts: { tail: 3, horns: 7, crown: 8 } },
   heixinhu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { tail: 3, horns: 7, crown: 8 }, stageMain: { egg: '#9CA3AF', baby: '#6B7280', growing: '#1F2937', mature: '#111827', legendary: '#0B0F19' } },
   heixiaohu: { body: 'quadruped', main: '#1F2937', variant: 'tiger', parts: { horns: 6, tail: 3, crown: 8, wings: 11 }, stageMain: { egg: '#9CA3AF', baby: '#6B7280', growing: '#1F2937', mature: '#111827', legendary: '#0B0F19' } },
-  // ===== 封神演义(神话) =====
+  // ===== 东方神话(神话) =====
   jiang_ziya:    { body: 'humanoid', main: '#F59E0B', variant: 'wizard', parts: { crown: 7, halo: 11 } },
   nezha:         { body: 'humanoid', main: '#EF4444', variant: 'knight', parts: { crown: 8, wings: 11 } },
   yang_jian:     { body: 'humanoid', main: '#3B82F6', variant: 'knight', parts: { crown: 8 } },
@@ -221,6 +221,17 @@ export const PET_ART: Record<string, PetArtConfig> = {
   wei_hu:        { body: 'humanoid', main: '#6366F1', variant: 'giant', parts: { crown: 8, halo: 11 } },
   daji:          { body: 'quadruped', main: '#EC4899', variant: 'kitsune', parts: { tail: 3, horns: 10 } },
   shen_gongbao:  { body: 'humanoid', main: '#7C3AED', variant: 'wizard', parts: { crown: 7 } },
+  // ===== 东方神话·补录 =====
+  sun_wukong:      { body: 'quadruped', main: '#F59E0B', variant: 'monkey', parts: { tail: 3, crown: 9, horns: 6 } },
+  lv_dongbin:      { body: 'humanoid', main: '#F8FAFC', variant: 'wizard', parts: { crown: 8, halo: 11 } },
+  he_xiangu:       { body: 'humanoid', main: '#F472B6', variant: 'fairy', parts: { wings: 7, crown: 7 } },
+  zhang_guolao:    { body: 'quadruped', main: '#94A3B8', variant: 'horse', parts: { tail: 3, crown: 9 } },
+  tie_guaili:      { body: 'humanoid', main: '#57534E', variant: 'golem', parts: { crown: 8 } },
+  han_zhongli:     { body: 'humanoid', main: '#EF4444', variant: 'giant', parts: { crown: 8, halo: 11 } },
+  lan_caihe:       { body: 'humanoid', main: '#22C55E', variant: 'fairy', parts: { crown: 7 } },
+  cao_guojiu:      { body: 'humanoid', main: '#FBBF24', variant: 'wizard', parts: { crown: 8 } },
+  taishang_laojun: { body: 'humanoid', main: '#7C3AED', variant: 'wizard', parts: { halo: 10, crown: 7 } },
+  zhong_kui:       { body: 'humanoid', main: '#DC2626', variant: 'giant', parts: { crown: 8, halo: 11 } },
 }
 
 /** 兜底配置(未知物种也保证能渲染) */

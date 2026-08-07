@@ -148,7 +148,7 @@ export const PET_PROFILES: Record<string, PetProfile> = {
   dark_panther:  { form: '墨黑豹影，身姿流线。', habit: '潜伏于暗夜，出击快如闪电，无声无息。' },
   steel_armadillo: { form: '钢甲犰狳，甲带如鳞。', habit: '遇敌便蜷成铁球，刀枪不入，坚不可摧。' },
 
-  // ===== 封神演义 =====
+  // ===== 东方神话 =====
   jiang_ziya:    { form: '白发道袍，手持杏黄旗，背负封神榜。', habit: '垂钓渭水待明主，辅周伐纣，执掌封神大典，号令天下诸神。' },
   nezha:         { form: '莲花化身灵童子，火尖枪挑乾坤。', habit: '脚踩风火轮，身缠混天绫，手掷乾坤圈，天生天不怕地不怕。' },
   yang_jian:     { form: '银甲神将，额生天目，手持三尖两刃刀。', habit: '身边哮天犬相随，玄功变化无穷，天眼能辨一切妖邪。' },
@@ -159,6 +159,16 @@ export const PET_PROFILES: Record<string, PetProfile> = {
   wei_hu:        { form: '身披金甲，手持降魔杵，法相庄严。', habit: '道行天尊之徒，护法金刚，降魔杵所向妖邪辟易。' },
   daji:          { form: '千年九尾狐化身绝色美人，狐尾隐现。', habit: '受命祸乱商纣，魅惑君王，倾覆朝纲，狐火幻术无双。' },
   shen_gongbao:  { form: '黑袍道人，身负双剑，面容阴鸷。', habit: '善以花言巧语搬弄是非，四处邀仙下山助纣为虐。' },
+  sun_wukong:    { form: '通体金毛石猴，火眼金睛，金箍棒在手。', habit: '顽劣不羁却重情重义，一路西来由猴成佛。' },
+  lv_dongbin:    { form: '白衣佩剑的俊逸剑仙，逍遥巾束发，腰悬酒葫芦。', habit: '黄粱一梦醒功名，仗剑行天下，游戏人间度有缘。' },
+  he_xiangu:     { form: '素衣仙姑，手持如意莲花，长发及腰。', habit: '岭南采药女得道，性温婉却杀伐果断，终成花中真仙。' },
+  zhang_guolao:  { form: '灰白道袍老翁，倒骑白驴，手持鱼鼓。', habit: '大智若愚的恒山樵夫，鱼鼓一响定风波，混元仙翁。' },
+  tie_guaili:    { form: '跛足乞丐形象，铁拐为杖，腰悬宝葫芦。', habit: '以最卑微之相行最慈悲之事，葫芦纳天地，乞丐道祖。' },
+  han_zhongli:   { form: '赤面红袍，手持芭蕉扇，腰系宝葫芦。', habit: '燕台武将弃武修道，性如烈火，赤阳神功化入大日。' },
+  lan_caihe:     { form: '破绿衫赤足的清秀少年，手持玉板，腰挂铜钱。', habit: '踏歌行天下，歌中有大道，歌声所至万物皆和。' },
+  cao_guojiu:    { form: '白衣鹤氅的雅士，头戴莲花冠，手持莹白玉磬。', habit: '皇亲弃官修道，以音律为道，玉磬一响天地皆静。' },
+  taishang_laojun: { form: '白发白须面如童子，紫金道袍，手持拂尘，身绕紫气。', habit: '无为而治，一炁化三清，道化天地，无处不在。' },
+  zhong_kui:     { form: '赤面虬髯，豹头环眼，额间竖纹，判官笔与青锋剑。', habit: '生前貌丑被黜，死后化身万鬼之王，以慈悲心行雷霆事。' },
 }
 
 export function getPetProfile(speciesId: string): PetProfile {

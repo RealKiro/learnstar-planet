@@ -133,11 +133,11 @@ export const SERIES_SCENES: Record<string, SceneConfig> = {
     decor: ['⚔️', '🐉', '🌲', '🏯'],
     scene: '七剑峡谷 · 侠影重重',
   },
-  fengshen: {
+  dongfang: {
     primaryColor: '#D97706',
     bgGradient: '线性渐变(古战场·封神台·祥云)深色调',
-    decor: ['🗡️', '📜', '⚡', '☁️'],
-    scene: '封神台 · 阐截相争',
+    decor: ['🗡️', '📜', '☯️', '🐒'],
+    scene: '封神台 · 仙神斗法',
   },
 }
 
@@ -269,7 +269,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   dada: '🐼',
   heixinhu: '🐯',
   heixiaohu: '🐯',
-  // 封神演义
+  // 东方神话
   jiang_ziya: '📜',
   nezha: '🔥',
   yang_jian: '⚔️',
@@ -280,6 +280,16 @@ export const SPECIES_EMOJI: Record<string, string> = {
   wei_hu: '🔱',
   daji: '🦊',
   shen_gongbao: '🐆',
+  sun_wukong: '🐒',
+  lv_dongbin: '⚔️',
+  he_xiangu: '🌸',
+  zhang_guolao: '🐴',
+  tie_guaili: '🩼',
+  han_zhongli: '🪭',
+  lan_caihe: '🎵',
+  cao_guojiu: '🪇',
+  taishang_laojun: '☯️',
+  zhong_kui: '👺',
 }
 
 /** 获取物种Emoji */
@@ -299,7 +309,7 @@ export function getSeriesEmoji(seriesId: string): string {
     constellation: '♈',
     festival: '🎊',
     qixia: '⚔️',
-    fengshen: '🗡️',
+    dongfang: '🗡️',
   }
   return map[seriesId] || '🌟'
 }
@@ -316,7 +326,7 @@ export function getSeriesName(seriesId: string): string {
     constellation: '星座守护',
     festival: '传统节日',
     qixia: '七侠剑客',
-    fengshen: '封神演义',
+    dongfang: '东方神话',
   }
   return map[seriesId] || '未知'
 }
