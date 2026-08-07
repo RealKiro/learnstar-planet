@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="黄天化·一阶·将门灵童·武成王府演武场">
+  <defs>
+    <!-- 背景：武成王府红墙 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8432E"/>
+      <stop offset="55%" stop-color="#8E2E1E"/>
+      <stop offset="100%" stop-color="#6E2218"/>
+    </linearGradient>
+    <!-- 暖金晨光 -->
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#F5C96A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#F5C96A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 演武场石地 -->
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9A958C"/>
+      <stop offset="100%" stop-color="#6E6A62"/>
+    </linearGradient>
+    <!-- 金瓦 -->
+    <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8B64C"/>
+      <stop offset="100%" stop-color="#A87E26"/>
+    </linearGradient>
+    <!-- 小马驹枣红 -->
+    <linearGradient id="pony" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#B04A2E"/>
+      <stop offset="100%" stop-color="#7E2E1A"/>
+    </linearGradient>
+    <!-- 幼童肌肤 -->
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+    <!-- 武将劲装 -->
+    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3A4E78"/>
+      <stop offset="100%" stop-color="#22304E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 晨光 -->
+  <circle cx="100" cy="80" r="90" fill="url(#glow)"/>
+
+  <!-- 金瓦殿檐（左上，红墙金瓦） -->
+  <path d="M 0 0 L 84 0 L 68 18 Q 42 30 16 26 Z" fill="url(#roof)" opacity="0.95"/>
+  <path d="M 0 0 L 84 0" stroke="#C89E3E" stroke-width="1.4"/>
+  <!-- 廊柱 -->
+  <path d="M 30 26 L 30 120 L 34 120 L 34 26 Z" fill="#6E2218" opacity="0.6"/>
+  <path d="M 62 26 L 62 110 L 66 110 L 66 26 Z" fill="#6E2218" opacity="0.5"/>
+
+  <!-- 演武场石地 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="url(#ground)"/>
+  <path d="M 0 150 L 200 150" stroke="#B0AAA0" stroke-width="2" opacity="0.6"/>
+
+  <!-- 父亲黄飞虎背影（右上，含笑而立，武将剪影） -->
+  <g opacity="0.55">
+    <path d="M 158 148 Q 154 118 160 100 Q 152 96 156 88 Q 158 82 166 84 Q 172 90 170 98 Q 176 110 172 148 Z" fill="#2A1E16"/>
+    <circle cx="163" cy="82" r="7" fill="#2A1E16"/>
+    <path d="M 156 100 L 170 100" stroke="#4A3A2A" stroke-width="3" opacity="0.6"/>
+    <!-- 虎符悬腰 -->
+    <path d="M 164 110 Q 168 114 164 118 Q 160 114 164 110 Z" fill="#E8B64C" opacity="0.8"/>
+  </g>
+
+  <!-- 小马驹（居中，温顺昂首） -->
+  <!-- 身体 -->
+  <path d="M 86 132 Q 80 120 88 112 Q 96 106 104 108 Q 118 112 120 124 Q 122 134 118 142 Q 108 146 96 144 Q 86 142 86 132 Z" fill="url(#pony)" stroke="#6E2410" stroke-width="1"/>
+  <!-- 腿 -->
+  <path d="M 90 140 L 88 156 L 93 156 L 95 142 Z" fill="#7E2E1A"/>
+  <path d="M 112 142 L 110 158 L 115 158 L 117 144 Z" fill="#7E2E1A"/>
+  <path d="M 118 132 L 120 156 L 124 156 L 123 132 Z" fill="#9A3820"/>
+  <!-- 头颈 -->
+  <path d="M 88 124 Q 80 114 84 106 Q 88 100 96 104 Q 104 110 102 118 Z" fill="#B04A2E" stroke="#6E2410" stroke-width="1"/>
+  <!-- 马头 -->
+  <path d="M 82 102 Q 74 100 72 94 Q 70 88 76 86 Q 82 86 86 92 Q 88 98 84 102 Z" fill="#B04A2E" stroke="#6E2410" stroke-width="1"/>
+  <!-- 马眼 -->
+  <circle cx="78" cy="93" r="1.6" fill="#1E1008"/>
+  <!-- 马耳 -->
+  <path d="M 82 92 L 80 84 L 85 88 Z" fill="#7E2E1A"/>
+  <path d="M 85 92 L 84 85 L 88 89 Z" fill="#8E3620"/>
+  <!-- 鬃毛 -->
+  <path d="M 86 100 Q 88 94 92 96 Q 94 98 90 102" stroke="#5A2010" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <!-- 尾巴（SMIL 轻摆） -->
+  <g stroke="#5A2010" stroke-width="2.4" stroke-linecap="round" fill="none">
+    <path d="M 120 130 Q 128 126 130 120">
+      <animateTransform attributeName="transform" type="rotate" values="0 120 130;8 120 130;0 120 130" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 马鞍 -->
+  <path d="M 90 112 Q 100 108 110 112 L 108 120 L 92 120 Z" fill="#8E3E22" stroke="#6E2E14" stroke-width="1"/>
+
+  <!-- 总角孩童（跨骑，3头身） -->
+  <!-- 腿部 -->
+  <path d="M 96 118 L 92 128 L 97 128 L 100 120 Z" fill="url(#cloth)"/>
+  <path d="M 104 118 L 108 128 L 103 128 L 100 120 Z" fill="url(#cloth)"/>
+  <!-- 身体（小武将劲装） -->
+  <path d="M 93 98 Q 90 108 93 116 Q 100 120 107 116 Q 110 108 107 98 Q 100 94 93 98 Z" fill="url(#cloth)" stroke="#1E2E4A" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 93 110 L 107 110" stroke="#E8B64C" stroke-width="2"/>
+  <!-- 右手持木剑（比划） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-6 100 100;4 100 100;-6 100 100" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M 106 100 C 112 96 118 94 122 90" fill="none" stroke="#C8A45E" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M 107 98 Q 109 96 110 98 Z" fill="#F2DEC2"/>
+    <rect x="121" y="84" width="3" height="9" rx="1" fill="#A87E26" transform="rotate(-12 122 88)"/>
+  </g>
+
+  <!-- 头（总角双髻，咧嘴笑） -->
+  <circle cx="100" cy="88" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 总角双髻 -->
+  <circle cx="93" cy="80" r="4" fill="#2E2620"/>
+  <circle cx="107" cy="80" r="4" fill="#2E2620"/>
+  <!-- 额发 -->
+  <path d="M 90 86 Q 94 82 100 82 Q 106 82 110 86 Q 106 83 100 83 Q 94 83 90 86 Z" fill="#2E2620"/>
+  <!-- 剑眉 -->
+  <path d="M 92 86 Q 95 84 98 85 M 102 85 Q 105 84 108 86" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <!-- 大眼 -->
+  <circle cx="95" cy="89" r="2.4" fill="#1E1008"/>
+  <circle cx="105" cy="89" r="2.4" fill="#1E1008"/>
+  <circle cx="96" cy="88.2" r="0.9" fill="#FFF"/>
+  <circle cx="106" cy="88.2" r="0.9" fill="#FFF"/>
+  <!-- 咧嘴笑 -->
+  <path d="M 94 94 Q 100 98 106 94" fill="none" stroke="#B06A4A" stroke-width="1.4" stroke-linecap="round"/>
+
+  <!-- 金尘（命定微光） -->
+  <g fill="#F5C96A">
+    <circle cx="48" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="102">
+      <animate attributeName="cy" values="102;94;102" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="132" cy="62">
+      <animate attributeName="cy" values="62;54;62" dur="3.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="黄天化·五阶·捐躯金鸡岭·血洒疆场英魂不灭">
+  <defs>
+    <!-- 背景：金鸡岭战场暮色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5A3226"/>
+      <stop offset="46%" stop-color="#3A2016"/>
+      <stop offset="100%" stop-color="#1E120C"/>
+    </linearGradient>
+    <!-- 残阳如血 -->
+    <radialGradient id="sun" cx="78%" cy="28%" r="36%">
+      <stop offset="0%" stop-color="#E8553A" stop-opacity="0.9"/>
+      <stop offset="55%" stop-color="#C8402A" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#C8402A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 残金（甲上最后的光） -->
+    <radialGradient id="gold" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#E8C860" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8C860" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 金甲染血 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8B25E"/>
+      <stop offset="100%" stop-color="#9A7A34"/>
+    </linearGradient>
+    <!-- 玉麒麟青玉 -->
+    <linearGradient id="qilin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#96C8B2"/>
+      <stop offset="55%" stop-color="#5E9878"/>
+      <stop offset="100%" stop-color="#3E7058"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：少年方脸·凤目圆睁不屈·染血 -->
+    <g id="huangtianhua-face">
+      <ellipse cx="0" cy="0" rx="11" ry="11.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 散发染血 -->
+      <path d="M -4 -11 L -7 -15 L -2 -12 M 4 -11 L 7 -15 L 2 -12" stroke="#3A1E10" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <path d="M -9 -4 Q -5.5 -8.5 0 -8.5 Q 5.5 -8.5 9 -4 Q 5.5 -8 0 -8 Q -5.5 -8 -9 -4 Z" fill="#3A1E10"/>
+      <!-- 血痕（额侧） -->
+      <path d="M -8 -3 Q -7 -1 -8 1" stroke="#B0301E" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+      <!-- 剑眉染血 -->
+      <path d="M -8.5 -2 Q -5 -4 -2 -3 M 8.5 -2 Q 5 -4 2 -3" stroke="#2A160C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 凤目圆睁 -->
+      <path d="M -7.5 0 Q -4.5 -2 -1.8 -0.9 L -1.8 0.9 Q -4.5 0.2 -7.5 1.2 Z" fill="#FFF8E8" stroke="#2A160C" stroke-width="0.8"/>
+      <path d="M 7.5 0 Q 4.5 -2 1.8 -0.9 L 1.8 0.9 Q 4.5 0.2 7.5 1.2 Z" fill="#FFF8E8" stroke="#2A160C" stroke-width="0.8"/>
+      <circle cx="-4.2" cy="-0.4" r="1.5" fill="#2A160C"/>
+      <circle cx="4.2" cy="-0.4" r="1.5" fill="#2A160C"/>
+      <circle cx="-4.7" cy="-1" r="0.5" fill="#FFF"/>
+      <circle cx="3.7" cy="-1" r="0.5" fill="#FFF"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1 L 0 3.2" stroke="#C8A882" stroke-width="1" stroke-linecap="round"/>
+      <!-- 紧抿唇线 -->
+      <path d="M -3.2 6 Q 0 7 3.2 6" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 残阳如血（右上） -->
+  <circle cx="156" cy="56" r="52" fill="url(#sun)">
+    <animate attributeName="opacity" values="1;0.75;1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 残阳圆轮 -->
+  <circle cx="156" cy="56" r="17" fill="#D84830" opacity="0.8">
+    <animate attributeName="r" values="17;19;17" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 半卷战旗（左，垂落） -->
+  <g opacity="0.8">
+    <path d="M 26 26 L 26 130" stroke="#2E241C" stroke-width="2.2"/>
+    <path d="M 26 26 L 54 34 L 26 44 Z" fill="#8E2E1E">
+      <animateTransform attributeName="transform" type="translate" values="0 0;1 0.6;0 0" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 战场地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#2A1810" opacity="0.8"/>
+  <path d="M 0 152 L 200 152" stroke="#3E2820" stroke-width="1.6" opacity="0.6"/>
+
+  <!-- 玉麒麟伏于身侧低鸣 -->
+  <!-- 法云（伏地） -->
+  <path d="M 56 172 Q 74 164 96 172 Q 104 178 92 184 Q 72 190 58 184 Q 48 178 56 172 Z" fill="#E8E4DC" opacity="0.75"/>
+  <!-- 麒麟卧身 -->
+  <path d="M 62 160 Q 58 152 66 148 Q 78 144 88 148 Q 100 152 102 164 Q 96 172 84 172 Q 70 172 62 160 Z" fill="url(#qilin)" stroke="#3E7058" stroke-width="1"/>
+  <!-- 麒麟头（低垂） -->
+  <path d="M 64 158 Q 58 156 56 150 Q 56 144 62 144 Q 68 144 70 150 Q 70 156 66 160 Z" fill="#5E9878" stroke="#3E7058" stroke-width="1"/>
+  <path d="M 60 146 L 56 136 L 62 142 Z" fill="#96C8B2"/>
+  <circle cx="60" cy="148" r="1.3" fill="#1E3A2A"/>
+  <!-- 麒麟闭眼低鸣 -->
+  <path d="M 58 146 Q 60 148 62 146" fill="none" stroke="#3E7058" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 少年将军（金甲染血，倚剑而立） -->
+  <!-- 腿（力竭微屈） -->
+  <path d="M 86 142 L 84 160 L 89 160 L 91 144 Z" fill="#9A7A34"/>
+  <path d="M 106 142 L 110 162 L 105 162 L 101 144 Z" fill="#8E6E2E"/>
+  <!-- 金甲身体（破甲染血） -->
+  <path d="M 86 100 Q 82 116 88 130 Q 98 136 108 130 Q 114 116 110 100 Q 98 94 86 100 Z" fill="url(#armor)" stroke="#7E5E26" stroke-width="1.2"/>
+  <!-- 破甲裂纹 -->
+  <path d="M 92 108 L 96 118 L 92 122" stroke="#5A421A" stroke-width="1.2" fill="none"/>
+  <path d="M 106 110 L 102 118 L 106 124" stroke="#5A421A" stroke-width="1.2" fill="none"/>
+  <!-- 血痕 -->
+  <path d="M 90 114 Q 92 118 90 124" stroke="#A8281A" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+  <path d="M 108 116 Q 110 120 108 126" stroke="#A8281A" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+  <!-- 染血残金微光 -->
+  <circle cx="98" cy="108" r="34" fill="url(#gold)">
+    <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 头（面部模板，圆睁不屈） -->
+  <use href="#huangtianhua-face" transform="translate(98,90) scale(1)"/>
+
+  <!-- 左臂拄莫邪剑（拄地） -->
+  <g>
+    <path d="M 88 102 C 82 110 82 120 84 130" fill="none" stroke="#D8B25E" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="84" cy="132" r="3.2" fill="#F2DEC2"/>
+    <!-- 莫邪剑拄地 -->
+    <line x1="84" y1="130" x2="84" y2="176" stroke="#C8CCD4" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 82 174 L 86 174 L 86 180 L 82 180 Z" fill="#C8CCD4"/>
+  </g>
+
+  <!-- 右手握剑柄（垂于胸前，力竭仍握） -->
+  <path d="M 108 104 C 112 110 112 116 110 122" fill="none" stroke="#D8B25E" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="110" cy="124" r="3.4" fill="#F2DEC2"/>
+
+  <!-- 英魂金光（不灭，向残阳升） -->
+  <g fill="#FFE066">
+    <circle cx="98" cy="70">
+      <animate attributeName="cy" values="70;56;70" dur="2.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.15;0.7" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="112" cy="60">
+      <animate attributeName="cy" values="60;46;60" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="86" cy="52">
+      <animate attributeName="cy" values="52;38;52" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.12;0.55" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 飘落的血雾 / 英魂余烬 -->
+  <g fill="#D84830">
+    <circle cx="120" cy="140">
+      <animate attributeName="cy" values="140;150;140" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="76" cy="148">
+      <animate attributeName="cy" values="148;158;148" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.08;0.4" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

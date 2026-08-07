@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="黄天化·二阶·紫阳学道·青峰山紫阳洞">
+  <defs>
+    <!-- 背景：青峰山黛青天 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AAFC0"/>
+      <stop offset="55%" stop-color="#6E8494"/>
+      <stop offset="100%" stop-color="#4A5E6E"/>
+    </linearGradient>
+    <!-- 云白晨光 -->
+    <radialGradient id="glow" cx="50%" cy="36%" r="58%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 山峰黛青 -->
+    <linearGradient id="peak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4E6E8E"/>
+      <stop offset="100%" stop-color="#2E4256"/>
+    </linearGradient>
+    <!-- 道袍青布 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E6E8E"/>
+      <stop offset="100%" stop-color="#2E4256"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="70" r="80" fill="url(#glow)"/>
+
+  <!-- 远山 -->
+  <path d="M 0 120 Q 40 96 80 110 Q 120 122 150 108 Q 175 98 200 108 L 200 200 L 0 200 Z" fill="url(#peak)" opacity="0.5"/>
+  <path d="M 0 140 Q 50 122 100 134 Q 150 146 200 132 L 200 200 L 0 200 Z" fill="#3A5064" opacity="0.65"/>
+
+  <!-- 仙云（左，缓缓浮动） -->
+  <g opacity="0.7">
+    <path d="M 0 84 Q 24 76 44 84 Q 60 92 50 100 Q 34 108 14 100 Q 0 96 0 84 Z" fill="#E8E4DC">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 1;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 青峰山崖（右，紫阳洞前平台） -->
+  <path d="M 132 60 Q 120 90 128 128 Q 132 148 142 168 L 172 168 L 200 160 L 200 60 Z" fill="#4E6E8E"/>
+  <path d="M 132 60 Q 120 90 128 128" stroke="#2E4256" stroke-width="2" fill="none"/>
+  <!-- 紫阳洞（崖下石洞） -->
+  <ellipse cx="152" cy="132" rx="16" ry="11" fill="#1E2E42"/>
+  <path d="M 136 128 Q 152 120 168 128 Q 152 136 136 128 Z" fill="#3A4E66"/>
+  <!-- 古松 -->
+  <path d="M 172 92 Q 168 76 172 60" stroke="#2E3E2A" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 172 72 Q 158 66 150 70 M 172 66 Q 186 60 194 64 M 172 78 Q 184 74 190 80" stroke="#2E3E2A" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+  <!-- 山石平台（舞剑处） -->
+  <path d="M 70 168 L 118 158 L 126 178 L 62 178 Z" fill="#5A6E7E"/>
+  <path d="M 70 168 L 118 158" stroke="#7E8E9A" stroke-width="1.6" opacity="0.6"/>
+
+  <!-- 小道童（4头身，持剑而舞，道袍翻飞） -->
+  <!-- 腿（扎马步） -->
+  <path d="M 92 140 L 88 162 L 94 162 L 98 142 Z" fill="#3A4E66"/>
+  <path d="M 104 140 L 110 162 L 104 162 L 100 142 Z" fill="#3A4E66"/>
+  <!-- 道袍下摆 -->
+  <path d="M 88 128 Q 96 140 108 138 Q 114 132 112 124 Q 106 130 100 128 Q 94 130 88 128 Z" fill="url(#robe)"/>
+  <!-- 身体 -->
+  <path d="M 90 100 Q 86 114 92 128 Q 100 133 108 128 Q 114 114 110 100 Q 100 95 90 100 Z" fill="url(#robe)" stroke="#1E2E42" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 90 118 L 110 118" stroke="#D8A040" stroke-width="1.6"/>
+  <!-- 左臂负剑（背于后） -->
+  <path d="M 90 104 C 82 108 78 114 78 122" fill="none" stroke="#3A4E66" stroke-width="5" stroke-linecap="round"/>
+  <!-- 右臂持剑舞（SMIL 挥动） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-8 108 102;6 108 102;-8 108 102" dur="1.6s" repeatCount="indefinite"/>
+    <path d="M 110 102 C 116 98 122 96 126 90" fill="none" stroke="#3A4E66" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="127" cy="89" r="3.4" fill="#F2DEC2"/>
+    <!-- 短剑（剑光白） -->
+    <path d="M 126 90 L 132 74" stroke="#E8F4FF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 132 74 L 133 70" stroke="#E8F4FF" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 130 76 L 134 72" stroke="#FFF" stroke-width="1" opacity="0.8"/>
+  </g>
+
+  <!-- 头（少年圆脸，束发小髻） -->
+  <circle cx="100" cy="90" r="9.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 束发小髻 -->
+  <path d="M 96 81 Q 100 78 104 81 Q 102 76 100 76 Q 98 76 96 81 Z" fill="#1E1008"/>
+  <!-- 额发 -->
+  <path d="M 91 88 Q 95 83 100 83 Q 105 83 109 88 Q 105 84 100 84 Q 95 84 91 88 Z" fill="#1E1008"/>
+  <!-- 剑眉 -->
+  <path d="M 93 87 Q 95 85 98 85.5 M 102 85.5 Q 105 85 107 87" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+  <!-- 明亮大眼 -->
+  <circle cx="95" cy="90" r="2.2" fill="#1E1008"/>
+  <circle cx="105" cy="90" r="2.2" fill="#1E1008"/>
+  <circle cx="95.8" cy="89.2" r="0.8" fill="#FFF"/>
+  <circle cx="105.8" cy="89.2" r="0.8" fill="#FFF"/>
+  <!-- 嘴角微扬（少年意气） -->
+  <path d="M 95 95 Q 100 97 105 95" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 剑光尾迹（舞剑残影） -->
+  <g fill="none" stroke="#E8F4FF" stroke-width="1.2" opacity="0.5" stroke-linecap="round">
+    <path d="M 130 70 Q 138 62 134 52">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 126 64 Q 134 54 130 44">
+      <animate attributeName="opacity" values="0.4;0.08;0.4" dur="1.9s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 落叶（山中秋意） -->
+  <g fill="#D8A040">
+    <circle cx="58" cy="120">
+      <animate attributeName="cy" values="120;130;120" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="100">
+      <animate attributeName="cy" values="100;110;100" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.18;0.6" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

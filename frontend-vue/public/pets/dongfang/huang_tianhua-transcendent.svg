@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="黄天化·六阶·炳灵公·三山正神烈火长明护山川行旅">
+  <defs>
+    <!-- 背景：三山云海之上，炽烈而安宁 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5D8B0"/>
+      <stop offset="42%" stop-color="#E8C08A"/>
+      <stop offset="100%" stop-color="#B08858"/>
+    </linearGradient>
+    <!-- 烈火神光 -->
+    <radialGradient id="fire" cx="50%" cy="40%" r="58%">
+      <stop offset="0%" stop-color="#FFE066" stop-opacity="0.95"/>
+      <stop offset="40%" stop-color="#F58A3E" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F58A3E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 炳灵公神袍（烈火赤金） -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8B64C"/>
+      <stop offset="100%" stop-color="#A86E26"/>
+    </linearGradient>
+    <!-- 护山虹气 -->
+    <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFF7E0"/>
+      <stop offset="50%" stop-color="#FFB85E"/>
+      <stop offset="100%" stop-color="#E8603A"/>
+    </linearGradient>
+    <!-- 玉麒麟青玉 -->
+    <linearGradient id="qilin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A8E0C8"/>
+      <stop offset="55%" stop-color="#5EA878"/>
+      <stop offset="100%" stop-color="#3E8058"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：炳灵公少年方脸·剑眉·凤目含笑含威·神光 -->
+    <g id="huangtianhua-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 束发冠（神火为冠） -->
+      <path d="M -6 -9 Q 0 -12.5 6 -9 Q 4 -13.5 0 -13.5 Q -4 -13.5 -6 -9 Z" fill="#FFD880"/>
+      <circle cx="0" cy="-12.5" r="2.4" fill="#FFE066">
+        <animate attributeName="r" values="2.4;3.4;2.4" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+      <!-- 额发 -->
+      <path d="M -9.5 -4 Q -6 -8.5 0 -8.5 Q 6 -8.5 9.5 -4 Q 6 -7.5 0 -7.5 Q -6 -7.5 -9.5 -4 Z" fill="#1E1008"/>
+      <!-- 剑眉 -->
+      <path d="M -8.5 -2 Q -5 -4 -2 -3 M 8.5 -2 Q 5 -4 2 -3" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 凤目含笑含威 -->
+      <path d="M -7.5 0 Q -4.5 -1.8 -1.8 -0.8 L -1.8 0.8 Q -4.5 0.2 -7.5 1 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <path d="M 7.5 0 Q 4.5 -1.8 1.8 -0.8 L 1.8 0.8 Q 4.5 0.2 7.5 1 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.2" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.2" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-4.7" cy="-0.8" r="0.5" fill="#FFF"/>
+      <circle cx="3.7" cy="-0.8" r="0.5" fill="#FFF"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1 L 0 3.2" stroke="#C8A882" stroke-width="1" stroke-linecap="round"/>
+      <!-- 从容嘴角（微扬） -->
+      <path d="M -3.2 5.6 Q 0 7.4 3.2 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 烈火神光 -->
+  <circle cx="100" cy="92" r="86" fill="url(#fire)">
+    <animate attributeName="opacity" values="1;0.72;1" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色神光圆（烈火光环 + 山纹饰） -->
+  <g>
+    <circle cx="100" cy="92" r="60" fill="none" stroke="#FFE066" stroke-width="2.4" opacity="0.85">
+      <animate attributeName="r" values="60;65;60" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="92" r="52" fill="none" stroke="#FFE066" stroke-width="1.1" opacity="0.5">
+      <animate attributeName="r" values="52;55;52" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 100 32 L 101.5 35.5 L 99 36 L 100 39.5" fill="none" stroke="#FFE066" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 火凤盘旋（专属意象，SMIL 环绕飞动） -->
+  <g opacity="0.95">
+    <animateTransform attributeName="transform" type="rotate" values="0 100 92;360 100 92" dur="14s" repeatCount="indefinite"/>
+    <!-- 火凤身形 -->
+    <path d="M 158 60 Q 166 52 168 44 Q 160 46 156 52 Q 150 60 156 64 Q 158 64 158 60 Z" fill="#F58A3E" stroke="#D8602A" stroke-width="1"/>
+    <!-- 凤翼 -->
+    <path d="M 156 58 Q 146 48 142 40 Q 152 46 158 54 Z" fill="#FFB85E" opacity="0.9"/>
+    <path d="M 160 62 Q 152 74 148 84 Q 156 74 162 64 Z" fill="#E8603A" opacity="0.8"/>
+    <!-- 凤尾（流火） -->
+    <path d="M 156 66 Q 150 74 148 82" stroke="#FFE066" stroke-width="1.8" stroke-linecap="round" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.4;0.9" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 上层云海 -->
+  <g opacity="0.6">
+    <path d="M 0 128 Q 50 120 100 126 Q 150 132 200 124 L 200 200 L 0 200 Z" fill="#F5E8D0">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 2;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 156 Q 60 148 120 154 Q 160 158 200 152 L 200 200 L 0 200 Z" fill="#E8D8BC" opacity="0.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 1;0 0" dur="8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 苍翠群山（下方，受护的三山） -->
+  <path d="M 0 166 Q 24 152 48 162 Q 72 172 96 160 Q 120 150 144 162 Q 168 172 200 160 L 200 200 L 0 200 Z" fill="#5E8E6E"/>
+  <path d="M 0 176 Q 36 164 72 174 Q 108 182 144 172 Q 172 166 200 174 L 200 200 L 0 200 Z" fill="#4E7E5E"/>
+  <!-- 人间烟火（山脚村落，护佑锚点） -->
+  <g>
+    <path d="M 34 176 L 34 170 L 42 170 L 42 176 L 46 176 L 46 166 L 30 166 L 30 176 Z" fill="#8E5A3E" opacity="0.9"/>
+    <path d="M 38 166 L 38 156 L 36 166 Z" fill="#8E5A3E"/>
+    <!-- 炊烟 -->
+    <path d="M 38 156 Q 34 150 38 146 Q 42 142 38 138" stroke="#F5E8D0" stroke-width="1.4" stroke-linecap="round" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 152 174 Q 150 170 154 168 Q 158 170 158 174 Z" fill="#8E5A3E" opacity="0.85"/>
+  </g>
+
+  <!-- 角色：炳灵公（少年将军神袍，烈火环绕） -->
+  <!-- 法云托足 -->
+  <path d="M 82 132 Q 100 124 118 132 Q 128 138 118 144 Q 100 152 82 144 Q 72 138 82 132 Z" fill="#FFF7E0" opacity="0.9"/>
+  <!-- 神袍下摆 -->
+  <path d="M 86 122 Q 100 130 114 122 L 118 140 Q 100 150 82 140 Z" fill="url(#robe)"/>
+  <!-- 上身 -->
+  <path d="M 88 82 Q 84 102 90 122 Q 100 126 110 122 Q 116 102 112 82 Q 100 76 88 82 Z" fill="url(#robe)" stroke="#A86E26" stroke-width="1"/>
+  <!-- 袍上烈火纹 -->
+  <path d="M 92 88 Q 94 96 92 102 M 108 88 Q 106 96 108 102" stroke="#F58A3E" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.4;0.9" dur="1.8s" repeatCount="indefinite"/>
+  </path>
+  <!-- 腰际烈火带 -->
+  <path d="M 88 112 L 112 112" stroke="#FFD880" stroke-width="2"/>
+
+  <!-- 头（面部模板，神光） -->
+  <use href="#huangtianhua-face" transform="translate(100,72) scale(1)"/>
+
+  <!-- 左臂（结护山印 / 抚玉麒麟） -->
+  <path d="M 90 86 C 82 92 78 98 78 108" fill="none" stroke="#E8B64C" stroke-width="4.4" stroke-linecap="round"/>
+  <!-- 左手掌心火光 -->
+  <circle cx="78" cy="110" r="4" fill="#FFE066">
+    <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 右臂擎莫邪剑（化作山间虹气，护山） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-3 112 86;3 112 86;-3 112 86" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 110 86 C 116 82 122 78 128 72" fill="none" stroke="#E8B64C" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="129" cy="71" r="3.4" fill="#F2DEC2"/>
+    <!-- 莫邪剑 -> 虹气 -->
+    <path d="M 128 74 L 142 46" stroke="url(#rainbow)" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M 140 48 L 146 40" stroke="url(#rainbow)" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 虹光末端（化入山间） -->
+    <circle cx="144" cy="44" r="10" fill="#FFE066" opacity="0.6">
+      <animate attributeName="r" values="10;14;10" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 神火自剑光洒向妖氛（山脚焚妖，护佑行旅） -->
+  <g fill="#FFB85E">
+    <circle cx="138" cy="96">
+      <animate attributeName="cy" values="96;116;96" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.15;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="148" cy="104">
+      <animate attributeName="cy" values="104;124;104" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.12;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 山脚妖气被神火焚尽 -->
+    <path d="M 168 148 Q 160 152 162 160 Q 168 166 176 162 Q 182 156 178 150 Q 174 146 168 148 Z" fill="#4A2A3E" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 神性金光（长明不熄） -->
+  <g fill="#FFE066">
+    <circle cx="44" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="54">
+      <animate attributeName="cy" values="54;44;54" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="58" cy="56">
+      <animate attributeName="cy" values="56;46;56" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 云端散光 -->
+  <g stroke="#FFE066" stroke-width="1.4" opacity="0.45" stroke-linecap="round">
+    <path d="M 100 20 L 100 10"/><path d="M 58 44 L 50 36"/><path d="M 142 44 L 150 36"/>
+  </g>
+</svg>
