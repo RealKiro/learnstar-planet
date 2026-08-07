@@ -101,7 +101,7 @@ async function doExchange() {
       <span style="font-size:13px;color:var(--color-text-secondary);">积分按汇率兑换科学币 / 读书币 / 体育币</span>
     </div>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
 
     <div v-else style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
       <div class="card">

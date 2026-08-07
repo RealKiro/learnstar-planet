@@ -80,7 +80,7 @@ const typeLabels: Record<string, string> = { info: '通知', event: '活动', ur
       </div>
     </ModalGlass>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
 
     <div v-else-if="notices.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
       <div style="font-size:48px;margin-bottom:8px;">📢</div>

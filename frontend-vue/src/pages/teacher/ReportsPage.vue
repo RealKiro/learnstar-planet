@@ -109,7 +109,7 @@ function stageLevel(name: string): number {
       </div>
     </div>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
 
     <template v-else>
       <!-- 1. 积分趋势柱状图 -->
