@@ -122,14 +122,14 @@ function stopProgress(id: number) {
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  background: rgba(30, 30, 46, 0.92);
+  background: var(--color-modal-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--tint-3);
   border-left: 4px solid #10B981;
   box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-  color: #fff;
+  color: var(--color-text);
   font-size: 13px;
   position: relative;
   overflow: hidden;
@@ -158,14 +158,14 @@ function stopProgress(id: number) {
 .toast-icon { font-size: 16px; flex-shrink: 0; line-height: 1; }
 .toast-msg { flex: 1; line-height: 1.4; }
 .toast-msg--center { font-size: 16px; font-weight: 600; margin: 4px 0; }
-.toast-close { background:none; border:none; color:rgba(255,255,255,0.4); cursor:pointer; font-size:14px; padding:2px; line-height:1; flex-shrink:0; }
-.toast-close:hover { color:rgba(255,255,255,0.8); }
-.toast-action { background:rgba(255,255,255,0.1); border:none; color:#fff; padding:4px 12px; border-radius:8px; font-size:12px; cursor:pointer; white-space:nowrap; flex-shrink:0; }
-.toast-action:hover { background:rgba(255,255,255,0.2); }
+.toast-close { background:none; border:none; color:var(--color-text-secondary); cursor:pointer; font-size:14px; padding:2px; line-height:1; flex-shrink:0; }
+.toast-close:hover { color:var(--color-text); }
+.toast-action { background:var(--tint-4); border:none; color:var(--color-text); padding:4px 12px; border-radius:8px; font-size:12px; cursor:pointer; white-space:nowrap; flex-shrink:0; }
+.toast-action:hover { background:var(--tint-4); }
 .toast-action--center { padding:8px 24px; font-size:14px; margin-top:4px; border-radius:10px; }
 
 /* ===== 进度条 ===== */
-.toast-progress { position:absolute; bottom:0; left:0; right:0; height:3px; background:rgba(255,255,255,0.05); }
+.toast-progress { position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--tint-2); }
 .toast-progress-bar { height:100%; border-radius:0 0 0 14px; transition:width 0.1s linear; }
 
 /* ===== 动画（右上角） ===== */

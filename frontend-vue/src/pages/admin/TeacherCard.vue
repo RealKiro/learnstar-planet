@@ -179,7 +179,7 @@ const roleMainText = computed(() => {
 .tc-role-main-pill {
   font-size: 12px;
   font-weight: 600;
-  color: #c4b5fd;
+  color: var(--color-primary);
   padding: 2px 10px;
   background: rgba(139, 92, 246, 0.18);
   border: 1px solid rgba(139, 92, 246, 0.35);

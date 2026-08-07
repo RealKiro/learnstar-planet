@@ -165,7 +165,7 @@ onUnmounted(() => {
     <Transition name="fade">
       <div v-if="showVoteModal" @click.self="() => {}"
         style="position:fixed;inset:0;z-index:999;background:rgba(5,2,20,0.9);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:linear-gradient(180deg,#1a1040,#0d1b2a);border:1px solid rgba(255,255,255,0.08);border-radius:24px;max-width:520px;width:100%;padding:36px 32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:520px;width:100%;padding:36px 32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
           <div v-if="!voteDone">
             <div style="font-size:48px;margin-bottom:12px;">🎉</div>
             <h2 style="font-size:24px;font-weight:700;margin-bottom:8px;">欢迎来到学趣星球！</h2>
@@ -177,9 +177,9 @@ onUnmounted(() => {
               <button v-for="s in allSeries" :key="s.id" @click="voteSeries = s.id"
                 :style="{
                   padding:'16px 12px', borderRadius:'16px', cursor:'pointer', transition:'0.2s', fontFamily:'inherit',
-                  border: voteSeries === s.id ? '2px solid var(--md-primary)' : '1px solid rgba(255,255,255,0.06)',
-                  background: voteSeries === s.id ? 'rgba(167,139,250,0.1)' : 'rgba(255,255,255,0.02)',
-                  color: voteSeries === s.id ? 'var(--md-primary-light)' : 'var(--md-text)',
+                  border: voteSeries === s.id ? '2px solid var(--color-primary)' : '1px solid var(--tint-3)',
+                  background: voteSeries === s.id ? 'rgba(167,139,250,0.1)' : 'var(--tint-1)',
+                  color: voteSeries === s.id ? 'var(--color-primary)' : 'var(--color-text)',
                 }">
                 <div style="font-size:32px;margin-bottom:6px;">{{ s.emoji }}</div>
                 <div style="font-size:14px;font-weight:600;">{{ s.name }}</div>

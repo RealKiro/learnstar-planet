@@ -187,10 +187,10 @@ watch(() => props.pets.map(p => `${p.species}:${p.level}`).join('|'), maybePlay)
   border: 1px solid var(--tint-4);
   color: var(--color-text);
 }
-.chip--qixia { border-color: rgba(239,68,68,0.4); color: #FCA5A5; }
-.chip--constellation { border-color: rgba(245,158,11,0.45); color: #FCD34D; }
-.chip--festival { border-color: rgba(251,191,36,0.4); color: #FDE68A; }
-.chip--legend { border-color: rgba(167,139,250,0.4); color: #C4B5FD; }
+.chip--qixia { border-color: rgba(239,68,68,0.4); color: var(--color-danger-text); }
+.chip--constellation { border-color: rgba(245,158,11,0.45); color: var(--color-warning-text); }
+.chip--festival { border-color: rgba(251,191,36,0.4); color: var(--color-warning-text); }
+.chip--legend { border-color: rgba(167,139,250,0.4); color: var(--color-primary); }
 
 /* ===== 全屏覆盖 ===== */
 .fx-overlay {

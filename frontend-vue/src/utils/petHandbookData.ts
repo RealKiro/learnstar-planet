@@ -709,6 +709,19 @@ export function getPoems(speciesName: string): string[] {
   return PET_POEMS[speciesName] || []
 }
 
+/** 专属诗文两行展示：按「。」拆句，≤2句逐句一行，超过2句均分到两行 */
+export function poemToLines(poem: string): string[] {
+  const sentences = poem.split('。').map(s => s.trim()).filter(Boolean)
+  if (sentences.length <= 2) {
+    return sentences.map(s => s + '。')
+  }
+  const mid = Math.ceil(sentences.length / 2)
+  return [
+    sentences.slice(0, mid).join('。') + '。',
+    sentences.slice(mid).join('。') + '。',
+  ]
+}
+
 /** 获取指定物种的6阶段进化台词（无专属时用通用兜底，保证每个角色都有台词） */
 export function getEvoLines(speciesName: string): string[] {
   return PET_EVO_LINES[speciesName] || [

@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { getSpeciesById, getLevelRequiredScore, getSeriesBySpeciesId, getSpeciesEmoji, SERIES_SCENES } from '@/utils/petData'
 import { getStagePersonality, getStageAbility } from '@/utils/petTraits'
-import { getPoems, getEvoLines, stageIndexForLevel } from '@/utils/petHandbookData'
+import { getPoems, getEvoLines, stageIndexForLevel, poemToLines } from '@/utils/petHandbookData'
 import { getPetProfile } from '@/utils/petProfiles'
 import PetSprite from './PetSprite.vue'
 
@@ -50,16 +50,8 @@ const poem = computed(() => {
   const poems = getPoems(species.value?.name || '')
   return poems[stageIdx.value] || poems[poems.length - 1] || ''
 })
-// 诗文按句拆分，两两合成一行，呈现传统上下联排版
-const poemLines = computed(() => {
-  const clauses = poem.value.split('。').filter(s => s.trim())
-  const lines: string[] = []
-  for (let i = 0; i < clauses.length; i += 2) {
-    const pair = clauses.slice(i, i + 2).join('。')
-    if (pair) lines.push(pair + '。')
-  }
-  return lines.length ? lines : [poem.value]
-})
+// 专属诗文两行展示：按「。」拆句，每句一行（超过两句均分到两行）
+const poemLines = computed(() => poemToLines(poem.value))
 </script>
 
 <template>
@@ -198,8 +190,8 @@ const poemLines = computed(() => {
   width: 100%;
   max-width: 680px;
   max-height: 85vh;
-  background: linear-gradient(180deg, #1a1040 0%, #0d1b2a 100%);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, var(--color-bg-card) 0%, var(--color-bg) 100%);
+  border: 1px solid var(--tint-3);
   border-radius: 24px;
   overflow-y: auto;
   padding: 28px;
@@ -226,21 +218,21 @@ const poemLines = computed(() => {
 .header-title {
   font-size: 18px;
   font-weight: 700;
-  color: white;
+  color: var(--color-text);
   margin: 0;
 }
 .header-series {
   font-size: 12px;
-  color: rgba(255,255,255,0.4);
+  color: var(--color-text-secondary);
   margin: 2px 0 0;
 }
 .close-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.04);
-  color: rgba(255,255,255,0.5);
+  border: 1px solid var(--tint-4);
+  background: var(--tint-2);
+  color: var(--color-text-secondary);
   font-size: 14px;
   cursor: pointer;
   display: flex;
@@ -249,8 +241,8 @@ const poemLines = computed(() => {
   transition: all 0.2s;
 }
 .close-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: white;
+  background: var(--tint-4);
+  color: var(--color-text);
 }
 
 /* 里程碑星轨 */
@@ -279,8 +271,8 @@ const poemLines = computed(() => {
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  background: rgba(255,255,255,0.06);
-  border: 2px solid rgba(255,255,255,0.1);
+  background: var(--tint-3);
+  border: 2px solid var(--tint-4);
   transition: all 0.3s ease;
 }
 .node--active .milestone-icon {
@@ -293,7 +285,7 @@ const poemLines = computed(() => {
 }
 .milestone-name {
   font-size: 10px;
-  color: rgba(255,255,255,0.6);
+  color: var(--color-text-secondary);
   text-align: center;
   max-width: 64px;
   overflow: hidden;
@@ -302,7 +294,7 @@ const poemLines = computed(() => {
 }
 .milestone-lv {
   font-size: 9px;
-  color: rgba(255,255,255,0.3);
+  color: var(--color-text-secondary);
 }
 .milestone-connector {
   position: absolute;
@@ -310,14 +302,14 @@ const poemLines = computed(() => {
   left: 55%;
   width: 90%;
   height: 2px;
-  background: rgba(255,255,255,0.06);
+  background: var(--tint-3);
   z-index: -1;
 }
 
 /* 角色档案 */
 .profile-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: var(--tint-1);
+  border: 1px solid var(--tint-3);
   border-radius: 14px;
   padding: 14px 16px;
   margin-bottom: 16px;
@@ -325,7 +317,7 @@ const poemLines = computed(() => {
 .profile-title {
   font-size: 12px;
   font-weight: 700;
-  color: rgba(255,255,255,0.5);
+  color: var(--color-text-secondary);
   margin-bottom: 10px;
 }
 .profile-row {
@@ -333,7 +325,7 @@ const poemLines = computed(() => {
   gap: 10px;
   align-items: flex-start;
   font-size: 12px;
-  color: rgba(255,255,255,0.75);
+  color: var(--color-text);
   line-height: 1.5;
   margin-bottom: 8px;
 }
@@ -342,17 +334,17 @@ const poemLines = computed(() => {
   flex-shrink: 0;
   font-size: 11px;
   font-weight: 600;
-  color: #FDE68A;
+  color: var(--color-warning-text);
   background: rgba(245,158,11,0.1);
   padding: 1px 8px;
   border-radius: 6px;
 }
 .profile-text { flex: 1; }
 .profile-row--quote .profile-label,
-.profile-row--quote .profile-text { color: #93C5FD; }
+.profile-row--quote .profile-text { color: var(--color-info-text); }
 .profile-row--quote .profile-label { background: rgba(59,130,246,0.12); }
 .profile-row--poem .profile-label,
-.profile-row--poem .profile-text { color: #C4B5FD; }
+.profile-row--poem .profile-text { color: var(--color-primary); }
 .profile-row--poem .profile-label { background: rgba(139,92,246,0.12); }
 .poem-block { display: flex; flex-direction: column; gap: 3px; }
 .poem-line { display: block; line-height: 1.6; }
@@ -363,7 +355,7 @@ const poemLines = computed(() => {
   display: flex;
   gap: 20px;
   padding: 20px;
-  background: rgba(255,255,255,0.03);
+  background: var(--tint-1);
   border-radius: 16px;
   margin-bottom: 20px;
 }
@@ -400,7 +392,7 @@ const poemLines = computed(() => {
 .detail-name {
   font-size: 16px;
   font-weight: 700;
-  color: white;
+  color: var(--color-text);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -413,12 +405,12 @@ const poemLines = computed(() => {
 }
 .detail-locked {
   font-size: 10px;
-  color: rgba(255,255,255,0.3);
+  color: var(--color-text-secondary);
   font-weight: 500;
 }
 .detail-desc {
   font-size: 13px;
-  color: rgba(255,255,255,0.6);
+  color: var(--color-text-secondary);
   line-height: 1.5;
   margin: 0 0 8px;
 }
@@ -427,14 +419,14 @@ const poemLines = computed(() => {
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #FDE68A;
+  color: var(--color-warning-text);
   background: rgba(245,158,11,0.08);
   border: 1px solid rgba(245,158,11,0.15);
   border-radius: 8px;
   padding: 4px 10px;
   margin-bottom: 6px;
 }
-.trait--ability { color: #93C5FD; background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.18); }
+.trait--ability { color: var(--color-info-text); background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.18); }
 .trait-icon { flex-shrink: 0; }
 .detail-stats {
   display: flex;
@@ -447,12 +439,12 @@ const poemLines = computed(() => {
 }
 .stat-label {
   font-size: 10px;
-  color: rgba(255,255,255,0.3);
+  color: var(--color-text-secondary);
 }
 .stat-value {
   font-size: 14px;
   font-weight: 700;
-  color: white;
+  color: var(--color-text);
 }
 .stage-badge {
   font-size: 11px;
@@ -471,7 +463,7 @@ const poemLines = computed(() => {
   background: rgba(245,158,11,0.1);
   border-radius: 8px;
   font-size: 12px;
-  color: rgba(255,255,255,0.6);
+  color: var(--color-text-secondary);
 }
 .unlock-hint strong {
   color: #F59E0B;
@@ -482,7 +474,7 @@ const poemLines = computed(() => {
 .all-levels-header {
   font-size: 12px;
   font-weight: 600;
-  color: rgba(255,255,255,0.4);
+  color: var(--color-text-secondary);
   margin-bottom: 12px;
 }
 .levels-grid {
@@ -497,10 +489,10 @@ const poemLines = computed(() => {
   cursor: pointer;
   border: 1px solid transparent;
   transition: all 0.2s ease;
-  background: rgba(255,255,255,0.02);
+  background: var(--tint-1);
 }
 .level-card:hover {
-  background: rgba(255,255,255,0.05);
+  background: var(--tint-2);
 }
 .card--active {
   border-color: rgba(245,158,11,0.3);
@@ -519,13 +511,13 @@ const poemLines = computed(() => {
 .card-name {
   font-size: 10px;
   font-weight: 500;
-  color: rgba(255,255,255,0.7);
+  color: var(--color-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .card-lv {
   font-size: 9px;
-  color: rgba(255,255,255,0.3);
+  color: var(--color-text-secondary);
 }
 </style>

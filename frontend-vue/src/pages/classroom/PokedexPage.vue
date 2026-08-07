@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { apiPost } from '@/utils/api'
 import { getAllSeries, getSpeciesEmoji, PET_SERIES, getSpeciesById } from '@/utils/petData'
-import { getPoems, getEvoLines, STAGE_NAMES } from '@/utils/petHandbookData'
+import { getPoems, getEvoLines, STAGE_NAMES, poemToLines } from '@/utils/petHandbookData'
 
 const token = ref('')
 const currentSeries = ref('myth')
@@ -97,7 +97,7 @@ onUnmounted(() => clearInterval(timer))
     <Transition name="fade">
       <div v-if="selectedSpecies && detailSpecies" @click.self="closeDetail"
         style="position:fixed;inset:0;z-index:300;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:linear-gradient(180deg,#1a1040,#0d1b2a);border:1px solid rgba(255,255,255,0.08);border-radius:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
           <!-- 头部 -->
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
             <span style="font-size:48px;">{{ getSpeciesEmoji(selectedSpecies.speciesId) }}</span>
@@ -105,16 +105,16 @@ onUnmounted(() => clearInterval(timer))
               <div style="font-size:22px;font-weight:700;">{{ selectedSpecies.name }}</div>
               <div style="font-size:13px;color:var(--md-text-secondary);">{{ selectedSpecies.seriesId }}系列</div>
             </div>
-            <button @click="closeDetail" style="margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);font-size:14px;cursor:pointer;">✕</button>
+            <button @click="closeDetail" style="margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid var(--tint-4);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer;">✕</button>
           </div>
 
           <!-- 阶段Tab -->
           <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;">
             <button v-for="(name, i) in STAGE_NAMES" :key="i" @click="detailStage = i"
               :style="{
-                padding: '6px 14px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.06)',
-                background: detailStage === i ? 'rgba(167,139,250,0.2)' : 'rgba(255,255,255,0.03)',
-                color: detailStage === i ? 'var(--md-primary-light)' : 'var(--md-text-secondary)',
+                padding: '6px 14px', borderRadius: '20px', border: '1px solid var(--tint-3)',
+                background: detailStage === i ? 'rgba(167,139,250,0.2)' : 'var(--tint-1)',
+                color: detailStage === i ? 'var(--color-primary)' : 'var(--md-text-secondary)',
                 fontWeight: detailStage === i ? 700 : 400, fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit',
               }">{{ name }}</button>
           </div>
@@ -125,7 +125,7 @@ onUnmounted(() => clearInterval(timer))
               Lv.{{ detailStage === 0 ? 1 : detailStage <= 2 ? 2 : detailStage <= 3 ? 8 : detailStage === 4 ? 10 : 12 }}
               阶段
             </div>
-            <div style="padding:14px 16px;background:rgba(255,255,255,0.03);border-radius:12px;border-left:3px solid var(--md-primary);margin-bottom:12px;">
+            <div style="padding:14px 16px;background:var(--tint-1);border-radius:12px;border-left:3px solid var(--md-primary);margin-bottom:12px;">
               <div style="font-size:13px;color:var(--md-text-secondary);line-height:1.6;">
                 {{ detailSpecies.levels[detailStage]?.description || '待完善' }}
               </div>
@@ -140,7 +140,9 @@ onUnmounted(() => clearInterval(timer))
             <!-- 诗歌 -->
             <div v-if="detailPoems[detailStage]" style="padding:14px 16px;background:rgba(139,92,246,0.06);border-radius:12px;border-left:3px solid #8B5CF6;">
               <div style="font-size:11px;color:rgba(139,92,246,0.6);font-weight:600;margin-bottom:4px;">📜 专属诗文</div>
-              <div style="font-size:14px;color:#c4b5fd;line-height:1.8;white-space:pre-line;">{{ detailPoems[detailStage] }}</div>
+              <div style="font-size:14px;color:var(--color-primary);line-height:1.8;">
+                <div v-for="(line, i) in poemToLines(detailPoems[detailStage] || '')" :key="i" :style="i % 2 === 1 ? 'padding-left:1.4em;text-indent:-1.4em;' : ''">{{ line }}</div>
+              </div>
             </div>
           </div>
 

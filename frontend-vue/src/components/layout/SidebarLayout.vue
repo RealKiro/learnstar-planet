@@ -53,11 +53,8 @@ function navigate(name: string) {
         <slot name="sidebar-extra" />
       </div>
 
-      <!-- 底部：主题切换 + 退出按钮 -->
+      <!-- 底部：退出按钮 -->
       <div class="sidebar-footer">
-        <button class="theme-toggle" @click="themeStore.toggle()" :title="themeStore.isDark ? '切换到日间主题' : '切换到夜间主题'">
-          {{ themeStore.isDark ? '☀️ 日间' : '🌙 夜间' }}
-        </button>
         <button v-if="props.showLogout" class="exit-btn" @click="emit('logout')">✕ 退出登录</button>
       </div>
     </nav>
@@ -68,6 +65,11 @@ function navigate(name: string) {
         <component :is="Component" :key="$route.fullPath" />
       </router-view>
     </main>
+
+    <!-- 右下角主题切换浮动按钮 -->
+    <button class="theme-fab" @click="themeStore.toggle()" :title="themeStore.isDark ? '切换到日间主题' : '切换到夜间主题'">
+      {{ themeStore.isDark ? '☀️' : '🌙' }}
+    </button>
   </div>
 </template>
 
@@ -123,15 +125,26 @@ function navigate(name: string) {
 }
 
 .sidebar-footer { border-top: 1px solid var(--tint-2); padding-top: 12px; }
-.theme-toggle {
-  width: 100%; padding: 10px; border-radius: var(--md-radius);
+.theme-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   border: 1px solid var(--color-border);
-  background: var(--color-bg-card); color: var(--color-text);
-  font-size: 14px; font-weight: 500;
-  cursor: pointer; transition: 0.2s; font-family: inherit;
-  margin-bottom: 8px;
+  background: var(--color-bg-card);
+  color: var(--color-text);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--md-elevation);
+  z-index: 999;
+  transition: 0.2s;
 }
-.theme-toggle:hover { background: var(--tint-2); }
+.theme-fab:hover { background: var(--tint-2); transform: scale(1.05); }
 .exit-btn {
   width: 100%; padding: 10px; border-radius: var(--md-radius);
   border: 1px solid rgba(255,100,100,0.15);

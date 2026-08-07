@@ -40,6 +40,7 @@
   --color-danger-text: #dc2626;
   --color-success-text: #16a34a;
   --color-warning-text: #d97706;
+  --color-info-text: #2563EB;
 
   /* 表面/边框覆盖色（半透明白 → 日间为半透明黑） */
   --tint-1: rgba(0, 0, 0, 0.03);
@@ -70,6 +71,7 @@ html.dark {
   --color-danger-text: #fca5a5;
   --color-success-text: #6ee7b7;
   --color-warning-text: #fcd34d;
+  --color-info-text: #93C5FD;
   --tint-1: rgba(255, 255, 255, 0.03);
   --tint-2: rgba(255, 255, 255, 0.05);
   --tint-3: rgba(255, 255, 255, 0.08);

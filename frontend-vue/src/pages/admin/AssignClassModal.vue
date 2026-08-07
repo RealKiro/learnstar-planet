@@ -162,7 +162,7 @@ function closeModal() {
         <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
       </div>
 
-      <div v-if="teacher?.subject" style="margin-bottom:12px;padding:8px 12px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;font-size:12px;color:#c4b5fd;">
+      <div v-if="teacher?.subject" style="margin-bottom:12px;padding:8px 12px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;font-size:12px;color:var(--color-primary);">
         &#128214; 主教科目：<strong>{{ teacher.subject }}</strong><span style="color:var(--color-text-secondary);margin-left:6px;">（班级任教科目可不相同，兼任时会标注）</span>
       </div>
 

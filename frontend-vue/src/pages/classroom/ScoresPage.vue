@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
 import { getSpeciesEmoji, PET_SERIES, getPetLevelName, getPetLevelDescription } from '@/utils/petData'
 import PetSprite from '@/components/pet/PetSprite.vue'
-import { getPoems, getEvoLines } from '@/utils/petHandbookData'
+import { getPoems, getEvoLines, poemToLines } from '@/utils/petHandbookData'
 
 // 等级所需积分常量
 const LEVEL_SCORES = [0, 0, 15, 41, 68, 96, 125, 155, 185, 217, 250, 283, 318, 353, 390, 427, 465, 504, 545, 586, 628, 671, 715, 760, 805, 852, 900, 949, 998, 1049, 1100, 1153, 1206, 1261, 1316, 1372, 1429, 1487, 1546, 1606, 1667, 1729, 1792, 1856, 1921, 1986, 2053, 2120, 2189, 2258, 2329, 2400, 99999]
@@ -299,18 +299,18 @@ onMounted(async () => {
       <Transition name="fade">
         <div v-if="showModal && modalStudent" @click.self="showModal = false"
           style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:300;">
-          <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:28px 32px;max-width:420px;width:90%;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
+          <div style="background:var(--color-bg-card);border:1px solid var(--tint-3);border-radius:var(--md-radius);padding:28px 32px;max-width:420px;width:90%;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
             <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">{{ modalType === 'add' ? '🌟 选择加分行为' : '⚠️ 选择减分原因' }}</h3>
-            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:20px;">为 <strong style="color:#fff;">{{ modalStudent.name }}</strong> 选择原因（每次<strong style="color:var(--md-gold);">{{ getStep(modalStudent.id) }}</strong>分）</p>
+            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:20px;">为 <strong style="color:var(--color-text);">{{ modalStudent.name }}</strong> 选择原因（每次<strong style="color:var(--md-gold);">{{ getStep(modalStudent.id) }}</strong>分）</p>
             <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
               <button v-for="r in (modalType === 'add' ? reasonsAdd : reasonsSub)" :key="r" @click="executeAction(r)"
-                style="padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);color:#fff;font-size:15px;text-align:left;cursor:pointer;transition:0.15s;font-family:inherit;">
+                style="padding:12px 16px;border-radius:12px;border:1px solid var(--tint-3);background:var(--tint-1);color:var(--color-text);font-size:15px;text-align:left;cursor:pointer;transition:0.15s;font-family:inherit;">
                 {{ r }}
               </button>
             </div>
             <div v-if="actionError" style="margin-bottom:12px;padding:10px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;color: var(--color-danger-text);font-size:13px;text-align:center;">{{ actionError }}</div>
             <button @click="showModal = false; actionError = ''"
-              style="width:100%;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消操作</button>
+              style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--tint-3);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消操作</button>
           </div>
         </div>
       </Transition>
@@ -324,11 +324,11 @@ onMounted(async () => {
       <Transition name="fade">
         <div v-if="confirmSwitch" @click.self="confirmSwitch = null"
           style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:301;">
-          <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:28px 32px;max-width:380px;width:90%;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;text-align:center;">
+          <div style="background:var(--color-bg-card);border:1px solid var(--tint-3);border-radius:var(--md-radius);padding:28px 32px;max-width:380px;width:90%;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;text-align:center;">
             <div style="font-size:36px;margin-bottom:12px;">🔄</div>
             <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">确认切换宠物？</h3>
             <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:12px;">
-              将切换为 <strong style="color:var(--md-primary-light);">{{ confirmSwitch.name }}</strong>
+              将切换为 <strong style="color:var(--color-primary);">{{ confirmSwitch.name }}</strong>
             </p>
             <div v-if="petPickerStudent?.pet_name && petPickerStudent.free_pick"
               style="font-size:14px;padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color: var(--color-success-text);font-weight:700;margin-bottom:16px;">
@@ -342,8 +342,8 @@ onMounted(async () => {
               🎉 首次免费，不扣积分
             </div>
             <div style="display:flex;gap:10px;">
-              <button @click="confirmSwitch = null" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消</button>
-              <button @click="executeSwitch" :disabled="switchStatus !== 'idle'" :style="{ flex:'1', padding:'10px', borderRadius:'10px', border:'none', background: switchStatus === 'loading' ? '#f59e0b' : switchStatus === 'success' ? '#10b981' : switchStatus === 'error' ? '#ef4444' : 'rgba(167,139,250,0.15)', color: switchStatus !== 'idle' ? '#fff' : 'var(--md-primary-light)', fontSize:'14px', fontWeight:'600', cursor:'pointer', fontFamily:'inherit' }">
+              <button @click="confirmSwitch = null" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--tint-3);background:transparent;color:var(--md-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">取消</button>
+              <button @click="executeSwitch" :disabled="switchStatus !== 'idle'" :style="{ flex:'1', padding:'10px', borderRadius:'10px', border:'none', background: switchStatus === 'loading' ? '#f59e0b' : switchStatus === 'success' ? '#10b981' : switchStatus === 'error' ? '#ef4444' : 'rgba(167,139,250,0.15)', color: switchStatus !== 'idle' ? '#fff' : 'var(--color-primary)', fontSize:'14px', fontWeight:'600', cursor:'pointer', fontFamily:'inherit' }">
                 <template v-if="switchStatus === 'loading'">切换中...</template>
                 <template v-else-if="switchStatus === 'success'">切换成功 ✓</template>
                 <template v-else-if="switchStatus === 'error'">切换失败 ✗</template>
@@ -359,9 +359,9 @@ onMounted(async () => {
       <Transition name="fade">
         <div v-if="showPetDetail && detailStudent" @click.self="showPetDetail = false"
           style="position:fixed;inset:0;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;z-index:300;padding:20px;">
-          <div style="background:linear-gradient(180deg,#1a1040,#0d1b2a);border:1px solid rgba(255,255,255,0.08);border-radius:24px;max-width:480px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+          <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:480px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-              <div style="width:64px;height:64px;flex-shrink:0;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+              <div style="width:64px;height:64px;flex-shrink:0;background:var(--tint-2);border:1px solid var(--tint-3);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
                 <PetSprite :species-id="detailStudent.pet_species" :level="detailStudent.pet_level" :animate="true" />
               </div>
               <div>
@@ -370,11 +370,11 @@ onMounted(async () => {
                   Lv.{{ detailStudent.pet_level }} · {{ getPetStageNames(detailStudent.pet_level) }}
                 </div>
               </div>
-              <button @click="showPetDetail = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;font-size:14px;">✕</button>
+              <button @click="showPetDetail = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid var(--tint-3);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-size:14px;">✕</button>
             </div>
 
             <!-- 阶段描述 -->
-            <div style="padding:14px 16px;background:rgba(255,255,255,0.03);border-radius:12px;border-left:3px solid var(--md-primary);margin-bottom:12px;">
+            <div style="padding:14px 16px;background:var(--tint-1);border-radius:12px;border-left:3px solid var(--md-primary);margin-bottom:12px;">
               <div style="font-size:11px;color:var(--md-text-secondary);font-weight:600;margin-bottom:4px;">📋 {{ getPetStageNames(detailStudent.pet_level) }} · {{ getPetLevelName(detailStudent.pet_species, detailStudent.pet_level) }}</div>
               <div style="font-size:13px;color:var(--md-text-secondary);line-height:1.6;">{{ getPetLevelDescription(detailStudent.pet_species, detailStudent.pet_level) }}</div>
             </div>
@@ -388,7 +388,9 @@ onMounted(async () => {
             <!-- 诗文 -->
             <div v-if="getPetDetailPoems(detailStudent.pet_species, detailStudent.pet_level)" style="padding:14px 16px;background:rgba(139,92,246,0.06);border-radius:12px;border-left:3px solid #8B5CF6;margin-bottom:16px;">
               <div style="font-size:11px;color:rgba(139,92,246,0.6);font-weight:600;margin-bottom:4px;">📜 专属诗文</div>
-              <div style="font-size:13px;color:#c4b5fd;line-height:1.8;white-space:pre-line;">{{ getPetDetailPoems(detailStudent.pet_species, detailStudent.pet_level) }}</div>
+              <div style="font-size:13px;color:var(--color-primary);line-height:1.8;">
+                <div v-for="(line, i) in poemToLines(getPetDetailPoems(detailStudent.pet_species, detailStudent.pet_level))" :key="i" :style="i % 2 === 1 ? 'padding-left:1.4em;text-indent:-1.4em;' : ''">{{ line }}</div>
+              </div>
             </div>
 
             <!-- 进度条 -->
@@ -397,14 +399,14 @@ onMounted(async () => {
                 <span>升级进度</span>
                 <span>距 Lv.{{ detailStudent.pet_level + 1 }} 还差 <strong style="color:var(--md-gold);">{{ nextLevelProgress(detailStudent.total_score, detailStudent.pet_level).remaining }}</strong> 分</span>
               </div>
-              <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;">
+              <div style="height:6px;background:var(--tint-3);border-radius:3px;overflow:hidden;">
                 <div :style="{ width: nextLevelProgress(detailStudent.total_score, detailStudent.pet_level).percent + '%', height:'100%', background:'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'3px' }"></div>
               </div>
             </div>
 
             <div style="display:flex;gap:8px;">
-              <button @click="showPetDetail = false; openPetPicker(detailStudent)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(167,139,250,0.15);background:rgba(167,139,250,0.08);color:var(--md-primary-light);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">🔄 切换宠物</button>
-              <button @click="showPetDetail = false" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">关闭</button>
+              <button @click="showPetDetail = false; openPetPicker(detailStudent)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(167,139,250,0.15);background:rgba(167,139,250,0.08);color:var(--color-primary);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">🔄 切换宠物</button>
+              <button @click="showPetDetail = false" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--tint-3);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">关闭</button>
             </div>
           </div>
         </div>
@@ -414,7 +416,7 @@ onMounted(async () => {
       <Transition name="fade">
         <div v-if="showPetPicker && petPickerStudent" @click.self="showPetPicker = false"
           style="position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:300;">
-          <div style="background:#1e1b3b;border:1px solid rgba(255,255,255,0.08);border-radius:var(--md-radius);padding:24px 28px;max-width:520px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
+          <div style="background:var(--color-bg-card);border:1px solid var(--tint-3);border-radius:var(--md-radius);padding:24px 28px;max-width:520px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--md-elevation);animation:popIn 0.25s ease;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
               <span style="font-size:28px;">{{ petPickerStudent.pet_emoji }}</span>
               <div>
@@ -425,17 +427,17 @@ onMounted(async () => {
                 </div>
                 <div v-else style="font-size:12px;margin-top:4px;padding:4px 10px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color: var(--color-success-text);font-weight:700;display:inline-block;">🎉 首次免费选择，不扣积分</div>
               </div>
-              <button @click="showPetPicker = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;">✕</button>
+              <button @click="showPetPicker = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid var(--tint-3);background:transparent;color:var(--color-text-secondary);cursor:pointer;">✕</button>
             </div>
             <div v-for="series in pickerSeriesList" :key="series.id" style="margin-bottom:12px;">
               <div style="font-size:12px;font-weight:600;color:var(--md-text-secondary);margin-bottom:6px;padding-left:4px;">{{ series.emoji }} {{ series.name }}</div>
               <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;">
                 <button v-for="sp in series.species" :key="sp.id" @click="handlePick(sp.id, sp.name)"
                   :disabled="switchingPet || petPickerStudent.pet_species === sp.id"
-                  style="padding:8px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;transition:0.15s;font-family:inherit;"
+                  style="padding:8px 4px;border-radius:10px;border:1px solid var(--tint-2);background:var(--tint-1);text-align:center;cursor:pointer;transition:0.15s;font-family:inherit;"
                   :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.08);cursor:default;' : ''"
-                  @mouseenter="(e)=>petPickerStudent?.pet_species === sp.id || ((e.target as HTMLElement).style.background='rgba(255,255,255,0.06)')"
-                  @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent?.pet_species === sp.id ? 'rgba(16,185,129,0.08)' : 'rgba(255,255,255,0.02)'">
+                  @mouseenter="(e)=>petPickerStudent?.pet_species === sp.id || ((e.target as HTMLElement).style.background='var(--tint-3)')"
+                  @mouseleave="(e)=>(e.target as HTMLElement).style.background=petPickerStudent?.pet_species === sp.id ? 'rgba(16,185,129,0.08)' : 'var(--tint-1)'">
                   <div style="width:48px;height:48px;margin:0 auto 2px;">
                     <PetSprite :species-id="sp.id" :level="6" />
                   </div>
@@ -444,7 +446,7 @@ onMounted(async () => {
                 </button>
               </div>
             </div>
-            <button @click="showPetPicker = false" style="width:100%;margin-top:8px;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">取消</button>
+            <button @click="showPetPicker = false" style="width:100%;margin-top:8px;padding:8px;border-radius:10px;border:1px solid var(--tint-3);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">取消</button>
           </div>
         </div>
       </Transition>
