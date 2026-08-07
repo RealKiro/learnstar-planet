@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·四阶·淬炼·大闹天宫">
+  <defs>
+    <!-- 背景：墨褐 + 血绛火光 -->
+    <radialGradient id="bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#241A14"/>
+      <stop offset="70%" stop-color="#17100C"/>
+      <stop offset="100%" stop-color="#2B1810"/>
+    </radialGradient>
+    <radialGradient id="fur" cx="42%" cy="36%" r="76%">
+      <stop offset="0%" stop-color="#E8BE4E"/>
+      <stop offset="60%" stop-color="#D9A830"/>
+      <stop offset="100%" stop-color="#B8861F"/>
+    </radialGradient>
+    <radialGradient id="face" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F5E2BE"/>
+      <stop offset="100%" stop-color="#E4CE9E"/>
+    </radialGradient>
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F5D742"/>
+      <stop offset="100%" stop-color="#C9A227"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 环境：天劫雷电 -->
+  <path d="M 30 44 L 48 62 L 38 66 L 56 84" fill="none" stroke="#E8E0D0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+  <path d="M 174 92 L 158 106 L 170 110 L 152 130" fill="none" stroke="#E8E0D0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+
+  <!-- 环境：天火 -->
+  <path d="M 22 188 Q 34 168 46 182 Q 56 162 70 178 Q 82 158 94 176 Q 106 160 118 178 Q 130 164 142 182 Q 152 166 166 184 Q 174 172 184 188 Z" fill="#8B1A1A" opacity="0.5"/>
+  <path d="M 30 190 Q 44 172 58 184 Q 70 166 84 180 Q 96 166 108 182 Q 120 168 132 184 Q 144 172 156 186 Q 166 174 176 190 Z" fill="#D43A2A" opacity="0.35"/>
+
+  <!-- 身体（腾跃爆发） -->
+  <ellipse cx="100" cy="122" rx="27" ry="31" fill="url(#fur)" transform="rotate(-14 100 122)"/>
+
+  <!-- 锁子黄金甲（胸甲） -->
+  <path d="M 82 108 Q 100 100 118 108 L 116 132 Q 100 142 84 132 Z" fill="url(#armor)"/>
+  <path d="M 90 106 Q 100 112 110 106" fill="none" stroke="#8E6E14" stroke-width="1.6" opacity="0.8"/>
+  <path d="M 92 118 L 88 134 M 100 116 L 100 136 M 108 118 L 112 134" stroke="#8E6E14" stroke-width="1.6" opacity="0.7"/>
+  <!-- 肩甲 -->
+  <circle cx="76" cy="112" r="8" fill="url(#armor)"/>
+  <circle cx="124" cy="112" r="8" fill="url(#armor)"/>
+
+  <!-- 脚（腾跃，一前一后） -->
+  <ellipse cx="80" cy="160" rx="11" ry="7" fill="#B8861F" transform="rotate(14 80 160)"/>
+  <ellipse cx="120" cy="152" rx="10" ry="6" fill="#B8861F" transform="rotate(-18 120 152)"/>
+
+  <!-- 金箍棒（高举斜劈，棒端燃火） -->
+  <line x1="120" y1="34" x2="56" y2="150" stroke="#F5D742" stroke-width="6" stroke-linecap="round"/>
+  <line x1="120" y1="34" x2="56" y2="150" stroke="#C9A227" stroke-width="1.6" opacity="0.6"/>
+  <!-- 棒端天火 -->
+  <path d="M 56 152 C 46 140 40 130 46 120 C 52 128 56 136 60 142 Z" fill="#F97316" opacity="0.9"/>
+  <path d="M 120 32 C 128 20 132 12 126 4 C 120 12 116 20 114 28 Z" fill="#F97316" opacity="0.85"/>
+
+  <!-- 手（握棒） -->
+  <circle cx="92" cy="98" r="6" fill="#B8861F"/>
+
+  <!-- 头 -->
+  <ellipse cx="100" cy="66" rx="21" ry="20" fill="url(#fur)" transform="rotate(8 100 66)"/>
+  <!-- 猴脸 -->
+  <path d="M 89 72 Q 89 86 100 90 Q 111 86 111 72 Q 102 62 89 72 Z" fill="url(#face)"/>
+  <!-- 耳 -->
+  <circle cx="77" cy="64" r="6" fill="#B8861F"/>
+  <circle cx="123" cy="64" r="6" fill="#B8861F"/>
+
+  <!-- 紫金冠斜戴 -->
+  <path d="M 86 50 C 76 42 74 34 82 28 L 92 40 L 96 30 L 100 44" fill="none" stroke="#F5D742" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 118 56 C 128 48 130 40 122 36 L 116 46 L 110 40 L 108 52" fill="none" stroke="#F5D742" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 82 58 Q 100 50 118 58" fill="none" stroke="#F5D742" stroke-width="3.4" stroke-linecap="round"/>
+
+  <!-- 火眼金睛（无畏） -->
+  <circle cx="90" cy="72" r="5.4" fill="#F5D742"/>
+  <circle cx="110" cy="72" r="5.4" fill="#F5D742"/>
+  <circle cx="90" cy="72" r="2.6" fill="#8B1A1A"/>
+  <circle cx="110" cy="72" r="2.6" fill="#8B1A1A"/>
+  <circle cx="91.6" cy="70.4" r="1.8" fill="#FFF"/>
+  <path d="M 80 62 Q 90 57 100 61" fill="none" stroke="#B8861F" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- 战斗光环 -->
+  <circle cx="100" cy="110" r="58" fill="none" stroke="#D43A2A" stroke-width="1.6" opacity="0.5" stroke-dasharray="7 6"/>
+
+  <!-- 火星 -->
+  <circle cx="58" cy="120" r="1.8" fill="#F97316" opacity="0.85"/>
+  <circle cx="144" cy="116" r="1.5" fill="#D43A2A" opacity="0.7"/>
+  <circle cx="100" cy="180" r="1.4" fill="#F5D742" opacity="0.6"/>
+</svg>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·三阶·初成·筋斗云">
+  <defs>
+    <!-- 背景：朱砂暖色，体内透光 -->
+    <radialGradient id="bg" cx="50%" cy="58%" r="62%">
+      <stop offset="0%" stop-color="#B8502E"/>
+      <stop offset="60%" stop-color="#8E3A22"/>
+      <stop offset="100%" stop-color="#5A2416"/>
+    </radialGradient>
+    <radialGradient id="fur" cx="42%" cy="36%" r="76%">
+      <stop offset="0%" stop-color="#EBC55A"/>
+      <stop offset="60%" stop-color="#E0B13B"/>
+      <stop offset="100%" stop-color="#C08E26"/>
+    </radialGradient>
+    <radialGradient id="face" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F7E6C6"/>
+      <stop offset="100%" stop-color="#E8D3A8"/>
+    </radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="118" r="70" fill="url(#core)"/>
+
+  <!-- 神性：第一圈光晕 -->
+  <circle cx="100" cy="116" r="56" fill="none" stroke="#F5D742" stroke-width="1.6" opacity="0.45"/>
+
+  <!-- 筋斗云 -->
+  <path d="M 46 168 C 60 160 72 168 86 162 C 96 158 106 164 114 160 C 126 154 142 162 156 156 C 144 168 124 168 106 168 C 88 168 68 170 46 168 Z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M 58 176 C 76 170 92 178 110 172 C 126 166 142 174 156 170" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- 身体（金毛，挺立） -->
+  <ellipse cx="100" cy="126" rx="25" ry="30" fill="url(#fur)"/>
+  <!-- 虎皮裙 -->
+  <path d="M 80 140 Q 100 132 120 140 L 118 158 Q 100 164 82 158 Z" fill="#D8A23A"/>
+  <path d="M 86 142 L 84 156 M 96 139 L 94 158 M 106 139 L 104 158 M 116 142 L 114 156" stroke="#4A3018" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- 脚 -->
+  <ellipse cx="89" cy="162" rx="10" ry="7" fill="#C08E26"/>
+  <ellipse cx="111" cy="162" rx="10" ry="7" fill="#C08E26"/>
+
+  <!-- 金箍棒（斜持） -->
+  <line x1="66" y1="176" x2="92" y2="92" stroke="#F5D742" stroke-width="5" stroke-linecap="round"/>
+  <line x1="66" y1="176" x2="92" y2="92" stroke="#C9A227" stroke-width="1.4" opacity="0.6"/>
+  <circle cx="88" cy="104" r="5" fill="#C08E26"/>
+
+  <!-- 另一手（展臂） -->
+  <ellipse cx="130" cy="118" rx="6" ry="8" fill="#C08E26"/>
+
+  <!-- 头 -->
+  <ellipse cx="100" cy="72" rx="20" ry="19" fill="url(#fur)"/>
+  <!-- 猴脸 -->
+  <path d="M 90 76 Q 90 88 100 92 Q 110 88 110 76 Q 102 66 90 76 Z" fill="url(#face)"/>
+  <!-- 耳 -->
+  <circle cx="78" cy="70" r="5.5" fill="#C08E26"/>
+  <circle cx="122" cy="70" r="5.5" fill="#C08E26"/>
+
+  <!-- 凤翅紫金冠（初戴） -->
+  <path d="M 80 56 C 72 46 74 38 84 34 L 90 44 L 96 36 L 98 50" fill="none" stroke="#F5D742" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 120 56 C 128 46 126 38 116 34 L 110 44 L 104 36 L 102 50" fill="none" stroke="#F5D742" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 金箍（额头） -->
+  <path d="M 84 62 Q 100 56 116 62" fill="none" stroke="#F5D742" stroke-width="3.4" stroke-linecap="round"/>
+
+  <!-- 火眼金睛 -->
+  <circle cx="91" cy="74" r="5" fill="#F5D742"/>
+  <circle cx="109" cy="74" r="5" fill="#F5D742"/>
+  <circle cx="91" cy="74" r="2.4" fill="#C22A1A"/>
+  <circle cx="109" cy="74" r="2.4" fill="#C22A1A"/>
+  <circle cx="92.6" cy="72.4" r="1.7" fill="#FFF"/>
+
+  <!-- 嘴 -->
+  <path d="M 94 84 Q 100 88 106 84" fill="none" stroke="#B0852A" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- 悟道光点 -->
+  <circle cx="60" cy="110" r="1.6" fill="#F5D742" opacity="0.8"/>
+  <circle cx="140" cy="104" r="1.4" fill="#F5D742" opacity="0.65"/>
+  <circle cx="100" cy="186" r="1.3" fill="#F5D742" opacity="0.5"/>
+</svg>

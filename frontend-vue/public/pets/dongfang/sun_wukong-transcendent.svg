@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="孙悟空·六阶·归真·斗战胜佛">
+  <defs>
+    <!-- 背景：素白通透 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EDE8DE"/>
+      <stop offset="70%" stop-color="#E4E2DE"/>
+      <stop offset="100%" stop-color="#CBCFD6"/>
+    </linearGradient>
+    <!-- 淡紫佛光 -->
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#9A8FB8" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#9A8FB8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="body" cx="42%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#F5F0E8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#EDE5D4" stop-opacity="0.45"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 佛光圈 -->
+  <circle cx="88" cy="108" r="58" fill="url(#glow)"/>
+  <circle cx="88" cy="108" r="56" fill="none" stroke="#9A8FB8" stroke-width="1.6" opacity="0.4"/>
+
+  <!-- 环境：远山 -->
+  <path d="M 0 168 Q 40 150 80 160 Q 120 174 150 156 Q 175 144 200 154 L 200 200 L 0 200 Z" fill="#B7BDC9" opacity="0.5"/>
+
+  <!-- 环境：云海 -->
+  <path d="M 0 176 Q 30 168 60 174 Q 90 180 120 172 Q 160 162 200 172 L 200 192 Q 150 184 100 190 Q 50 196 0 190 Z" fill="#FFFFFF" opacity="0.75"/>
+
+  <!-- 角色：斗战胜佛侧坐（半透明融入） -->
+  <!-- 袈裟（半透明红） -->
+  <path d="M 66 108 Q 80 100 96 106 L 92 150 Q 76 158 62 148 Z" fill="#C85A4A" opacity="0.45"/>
+  <path d="M 92 106 L 116 114 L 110 148 Q 96 156 88 150 Z" fill="#B84A3A" opacity="0.4"/>
+
+  <!-- 身体（坐姿） -->
+  <ellipse cx="88" cy="126" rx="24" ry="26" fill="url(#body)"/>
+
+  <!-- 手（合十/搭膝） -->
+  <ellipse cx="76" cy="128" rx="6" ry="8" fill="#F5F0E8" opacity="0.7"/>
+
+  <!-- 头（微垂，闭目） -->
+  <ellipse cx="84" cy="86" rx="17" ry="16" fill="url(#body)"/>
+  <!-- 猴脸 -->
+  <path d="M 76 90 Q 76 100 84 103 Q 92 100 92 90 Q 86 82 76 90 Z" fill="#F5EEDC" opacity="0.8"/>
+  <!-- 耳 -->
+  <circle cx="66" cy="86" r="5" fill="#EDE5D4" opacity="0.7"/>
+
+  <!-- 金毛（平静） -->
+  <path d="M 84 74 Q 82 68 86 64" fill="none" stroke="#C9B37E" stroke-width="2.4" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- 闭目（安详） -->
+  <path d="M 76 88 Q 82 92 88 88" fill="none" stroke="#9A8FB8" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- 项间念珠 -->
+  <g fill="#C9B37E">
+    <circle cx="76" cy="100" r="1.6" opacity="0.8"/>
+    <circle cx="80" cy="103" r="1.6" opacity="0.8"/>
+    <circle cx="85" cy="104" r="1.6" opacity="0.8"/>
+    <circle cx="90" cy="102" r="1.6" opacity="0.8"/>
+  </g>
+
+  <!-- 佛光粒子 -->
+  <g fill="#9A8FB8">
+    <circle cx="60" cy="112" r="1.4" opacity="0.55"/>
+    <circle cx="120" cy="96" r="1.2" opacity="0.45"/>
+    <circle cx="136" cy="118" r="1.1" opacity="0.4"/>
+    <circle cx="104" cy="80" r="1" opacity="0.45"/>
+  </g>
+</svg>
