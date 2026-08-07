@@ -66,12 +66,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 龙威炽烈，怒目电光; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 烛龙巡天**
-- 烛龙，封神登天阶段·烛龙巡天。形象：人面蛇身，通体赤红，口衔火烛。 核心意象：烛火、昼夜、钟山。神态：龙目洞彻，神威赫赫。动作：绝技大成，行云布雨。衣着：金鳞覆身，祥光万道。梳造：龙角如珊瑚，须垂百丈。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 龙目洞彻，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 烛龙，封神登天阶段·烛龙巡天。形象：人面蛇身，通体赤红，口衔火烛。 核心意象：烛火、昼夜、钟山。神态：受封龙君，神威赫赫。动作：登天行云，布雨泽四方。衣着：金鳞覆身，受冕祥光。梳造：龙角如珊瑚，加冕为尊。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封龙君，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 开目为昼**
-- 烛龙，道果圆满阶段·开目为昼。形象：人面蛇身，通体赤红，口衔火烛。 核心意象：烛火、昼夜、钟山。神态：万龙之首，睥睨三界。动作：一怒天地色变，号令风雨，开眼为昼，闭眼为夜，呼吸之间风雷自生。衣着：龙身化岳，鳞甲映日月。梳造：龙角擎天，须断星河。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之首，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 烛龙，道果圆满阶段·开目为昼。形象：人面蛇身，通体赤红，口衔火烛。 核心意象：烛火、昼夜、钟山。神态：万龙之源，睥睨三界。动作：真身化岳，日月为伴，开眼为昼，闭眼为夜，呼吸之间风雷自生。衣着：龙身映日月，鳞甲如星辰。梳造：龙角擎天，道纹绕体。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之源，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 应龙（`yinglong`）
 
@@ -92,12 +92,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 龙威炽烈，怒目电光; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 战龙**
-- 应龙，封神登天阶段·战龙。形象：身披金鳞，背生双翼的神龙。 核心意象：金鳞、双翼、风雷云雨。神态：龙目洞彻，神威赫赫。动作：绝技大成，行云布雨。衣着：金鳞覆身，祥光万道。梳造：龙角如珊瑚，须垂百丈。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 龙目洞彻，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 应龙，封神登天阶段·战龙。形象：身披金鳞，背生双翼的神龙。 核心意象：金鳞、双翼、风雷云雨。神态：受封龙君，神威赫赫。动作：登天行云，布雨泽四方。衣着：金鳞覆身，受冕祥光。梳造：龙角如珊瑚，加冕为尊。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封龙君，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 神龙降世**
-- 应龙，道果圆满阶段·神龙降世。形象：身披金鳞，背生双翼的神龙。 核心意象：金鳞、双翼、风雷云雨。神态：万龙之首，睥睨三界。动作：一怒天地色变，号令风雨，双翼一展，云腾雨至，江河为之让路。衣着：龙身化岳，鳞甲映日月。梳造：龙角擎天，须断星河。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之首，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 应龙，道果圆满阶段·神龙降世。形象：身披金鳞，背生双翼的神龙。 核心意象：金鳞、双翼、风雷云雨。神态：万龙之源，睥睨三界。动作：真身化岳，日月为伴，双翼一展，云腾雨至，江河为之让路。衣着：龙身映日月，鳞甲如星辰。梳造：龙角擎天，道纹绕体。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之源，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 九尾狐（`nine_tail_fox`）
 
@@ -118,12 +118,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 七尾**
-- 九尾狐，封神登天阶段·七尾。形象：通体雪白，身后拖九条长尾。 核心意象：九尾、青丘山、月光。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 九尾狐，封神登天阶段·七尾。形象：通体雪白，身后拖九条长尾。 核心意象：九尾、青丘山、月光。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 九尾天狐**
-- 九尾狐，道果圆满阶段·九尾天狐。形象：通体雪白，身后拖九条长尾。 核心意象：九尾、青丘山、月光。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，九尾摇曳如月华流泻，一顾倾人再顾倾国。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 九尾狐，道果圆满阶段·九尾天狐。形象：通体雪白，身后拖九条长尾。 核心意象：九尾、青丘山、月光。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，九尾摇曳如月华流泻，一顾倾人再顾倾国。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 鲲鹏（`kunpeng`）
 
@@ -144,12 +144,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 鲲鹏**
-- 鲲鹏，封神登天阶段·鲲鹏。形象：北冥之巨鱼，可化身为鸟。 核心意象：北冥、垂天之云、九万里长空。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 鲲鹏，封神登天阶段·鲲鹏。形象：北冥之巨鱼，可化身为鸟。 核心意象：北冥、垂天之云、九万里长空。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 北冥之主**
-- 鲲鹏，道果圆满阶段·北冥之主。形象：北冥之巨鱼，可化身为鸟。 核心意象：北冥、垂天之云、九万里长空。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，振翅扶摇九万里，水击三千里，绝云气负青天。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 鲲鹏，道果圆满阶段·北冥之主。形象：北冥之巨鱼，可化身为鸟。 核心意象：北冥、垂天之云、九万里长空。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，振翅扶摇九万里，水击三千里，绝云气负青天。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 凤凰（`fenghuang`）
 
@@ -170,12 +170,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 神凤**
-- 凤凰，封神登天阶段·神凤。形象：五彩华羽，尾羽如虹。 核心意象：梧桐、竹实、醴泉。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 凤凰，封神登天阶段·神凤。形象：五彩华羽，尾羽如虹。 核心意象：梧桐、竹实、醴泉。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 涅槃之凤**
-- 凤凰，道果圆满阶段·涅槃之凤。形象：五彩华羽，尾羽如虹。 核心意象：梧桐、竹实、醴泉。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，五色并举，振翅则百鸟来朝，一鸣则天下太平。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 凤凰，道果圆满阶段·涅槃之凤。形象：五彩华羽，尾羽如虹。 核心意象：梧桐、竹实、醴泉。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，五色并举，振翅则百鸟来朝，一鸣则天下太平。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 麒麟（`qilin`）
 
@@ -196,12 +196,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 天麟**
-- 麒麟，封神登天阶段·天麟。形象：麋身牛尾，马蹄而一角。 核心意象：独角、麋身、太平之兆。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 麒麟，封神登天阶段·天麟。形象：麋身牛尾，马蹄而一角。 核心意象：独角、麋身、太平之兆。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 万瑞之祖**
-- 麒麟，道果圆满阶段·万瑞之祖。形象：麋身牛尾，马蹄而一角。 核心意象：独角、麋身、太平之兆。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，不踏生草不履生虫，步生祥云，角有瑞光。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 麒麟，道果圆满阶段·万瑞之祖。形象：麋身牛尾，马蹄而一角。 核心意象：独角、麋身、太平之兆。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，不踏生草不履生虫，步生祥云，角有瑞光。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 穷奇（`qiongqi`）
 
@@ -222,12 +222,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 穷奇·噬恶**
-- 穷奇，封神登天阶段·穷奇·噬恶。形象：状如虎而生双翼，遍体凶煞。 核心意象：虎身双翼、凶煞之气、颠倒黑白。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 穷奇，封神登天阶段·穷奇·噬恶。形象：状如虎而生双翼，遍体凶煞。 核心意象：虎身双翼、凶煞之气、颠倒黑白。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 四凶之穷奇**
-- 穷奇，道果圆满阶段·四凶之穷奇。形象：状如虎而生双翼，遍体凶煞。 核心意象：虎身双翼、凶煞之气、颠倒黑白。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，振翅扑食，专噬忠善，风随其身。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 穷奇，道果圆满阶段·四凶之穷奇。形象：状如虎而生双翼，遍体凶煞。 核心意象：虎身双翼、凶煞之气、颠倒黑白。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，振翅扑食，专噬忠善，风随其身。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 毕方（`bifang`）
 
@@ -248,12 +248,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 毕方·焚风**
-- 毕方，封神登天阶段·毕方·焚风。形象：青色单足之鸟，白喙赤足。 核心意象：单足、白喙、青色火焰。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 毕方，封神登天阶段·毕方·焚风。形象：青色单足之鸟，白喙赤足。 核心意象：单足、白喙、青色火焰。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 毕方神鸟**
-- 毕方，道果圆满阶段·毕方神鸟。形象：青色单足之鸟，白喙赤足。 核心意象：单足、白喙、青色火焰。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，一足独立，长鸣如鹤，过处即有讹火。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 毕方，道果圆满阶段·毕方神鸟。形象：青色单足之鸟，白喙赤足。 核心意象：单足、白喙、青色火焰。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，一足独立，长鸣如鹤，过处即有讹火。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 貔貅（`pixiu`）
 
@@ -274,12 +274,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 貔貅·吞金**
-- 貔貅，封神登天阶段·貔貅·吞金。形象：龙头马身麟脚，背生双翼。 核心意象：龙头麟脚、双翼、招财纳福。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 貔貅，封神登天阶段·貔貅·吞金。形象：龙头马身麟脚，背生双翼。 核心意象：龙头麟脚、双翼、招财纳福。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 貔貅至尊**
-- 貔貅，道果圆满阶段·貔貅至尊。形象：龙头马身麟脚，背生双翼。 核心意象：龙头麟脚、双翼、招财纳福。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，张口吸纳四方财气，只进不出，聚而不散。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 貔貅，道果圆满阶段·貔貅至尊。形象：龙头马身麟脚，背生双翼。 核心意象：龙头麟脚、双翼、招财纳福。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，张口吸纳四方财气，只进不出，聚而不散。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 精卫（`jingwei`）
 
@@ -300,12 +300,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 精卫·不屈**
-- 精卫，封神登天阶段·精卫·不屈。形象：形如乌，赤首白喙赤足。 核心意象：木石、东海、不灭之志。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 精卫，封神登天阶段·精卫·不屈。形象：形如乌，赤首白喙赤足。 核心意象：木石、东海、不灭之志。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 精卫神鸟**
-- 精卫，道果圆满阶段·精卫神鸟。形象：形如乌，赤首白喙赤足。 核心意象：木石、东海、不灭之志。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，衔西山之木石，日夜往复，以填东海。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 精卫，道果圆满阶段·精卫神鸟。形象：形如乌，赤首白喙赤足。 核心意象：木石、东海、不灭之志。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，衔西山之木石，日夜往复，以填东海。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 相柳（`xiangliu`）
 
@@ -326,12 +326,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 龙威炽烈，怒目电光; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 凶兽相柳**
-- 相柳，封神登天阶段·凶兽相柳。形象：九首蛇身，自环其尾。 核心意象：九首、蛇身、水泽之祸。神态：龙目洞彻，神威赫赫。动作：绝技大成，行云布雨。衣着：金鳞覆身，祥光万道。梳造：龙角如珊瑚，须垂百丈。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 龙目洞彻，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 相柳，封神登天阶段·凶兽相柳。形象：九首蛇身，自环其尾。 核心意象：九首、蛇身、水泽之祸。神态：受封龙君，神威赫赫。动作：登天行云，布雨泽四方。衣着：金鳞覆身，受冕祥光。梳造：龙角如珊瑚，加冕为尊。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封龙君，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 相柳·湮世**
-- 相柳，道果圆满阶段·相柳·湮世。形象：九首蛇身，自环其尾。 核心意象：九首、蛇身、水泽之祸。神态：万龙之首，睥睨三界。动作：一怒天地色变，号令风雨，九首齐张，所过之地化为泽国，毒水横流。衣着：龙身化岳，鳞甲映日月。梳造：龙角擎天，须断星河。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之首，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 相柳，道果圆满阶段·相柳·湮世。形象：九首蛇身，自环其尾。 核心意象：九首、蛇身、水泽之祸。神态：万龙之源，睥睨三界。动作：真身化岳，日月为伴，九首齐张，所过之地化为泽国，毒水横流。衣着：龙身映日月，鳞甲如星辰。梳造：龙角擎天，道纹绕体。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之源，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 獬豸（`xiezhi`）
 
@@ -352,12 +352,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 獬豸·执法**
-- 獬豸，封神登天阶段·獬豸·执法。形象：似羊而独角，目光清正。 核心意象：独角、公正、断狱之威。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 獬豸，封神登天阶段·獬豸·执法。形象：似羊而独角，目光清正。 核心意象：独角、公正、断狱之威。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 司法神兽**
-- 獬豸，道果圆满阶段·司法神兽。形象：似羊而独角，目光清正。 核心意象：独角、公正、断狱之威。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，见人争斗，以独角触其不直者，刚正不阿。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 獬豸，道果圆满阶段·司法神兽。形象：似羊而独角，目光清正。 核心意象：独角、公正、断狱之威。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，见人争斗，以独角触其不直者，刚正不阿。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 青龙（`qinglong`）
 
@@ -378,12 +378,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 龙威炽烈，怒目电光; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 星宿青龙**
-- 青龙，封神登天阶段·星宿青龙。形象：青鳞神龙，鹿角长须。 核心意象：青鳞鹿角、东方之位、风调雨顺。神态：龙目洞彻，神威赫赫。动作：绝技大成，行云布雨。衣着：金鳞覆身，祥光万道。梳造：龙角如珊瑚，须垂百丈。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 龙目洞彻，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 青龙，封神登天阶段·星宿青龙。形象：青鳞神龙，鹿角长须。 核心意象：青鳞鹿角、东方之位、风调雨顺。神态：受封龙君，神威赫赫。动作：登天行云，布雨泽四方。衣着：金鳞覆身，受冕祥光。梳造：龙角如珊瑚，加冕为尊。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封龙君，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 青龙尊者**
-- 青龙，道果圆满阶段·青龙尊者。形象：青鳞神龙，鹿角长须。 核心意象：青鳞鹿角、东方之位、风调雨顺。神态：万龙之首，睥睨三界。动作：一怒天地色变，号令风雨，腾云驾雾而起，行云布雨泽润四方。衣着：龙身化岳，鳞甲映日月。梳造：龙角擎天，须断星河。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之首，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 青龙，道果圆满阶段·青龙尊者。形象：青鳞神龙，鹿角长须。 核心意象：青鳞鹿角、东方之位、风调雨顺。神态：万龙之源，睥睨三界。动作：真身化岳，日月为伴，腾云驾雾而起，行云布雨泽润四方。衣着：龙身映日月，鳞甲如星辰。梳造：龙角擎天，道纹绕体。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之源，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 白虎（`baihu`）
 
@@ -404,12 +404,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 镇西神虎**
-- 白虎，封神登天阶段·镇西神虎。形象：白毛巨虎，金纹隐现。 核心意象：白毛金纹、西方之位、战神之象。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 白虎，封神登天阶段·镇西神虎。形象：白毛巨虎，金纹隐现。 核心意象：白毛金纹、西方之位、战神之象。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 白虎尊者**
-- 白虎，道果圆满阶段·白虎尊者。形象：白毛巨虎，金纹隐现。 核心意象：白毛金纹、西方之位、战神之象。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，金纹一闪，虎啸裂空威震百兽。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 王者归位，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 白虎，道果圆满阶段·白虎尊者。形象：白毛巨虎，金纹隐现。 核心意象：白毛金纹、西方之位、战神之象。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，金纹一闪，虎啸裂空威震百兽。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 神光自照，与天地同尊; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 朱雀（`zhuque`）
 
@@ -430,12 +430,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 浴火朱雀**
-- 朱雀，封神登天阶段·浴火朱雀。形象：赤红神鸟，周身烈焰。 核心意象：赤羽烈焰、南方之位、浴火重生。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 朱雀，封神登天阶段·浴火朱雀。形象：赤红神鸟，周身烈焰。 核心意象：赤羽烈焰、南方之位、浴火重生。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 朱雀尊者**
-- 朱雀，道果圆满阶段·朱雀尊者。形象：赤红神鸟，周身烈焰。 核心意象：赤羽烈焰、南方之位、浴火重生。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，振翅浴火而起，烈焰燎空化为凤凰。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 朱雀，道果圆满阶段·朱雀尊者。形象：赤红神鸟，周身烈焰。 核心意象：赤羽烈焰、南方之位、浴火重生。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，振翅浴火而起，烈焰燎空化为凤凰。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 玄武（`xuanwu`）
 
@@ -456,12 +456,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 龙威炽烈，怒目电光; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 镇水玄武**
-- 玄武，封神登天阶段·镇水玄武。形象：龟蛇合体，背负硬壳。 核心意象：龟蛇合体、北冥之水、玄武星宿。神态：龙目洞彻，神威赫赫。动作：绝技大成，行云布雨。衣着：金鳞覆身，祥光万道。梳造：龙角如珊瑚，须垂百丈。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 龙目洞彻，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 玄武，封神登天阶段·镇水玄武。形象：龟蛇合体，背负硬壳。 核心意象：龟蛇合体、北冥之水、玄武星宿。神态：受封龙君，神威赫赫。动作：登天行云，布雨泽四方。衣着：金鳞覆身，受冕祥光。梳造：龙角如珊瑚，加冕为尊。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封龙君，神威赫赫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 玄武尊者**
-- 玄武，道果圆满阶段·玄武尊者。形象：龟蛇合体，背负硬壳。 核心意象：龟蛇合体、北冥之水、玄武星宿。神态：万龙之首，睥睨三界。动作：一怒天地色变，号令风雨，龟蛇盘踞，身周四象水光流转，一尾横扫千军。衣着：龙身化岳，鳞甲映日月。梳造：龙角擎天，须断星河。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之首，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 玄武，道果圆满阶段·玄武尊者。形象：龟蛇合体，背负硬壳。 核心意象：龟蛇合体、北冥之水、玄武星宿。神态：万龙之源，睥睨三界。动作：真身化岳，日月为伴，龟蛇盘踞，身周四象水光流转，一尾横扫千军。衣着：龙身映日月，鳞甲如星辰。梳造：龙角擎天，道纹绕体。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 万龙之源，睥睨三界; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 饕餮（`taotie`）
 
@@ -482,12 +482,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 贪噬之相**
-- 饕餮，封神登天阶段·贪噬之相。形象：巨口凶兽，双角狰狞。 核心意象：巨口、狰狞双角、贪食之纹。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 饕餮，封神登天阶段·贪噬之相。形象：巨口凶兽，双角狰狞。 核心意象：巨口、狰狞双角、贪食之纹。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 饕餮尊者**
-- 饕餮，道果圆满阶段·饕餮尊者。形象：巨口凶兽，双角狰狞。 核心意象：巨口、狰狞双角、贪食之纹。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，巨口一张，吞尽万物永无餍足。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 饕餮，道果圆满阶段·饕餮尊者。形象：巨口凶兽，双角狰狞。 核心意象：巨口、狰狞双角、贪食之纹。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，巨口一张，吞尽万物永无餍足。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 白泽（`baize`）
 
@@ -508,12 +508,12 @@
 - EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; trial by elements; 眸光如电，威严中带着坚韧; palette #1A0A0A with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 万物之书**
-- 白泽，封神登天阶段·万物之书。形象：白身独角，通体智慧纹。 核心意象：白身独角、智慧纹、通晓万物。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 神兽威严，目光洞彻九幽; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 白泽，封神登天阶段·万物之书。形象：白身独角，通体智慧纹。 核心意象：白身独角、智慧纹、通晓万物。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：神通大成，受万民祭祀封神，身绕鎏金神光，威仪震慑四方。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：鎏金（#D4AF37）主调 + 朱紫（#7B2E8B）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; divine coronation; 受封瑞兽，祥云拱卫; palette #D4AF37 with #7B2E8B accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 白泽尊者**
-- 白泽，道果圆满阶段·白泽尊者。形象：白身独角，通体智慧纹。 核心意象：白身独角、智慧纹、通晓万物。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，开口便能道出天下妖魅鬼怪之名。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 白泽，道果圆满阶段·白泽尊者。形象：白身独角，通体智慧纹。 核心意象：白身独角、智慧纹、通晓万物。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，开口便能道出天下妖魅鬼怪之名。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：图腾显圣，山海为印，洪荒万古唯此一尊。风格：新中式上古神话国风插画，融合青铜器纹样与敦煌岩彩质感，洪荒神秘、庄严恢弘。色彩：云白（#F5F0E8）主调 + 淡金（#C9B37E）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese ancient mythology illustration, xinzhongshi, bronze ritual patterns, Dunhuang fresco texture; eternal harmony; 瑞气化道，福泽天地; palette #F5F0E8 with #C9B37E accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 ### 2. 东方神话（20 物种）
 
@@ -544,12 +544,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 封神榜启**
-- 姜子牙，封神登天阶段·封神榜启。形象：白发道袍，手持杏黄旗，背负封神榜。 核心意象：封神榜、杏黄旗、打神鞭、四不像。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：姜太公临，金甲法衣。梳造：仙髻法冠，打神鞭在手。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 姜子牙，封神登天阶段·封神榜启。形象：白发道袍，手持杏黄旗，背负封神榜。 核心意象：封神榜、杏黄旗、打神鞭、四不像。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：姜太公临，金甲法衣。梳造：仙髻法冠，打神鞭在手。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 姜太公临**
-- 姜子牙，道果圆满阶段·姜太公临。形象：白发道袍，手持杏黄旗，背负封神榜。 核心意象：封神榜、杏黄旗、打神鞭、四不像。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，渭水直钩垂钓，愿者上钩。衣着：封神执榜人，坐于云端。梳造：白发如银，慈眉垂目。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 姜子牙，道果圆满阶段·姜太公临。形象：白发道袍，手持杏黄旗，背负封神榜。 核心意象：封神榜、杏黄旗、打神鞭、四不像。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，渭水直钩垂钓，愿者上钩。衣着：封神执榜人，坐于云端。梳造：白发如银，慈眉垂目。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 哪吒（`nezha`）
 
@@ -570,12 +570,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 三太子**
-- 哪吒，封神登天阶段·三太子。形象：莲花化身灵童子，火尖枪挑乾坤。 核心意象：风火轮、乾坤圈、混天绫、火尖枪、莲花。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：三头六臂全开，莲花金甲，风火轮踏焰。梳造：金冠束发，英姿勃发。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 哪吒，封神登天阶段·三太子。形象：莲花化身灵童子，火尖枪挑乾坤。 核心意象：风火轮、乾坤圈、混天绫、火尖枪、莲花。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：三头六臂全开，莲花金甲，风火轮踏焰。梳造：金冠束发，英姿勃发。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 肉身成圣**
-- 哪吒，道果圆满阶段·肉身成圣。形象：莲花化身灵童子，火尖枪挑乾坤。 核心意象：风火轮、乾坤圈、混天绫、火尖枪、莲花。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，脚踏风火轮，手掷乾坤圈，一声"变"。衣着：三头六臂莲花战神，金甲全开。梳造：金冠束发，六臂威仪。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 哪吒，道果圆满阶段·肉身成圣。形象：莲花化身灵童子，火尖枪挑乾坤。 核心意象：风火轮、乾坤圈、混天绫、火尖枪、莲花。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，脚踏风火轮，手掷乾坤圈，一声"变"。衣着：三头六臂莲花战神，金甲全开。梳造：金冠束发，六臂威仪。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 杨戬（`yang_jian`）
 
@@ -596,12 +596,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 二郎真君**
-- 杨戬，封神登天阶段·二郎真君。形象：银甲神将，额生天目，手持三尖两刃刀。 核心意象：三尖两刃刀、哮天犬、天眼、银甲。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：二郎真君银甲金冠，哮天犬随侧。梳造：银盔高束，天目如电。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 杨戬，封神登天阶段·二郎真君。形象：银甲神将，额生天目，手持三尖两刃刀。 核心意象：三尖两刃刀、哮天犬、天眼、银甲。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：二郎真君银甲金冠，哮天犬随侧。梳造：银盔高束，天目如电。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 玄功大成**
-- 杨戬，道果圆满阶段·玄功大成。形象：银甲神将，额生天目，手持三尖两刃刀。 核心意象：三尖两刃刀、哮天犬、天眼、银甲。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，额间天目一睁，照破妖邪原形。衣着：清源妙道真君，玄功大成。梳造：束发道冠，天目内敛。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 杨戬，道果圆满阶段·玄功大成。形象：银甲神将，额生天目，手持三尖两刃刀。 核心意象：三尖两刃刀、哮天犬、天眼、银甲。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，额间天目一睁，照破妖邪原形。衣着：清源妙道真君，玄功大成。梳造：束发道冠，天目内敛。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 雷震子（`lei_zhenzi`）
 
@@ -622,12 +622,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 救父出关**
-- 雷震子，封神登天阶段·救父出关。形象：鸟面人身，青面獠牙，背生双翼。 核心意象：黄金棍、风雷双翅、雷声。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：雷公真身，风雷战甲，金棍引雷。梳造：雷霆之发，翼展千里。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 雷震子，封神登天阶段·救父出关。形象：鸟面人身，青面獠牙，背生双翼。 核心意象：黄金棍、风雷双翅、雷声。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：雷公真身，风雷战甲，金棍引雷。梳造：雷霆之发，翼展千里。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 风雷显圣**
-- 雷震子，道果圆满阶段·风雷显圣。形象：鸟面人身，青面獠牙，背生双翼。 核心意象：黄金棍、风雷双翅、雷声。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，双翅一振扶摇千里，黄金棍引下雷霆万钧。衣着：风雷显圣，忠义神将之姿。梳造：雷冠神相，威而不怒。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 雷震子，道果圆满阶段·风雷显圣。形象：鸟面人身，青面獠牙，背生双翼。 核心意象：黄金棍、风雷双翅、雷声。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，双翅一振扶摇千里，黄金棍引下雷霆万钧。衣着：风雷显圣，忠义神将之姿。梳造：雷冠神相，威而不怒。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 黄天化（`huang_tianhua`）
 
@@ -648,12 +648,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 将门虎子**
-- 黄天化，封神登天阶段·将门虎子。形象：青面红发，手持莫邪宝剑，胯下玉麒麟。 核心意象：莫邪宝剑、玉麒麟、攒心钉。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：少年将军金甲，玉麒麟为骑。梳造：金冠束发，英姿飒爽。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 黄天化，封神登天阶段·将门虎子。形象：青面红发，手持莫邪宝剑，胯下玉麒麟。 核心意象：莫邪宝剑、玉麒麟、攒心钉。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：少年将军金甲，玉麒麟为骑。梳造：金冠束发，英姿飒爽。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 莫邪封神**
-- 黄天化，道果圆满阶段·莫邪封神。形象：青面红发，手持莫邪宝剑，胯下玉麒麟。 核心意象：莫邪宝剑、玉麒麟、攒心钉。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，胯下玉麒麟冲阵，莫邪剑出鞘如虹。衣着：封神之姿，少年英雄的永恒。梳造：神光化冠，风华长存。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 黄天化，道果圆满阶段·莫邪封神。形象：青面红发，手持莫邪宝剑，胯下玉麒麟。 核心意象：莫邪宝剑、玉麒麟、攒心钉。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，胯下玉麒麟冲阵，莫邪剑出鞘如虹。衣着：封神之姿，少年英雄的永恒。梳造：神光化冠，风华长存。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 土行孙（`tu_xingsun`）
 
@@ -674,12 +674,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 入地为营**
-- 土行孙，封神登天阶段·入地为营。形象：矮小身形，手持镔铁棍，擅遁地术。 核心意象：镔铁棍、捆仙绳、土遁。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：地行仙之姿，镔铁棍如臂使指。梳造：短须微蓄，仙气内藏。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 土行孙，封神登天阶段·入地为营。形象：矮小身形，手持镔铁棍，擅遁地术。 核心意象：镔铁棍、捆仙绳、土遁。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：地行仙之姿，镔铁棍如臂使指。梳造：短须微蓄，仙气内藏。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 地行仙归**
-- 土行孙，道果圆满阶段·地行仙归。形象：矮小身形，手持镔铁棍，擅遁地术。 核心意象：镔铁棍、捆仙绳、土遁。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，就地一滚没入黄土，遁地千里倏忽即至。衣着：地行仙圆满，镔铁棍破土裂山。梳造：短须如戟，仙威内藏。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 土行孙，道果圆满阶段·地行仙归。形象：矮小身形，手持镔铁棍，擅遁地术。 核心意象：镔铁棍、捆仙绳、土遁。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，就地一滚没入黄土，遁地千里倏忽即至。衣着：地行仙圆满，镔铁棍破土裂山。梳造：短须如戟，仙威内藏。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 杨任（`yang_ren`）
 
@@ -700,12 +700,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 飞电枪出**
-- 杨任，封神登天阶段·飞电枪出。形象：双目长于掌中，手持飞电枪，坐骑云霞兽。 核心意象：掌中目、飞电枪、云霞兽。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：掌中目仙，云霞兽为骑。梳造：道冠仙髻，目光如炬。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 杨任，封神登天阶段·飞电枪出。形象：双目长于掌中，手持飞电枪，坐骑云霞兽。 核心意象：掌中目、飞电枪、云霞兽。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：掌中目仙，云霞兽为骑。梳造：道冠仙髻，目光如炬。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 道德真君**
-- 杨任，道果圆满阶段·道德真君。形象：双目长于掌中，手持飞电枪，坐骑云霞兽。 核心意象：掌中目、飞电枪、云霞兽。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，双手一抬，掌中之目扫视天地阴阳。衣着：道德真君之姿，掌目洞彻天地。梳造：仙光化发，慈严并具。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 杨任，道果圆满阶段·道德真君。形象：双目长于掌中，手持飞电枪，坐骑云霞兽。 核心意象：掌中目、飞电枪、云霞兽。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，双手一抬，掌中之目扫视天地阴阳。衣着：道德真君之姿，掌目洞彻天地。梳造：仙光化发，慈严并具。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 韦护（`wei_hu`）
 
@@ -726,12 +726,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 护法大神**
-- 韦护，封神登天阶段·护法大神。形象：身披金甲，手持降魔杵，法相庄严。 核心意象：降魔杵、金甲、韦陀像。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：韦陀护法，降魔杵镇邪。梳造：金冠宝相，慈悲怒目。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 韦护，封神登天阶段·护法大神。形象：身披金甲，手持降魔杵，法相庄严。 核心意象：降魔杵、金甲、韦陀像。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：韦陀护法，降魔杵镇邪。梳造：金冠宝相，慈悲怒目。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 韦护尊者**
-- 韦护，道果圆满阶段·韦护尊者。形象：身披金甲，手持降魔杵，法相庄严。 核心意象：降魔杵、金甲、韦陀像。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，降魔杵往下一杵，万邪辟易。衣着：三教护法，金刚不坏。梳造：神光化髻，万邪辟易。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 韦护，道果圆满阶段·韦护尊者。形象：身披金甲，手持降魔杵，法相庄严。 核心意象：降魔杵、金甲、韦陀像。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，降魔杵往下一杵，万邪辟易。衣着：三教护法，金刚不坏。梳造：神光化髻，万邪辟易。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 妲己（`daji`）
 
@@ -752,12 +752,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 九尾祸世**
-- 妲己，封神登天阶段·九尾祸世。形象：千年九尾狐化身绝色美人，狐尾隐现。 核心意象：九尾、狐火、摘星楼、酒池肉林。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：九尾祸世，长裙曳地。梳造：云髻高绾，狐尾尽展。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 妲己，封神登天阶段·九尾祸世。形象：千年九尾狐化身绝色美人，狐尾隐现。 核心意象：九尾、狐火、摘星楼、酒池肉林。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：九尾祸世，长裙曳地。梳造：云髻高绾，狐尾尽展。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 妖狐末路**
-- 妲己，道果圆满阶段·妖狐末路。形象：千年九尾狐化身绝色美人，狐尾隐现。 核心意象：九尾、狐火、摘星楼、酒池肉林。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，长袖轻舞，回眸一笑百媚生，九尾一现狐火冲天。衣着：九尾齐天，祸乱天下。梳造：九尾尽展，魅惑万世。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 妲己，道果圆满阶段·妖狐末路。形象：千年九尾狐化身绝色美人，狐尾隐现。 核心意象：九尾、狐火、摘星楼、酒池肉林。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，长袖轻舞，回眸一笑百媚生，九尾一现狐火冲天。衣着：九尾齐天，祸乱天下。梳造：九尾尽展，魅惑万世。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 申公豹（`shen_gongbao`）
 
@@ -778,12 +778,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 五岳三山**
-- 申公豹，封神登天阶段·五岳三山。形象：黑袍道人，身负双剑，面容阴鸷。 核心意象：双剑、黑虎、开天珠、三寸舌。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：说客之相，五岳三山皆访。梳造：长须垂胸，眼神阴鸷。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 申公豹，封神登天阶段·五岳三山。形象：黑袍道人，身负双剑，面容阴鸷。 核心意象：双剑、黑虎、开天珠、三寸舌。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：说客之相，五岳三山皆访。梳造：长须垂胸，眼神阴鸷。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 封神台末**
-- 申公豹，道果圆满阶段·封神台末。形象：黑袍道人，身负双剑，面容阴鸷。 核心意象：双剑、黑虎、开天珠、三寸舌。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，一句"道友请留步"，三寸舌说动天下英雄。衣着：翻江倒海，三寸舌搅动乾坤。梳造：长须飞扬，舌灿莲花。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 申公豹，道果圆满阶段·封神台末。形象：黑袍道人，身负双剑，面容阴鸷。 核心意象：双剑、黑虎、开天珠、三寸舌。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，一句"道友请留步"，三寸舌说动天下英雄。衣着：翻江倒海，三寸舌搅动乾坤。梳造：长须飞扬，舌灿莲花。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 孙悟空（`sun_wukong`）
 
@@ -804,12 +804,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 五百年劫**
-- 孙悟空，封神登天阶段·五百年劫。形象：通体金毛石猴，火眼金睛，金箍棒在手。 核心意象：金箍棒、筋斗云、虎皮裙、花果山。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：齐天大圣冠冕，金甲红袍。梳造：凤翅紫金冠，金毛猎猎。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 孙悟空，封神登天阶段·五百年劫。形象：通体金毛石猴，火眼金睛，金箍棒在手。 核心意象：金箍棒、筋斗云、虎皮裙、花果山。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：齐天大圣冠冕，金甲红袍。梳造：凤翅紫金冠，金毛猎猎。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 斗战胜佛**
-- 孙悟空，道果圆满阶段·斗战胜佛。形象：通体金毛石猴，火眼金睛，金箍棒在手。 核心意象：金箍棒、筋斗云、虎皮裙、花果山。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，一个筋斗云，或吹毛化猴。衣着：斗战胜佛袈裟，佛光内蕴。梳造：金毛归于平静，项间念珠。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 孙悟空，道果圆满阶段·斗战胜佛。形象：通体金毛石猴，火眼金睛，金箍棒在手。 核心意象：金箍棒、筋斗云、虎皮裙、花果山。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，一个筋斗云，或吹毛化猴。衣着：斗战胜佛袈裟，佛光内蕴。梳造：金毛归于平静，项间念珠。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 吕洞宾（`lv_dongbin`）
 
@@ -830,12 +830,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 点石成金**
-- 吕洞宾，封神登天阶段·点石成金。形象：白衣佩剑的俊逸剑仙，逍遥巾束发，腰悬酒葫芦。 核心意象：纯阳剑、酒葫芦、黄粱梦、岳阳楼。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：纯阳帝君，白衣佩剑。梳造：仙髻金冠，剑仙风姿。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 吕洞宾，封神登天阶段·点石成金。形象：白衣佩剑的俊逸剑仙，逍遥巾束发，腰悬酒葫芦。 核心意象：纯阳剑、酒葫芦、黄粱梦、岳阳楼。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：纯阳帝君，白衣佩剑。梳造：仙髻金冠，剑仙风姿。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 纯阳帝君**
-- 吕洞宾，道果圆满阶段·纯阳帝君。形象：白衣佩剑的俊逸剑仙，逍遥巾束发，腰悬酒葫芦。 核心意象：纯阳剑、酒葫芦、黄粱梦、岳阳楼。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，酒葫芦一倾，纯阳剑出鞘，飞剑千里斩妖。衣着：纯阳剑仙，飞剑千里斩妖。梳造：仙髻金冠，剑意冲霄。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 吕洞宾，道果圆满阶段·纯阳帝君。形象：白衣佩剑的俊逸剑仙，逍遥巾束发，腰悬酒葫芦。 核心意象：纯阳剑、酒葫芦、黄粱梦、岳阳楼。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，酒葫芦一倾，纯阳剑出鞘，飞剑千里斩妖。衣着：纯阳剑仙，飞剑千里斩妖。梳造：仙髻金冠，剑意冲霄。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 何仙姑（`he_xiangu`）
 
@@ -856,12 +856,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 八仙过海**
-- 何仙姑，封神登天阶段·八仙过海。形象：素衣仙姑，手持如意莲花，长发及腰。 核心意象：如意莲花、荷叶、云母、仙桃。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：八仙过海，素衣仙袍。梳造：仙髻凤钗，容光摄人。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 何仙姑，封神登天阶段·八仙过海。形象：素衣仙姑，手持如意莲花，长发及腰。 核心意象：如意莲花、荷叶、云母、仙桃。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：八仙过海，素衣仙袍。梳造：仙髻凤钗，容光摄人。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 瑶池仙姑**
-- 何仙姑，道果圆满阶段·瑶池仙姑。形象：素衣仙姑，手持如意莲花，长发及腰。 核心意象：如意莲花、荷叶、云母、仙桃。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，玉手轻拈一朵莲花，抛起便是漫天仙光。衣着：瑶池仙姑，莲花在手。梳造：素发仙髻，不染凡尘。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 何仙姑，道果圆满阶段·瑶池仙姑。形象：素衣仙姑，手持如意莲花，长发及腰。 核心意象：如意莲花、荷叶、云母、仙桃。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，玉手轻拈一朵莲花，抛起便是漫天仙光。衣着：瑶池仙姑，莲花在手。梳造：素发仙髻，不染凡尘。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 张果老（`zhang_guolao`）
 
@@ -882,12 +882,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 鱼鼓天音**
-- 张果老，封神登天阶段·鱼鼓天音。形象：灰白道袍老翁，倒骑白驴，手持鱼鼓。 核心意象：白驴、鱼鼓、蝙蝠、恒山。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：鱼鼓天音，混元仙翁。梳造：仙髻道冠，银须飘飘。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 张果老，封神登天阶段·鱼鼓天音。形象：灰白道袍老翁，倒骑白驴，手持鱼鼓。 核心意象：白驴、鱼鼓、蝙蝠、恒山。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：鱼鼓天音，混元仙翁。梳造：仙髻道冠，银须飘飘。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 中条洞主**
-- 张果老，道果圆满阶段·中条洞主。形象：灰白道袍老翁，倒骑白驴，手持鱼鼓。 核心意象：白驴、鱼鼓、蝙蝠、恒山。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，倒骑白驴，鱼鼓一拍，声定风波。衣着：混元仙翁，鱼鼓天音震三界。梳造：银发仙髻，倒骑驴巡天。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 张果老，道果圆满阶段·中条洞主。形象：灰白道袍老翁，倒骑白驴，手持鱼鼓。 核心意象：白驴、鱼鼓、蝙蝠、恒山。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，倒骑白驴，鱼鼓一拍，声定风波。衣着：混元仙翁，鱼鼓天音震三界。梳造：银发仙髻，倒骑驴巡天。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 铁拐李（`tie_guaili`）
 
@@ -908,12 +908,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 葫芦纳天地**
-- 铁拐李，封神登天阶段·葫芦纳天地。形象：跛足乞丐形象，铁拐为杖，腰悬宝葫芦。 核心意象：铁拐、宝葫芦、破衣、跛足。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：铁拐仙人，宝葫芦纳天地。梳造：乱发仙髻，破中藏道。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 铁拐李，封神登天阶段·葫芦纳天地。形象：跛足乞丐形象，铁拐为杖，腰悬宝葫芦。 核心意象：铁拐、宝葫芦、破衣、跛足。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：铁拐仙人，宝葫芦纳天地。梳造：乱发仙髻，破中藏道。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 铁拐大仙**
-- 铁拐李，道果圆满阶段·铁拐大仙。形象：跛足乞丐形象，铁拐为杖，腰悬宝葫芦。 核心意象：铁拐、宝葫芦、破衣、跛足。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，铁拐一顿，宝葫芦口一开，乾坤皆入其中。衣着：铁拐大仙，破衣而入道。梳造：形残道全，宝葫芦常挂。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 铁拐李，道果圆满阶段·铁拐大仙。形象：跛足乞丐形象，铁拐为杖，腰悬宝葫芦。 核心意象：铁拐、宝葫芦、破衣、跛足。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，铁拐一顿，宝葫芦口一开，乾坤皆入其中。衣着：铁拐大仙，破衣而入道。梳造：形残道全，宝葫芦常挂。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 汉钟离（`han_zhongli`）
 
@@ -934,12 +934,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 赤阳神功**
-- 汉钟离，封神登天阶段·赤阳神功。形象：赤面红袍，手持芭蕉扇，腰系宝葫芦。 核心意象：芭蕉扇、宝葫芦、红袍、大日。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：正阳帝君，红袍金冠。梳造：金冠束发，赤面威严。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 汉钟离，封神登天阶段·赤阳神功。形象：赤面红袍，手持芭蕉扇，腰系宝葫芦。 核心意象：芭蕉扇、宝葫芦、红袍、大日。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：正阳帝君，红袍金冠。梳造：金冠束发，赤面威严。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 正阳帝君**
-- 汉钟离，道果圆满阶段·正阳帝君。形象：赤面红袍，手持芭蕉扇，腰系宝葫芦。 核心意象：芭蕉扇、宝葫芦、红袍、大日。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，芭蕉扇一扇，火海滔天，再一扇清风送人归。衣着：正阳帝君，大日金轮镇山河。梳造：赤发金冠，仙光圆满。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 汉钟离，道果圆满阶段·正阳帝君。形象：赤面红袍，手持芭蕉扇，腰系宝葫芦。 核心意象：芭蕉扇、宝葫芦、红袍、大日。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，芭蕉扇一扇，火海滔天，再一扇清风送人归。衣着：正阳帝君，大日金轮镇山河。梳造：赤发金冠，仙光圆满。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 蓝采和（`lan_caihe`）
 
@@ -960,12 +960,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 九天玄音**
-- 蓝采和，封神登天阶段·九天玄音。形象：破绿衫赤足的清秀少年，手持玉板，腰挂铜钱。 核心意象：玉板、破绿衫、铜钱、歌谣。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：九天玄音，歌仙之姿。梳造：发髻松散，逍遥不羁。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 蓝采和，封神登天阶段·九天玄音。形象：破绿衫赤足的清秀少年，手持玉板，腰挂铜钱。 核心意象：玉板、破绿衫、铜钱、歌谣。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：九天玄音，歌仙之姿。梳造：发髻松散，逍遥不羁。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 濠梁仙翁**
-- 蓝采和，道果圆满阶段·濠梁仙翁。形象：破绿衫赤足的清秀少年，手持玉板，腰挂铜钱。 核心意象：玉板、破绿衫、铜钱、歌谣。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，玉板一拍，踏歌而行，一步一莲花。衣着：濠梁仙翁，赤足高歌。梳造：白发作歌，笑看红尘。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 蓝采和，道果圆满阶段·濠梁仙翁。形象：破绿衫赤足的清秀少年，手持玉板，腰挂铜钱。 核心意象：玉板、破绿衫、铜钱、歌谣。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，玉板一拍，踏歌而行，一步一莲花。衣着：濠梁仙翁，赤足高歌。梳造：白发作歌，笑看红尘。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 曹国舅（`cao_guojiu`）
 
@@ -986,12 +986,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 九天神音**
-- 曹国舅，封神登天阶段·九天神音。形象：白衣鹤氅的雅士，头戴莲花冠，手持莹白玉磬。 核心意象：玉磬、莲花冠、白鹤、朝服。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：九天神音，鹤氅白袍。梳造：莲花冠，玉磬清响。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 曹国舅，封神登天阶段·九天神音。形象：白衣鹤氅的雅士，头戴莲花冠，手持莹白玉磬。 核心意象：玉磬、莲花冠、白鹤、朝服。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：九天神音，鹤氅白袍。梳造：莲花冠，玉磬清响。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 国舅真仙**
-- 曹国舅，道果圆满阶段·国舅真仙。形象：白衣鹤氅的雅士，头戴莲花冠，手持莹白玉磬。 核心意象：玉磬、莲花冠、白鹤、朝服。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，玉磬一击，清音绕梁，天地皆静。衣着：国舅真仙，白鹤为伴。梳造：素发仙髻，超然物外。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 曹国舅，道果圆满阶段·国舅真仙。形象：白衣鹤氅的雅士，头戴莲花冠，手持莹白玉磬。 核心意象：玉磬、莲花冠、白鹤、朝服。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，玉磬一击，清音绕梁，天地皆静。衣着：国舅真仙，白鹤为伴。梳造：素发仙髻，超然物外。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 太上老君（`taishang_laojun`）
 
@@ -1012,12 +1012,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 道德天尊**
-- 太上老君，封神登天阶段·道德天尊。形象：白发白须面如童子，紫金道袍，手持拂尘，身绕紫气。 核心意象：拂尘、八卦炉、金丹、青牛、紫气。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：道德天尊，紫金仙袍。梳造：仙髻金冠，紫气绕身。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 太上老君，封神登天阶段·道德天尊。形象：白发白须面如童子，紫金道袍，手持拂尘，身绕紫气。 核心意象：拂尘、八卦炉、金丹、青牛、紫气。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：道德天尊，紫金仙袍。梳造：仙髻金冠，紫气绕身。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 三清合一**
-- 太上老君，道果圆满阶段·三清合一。形象：白发白须面如童子，紫金道袍，手持拂尘，身绕紫气。 核心意象：拂尘、八卦炉、金丹、青牛、紫气。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，拂尘一挥，紫气东来三万里。衣着：道祖至尊，三清合一紫气东来。梳造：紫金道冠，万道之源。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 太上老君，道果圆满阶段·三清合一。形象：白发白须面如童子，紫金道袍，手持拂尘，身绕紫气。 核心意象：拂尘、八卦炉、金丹、青牛、紫气。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，拂尘一挥，紫气东来三万里。衣着：道祖至尊，三清合一紫气东来。梳造：紫金道冠，万道之源。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 钟馗（`zhong_kui`）
 
@@ -1038,12 +1038,12 @@
 - EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; heavenly tribulation; 渡劫时的坚毅，眼神无畏; palette #241A14 with #8B1A1A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 五方鬼卒**
-- 钟馗，封神登天阶段·五方鬼卒。形象：赤面虬髯，豹头环眼，额间竖纹，判官笔与青锋剑。 核心意象：判官笔、青锋剑、红袍、葫芦、终南山。神态：仙光内蕴，目光深邃。动作：功法大成，威临天下。衣着：玄黑蟒袍金纹，紫金冠。梳造：紫金冠，虬髯如戟。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 仙光内蕴，目光深邃; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 钟馗，封神登天阶段·五方鬼卒。形象：赤面虬髯，豹头环眼，额间竖纹，判官笔与青锋剑。 核心意象：判官笔、青锋剑、红袍、葫芦、终南山。神态：受封登天，仙光内蕴。动作：位列仙班，威临天下。衣着：玄黑蟒袍金纹，紫金冠。梳造：紫金冠，虬髯如戟。意境：功行圆满封神登天，位列仙班，金光紫气环绕。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：紫金（#5B2A8A）主调 + 御金（#F5D742）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; ascension to immortals; 受封登天，仙光内蕴; palette #5B2A8A with #F5D742 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 驱魔真君**
-- 钟馗，道果圆满阶段·驱魔真君。形象：赤面虬髯，豹头环眼，额间竖纹，判官笔与青锋剑。 核心意象：判官笔、青锋剑、红袍、葫芦、终南山。神态：道果大成，神光自照的庄严。动作：法相全开，气吞八荒，拔剑前先合书，判官笔一落定善恶。衣着：镇宅捉鬼，判官笔指鬼青锋剑镇邪。梳造：虬髯怒张，紫金冠生威。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果大成，神光自照的庄严; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 钟馗，道果圆满阶段·驱魔真君。形象：赤面虬髯，豹头环眼，额间竖纹，判官笔与青锋剑。 核心意象：判官笔、青锋剑、红袍、葫芦、终南山。神态：道果圆满，神游太虚。动作：法相凝立，万法环绕，拔剑前先合书，判官笔一落定善恶。衣着：镇宅捉鬼，判官笔指鬼青锋剑镇邪。梳造：虬髯怒张，紫金冠生威。意境：道果圆满，紫气东来，万法皆通证道果。风格：新国风水墨仙侠插画，工笔重彩、金箔点缀，仙气缥缈、道韵悠长。色彩：素白（#F5F0E8）主调 + 淡紫（#9A8FB8）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：xianxia Chinese ink-wash painting, gongbi detail, gold leaf accents, ethereal immortal aura; union with dao; 道果圆满，神游太虚; palette #F5F0E8 with #9A8FB8 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 ### 3. 宝可梦（12 物种）
 
@@ -1074,12 +1074,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 喷火龙**
-- 小火龙，封神登天阶段·喷火龙。形象：橙色小蜥蜴，尾尖燃着火焰。 核心意象：尾尖火焰、橙红鳞片、进化之焰。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 小火龙，封神登天阶段·喷火龙。形象：橙色小蜥蜴，尾尖燃着火焰。 核心意象：尾尖火焰、橙红鳞片、进化之焰。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 超级喷火龙X**
-- 小火龙，道果圆满阶段·超级喷火龙X。形象：橙色小蜥蜴，尾尖燃着火焰。 核心意象：尾尖火焰、橙红鳞片、进化之焰。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，鼓起腮帮，一记"火花"喷出炽热火焰。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 小火龙，道果圆满阶段·超级喷火龙X。形象：橙色小蜥蜴，尾尖燃着火焰。 核心意象：尾尖火焰、橙红鳞片、进化之焰。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，鼓起腮帮，一记"火花"喷出炽热火焰。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 妙蛙种子（`bulbasaur`）
 
@@ -1100,8 +1100,8 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 风雨中的坚韧，眸光不折; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 繁花之姿**
-- 妙蛙种子，封神登天阶段·繁花之姿。形象：蓝绿蛙状小兽，背驮种子苞。 核心意象：背上的种子苞、藤鞭、暖阳。神态：华彩绽放，生机盎然的威仪。动作：生机大成，繁花满枝。衣着：花开满枝/树冠如云。梳造：花冠/树冠，光华流转。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 华彩绽放，生机盎然的威仪; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 妙蛙种子，封神登天阶段·繁花之姿。形象：蓝绿蛙状小兽，背驮种子苞。 核心意象：背上的种子苞、藤鞭、暖阳。神态：受封花王，生机威仪。动作：生机大成，繁花满枝。衣着：花开满枝，树冠如云。梳造：花冠受冕，光华流转。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封花王，生机威仪; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 花神**
 - 妙蛙种子，道果圆满阶段·花神。形象：蓝绿蛙状小兽，背驮种子苞。 核心意象：背上的种子苞、藤鞭、暖阳。神态：万灵朝拜，生命之尊。动作：花开万里，果实垂天，藤鞭从背苞探出，一记"飞叶快刀"斩向敌手。衣着：参天古木，藤蔓缠霄。梳造：万叶化冠，春永驻世。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -1126,12 +1126,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 水箭龟**
-- 杰尼龟，封神登天阶段·水箭龟。形象：蓝色小龟，背驮硬壳。 核心意象：坚固龟壳、水枪水泡、机灵眼神。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 杰尼龟，封神登天阶段·水箭龟。形象：蓝色小龟，背驮硬壳。 核心意象：坚固龟壳、水枪水泡、机灵眼神。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 海神龟**
-- 杰尼龟，道果圆满阶段·海神龟。形象：蓝色小龟，背驮硬壳。 核心意象：坚固龟壳、水枪水泡、机灵眼神。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，深吸一口气，一记"水枪"喷射而出。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 杰尼龟，道果圆满阶段·海神龟。形象：蓝色小龟，背驮硬壳。 核心意象：坚固龟壳、水枪水泡、机灵眼神。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，深吸一口气，一记"水枪"喷射而出。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 伊布（`eevee`）
 
@@ -1152,12 +1152,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 水伊布·潮汐**
-- 伊布，封神登天阶段·水伊布·潮汐。形象：棕毛狐狸样小兽，颈毛蓬松。 核心意象：蓬松颈毛、进化之力、多形态可能。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 伊布，封神登天阶段·水伊布·潮汐。形象：棕毛狐狸样小兽，颈毛蓬松。 核心意象：蓬松颈毛、进化之力、多形态可能。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 水伊布·海神**
-- 伊布，道果圆满阶段·水伊布·海神。形象：棕毛狐狸样小兽，颈毛蓬松。 核心意象：蓬松颈毛、进化之力、多形态可能。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，蹭蹭主人的手，一记"撞击"轻快而出。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 伊布，道果圆满阶段·水伊布·海神。形象：棕毛狐狸样小兽，颈毛蓬松。 核心意象：蓬松颈毛、进化之力、多形态可能。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，蹭蹭主人的手，一记"撞击"轻快而出。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 皮卡丘（`pikachu`）
 
@@ -1178,12 +1178,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 飞空皮卡丘**
-- 皮卡丘，封神登天阶段·飞空皮卡丘。形象：黄色小鼠，双颊红晕。 核心意象：红色脸颊、闪电尾巴、十万伏特。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 皮卡丘，封神登天阶段·飞空皮卡丘。形象：黄色小鼠，双颊红晕。 核心意象：红色脸颊、闪电尾巴、十万伏特。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 极巨化皮卡丘**
-- 皮卡丘，道果圆满阶段·极巨化皮卡丘。形象：黄色小鼠，双颊红晕。 核心意象：红色脸颊、闪电尾巴、十万伏特。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，双颊电光噼啪，一记"十万伏特"放射而出。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 皮卡丘，道果圆满阶段·极巨化皮卡丘。形象：黄色小鼠，双颊红晕。 核心意象：红色脸颊、闪电尾巴、十万伏特。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，双颊电光噼啪，一记"十万伏特"放射而出。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 利欧路（`riolu`）
 
@@ -1204,12 +1204,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 波导大师**
-- 利欧路，封神登天阶段·波导大师。形象：蓝黑相间的小犬，胸前黑纹。 核心意象：胸前黑纹、波导之力、格斗之魂。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 利欧路，封神登天阶段·波导大师。形象：蓝黑相间的小犬，胸前黑纹。 核心意象：胸前黑纹、波导之力、格斗之魂。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 传说守护者**
-- 利欧路，道果圆满阶段·传说守护者。形象：蓝黑相间的小犬，胸前黑纹。 核心意象：胸前黑纹、波导之力、格斗之魂。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，双掌凝聚波导弹，一发轰出破空而去。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 利欧路，道果圆满阶段·传说守护者。形象：蓝黑相间的小犬，胸前黑纹。 核心意象：胸前黑纹、波导之力、格斗之魂。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，双掌凝聚波导弹，一发轰出破空而去。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 冰·霜翎狐（`ice_fox`）
 
@@ -1230,12 +1230,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 永冬狐**
-- 冰·霜翎狐，封神登天阶段·永冬狐。形象：冰蓝狐狸，尾带霜华。 核心意象：冰蓝毛皮、霜华、极寒雪原。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 冰·霜翎狐，封神登天阶段·永冬狐。形象：冰蓝狐狸，尾带霜华。 核心意象：冰蓝毛皮、霜华、极寒雪原。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 极地尊者**
-- 冰·霜翎狐，道果圆满阶段·极地尊者。形象：冰蓝狐狸，尾带霜华。 核心意象：冰蓝毛皮、霜华、极寒雪原。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，雪原上一纵而过，尾尖带起一路霜尘。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 冰·霜翎狐，道果圆满阶段·极地尊者。形象：冰蓝狐狸，尾带霜华。 核心意象：冰蓝毛皮、霜华、极寒雪原。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，雪原上一纵而过，尾尖带起一路霜尘。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 岩·岩甲犀（`rock_rhino`）
 
@@ -1256,12 +1256,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 大地犀**
-- 岩·岩甲犀，封神登天阶段·大地犀。形象：岩石甲身，额生尖角。 核心意象：岩石甲身、额尖角、磐石之重。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 岩·岩甲犀，封神登天阶段·大地犀。形象：岩石甲身，额生尖角。 核心意象：岩石甲身、额尖角、磐石之重。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 岩之尊者**
-- 岩·岩甲犀，道果圆满阶段·岩之尊者。形象：岩石甲身，额生尖角。 核心意象：岩石甲身、额尖角、磐石之重。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，低头一顶，尖角撞碎前方巨岩。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 岩·岩甲犀，道果圆满阶段·岩之尊者。形象：岩石甲身，额生尖角。 核心意象：岩石甲身、额尖角、磐石之重。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，低头一顶，尖角撞碎前方巨岩。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 风·掠风隼（`wind_falcon`）
 
@@ -1282,12 +1282,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 王者风隼**
-- 风·掠风隼，封神登天阶段·王者风隼。形象：翠绿猛隼，翼疾如风。 核心意象：翠绿翼羽、疾风、万里长空。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 风·掠风隼，封神登天阶段·王者风隼。形象：翠绿猛隼，翼疾如风。 核心意象：翠绿翼羽、疾风、万里长空。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 天空尊者**
-- 风·掠风隼，道果圆满阶段·天空尊者。形象：翠绿猛隼，翼疾如风。 核心意象：翠绿翼羽、疾风、万里长空。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，高空敛翅，一瞬俯冲如风掠地。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 风·掠风隼，道果圆满阶段·天空尊者。形象：翠绿猛隼，翼疾如风。 核心意象：翠绿翼羽、疾风、万里长空。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，高空敛翅，一瞬俯冲如风掠地。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 光·晨曦鹿（`light_deer`）
 
@@ -1308,12 +1308,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 辉明鹿**
-- 光·晨曦鹿，封神登天阶段·辉明鹿。形象：金光神鹿，鹿角如炬。 核心意象：金鹿角、光束、驱暗之光。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 光·晨曦鹿，封神登天阶段·辉明鹿。形象：金光神鹿，鹿角如炬。 核心意象：金鹿角、光束、驱暗之光。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 光辉尊者**
-- 光·晨曦鹿，道果圆满阶段·光辉尊者。形象：金光神鹿，鹿角如炬。 核心意象：金鹿角、光束、驱暗之光。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，鹿角燃起金光，踏光而行驱散阴霾。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 光·晨曦鹿，道果圆满阶段·光辉尊者。形象：金光神鹿，鹿角如炬。 核心意象：金鹿角、光束、驱暗之光。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，鹿角燃起金光，踏光而行驱散阴霾。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 暗·夜隐豹（`dark_panther`）
 
@@ -1334,12 +1334,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 暗夜猎豹**
-- 暗·夜隐豹，封神登天阶段·暗夜猎豹。形象：墨黑豹影，身姿流线。 核心意象：墨黑皮毛、流线身姿、暗夜利爪。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 暗·夜隐豹，封神登天阶段·暗夜猎豹。形象：墨黑豹影，身姿流线。 核心意象：墨黑皮毛、流线身姿、暗夜利爪。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 暗夜尊者**
-- 暗·夜隐豹，道果圆满阶段·暗夜尊者。形象：墨黑豹影，身姿流线。 核心意象：墨黑皮毛、流线身姿、暗夜利爪。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，身影没入夜色，骤然扑出快如闪电。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 暗·夜隐豹，道果圆满阶段·暗夜尊者。形象：墨黑豹影，身姿流线。 核心意象：墨黑皮毛、流线身姿、暗夜利爪。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，身影没入夜色，骤然扑出快如闪电。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 钢·磁甲兽（`steel_armadillo`）
 
@@ -1360,12 +1360,12 @@
 - EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; evolution light; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #283593 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 合金兽**
-- 钢·磁甲兽，封神登天阶段·合金兽。形象：钢甲犰狳，甲带如鳞。 核心意象：钢甲鳞带、铁球之姿、坚不可摧。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 目光如炬，不怒自威，威仪自生; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 钢·磁甲兽，封神登天阶段·合金兽。形象：钢甲犰狳，甲带如鳞。 核心意象：钢甲鳞带、铁球之姿、坚不可摧。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：完全进化形态，可靠的战斗伙伴，自信昂扬。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：伙伴金（#FFD54F）主调 + 烈焰橙（#FF7043）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; fully evolved; 受封万兽之王，目光睥睨天地; palette #FFD54F with #FF7043 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 钢之尊者**
-- 钢·磁甲兽，道果圆满阶段·钢之尊者。形象：钢甲犰狳，甲带如鳞。 核心意象：钢甲鳞带、铁球之姿、坚不可摧。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，蜷身一滚，化作铁球轰然撞出。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 王者归位，万灵俯首; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 钢·磁甲兽，道果圆满阶段·钢之尊者。形象：钢甲犰狳，甲带如鳞。 核心意象：钢甲鳞带、铁球之姿、坚不可摧。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，蜷身一滚，化作铁球轰然撞出。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：超进化或极致形态，圣光守护，散发传说级气场。风格：经典日系动画冒险风，赛璐璐质感、高饱和明快，热血治愈。色彩：圣光白（#FFFFFF）主调 + 彩虹金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：classic Japanese anime adventure style, cel-shaded, vibrant and wholesome; legendary aura; 神光自照，与天地同尊; palette #FFFFFF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 ### 4. 数码宝贝（6 物种）
 
@@ -1396,11 +1396,11 @@
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; dark trial; 直面黑暗的勇毅; palette #2C2C54 with #FF3B30 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 机械暴龙兽·强化**
-- 亚古兽，封神登天阶段·机械暴龙兽·强化。形象：橙色小恐龙，背甲坚挺。 核心意象：勇气徽章、橙色背甲、数码蛋。神态：究极体的神圣威仪。动作：绝技大成，数据凝成圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体的神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 亚古兽，封神登天阶段·机械暴龙兽·强化。形象：橙色小恐龙，背甲坚挺。 核心意象：勇气徽章、橙色背甲、数码蛋。神态：究极体受封，神圣威仪。动作：绝技大成，数据凝圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体受封，神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 战斗暴龙兽·勇气**
-- 亚古兽，道果圆满阶段·战斗暴龙兽·勇气。形象：橙色小恐龙，背甲坚挺。 核心意象：勇气徽章、橙色背甲、数码蛋。神态：数据升维，神明降临。动作：绝技轰天，数码洪流归一，口中聚焰，一记"小型火焰"喷向敌人。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- 亚古兽，道果圆满阶段·战斗暴龙兽·勇气。形象：橙色小恐龙，背甲坚挺。 核心意象：勇气徽章、橙色背甲、数码蛋。神态：数据升维，神明降临。动作：绝技轰天，数据化神体，口中聚焰，一记"小型火焰"喷向敌人。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; holy transcendence; 数据升维，神明降临; palette #FFFFFF with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 迪路兽（`cyber_cat`）
@@ -1422,11 +1422,11 @@
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; dark trial; 直面黑暗的勇毅; palette #2C2C54 with #FF3B30 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 神圣天女兽·圣光**
-- 迪路兽，封神登天阶段·神圣天女兽·圣光。形象：白色圣猫，耳戴神圣之环。 核心意象：神圣之环、光明徽章、圣洁之光。神态：究极体的神圣威仪。动作：绝技大成，数据凝成圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体的神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 迪路兽，封神登天阶段·神圣天女兽·圣光。形象：白色圣猫，耳戴神圣之环。 核心意象：神圣之环、光明徽章、圣洁之光。神态：究极体受封，神圣威仪。动作：绝技大成，数据凝圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体受封，神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 圣龙兽·光明**
-- 迪路兽，道果圆满阶段·圣龙兽·光明。形象：白色圣猫，耳戴神圣之环。 核心意象：神圣之环、光明徽章、圣洁之光。神态：数据升维，神明降临。动作：绝技轰天，数码洪流归一，猫拳连击如电，一记"猫猫拳"撕裂黑暗。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- 迪路兽，道果圆满阶段·圣龙兽·光明。形象：白色圣猫，耳戴神圣之环。 核心意象：神圣之环、光明徽章、圣洁之光。神态：数据升维，神明降临。动作：绝技轰天，数据化神体，猫拳连击如电，一记"猫猫拳"撕裂黑暗。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; holy transcendence; 数据升维，神明降临; palette #FFFFFF with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 巴达兽（`space_mecha`）
@@ -1448,11 +1448,11 @@
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; dark trial; 直面黑暗的勇毅; palette #2C2C54 with #FF3B30 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 神圣天使兽·审判**
-- 巴达兽，封神登天阶段·神圣天使兽·审判。形象：奶油色圆身，扑腾小翅膀。 核心意象：希望徽章、奶油圆身、神圣羽翼。神态：究极体的神圣威仪。动作：绝技大成，数据凝成圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体的神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 巴达兽，封神登天阶段·神圣天使兽·审判。形象：奶油色圆身，扑腾小翅膀。 核心意象：希望徽章、奶油圆身、神圣羽翼。神态：究极体受封，神圣威仪。动作：绝技大成，数据凝圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体受封，神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 炽天使兽·希望**
-- 巴达兽，道果圆满阶段·炽天使兽·希望。形象：奶油色圆身，扑腾小翅膀。 核心意象：希望徽章、奶油圆身、神圣羽翼。神态：数据升维，神明降临。动作：绝技轰天，数码洪流归一，扑扇小翅盘旋，一记"空气炮"轰向敌人。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- 巴达兽，道果圆满阶段·炽天使兽·希望。形象：奶油色圆身，扑腾小翅膀。 核心意象：希望徽章、奶油圆身、神圣羽翼。神态：数据升维，神明降临。动作：绝技轰天，数据化神体，扑扇小翅盘旋，一记"空气炮"轰向敌人。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; holy transcendence; 数据升维，神明降临; palette #FFFFFF with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 加布兽（`quantum_beast`）
@@ -1474,11 +1474,11 @@
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; dark trial; 直面黑暗的勇毅; palette #2C2C54 with #FF3B30 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 兽人加鲁鲁·月狼**
-- 加布兽，封神登天阶段·兽人加鲁鲁·月狼。形象：身披蓝毛的小狼，额生独角。 核心意象：友情徽章、独角、蓝色毛皮。神态：究极体的神圣威仪。动作：绝技大成，数据凝成圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体的神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 加布兽，封神登天阶段·兽人加鲁鲁·月狼。形象：身披蓝毛的小狼，额生独角。 核心意象：友情徽章、独角、蓝色毛皮。神态：究极体受封，神圣威仪。动作：绝技大成，数据凝圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体受封，神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 钢铁加鲁鲁兽·友情**
-- 加布兽，道果圆满阶段·钢铁加鲁鲁兽·友情。形象：身披蓝毛的小狼，额生独角。 核心意象：友情徽章、独角、蓝色毛皮。神态：数据升维，神明降临。动作：绝技轰天，数码洪流归一，额角凝聚蓝光，一记"小狼爪"快如闪电。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- 加布兽，道果圆满阶段·钢铁加鲁鲁兽·友情。形象：身披蓝毛的小狼，额生独角。 核心意象：友情徽章、独角、蓝色毛皮。神态：数据升维，神明降临。动作：绝技轰天，数据化神体，额角凝聚蓝光，一记"小狼爪"快如闪电。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; holy transcendence; 数据升维，神明降临; palette #FFFFFF with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 比丘兽（`digital_phoenix`）
@@ -1500,11 +1500,11 @@
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; dark trial; 直面黑暗的勇毅; palette #2C2C54 with #FF3B30 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 伽楼达兽·疾风**
-- 比丘兽，封神登天阶段·伽楼达兽·疾风。形象：粉色小鸟，头顶凤冠。 核心意象：纯真徽章、凤冠、藤蔓之花。神态：究极体的神圣威仪。动作：绝技大成，数据凝成圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体的神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 比丘兽，封神登天阶段·伽楼达兽·疾风。形象：粉色小鸟，头顶凤冠。 核心意象：纯真徽章、凤冠、藤蔓之花。神态：究极体受封，神圣威仪。动作：绝技大成，数据凝圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体受封，神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 凤凰兽·涅槃**
-- 比丘兽，道果圆满阶段·凤凰兽·涅槃。形象：粉色小鸟，头顶凤冠。 核心意象：纯真徽章、凤冠、藤蔓之花。神态：数据升维，神明降临。动作：绝技轰天，数码洪流归一，凤冠一闪，一记"毒藤蔓"甩出缠绕敌手。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- 比丘兽，道果圆满阶段·凤凰兽·涅槃。形象：粉色小鸟，头顶凤冠。 核心意象：纯真徽章、凤冠、藤蔓之花。神态：数据升维，神明降临。动作：绝技轰天，数据化神体，凤冠一闪，一记"毒藤蔓"甩出缠绕敌手。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; holy transcendence; 数据升维，神明降临; palette #FFFFFF with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 哥玛兽（`mecha_shark`）
@@ -1526,11 +1526,11 @@
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; dark trial; 直面黑暗的勇毅; palette #2C2C54 with #FF3B30 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 祖顿兽·重锤**
-- 哥玛兽，封神登天阶段·祖顿兽·重锤。形象：白色海狮，圆滚滚胖乎乎。 核心意象：诚实徽章、圆滚滚、鱼群伙伴。神态：究极体的神圣威仪。动作：绝技大成，数据凝成圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体的神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 哥玛兽，封神登天阶段·祖顿兽·重锤。形象：白色海狮，圆滚滚胖乎乎。 核心意象：诚实徽章、圆滚滚、鱼群伙伴。神态：究极体受封，神圣威仪。动作：绝技大成，数据凝圣甲。衣着：究极体圣甲，辉光万丈。梳造：圣盔金角，威仪堂堂。意境：究极进化，圣光加冕，数据粒子凝成铠甲。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣金（#FFD700）主调 + 纯白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; ultimate evolution; 究极体受封，神圣威仪; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 维京兽·咆哮**
-- 哥玛兽，道果圆满阶段·维京兽·咆哮。形象：白色海狮，圆滚滚胖乎乎。 核心意象：诚实徽章、圆滚滚、鱼群伙伴。神态：数据升维，神明降临。动作：绝技轰天，数码洪流归一，尾巴一甩，召唤"鱼群大进军"扑向敌阵。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- 哥玛兽，道果圆满阶段·维京兽·咆哮。形象：白色海狮，圆滚滚胖乎乎。 核心意象：诚实徽章、圆滚滚、鱼群伙伴。神态：数据升维，神明降临。动作：绝技轰天，数据化神体，尾巴一甩，召唤"鱼群大进军"扑向敌阵。衣着：神体数据化，圣光铸形。梳造：数据光环，如日当空。意境：神圣形态，希望之光普照，数据洪流归于一念。风格：日系数码进化动画风，赛璐璐质感配数码科技光效，热血进化、高光时刻。色彩：圣光白（#FFFFFF）主调 + 虹彩（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
 - EN：Japanese digital evolution anime, cel shading with digital particles, techno glow; holy transcendence; 数据升维，神明降临; palette #FFFFFF with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 ### 5. 国宝（12 物种）
@@ -1562,12 +1562,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 成年熊猫**
-- 大熊猫，封神登天阶段·成年熊猫。形象：黑白圆滚，黑耳黑眼圈。 核心意象：黑白皮毛、竹笋、团团圆圆。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 大熊猫，封神登天阶段·成年熊猫。形象：黑白圆滚，黑耳黑眼圈。 核心意象：黑白皮毛、竹笋、团团圆圆。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 太极熊猫**
-- 大熊猫，道果圆满阶段·太极熊猫。形象：黑白圆滚，黑耳黑眼圈。 核心意象：黑白皮毛、竹笋、团团圆圆。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，抱起竹笋慢悠悠地啃，一个翻身滚下坡。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 大熊猫，道果圆满阶段·太极熊猫。形象：黑白圆滚，黑耳黑眼圈。 核心意象：黑白皮毛、竹笋、团团圆圆。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，抱起竹笋慢悠悠地啃，一个翻身滚下坡。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 金丝猴（`golden_monkey`）
 
@@ -1588,12 +1588,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 金猴王**
-- 金丝猴，封神登天阶段·金猴王。形象：金色长毛，蓝脸朝天鼻。 核心意象：金色长毛、蓝脸、高山密林。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 金丝猴，封神登天阶段·金猴王。形象：金色长毛，蓝脸朝天鼻。 核心意象：金色长毛、蓝脸、高山密林。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 金丝大圣**
-- 金丝猴，道果圆满阶段·金丝大圣。形象：金色长毛，蓝脸朝天鼻。 核心意象：金色长毛、蓝脸、高山密林。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，抓住藤蔓荡起，一纵数米穿行林间。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 金丝猴，道果圆满阶段·金丝大圣。形象：金色长毛，蓝脸朝天鼻。 核心意象：金色长毛、蓝脸、高山密林。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，抓住藤蔓荡起，一纵数米穿行林间。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 丹顶鹤（`red_crowned_crane`）
 
@@ -1614,12 +1614,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 祥云伴鹤**
-- 丹顶鹤，封神登天阶段·祥云伴鹤。形象：白羽黑颈，头顶一点朱红。 核心意象：头顶朱红、白羽黑颈、松鹤延年。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 丹顶鹤，封神登天阶段·祥云伴鹤。形象：白羽黑颈，头顶一点朱红。 核心意象：头顶朱红、白羽黑颈、松鹤延年。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 羽化鹤**
-- 丹顶鹤，道果圆满阶段·羽化鹤。形象：白羽黑颈，头顶一点朱红。 核心意象：头顶朱红、白羽黑颈、松鹤延年。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，引颈长鸣，展翅起舞，声闻九天。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 丹顶鹤，道果圆满阶段·羽化鹤。形象：白羽黑颈，头顶一点朱红。 核心意象：头顶朱红、白羽黑颈、松鹤延年。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，引颈长鸣，展翅起舞，声闻九天。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 华南虎（`south_china_tiger`）
 
@@ -1640,12 +1640,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 金虎**
-- 华南虎，封神登天阶段·金虎。形象：橙底黑纹，身形矫健。 核心意象：橙底黑纹、额间王字、密林之王。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 华南虎，封神登天阶段·金虎。形象：橙底黑纹，身形矫健。 核心意象：橙底黑纹、额间王字、密林之王。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 神虎**
-- 华南虎，道果圆满阶段·神虎。形象：橙底黑纹，身形矫健。 核心意象：橙底黑纹、额间王字、密林之王。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，夜幕中悄然潜行，一声虎啸震慑山林。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 华南虎，道果圆满阶段·神虎。形象：橙底黑纹，身形矫健。 核心意象：橙底黑纹、额间王字、密林之王。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，夜幕中悄然潜行，一声虎啸震慑山林。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 扬子鳄（`chinese_alligator`）
 
@@ -1666,12 +1666,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 龙威炽烈，怒目电光; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 大鳄**
-- 扬子鳄，封神登天阶段·大鳄。形象：低伏的宽吻鳄龙，身披硬鳞。 核心意象：硬鳞、宽吻、江河泥潭。神态：龙目洞彻，神威赫赫。动作：绝技大成，行云布雨。衣着：金鳞覆身，祥光万道。梳造：龙角如珊瑚，须垂百丈。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 龙目洞彻，神威赫赫; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 扬子鳄，封神登天阶段·大鳄。形象：低伏的宽吻鳄龙，身披硬鳞。 核心意象：硬鳞、宽吻、江河泥潭。神态：受封龙君，神威赫赫。动作：登天行云，布雨泽四方。衣着：金鳞覆身，受冕祥光。梳造：龙角如珊瑚，加冕为尊。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封龙君，神威赫赫; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 蛟鳄**
-- 扬子鳄，道果圆满阶段·蛟鳄。形象：低伏的宽吻鳄龙，身披硬鳞。 核心意象：硬鳞、宽吻、江河泥潭。神态：万龙之首，睥睨三界。动作：一怒天地色变，号令风雨，水中悄然潜行，猛然一扑咬定猎物。衣着：龙身化岳，鳞甲映日月。梳造：龙角擎天，须断星河。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 万龙之首，睥睨三界; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 扬子鳄，道果圆满阶段·蛟鳄。形象：低伏的宽吻鳄龙，身披硬鳞。 核心意象：硬鳞、宽吻、江河泥潭。神态：万龙之源，睥睨三界。动作：真身化岳，日月为伴，水中悄然潜行，猛然一扑咬定猎物。衣着：龙身映日月，鳞甲如星辰。梳造：龙角擎天，道纹绕体。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 万龙之源，睥睨三界; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 朱鹮（`crested_ibis`）
 
@@ -1692,12 +1692,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 吉祥朱鹮**
-- 朱鹮，封神登天阶段·吉祥朱鹮。形象：白羽粉翼，头冠蓬松。 核心意象：粉红羽翼、长喙、水田浅滩。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 朱鹮，封神登天阶段·吉祥朱鹮。形象：白羽粉翼，头冠蓬松。 核心意象：粉红羽翼、长喙、水田浅滩。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 凤凰近亲**
-- 朱鹮，道果圆满阶段·凤凰近亲。形象：白羽粉翼，头冠蓬松。 核心意象：粉红羽翼、长喙、水田浅滩。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，长喙探入浅水，轻巧地叼起鱼虾。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 朱鹮，道果圆满阶段·凤凰近亲。形象：白羽粉翼，头冠蓬松。 核心意象：粉红羽翼、长喙、水田浅滩。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，长喙探入浅水，轻巧地叼起鱼虾。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 藏羚羊（`tibetan_antelope`）
 
@@ -1718,12 +1718,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 雪原之王**
-- 藏羚羊，封神登天阶段·雪原之王。形象：白褐相间，长角如剑。 核心意象：剑形长角、白褐毛皮、可可西里。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 藏羚羊，封神登天阶段·雪原之王。形象：白褐相间，长角如剑。 核心意象：剑形长角、白褐毛皮、可可西里。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 雪原尊者**
-- 藏羚羊，道果圆满阶段·雪原尊者。形象：白褐相间，长角如剑。 核心意象：剑形长角、白褐毛皮、可可西里。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，四蹄翻飞，在高原上一路狂奔如飞。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 藏羚羊，道果圆满阶段·雪原尊者。形象：白褐相间，长角如剑。 核心意象：剑形长角、白褐毛皮、可可西里。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，四蹄翻飞，在高原上一路狂奔如飞。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 雪豹（`snow_leopard`）
 
@@ -1744,12 +1744,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 高山雪豹**
-- 雪豹，封神登天阶段·高山雪豹。形象：灰白底黑斑，长尾粗壮。 核心意象：灰白斑纹、粗壮长尾、雪山之巅。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 雪豹，封神登天阶段·高山雪豹。形象：灰白底黑斑，长尾粗壮。 核心意象：灰白斑纹、粗壮长尾、雪山之巅。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 雪山尊者**
-- 雪豹，道果圆满阶段·雪山尊者。形象：灰白底黑斑，长尾粗壮。 核心意象：灰白斑纹、粗壮长尾、雪山之巅。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，长尾平衡，纵身跃过悬崖峭壁。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 雪豹，道果圆满阶段·雪山尊者。形象：灰白底黑斑，长尾粗壮。 核心意象：灰白斑纹、粗壮长尾、雪山之巅。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，长尾平衡，纵身跃过悬崖峭壁。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 麋鹿（`milu_deer`）
 
@@ -1770,12 +1770,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 瑞泽鹿**
-- 麋鹿，封神登天阶段·瑞泽鹿。形象：角似鹿非鹿，蹄似牛非牛。 核心意象：四不像之形、水泽湿地、角蹄。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 麋鹿，封神登天阶段·瑞泽鹿。形象：角似鹿非鹿，蹄似牛非牛。 核心意象：四不像之形、水泽湿地、角蹄。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 泽畔尊者**
-- 麋鹿，道果圆满阶段·泽畔尊者。形象：角似鹿非鹿，蹄似牛非牛。 核心意象：四不像之形、水泽湿地、角蹄。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，踏水而行，慢悠悠地在湿地踱步。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 麋鹿，道果圆满阶段·泽畔尊者。形象：角似鹿非鹿，蹄似牛非牛。 核心意象：四不像之形、水泽湿地、角蹄。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，踏水而行，慢悠悠地在湿地踱步。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 东北虎（`siberian_tiger`）
 
@@ -1796,12 +1796,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 雪原巨虎**
-- 东北虎，封神登天阶段·雪原巨虎。形象：硕大虎躯，厚毛如披风。 核心意象：厚毛披风、硕大虎躯、林海雪原。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 东北虎，封神登天阶段·雪原巨虎。形象：硕大虎躯，厚毛如披风。 核心意象：厚毛披风、硕大虎躯、林海雪原。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 雪原尊者**
-- 东北虎，道果圆满阶段·雪原尊者。形象：硕大虎躯，厚毛如披风。 核心意象：厚毛披风、硕大虎躯、林海雪原。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，一声长啸震彻林海，威压百兽。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 东北虎，道果圆满阶段·雪原尊者。形象：硕大虎躯，厚毛如披风。 核心意象：厚毛披风、硕大虎躯、林海雪原。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，一声长啸震彻林海，威压百兽。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 小熊猫（`red_panda`）
 
@@ -1822,12 +1822,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 祥瑞小熊**
-- 小熊猫，封神登天阶段·祥瑞小熊。形象：红褐毛皮，环纹大尾。 核心意象：红褐毛皮、环纹大尾、竹叶。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 小熊猫，封神登天阶段·祥瑞小熊。形象：红褐毛皮，环纹大尾。 核心意象：红褐毛皮、环纹大尾、竹叶。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 竹林尊者**
-- 小熊猫，道果圆满阶段·竹林尊者。形象：红褐毛皮，环纹大尾。 核心意象：红褐毛皮、环纹大尾、竹叶。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，竖起环纹大尾，抱着一捧竹叶细嚼。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 小熊猫，道果圆满阶段·竹林尊者。形象：红褐毛皮，环纹大尾。 核心意象：红褐毛皮、环纹大尾、竹叶。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，竖起环纹大尾，抱着一捧竹叶细嚼。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 江豚（`finless_porpoise`）
 
@@ -1848,12 +1848,12 @@
 - EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian prime; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E5C4B with #C45A3C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 江中守护**
-- 江豚，封神登天阶段·江中守护。形象：圆头无背鳍，灰蓝光滑。 核心意象：无背鳍圆头、江涛、微笑。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 目光如炬，不怒自威，威仪自生; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 江豚，封神登天阶段·江中守护。形象：圆头无背鳍，灰蓝光滑。 核心意象：无背鳍圆头、江涛、微笑。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为族群的传奇，祥瑞光环，被守护与敬仰。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：祥瑞金（#D4AF37）主调 + 王绿（#2F4F4F）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; legend of the species; 受封万兽之王，目光睥睨天地; palette #D4AF37 with #2F4F4F accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 江流尊者**
-- 江豚，道果圆满阶段·江流尊者。形象：圆头无背鳍，灰蓝光滑。 核心意象：无背鳍圆头、江涛、微笑。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，跃出江面，嘴角的弧度像一抹微笑。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 王者归位，万灵俯首; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 江豚，道果圆满阶段·江流尊者。形象：圆头无背鳍，灰蓝光滑。 核心意象：无背鳍圆头、江涛、微笑。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，跃出江面，嘴角的弧度像一抹微笑。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：生态图腾显圣，祥瑞护世，生生不息。风格：皮克斯式写实萌化卡通，柔软毛发质感，自然纪录片背景，治愈萌暖。色彩：云白（#F5F0E8）主调 + 生态金绿（#A3C1AD）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Pixar-style realistic cutesy cartoon, soft fur, nature documentary backdrop; guardian spirit; 神光自照，与天地同尊; palette #F5F0E8 with #A3C1AD accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 ### 6. 魔法奇幻（12 物种）
 
@@ -1884,12 +1884,12 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 眸光如电，威严中带着坚韧; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 星夜独角兽**
-- 独角兽，封神登天阶段·星夜独角兽。形象：纯白骏马，额生螺旋独角。 核心意象：螺旋独角、纯白毛皮、圣光。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 神兽威严，目光洞彻九幽; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 独角兽，封神登天阶段·星夜独角兽。形象：纯白骏马，额生螺旋独角。 核心意象：螺旋独角、纯白毛皮、圣光。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封瑞兽，祥云拱卫; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 永恒独角兽**
-- 独角兽，道果圆满阶段·永恒独角兽。形象：纯白骏马，额生螺旋独角。 核心意象：螺旋独角、纯白毛皮、圣光。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，踏云而来，独角泛起一圈圣洁光环。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 独角兽，道果圆满阶段·永恒独角兽。形象：纯白骏马，额生螺旋独角。 核心意象：螺旋独角、纯白毛皮、圣光。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，踏云而来，独角泛起一圈圣洁光环。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 瑞气化道，福泽天地; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 飞龙（`wyvern`）
 
@@ -1910,12 +1910,12 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 龙威炽烈，怒目电光; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 古龙**
-- 飞龙，封神登天阶段·古龙。形象：赤色飞龙，蝠翼如膜，尾带尖刺。 核心意象：蝠翼、尖刺长尾、火山烈焰。神态：龙目洞彻，神威赫赫。动作：绝技大成，行云布雨。衣着：金鳞覆身，祥光万道。梳造：龙角如珊瑚，须垂百丈。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 龙目洞彻，神威赫赫; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 飞龙，封神登天阶段·古龙。形象：赤色飞龙，蝠翼如膜，尾带尖刺。 核心意象：蝠翼、尖刺长尾、火山烈焰。神态：受封龙君，神威赫赫。动作：登天行云，布雨泽四方。衣着：金鳞覆身，受冕祥光。梳造：龙角如珊瑚，加冕为尊。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封龙君，神威赫赫; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 太古龙**
-- 飞龙，道果圆满阶段·太古龙。形象：赤色飞龙，蝠翼如膜，尾带尖刺。 核心意象：蝠翼、尖刺长尾、火山烈焰。神态：万龙之首，睥睨三界。动作：一怒天地色变，号令风雨，双翼一振腾空，喷吐烈焰焚尽大地。衣着：龙身化岳，鳞甲映日月。梳造：龙角擎天，须断星河。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 万龙之首，睥睨三界; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 飞龙，道果圆满阶段·太古龙。形象：赤色飞龙，蝠翼如膜，尾带尖刺。 核心意象：蝠翼、尖刺长尾、火山烈焰。神态：万龙之源，睥睨三界。动作：真身化岳，日月为伴，双翼一振腾空，喷吐烈焰焚尽大地。衣着：龙身映日月，鳞甲如星辰。梳造：龙角擎天，道纹绕体。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 万龙之源，睥睨三界; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 精灵（`fairy`）
 
@@ -1936,8 +1936,8 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 风雨中的坚韧，眸光不折; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 大地精灵**
-- 精灵，封神登天阶段·大地精灵。形象：金翼小仙子，身绕光点。 核心意象：金翼、光点、花间飞舞。神态：华彩绽放，生机盎然的威仪。动作：生机大成，繁花满枝。衣着：花开满枝/树冠如云。梳造：花冠/树冠，光华流转。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 华彩绽放，生机盎然的威仪; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 精灵，封神登天阶段·大地精灵。形象：金翼小仙子，身绕光点。 核心意象：金翼、光点、花间飞舞。神态：受封花王，生机威仪。动作：生机大成，繁花满枝。衣着：花开满枝，树冠如云。梳造：花冠受冕，光华流转。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封花王，生机威仪; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 森林之子**
 - 精灵，道果圆满阶段·森林之子。形象：金翼小仙子，身绕光点。 核心意象：金翼、光点、花间飞舞。神态：万灵朝拜，生命之尊。动作：花开万里，果实垂天，金翼轻振，洒下点点星尘与花粉。衣着：参天古木，藤蔓缠霄。梳造：万叶化冠，春永驻世。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -1962,8 +1962,8 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 风雨中的坚韧，眸光不折; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 森林卫士**
-- 树人，封神登天阶段·森林卫士。形象：深绿树人，枝干为臂。 核心意象：深绿树皮、年轮、森林之魂。神态：华彩绽放，生机盎然的威仪。动作：生机大成，繁花满枝。衣着：花开满枝/树冠如云。梳造：花冠/树冠，光华流转。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 华彩绽放，生机盎然的威仪; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 树人，封神登天阶段·森林卫士。形象：深绿树人，枝干为臂。 核心意象：深绿树皮、年轮、森林之魂。神态：受封花王，生机威仪。动作：生机大成，繁花满枝。衣着：花开满枝，树冠如云。梳造：花冠受冕，光华流转。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封花王，生机威仪; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 世界树幼苗**
 - 树人，道果圆满阶段·世界树幼苗。形象：深绿树人，枝干为臂。 核心意象：深绿树皮、年轮、森林之魂。神态：万灵朝拜，生命之尊。动作：花开万里，果实垂天，大地震颤着迈步，枝条如臂挥展。衣着：参天古木，藤蔓缠霄。梳造：万叶化冠，春永驻世。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -1988,12 +1988,12 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 眸光如电，威严中带着坚韧; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 雷光狮鹫**
-- 狮鹫，封神登天阶段·雷光狮鹫。形象：鹰首狮身，金色双翼。 核心意象：鹰首狮身、金色双翼、忠勇。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 神兽威严，目光洞彻九幽; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 狮鹫，封神登天阶段·雷光狮鹫。形象：鹰首狮身，金色双翼。 核心意象：鹰首狮身、金色双翼、忠勇。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封瑞兽，祥云拱卫; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 神圣狮鹫**
-- 狮鹫，道果圆满阶段·神圣狮鹫。形象：鹰首狮身，金色双翼。 核心意象：鹰首狮身、金色双翼、忠勇。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，双翼一振冲天，俯冲时迅如流星。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 狮鹫，道果圆满阶段·神圣狮鹫。形象：鹰首狮身，金色双翼。 核心意象：鹰首狮身、金色双翼、忠勇。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，双翼一振冲天，俯冲时迅如流星。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 瑞气化道，福泽天地; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 美人鱼（`mermaid`）
 
@@ -2014,12 +2014,12 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 眸光如电，威严中带着坚韧; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 人鱼女王**
-- 美人鱼，封神登天阶段·人鱼女王。形象：碧鳞人鱼，长发如波。 核心意象：碧鳞鱼尾、如波长发、深海歌声。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 神兽威严，目光洞彻九幽; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 美人鱼，封神登天阶段·人鱼女王。形象：碧鳞人鱼，长发如波。 核心意象：碧鳞鱼尾、如波长发、深海歌声。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封瑞兽，祥云拱卫; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 大洋之魂**
-- 美人鱼，道果圆满阶段·大洋之魂。形象：碧鳞人鱼，长发如波。 核心意象：碧鳞鱼尾、如波长发、深海歌声。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，鱼尾轻摆破浪，一曲歌声飘向海面。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 美人鱼，道果圆满阶段·大洋之魂。形象：碧鳞人鱼，长发如波。 核心意象：碧鳞鱼尾、如波长发、深海歌声。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，鱼尾轻摆破浪，一曲歌声飘向海面。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 瑞气化道，福泽天地; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 灰袍智者（`grey_wizard`）
 
@@ -2040,12 +2040,12 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 暗夜中坚持，眼神倔强; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 白袍法师**
-- 灰袍智者，封神登天阶段·白袍法师。形象：灰袍巫师，手持法杖。 核心意象：灰袍、法杖、奥术符文。神态：威能内蕴，光晕庄严。动作：魔法大成，法阵漫天。衣着：贤者白袍/秘袍，权杖在手。梳造：王冠/法冠，威仪自生。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 威能内蕴，光晕庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 灰袍智者，封神登天阶段·白袍法师。形象：灰袍巫师，手持法杖。 核心意象：灰袍、法杖、奥术符文。神态：受封贤者，光晕庄严。动作：魔法大成，法阵漫天。衣着：贤者白袍，权杖受命。梳造：法冠威仪，光晕庄严。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封贤者，光晕庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 白袍尊者**
-- 灰袍智者，道果圆满阶段·白袍尊者。形象：灰袍巫师，手持法杖。 核心意象：灰袍、法杖、奥术符文。神态：万法归心，与元素同源。动作：法阵通天，咒文如潮，法杖顿地，口中吟唱，星光自天穹应召而下。衣着：元素法身，光尘化袍。梳造：星冕加身，魔力如渊。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 万法归心，与元素同源; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 灰袍智者，道果圆满阶段·白袍尊者。形象：灰袍巫师，手持法杖。 核心意象：灰袍、法杖、奥术符文。神态：与元素同源，法身自成。动作：法阵通天，咒文如潮，法杖顿地，口中吟唱，星光自天穹应召而下。衣着：元素法身，光尘化袍。梳造：星冕加身，魔力如渊。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 与元素同源，法身自成; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 魔杖猫（`wand_cat`）
 
@@ -2066,12 +2066,12 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 暗夜中坚持，眼神倔强; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 大贤者猫**
-- 魔杖猫，封神登天阶段·大贤者猫。形象：紫毛小猫，爪握魔法杖。 核心意象：紫色毛皮、魔法杖、闪烁咒光。神态：威能内蕴，光晕庄严。动作：魔法大成，法阵漫天。衣着：贤者白袍/秘袍，权杖在手。梳造：王冠/法冠，威仪自生。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 威能内蕴，光晕庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 魔杖猫，封神登天阶段·大贤者猫。形象：紫毛小猫，爪握魔法杖。 核心意象：紫色毛皮、魔法杖、闪烁咒光。神态：受封贤者，光晕庄严。动作：魔法大成，法阵漫天。衣着：贤者白袍，权杖受命。梳造：法冠威仪，光晕庄严。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封贤者，光晕庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 魔法尊者**
-- 魔杖猫，道果圆满阶段·魔法尊者。形象：紫毛小猫，爪握魔法杖。 核心意象：紫色毛皮、魔法杖、闪烁咒光。神态：万法归心，与元素同源。动作：法阵通天，咒文如潮，挥舞魔法杖，星光自杖尖倾泻而下。衣着：元素法身，光尘化袍。梳造：星冕加身，魔力如渊。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 万法归心，与元素同源; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 魔杖猫，道果圆满阶段·魔法尊者。形象：紫毛小猫，爪握魔法杖。 核心意象：紫色毛皮、魔法杖、闪烁咒光。神态：与元素同源，法身自成。动作：法阵通天，咒文如潮，挥舞魔法杖，星光自杖尖倾泻而下。衣着：元素法身，光尘化袍。梳造：星冕加身，魔力如渊。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 与元素同源，法身自成; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 龙骑士（`dragon_knight`）
 
@@ -2092,12 +2092,12 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 暗夜中坚持，眼神倔强; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 天空骑士**
-- 龙骑士，封神登天阶段·天空骑士。形象：红铠骑士，身侧有龙影。 核心意象：红铠、骑士长枪、龙之影。神态：威能内蕴，光晕庄严。动作：魔法大成，法阵漫天。衣着：贤者白袍/秘袍，权杖在手。梳造：王冠/法冠，威仪自生。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 威能内蕴，光晕庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 龙骑士，封神登天阶段·天空骑士。形象：红铠骑士，身侧有龙影。 核心意象：红铠、骑士长枪、龙之影。神态：受封贤者，光晕庄严。动作：魔法大成，法阵漫天。衣着：贤者白袍，权杖受命。梳造：法冠威仪，光晕庄严。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封贤者，光晕庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 龙骑尊者**
-- 龙骑士，道果圆满阶段·龙骑尊者。形象：红铠骑士，身侧有龙影。 核心意象：红铠、骑士长枪、龙之影。神态：万法归心，与元素同源。动作：法阵通天，咒文如潮，举枪跃上龙背，巨龙振翼腾空而起。衣着：元素法身，光尘化袍。梳造：星冕加身，魔力如渊。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 万法归心，与元素同源; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 龙骑士，道果圆满阶段·龙骑尊者。形象：红铠骑士，身侧有龙影。 核心意象：红铠、骑士长枪、龙之影。神态：与元素同源，法身自成。动作：法阵通天，咒文如潮，举枪跃上龙背，巨龙振翼腾空而起。衣着：元素法身，光尘化袍。梳造：星冕加身，魔力如渊。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 与元素同源，法身自成; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 炼金魔像（`alchemy_golem`）
 
@@ -2118,8 +2118,8 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 淬炼中的忍耐; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 黄金石像**
-- 炼金魔像，封神登天阶段·黄金石像。形象：金甲魔像，符文刻身。 核心意象：金甲、符文刻痕、炼金秘术。神态：灵光大成的庄严。动作：器灵大成，光华夺目。衣着：华彩流光，灵气充盈。梳造：祥纹满饰，宝光外放。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 灵光大成的庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 炼金魔像，封神登天阶段·黄金石像。形象：金甲魔像，符文刻身。 核心意象：金甲、符文刻痕、炼金秘术。神态：受封灵宝，灵光大成的庄严。动作：器灵大成，光华夺目。衣着：华彩流光，灵气充盈。梳造：祥纹满饰，宝光外放。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封灵宝，灵光大成的庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 炼金尊者**
 - 炼金魔像，道果圆满阶段·炼金尊者。形象：金甲魔像，符文刻身。 核心意象：金甲、符文刻痕、炼金秘术。神态：器灵化神，灵性通明。动作：器道通天，光华耀世，符文亮起，双拳砸落震裂大地。衣着：神纹流转，镇世之宝。梳造：灵光化形，器魂永驻。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2144,12 +2144,12 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 眸光如电，威严中带着坚韧; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 夜之守护**
-- 梦魇夜马，封神登天阶段·夜之守护。形象：紫焰骏马，四蹄踏火。 核心意象：紫焰、踏火四蹄、梦魇之力。神态：神兽威严，目光洞彻九幽。动作：绝技大成，百兽来朝。衣着：神光加身，五色祥云。梳造：圣羽垂天，瑞角冲霄。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 神兽威严，目光洞彻九幽; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 梦魇夜马，封神登天阶段·夜之守护。形象：紫焰骏马，四蹄踏火。 核心意象：紫焰、踏火四蹄、梦魇之力。神态：受封瑞兽，祥云拱卫。动作：绝技大成，百瑞来朝。衣着：五色神纹冠冕，祥光加身。梳造：圣羽垂天，瑞角冲霄。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封瑞兽，祥云拱卫; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 夜月尊者**
-- 梦魇夜马，道果圆满阶段·夜月尊者。形象：紫焰骏马，四蹄踏火。 核心意象：紫焰、踏火四蹄、梦魇之力。神态：瑞气冲霄，万灵俯首。动作：真身镇世，祥瑞永驻，四蹄踏火奔腾，紫焰在身后拖成长练。衣着：祥光化雨，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 瑞气冲霄，万灵俯首; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 梦魇夜马，道果圆满阶段·夜月尊者。形象：紫焰骏马，四蹄踏火。 核心意象：紫焰、踏火四蹄、梦魇之力。神态：瑞气化道，福泽天地。动作：真身镇世，祥光化雨，四蹄踏火奔腾，紫焰在身后拖成长练。衣着：祥光铸身，福泽苍生。梳造：瑞光冠冕，天地共仰。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; elemental oneness; 瑞气化道，福泽天地; palette #F5F0E8 with #C8A2FF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 元素灯灵（`lamp_spirit`）
 
@@ -2170,8 +2170,8 @@
 - EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; abyssal trial; 淬炼中的忍耐; palette #1A0A2E with #FF4500 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 千愿灯灵**
-- 元素灯灵，封神登天阶段·千愿灯灵。形象：金灯灵体，灯火摇曳。 核心意象：神灯、摇曳灯芯、许愿之光。神态：灵光大成的庄严。动作：器灵大成，光华夺目。衣着：华彩流光，灵气充盈。梳造：祥纹满饰，宝光外放。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 灵光大成的庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 元素灯灵，封神登天阶段·千愿灯灵。形象：金灯灵体，灯火摇曳。 核心意象：神灯、摇曳灯芯、许愿之光。神态：受封灵宝，灵光大成的庄严。动作：器灵大成，光华夺目。衣着：华彩流光，灵气充盈。梳造：祥纹满饰，宝光外放。意境：大法师或神话生物完全体，威震大陆，法阵与冠冕加身。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：传奇紫（#8B00FF）主调 + 王冠金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：western fantasy concept art, epic lighting, glowing magic circles, arcane atmosphere; archmage glory; 受封灵宝，灵光大成的庄严; palette #8B00FF with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 灯灵尊者**
 - 元素灯灵，道果圆满阶段·灯灵尊者。形象：金灯灵体，灯火摇曳。 核心意象：神灯、摇曳灯芯、许愿之光。神态：器灵化神，灵性通明。动作：器道通天，光华耀世，灯芯一燃，应召而出，金光漫室。衣着：神纹流转，镇世之宝。梳造：灵光化形，器魂永驻。意境：元素法相圆满，光与秘术铸就神格，威震大陆。风格：欧美奇幻概念艺术风，史诗光影、法阵与魔法光效，神秘史诗。色彩：永恒白（#F5F0E8）主调 + 圣光紫（#C8A2FF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2206,8 +2206,8 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 生存竞争中的冷酷坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 白垩纪领主**
-- 霸王龙，封神登天阶段·白垩纪领主。形象：直立霸王龙，头大颚壮，前肢短小。 核心意象：巨颚利齿、粗壮后肢、白垩纪。神态：霸主之威，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 霸主之威，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 霸王龙，封神登天阶段·白垩纪领主。形象：直立霸王龙，头大颚壮，前肢短小。 核心意象：巨颚利齿、粗壮后肢、白垩纪。神态：受封霸主，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封霸主，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 终极掠食者**
 - 霸王龙，道果圆满阶段·终极掠食者。形象：直立霸王龙，头大颚壮，前肢短小。 核心意象：巨颚利齿、粗壮后肢、白垩纪。神态：洪荒之巅，唯我独尊。动作：踏碎山河，万兽臣服，巨颚一口咬碎骨骼，怒吼震彻山谷。衣着：远古神躯，鳞甲映日。梳造：骨冠擎天，威压万古。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2232,8 +2232,8 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 生存竞争中的冷酷坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 群首领**
-- 三角龙，封神登天阶段·群首领。形象：大颈盾配三尖角，身强体壮。 核心意象：三尖角、大颈盾、群居护群。神态：霸主之威，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 霸主之威，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 三角龙，封神登天阶段·群首领。形象：大颈盾配三尖角，身强体壮。 核心意象：三尖角、大颈盾、群居护群。神态：受封霸主，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封霸主，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 化石之王**
 - 三角龙，道果圆满阶段·化石之王。形象：大颈盾配三尖角，身强体壮。 核心意象：三尖角、大颈盾、群居护群。神态：洪荒之巅，唯我独尊。动作：踏碎山河，万兽臣服，低头亮出三尖角，怒吼着顶向来敌。衣着：远古神躯，鳞甲映日。梳造：骨冠擎天，威压万古。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2258,8 +2258,8 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 生存竞争中的冷酷坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 王者翼龙**
-- 翼龙，封神登天阶段·王者翼龙。形象：展翼无齿，颈长身轻。 核心意象：翼膜、长颈、远古天空。神态：霸主之威，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 霸主之威，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 翼龙，封神登天阶段·王者翼龙。形象：展翼无齿，颈长身轻。 核心意象：翼膜、长颈、远古天空。神态：受封霸主，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封霸主，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 太古翼龙**
 - 翼龙，道果圆满阶段·太古翼龙。形象：展翼无齿，颈长身轻。 核心意象：翼膜、长颈、远古天空。神态：洪荒之巅，唯我独尊。动作：踏碎山河，万兽臣服，翼膜一展，借风滑翔，俯冲掠水捕鱼。衣着：远古神躯，鳞甲映日。梳造：骨冠擎天，威压万古。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2284,12 +2284,12 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 冰川之主**
-- 猛犸象，封神登天阶段·冰川之主。形象：长毛巨象，弯长象牙。 核心意象：弯长象牙、厚毛、冰河雪原。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 目光如炬，不怒自威，威仪自生; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 猛犸象，封神登天阶段·冰川之主。形象：长毛巨象，弯长象牙。 核心意象：弯长象牙、厚毛、冰河雪原。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封万兽之王，目光睥睨天地; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 远古巨兽**
-- 猛犸象，道果圆满阶段·远古巨兽。形象：长毛巨象，弯长象牙。 核心意象：弯长象牙、厚毛、冰河雪原。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，长鼻卷起枯枝，弯长象牙挑开积雪。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 王者归位，万灵俯首; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 猛犸象，道果圆满阶段·远古巨兽。形象：长毛巨象，弯长象牙。 核心意象：弯长象牙、厚毛、冰河雪原。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，长鼻卷起枯枝，弯长象牙挑开积雪。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 神光自照，与天地同尊; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 剑齿虎（`sabertooth`）
 
@@ -2310,12 +2310,12 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 金剑齿**
-- 剑齿虎，封神登天阶段·金剑齿。形象：上颚獠牙如剑，肌肉虬结。 核心意象：剑形獠牙、虬结肌肉、一击必杀。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 目光如炬，不怒自威，威仪自生; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 剑齿虎，封神登天阶段·金剑齿。形象：上颚獠牙如剑，肌肉虬结。 核心意象：剑形獠牙、虬结肌肉、一击必杀。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封万兽之王，目光睥睨天地; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 太古剑齿**
-- 剑齿虎，道果圆满阶段·太古剑齿。形象：上颚獠牙如剑，肌肉虬结。 核心意象：剑形獠牙、虬结肌肉、一击必杀。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，低伏潜行，骤然跃起一剑封喉。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 王者归位，万灵俯首; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 剑齿虎，道果圆满阶段·太古剑齿。形象：上颚獠牙如剑，肌肉虬结。 核心意象：剑形獠牙、虬结肌肉、一击必杀。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，低伏潜行，骤然跃起一剑封喉。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 神光自照，与天地同尊; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 沧龙（`mosasaur`）
 
@@ -2336,12 +2336,12 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 龙威炽烈，怒目电光; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 古沧**
-- 沧龙，封神登天阶段·古沧。形象：深海巨蜥龙，鳍状四肢。 核心意象：鳍状四肢、巨颚、苍茫汪洋。神态：龙目洞彻，神威赫赫。动作：绝技大成，行云布雨。衣着：金鳞覆身，祥光万道。梳造：龙角如珊瑚，须垂百丈。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 龙目洞彻，神威赫赫; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 沧龙，封神登天阶段·古沧。形象：深海巨蜥龙，鳍状四肢。 核心意象：鳍状四肢、巨颚、苍茫汪洋。神态：受封龙君，神威赫赫。动作：登天行云，布雨泽四方。衣着：金鳞覆身，受冕祥光。梳造：龙角如珊瑚，加冕为尊。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封龙君，神威赫赫; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 神沧**
-- 沧龙，道果圆满阶段·神沧。形象：深海巨蜥龙，鳍状四肢。 核心意象：鳍状四肢、巨颚、苍茫汪洋。神态：万龙之首，睥睨三界。动作：一怒天地色变，号令风雨，鳍肢一摆，巨颚咬碎深海猎物。衣着：龙身化岳，鳞甲映日月。梳造：龙角擎天，须断星河。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 万龙之首，睥睨三界; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 沧龙，道果圆满阶段·神沧。形象：深海巨蜥龙，鳍状四肢。 核心意象：鳍状四肢、巨颚、苍茫汪洋。神态：万龙之源，睥睨三界。动作：真身化岳，日月为伴，鳍肢一摆，巨颚咬碎深海猎物。衣着：龙身映日月，鳞甲如星辰。梳造：龙角擎天，道纹绕体。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 万龙之源，睥睨三界; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 棘龙（`spinosaurus`）
 
@@ -2362,8 +2362,8 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 生存竞争中的冷酷坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 河畔之王**
-- 棘龙，封神登天阶段·河畔之王。形象：背生巨大帆状脊，形似鳄龙。 核心意象：巨大帆脊、长吻利齿、河畔。神态：霸主之威，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 霸主之威，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 棘龙，封神登天阶段·河畔之王。形象：背生巨大帆状脊，形似鳄龙。 核心意象：巨大帆脊、长吻利齿、河畔。神态：受封霸主，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封霸主，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 棘龙尊者**
 - 棘龙，道果圆满阶段·棘龙尊者。形象：背生巨大帆状脊，形似鳄龙。 核心意象：巨大帆脊、长吻利齿、河畔。神态：洪荒之巅，唯我独尊。动作：踏碎山河，万兽臣服，帆脊竖起示威，长吻探入水中叼起巨鱼。衣着：远古神躯，鳞甲映日。梳造：骨冠擎天，威压万古。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2388,8 +2388,8 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 生存竞争中的冷酷坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 要塞甲龙**
-- 甲龙，封神登天阶段·要塞甲龙。形象：身披重甲，尾端生骨锤。 核心意象：重甲骨板、尾端骨锤、不动如山。神态：霸主之威，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 霸主之威，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 甲龙，封神登天阶段·要塞甲龙。形象：身披重甲，尾端生骨锤。 核心意象：重甲骨板、尾端骨锤、不动如山。神态：受封霸主，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封霸主，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 甲龙尊者**
 - 甲龙，道果圆满阶段·甲龙尊者。形象：身披重甲，尾端生骨锤。 核心意象：重甲骨板、尾端骨锤、不动如山。神态：洪荒之巅，唯我独尊。动作：踏碎山河，万兽臣服，骨锤横扫，一击足以震退掠食者。衣着：远古神躯，鳞甲映日。梳造：骨冠擎天，威压万古。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2414,8 +2414,8 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 生存竞争中的冷酷坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 温柔巨兽**
-- 梁龙，封神登天阶段·温柔巨兽。形象：长颈细尾的巨型蜥脚龙。 核心意象：超长脖颈、鞭状长尾、成群迁徙。神态：霸主之威，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 霸主之威，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 梁龙，封神登天阶段·温柔巨兽。形象：长颈细尾的巨型蜥脚龙。 核心意象：超长脖颈、鞭状长尾、成群迁徙。神态：受封霸主，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封霸主，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 梁龙尊者**
 - 梁龙，道果圆满阶段·梁龙尊者。形象：长颈细尾的巨型蜥脚龙。 核心意象：超长脖颈、鞭状长尾、成群迁徙。神态：洪荒之巅，唯我独尊。动作：踏碎山河，万兽臣服，长颈探向高树，细尾如鞭甩动护身。衣着：远古神躯，鳞甲映日。梳造：骨冠擎天，威压万古。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2440,8 +2440,8 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 生存竞争中的冷酷坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 巨齿霸主**
-- 巨齿鲨，封神登天阶段·巨齿霸主。形象：巨牙利齿的远古巨鲨。 核心意象：巨牙、庞大身影、深海之渊。神态：霸主之威，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 霸主之威，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 巨齿鲨，封神登天阶段·巨齿霸主。形象：巨牙利齿的远古巨鲨。 核心意象：巨牙、庞大身影、深海之渊。神态：受封霸主，眼神睥睨。动作：猎技大成，万兽辟易。衣着：霸主之躯，王纹隐现。梳造：顶冠/长角，王者相。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封霸主，眼神睥睨; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 巨齿尊者**
 - 巨齿鲨，道果圆满阶段·巨齿尊者。形象：巨牙利齿的远古巨鲨。 核心意象：巨牙、庞大身影、深海之渊。神态：洪荒之巅，唯我独尊。动作：踏碎山河，万兽臣服，巨口张开，一口吞下整条海兽。衣着：远古神躯，鳞甲映日。梳造：骨冠擎天，威压万古。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -2466,12 +2466,12 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 大地巨人**
-- 大地懒，封神登天阶段·大地巨人。形象：巨爪大懒兽，毛长体壮。 核心意象：巨型爪钩、长毛、缓慢而强大。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 目光如炬，不怒自威，威仪自生; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 大地懒，封神登天阶段·大地巨人。形象：巨爪大懒兽，毛长体壮。 核心意象：巨型爪钩、长毛、缓慢而强大。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封万兽之王，目光睥睨天地; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 大地尊者**
-- 大地懒，道果圆满阶段·大地尊者。形象：巨爪大懒兽，毛长体壮。 核心意象：巨型爪钩、长毛、缓慢而强大。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，巨爪刨开泥土，缓缓挪动庞然之躯。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 王者归位，万灵俯首; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 大地懒，道果圆满阶段·大地尊者。形象：巨爪大懒兽，毛长体壮。 核心意象：巨型爪钩、长毛、缓慢而强大。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，巨爪刨开泥土，缓缓挪动庞然之躯。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 神光自照，与天地同尊; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 冰河犀牛（`woolly_rhino`）
 
@@ -2492,12 +2492,12 @@
 - EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; survival trial; 眸光深沉，眉峰微蹙，带着淬炼的坚毅; palette #3E2723 with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 冰河之主**
-- 冰河犀牛，封神登天阶段·冰河之主。形象：长毛犀牛，一双弯角。 核心意象：双弯角、厚长毛、冰原冻土。神态：目光如炬，不怒自威，威仪自生。动作：绝技大成，昂首傲立山巅。衣着：金色祥纹缀身，王者的气象。梳造：金鬃/长羽/圣角，威风凛凛。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 目光如炬，不怒自威，威仪自生; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 冰河犀牛，封神登天阶段·冰河之主。形象：长毛犀牛，一双弯角。 核心意象：双弯角、厚长毛、冰原冻土。神态：受封万兽之王，目光睥睨天地。动作：登顶山巅，受万兽朝拜。衣着：金色王冕祥纹，王者之姿。梳造：王冠受冕，金鬃猎猎。意境：成为领地霸主，王者的姿态与威严。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：霸主棕（#4E342E）主调 + 王金（#FFB300）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; apex predator; 受封万兽之王，目光睥睨天地; palette #4E342E with #FFB300 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 冰河尊者**
-- 冰河犀牛，道果圆满阶段·冰河尊者。形象：长毛犀牛，一双弯角。 核心意象：双弯角、厚长毛、冰原冻土。神态：王者归位，万灵俯首。动作：啸震九霄，天地同应，低头拱开积雪，弯角翻出苔草为食。衣着：神光化铠，日月护身。梳造：王者之冕，诸兽共尊。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 王者归位，万灵俯首; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 冰河犀牛，道果圆满阶段·冰河尊者。形象：长毛犀牛，一双弯角。 核心意象：双弯角、厚长毛、冰原冻土。神态：神光自照，与天地同尊。动作：神形合一，啸震九霄，低头拱开积雪，弯角翻出苔草为食。衣着：神光铸体，日月随行。梳造：万灵共仰，神冕无上。意境：远古霸主图腾显圣，冰川之巅威压万古。风格：BBC 纪录片古生物复原结合卡通拟人，鳞甲皮肤纹理真实，远古苍茫。色彩：冰川白（#F5F0E8）主调 + 远古蓝（#87CEEB）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：paleoart documentary style with cartoon charm, realistic scale/skin texture; ancient totem; 神光自照，与天地同尊; palette #F5F0E8 with #87CEEB accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 ### 8. 星座守护（12 物种）
 
@@ -2528,12 +2528,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 白羊宫主**
-- 白羊座·穆，封神登天阶段·白羊宫主。形象：金色羊首圣衣星灵，角如新月。 核心意象：白羊宫、星光灭绝。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣全装，白羊宫主。梳造：白羊金盔，宝相庄严。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 白羊座·穆，封神登天阶段·白羊宫主。形象：金色羊首圣衣星灵，角如新月。 核心意象：白羊宫、星光灭绝。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣全装，白羊宫主。梳造：白羊金盔，宝相庄严。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 星光灭绝**
-- 白羊座·穆，道果圆满阶段·星光灭绝。形象：金色羊首圣衣星灵，角如新月。 核心意象：白羊宫、星光灭绝。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，水晶墙一筑，星屑旋转功。衣着：神圣衣星辉，星光灭绝之姿。梳造：星光化冠，超脱凡尘。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 白羊座·穆，道果圆满阶段·星光灭绝。形象：金色羊首圣衣星灵，角如新月。 核心意象：白羊宫、星光灭绝。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，水晶墙一筑，星屑旋转功。衣着：神圣衣星辉，星光灭绝之姿。梳造：星光化冠，超脱凡尘。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 金牛座·阿鲁迪巴（`taurus`）
 
@@ -2554,12 +2554,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 金牛宫主**
-- 金牛座·阿鲁迪巴，封神登天阶段·金牛宫主。形象：金色牛首圣衣星灵，体格魁伟，双角如巨柱。 核心意象：金牛宫、巨型号角、黄金双角。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，金牛宫主。梳造：金牛金盔，力撼山岳。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 金牛座·阿鲁迪巴，封神登天阶段·金牛宫主。形象：金色牛首圣衣星灵，体格魁伟，双角如巨柱。 核心意象：金牛宫、巨型号角、黄金双角。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，金牛宫主。梳造：金牛金盔，力撼山岳。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 黄金之角**
-- 金牛座·阿鲁迪巴，道果圆满阶段·黄金之角。形象：金色牛首圣衣星灵，体格魁伟，双角如巨柱。 核心意象：金牛宫、巨型号角、黄金双角。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，巨型号角一吼，山岳为之震颤。衣着：黄金之角，仁厚巨人。梳造：金盔生辉，憨厚威仪。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 金牛座·阿鲁迪巴，道果圆满阶段·黄金之角。形象：金色牛首圣衣星灵，体格魁伟，双角如巨柱。 核心意象：金牛宫、巨型号角、黄金双角。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，巨型号角一吼，山岳为之震颤。衣着：黄金之角，仁厚巨人。梳造：金盔生辉，憨厚威仪。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 双子座·撒加（`gemini`）
 
@@ -2580,12 +2580,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 双子宫主**
-- 双子座·撒加，封神登天阶段·双子宫主。形象：黑金双面圣衣星灵，一体双生，善恶并存。 核心意象：双子宫、银河星爆、善恶双面。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，双子宫主。梳造：双面金盔，善恶并存。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 双子座·撒加，封神登天阶段·双子宫主。形象：黑金双面圣衣星灵，一体双生，善恶并存。 核心意象：双子宫、银河星爆、善恶双面。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，双子宫主。梳造：双面金盔，善恶并存。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 银河星爆**
-- 双子座·撒加，道果圆满阶段·银河星爆。形象：黑金双面圣衣星灵，一体双生，善恶并存。 核心意象：双子宫、银河星爆、善恶双面。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，银河星爆一击，群星为之破碎。衣着：银河星爆，神的化身。梳造：神光化发，一念神魔。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 双子座·撒加，道果圆满阶段·银河星爆。形象：黑金双面圣衣星灵，一体双生，善恶并存。 核心意象：双子宫、银河星爆、善恶双面。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，银河星爆一击，群星为之破碎。衣着：银河星爆，神的化身。梳造：神光化发，一念神魔。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 巨蟹座·迪斯马斯克（`cancer`）
 
@@ -2606,12 +2606,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 巨蟹宫主**
-- 巨蟹座·迪斯马斯克，封神登天阶段·巨蟹宫主。形象：青灰蟹形圣衣星灵，甲壳泛着冥界幽光。 核心意象：巨蟹宫、积尸气、冥界之门。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，巨蟹宫主。梳造：金盔蟹钳，邪中带狂。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 巨蟹座·迪斯马斯克，封神登天阶段·巨蟹宫主。形象：青灰蟹形圣衣星灵，甲壳泛着冥界幽光。 核心意象：巨蟹宫、积尸气、冥界之门。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，巨蟹宫主。梳造：金盔蟹钳，邪中带狂。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 冥界之王**
-- 巨蟹座·迪斯马斯克，道果圆满阶段·冥界之王。形象：青灰蟹形圣衣星灵，甲壳泛着冥界幽光。 核心意象：巨蟹宫、积尸气、冥界之门。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，积尸气冥界波，将对手拖入黄泉。衣着：冥界之王，身陷幽暗。梳造：冥光吞没，亦正亦邪。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 巨蟹座·迪斯马斯克，道果圆满阶段·冥界之王。形象：青灰蟹形圣衣星灵，甲壳泛着冥界幽光。 核心意象：巨蟹宫、积尸气、冥界之门。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，积尸气冥界波，将对手拖入黄泉。衣着：冥界之王，身陷幽暗。梳造：冥光吞没，亦正亦邪。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 狮子座·艾奥里亚（`leo`）
 
@@ -2632,12 +2632,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 狮子宫主**
-- 狮子座·艾奥里亚，封神登天阶段·狮子宫主。形象：金鬃狮首圣衣星灵，威光赫赫，战意熊熊。 核心意象：狮子宫、闪电光速拳、黄金鬃毛。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，狮子宫主。梳造：黄金狮盔，威风凛凛。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 狮子座·艾奥里亚，封神登天阶段·狮子宫主。形象：金鬃狮首圣衣星灵，威光赫赫，战意熊熊。 核心意象：狮子宫、闪电光速拳、黄金鬃毛。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，狮子宫主。梳造：黄金狮盔，威风凛凛。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 等离子光速拳**
-- 狮子座·艾奥里亚，道果圆满阶段·等离子光速拳。形象：金鬃狮首圣衣星灵，威光赫赫，战意熊熊。 核心意象：狮子宫、闪电光速拳、黄金鬃毛。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，闪电光速拳连发，拳影如雷霆万钧。衣着：等离子光速拳，正义之光。梳造：金光化冠，浩然正气。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 狮子座·艾奥里亚，道果圆满阶段·等离子光速拳。形象：金鬃狮首圣衣星灵，威光赫赫，战意熊熊。 核心意象：狮子宫、闪电光速拳、黄金鬃毛。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，闪电光速拳连发，拳影如雷霆万钧。衣着：等离子光速拳，正义之光。梳造：金光化冠，浩然正气。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 处女座·沙加（`virgo`）
 
@@ -2658,12 +2658,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 处女宫主**
-- 处女座·沙加，封神登天阶段·处女宫主。形象：白金圣衣星灵，双手合十，双目紧闭。 核心意象：处女宫、天舞宝轮、闭目禅相。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，处女宫主。梳造：金莲花冠，佛陀相。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 处女座·沙加，封神登天阶段·处女宫主。形象：白金圣衣星灵，双手合十，双目紧闭。 核心意象：处女宫、天舞宝轮、闭目禅相。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，处女宫主。梳造：金莲花冠，佛陀相。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 第八感觉醒**
-- 处女座·沙加，道果圆满阶段·第八感觉醒。形象：白金圣衣星灵，双手合十，双目紧闭。 核心意象：处女宫、天舞宝轮、闭目禅相。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，天魔降伏，闭目之间神光自生。衣着：第八感觉醒，最接近神。梳造：圣光化莲，眉目悲悯。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 处女座·沙加，道果圆满阶段·第八感觉醒。形象：白金圣衣星灵，双手合十，双目紧闭。 核心意象：处女宫、天舞宝轮、闭目禅相。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，天魔降伏，闭目之间神光自生。衣着：第八感觉醒，最接近神。梳造：圣光化莲，眉目悲悯。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 天秤座·童虎（`libra`）
 
@@ -2684,12 +2684,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 老师坐镇**
-- 天秤座·童虎，封神登天阶段·老师坐镇。形象：白金圣衣星灵，背负天秤与十二件黄金武器。 核心意象：天秤宫、十二件黄金武器、五老峰。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，天秤宫主。梳造：金盔，十二件武器负背。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 天秤座·童虎，封神登天阶段·老师坐镇。形象：白金圣衣星灵，背负天秤与十二件黄金武器。 核心意象：天秤宫、十二件黄金武器、五老峰。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，天秤宫主。梳造：金盔，十二件武器负背。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 返老还童**
-- 天秤座·童虎，道果圆满阶段·返老还童。形象：白金圣衣星灵，背负天秤与十二件黄金武器。 核心意象：天秤宫、十二件黄金武器、五老峰。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，庐山百龙霸，龙吟声中百龙齐出。衣着：老师坐镇，两百年守望。梳造：白发金盔，目光如渊。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 天秤座·童虎，道果圆满阶段·返老还童。形象：白金圣衣星灵，背负天秤与十二件黄金武器。 核心意象：天秤宫、十二件黄金武器、五老峰。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，庐山百龙霸，龙吟声中百龙齐出。衣着：老师坐镇，两百年守望。梳造：白发金盔，目光如渊。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 天蝎座·米罗（`scorpio`）
 
@@ -2710,12 +2710,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 天蝎宫主**
-- 天蝎座·米罗，封神登天阶段·天蝎宫主。形象：深红蝎形圣衣星灵，尾针流转猩红星光。 核心意象：天蝎宫、深红毒针、蝎尾之光。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，天蝎宫主。梳造：蝎尾金盔，锐利。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 天蝎座·米罗，封神登天阶段·天蝎宫主。形象：深红蝎形圣衣星灵，尾针流转猩红星光。 核心意象：天蝎宫、深红毒针、蝎尾之光。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，天蝎宫主。梳造：蝎尾金盔，锐利。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 天蝎之怒**
-- 天蝎座·米罗，道果圆满阶段·天蝎之怒。形象：深红蝎形圣衣星灵，尾针流转猩红星光。 核心意象：天蝎宫、深红毒针、蝎尾之光。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，猩红毒针疾点，十五针封喉。衣着：天蝎之怒，深红针下留情。梳造：金盔生辉，义字当先。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 天蝎座·米罗，道果圆满阶段·天蝎之怒。形象：深红蝎形圣衣星灵，尾针流转猩红星光。 核心意象：天蝎宫、深红毒针、蝎尾之光。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，猩红毒针疾点，十五针封喉。衣着：天蝎之怒，深红针下留情。梳造：金盔生辉，义字当先。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 射手座·艾俄洛斯（`sagittarius`）
 
@@ -2736,12 +2736,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 英魂长存**
-- 射手座·艾俄洛斯，封神登天阶段·英魂长存。形象：金光圣衣星灵，背负黄金之弓，箭指苍穹。 核心意象：射手宫、黄金之弓、群星之矢。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，射手宫主。梳造：金盔，弓满月。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 射手座·艾俄洛斯，封神登天阶段·英魂长存。形象：金光圣衣星灵，背负黄金之弓，箭指苍穹。 核心意象：射手宫、黄金之弓、群星之矢。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，射手宫主。梳造：金盔，弓满月。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 黄金之箭·觉醒**
-- 射手座·艾俄洛斯，道果圆满阶段·黄金之箭·觉醒。形象：金光圣衣星灵，背负黄金之弓，箭指苍穹。 核心意象：射手宫、黄金之弓、群星之矢。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，黄金之箭搭弦，一箭射穿苍穹。衣着：英魂长存，星空中守望。梳造：星光化发，永恒之姿。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 射手座·艾俄洛斯，道果圆满阶段·黄金之箭·觉醒。形象：金光圣衣星灵，背负黄金之弓，箭指苍穹。 核心意象：射手宫、黄金之弓、群星之矢。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，黄金之箭搭弦，一箭射穿苍穹。衣着：英魂长存，星空中守望。梳造：星光化发，永恒之姿。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 摩羯座·修罗（`capricorn`）
 
@@ -2762,12 +2762,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 摩羯宫主**
-- 摩羯座·修罗，封神登天阶段·摩羯宫主。形象：银白圣衣星灵，双臂凝作圣剑锋芒。 核心意象：摩羯宫、圣剑Excalibur、双臂剑芒。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，摩羯宫主。梳造：金盔，双臂为剑。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 摩羯座·修罗，封神登天阶段·摩羯宫主。形象：银白圣衣星灵，双臂凝作圣剑锋芒。 核心意象：摩羯宫、圣剑Excalibur、双臂剑芒。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，摩羯宫主。梳造：金盔，双臂为剑。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 觉醒之剑**
-- 摩羯座·修罗，道果圆满阶段·觉醒之剑。形象：银白圣衣星灵，双臂凝作圣剑锋芒。 核心意象：摩羯宫、圣剑Excalibur、双臂剑芒。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，双臂化剑，圣剑一挥可斩星辰。衣着：觉醒之剑，忠诚所向。梳造：剑光化发，一生为剑。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 摩羯座·修罗，道果圆满阶段·觉醒之剑。形象：银白圣衣星灵，双臂凝作圣剑锋芒。 核心意象：摩羯宫、圣剑Excalibur、双臂剑芒。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，双臂化剑，圣剑一挥可斩星辰。衣着：觉醒之剑，忠诚所向。梳造：剑光化发，一生为剑。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 水瓶座·卡妙（`aquarius`）
 
@@ -2788,12 +2788,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 水瓶宫主**
-- 水瓶座·卡妙，封神登天阶段·水瓶宫主。形象：冰蓝圣衣星灵，周身凝霜，水光流转。 核心意象：水瓶宫、绝对零度、冰蓝水光。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，水瓶宫主。梳造：冰蓝金盔，严师之姿。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 水瓶座·卡妙，封神登天阶段·水瓶宫主。形象：冰蓝圣衣星灵，周身凝霜，水光流转。 核心意象：水瓶宫、绝对零度、冰蓝水光。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，水瓶宫主。梳造：冰蓝金盔，严师之姿。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 冰河之师**
-- 水瓶座·卡妙，道果圆满阶段·冰河之师。形象：冰蓝圣衣星灵，周身凝霜，水光流转。 核心意象：水瓶宫、绝对零度、冰蓝水光。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，曙光女神之宽恕，一拳挥出绝对零度。衣着：冰河之师，严中带暖。梳造：冰发微融，目光温柔。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 水瓶座·卡妙，道果圆满阶段·冰河之师。形象：冰蓝圣衣星灵，周身凝霜，水光流转。 核心意象：水瓶宫、绝对零度、冰蓝水光。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，曙光女神之宽恕，一拳挥出绝对零度。衣着：冰河之师，严中带暖。梳造：冰发微融，目光温柔。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 双鱼座·阿布罗狄（`pisces`）
 
@@ -2814,12 +2814,12 @@
 - EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; holy war trial; 绝境中燃烧小宇宙，眸光不屈; palette #4B0082 with #DC143C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 双鱼宫主**
-- 双鱼座·阿布罗狄，封神登天阶段·双鱼宫主。形象：绯红圣衣星灵，周身缠绕玫瑰藤蔓。 核心意象：双鱼宫、魔宫玫瑰、血色藤蔓。神态：金眸光华内敛，不怒自威。动作：绝技大成，镇守宫门。衣着：黄金圣衣，双鱼宫主。梳造：玫瑰金盔，美中藏毒。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 金眸光华内敛，不怒自威; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 双鱼座·阿布罗狄，封神登天阶段·双鱼宫主。形象：绯红圣衣星灵，周身缠绕玫瑰藤蔓。 核心意象：双鱼宫、魔宫玫瑰、血色藤蔓。神态：受封圣斗士，金眸光华内敛。动作：绝技大成，镇守宫门。衣着：黄金圣衣，双鱼宫主。梳造：玫瑰金盔，美中藏毒。意境：身着黄金圣衣，镇守宫门，星座图腾全开。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：黄金圣衣（#FFD700）主调 + 圣光白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; golden cloth; 受封圣斗士，金眸光华内敛; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 凄美绽放**
-- 双鱼座·阿布罗狄，道果圆满阶段·凄美绽放。形象：绯红圣衣星灵，周身缠绕玫瑰藤蔓。 核心意象：双鱼宫、魔宫玫瑰、血色藤蔓。神态：第八感圆满，战意与神性合一。动作：绝技巅峰，星碎神裂，皇家魔宫玫瑰，漫天血玫飞射。衣着：凄美绽放，玫瑰成刃。梳造：花瓣化发，绝美之姿。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，战意与神性合一; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 双鱼座·阿布罗狄，道果圆满阶段·凄美绽放。形象：绯红圣衣星灵，周身缠绕玫瑰藤蔓。 核心意象：双鱼宫、魔宫玫瑰、血色藤蔓。神态：第八感圆满，神明级战意。动作：绝技化星辰，神威临宇宙，皇家魔宫玫瑰，漫天血玫飞射。衣着：凄美绽放，玫瑰成刃。梳造：花瓣化发，绝美之姿。意境：第八感领悟，神之领域，小宇宙化作无尽星光。风格：华丽圣衣战士风，金属圣衣光泽，希腊神话加黄道星座图腾，神圣崇高。色彩：神光白（#FFFFFF）主调 + 小宇宙金（#E8C87A）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：golden armor saint warrior style, polished metal sheen, Greek myth with zodiac motifs; eighth sense transcendence; 第八感圆满，神明级战意; palette #FFFFFF with #E8C87A accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 ### 9. 传统节日（12 物种）
 
@@ -2850,12 +2850,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 五月粽**
-- 粽子，封神登天阶段·五月粽。形象：翠绿粽形，系着绳结。 核心意象：箬叶、绳结、端午龙舟。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 粽子，封神登天阶段·五月粽。形象：翠绿粽形，系着绳结。 核心意象：箬叶、绳结、端午龙舟。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 屈子之志**
-- 粽子，道果圆满阶段·屈子之志。形象：翠绿粽形，系着绳结。 核心意象：箬叶、绳结、端午龙舟。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，剥开箬叶，露出饱满晶莹的糯米。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 粽子，道果圆满阶段·屈子之志。形象：翠绿粽形，系着绳结。 核心意象：箬叶、绳结、端午龙舟。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，剥开箬叶，露出饱满晶莹的糯米。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 汤圆（`tangyuan`）
 
@@ -2876,12 +2876,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 元夕汤圆**
-- 汤圆，封神登天阶段·元夕汤圆。形象：雪白圆润，浮于甜汤。 核心意象：雪白圆身、甜汤、团圆之月。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 汤圆，封神登天阶段·元夕汤圆。形象：雪白圆润，浮于甜汤。 核心意象：雪白圆身、甜汤、团圆之月。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 玉润尊者**
-- 汤圆，道果圆满阶段·玉润尊者。形象：雪白圆润，浮于甜汤。 核心意象：雪白圆身、甜汤、团圆之月。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，在甜汤里轻轻翻滚，一口咬下软糯流心。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 汤圆，道果圆满阶段·玉润尊者。形象：雪白圆润，浮于甜汤。 核心意象：雪白圆身、甜汤、团圆之月。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，在甜汤里轻轻翻滚，一口咬下软糯流心。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 月饼（`mooncake`）
 
@@ -2902,12 +2902,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 中秋月饼**
-- 月饼，封神登天阶段·中秋月饼。形象：棕金饼形，压花纹章。 核心意象：饼上花印、满月、玉兔。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 月饼，封神登天阶段·中秋月饼。形象：棕金饼形，压花纹章。 核心意象：饼上花印、满月、玉兔。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 明月尊者**
-- 月饼，道果圆满阶段·明月尊者。形象：棕金饼形，压花纹章。 核心意象：饼上花印、满月、玉兔。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，刀锋落下，露出咸蛋黄流心。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 月饼，道果圆满阶段·明月尊者。形象：棕金饼形，压花纹章。 核心意象：饼上花印、满月、玉兔。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，刀锋落下，露出咸蛋黄流心。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 青团（`qingtuan`）
 
@@ -2928,12 +2928,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 春意青团**
-- 青团，封神登天阶段·春意青团。形象：碧绿糯米团，艾草清香。 核心意象：艾草青碧、糯香、清明踏青。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 青团，封神登天阶段·春意青团。形象：碧绿糯米团，艾草清香。 核心意象：艾草青碧、糯香、清明踏青。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 青翠尊者**
-- 青团，道果圆满阶段·青翠尊者。形象：碧绿糯米团，艾草清香。 核心意象：艾草青碧、糯香、清明踏青。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，揭开蒸笼，艾草清香扑面而来。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 青团，道果圆满阶段·青翠尊者。形象：碧绿糯米团，艾草清香。 核心意象：艾草青碧、糯香、清明踏青。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，揭开蒸笼，艾草清香扑面而来。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 重阳糕（`chongyang_cake`）
 
@@ -2954,12 +2954,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 福寿糕**
-- 重阳糕，封神登天阶段·福寿糕。形象：金色米糕，层叠如塔。 核心意象：层叠米糕、登高茱萸、金秋。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 重阳糕，封神登天阶段·福寿糕。形象：金色米糕，层叠如塔。 核心意象：层叠米糕、登高茱萸、金秋。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 登高尊者**
-- 重阳糕，道果圆满阶段·登高尊者。形象：金色米糕，层叠如塔。 核心意象：层叠米糕、登高茱萸、金秋。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，层层剥开如塔，撒上红绿果脯。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 重阳糕，道果圆满阶段·登高尊者。形象：金色米糕，层叠如塔。 核心意象：层叠米糕、登高茱萸、金秋。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，层层剥开如塔，撒上红绿果脯。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 年糕（`niangao`）
 
@@ -2980,12 +2980,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 福禄年糕**
-- 年糕，封神登天阶段·福禄年糕。形象：白糯方糕，软糯弹牙。 核心意象：白糯方糕、新春对联、年年高升。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 年糕，封神登天阶段·福禄年糕。形象：白糯方糕，软糯弹牙。 核心意象：白糯方糕、新春对联、年年高升。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 年糕尊者**
-- 年糕，道果圆满阶段·年糕尊者。形象：白糯方糕，软糯弹牙。 核心意象：白糯方糕、新春对联、年年高升。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，油锅煎至金黄，外脆里糯夹起拉丝。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 年糕，道果圆满阶段·年糕尊者。形象：白糯方糕，软糯弹牙。 核心意象：白糯方糕、新春对联、年年高升。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，油锅煎至金黄，外脆里糯夹起拉丝。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 腊八粥（`laba_porridge`）
 
@@ -3006,12 +3006,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 融和大师**
-- 腊八粥，封神登天阶段·融和大师。形象：五谷杂粮熬成的浓粥。 核心意象：五谷杂粮、腊八蒜、暖冬。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 腊八粥，封神登天阶段·融和大师。形象：五谷杂粮熬成的浓粥。 核心意象：五谷杂粮、腊八蒜、暖冬。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 百味尊者**
-- 腊八粥，道果圆满阶段·百味尊者。形象：五谷杂粮熬成的浓粥。 核心意象：五谷杂粮、腊八蒜、暖冬。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，舀起一勺，红枣桂圆莲子浮沉其间。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 腊八粥，道果圆满阶段·百味尊者。形象：五谷杂粮熬成的浓粥。 核心意象：五谷杂粮、腊八蒜、暖冬。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，舀起一勺，红枣桂圆莲子浮沉其间。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 春饼（`spring_pancake`）
 
@@ -3032,12 +3032,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 咬春大师**
-- 春饼，封神登天阶段·咬春大师。形象：薄嫩面饼，卷着春蔬。 核心意象：薄饼、春蔬、立春之绿。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 春饼，封神登天阶段·咬春大师。形象：薄嫩面饼，卷着春蔬。 核心意象：薄饼、春蔬、立春之绿。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 春味尊者**
-- 春饼，道果圆满阶段·春味尊者。形象：薄嫩面饼，卷着春蔬。 核心意象：薄饼、春蔬、立春之绿。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，摊开薄饼，卷入时令春蔬一卷而食。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 春饼，道果圆满阶段·春味尊者。形象：薄嫩面饼，卷着春蔬。 核心意象：薄饼、春蔬、立春之绿。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，摊开薄饼，卷入时令春蔬一卷而食。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 冰糖葫芦（`tanghulu`）
 
@@ -3058,12 +3058,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 甜蜜大师**
-- 冰糖葫芦，封神登天阶段·甜蜜大师。形象：冰糖山楂串，红亮晶莹。 核心意象：红亮山楂、冰糖衣、竹签串。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 冰糖葫芦，封神登天阶段·甜蜜大师。形象：冰糖山楂串，红亮晶莹。 核心意象：红亮山楂、冰糖衣、竹签串。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 酸甜尊者**
-- 冰糖葫芦，道果圆满阶段·酸甜尊者。形象：冰糖山楂串，红亮晶莹。 核心意象：红亮山楂、冰糖衣、竹签串。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，举着竹签一咬，"咔嚓"咬开糖衣。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 冰糖葫芦，道果圆满阶段·酸甜尊者。形象：冰糖山楂串，红亮晶莹。 核心意象：红亮山楂、冰糖衣、竹签串。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，举着竹签一咬，"咔嚓"咬开糖衣。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 桂花糕（`osmanthus_cake`）
 
@@ -3084,12 +3084,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 金桂之王**
-- 桂花糕，封神登天阶段·金桂之王。形象：米白方糕，点缀桂花瓣。 核心意象：米白方糕、金桂花瓣、秋香。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 桂花糕，封神登天阶段·金桂之王。形象：米白方糕，点缀桂花瓣。 核心意象：米白方糕、金桂花瓣、秋香。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 桂香尊者**
-- 桂花糕，道果圆满阶段·桂香尊者。形象：米白方糕，点缀桂花瓣。 核心意象：米白方糕、金桂花瓣、秋香。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，拈起一块，桂香在齿间化开。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 桂花糕，道果圆满阶段·桂香尊者。形象：米白方糕，点缀桂花瓣。 核心意象：米白方糕、金桂花瓣、秋香。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，拈起一块，桂香在齿间化开。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 馄饨（`wonton`）
 
@@ -3110,12 +3110,12 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 火候淬炼的专注; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 大厨馄饨**
-- 馄饨，封神登天阶段·大厨馄饨。形象：薄皮小馄饨，汤鲜味美。 核心意象：薄皮、热汤、虾皮紫菜。神态：出锅的骄傲，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅的骄傲，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 馄饨，封神登天阶段·大厨馄饨。形象：薄皮小馄饨，汤鲜味美。 核心意象：薄皮、热汤、虾皮紫菜。神态：出锅封名，暖意融融。动作：热气腾腾，登堂亮相。衣着：成品佳肴，色香味全。梳造：装饰华美，名品之姿。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 出锅封名，暖意融融; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 馄饨尊者**
-- 馄饨，道果圆满阶段·馄饨尊者。形象：薄皮小馄饨，汤鲜味美。 核心意象：薄皮、热汤、虾皮紫菜。神态：名品圆满，色香俱全的骄傲。动作：登堂入室，香飘满座，一勺舀起，薄皮裹馅在热汤里打个转。衣着：华美名品，灵光透色。梳造：宝光流转，镇席之品。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品圆满，色香俱全的骄傲; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 馄饨，道果圆满阶段·馄饨尊者。形象：薄皮小馄饨，汤鲜味美。 核心意象：薄皮、热汤、虾皮紫菜。神态：名品镇席，香飘万里。动作：香溢满座，百年传承，一勺舀起，薄皮裹馅在热汤里打个转。衣着：华美名品，灵光透色。梳造：宝光流转，镇世之味。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; cultural totem; 名品镇席，香飘万里; palette #FFF8E7 with #FFC93C accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 花灯（`festival_lantern`）
 
@@ -3136,8 +3136,8 @@
 - EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; family reunion; 淬炼中的忍耐; palette #C0392B with #F39C12 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 灯会主角**
-- 花灯，封神登天阶段·灯会主角。形象：红彩花灯，烛光摇曳。 核心意象：红彩绢纱、烛火、灯谜。神态：灵光大成的庄严。动作：器灵大成，光华夺目。衣着：华彩流光，灵气充盈。梳造：祥纹满饰，宝光外放。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 灵光大成的庄严; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 花灯，封神登天阶段·灯会主角。形象：红彩花灯，烛光摇曳。 核心意象：红彩绢纱、烛火、灯谜。神态：受封灵宝，灵光大成的庄严。动作：器灵大成，光华夺目。衣着：华彩流光，灵气充盈。梳造：祥纹满饰，宝光外放。意境：成为节日主角与名品，家家户户的吉祥符号。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：主角红（#E74C3C）主调 + 名品金（#FFD700）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：Chinese folk festival mascot illustration, nianhua palette, round and festive; iconic festive food; 受封灵宝，灵光大成的庄严; palette #E74C3C with #FFD700 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 灯影尊者**
 - 花灯，道果圆满阶段·灯影尊者。形象：红彩花灯，烛光摇曳。 核心意象：红彩绢纱、烛火、灯谜。神态：器灵化神，灵性通明。动作：器道通天，光华耀世，烛火摇曳，光影在绢纱上流转。衣着：神纹流转，镇世之宝。梳造：灵光化形，器魂永驻。意境：化为民俗文化图腾，代代相传，温暖永续。风格：民俗吉祥物拟人插画风，年画配色，圆润喜庆，温暖治愈。色彩：民俗暖白（#FFF8E7）主调 + 传承金（#FFC93C）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
@@ -3172,12 +3172,12 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 七剑之首**
-- 虹猫，封神登天阶段·七剑之首。形象：红毛小猫，手持长虹剑。 核心意象：长虹剑、七侠之首、家园守护。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 虹猫，封神登天阶段·七剑之首。形象：红毛小猫，手持长虹剑。 核心意象：长虹剑、七侠之首、家园守护。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 剑之尊者**
-- 虹猫，道果圆满阶段·剑之尊者。形象：红毛小猫，手持长虹剑。 核心意象：长虹剑、七侠之首、家园守护。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，长虹贯日，一剑劈出七色虹光。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 虹猫，道果圆满阶段·剑之尊者。形象：红毛小猫，手持长虹剑。 核心意象：长虹剑、七侠之首、家园守护。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，长虹贯日，一剑劈出七色虹光。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 蓝兔（`lantu`）
 
@@ -3198,12 +3198,12 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 玉兔剑仙**
-- 蓝兔，封神登天阶段·玉兔剑仙。形象：蓝毛白兔，冰魄剑在手。 核心意象：冰魄剑、玉蟾宫、七剑之灵。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 蓝兔，封神登天阶段·玉兔剑仙。形象：蓝毛白兔，冰魄剑在手。 核心意象：冰魄剑、玉蟾宫、七剑之灵。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 剑之尊者**
-- 蓝兔，道果圆满阶段·剑之尊者。形象：蓝毛白兔，冰魄剑在手。 核心意象：冰魄剑、玉蟾宫、七剑之灵。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，冰魄寒光一闪，剑锋凝霜封百里。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 蓝兔，道果圆满阶段·剑之尊者。形象：蓝毛白兔，冰魄剑在手。 核心意象：冰魄剑、玉蟾宫、七剑之灵。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，冰魄寒光一闪，剑锋凝霜封百里。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 逗逗（`doudou`）
 
@@ -3224,12 +3224,12 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 雨花医圣**
-- 逗逗，封神登天阶段·雨花医圣。形象：白色小狗，爱玩爱闹。 核心意象：雨花剑、小药囊、七侠开心果。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 逗逗，封神登天阶段·雨花医圣。形象：白色小狗，爱玩爱闹。 核心意象：雨花剑、小药囊、七侠开心果。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 剑之尊者**
-- 逗逗，道果圆满阶段·剑之尊者。形象：白色小狗，爱玩爱闹。 核心意象：雨花剑、小药囊、七侠开心果。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，雨花剑挥洒，剑气如雨点纷飞。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 逗逗，道果圆满阶段·剑之尊者。形象：白色小狗，爱玩爱闹。 核心意象：雨花剑、小药囊、七侠开心果。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，雨花剑挥洒，剑气如雨点纷飞。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 大奔（`dabeng`）
 
@@ -3250,12 +3250,12 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 奔雷剑圣**
-- 大奔，封神登天阶段·奔雷剑圣。形象：棕毛大熊，天生神力。 核心意象：奔雷剑、蛮力、七侠豪杰。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 大奔，封神登天阶段·奔雷剑圣。形象：棕毛大熊，天生神力。 核心意象：奔雷剑、蛮力、七侠豪杰。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 剑之尊者**
-- 大奔，道果圆满阶段·剑之尊者。形象：棕毛大熊，天生神力。 核心意象：奔雷剑、蛮力、七侠豪杰。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，奔雷剑劈下，剑势如奔雷滚滚。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 大奔，道果圆满阶段·剑之尊者。形象：棕毛大熊，天生神力。 核心意象：奔雷剑、蛮力、七侠豪杰。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，奔雷剑劈下，剑势如奔雷滚滚。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 跳跳（`tiaotiao`）
 
@@ -3276,12 +3276,12 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 灵猴剑圣**
-- 跳跳，封神登天阶段·灵猴剑圣。形象：绿毛小猴，身轻如燕。 核心意象：青光剑、灵巧身法、七侠奇才。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 跳跳，封神登天阶段·灵猴剑圣。形象：绿毛小猴，身轻如燕。 核心意象：青光剑、灵巧身法、七侠奇才。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 剑之尊者**
-- 跳跳，道果圆满阶段·剑之尊者。形象：绿毛小猴，身轻如燕。 核心意象：青光剑、灵巧身法、七侠奇才。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，青光剑出鞘，剑光一闪快若闪电。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 跳跳，道果圆满阶段·剑之尊者。形象：绿毛小猴，身轻如燕。 核心意象：青光剑、灵巧身法、七侠奇才。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，青光剑出鞘，剑光一闪快若闪电。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 莎丽（`shali`）
 
@@ -3302,12 +3302,12 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 紫霞剑圣**
-- 莎丽，封神登天阶段·紫霞剑圣。形象：紫毛小猫，温柔坚韧。 核心意象：紫云剑、温柔剑意、七侠巾帼。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 莎丽，封神登天阶段·紫霞剑圣。形象：紫毛小猫，温柔坚韧。 核心意象：紫云剑、温柔剑意、七侠巾帼。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 剑之尊者**
-- 莎丽，道果圆满阶段·剑之尊者。形象：紫毛小猫，温柔坚韧。 核心意象：紫云剑、温柔剑意、七侠巾帼。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，紫云剑一舞，剑影如紫云翻涌。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 莎丽，道果圆满阶段·剑之尊者。形象：紫毛小猫，温柔坚韧。 核心意象：紫云剑、温柔剑意、七侠巾帼。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，紫云剑一舞，剑影如紫云翻涌。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 达达（`dada`）
 
@@ -3328,12 +3328,12 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 熊猫剑圣**
-- 达达，封神登天阶段·熊猫剑圣。形象：绿面熊猫，沉稳大气。 核心意象：旋风剑、沉稳气度、七侠长者。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 达达，封神登天阶段·熊猫剑圣。形象：绿面熊猫，沉稳大气。 核心意象：旋风剑、沉稳气度、七侠长者。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 剑之尊者**
-- 达达，道果圆满阶段·剑之尊者。形象：绿面熊猫，沉稳大气。 核心意象：旋风剑、沉稳气度、七侠长者。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，旋风剑轻转，剑势化柔为刚四两拨千斤。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 达达，道果圆满阶段·剑之尊者。形象：绿面熊猫，沉稳大气。 核心意象：旋风剑、沉稳气度、七侠长者。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，旋风剑轻转，剑势化柔为刚四两拨千斤。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 黑心虎（`heixinhu`）
 
@@ -3354,12 +3354,12 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 霸业之虎**
-- 黑心虎，封神登天阶段·霸业之虎。形象：黑毛猛虎，双目如炬。 核心意象：黑虎纹、威压、亦正亦邪。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 黑心虎，封神登天阶段·霸业之虎。形象：黑毛猛虎，双目如炬。 核心意象：黑虎纹、威压、亦正亦邪。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 暗黑尊者**
-- 黑心虎，道果圆满阶段·暗黑尊者。形象：黑毛猛虎，双目如炬。 核心意象：黑虎纹、威压、亦正亦邪。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，虎爪一探，黑风裹挟着威压扑来。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 黑心虎，道果圆满阶段·暗黑尊者。形象：黑毛猛虎，双目如炬。 核心意象：黑虎纹、威压、亦正亦邪。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，虎爪一探，黑风裹挟着威压扑来。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 #### 黑小虎（`heixiaohu`）
 
@@ -3380,9 +3380,9 @@
 - EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; seven swords battle; 浴血后的沉静，杀气内敛; palette #4A148C with #E53935 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **封神登天 · 黑小虎·狂**
-- 黑小虎，封神登天阶段·黑小虎·狂。形象：墨黑猛虎，爪牙如刃。 核心意象：虎爪利刃、执念、黑虎血脉。神态：目光如剑，豪气干云。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑在腰。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 目光如剑，豪气干云; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 黑小虎，封神登天阶段·黑小虎·狂。形象：墨黑猛虎，爪牙如刃。 核心意象：虎爪利刃、执念、黑虎血脉。神态：受封剑宗，目光如剑。动作：剑法大成，一剑定乾坤。衣着：锦袍披风，名剑受封。梳造：侠客冠束，风采卓然。意境：七侠之名扬天下，快意恩仇，豪情万丈。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：七剑金（#FFD700）主调 + 侠名白（#FFFFFF）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; legendary hero; 受封剑宗，目光如剑; palette #FFD700 with #FFFFFF accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
 
 **道果圆满 · 幽暗少主**
-- 黑小虎，道果圆满阶段·幽暗少主。形象：墨黑猛虎，爪牙如刃。 核心意象：虎爪利刃、执念、黑虎血脉。神态：剑道圆满，锋芒内敛却慑人。动作：人剑合一，剑光裂天，利爪如刃划下，黑风裂空。衣着：剑者长袍，剑气绕身。梳造：高冠束发，剑眉入鬓。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
-- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛却慑人; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text
+- 黑小虎，道果圆满阶段·幽暗少主。形象：墨黑猛虎，爪牙如刃。 核心意象：虎爪利刃、执念、黑虎血脉。神态：剑道圆满，锋芒内敛。动作：人剑合一，剑意化道，利爪如刃划下，黑风裂空。衣着：剑气凝衣，身与剑通。梳造：剑意化形，高冠无锋。意境：剑道圆满，一剑开天，守护苍生的宗师气象。风格：2D 国漫武侠动画风，干净线条，水墨武侠背景，快意恩仇。色彩：剑道白（#F5F0E8）主调 + 圆满蓝（#90CAF9）点缀。构图：800×1000 竖版，居中全身像，正面 3/4 视角，角色主体占画面约 60%。画质：高细节，柔和渐变光，背景干净，无文字、无水印。
+- EN：2D Chinese wuxia animation, clean linework, ink-wash martial arts backdrop; master of the blade; 剑道圆满，锋芒内敛; palette #F5F0E8 with #90CAF9 accents; centered full-body 3/4 view, 800x1000 vertical, soft gradient light, high detail, no text

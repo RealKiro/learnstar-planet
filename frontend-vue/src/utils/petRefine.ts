@@ -87,8 +87,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '眸光清澈，好奇打量，怯生生又藏不住欢喜', action: '蹒跚学步，试探着触碰四周', attire: '绒毛渐丰，隐约透出本色', hair: '耳尾渐立，茸毛蓬松' },
     { spirit: '眸光晶亮，意气初显，跃跃欲试', action: '初展身手，初露锋芒', attire: '毛色分明，姿态挺拔', hair: '鬃毛/羽角初生，精神抖擞' },
     { spirit: '眸光深沉，眉峰微蹙，带着淬炼的坚毅', action: '豁尽全力，势如破竹', attire: '成体毛皮/鳞甲，或有伤痕', hair: '角/鬃/尾冠成型，凌乱而烈' },
-    { spirit: '目光如炬，不怒自威，威仪自生', action: '绝技大成，昂首傲立山巅', attire: '金色祥纹缀身，王者的气象', hair: '金鬃/长羽/圣角，威风凛凛' },
-    { spirit: '王者归位，万灵俯首', action: '啸震九霄，天地同应', attire: '神光化铠，日月护身', hair: '王者之冕，诸兽共尊' },
+    { spirit: '受封万兽之王，目光睥睨天地', action: '登顶山巅，受万兽朝拜', attire: '金色王冕祥纹，王者之姿', hair: '王冠受冕，金鬃猎猎' },
+    { spirit: '神光自照，与天地同尊', action: '神形合一，啸震九霄', attire: '神光铸体，日月随行', hair: '万灵共仰，神冕无上' },
   ],
   // —— 神龙蛇类 ——
   dragon: [
@@ -96,8 +96,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '竖瞳初睁，窥探云水', action: '初探云水，游弋学步', attire: '鳞甲渐密，颜色初显', hair: '角芽微露，须丝轻扬' },
     { spirit: '眸光锐亮，潜龙欲腾', action: '腾空而起，初显神威', attire: '鳞甲生辉，腹光流转', hair: '双角初成，须如流云' },
     { spirit: '龙威炽烈，怒目电光', action: '全力施为，风雷随身', attire: '战损鳞甲，雷火纹显', hair: '角芒凌厉，须张如戟' },
-    { spirit: '龙目洞彻，神威赫赫', action: '绝技大成，行云布雨', attire: '金鳞覆身，祥光万道', hair: '龙角如珊瑚，须垂百丈' },
-    { spirit: '万龙之首，睥睨三界', action: '一怒天地色变，号令风雨', attire: '龙身化岳，鳞甲映日月', hair: '龙角擎天，须断星河' },
+    { spirit: '受封龙君，神威赫赫', action: '登天行云，布雨泽四方', attire: '金鳞覆身，受冕祥光', hair: '龙角如珊瑚，加冕为尊' },
+    { spirit: '万龙之源，睥睨三界', action: '真身化岳，日月为伴', attire: '龙身映日月，鳞甲如星辰', hair: '龙角擎天，道纹绕体' },
   ],
   // —— 神兽瑞兽 ——
   mythic: [
@@ -105,8 +105,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '初踏山川，懵懂而灵慧', action: '蹒跚踏云，好奇嗅闻', attire: '半实灵体，羽毛/鳞纹初显', hair: '幼羽/灵尾，泛着微光' },
     { spirit: '眼神古老而专注，神通初显', action: '展翅昂首，神姿初现', attire: '华羽灵纹，瑞气氤氲', hair: '长羽/灵角渐生' },
     { spirit: '眸光如电，威严中带着坚韧', action: '全力施为，祥光与煞气并舞', attire: '神纹满身，羽鳞如铠', hair: '羽冠/灵角，光华流转' },
-    { spirit: '神兽威严，目光洞彻九幽', action: '绝技大成，百兽来朝', attire: '神光加身，五色祥云', hair: '圣羽垂天，瑞角冲霄' },
-    { spirit: '瑞气冲霄，万灵俯首', action: '真身镇世，祥瑞永驻', attire: '祥光化雨，福泽苍生', hair: '瑞光冠冕，天地共仰' },
+    { spirit: '受封瑞兽，祥云拱卫', action: '绝技大成，百瑞来朝', attire: '五色神纹冠冕，祥光加身', hair: '圣羽垂天，瑞角冲霄' },
+    { spirit: '瑞气化道，福泽天地', action: '真身镇世，祥光化雨', attire: '祥光铸身，福泽苍生', hair: '瑞光冠冕，天地共仰' },
   ],
   // —— 圣衣战士 ——
   saint: [
@@ -114,8 +114,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '修行中的专注，汗珠映着星辉', action: '挥拳踢腿，苦练招式', attire: '素白练功服，圣衣雏形初覆', hair: '束发紧绷，汗湿鬓角' },
     { spirit: '为守护而战的炽热，第七感觉醒', action: '绝技初现，拳风呼啸', attire: '青铜色圣衣，护肩护腕初成', hair: '青铜头冠微启' },
     { spirit: '绝境中燃烧小宇宙，眸光不屈', action: '全力施展，血战不退', attire: '白银圣衣，甲胄染尘', hair: '头冠残破，银发凌乱' },
-    { spirit: '金眸光华内敛，不怒自威', action: '绝技大成，镇守宫门', attire: '黄金圣衣全装，辉光闪耀', hair: '星座金盔，庄严生辉' },
-    { spirit: '第八感圆满，战意与神性合一', action: '绝技巅峰，星碎神裂', attire: '神圣衣全开，星辉圣甲', hair: '神冠星盔，威临宇宙' },
+    { spirit: '受封圣斗士，金眸光华内敛', action: '绝技大成，镇守宫门', attire: '黄金圣衣全装，受冕辉光', hair: '星座金盔，庄严加冕' },
+    { spirit: '第八感圆满，神明级战意', action: '绝技化星辰，神威临宇宙', attire: '神圣衣，星光织就', hair: '神冠星盔，超然万物' },
   ],
   // —— 剑客 ——
   sword: [
@@ -123,8 +123,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '初握剑的紧张与欢喜', action: '笨拙挥剑，破绽百出却认真', attire: '素色短打，布带缠手', hair: '束发利落，额前碎发' },
     { spirit: '剑气初成，眸光锐利', action: '剑意初现，剑光如虹', attire: '练功劲装，护腕已备', hair: '发带束起，英气渐显' },
     { spirit: '浴血后的沉静，杀气内敛', action: '全力挥剑，剑影纵横', attire: '侠客劲装，血迹未干', hair: '发乱而不颓，眼神如刃' },
-    { spirit: '目光如剑，豪气干云', action: '剑法大成，一剑定乾坤', attire: '锦袍披风，名剑在腰', hair: '侠客冠束，风采卓然' },
-    { spirit: '剑道圆满，锋芒内敛却慑人', action: '人剑合一，剑光裂天', attire: '剑者长袍，剑气绕身', hair: '高冠束发，剑眉入鬓' },
+    { spirit: '受封剑宗，目光如剑', action: '剑法大成，一剑定乾坤', attire: '锦袍披风，名剑受封', hair: '侠客冠束，风采卓然' },
+    { spirit: '剑道圆满，锋芒内敛', action: '人剑合一，剑意化道', attire: '剑气凝衣，身与剑通', hair: '剑意化形，高冠无锋' },
   ],
   // —— 仙侠人物 ——
   immortal: [
@@ -132,8 +132,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '入世初见的纯澈', action: '初踏红尘，好奇四顾', attire: '粗布素衣，简朴无饰', hair: '少年总角/披发，质朴' },
     { spirit: '悟道中的专注，眸光渐亮', action: '功法初显，招式渐成', attire: '道袍初成，法器中藏', hair: '束发簪冠，渐有仙姿' },
     { spirit: '渡劫时的坚毅，眼神无畏', action: '全力抗劫，天劫加身', attire: '法衣破损，法力激荡', hair: '发冠凌乱，眸若星辰' },
-    { spirit: '仙光内蕴，目光深邃', action: '功法大成，威临天下', attire: '仙袍法冠，法宝随身', hair: '仙髻金冠，风姿卓然' },
-    { spirit: '道果大成，神光自照的庄严', action: '法相全开，气吞八荒', attire: '功德金光，道果法衣', hair: '万道归冠，无上威严' },
+    { spirit: '受封登天，仙光内蕴', action: '位列仙班，威临天下', attire: '仙袍法冠，受冕加身', hair: '仙髻金冠，风姿卓然' },
+    { spirit: '道果圆满，神游太虚', action: '法相凝立，万法环绕', attire: '道果法衣，周身道纹', hair: '冠冕化光，法相自照' },
   ],
   // —— 数码兽 ——
   digi: [
@@ -141,8 +141,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '探索数码世界的雀跃', action: '蹦跳探索，好奇触碰', attire: '幼年兽体，毛茸茸', hair: '幼毛/呆毛，圆润可爱' },
     { spirit: '进化前的坚定，眸光发亮', action: '绝技初现，数据粒子升腾', attire: '成熟体装甲，渐渐成形', hair: '头甲初现，眼神明亮' },
     { spirit: '直面黑暗的勇毅', action: '全力施为，与深渊对峙', attire: '完全体铠甲，伤痕累累', hair: '战甲破损，眸光如焰' },
-    { spirit: '究极体的神圣威仪', action: '绝技大成，数据凝成圣甲', attire: '究极体圣甲，辉光万丈', hair: '圣盔金角，威仪堂堂' },
-    { spirit: '数据升维，神明降临', action: '绝技轰天，数码洪流归一', attire: '神体数据化，圣光铸形', hair: '数据光环，如日当空' },
+    { spirit: '究极体受封，神圣威仪', action: '绝技大成，数据凝圣甲', attire: '究极体圣甲，辉光万丈', hair: '圣盔金角，威仪堂堂' },
+    { spirit: '数据升维，神明降临', action: '绝技轰天，数据化神体', attire: '神体数据化，圣光铸形', hair: '数据光环，如日当空' },
   ],
   // —— 灵体法师 ——
   spirit: [
@@ -150,8 +150,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '好奇试探的灵动', action: '吟唱初学，魔力火花迸溅', attire: '学徒法袍，布料朴素', hair: '发丝扬起，缀着星尘' },
     { spirit: '光华渐盛，神采焕发', action: '魔力初现，法阵脚下亮起', attire: '法师长袍，绣星纹', hair: '魔法帽/发冠初戴' },
     { spirit: '暗夜中坚持，眼神倔强', action: '全力施法，魔力风暴', attire: '法袍破损，魔力燃烧', hair: '发丝凌乱，眸中带焰' },
-    { spirit: '威能内蕴，光晕庄严', action: '魔法大成，法阵漫天', attire: '贤者白袍/秘袍，权杖在手', hair: '王冠/法冠，威仪自生' },
-    { spirit: '万法归心，与元素同源', action: '法阵通天，咒文如潮', attire: '元素法身，光尘化袍', hair: '星冕加身，魔力如渊' },
+    { spirit: '受封贤者，光晕庄严', action: '魔法大成，法阵漫天', attire: '贤者白袍，权杖受命', hair: '法冠威仪，光晕庄严' },
+    { spirit: '与元素同源，法身自成', action: '法阵通天，咒文如潮', attire: '元素法身，光尘化袍', hair: '星冕加身，魔力如渊' },
   ],
   // —— 植物 ——
   plant: [
@@ -159,7 +159,7 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '初生的好奇，向着光的方向', action: '嫩芽破土，努力伸展', attire: '幼芽新叶，娇嫩欲滴', hair: '顶芽鲜嫩，两片子叶' },
     { spirit: '生机勃发，神采奕奕', action: '生机初现，枝叶舒展', attire: '茎叶渐盛，花苞初成', hair: '花苞/嫩叶环生' },
     { spirit: '风雨中的坚韧，眸光不折', action: '全力生长，根系深扎', attire: '枝叶繁茂，带风霜痕迹', hair: '花叶翻卷，仍自挺立' },
-    { spirit: '华彩绽放，生机盎然的威仪', action: '生机大成，繁花满枝', attire: '花开满枝/树冠如云', hair: '花冠/树冠，光华流转' },
+    { spirit: '受封花王，生机威仪', action: '生机大成，繁花满枝', attire: '花开满枝，树冠如云', hair: '花冠受冕，光华流转' },
     { spirit: '万灵朝拜，生命之尊', action: '花开万里，果实垂天', attire: '参天古木，藤蔓缠霄', hair: '万叶化冠，春永驻世' },
   ],
   // —— 食物 ——
@@ -168,8 +168,8 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '制作中的专注', action: '揉捏塑形，蒸汽初升', attire: '半成品，形态渐显', hair: '裹叶/印模初成' },
     { spirit: '成形时的欢喜', action: '摆上蒸笼，静待火候', attire: '形态完整，色泽初显', hair: '印花/装饰点缀' },
     { spirit: '火候淬炼的专注', action: '经受蒸煮/煎炸，坚韧定型', attire: '色泽加深，香气酝酿', hair: '糖衣/油光初亮' },
-    { spirit: '出锅的骄傲，暖意融融', action: '热气腾腾，登堂亮相', attire: '成品佳肴，色香味全', hair: '装饰华美，名品之姿' },
-    { spirit: '名品圆满，色香俱全的骄傲', action: '登堂入室，香飘满座', attire: '华美名品，灵光透色', hair: '宝光流转，镇席之品' },
+    { spirit: '出锅封名，暖意融融', action: '热气腾腾，登堂亮相', attire: '成品佳肴，色香味全', hair: '装饰华美，名品之姿' },
+    { spirit: '名品镇席，香飘万里', action: '香溢满座，百年传承', attire: '华美名品，灵光透色', hair: '宝光流转，镇世之味' },
   ],
   // —— 器物 ——
   artifact: [
@@ -177,7 +177,7 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '初生灵智的好奇', action: '微光颤动，器灵初醒', attire: '初雕成型，轮廓渐显', hair: '雕纹/铭文初刻' },
     { spirit: '灵光渐盛，灵动自生', action: '器光初现，灵光流转', attire: '成形精工，纹饰渐繁', hair: '纹饰/嵌饰增辉' },
     { spirit: '淬炼中的忍耐', action: '全力受炼，火炼淬洗', attire: '历经淬炼，温润内敛', hair: '包浆/裂纹，岁月痕' },
-    { spirit: '灵光大成的庄严', action: '器灵大成，光华夺目', attire: '华彩流光，灵气充盈', hair: '祥纹满饰，宝光外放' },
+    { spirit: '受封灵宝，灵光大成的庄严', action: '器灵大成，光华夺目', attire: '华彩流光，灵气充盈', hair: '祥纹满饰，宝光外放' },
     { spirit: '器灵化神，灵性通明', action: '器道通天，光华耀世', attire: '神纹流转，镇世之宝', hair: '灵光化形，器魂永驻' },
   ],
   // —— 远古爬行 ——
@@ -186,7 +186,7 @@ export const REFINE_BASE: RefineBase = {
     { spirit: '初生的笨拙好奇', action: '破壳蹒跚，懵懂张望', attire: '稚嫩皮甲，柔软未坚', hair: '头冠/角芽未显' },
     { spirit: '捕猎时的专注凶狠', action: '低伏潜行，初试锋芒', attire: '鳞甲渐厚，色泽加深', hair: '头冠/帆脊渐起' },
     { spirit: '生存竞争中的冷酷坚毅', action: '全力搏杀，与天地争食', attire: '成体鳞甲，伤痕累累', hair: '角/帆/鬃威猛' },
-    { spirit: '霸主之威，眼神睥睨', action: '猎技大成，万兽辟易', attire: '霸主之躯，王纹隐现', hair: '顶冠/长角，王者相' },
+    { spirit: '受封霸主，眼神睥睨', action: '猎技大成，万兽辟易', attire: '霸主之躯，王纹隐现', hair: '顶冠/长角，王者相' },
     { spirit: '洪荒之巅，唯我独尊', action: '踏碎山河，万兽臣服', attire: '远古神躯，鳞甲映日', hair: '骨冠擎天，威压万古' },
   ],
 }
