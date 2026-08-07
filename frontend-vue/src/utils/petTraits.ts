@@ -13,7 +13,7 @@ export interface PetTraits {
   ability: string[]
 }
 
-const STAGE_INDEX: Record<string, number> = { egg: 0, baby: 1, growing: 2, mature: 3, legendary: 4 }
+const STAGE_INDEX: Record<string, number> = { egg: 0, baby: 1, growing: 2, mature: 3, legendary: 4, transcendent: 5 }
 
 /** 特性构造助手 */
 const T = (personality: string[], ability: string[]): PetTraits => ({ personality, ability })
@@ -23,7 +23,8 @@ export function getStagePersonality(speciesId: string, level: number): string {
   const t = PET_TRAITS[speciesId]
   if (!t) return ''
   const idx = STAGE_INDEX[getLevelStage(level)] ?? 0
-  return t.personality[idx] || ''
+  // 部分物种特质数组仍为 5 项，第 6 阶段(归真)回退到末项(终极)
+  return t.personality[idx] || t.personality[t.personality.length - 1] || ''
 }
 
 /** 获取某等级的技能 */
@@ -31,7 +32,8 @@ export function getStageAbility(speciesId: string, level: number): string {
   const t = PET_TRAITS[speciesId]
   if (!t) return ''
   const idx = STAGE_INDEX[getLevelStage(level)] ?? 0
-  return t.ability[idx] || ''
+  // 部分物种特质数组仍为 5 项，第 6 阶段(归真)回退到末项(终极)
+  return t.ability[idx] || t.ability[t.ability.length - 1] || ''
 }
 
 export const PET_TRAITS: Record<string, PetTraits> = {
