@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="杨戬·五阶·二郎真君·灌江镇守">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="48%" r="62%">
+      <stop offset="0%" stop-color="#5B2A5E"/>
+      <stop offset="55%" stop-color="#3A1A3E"/>
+      <stop offset="100%" stop-color="#1E0E24"/>
+    </radialGradient>
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0EEE8"/>
+      <stop offset="100%" stop-color="#C8C4BC"/>
+    </linearGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    </radialGradient>
+
+    <g id="yangjian-face">
+      <ellipse cx="0" cy="0" rx="16" ry="15" fill="#F0DCC0" stroke="#C8B090" stroke-width="1"/>
+      <path d="M -10 -6 Q -6 -9 -2 -7 M 10 -6 Q 6 -9 2 -7" fill="none" stroke="#3A2A1A" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="-7" cy="-2" r="3.4" fill="#1A0A0A"/>
+      <circle cx="7" cy="-2" r="3.4" fill="#1A0A0A"/>
+      <circle cx="-5.8" cy="-3.2" r="1.2" fill="#FFF"/>
+      <circle cx="8.2" cy="-3.2" r="1.2" fill="#FFF"/>
+      <path d="M -1 3 L 1 3 L 0 6" fill="none" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M -3 8 Q 0 10 3 8" fill="none" stroke="#A08A68" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M 0 -13 L 2.8 -10 L 2.8 -6 L 0 -3 L -2.8 -6 L -2.8 -10 Z" fill="#F5D742" stroke="#FFC24A" stroke-width="1" opacity="1"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 背光（呼吸） -->
+  <g>
+    <animate attributeName="opacity" values="1;0.7;1" dur="3.2s" repeatCount="indefinite"/>
+    <circle cx="100" cy="104" r="86" fill="#F5D742" opacity="0.1"/>
+    <circle cx="100" cy="104" r="78" fill="none" stroke="#F5D742" stroke-width="2" opacity="0.45"/>
+  </g>
+
+  <!-- 庙堂（神龛横梁） -->
+  <path d="M 30 60 L 170 60 L 165 52 L 35 52 Z" fill="#8E6E3A" opacity="0.6"/>
+  <path d="M 40 60 L 40 68 M 160 60 L 160 68" stroke="#8E6E3A" stroke-width="2" opacity="0.5"/>
+
+  <!-- 梅山六圣虚影（身后） -->
+  <g opacity="0.35">
+    <path d="M 52 100 Q 44 116 48 140 L 56 140 Q 52 116 52 100 Z" fill="#4A3A4A"/>
+    <path d="M 150 98 Q 142 116 146 142 L 154 142 Q 150 116 150 98 Z" fill="#4A3A4A"/>
+    <path d="M 42 108 Q 36 122 40 144 L 46 144 Q 42 122 42 108 Z" fill="#3A2E3E"/>
+    <path d="M 158 106 Q 152 122 156 146 L 162 146 Q 158 122 158 106 Z" fill="#3A2E3E"/>
+  </g>
+
+  <!-- 角色：银甲端坐二郎真君 -->
+  <!-- 银甲上身 -->
+  <path d="M 78 94 Q 100 86 122 94 L 118 122 Q 100 130 82 122 Z" fill="url(#armor)"/>
+  <path d="M 92 92 L 92 126 M 108 92 L 108 126" stroke="#A8A49C" stroke-width="1.4" opacity="0.8"/>
+  <circle cx="78" cy="102" r="7" fill="#D8D4CC"/>
+  <circle cx="122" cy="102" r="7" fill="#D8D4CC"/>
+  <!-- 下摆（端坐） -->
+  <path d="M 82 122 Q 100 116 118 122 L 124 148 Q 100 160 76 148 Z" fill="#C8C4BC" opacity="0.7"/>
+  <!-- 手（搭膝） -->
+  <ellipse cx="84" cy="128" rx="5" ry="7" fill="#DCC4A0" opacity="0.9"/>
+  <ellipse cx="116" cy="128" rx="5" ry="7" fill="#DCC4A0" opacity="0.9"/>
+
+  <!-- 头（基础脸，天眼如电） -->
+  <use href="#yangjian-face" transform="translate(100,72) scale(1.05)"/>
+  <!-- 金冠 -->
+  <path d="M 82 58 Q 100 48 118 58 L 118 48 Q 100 38 82 48 Z" fill="#F5D742" opacity="0.95"/>
+  <circle cx="100" cy="42" r="3.6" fill="#F5D742">
+    <animate attributeName="r" values="3.6;4.6;3.6" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 天眼含光 -->
+  <circle cx="100" cy="52" r="8" fill="url(#core)">
+    <animate attributeName="r" values="8;11;8" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 哮天犬（伏足侧） -->
+  <path d="M 116 148 Q 130 140 144 146 L 146 156 Q 132 160 120 154 Z" fill="#F0EEE8" opacity="0.95"/>
+  <circle cx="142" cy="140" r="4.5" fill="#F0EEE8"/>
+  <circle cx="143" cy="139" r="1" fill="#3A2A1A"/>
+
+  <!-- 香火袅袅 -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -3;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 60 168 C 56 158 62 150 58 142 C 64 148 62 156 60 168 Z" fill="#C9B37E" opacity="0.4"/>
+  </g>
+
+  <!-- 祥光放射 -->
+  <g stroke="#F5D742" stroke-width="1.4" opacity="0.4" stroke-linecap="round">
+    <path d="M 36 70 L 28 62"/><path d="M 164 70 L 172 62"/>
+    <path d="M 44 38 L 38 28"/><path d="M 156 38 L 162 28"/>
+  </g>
+</svg>

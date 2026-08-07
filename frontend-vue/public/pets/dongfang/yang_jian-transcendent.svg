@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="杨戬·六阶·清源妙道·灌江本真">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E4E0D8"/>
+      <stop offset="70%" stop-color="#D8D8D4"/>
+      <stop offset="100%" stop-color="#A8B8B8"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="72%" cy="22%" r="40%">
+      <stop offset="0%" stop-color="#E8B87A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E8B87A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="eye" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C9B37E" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#C9B37E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="robe" cx="45%" cy="36%" r="72%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#E0DCD6" stop-opacity="0.6"/>
+    </radialGradient>
+
+    <g id="yangjian-face">
+      <ellipse cx="0" cy="0" rx="16" ry="15" fill="#F0DCC0" stroke="#C8B498" stroke-width="1"/>
+      <path d="M -10 -6 Q -6 -9 -2 -7 M 10 -6 Q 6 -9 2 -7" fill="none" stroke="#6E5E4E" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M -7 -3 Q -4 -1 -1 -3 M 7 -3 Q 4 -1 1 -3" fill="none" stroke="#8E7E6E" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M -1 3 L 1 3 L 0 6" fill="none" stroke="#C8B498" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M -3 8 Q 0 10 3 8" fill="none" stroke="#B0A088" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M 0 -13 L 2.8 -10 L 2.8 -6 L 0 -3 L -2.8 -6 L -2.8 -10 Z" fill="#C9B37E" stroke="#B8A070" stroke-width="0.8" opacity="0.6"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="146" cy="44" r="56" fill="url(#sun)">
+    <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山（水墨） -->
+  <path d="M 0 158 Q 50 130 100 146 Q 150 162 200 140 L 200 200 L 0 200 Z" fill="#A8B8B8" opacity="0.5"/>
+  <path d="M 0 170 Q 60 154 120 166 Q 160 174 200 162 L 200 200 L 0 200 Z" fill="#B8C0BE" opacity="0.4"/>
+
+  <!-- 江水（与天融） -->
+  <path d="M 0 172 Q 50 166 100 170 Q 150 174 200 168 L 200 200 L 0 200 Z" fill="#C8D0CC" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3.4s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 哮天犬（卧足边打盹） -->
+  <path d="M 78 158 Q 92 150 106 156 L 108 166 Q 92 170 80 164 Z" fill="#F0EEE8" opacity="0.9"/>
+  <circle cx="104" cy="152" r="4" fill="#F0EEE8"/>
+  <path d="M 100 154 L 96 152" stroke="#E0DCD6" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- 角色：布衣负手而立（本真） -->
+  <path d="M 70 88 Q 64 104 68 124 Q 80 136 92 124 Q 96 108 92 92 Q 84 84 70 88 Z" fill="url(#robe)"/>
+  <!-- 负手（身后手） -->
+  <path d="M 84 112 C 78 118 74 124 76 130" fill="none" stroke="#F0ECE6" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- 头（基础脸，天眼微阖） -->
+  <use href="#yangjian-face" transform="translate(82,80) scale(1) rotate(-4)"/>
+  <!-- 束发（本真，简单道髻） -->
+  <path d="M 70 66 Q 80 58 92 64 L 90 56 Q 78 50 72 56 Z" fill="#5A4A3A" opacity="0.9"/>
+
+  <!-- 天眼微阖（含光弱） -->
+  <circle cx="83" cy="62" r="7" fill="url(#eye)">
+    <animate attributeName="r" values="7;9;7" dur="3.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0.3;0.6" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 归真粒子 -->
+  <g fill="#C0B0A0">
+    <circle cx="56" cy="114">
+      <animate attributeName="cy" values="114;106;114" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="146" cy="120">
+      <animate attributeName="cy" values="120;112;120" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
