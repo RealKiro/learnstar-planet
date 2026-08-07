@@ -12,7 +12,14 @@ const classes = ref<ClassRoom[]>([])
 const loading = ref(true)
 const loadError = ref('')
 const filterClassId = ref<number | ''>('')
+const searchKeyword = ref('')
 const selectedIds = ref<number[]>([])
+const meta = ref({ current_page: 1, last_page: 1, per_page: 50, total: 0 })
+
+const pageLabel = computed(() => {
+  const { current_page, last_page, total } = meta.value
+  return last_page > 1 ? `第 ${current_page} / ${last_page} 页 · 共 ${total} 人` : `共 ${total} 人`
+})
 
 const gradeOptions = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
 
@@ -67,21 +74,32 @@ async function loadClasses() {
   } catch { classes.value = [] }
 }
 
-async function loadStudents() {
+async function loadStudents(resetPage = false) {
+  if (resetPage) meta.value.current_page = 1
   loading.value = true
   selectedIds.value = []
   try {
-    const url = filterClassId.value !== ''
-      ? `/api/v1/admin/students?class_id=${filterClassId.value}&per_page=100`
-      : '/api/v1/admin/students?per_page=100'
-    const res = await apiGet<ApiResponse<Student[]>>(url)
+    const params = new URLSearchParams()
+    params.set('per_page', String(meta.value.per_page))
+    if (meta.value.current_page > 1) params.set('page', String(meta.value.current_page))
+    if (filterClassId.value !== '') params.set('class_id', String(filterClassId.value))
+    if (searchKeyword.value.trim()) params.set('search', searchKeyword.value.trim())
+    const res = await apiGet<ApiResponse<Student[]>>(`/api/v1/admin/students?${params.toString()}`)
     students.value = res.data || []
     loadError.value = ''
+    if (res.meta) meta.value = res.meta
   } catch {
     students.value = []
     loadError.value = '学生列表加载失败'
   }
   finally { loading.value = false }
+}
+
+function changePage(page: number) {
+  const { current_page, last_page } = meta.value
+  if (page < 1 || page > last_page || page === current_page) return
+  meta.value.current_page = page
+  loadStudents()
 }
 
 function getClassFromId(id: number | '') {
@@ -158,7 +176,7 @@ async function submitForm() {
     }
     submitStatus.value = 'success'
     showEditModal.value = false
-    await loadStudents()
+    await loadStudents(!isEditing.value) // 新建回到第 1 页看到新学生
     setTimeout(() => { submitStatus.value = 'idle' }, 1500)
   } catch {
     submitStatus.value = 'error'
@@ -243,7 +261,14 @@ async function submitMove() {
         <h2 class="page-title">学生列表</h2>
       </div>
       <div class="header-actions">
-        <select v-model="filterClassId" class="form-select filter-select" @change="loadStudents">
+        <input
+          v-model="searchKeyword"
+          class="form-input search-input"
+          placeholder="🔍 搜索姓名 / 学号"
+          @keyup.enter="loadStudents(true)"
+          @keyup.esc="searchKeyword = ''"
+        >
+        <select v-model="filterClassId" class="form-select filter-select" @change="loadStudents(true)">
           <option value="">全部班级</option>
           <option v-for="c in classes" :key="c.id" :value="c.id">{{ c.name }}</option>
         </select>
@@ -264,7 +289,7 @@ async function submitMove() {
     <div v-else-if="loadError" class="error-state">
       <div class="error-state__icon">⚠️</div>
       <p class="error-state__msg">{{ loadError }}</p>
-      <button class="btn btn-sm btn-primary" @click="loadStudents">重试</button>
+      <button class="btn btn-sm btn-primary" @click="loadStudents(true)">重试</button>
     </div>
 
     <div v-else-if="students.length === 0" class="card empty-state">
@@ -312,6 +337,11 @@ async function submitMove() {
           </tr>
         </tbody>
       </table>
+      <div v-if="meta.last_page > 1" class="pagination">
+        <button class="btn btn-sm btn-ghost-card" :disabled="meta.current_page <= 1" @click="changePage(meta.current_page - 1)">← 上一页</button>
+        <span class="pagination__info">{{ pageLabel }}</span>
+        <button class="btn btn-sm btn-ghost-card" :disabled="meta.current_page >= meta.last_page" @click="changePage(meta.current_page + 1)">下一页 →</button>
+      </div>
     </div>
 
     <!-- 新增/编辑弹窗 -->
@@ -390,7 +420,20 @@ async function submitMove() {
 .page-subtitle { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px; }
 .page-title { font-size: 24px; font-weight: 700; }
 .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.search-input { width: 200px; }
 .filter-select { width: 180px; }
+
+/* ===== 分页 ===== */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  border-top: 1px solid var(--color-border);
+}
+.pagination__info { font-size: 13px; color: var(--color-text-secondary); }
+.pagination .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ===== 批量操作栏 ===== */
 .batch-bar { padding: 12px 20px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }

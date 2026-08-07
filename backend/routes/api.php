@@ -136,8 +136,10 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('students')->group(function () {
             Route::get('/', [TeacherController::class, 'listStudents']);
+            Route::post('/', [TeacherController::class, 'createStudent']);
             Route::post('import', [TeacherController::class, 'importStudents']);
             Route::put('{id}', [TeacherController::class, 'updateStudent']);
+            Route::delete('{id}', [TeacherController::class, 'deleteStudent']);
         });
 
         Route::prefix('classroom')->group(function () {
@@ -203,6 +205,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [TeacherController::class, 'createNotice']);
             Route::put('{id}', [TeacherController::class, 'updateNotice']);
             Route::put('{id}/publish', [TeacherController::class, 'publishNotice']);
+            Route::put('{id}/unpublish', [TeacherController::class, 'unpublishNotice']);
             Route::delete('{id}', [TeacherController::class, 'deleteNotice']);
         });
 
@@ -244,6 +247,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('currency')->group(function () {
             Route::get('wallets', [TeacherController::class, 'listWallets']);
+            Route::get('exchange-logs', [TeacherController::class, 'exchangeLogs']);
             Route::post('exchange', [TeacherController::class, 'exchangeCurrency']);
             Route::post('cross-exchange', [TeacherController::class, 'crossExchangeCurrency']);
         });

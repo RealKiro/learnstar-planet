@@ -23,6 +23,7 @@ use App\Services\LeaderboardService;
 use App\Services\ScoreService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TeacherController extends Controller
 {
@@ -530,6 +531,58 @@ class TeacherController extends Controller
         $student->update($request->only(['name', 'gender', 'student_no']));
 
         return response()->json(['message' => '更新成功', 'data' => $student]);
+    }
+
+    public function createStudent(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->teacherClassIds($teacher);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:50',
+            'class_id' => 'required|integer|exists:class_rooms,id',
+            'gender' => 'nullable|string',
+            'student_no' => 'nullable|string|max:50',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
+        }
+        $class = ClassRoom::whereIn('id', $classIds)->find($request->input('class_id'));
+        if (!$class) {
+            return response()->json(['message' => '只能在自己管理的班级添加学生'], 403);
+        }
+        $gender = $request->input('gender');
+        if (in_array($gender, ['男生', '男'], true)) {
+            $gender = '男';
+        } elseif (in_array($gender, ['女生', '女'], true)) {
+            $gender = '女';
+        } else {
+            $gender = '未知';
+        }
+        $student = Student::create([
+            'class_id' => $class->id,
+            'name' => $request->input('name'),
+            'gender' => $gender,
+            'student_no' => $request->input('student_no'),
+            'total_score' => 0,
+            'status' => 'active',
+        ]);
+
+        return response()->json([
+            'message' => '学生「' . $student->name . '」已添加',
+            'data' => $student,
+        ], 201);
+    }
+
+    public function deleteStudent(Request $request, int $id): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->teacherClassIds($teacher);
+        $student = Student::whereIn('class_id', $classIds)->findOrFail($id);
+
+        $student->delete();
+
+        return response()->json(['message' => '学生「' . $student->name . '」已删除']);
     }
 
     // ============================================================
@@ -1819,6 +1872,17 @@ class TeacherController extends Controller
         return response()->json(['message' => '通知已发布']);
     }
 
+    public function unpublishNotice(Request $request, int $id): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->teacherClassIds($teacher);
+        $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
+
+        $notice->update(['is_published' => false]);
+
+        return response()->json(['message' => '通知已撤回']);
+    }
+
     public function deleteNotice(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
@@ -1837,23 +1901,36 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
-        $weeks = 4;
 
-        $trend = [];
-        for ($i = $weeks - 1; $i >= 0; $i--) {
-            $start = now()->subWeeks($i)->startOfWeek();
-            $end = now()->subWeeks($i)->endOfWeek();
-            $total = Score::whereIn('class_id', $classIds)
-                ->whereBetween('created_at', [$start, $end])
-                ->sum('amount');
-            $trend[] = [
-                'week' => $start->format('m/d'),
-                'label' => "第{$start->weekOfYear}周",
-                'total' => (int) $total,
-            ];
+        $days = max(1, min((int) $request->input('days', 7), 365));
+        $start = now()->startOfDay()->subDays($days - 1);
+
+        $rows = Score::whereIn('class_id', $classIds)
+            ->where('created_at', '>=', $start)
+            ->get(['amount', 'created_at'])
+            ->groupBy(fn ($s) => $s->created_at->format('Y-m-d'));
+
+        $labels = [];
+        $positive = [];
+        $negative = [];
+        for ($d = 0; $d < $days; $d++) {
+            $date = $start->copy()->addDays($d);
+            $key = $date->format('Y-m-d');
+            $dayRows = $rows->get($key, collect());
+            $labels[] = $date->format('m/d');
+            $positive[] = (int) $dayRows->where('amount', '>', 0)->sum('amount');
+            $negative[] = (int) abs($dayRows->where('amount', '<', 0)->sum('amount'));
         }
 
-        return response()->json(['data' => $trend]);
+        return response()->json([
+            'data' => [
+                'labels' => $labels,
+                'datasets' => [
+                    ['label' => '得分', 'data' => $positive],
+                    ['label' => '扣分', 'data' => $negative],
+                ],
+            ],
+        ]);
     }
 
     public function petDistribution(Request $request): JsonResponse
@@ -2530,6 +2607,32 @@ class TeacherController extends Controller
             ]);
 
         return response()->json(['data' => $wallets]);
+    }
+
+    /**
+     * 兑换记录（仅教师所带班级学生）
+     */
+    public function exchangeLogs(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classIds = $this->teacherClassIds($teacher);
+
+        $logs = \App\Models\ExchangeLog::with('student:id,name,student_no')
+            ->whereIn('student_id', Student::whereIn('class_id', $classIds)->select('id'))
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return response()->json([
+            'data' => collect($logs->items())->map(fn ($log) => array_merge($log->toArray(), [
+                'student_name' => $log->student?->name ?? '已删除学生',
+                'student_no' => $log->student?->student_no ?? '',
+            ])),
+            'meta' => [
+                'current_page' => $logs->currentPage(),
+                'last_page' => $logs->lastPage(),
+                'total' => $logs->total(),
+            ],
+        ]);
     }
 
     /**

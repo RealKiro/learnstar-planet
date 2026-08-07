@@ -29,6 +29,18 @@ interface ExchangeRate {
   is_active: boolean
 }
 
+interface ExchangeLogItem {
+  id: number
+  student_id: number
+  student_name?: string
+  student_no?: string
+  from_currency: string
+  to_currency: string
+  from_amount: number
+  to_amount: number
+  created_at: string
+}
+
 const wallets = ref<WalletEntry[]>([])
 const students = ref<StudentInfo[]>([])
 const loading = ref(true)
@@ -46,21 +58,79 @@ function rateFor(target: string): number {
   return r ? parseFloat(r.rate) : 0.5 // 默认 2:1（2 积分 = 1 币，防通胀）
 }
 
+// ===== 学生列表（搜索 + 分页，后端 search/page 已支持） =====
+const studentSearch = ref('')
+const studentsLoading = ref(false)
+const studentsMeta = ref({ current_page: 1, last_page: 1, per_page: 50, total: 0 })
+
+// ===== 兑换记录 =====
+const logs = ref<ExchangeLogItem[]>([])
+const logsLoading = ref(false)
+const logsError = ref('')
+const logsMeta = ref({ current_page: 1, last_page: 1, per_page: 20, total: 0 })
+
+const currencyLabel: Record<string, string> = { science: '科学币', reading: '读书币', class_point: '体育币' }
+const currencyIcon: Record<string, string> = { science: '🔬', reading: '📚', class_point: '⚽' }
+const fmtCurrency = (c: string) => `${currencyIcon[c] || '·'} ${currencyLabel[c] || c}`
+
+async function loadStudents(resetPage = false) {
+  if (resetPage) studentsMeta.value.current_page = 1
+  studentsLoading.value = true
+  try {
+    const params = new URLSearchParams()
+    params.set('per_page', String(studentsMeta.value.per_page))
+    if (studentsMeta.value.current_page > 1) params.set('page', String(studentsMeta.value.current_page))
+    if (studentSearch.value.trim()) params.set('search', studentSearch.value.trim())
+    const res = await apiGet<ApiResponse<StudentInfo[]>>(`/api/v1/teacher/students?${params.toString()}`)
+    students.value = res.data || []
+    if (res.meta) studentsMeta.value = res.meta
+  } catch { /* 列表失败不阻塞兑换 */ }
+  finally { studentsLoading.value = false }
+}
+
+async function loadLogs(resetPage = false) {
+  if (resetPage) logsMeta.value.current_page = 1
+  logsLoading.value = true
+  logsError.value = ''
+  try {
+    const params = new URLSearchParams()
+    if (logsMeta.value.current_page > 1) params.set('page', String(logsMeta.value.current_page))
+    const res = await apiGet<ApiResponse<ExchangeLogItem[]>>(`/api/v1/teacher/currency/exchange-logs?${params.toString()}`)
+    logs.value = res.data || []
+    if (res.meta) logsMeta.value = res.meta
+  } catch {
+    logsError.value = '兑换记录加载失败'
+  } finally { logsLoading.value = false }
+}
+
+function changeStudentsPage(page: number) {
+  const { current_page, last_page } = studentsMeta.value
+  if (page < 1 || page > last_page || page === current_page) return
+  studentsMeta.value.current_page = page
+  loadStudents()
+}
+
+function changeLogsPage(page: number) {
+  const { current_page, last_page } = logsMeta.value
+  if (page < 1 || page > last_page || page === current_page) return
+  logsMeta.value.current_page = page
+  loadLogs()
+}
+
 async function loadAll() {
   loading.value = true
   try {
-    const [walletRes, stuRes, rateRes] = await Promise.all([
+    const [walletRes, rateRes] = await Promise.all([
       apiGet<ApiResponse<WalletEntry[]>>('/api/v1/teacher/currency/wallets'),
-      apiGet<ApiResponse<StudentInfo[]>>('/api/v1/teacher/students?per_page=200'),
       apiGet<ApiResponse<ExchangeRate[]>>('/api/v1/teacher/exchange-rates'),
     ])
     wallets.value = walletRes.data || []
-    students.value = stuRes.data || []
     rates.value = rateRes.data || []
     loadError.value = ''
   } catch {
     loadError.value = '数据加载失败'
   } finally { loading.value = false }
+  await Promise.all([loadStudents(true), loadLogs(true)])
 }
 
 onMounted(loadAll)
@@ -93,6 +163,7 @@ async function doExchange() {
     const res = await apiGet<ApiResponse<WalletEntry[]>>('/api/v1/teacher/currency/wallets')
     wallets.value = res.data || []
     selectedStudent.value.total_score -= exchangeAmount.value
+    await loadLogs(true)
     setTimeout(() => { exchangeStatus.value = 'idle' }, 1500)
   } catch {
     exchangeStatus.value = 'error'
@@ -118,8 +189,18 @@ async function doExchange() {
 
     <div v-else class="exchange-grid">
       <div class="card">
-        <h3 class="card-title">学生钱包</h3>
+        <div class="card-head">
+          <h3 class="card-title">学生钱包</h3>
+          <input
+            v-model="studentSearch"
+            class="form-input search-input"
+            placeholder="🔍 搜索学生"
+            @keyup.enter="loadStudents(true)"
+            @keyup.esc="studentSearch = ''"
+          >
+        </div>
         <div class="student-scroll">
+          <div v-if="studentsLoading" class="list-loading">加载中...</div>
           <div v-for="s in students" :key="s.id"
             class="student-row"
             :class="{ 'student-row--selected': selectedStudent?.id === s.id }"
@@ -143,7 +224,12 @@ async function doExchange() {
               <div class="wallet-line">🔬{{ getWallet(s.id, 'science') }} 📚{{ getWallet(s.id, 'reading') }} ⚽{{ getWallet(s.id, 'class_point') }}</div>
             </div>
           </div>
-          <div v-if="students.length === 0" class="empty-students">暂无学生数据</div>
+          <div v-if="students.length === 0 && !studentsLoading" class="empty-students">暂无学生数据</div>
+          <div v-if="studentsMeta.last_page > 1" class="mini-pagination">
+            <button class="btn btn-sm btn-ghost-card" :disabled="studentsMeta.current_page <= 1" @click="changeStudentsPage(studentsMeta.current_page - 1)">←</button>
+            <span class="mini-pagination__info">{{ studentsMeta.current_page }} / {{ studentsMeta.last_page }}</span>
+            <button class="btn btn-sm btn-ghost-card" :disabled="studentsMeta.current_page >= studentsMeta.last_page" @click="changeStudentsPage(studentsMeta.current_page + 1)">→</button>
+          </div>
         </div>
       </div>
 
@@ -179,7 +265,7 @@ async function doExchange() {
           </div>
 
           <div class="rate-note">
-            消耗 <strong>{{ exchangeAmount }}</strong> 积分 → 获得 <strong>{{ Math.round(exchangeAmount * rateFor(exchangeTarget)) }}</strong> {{ exchangeTarget === 'science' ? '🔬 科学币' : exchangeTarget === 'reading' ? '📚 读书币' : '⚽ 体育币' }}
+            消耗 <strong>{{ exchangeAmount }}</strong> 积分 → 获得 <strong>{{ Math.round(exchangeAmount * rateFor(exchangeTarget)) }}</strong> {{ fmtCurrency(exchangeTarget) }}
             <span>（汇率 1:{{ rateFor(exchangeTarget) }}）</span>
           </div>
 
@@ -189,6 +275,38 @@ async function doExchange() {
             <template v-else-if="exchangeStatus === 'success'">✅ 已兑换</template>
             <template v-else-if="exchangeStatus === 'error'">❌ 失败</template>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 兑换记录 -->
+    <div v-if="!loading && !loadError" class="card logs-card">
+      <div class="card-head">
+        <h3 class="card-title">兑换记录</h3>
+        <button v-if="logsError" class="btn btn-sm btn-ghost-card" @click="loadLogs(true)">重试</button>
+      </div>
+      <div v-if="logsLoading" class="list-loading">加载中...</div>
+      <div v-else-if="logsError" class="logs-error">{{ logsError }}</div>
+      <div v-else-if="logs.length === 0" class="logs-empty">暂无兑换记录</div>
+      <div v-else>
+        <div class="logs-table">
+          <div v-for="log in logs" :key="log.id" class="log-row">
+            <div class="log-main">
+              <span class="log-name">{{ log.student_name || '已删除学生' }}</span>
+              <span v-if="log.student_no" class="log-no">📛{{ log.student_no }}</span>
+            </div>
+            <div class="log-amount">
+              <span class="log-from">-{{ log.from_amount }} 积分</span>
+              <span class="log-arrow">→</span>
+              <span class="log-to">+{{ log.to_amount }} {{ fmtCurrency(log.to_currency) }}</span>
+            </div>
+            <div class="log-date">{{ new Date(log.created_at).toLocaleString('zh-CN') }}</div>
+          </div>
+        </div>
+        <div v-if="logsMeta.last_page > 1" class="mini-pagination">
+          <button class="btn btn-sm btn-ghost-card" :disabled="logsMeta.current_page <= 1" @click="changeLogsPage(logsMeta.current_page - 1)">← 上一页</button>
+          <span class="mini-pagination__info">{{ logsMeta.current_page }} / {{ logsMeta.last_page }}</span>
+          <button class="btn btn-sm btn-ghost-card" :disabled="logsMeta.current_page >= logsMeta.last_page" @click="changeLogsPage(logsMeta.current_page + 1)">下一页 →</button>
         </div>
       </div>
     </div>
@@ -202,8 +320,10 @@ async function doExchange() {
 .page-subtitle { font-size: 13px; color: var(--color-text-secondary); }
 
 /* ===== 布局 ===== */
-.exchange-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+.exchange-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.card-title { font-size: 16px; font-weight: 600; margin: 0; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.search-input { width: 150px; padding: 6px 10px; font-size: 12px; }
 
 /* ===== 学生列表 ===== */
 .student-scroll { max-height: 500px; overflow-y: auto; }
@@ -236,6 +356,7 @@ async function doExchange() {
 .student-wallet { flex: 1; text-align: right; font-size: 12px; }
 .wallet-line { color: var(--color-text-secondary); }
 .empty-students { text-align: center; padding: 24px; color: var(--color-text-secondary); }
+.list-loading { text-align: center; padding: 24px; color: var(--color-text-secondary); }
 
 /* ===== 兑换操作 ===== */
 .exchange-placeholder { text-align: center; padding: 48px; color: var(--color-text-secondary); }
@@ -264,4 +385,31 @@ async function doExchange() {
   color: var(--color-text-secondary);
 }
 .confirm-btn { width: 100%; }
+
+/* ===== 兑换记录 ===== */
+.logs-card { padding: 20px 24px; }
+.logs-error { text-align: center; padding: 24px; color: var(--color-danger-text); font-size: 13px; }
+.logs-empty { text-align: center; padding: 24px; color: var(--color-text-secondary); }
+.log-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 13px;
+}
+.log-row:last-child { border-bottom: none; }
+.log-main { display: flex; align-items: center; gap: 8px; min-width: 140px; }
+.log-name { font-weight: 600; }
+.log-no { font-size: 10px; color: var(--color-text-secondary); background: var(--tint-2); padding: 1px 6px; border-radius: 6px; }
+.log-amount { flex: 1; display: flex; align-items: center; gap: 10px; }
+.log-from { color: var(--color-danger-text); font-weight: 500; }
+.log-arrow { color: var(--color-text-secondary); }
+.log-to { color: var(--color-success-text); font-weight: 500; }
+.log-date { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; }
+
+/* ===== 迷你分页 ===== */
+.mini-pagination { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 10px 0 2px; }
+.mini-pagination__info { font-size: 12px; color: var(--color-text-secondary); }
+.mini-pagination .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>

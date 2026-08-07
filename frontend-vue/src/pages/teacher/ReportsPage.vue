@@ -20,6 +20,10 @@ const studentProgress = ref<StudentProgress[]>([])
 const myClasses = ref<ClassOption[]>([])
 const selectedClassId = ref<number | null>(null)
 
+// 趋势日期范围（近 7/30/90/180 日）
+const trendDays = ref(7)
+const trendDaysLoading = ref(false)
+
 const maxTrendValue = computed(() => {
   const all = scoreTrend.value?.datasets.flatMap(d => d.data) ?? []
   return Math.max(...all, 1)
@@ -64,18 +68,32 @@ async function exportFile(type: string) {
   }
 }
 
+async function loadTrend() {
+  trendDaysLoading.value = true
+  try {
+    const res = await apiGet<ApiResponse<ScoreTrend>>(`/api/v1/teacher/reports/score-trend?days=${trendDays.value}`)
+    scoreTrend.value = res.data || null
+  } catch {
+    scoreTrend.value = null
+  } finally { trendDaysLoading.value = false }
+}
+
+function setTrendDays(d: number) {
+  if (trendDays.value === d) return
+  trendDays.value = d
+  loadTrend()
+}
+
 async function loadAll() {
   loading.value = true
   try {
-    const [clsRes, trendRes, petRes, progressRes] = await Promise.all([
+    const [clsRes, petRes, progressRes] = await Promise.all([
       apiGet<{ data: ClassOption[] }>('/api/v1/teacher/my-classes'),
-      apiGet<ApiResponse<ScoreTrend>>('/api/v1/teacher/reports/score-trend'),
       apiGet<ApiResponse<PetDist[]>>('/api/v1/teacher/reports/pet-distribution'),
       apiGet<ApiResponse<StudentProgress[]>>('/api/v1/teacher/reports/student-progress'),
     ])
     myClasses.value = clsRes.data || []
     if (myClasses.value.length > 0) selectedClassId.value = myClasses.value[0].class_id
-    scoreTrend.value = trendRes.data || null
     petDist.value = petRes.data || []
     studentProgress.value = progressRes.data || []
     loadError.value = ''
@@ -83,6 +101,7 @@ async function loadAll() {
     loadError.value = '报表数据加载失败'
   }
   finally { loading.value = false }
+  await loadTrend()
 }
 
 onMounted(loadAll)
@@ -133,8 +152,14 @@ function stageLevel(name: string): number {
     <template v-else>
       <!-- 1. 积分趋势柱状图 -->
       <div class="card report-card">
-        <h3 class="card-title">近7日积分趋势</h3>
-        <div v-if="!scoreTrend || scoreTrend.labels.length === 0" class="empty-chart">
+        <div class="card-head">
+          <h3 class="card-title">积分趋势</h3>
+          <div class="range-tabs">
+            <button v-for="d in [7, 30, 90, 180]" :key="d" class="range-tab" :class="{ 'range-tab--active': trendDays === d }" @click="setTrendDays(d)">{{ d }}日</button>
+          </div>
+        </div>
+        <div v-if="trendDaysLoading" class="chart-loading">加载中...</div>
+        <div v-else-if="!scoreTrend || scoreTrend.labels.length === 0" class="empty-chart">
           暂无趋势数据
         </div>
         <div v-else>
@@ -223,7 +248,29 @@ function stageLevel(name: string): number {
 .report-card { margin-bottom: 24px; }
 .card-title { font-size: 16px; font-weight: 600; margin-bottom: 24px; }
 .card-title--sm { margin-bottom: 16px; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
+.card-head .card-title { margin-bottom: 0; }
 .empty-chart { text-align: center; padding: 32px; color: var(--color-text-secondary); }
+.chart-loading { text-align: center; padding: 40px; color: var(--color-text-secondary); }
+
+/* ===== 日期范围切换 ===== */
+.range-tabs { display: flex; gap: 4px; background: var(--tint-1); padding: 3px; border-radius: 10px; }
+.range-tab {
+  border: none;
+  background: transparent;
+  padding: 4px 12px;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+}
+.range-tab--active {
+  background: var(--color-bg-card);
+  color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
 
 /* ===== 积分趋势柱状图 ===== */
 .chart-wrap { display: flex; align-items: flex-end; gap: 12px; height: 200px; padding: 0 8px; }
