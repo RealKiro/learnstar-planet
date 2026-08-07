@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="土行孙·四阶·归周立功·自地下破土杀出">
+  <defs>
+    <!-- 背景：夜营沙场月光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A4E6E"/>
+      <stop offset="55%" stop-color="#2E3E58"/>
+      <stop offset="100%" stop-color="#1E2E46"/>
+    </linearGradient>
+    <!-- 月光 -->
+    <radialGradient id="moon" cx="78%" cy="22%" r="30%">
+      <stop offset="0%" stop-color="#E8F0FA" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#E8F0FA" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 土遁金涌 -->
+    <radialGradient id="burst" cx="50%" cy="78%" r="52%">
+      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 军士短打 -->
+    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7E8A9A"/>
+      <stop offset="100%" stop-color="#5A6A7E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：圆脸·细眉·眯眼机灵·咧嘴笑 -->
+    <g id="tuxingsun-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 束发 -->
+      <path d="M -4 -9 Q 0 -12 4 -9 Q 2 -13 0 -13 Q -2 -13 -4 -9 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -9 -3.5 Q -5 -8 0 -8 Q 5 -8 9 -3.5 Q 5 -7 0 -7 Q -5 -7 -9 -3.5 Z" fill="#2E2620"/>
+      <!-- 细眉扬起 -->
+      <path d="M -8 -1.5 Q -5 -3 -2 -2.5 M 8 -1.5 Q 5 -3 2 -2.5" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <!-- 眯眼机灵（月牙弯） -->
+      <path d="M -7 0 Q -4.5 1.8 -2 0.8 L -2 -0.2 Q -4.5 0.8 -7 -1 Z" fill="#1E1008"/>
+      <path d="M 7 0 Q 4.5 1.8 2 0.8 L 2 -0.2 Q 4.5 0.8 7 -1 Z" fill="#1E1008"/>
+      <!-- 蒜头鼻 -->
+      <circle cx="0" cy="3.2" r="1.9" fill="#E0C0A0"/>
+      <!-- 咧嘴笑 -->
+      <path d="M -3 6 Q 0 8.2 3 6" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 月光 -->
+  <circle cx="156" cy="44" r="60" fill="url(#moon)"/>
+  <circle cx="156" cy="44" r="10" fill="#F4F8FC" opacity="0.9"/>
+
+  <!-- 夜营营帐（远处剪影） -->
+  <g opacity="0.5">
+    <path d="M 24 120 L 44 108 L 64 120 L 64 150 L 24 150 Z" fill="#1E2E46"/>
+    <path d="M 70 124 L 88 114 L 106 124 L 106 150 L 70 150 Z" fill="#24364E"/>
+    <path d="M 24 122 L 64 122" stroke="#2E3E58" stroke-width="2"/>
+    <path d="M 70 126 L 106 126" stroke="#2E3E58" stroke-width="2"/>
+  </g>
+
+  <!-- 战场地面 -->
+  <path d="M 0 158 L 200 158 L 200 200 L 0 200 Z" fill="#1E2E46" opacity="0.8"/>
+  <path d="M 0 158 L 200 158" stroke="#2E3E58" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 土遁破土金涌（自地下冲出） -->
+  <circle cx="96" cy="152" r="44" fill="url(#burst)">
+    <animate attributeName="r" values="44;52;44" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 破土飞溅 -->
+  <g fill="#5E6A56">
+    <circle cx="72" cy="146">
+      <animate attributeName="cy" values="146;134;146" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="142">
+      <animate attributeName="cy" values="142;130;142" dur="1.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="88" cy="160">
+      <animate attributeName="cy" values="160;150;160" dur="2.1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- 破土口（脚下土洞） -->
+  <ellipse cx="96" cy="156" rx="22" ry="8" fill="#161E2E"/>
+
+  <!-- 矮小军士（2.5头身，自地下跃起） -->
+  <!-- 腿（跃起） -->
+  <path d="M 82 134 L 76 124 L 82 122 L 88 132 Z" fill="#5A6A7E"/>
+  <path d="M 106 134 L 114 126 L 109 123 L 102 132 Z" fill="#5A6A7E"/>
+  <!-- 军士短打 -->
+  <path d="M 82 98 Q 78 116 82 134 Q 92 140 102 134 Q 108 116 104 98 Q 92 92 82 98 Z" fill="url(#cloth)" stroke="#4A5A6E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 82 114 L 104 114" stroke="#7E8A42" stroke-width="1.8"/>
+  <!-- 布甲带 -->
+  <path d="M 86 104 L 100 104" stroke="#6E7A8E" stroke-width="1.4" opacity="0.7"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#tuxingsun-face" transform="translate(93,88) scale(1)"/>
+
+  <!-- 左臂持镔铁棍横扫 -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-6 84 100;4 84 100;-6 84 100" dur="1.5s" repeatCount="indefinite"/>
+    <path d="M 84 102 C 78 106 74 110 70 116" fill="none" stroke="#7E8A9A" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="69" cy="118" r="3" fill="#DCC4A0"/>
+    <!-- 镔铁棍 -->
+    <line x1="69" y1="118" x2="48" y2="140" stroke="#5A5E66" stroke-width="3.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 右臂掷捆仙绳（金光脱手，擒敌） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="1.6s" repeatCount="indefinite"/>
+    <path d="M 102 102 C 108 106 112 110 114 118" fill="none" stroke="#7E8A9A" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="115" cy="120" r="3" fill="#DCC4A0"/>
+    <!-- 捆仙绳（金光） -->
+    <path d="M 115 120 C 122 128 128 132 138 130" fill="none" stroke="#F5D742" stroke-width="2.4" stroke-linecap="round">
+      <animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="140" cy="130" r="4" fill="#F5D742" opacity="0.8">
+      <animate attributeName="r" values="4;7;4" dur="1.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 被捆敌将倒影（右下黑影） -->
+  <path d="M 146 140 Q 152 150 148 162 Q 160 166 162 156 Q 166 144 156 138 Q 150 138 146 140 Z" fill="#121A28" opacity="0.7"/>
+
+  <!-- 月下土金尘 -->
+  <g fill="#F5D742">
+    <circle cx="58" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="138" cy="80">
+      <animate attributeName="cy" values="80;72;80" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

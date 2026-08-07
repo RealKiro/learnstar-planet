@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="土行孙·六阶·地行无极·一念千里与地同游护迷途">
+  <defs>
+    <!-- 背景：黄昏大地，大川长河 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8B878"/>
+      <stop offset="52%" stop-color="#C8905A"/>
+      <stop offset="100%" stop-color="#8E6842"/>
+    </linearGradient>
+    <!-- 土金流光 -->
+    <radialGradient id="aura" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#FFE066" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFE066" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 便装星君 -->
+    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8C08A"/>
+      <stop offset="100%" stop-color="#A88858"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：圆脸·细眉·眯眼含笑·逍遥 -->
+    <g id="tuxingsun-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 束发 -->
+      <path d="M -4 -9 Q 0 -12 4 -9 Q 2 -13 0 -13 Q -2 -13 -4 -9 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -9 -3.5 Q -5 -8 0 -8 Q 5 -8 9 -3.5 Q 5 -7 0 -7 Q -5 -7 -9 -3.5 Z" fill="#2E2620"/>
+      <!-- 细眉 -->
+      <path d="M -8 -1.5 Q -5 -3 -2 -2.5 M 8 -1.5 Q 5 -3 2 -2.5" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <!-- 眯眼含笑（月牙弯） -->
+      <path d="M -7 0 Q -4.5 1.8 -2 0.8 L -2 -0.2 Q -4.5 0.8 -7 -1 Z" fill="#1E1008"/>
+      <path d="M 7 0 Q 4.5 1.8 2 0.8 L 2 -0.2 Q 4.5 0.8 7 -1 Z" fill="#1E1008"/>
+      <!-- 蒜头鼻 -->
+      <circle cx="0" cy="3.2" r="1.9" fill="#E0C0A0"/>
+      <!-- 咧嘴笑 -->
+      <path d="M -3 6 Q 0 8.2 3 6" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 土金流光 -->
+  <circle cx="100" cy="92" r="80" fill="url(#aura)">
+    <animate attributeName="opacity" values="1;0.7;1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 流光拖尾（自左上掠向右下，SMIL 全画面） -->
+  <g>
+    <path d="M 0 40 Q 60 60 108 84 Q 130 96 140 122" fill="none" stroke="#FFE066" stroke-width="2.4" opacity="0.55" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.55;0.15;0.55" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 58 Q 70 74 116 92 Q 136 102 146 126" fill="none" stroke="#FFE066" stroke-width="1.6" opacity="0.4" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 20 100 Q 70 108 112 122 Q 140 132 156 154" fill="none" stroke="#F5D742" stroke-width="1.4" opacity="0.35" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.35;0.1;0.35" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 大川长河（下方） -->
+  <path d="M 0 150 Q 50 138 96 148 Q 140 156 200 144 L 200 200 L 0 200 Z" fill="#6E8A9A"/>
+  <path d="M 0 162 Q 60 152 120 160 Q 160 166 200 158 L 200 200 L 0 200 Z" fill="#5A7686"/>
+  <!-- 河浪 -->
+  <path d="M 30 168 Q 46 164 62 170 Q 80 176 98 170" fill="none" stroke="#9AB8C8" stroke-width="1.6" opacity="0.7">
+    <animateTransform attributeName="transform" type="translate" values="0 0;4 0;0 0" dur="4s" repeatCount="indefinite"/>
+  </path>
+  <!-- 大地如锦（田野块） -->
+  <path d="M 0 178 Q 34 172 68 178 Q 100 184 132 176 Q 168 170 200 176 L 200 200 L 0 200 Z" fill="#7E9862" opacity="0.85"/>
+  <path d="M 20 186 L 56 183 M 84 188 L 120 184 M 148 182 L 178 186" stroke="#5E7A4E" stroke-width="1" opacity="0.6"/>
+
+  <!-- 迷途旅人（右下山路，受土雾指引） -->
+  <g opacity="0.95">
+    <circle cx="156" cy="152" r="4" fill="#E8D8BC"/>
+    <path d="M 153 148 Q 156 145 159 148 Q 158 150 156 150 Q 154 150 153 148 Z" fill="#2E2620"/>
+    <path d="M 154 156 Q 152 166 154 172 Q 158 172 158 156 Z" fill="#7E6A56"/>
+    <path d="M 155 158 L 159 146" fill="none" stroke="#E8D8BC" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 挑担 -->
+    <line x1="146" y1="150" x2="166" y2="150" stroke="#6E5A3E" stroke-width="1.6"/>
+    <path d="M 147 150 L 145 156 L 148 156 Z" fill="#6E5A3E"/>
+    <path d="M 165 150 L 167 156 L 164 156 Z" fill="#6E5A3E"/>
+  </g>
+  <!-- 指引土雾 -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 -2;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 140 118 Q 150 122 152 132 Q 156 138 156 146" fill="none" stroke="#F5D742" stroke-width="1.8" stroke-linecap="round" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 角色：土行孙便装（脚不沾地，飘于流光上） -->
+  <!-- 腿（凌空，快如流光） -->
+  <path d="M 82 118 L 74 108 L 80 106 L 86 116 Z" fill="#A88858"/>
+  <path d="M 104 118 L 112 110 L 107 107 L 100 116 Z" fill="#A88858"/>
+  <!-- 短打便装 -->
+  <path d="M 82 86 Q 78 102 82 118 Q 92 124 102 118 Q 108 102 104 86 Q 92 80 82 86 Z" fill="url(#cloth)" stroke="#8E703E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 82 104 L 104 104" stroke="#7E8A42" stroke-width="1.8"/>
+  <!-- 镔铁棍斜挎 -->
+  <path d="M 88 82 L 104 128" stroke="#5A5E66" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 头（面部模板，脚不沾地，笑嘻嘻现身） -->
+  <use href="#tuxingsun-face" transform="translate(93,76) scale(1)"/>
+
+  <!-- 左臂拂袖（作土雾状） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-6 84 88;4 84 88;-6 84 88" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 84 88 C 78 92 74 98 72 106" fill="none" stroke="#D8C08A" stroke-width="4.4" stroke-linecap="round"/>
+    <!-- 袖中土雾 -->
+    <path d="M 72 106 Q 64 112 66 120 Q 70 124 76 120" fill="#F5D742" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 右手比"指路"（向旅人） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1.5 -1;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 102 88 C 108 90 112 94 116 98" fill="none" stroke="#D8C08A" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="118" cy="100" r="3.2" fill="#DCC4A0"/>
+    <path d="M 118 100 L 124 96" stroke="#F5D742" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 土金星光 -->
+  <g fill="#FFE066">
+    <circle cx="44" cy="88">
+      <animate attributeName="cy" values="88;78;88" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="148" cy="64">
+      <animate attributeName="cy" values="64;54;64" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="44">
+      <animate attributeName="cy" values="44;36;44" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.12;0.55" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
