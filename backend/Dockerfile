@@ -25,13 +25,13 @@ FROM php:8.5-cli-alpine AS app
 # Install system dependencies for PHP extensions
 RUN apk add --no-cache \
     libpng libjpeg-turbo freetype libzip oniguruma \
-    postgresql-libs libwebp curl unzip \
+    postgresql-libs sqlite-libs libwebp curl unzip \
     && rm -rf /var/cache/apk/*
 
 # Compile PHP extensions
 RUN apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
-        postgresql-dev libpng-dev libjpeg-turbo-dev \
+        postgresql-dev sqlite-dev libpng-dev libjpeg-turbo-dev \
         freetype-dev libzip-dev oniguruma-dev libwebp-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j"$(nproc)" \
