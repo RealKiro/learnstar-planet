@@ -30,8 +30,9 @@ class ScoreService
                 'given_by' => $givenBy,
             ]);
 
-            // 更新学生总积分
-            $student->update(['total_score' => $balanceBefore + $amount]);
+            // 更新学生总积分（不为负，与教室端一致）
+            $newBalance = max(0, $balanceBefore + $amount);
+            $student->update(['total_score' => $newBalance]);
             $balanceAfter = $student->total_score;
 
             // 记录积分日志
@@ -43,9 +44,13 @@ class ScoreService
                 'description' => $reason,
             ]);
 
-            // 如果是加分，宠物也获得经验
-            if ($amount > 0 && $student->pet) {
-                $student->pet->addExperience($amount);
+            // 加减分都关联宠物经验（加分加经验、减分扣经验）
+            if ($student->pet) {
+                if ($amount > 0) {
+                    $student->pet->addExperience($amount);
+                } else {
+                    $student->pet->removeExperience(abs($amount));
+                }
             }
 
             // 广播积分变化事件（实时推送给家长端）
