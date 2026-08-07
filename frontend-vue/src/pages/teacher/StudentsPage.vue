@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
 import type { ApiResponse, Student } from '@/types'
+import PetSprite from '@/components/pet/PetSprite.vue'
 
 const students = ref<Student[]>([])
 const loading = ref(true)
@@ -89,11 +90,20 @@ function importStudents() {
 
     <div v-else class="data-table">
       <table>
-        <thead><tr><th>姓名</th><th>学号</th><th>积分</th><th>状态</th></tr></thead>
+        <thead><tr><th>姓名</th><th>学号</th><th>宠物</th><th>积分</th><th>状态</th></tr></thead>
         <tbody>
           <tr v-for="s in students" :key="s.id">
             <td style="font-weight:600;">{{ s.name }}</td>
             <td style="color:var(--color-text-secondary);">{{ s.student_no || '-' }}</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:32px;height:32px;flex-shrink:0;">
+                  <PetSprite v-if="(s as any).pet_species" :species-id="(s as any).pet_species" :level="(s as any).pet_level || 1" :animate="true" />
+                  <span v-else style="font-size:18px;">🥚</span>
+                </div>
+                <span v-if="(s as any).pet_level" style="font-size:11px;color:var(--color-text-secondary);">Lv.{{ (s as any).pet_level }}</span>
+              </div>
+            </td>
             <td style="font-weight:700;color:var(--color-primary);">{{ s.total_score || 0 }}</td>
             <td :style="{ color: s.status === 'active' ? 'var(--color-accent)' : 'var(--color-text-secondary)' }">
               {{ getStatusLabel(s.status) }}

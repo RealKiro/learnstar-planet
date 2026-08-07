@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
 import type { ApiResponse } from '@/types'
+import PetSprite from '@/components/pet/PetSprite.vue'
 
 interface WalletEntry {
   student_id: number
@@ -13,7 +14,10 @@ interface WalletEntry {
 interface StudentInfo {
   id: number
   name: string
+  student_no?: string
   total_score: number
+  pet_species?: string
+  pet_level?: number
 }
 
 interface ExchangeRate {
@@ -105,13 +109,26 @@ async function doExchange() {
         <div style="max-height:500px;overflow-y:auto;">
           <div v-for="s in students" :key="s.id"
             :style="{
-              padding:'12px 16px', marginBottom:'8px', cursor:'pointer', display:'flex', alignItems:'center', gap:'12px',
-              borderRadius:'var(--radius-md)', border:'1px solid var(--color-border)',
+              padding:'10px 12px', marginBottom:'8px', cursor:'pointer', display:'flex', alignItems:'center', gap:'10px',
+              borderRadius:'var(--radius-md)', border:'1px solid var(--color-border)', position:'relative',
               ...(selectedStudent?.id === s.id ? { borderColor:'var(--color-primary)', background:'rgba(79,70,229,0.04)' } : {}),
             }"
             @click="selectStudent(s)">
-            <div style="font-weight:600;min-width:60px;">{{ s.name }}</div>
-            <div style="flex:1;text-align:right;font-size:13px;">
+            <!-- 宠物 -->
+            <div style="width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+              <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level || 1" :animate="true" />
+              <span v-else style="font-size:24px;">🥚</span>
+            </div>
+            <!-- 姓名 + 学号 + 等级 -->
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span style="font-weight:600;">{{ s.name }}</span>
+                <span v-if="s.student_no" style="font-size:10px;color:var(--color-text-secondary);background:var(--tint-2);padding:1px 6px;border-radius:6px;letter-spacing:0.3px;">📛{{ s.student_no }}</span>
+              </div>
+              <div style="font-size:11px;color:var(--color-text-secondary);">Lv.{{ s.pet_level || 0 }}</div>
+            </div>
+            <!-- 积分 + 钱包 -->
+            <div style="flex:1;text-align:right;font-size:12px;">
               <div>⭐ {{ s.total_score }}</div>
               <div style="color:var(--color-text-secondary);">🔬{{ getWallet(s.id, 'science') }} 📚{{ getWallet(s.id, 'reading') }} ⚽{{ getWallet(s.id, 'class_point') }}</div>
             </div>

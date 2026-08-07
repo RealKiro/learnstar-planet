@@ -469,10 +469,15 @@ class TeacherController extends Controller
             });
         }
 
-        $students = $query->orderBy('name')->paginate(50);
+        $students = $query->with('pet')->orderBy('name')->paginate(50);
 
         return response()->json([
-            'data' => $students->items(),
+            // 附加宠物字段（保留原始字段，兼容所有调用方）
+            'data' => collect($students->items())->map(fn ($s) => array_merge($s->toArray(), [
+                'pet_species' => $s->pet->species ?? '',
+                'pet_level' => $s->pet->level ?? 0,
+                'pet_name' => $s->pet->name ?? '',
+            ])),
             'meta' => [
                 'current_page' => $students->currentPage(),
                 'last_page' => $students->lastPage(),
