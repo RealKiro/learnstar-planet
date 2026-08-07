@@ -36,7 +36,6 @@ RUN apk add --no-cache --virtual .build-deps \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j"$(nproc)" \
         pdo_mysql pdo_pgsql pdo_sqlite zip gd mbstring pcntl \
-    && docker-php-ext-enable sqlite3 \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del --no-cache .build-deps \
