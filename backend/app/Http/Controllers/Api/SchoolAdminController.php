@@ -956,7 +956,7 @@ class SchoolAdminController extends Controller
         $school = $request->user()->school;
         $query = Student::whereHas('classRoom', function ($q) use ($school) {
             $q->where('school_id', $school->id);
-        })->with('classRoom:id,name,grade');
+        })->with(['classRoom:id,name,grade', 'pet']);
         // 搜索（姓名或学号）
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -985,6 +985,9 @@ class SchoolAdminController extends Controller
             $arr = $s->toArray();
             $arr['class_name'] = $s->classRoom->name ?? null;
             $arr['class_grade'] = $s->classRoom->grade ?? null;
+            $arr['pet_species'] = $s->pet->species ?? '';
+            $arr['pet_level'] = $s->pet->level ?? 0;
+            $arr['pet_name'] = $s->pet->name ?? '';
 
             return $arr;
         })->values();

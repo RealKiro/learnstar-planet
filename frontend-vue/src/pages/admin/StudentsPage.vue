@@ -4,6 +4,7 @@ import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
 import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import { avatarGradient } from '@/utils/constants'
 import type { ApiResponse, Student, ClassRoom } from '@/types'
+import PetSprite from '@/components/pet/PetSprite.vue'
 
 const students = ref<Student[]>([])
 const classes = ref<ClassRoom[]>([])
@@ -264,7 +265,7 @@ async function submitMove() {
         <thead>
           <tr>
             <th style="width:40px;"><input type="checkbox" :checked="allSelected" @change="toggleSelectAll"></th>
-            <th>姓名</th><th>学号</th><th>性别</th><th>班级</th><th>年级</th><th>积分</th><th>操作</th>
+            <th>姓名</th><th>学号</th><th>宠物</th><th>性别</th><th>班级</th><th>年级</th><th>积分</th><th>操作</th>
           </tr>
         </thead>
         <tbody>
@@ -280,6 +281,15 @@ async function submitMove() {
             <td>{{ s.gender || '-' }}</td>
             <td>{{ s.class_name || getClassFromId(s.class_id)?.name || '-' }}</td>
             <td><span v-if="s.class_grade || getClassFromId(s.class_id)?.grade" style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(79,70,229,0.08);color:var(--color-primary);">{{ s.class_grade || getClassFromId(s.class_id)?.grade }}</span><span v-else>-</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:30px;height:30px;flex-shrink:0;">
+                  <PetSprite v-if="(s as any).pet_species" :species-id="(s as any).pet_species" :level="(s as any).pet_level || 1" :animate="true" />
+                  <span v-else style="font-size:16px;">🥚</span>
+                </div>
+                <span v-if="(s as any).pet_level" style="font-size:11px;color:var(--color-text-secondary);">Lv.{{ (s as any).pet_level }}</span>
+              </div>
+            </td>
             <td style="font-weight:600;color:var(--color-accent);">{{ s.total_score }}</td>
             <td>
               <div style="display:flex;gap:4px;">
