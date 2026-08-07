@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="申公豹·一阶·玉虚弟子·昆仑论道舌灿莲花">
+  <defs>
+    <!-- 背景：昆仑山玉虚宫论道场 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AA8B8"/>
+      <stop offset="52%" stop-color="#7E8E9E"/>
+      <stop offset="100%" stop-color="#5E6E7E"/>
+    </linearGradient>
+    <!-- 玉虚金光 -->
+    <radialGradient id="glow" cx="50%" cy="36%" r="56%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 昆仑道袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E8EAE"/>
+      <stop offset="100%" stop-color="#4E6E8E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="72" r="82" fill="url(#glow)"/>
+
+  <!-- 远山云海 -->
+  <path d="M 0 132 Q 40 112 90 122 Q 140 130 200 118 L 200 200 L 0 200 Z" fill="#6E8090" opacity="0.5"/>
+  <!-- 仙云 -->
+  <g opacity="0.65">
+    <path d="M 0 96 Q 28 86 52 94 Q 66 102 54 110 Q 34 118 10 108 Q 0 102 0 96 Z" fill="#E8E4DC">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 1;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 玉虚宫（左上，飞檐） -->
+  <path d="M 0 0 L 88 0 L 72 18 Q 44 30 16 26 Z" fill="#4E6E8E" opacity="0.8"/>
+  <path d="M 0 0 L 88 0" stroke="#6E8EAE" stroke-width="1.4"/>
+
+  <!-- 众仙虚影（背景） -->
+  <g opacity="0.25">
+    <path d="M 120 120 Q 122 108 128 104 Q 134 106 134 120 Z" fill="#3E4A5A"/>
+    <path d="M 142 124 Q 143 112 149 108 Q 155 110 154 124 Z" fill="#42506A"/>
+    <path d="M 158 122 Q 160 110 165 106 Q 171 109 169 122 Z" fill="#3E4A5A"/>
+  </g>
+
+  <!-- 论道石台 -->
+  <path d="M 30 162 L 150 152 L 160 172 L 20 172 Z" fill="#5E6E7E"/>
+  <path d="M 30 162 L 150 152" stroke="#7E8E9E" stroke-width="1.6" opacity="0.6"/>
+
+  <!-- 意气道人（7头身，衣袖生风，侃侃而谈） -->
+  <!-- 腿 -->
+  <path d="M 84 136 L 80 160 L 86 160 L 90 138 Z" fill="#4E6E8E"/>
+  <path d="M 108 136 L 114 162 L 108 162 L 104 138 Z" fill="#4E6E8E"/>
+  <!-- 道袍下摆（翻飞） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-3 96 128;2 96 128;-3 96 128" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 84 126 Q 96 138 110 132 Q 114 126 110 118 Q 104 128 96 124 Q 88 128 84 126 Z" fill="url(#robe)"/>
+  </g>
+  <!-- 身体 -->
+  <path d="M 86 92 Q 82 108 88 126 Q 98 132 108 126 Q 114 108 110 92 Q 98 86 86 92 Z" fill="url(#robe)" stroke="#3E5E7E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 86 112 L 110 112" stroke="#FFF7E0" stroke-width="1.8"/>
+  <!-- 佩剑（腰间） -->
+  <path d="M 86 108 L 80 126" stroke="#C8CCD4" stroke-width="2.4" stroke-linecap="round"/>
+  <rect x="78" y="104" width="5" height="4" rx="1" fill="#B8964E"/>
+
+  <!-- 头（长脸剑眉，目如鹰隼，傲气） -->
+  <circle cx="98" cy="84" r="11" fill="url(#skin)" stroke="#C8B090" stroke-width="0.9"/>
+  <!-- 束发道髻 -->
+  <path d="M 94 75 Q 98 72 102 75 Q 100 70 98 70 Q 96 70 94 75 Z" fill="#1E1814"/>
+  <path d="M 96 70 L 100 70 L 100 66 L 96 66 Z" fill="#E8D8A8"/>
+  <!-- 额发 -->
+  <path d="M 88 82 Q 92 77 98 77 Q 104 77 108 82 Q 104 78 98 78 Q 92 78 88 82 Z" fill="#1E1814"/>
+  <!-- 剑眉微挑 -->
+  <path d="M 88 84 Q 92 82 96 83 M 100 83 Q 104 82 108 84" stroke="#1E1008" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- 鹰目 -->
+  <ellipse cx="94" cy="88" rx="2.6" ry="2.3" fill="#1E1008"/>
+  <ellipse cx="102" cy="88" rx="2.6" ry="2.3" fill="#1E1008"/>
+  <circle cx="95" cy="87.2" r="0.9" fill="#FFF"/>
+  <circle cx="103" cy="87.2" r="0.9" fill="#FFF"/>
+  <!-- 鼻梁高挺 -->
+  <path d="M 98 89 L 98 92.5" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+  <!-- 薄唇善辩（微挑） -->
+  <path d="M 93 96 Q 98 98 103 96" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 左袖生风（指画天下） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-5 90 96;4 90 96;-5 90 96" dur="2.2s" repeatCount="indefinite"/>
+    <path d="M 90 96 C 82 100 78 104 76 112" fill="none" stroke="#6E8EAE" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="75" cy="114" r="3.4" fill="#DCC4A0"/>
+  </g>
+
+  <!-- 右臂负背 -->
+  <path d="M 108 96 C 116 100 120 106 120 114" fill="none" stroke="#6E8EAE" stroke-width="4.6" stroke-linecap="round"/>
+
+  <!-- 论道音浪（口前） -->
+  <g stroke="#FFF7E0" stroke-width="1.4" opacity="0.5" fill="none" stroke-linecap="round">
+    <path d="M 84 96 Q 74 94 68 90">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 86 100 Q 74 98 66 94">
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 玉虚金尘 -->
+  <g fill="#FFF7E0">
+    <circle cx="44" cy="108">
+      <animate attributeName="cy" values="108;100;108" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="80">
+      <animate attributeName="cy" values="80;72;80" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="申公豹·二阶·被逐教门·抱剑回望怨怼渐浓">
+  <defs>
+    <!-- 背景：昆仑山门之下 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8A98A8"/>
+      <stop offset="52%" stop-color="#6E7E8E"/>
+      <stop offset="100%" stop-color="#4E5E6E"/>
+    </linearGradient>
+    <!-- 暮云灰 -->
+    <radialGradient id="dusk" cx="70%" cy="30%" r="45%">
+      <stop offset="0%" stop-color="#B8A0B0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#B8A0B0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 旧道袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E7E8E"/>
+      <stop offset="100%" stop-color="#4E5E6E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0DCC6"/>
+      <stop offset="100%" stop-color="#D8C0A4"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 暮云 -->
+  <circle cx="140" cy="60" r="56" fill="url(#dusk)"/>
+  <g stroke="#6E5E6E" stroke-width="1.8" stroke-linecap="round" opacity="0.5">
+    <path d="M 20 120 Q 40 112 60 118 Q 80 124 100 116">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 1;0 0" dur="6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 山门（紧闭） -->
+  <path d="M 44 20 L 156 20 L 148 40 Q 100 52 52 40 Z" fill="#5E6E7E"/>
+  <path d="M 44 20 L 156 20" stroke="#7E8E9E" stroke-width="1.4"/>
+  <rect x="88" y="44" width="24" height="72" rx="3" fill="#3E4E5E" stroke="#4E5E6E" stroke-width="1"/>
+  <rect x="102" y="64" width="6" height="6" rx="1" fill="#8A9AAE"/>
+  <!-- 门匾 -->
+  <rect x="70" y="8" width="60" height="12" rx="2" fill="#5E6E7E" stroke="#7E8E9E" stroke-width="0.8"/>
+  <!-- 山门路 -->
+  <path d="M 80 116 L 120 116 L 132 172 L 68 172 Z" fill="#4E5E6E" opacity="0.8"/>
+
+  <!-- 云海翻涌（身后） -->
+  <g opacity="0.6">
+    <path d="M 0 150 Q 40 142 80 148 Q 120 154 160 146 Q 180 142 200 148 L 200 200 L 0 200 Z" fill="#8A98A8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 1;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 被逐道人（抱剑回望，眉宇阴鸷） -->
+  <!-- 腿 -->
+  <path d="M 84 134 L 80 158 L 86 158 L 90 136 Z" fill="#4E5E6E"/>
+  <path d="M 108 134 L 114 160 L 108 160 L 104 136 Z" fill="#4E5E6E"/>
+  <!-- 旧道袍 -->
+  <path d="M 86 90 Q 82 108 88 126 Q 98 132 108 126 Q 114 108 110 90 Q 98 84 86 90 Z" fill="url(#robe)" stroke="#3E4E5E" stroke-width="1"/>
+  <!-- 腰带（旧） -->
+  <path d="M 86 110 L 110 110" stroke="#8E7A6E" stroke-width="1.6"/>
+
+  <!-- 头（回望，长脸剑眉含怨） -->
+  <circle cx="98" cy="82" r="11" fill="url(#skin)" stroke="#C8AC90" stroke-width="0.9"/>
+  <!-- 束发微乱 -->
+  <path d="M 94 73 Q 98 70 102 73 Q 100 68 98 68 Q 96 68 94 73 Z" fill="#1E1814"/>
+  <path d="M 97 68 L 101 68 L 101 63 L 97 63 Z" fill="#A89070"/>
+  <!-- 额发 -->
+  <path d="M 88 80 Q 92 75 98 75 Q 104 75 108 80 Q 104 76 98 76 Q 92 76 88 80 Z" fill="#1E1814"/>
+  <!-- 剑眉含怨 -->
+  <path d="M 88 82 Q 92 80.5 96 81 M 100 81 Q 104 80.5 108 82" stroke="#1E1008" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- 目带阴鸷 -->
+  <ellipse cx="94" cy="86" rx="2.6" ry="2.3" fill="#1E1008"/>
+  <ellipse cx="102" cy="86" rx="2.6" ry="2.3" fill="#1E1008"/>
+  <circle cx="95" cy="85.2" r="0.8" fill="#FFF"/>
+  <circle cx="103" cy="85.2" r="0.8" fill="#FFF"/>
+  <!-- 鼻梁 -->
+  <path d="M 98 87.5 L 98 91" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+  <!-- 薄唇紧抿 -->
+  <path d="M 93 94.5 Q 98 95.5 103 94.5" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 抱剑（左臂环剑） -->
+  <g>
+    <path d="M 90 94 C 82 98 80 104 82 112" fill="none" stroke="#5E6E7E" stroke-width="4.6" stroke-linecap="round"/>
+    <!-- 剑（斜抱） -->
+    <path d="M 78 116 L 70 148" stroke="#C8CCD4" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 70 148 L 68 156" stroke="#C8CCD4" stroke-width="2.2" stroke-linecap="round"/>
+    <rect x="76" y="116" width="4" height="4" rx="1" fill="#B8964E"/>
+  </g>
+
+  <!-- 右臂握拳（怨念） -->
+  <path d="M 108 94 C 116 98 120 104 120 112" fill="none" stroke="#5E6E7E" stroke-width="4.6" stroke-linecap="round"/>
+  <circle cx="120" cy="114" r="3.2" fill="#D8C0A4"/>
+
+  <!-- 一点暗红（怨气将起） -->
+  <circle cx="98" cy="120" r="14" fill="#A8402E" opacity="0.18">
+    <animate attributeName="opacity" values="0.18;0.1;0.18" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 暮云金尘 -->
+  <g fill="#B8A0B0">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;92;100" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.1;0.45" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
