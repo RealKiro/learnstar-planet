@@ -225,13 +225,6 @@ export const SPECIES_EMOJI: Record<string, string> = {
   siberian_tiger: '🐯',
   red_panda: '🐼',
   finless_porpoise: '🐬',
-  // 机甲·扩充
-  lightsaber_warrior: '🗡️',
-  fission_giant: '🤖',
-  nano_swarm: '🐜',
-  storm_jet: '✈️',
-  bio_armor: '🦠',
-  starship_core: '🚀',
   // 魔法·扩充
   grey_wizard: '🧙',
   wand_cat: '🐱',

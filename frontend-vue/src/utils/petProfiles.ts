@@ -130,13 +130,6 @@ export const PET_PROFILES: Record<string, PetProfile> = {
   // ===== 鸟 =====
   zhuque:        { form: '赤红神鸟，周身烈焰。', habit: '四象之一镇守南方，浴火重生，永不言败。' },
   wind_falcon:   { form: '翠绿猛隼，翼疾如风。', habit: '在高空盘旋，俯冲捕猎，是天空的风之子。' },
-  // ===== 机甲系 =====
-  lightsaber_warrior: { form: '紫铠机甲，手持光剑。', habit: '崇尚荣耀，剑术无双，为正义而战。' },
-  fission_giant: { form: '蓝甲巨人，能量核心。', habit: '力能裂石，遇强则强，是移动的堡垒。' },
-  nano_swarm:    { form: '绿光虫群，聚散无常。', habit: '成群结队，纳米重组，无孔不入。' },
-  storm_jet:     { form: '流线战机，蓝翼破空。', habit: '超音速巡航，与风暴为伴，疾如闪电。' },
-  bio_armor:     { form: '翠绿生化铠甲。', habit: '与宿主共生，能自我修复，越战越坚。' },
-  starship_core: { form: '紫光核心，星轨环绕。', habit: '星舰的心脏，能量无穷，静待启航。' },
 
 
   // ===== 补齐 =====

@@ -11,7 +11,7 @@ export type BodyType =
   | 'quadruped'  // 四足兽(猫/狐/虎/熊/鹿/马/牛/羊)
   | 'bird'       // 鸟类(凤凰 丹顶鹤 朱鹮 隼 鸽)
   | 'aquatic'    // 水生(鲲鹏 机械鲨 巨齿鲨 江豚 龙舟)
-  | 'mecha'      // 机甲(星际机甲 裂变巨人 纳米虫群 光剑武士)
+  | 'mecha'      // 机甲
   | 'spirit'     // 灵体/星灵(量子兽 星座守护 精灵 梦魇)
   | 'food'       // 物化萌物(灯笼 饺子 月饼 粽子 汤圆)
   | 'humanoid'   // 人形(精灵 树人 美人鱼 圣斗士)
@@ -166,13 +166,6 @@ export const PET_ART: Record<string, PetArtConfig> = {
   siberian_tiger: { body: 'quadruped', main: '#F97316', variant: 'siberian', parts: { tail: 3, horns: 8, wings: 11 } },
   red_panda: { body: 'quadruped', main: '#F97316', variant: 'redpanda', parts: { tail: 3, crown: 8 } },
   finless_porpoise: { body: 'aquatic', main: '#38BDF8', variant: 'porpoise', parts: { tail: 3, fin: 5 } },
-  // ===== 扩充：机甲 =====
-  lightsaber_warrior: { body: 'mecha', main: '#818CF8', variant: 'knight', parts: { wings: 8, horns: 6, crown: 9 } },
-  fission_giant: { body: 'mecha', main: '#3B82F6', variant: 'giant', parts: { horns: 7, wings: 9 } },
-  nano_swarm: { body: 'mecha', main: '#10B981', variant: 'swarm', parts: { horns: 6, crown: 9 } },
-  storm_jet: { body: 'mecha', main: '#60A5FA', variant: 'jet', parts: { wings: 6, horns: 6 } },
-  bio_armor: { body: 'mecha', main: '#34D399', variant: 'bio', parts: { horns: 7, crown: 9 } },
-  starship_core: { body: 'mecha', main: '#A78BFA', variant: 'core', parts: { wings: 7, crown: 9 } },
   // ===== 扩充：魔法 =====
   grey_wizard: { body: 'humanoid', main: '#94A3B8', variant: 'wizard', parts: { horns: 7, crown: 8, halo: 11 } },
   wand_cat: { body: 'quadruped', main: '#8B5CF6', variant: 'cat', parts: { tail: 3, horns: 8, crown: 9 } },

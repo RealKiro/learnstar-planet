@@ -1599,7 +1599,6 @@ function fxShape(size: number): string {
 
       <!-- ---------- 机甲（含 6 个独立剪影变体） ---------- -->
       <g v-else-if="art.body === 'mecha'" class="mecha-group">
-        <!-- 光剑武士 -->
         <template v-if="art.variant === 'knight'">
           <line x1="158" y1="64" x2="158" y2="122" stroke="#FDE68A" stroke-width="3" stroke-linecap="round"/>
           <path d="M158 122 L162 130 L154 130 Z" fill="#FDE68A"/>
@@ -1610,7 +1609,6 @@ function fxShape(size: number): string {
           <rect x="90" y="88" width="20" height="8" rx="4" :fill="art.accent" class="visor"/>
         </template>
 
-        <!-- 裂变巨人 -->
         <template v-else-if="art.variant === 'giant'">
           <rect x="68" y="108" width="64" height="42" rx="12" :fill="art.main" :stroke="art.dark" stroke-width="2.4"/>
           <rect x="76" y="118" width="48" height="24" rx="6" :fill="art.dark" opacity="0.5"/>
@@ -1620,7 +1618,6 @@ function fxShape(size: number): string {
           <path d="M84 74 L80 58 M116 74 L120 58" :stroke="art.accent" stroke-width="2.4" stroke-linecap="round"/>
         </template>
 
-        <!-- 纳米虫群 -->
         <template v-else-if="art.variant === 'swarm'">
           <g v-if="level >= 4" class="swarm">
             <circle cx="70" cy="110" r="5" :fill="art.main"/>
@@ -1655,7 +1652,6 @@ function fxShape(size: number): string {
           <rect x="90" y="86" width="20" height="8" rx="4" :fill="art.accent" class="visor"/>
         </template>
 
-        <!-- 星舰核心 -->
         <template v-else-if="art.variant === 'core'">
           <circle cx="100" cy="120" r="28" :fill="`url(#glow-${uid})`" class="spirit-glow"/>
           <circle cx="100" cy="120" r="18" :fill="art.main" :stroke="art.accent" stroke-width="2" opacity="0.9"/>
