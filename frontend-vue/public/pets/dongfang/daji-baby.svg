@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="妲己·二阶·附身入宫·回眸一笑迷失来路">
+  <defs>
+    <!-- 背景：商宫大殿金碧 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8E523E"/>
+      <stop offset="55%" stop-color="#6E3E2E"/>
+      <stop offset="100%" stop-color="#4E2E22"/>
+    </linearGradient>
+    <!-- 烛火 -->
+    <radialGradient id="glow" cx="50%" cy="42%" r="56%">
+      <stop offset="0%" stop-color="#E8A84E" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#E8A84E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 宫装 -->
+    <linearGradient id="gown" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#B8436E"/>
+      <stop offset="100%" stop-color="#8E2E52"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F6E2CC"/>
+      <stop offset="100%" stop-color="#E2C8A8"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="84" r="86" fill="url(#glow)"/>
+
+  <!-- 宫阙金柱 -->
+  <path d="M 16 0 L 26 0 L 26 200 L 16 200 Z" fill="#8E7A4E" opacity="0.6"/>
+  <path d="M 174 0 L 184 0 L 184 200 L 174 200 Z" fill="#8E7A4E" opacity="0.6"/>
+  <!-- 殿顶垂帐 -->
+  <path d="M 0 0 L 200 0 L 200 40 Q 100 56 0 40 Z" fill="#A86A52" opacity="0.7"/>
+  <!-- 金箔灯 -->
+  <circle cx="100" cy="48" r="4" fill="#E8B64C" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 纣王迷影（背景） -->
+  <g opacity="0.35">
+    <path d="M 130 130 Q 132 112 140 108 Q 148 110 146 130 Z" fill="#2E1E1A"/>
+    <circle cx="139" cy="104" r="7" fill="#2E1E1A"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 156 L 200 156 L 200 200 L 0 200 Z" fill="#3A2620" opacity="0.7"/>
+  <path d="M 0 156 L 200 156" stroke="#6E4A3A" stroke-width="1.6" opacity="0.6"/>
+
+  <!-- 绝色宫装（回眸，体态袅娜） -->
+  <!-- 裙摆 -->
+  <path d="M 80 126 Q 96 140 116 130 Q 122 124 118 114 Q 108 126 96 122 Q 86 126 80 126 Z" fill="url(#gown)"/>
+  <path d="M 82 126 L 88 156 Q 100 162 112 156 L 116 128" fill="none" stroke="#6E1E3E" stroke-width="1.2"/>
+  <!-- 上身 -->
+  <path d="M 86 96 Q 82 108 88 122 Q 98 128 108 122 Q 114 108 110 96 Q 98 90 86 96 Z" fill="url(#gown)" stroke="#6E1E3E" stroke-width="1"/>
+  <!-- 披帛 -->
+  <path d="M 84 100 Q 78 108 80 120 M 112 100 Q 118 106 116 118" fill="none" stroke="#E8A0C8" stroke-width="2.4" opacity="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 0" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <!-- 腰带 -->
+  <path d="M 86 110 L 110 110" stroke="#E8B64C" stroke-width="1.8"/>
+
+  <!-- 头（回眸，鹅蛋脸狐目） -->
+  <circle cx="98" cy="88" r="10.5" fill="url(#skin)" stroke="#D8BC98" stroke-width="0.8"/>
+  <!-- 云髻高绾 -->
+  <path d="M 88 80 Q 94 72 104 72 Q 110 76 108 82 Q 100 76 92 80 Z" fill="#1E1412"/>
+  <circle cx="100" cy="72" r="5" fill="#1E1412"/>
+  <!-- 珠翠 -->
+  <circle cx="92" cy="76" r="1.4" fill="#E8B64C"/>
+  <circle cx="106" cy="74" r="1.4" fill="#E8B64C"/>
+  <!-- 蛾眉 -->
+  <path d="M 89 85 Q 92 83.5 95 84 M 100 84 Q 103 83.5 106 85" stroke="#2E1E1A" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  <!-- 狐目勾魂（回眸上挑） -->
+  <path d="M 89 89 Q 92 87 95 88 L 95 89.5 Q 92 88.5 89 91 Z" fill="#1E1412"/>
+  <path d="M 100 88 Q 103 87 106 89 L 106 90.5 Q 103 88.5 100 90 Z" fill="#1E1412"/>
+  <circle cx="92.5" cy="89" r="1.4" fill="#1E1412"/>
+  <circle cx="103.5" cy="89.5" r="1.4" fill="#1E1412"/>
+  <circle cx="93" cy="88.3" r="0.6" fill="#FFF"/>
+  <!-- 鼻梁挺 -->
+  <path d="M 98 90.5 L 98 92.5" stroke="#C8A884" stroke-width="1" stroke-linecap="round"/>
+  <!-- 朱唇（微扬） -->
+  <path d="M 94 96 Q 98 98.6 102 96" fill="none" stroke="#B84068" stroke-width="1.3" stroke-linecap="round"/>
+
+  <!-- 袖中狐爪隐现（九尾幻术初施） -->
+  <g fill="#F6F2EC" stroke="#C8C8D8" stroke-width="0.8">
+    <path d="M 78 118 Q 74 122 76 126 Q 80 126 80 122 Z"/>
+    <path d="M 118 116 Q 122 120 120 124 Q 116 124 116 120 Z"/>
+  </g>
+
+  <!-- 烛火摇曳 -->
+  <g stroke="#E8A84E" stroke-width="1.6" opacity="0.6" stroke-linecap="round">
+    <path d="M 46 60 L 42 50">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 152 56 L 156 46">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 妖媚紫尘 -->
+  <g fill="#B8436E">
+    <circle cx="40" cy="120">
+      <animate attributeName="cy" values="120;112;120" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="104">
+      <animate attributeName="cy" values="104;96;104" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.1;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

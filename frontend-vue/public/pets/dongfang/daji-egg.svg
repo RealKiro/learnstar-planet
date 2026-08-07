@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="妲己·一阶·轩辕坟狐·九尾千年望月">
+  <defs>
+    <!-- 背景：轩辕坟月夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A5A78"/>
+      <stop offset="55%" stop-color="#3A4660"/>
+      <stop offset="100%" stop-color="#2A3248"/>
+    </linearGradient>
+    <!-- 月光 -->
+    <radialGradient id="moon" cx="78%" cy="26%" r="32%">
+      <stop offset="0%" stop-color="#E8F0FA" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#E8F0FA" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 狐火幽蓝 -->
+    <radialGradient id="foxfire" cx="50%" cy="62%" r="42%">
+      <stop offset="0%" stop-color="#9AC8F0" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#6E9EF0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 雪白狐身 -->
+    <radialGradient id="fur" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8E8F0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 月轮 -->
+  <circle cx="156" cy="52" r="52" fill="url(#moon)">
+    <animate attributeName="opacity" values="0.95;0.7;0.95" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="156" cy="52" r="12" fill="#F4F8FC" opacity="0.95">
+    <animate attributeName="r" values="12;14;12" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 荒坟古柏 -->
+  <path d="M 24 160 Q 22 140 28 118" stroke="#2E3A28" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+  <path d="M 28 130 Q 14 124 8 128 M 26 120 Q 40 116 46 120 M 27 138 Q 40 134 46 138" stroke="#2E3A28" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- 坟冢 -->
+  <path d="M 56 172 Q 80 150 112 166 Q 130 176 120 186 Q 60 192 44 184 Z" fill="#4E5268"/>
+  <path d="M 72 164 Q 88 154 104 162" stroke="#5E6278" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 轩辕坟石阶（狐蹲处） -->
+  <path d="M 88 160 L 148 152 L 156 168 L 80 168 Z" fill="#5E6278"/>
+  <path d="M 88 160 L 148 152" stroke="#7E8298" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 狐火幽光 -->
+  <circle cx="108" cy="142" r="52" fill="url(#foxfire)">
+    <animate attributeName="opacity" values="0.55;0.3;0.55" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪白九尾狐（蹲坐望月） -->
+  <!-- 身体 -->
+  <path d="M 96 128 Q 88 120 92 110 Q 98 104 110 106 Q 126 110 130 122 Q 132 134 124 142 Q 110 148 100 142 Q 94 136 96 128 Z" fill="url(#fur)" stroke="#C8C8D8" stroke-width="0.9"/>
+  <!-- 前腿 -->
+  <path d="M 100 140 L 98 152 L 104 152 L 106 142 Z" fill="#F0F0F8"/>
+  <path d="M 116 142 L 118 152 L 112 152 L 110 142 Z" fill="#F0F0F8"/>
+  <!-- 狐头 -->
+  <path d="M 98 112 Q 90 106 92 96 Q 94 90 102 90 Q 110 90 112 96 Q 114 104 108 110 Z" fill="url(#fur)" stroke="#C8C8D8" stroke-width="0.9"/>
+  <!-- 尖耳 -->
+  <path d="M 93 92 L 88 80 L 98 86 Z" fill="#F0F0F8" stroke="#C8C8D8" stroke-width="0.8"/>
+  <path d="M 107 92 L 112 80 L 102 86 Z" fill="#F0F0F8" stroke="#C8C8D8" stroke-width="0.8"/>
+  <!-- 内耳粉 -->
+  <path d="M 91 91 L 89 82 L 96 86 Z" fill="#E8B8C8"/>
+  <path d="M 109 91 L 111 82 L 104 86 Z" fill="#E8B8C8"/>
+  <!-- 狐目（细目望月） -->
+  <path d="M 96 97 Q 98 96 100 97 M 104 97 Q 106 96 108 97" stroke="#3A3A4E" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+  <!-- 鼻尖 -->
+  <circle cx="102" cy="102" r="1.6" fill="#3A3A4E"/>
+  <!-- 月华披身（白毛高光） -->
+  <path d="M 96 110 Q 100 108 108 108 Q 112 110 110 114 Q 106 116 98 114 Q 94 112 96 110 Z" fill="#FFFFFF" opacity="0.7"/>
+
+  <!-- 九尾如纱（月下九条） -->
+  <g stroke="#F0F0F8" stroke-width="3.4" stroke-linecap="round" fill="none">
+    <path d="M 124 138 Q 138 130 144 120">
+      <animateTransform attributeName="transform" type="rotate" values="0 124 138;8 124 138;0 124 138" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 128 140 Q 144 138 152 132">
+      <animateTransform attributeName="transform" type="rotate" values="0 128 140;10 128 140;0 128 140" dur="3.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 122 144 Q 136 150 146 156">
+      <animateTransform attributeName="transform" type="rotate" values="0 122 144;-6 122 144;0 122 144" dur="3.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 隐入身后的六尾（细线示意） -->
+  <g stroke="#E8E8F0" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.6">
+    <path d="M 96 142 Q 84 148 78 156"/>
+    <path d="M 90 146 Q 78 150 72 158"/>
+    <path d="M 102 146 Q 92 154 88 164"/>
+  </g>
+
+  <!-- 月下吐纳狐火（口前幽蓝一点） -->
+  <circle cx="92" cy="98" r="5" fill="#9AC8F0" opacity="0.7">
+    <animate attributeName="r" values="5;7;5" dur="2.4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 月华星尘 -->
+  <g fill="#E8F0FA">
+    <circle cx="44" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.12;0.55" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
