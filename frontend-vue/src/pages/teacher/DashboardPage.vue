@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet } from '@/utils/api'
-import { getSpeciesEmoji, getSeriesBySpeciesId, SERIES_SCENES } from '@/utils/petData'
+import { getSeriesBySpeciesId, SERIES_SCENES } from '@/utils/petData'
+import PetSprite from '@/components/pet/PetSprite.vue'
+import PetHandbook from '@/components/pet/PetHandbook.vue'
 import type { ApiResponse } from '@/types'
 
+interface CardStudent {
+  name: string
+  student_no?: string
+  score: number
+  pet_name?: string
+  pet_species: string
+  pet_level: number
+}
 interface ClassOverviewData {
   class_name: string
   grade: string
@@ -11,20 +21,8 @@ interface ClassOverviewData {
   total_score: number
   avg_pet_level: number
   peak_count: number
-  star_student: {
-    name: string
-    pet_name: string
-    pet_species: string
-    pet_level: number
-    score: number
-  } | null
-  top5: Array<{
-    name: string
-    score: number
-    pet_name: string
-    pet_species: string
-    pet_level: number
-  }>
+  star_student: CardStudent | null
+  top5: CardStudent[]
   recent_news: Array<{
     icon: string
     text: string
@@ -34,6 +32,12 @@ interface ClassOverviewData {
 
 const data = ref<ClassOverviewData | null>(null)
 const loading = ref(true)
+// 点击宠物 SVG 打开的图鉴弹窗
+const handbook = ref<{ speciesId: string; level: number; score: number } | null>(null)
+function openHandbook(s: CardStudent) {
+  if (!s.pet_species) return
+  handbook.value = { speciesId: s.pet_species, level: s.pet_level, score: s.score }
+}
 
 const starBg = computed(() => {
   if (!data.value?.star_student?.pet_species) return 'var(--gradient-primary)'
@@ -56,17 +60,18 @@ onMounted(async () => {
       peak_count: 5,
       star_student: {
         name: '张小明',
+        student_no: '1001',
         pet_name: '九尾天狐',
         pet_species: 'nine_tail_fox',
         pet_level: 12,
         score: 520,
       },
       top5: [
-        { name: '张小明', score: 520, pet_name: '九尾天狐', pet_species: 'nine_tail_fox', pet_level: 12 },
-        { name: '李小红', score: 480, pet_name: '喷火龙', pet_species: 'charmander', pet_level: 11 },
-        { name: '王小刚', score: 410, pet_name: '大熊猫', pet_species: 'panda', pet_level: 9 },
-        { name: '赵小丽', score: 380, pet_name: '亚古兽', pet_species: 'mecha_dragon', pet_level: 8 },
-        { name: '刘小强', score: 350, pet_name: '独角兽', pet_species: 'unicorn', pet_level: 8 },
+        { name: '张小明', student_no: '1001', score: 520, pet_name: '九尾天狐', pet_species: 'nine_tail_fox', pet_level: 12 },
+        { name: '李小红', student_no: '1002', score: 480, pet_name: '喷火龙', pet_species: 'charmander', pet_level: 11 },
+        { name: '王小刚', student_no: '1003', score: 410, pet_name: '大熊猫', pet_species: 'panda', pet_level: 9 },
+        { name: '赵小丽', student_no: '1004', score: 380, pet_name: '亚古兽', pet_species: 'mecha_dragon', pet_level: 8 },
+        { name: '刘小强', student_no: '1005', score: 350, pet_name: '独角兽', pet_species: 'unicorn', pet_level: 8 },
       ],
       recent_news: [
         { icon: '🎉', text: '孙七的【亚古兽】进化到了 Lv.8！' },
@@ -100,15 +105,19 @@ onMounted(async () => {
       <!-- 三栏概览 -->
       <div class="overview-grid">
         <!-- 班级之星 -->
-        <div class="o-card star-card" v-if="data.star_student">
+        <div class="o-card star-card" v-if="data.star_student" style="position:relative;">
           <div class="o-label">🏅 班级之星</div>
+          <div v-if="data.star_student.student_no" style="position:absolute;top:20px;right:24px;font-size:11px;color:var(--color-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px;">学号 {{ data.star_student.student_no }}</div>
           <div class="star-display">
-            <div class="star-avatar" :style="{ background: starBg }">
-              <span class="star-emoji">{{ data.star_student.pet_species ? getSpeciesEmoji(data.star_student.pet_species) : '🌟' }}</span>
+            <div class="star-avatar" :style="{ background: starBg, cursor: 'pointer' }" @click="openHandbook(data.star_student)" title="点击查看宠物介绍">
+              <div v-if="data.star_student.pet_species" style="width:52px;height:52px;">
+                <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
+              </div>
+              <span v-else class="star-emoji">🌟</span>
             </div>
             <div class="star-info">
               <div class="star-name">{{ data.star_student.name }}</div>
-              <div class="star-pet">{{ data.star_student.pet_name }} · Lv.{{ data.star_student.pet_level }}</div>
+              <div class="star-pet">Lv.{{ data.star_student.pet_level }}</div>
               <div class="star-score">{{ data.star_student.score }} 分</div>
             </div>
           </div>
@@ -158,13 +167,18 @@ onMounted(async () => {
             :key="s.name"
             class="top5-card"
             :class="'rank--' + (i + 1)"
+            style="position:relative;"
           >
-            <div class="rank-badge">{{ ['🥇', '🥈', '🥉', '4', '5'][i] }}</div>
-            <div class="rank-avatar">
-              <span class="rank-emoji">{{ s.pet_species ? getSpeciesEmoji(s.pet_species) : '🌟' }}</span>
+            <div class="rank-badge" style="position:absolute;top:8px;left:10px;">{{ ['🥇', '🥈', '🥉', '4', '5'][i] }}</div>
+            <div v-if="s.student_no" style="position:absolute;top:10px;right:10px;font-size:10px;color:var(--color-text-secondary);background:var(--tint-2);padding:1px 6px;border-radius:6px;">{{ s.student_no }}</div>
+            <div class="rank-avatar" style="cursor:pointer;" @click="openHandbook(s)" title="点击查看宠物介绍">
+              <div v-if="s.pet_species" style="width:44px;height:44px;">
+                <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+              </div>
+              <span v-else class="rank-emoji">🌟</span>
             </div>
             <div class="rank-name">{{ s.name }}</div>
-            <div class="rank-pet">{{ s.pet_name }} · Lv.{{ s.pet_level }}</div>
+            <div class="rank-pet">Lv.{{ s.pet_level }}</div>
             <div class="rank-score">{{ s.score }} 分</div>
             <div class="rank-bar">
               <div class="bar-fill" :style="{ width: (s.score / data.top5[0].score) * 100 + '%' }"></div>
@@ -180,6 +194,9 @@ onMounted(async () => {
       <p>暂未分配班级</p>
       <p style="font-size:13px;color:var(--color-text-secondary);margin-top:6px;">请联系管理员为你分配班级后使用</p>
     </div>
+
+    <!-- 宠物图鉴弹窗 -->
+    <PetHandbook v-if="handbook" :species-id="handbook.speciesId" :current-level="handbook.level" :current-score="handbook.score" @close="handbook = null" />
   </div>
 </template>
 
