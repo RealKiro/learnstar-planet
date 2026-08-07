@@ -20,10 +20,12 @@
 /backend/public/css
 /backend/public/js
 /backend/public/mix-manifest.json
-# 前端构建产物（build:deploy 输出，源文件在 frontend-vue/public/）
+# 前端构建产物（Docker 构建时重新生成，源文件在 frontend-vue/public/）
 /backend/public/assets
 /backend/public/favicon.svg
 /backend/public/icons.svg
+/backend/public/index.html
+/backend/public/icons
 /backend/coverage.xml
 /backend/coverage-html
 
