@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { apiGet } from '@/utils/api'
+import { apiGet, apiPost } from '@/utils/api'
 import type { ApiResponse, Student } from '@/types'
 
 // ===== 类型 =====
 interface ClassPKData {
+  class_id: number
   name: string
   totalScore: number
   studentCount: number
@@ -27,29 +28,39 @@ const router = useRouter()
 function goToLeaderboard() { router.push({ name: 'teacher-leaderboard' }) }
 
 const pkMsg = ref('')
-const pkStatus = ref<Record<string, 'idle' | 'success'>>({})
-function startPk(clsName: string) {
-  if (pkStatus.value[clsName] === 'success') return
-  pkStatus.value[clsName] = 'success'
-  pkMsg.value = `🚀 已向 ${clsName} 发起挑战！本周内总积分超过对方即可获胜！`
-  setTimeout(() => {
-    pkStatus.value[clsName] = 'idle'
-    pkMsg.value = ''
-  }, 2500)
+const pkError = ref('')
+const pkBusy = ref(false)
+const pkStatus = ref<'idle' | 'success' | 'error'>('idle')
+// 挑战目标 = 排名最高的对班（非本班）；本班第 1 名时自动挑战第 2 名
+const challengeTarget = computed(() => classes.value.find(c => !c.isOwn) || null)
+const challengeDone = computed(() => pkStatus.value === 'success')
+
+async function startPk() {
+  const target = challengeTarget.value
+  if (!target || pkBusy.value || pkStatus.value === 'success') return
+  pkBusy.value = true
+  pkError.value = ''
+  try {
+    const res = await apiPost<{ message: string }>('/api/v1/teacher/pk/challenge', { target_class_id: target.class_id })
+    pkStatus.value = 'success'
+    pkMsg.value = res.message || `🚀 已向 ${target.name} 发起挑战！`
+    setTimeout(() => { pkStatus.value = 'idle'; pkMsg.value = '' }, 3000)
+  } catch (e: any) {
+    pkStatus.value = 'error'
+    pkError.value = e?.response?.data?.message || '挑战失败，请稍后重试'
+  } finally {
+    pkBusy.value = false
+  }
 }
-// "发起挑战"按钮：默认挑战排名第一的对班
-const challengeDone = computed(() => {
-  const target = classes.value.find(c => !c.isOwn)
-  return target ? pkStatus.value[target.name] === 'success' : false
-})
 
 // ===== 数据 =====
 const students = ref<Student[]>([])
 const classes = ref<ClassPKData[]>([])
 const overview = ref<PKOverview>({
-  totalScore: 0, avgLevel: 0, peakCount: 0, weekGrowth: 128, rank: 1,
+  totalScore: 0, avgLevel: 0, peakCount: 0, weekGrowth: 0, rank: 0,
 })
 const loading = ref(true)
+const loadError = ref('')
 
 const LEVEL_SCORES = [0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450]
 
@@ -89,24 +100,19 @@ onMounted(async () => {
     ])
     students.value = sRes.data || []
     classes.value = pkRes.data || []
-  } catch {
-    // Demo data
-    const names = ['张小明', '李小红', '王小刚', '赵小丽', '刘小强', '陈小美', '周小龙']
-    students.value = names.map((name, i) => ({
-      id: i + 1, name, total_score: Math.floor(Math.random() * 400) + 50,
-      class_id: 1, status: 'active' as const,
-    }))
-    const total = students.value.reduce((s, v) => s + v.total_score, 0)
-    const avg = students.value.reduce((s, v) => s + calcLevel(v.total_score), 0) / students.value.length
-    const peak = students.value.filter(s => calcLevel(s.total_score) >= 10).length
-    overview.value = { totalScore: total, avgLevel: avg, peakCount: peak, weekGrowth: 128, rank: 2 }
-    classes.value = [
-      { name: '三年级二班', totalScore: 4200, studentCount: 45, avgLevel: 7.2, peakCount: 8, weekGrowth: 156, isOwn: false },
-      { name: '三年级一班 (本班)', totalScore: total, studentCount: students.value.length, avgLevel: avg, peakCount: peak, weekGrowth: 128, isOwn: true },
-      { name: '三年级三班', totalScore: 3800, studentCount: 43, avgLevel: 6.8, peakCount: 5, weekGrowth: 112, isOwn: false },
-      { name: '三年级四班', totalScore: 3500, studentCount: 44, avgLevel: 6.1, peakCount: 4, weekGrowth: 98, isOwn: false },
-      { name: '三年级五班', totalScore: 3100, studentCount: 42, avgLevel: 5.5, peakCount: 3, weekGrowth: 85, isOwn: false },
-    ]
+    // 本班统计从排行榜推导（真实数据，非假数据）
+    const own = classes.value.find(c => c.isOwn)
+    if (own) {
+      overview.value = {
+        totalScore: own.totalScore,
+        avgLevel: own.avgLevel,
+        peakCount: own.peakCount,
+        weekGrowth: own.weekGrowth,
+        rank: classes.value.indexOf(own) + 1,
+      }
+    }
+  } catch (e: any) {
+    loadError.value = e?.response?.data?.message || 'PK 排行榜加载失败，请稍后重试'
   } finally {
     loading.value = false
   }
@@ -129,6 +135,10 @@ onMounted(async () => {
     <div v-if="loading" class="loading-state">
       <div class="loading-spinner"></div>
       <p>加载排行数据...</p>
+    </div>
+
+    <div v-else-if="loadError" class="loading-state" style="color:#ef4444;">
+      <p>⚠️ {{ loadError }}</p>
     </div>
 
     <template v-else>
@@ -222,11 +232,13 @@ onMounted(async () => {
           <button
             class="challenge-btn"
             :class="{ 'challenge-btn--done': challengeDone }"
-            @click="startPk(classes[0] && !classes[0].isOwn ? classes[0].name : '对手班级')"
+            :disabled="pkBusy || !challengeTarget"
+            @click="startPk()"
           >
-            {{ challengeDone ? '已发起 ✓' : '⚡ 发起挑战' }}
+            {{ challengeDone ? '已发起 ✓' : pkBusy ? '发起中...' : '⚡ 发起挑战' }}
           </button>
           <div v-if="pkMsg" class="pk-inline-msg">{{ pkMsg }}</div>
+          <div v-if="pkError" class="pk-inline-msg" style="color:#ef4444;">{{ pkError }}</div>
         </div>
       </div>
     </template>

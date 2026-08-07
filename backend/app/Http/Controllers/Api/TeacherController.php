@@ -1074,6 +1074,7 @@ class TeacherController extends Controller
                 ->sum('amount');
 
             return [
+                'class_id' => $class->id,
                 'name' => $class->name,
                 'totalScore' => (int) $totalScore,
                 'studentCount' => $count,

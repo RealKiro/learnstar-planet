@@ -47,7 +47,7 @@ async function send(prompt?: string) {
     const reply = (res as unknown as { data: { reply: string } }).data?.reply ?? '暂无回复'
     messages.value.push({ role: 'assistant', content: reply })
     // 检查配置状态
-    if (reply.includes('需要配置') || reply.includes('未配置') || reply.includes('未配置')) showHint.value = true
+    if (reply.includes('需要配置') || reply.includes('未配置') || reply.includes('未启用')) showHint.value = true
     // 刷新用量
     const usageRes = await apiGet<ApiResponse<Usage>>('/api/v1/teacher/ai/usage')
     usage.value = usageRes.data || null
