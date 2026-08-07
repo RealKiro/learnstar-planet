@@ -347,7 +347,8 @@ function buildPrompt(sp, stage, idx) {
   const hair = special ? special[idx].hair : b.hair
   const movement = prof.movement ? prof.movement.replace(/[。！]$/, '') : ''
   let action = b.action
-  if (movement && idx >= 2) action += '，' + movement
+  // 标志动作只在「道法初成(三阶)首次展露」与「道果圆满(六阶)绝技大成」注入，避免 3-6 阶动作尾巴连重复
+  if (movement && (idx === 2 || idx === 5)) action += '，' + movement
 
   const zh =
     `${baseName}，${stage.zh}阶段·${isInit ? init.name : lvName}。` +
