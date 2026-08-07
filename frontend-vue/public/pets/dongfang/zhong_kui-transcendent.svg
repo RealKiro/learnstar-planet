@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="钟馗·六阶·归真·驱魔真君">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EDE8DE"/>
+      <stop offset="70%" stop-color="#E6E4E0"/>
+      <stop offset="100%" stop-color="#CBCFD6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#9A8FB8" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#9A8FB8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="robe" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#E4E0DA" stop-opacity="0.5"/>
+    </radialGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#D8A090"/>
+      <stop offset="100%" stop-color="#C89A88"/>
+    </radialGradient>
+
+    <g id="zhongkui-head">
+      <ellipse cx="0" cy="0" rx="20" ry="18" fill="url(#skin)"/>
+      <path d="M 0 -15 L 0 -7" stroke="#A08070" stroke-width="2" stroke-linecap="round"/>
+      <path d="M -16 -10 Q -10 -15 -4 -13 M 16 -10 Q 10 -15 4 -13" fill="none" stroke="#5A4A40" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="-8" cy="-4" r="5.4" fill="#E8E0D8"/>
+      <circle cx="8" cy="-4" r="5.4" fill="#E8E0D8"/>
+      <circle cx="-8" cy="-4" r="2" fill="#5A4A40"/>
+      <circle cx="8" cy="-4" r="2" fill="#5A4A40"/>
+      <path d="M -14 4 Q -16 12 -10 18 Q 0 24 10 18 Q 16 12 14 4 Q 10 8 0 8 Q -10 8 -14 4 Z" fill="#5A4A40"/>
+      <path d="M -12 10 Q -8 14 -4 12 M 12 10 Q 8 14 4 12" stroke="#6A5A50" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 神光（呼吸，融入山河） -->
+  <circle cx="100" cy="104" r="80" fill="url(#glow)">
+    <animate attributeName="r" values="80;90;80" dur="3.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 环境：远山云海 -->
+  <path d="M 0 168 Q 40 152 80 160 Q 120 172 150 156 Q 175 144 200 154 L 200 200 L 0 200 Z" fill="#B7BDC9" opacity="0.5"/>
+  <path d="M 0 178 Q 30 170 60 176 Q 90 182 120 174 Q 160 164 200 174 L 200 196 Q 150 186 100 192 Q 50 198 0 192 Z" fill="#FFFFFF" opacity="0.75"/>
+
+  <!-- 素衣端立（不履不冠，半透明正气化形） -->
+  <path d="M 78 96 Q 70 112 76 132 Q 100 144 124 130 Q 130 108 122 94 Q 100 86 78 96 Z" fill="url(#robe)"/>
+  <path d="M 92 92 L 92 136 M 108 92 L 108 136" stroke="#D8D4CE" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- 手臂（垂放，正气） -->
+  <path d="M 86 100 C 80 108 78 118 80 128" fill="none" stroke="#F0ECE6" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 116 100 C 122 108 124 118 122 126" fill="none" stroke="#F0ECE6" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- 头（头部模板 scale 0.95，半透明神光内蕴） -->
+  <g opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.75;0.5" dur="3.2s" repeatCount="indefinite"/>
+    <use href="#zhongkui-head" transform="translate(100,82) scale(0.95)"/>
+  </g>
+
+  <!-- 正气光环（头顶） -->
+  <circle cx="100" cy="54" r="10" fill="none" stroke="#9A8FB8" stroke-width="1.6" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 归真粒子（飘浮） -->
+  <g fill="#9A8FB8">
+    <circle cx="60" cy="110">
+      <animate attributeName="cy" values="110;100;110" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.15;0.55" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="124">
+      <animate attributeName="cy" values="124;114;124" dur="4.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="4.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

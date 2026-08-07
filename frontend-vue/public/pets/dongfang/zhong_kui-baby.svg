@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="钟馗·二阶·凡尘·触阶而亡">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5B6B7A"/>
+      <stop offset="100%" stop-color="#414E5A"/>
+    </linearGradient>
+    <linearGradient id="side" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E8B84B" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#E8B84B" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#D86A4A"/>
+      <stop offset="60%" stop-color="#C85A4A"/>
+      <stop offset="100%" stop-color="#A8463A"/>
+    </radialGradient>
+    <radialGradient id="robe" cx="45%" cy="36%" r="72%">
+      <stop offset="0%" stop-color="#8A9BA8"/>
+      <stop offset="60%" stop-color="#7A8A96"/>
+      <stop offset="100%" stop-color="#5B6B7A"/>
+    </radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C9B37E" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#C9B37E" stop-opacity="0"/>
+    </radialGradient>
+
+    <g id="zhongkui-head">
+      <ellipse cx="0" cy="0" rx="20" ry="18" fill="url(#skin)"/>
+      <path d="M 0 -15 L 0 -7" stroke="#8E3A2A" stroke-width="2" stroke-linecap="round"/>
+      <path d="M -16 -10 Q -10 -15 -4 -13 M 16 -10 Q 10 -15 4 -13" fill="none" stroke="#2A1A0A" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="-8" cy="-4" r="5.4" fill="#FFF"/>
+      <circle cx="8" cy="-4" r="5.4" fill="#FFF"/>
+      <circle cx="-8" cy="-4" r="2.2" fill="#2A1A0A"/>
+      <circle cx="8" cy="-4" r="2.2" fill="#2A1A0A"/>
+      <path d="M -6 6 L -3 9 L 3 9 L 6 6" fill="#8E3A2A" opacity="0.8"/>
+      <path d="M -14 4 Q -16 12 -10 18 Q 0 24 10 18 Q 16 12 14 4 Q 10 8 0 8 Q -10 8 -14 4 Z" fill="#2A1A0A"/>
+      <path d="M -12 10 Q -8 14 -4 12 M 12 10 Q 8 14 4 12" stroke="#3A2A1A" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <polygon points="0,0 140,0 30,200 0,200" fill="url(#side)"/>
+
+  <!-- 灵光（呼吸） -->
+  <circle cx="100" cy="114" r="66" fill="url(#core)">
+    <animate attributeName="r" values="66;74;66" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 环境：地面 -->
+  <path d="M 12 170 Q 60 165 108 168 T 196 164" fill="none" stroke="#333F4A" stroke-width="2" opacity="0.7"/>
+
+  <!-- 青衫下摆 + 布鞋 -->
+  <path d="M 88 138 L 112 138 L 114 156 L 86 156 Z" fill="url(#robe)"/>
+  <ellipse cx="92" cy="158" rx="8" ry="5" fill="#4A5A66"/>
+  <ellipse cx="108" cy="158" rx="8" ry="5" fill="#4A5A66"/>
+
+  <!-- 身体（青衫，宽肩落拓） -->
+  <path d="M 82 92 Q 74 108 80 130 Q 100 140 120 130 Q 126 108 118 92 Q 100 84 82 92 Z" fill="url(#robe)"/>
+  <!-- 衣襟 -->
+  <path d="M 100 90 L 100 130" stroke="#5B6B7A" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- 腰悬旧笔 -->
+  <path d="M 112 122 L 118 138" stroke="#6A5540" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M 118 138 L 122 132" stroke="#C9B37E" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 手臂（一垂，一扶腰） -->
+  <path d="M 88 98 C 82 104 80 112 82 120" fill="none" stroke="url(#robe)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="82" cy="124" r="4" fill="#D0B8A0"/>
+  <path d="M 112 100 C 118 106 120 112 118 118" fill="none" stroke="url(#robe)" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- 头（头部模板 scale 0.95，身体正上方） -->
+  <use href="#zhongkui-head" transform="translate(100,94) scale(0.95)"/>
+
+  <!-- 发丝散乱（头侧几缕） -->
+  <path d="M 116 80 C 126 84 132 90 134 98" fill="none" stroke="#2A1A0A" stroke-width="2" stroke-linecap="round" opacity="0.8">
+    <animateTransform attributeName="transform" type="rotate" values="0 116 80;4 116 80;0 116 80" dur="3s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 晨光微粒（飘浮） -->
+  <g fill="#E8B84B">
+    <circle cx="42" cy="110">
+      <animate attributeName="cy" values="110;102;110" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.15;0.55" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="108">
+      <animate attributeName="cy" values="108;100;108" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

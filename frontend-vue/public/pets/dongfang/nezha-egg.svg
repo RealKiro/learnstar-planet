@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="哪吒·一阶·灵胎·灵珠种子">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A5A6A"/>
+      <stop offset="100%" stop-color="#2A3542"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C9B37E" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#C9B37E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pearl" cx="44%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#E8544A"/>
+      <stop offset="55%" stop-color="#C22A1A"/>
+      <stop offset="100%" stop-color="#8E1A12"/>
+    </radialGradient>
+    <radialGradient id="inner" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 哪吒头部模板（童角：圆脸/双总角/齐刘海/大眼圆睁/红晕/呆毛） -->
+    <g id="nezha-head">
+      <ellipse cx="0" cy="0" rx="19" ry="17" fill="#FBEBD6" stroke="#D8B894" stroke-width="1"/>
+      <circle cx="-14" cy="-21" r="7" fill="#2A1A0A"/>
+      <circle cx="14" cy="-21" r="7" fill="#2A1A0A"/>
+      <path d="M -10 -14 Q -4 -18 0 -15 Q 4 -18 10 -14" fill="none" stroke="#2A1A0A" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="-7" cy="-2" r="4.4" fill="#1A0A0A"/>
+      <circle cx="7" cy="-2" r="4.4" fill="#1A0A0A"/>
+      <circle cx="-5.4" cy="-3.6" r="1.5" fill="#FFF"/>
+      <circle cx="8.6" cy="-3.6" r="1.5" fill="#FFF"/>
+      <path d="M -11 -6 Q -8 -9 -5 -8 M 11 -6 Q 8 -9 5 -8" fill="none" stroke="#2A1A0A" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M -4 6 Q 0 9 4 6" fill="none" stroke="#C85A4A" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="-11" cy="4" r="3.6" fill="#C85A4A" opacity="0.28"/>
+      <circle cx="11" cy="4" r="3.6" fill="#C85A4A" opacity="0.28"/>
+      <path d="M 0 -18 Q 2 -22 5 -23" fill="none" stroke="#2A1A0A" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 仙山云雾（托灵珠） -->
+  <g opacity="0.85">
+    <animateTransform attributeName="transform" type="translate" values="0 0;-3 0;0 0" dur="6s" repeatCount="indefinite"/>
+    <path d="M 34 174 Q 60 166 88 172 Q 112 178 140 170 Q 162 164 182 172 L 176 186 Q 140 180 112 186 Q 84 192 52 186 Z" fill="#FFFFFF" opacity="0.5"/>
+    <path d="M 58 180 Q 84 174 112 180 Q 138 186 158 182" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+  </g>
+
+  <!-- 仙金灵光（呼吸） -->
+  <circle cx="100" cy="142" r="46" fill="url(#halo)">
+    <animate attributeName="r" values="46;54;46" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 莲花轮廓（若隐若现） -->
+  <path d="M 70 156 Q 78 144 86 154 Q 92 142 100 154 Q 108 142 114 154 Q 122 144 130 156 Q 110 164 70 156 Z" fill="#F5D742" opacity="0.18"/>
+
+  <!-- 灵珠内孩童轮廓（总角发髻，半透明） -->
+  <g opacity="0.55">
+    <animate attributeName="opacity" values="0.55;0.85;0.55" dur="3s" repeatCount="indefinite"/>
+    <circle cx="100" cy="140" r="26" fill="url(#inner)"/>
+    <use href="#nezha-head" transform="translate(100,140) scale(0.5)" opacity="0.6"/>
+  </g>
+
+  <!-- 赤红灵珠 -->
+  <ellipse cx="100" cy="146" rx="26" ry="28" fill="url(#pearl)"/>
+  <ellipse cx="100" cy="146" rx="26" ry="28" fill="none" stroke="#E8544A" stroke-opacity="0.4" stroke-width="1"/>
+  <!-- 灵珠内火光 -->
+  <circle cx="100" cy="146" r="12" fill="#F5D742" opacity="0.3">
+    <animate attributeName="r" values="12;16;12" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 火尖枪锋芒（一点枪尖光） -->
+  <path d="M 96 132 L 100 118 L 104 132 Q 100 136 96 132 Z" fill="#F5D742" opacity="0.85">
+    <animate attributeName="opacity" values="0.85;0.3;0.85" dur="1.6s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 仙气粒子（飘浮） -->
+  <g fill="#C9B37E">
+    <circle cx="68" cy="156">
+      <animate attributeName="cy" values="156;148;156" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="132" cy="152">
+      <animate attributeName="cy" values="152;144;152" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

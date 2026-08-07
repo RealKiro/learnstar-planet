@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="钟馗·四阶·淬炼·驱鬼之王">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#241A14"/>
+      <stop offset="70%" stop-color="#17100C"/>
+      <stop offset="100%" stop-color="#2B1810"/>
+    </radialGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#D86A4A"/>
+      <stop offset="60%" stop-color="#C85A4A"/>
+      <stop offset="100%" stop-color="#A8463A"/>
+    </radialGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C22A1A"/>
+      <stop offset="100%" stop-color="#8E1A12"/>
+    </linearGradient>
+
+    <g id="zhongkui-head">
+      <ellipse cx="0" cy="0" rx="20" ry="18" fill="url(#skin)"/>
+      <path d="M 0 -15 L 0 -7" stroke="#8E3A2A" stroke-width="2" stroke-linecap="round"/>
+      <path d="M -16 -10 Q -10 -15 -4 -13 M 16 -10 Q 10 -15 4 -13" fill="none" stroke="#1A0A0A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="-8" cy="-4" r="6" fill="#FFF"/>
+      <circle cx="8" cy="-4" r="6" fill="#FFF"/>
+      <circle cx="-8" cy="-4" r="2.4" fill="#1A0A0A"/>
+      <circle cx="8" cy="-4" r="2.4" fill="#1A0A0A"/>
+      <path d="M -6 6 L -3 9 L 3 9 L 6 6" fill="#8E3A2A" opacity="0.8"/>
+      <path d="M -14 4 Q -17 13 -10 20 Q 0 26 10 20 Q 17 13 14 4 Q 10 9 0 9 Q -10 9 -14 4 Z" fill="#1A0A0A"/>
+      <path d="M -12 11 Q -8 16 -4 13 M 12 11 Q 8 16 4 13 M 0 10 L 0 18 M -6 8 L -9 12 M 6 8 L 9 12" stroke="#2A1A0A" stroke-width="1.8" stroke-linecap="round" opacity="0.9"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- 环境：鬼火（跃动） -->
+  <g>
+    <animate attributeName="opacity" values="0.5;0.85;0.5" dur="1.6s" repeatCount="indefinite"/>
+    <path d="M 22 186 Q 34 164 48 180 Q 58 158 72 176 Q 84 154 98 174 Q 110 156 122 176 Q 134 160 146 180 Q 156 162 170 184 Q 178 170 188 186 Z" fill="#8B1A1A"/>
+    <path d="M 30 188 Q 44 168 58 182 Q 70 162 84 178 Q 96 162 110 180 Q 122 164 134 182 Q 146 168 158 186 Z" fill="#D43A2A" opacity="0.6"/>
+  </g>
+
+  <!-- 青锋剑（斜背于后） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 128 66;4 128 66;0 128 66" dur="2.4s" repeatCount="indefinite"/>
+    <line x1="112" y1="96" x2="142" y2="40" stroke="#C9B37E" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 142 40 L 150 32 L 142 36 L 147 28 Z" fill="#E8E0D0"/>
+    <path d="M 112 96 L 108 104" stroke="#8E6E3A" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- 红袍下摆 + 官靴 -->
+  <path d="M 82 138 L 118 138 L 120 158 L 80 158 Z" fill="url(#robe)"/>
+  <path d="M 86 154 L 94 154 L 96 162 L 84 162 Z" fill="#1A0A0A"/>
+  <path d="M 106 154 L 114 154 L 116 162 L 104 162 Z" fill="#1A0A0A"/>
+
+  <!-- 身体（红袍，魁梧前倾） -->
+  <path d="M 80 92 Q 70 110 78 132 Q 100 144 122 130 Q 128 108 120 92 Q 100 84 80 92 Z" fill="url(#robe)" transform="rotate(-6 100 110)"/>
+  <path d="M 100 90 L 100 132" stroke="#7E1A12" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- 手臂（一挥剑鞘/握拳，一持判官笔） -->
+  <path d="M 90 100 C 84 108 80 118 82 128" fill="none" stroke="url(#robe)" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="82" cy="132" r="5" fill="#D0B8A0"/>
+  <path d="M 112 102 C 122 110 126 120 122 130" fill="none" stroke="url(#robe)" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- 判官笔（左手持，笔尖朝下） -->
+  <line x1="120" y1="110" x2="126" y2="150" stroke="#6A5540" stroke-width="3" stroke-linecap="round"/>
+  <line x1="126" y1="150" x2="128" y2="158" stroke="#C9B37E" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- 头（头部模板 scale 1.0，豹眼圆睁虬髯怒张） -->
+  <use href="#zhongkui-head" transform="translate(100,84) scale(1)"/>
+
+  <!-- 乌纱帽（斜戴，微歪） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 100 62;0 100 62;-4 100 62" dur="2s" repeatCount="indefinite"/>
+    <path d="M 82 60 Q 100 52 118 60 L 116 70 Q 100 74 84 70 Z" fill="#1A1210"/>
+    <path d="M 78 60 L 90 62 M 122 60 L 110 62" stroke="#1A1210" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- 驱鬼光环 -->
+  <circle cx="100" cy="110" r="60" fill="none" stroke="#D43A2A" stroke-width="1.6" opacity="0.5" stroke-dasharray="7 6">
+    <animateTransform attributeName="transform" type="rotate" values="0 100 110;20 100 110;0 100 110" dur="5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 火星（飘浮） -->
+  <g fill="#F97316">
+    <circle cx="54" cy="112">
+      <animate attributeName="cy" values="112;102;112" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.85;0.15;0.85" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="146" cy="108">
+      <animate attributeName="cy" values="108;98;108" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.12;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
