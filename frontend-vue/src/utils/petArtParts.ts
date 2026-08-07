@@ -102,7 +102,7 @@ export const PET_ART: Record<string, PetArtConfig> = {
   bulbasaur:     { body: 'quadruped', main: '#0D9488', variant: 'seed', parts: { tail: 4, crown: 6 }, stageMain: { egg: '#99F6E4', baby: '#2DD4BF', growing: '#0D9488', mature: '#0F766E', legendary: '#115E59' } },
   squirtle:      { body: 'quadruped', main: '#3B82F6', variant: 'turtle', parts: { tail: 3, crown: 7 }, stageMain: { egg: '#93C5FD', baby: '#60A5FA', growing: '#3B82F6', mature: '#2563EB', legendary: '#1E40AF' } },
   eevee:         { body: 'quadruped', main: '#B45309', variant: 'fox', parts: { tail: 3, horns: 9 } },
-  pikachu:       { body: 'quadruped', main: '#FACC15', variant: 'mouse', parts: { tail: 3, horns: 9 } },
+  pikachu:       { body: 'quadruped', main: '#FACC15', variant: 'mouse', parts: { tail: 3, horns: 9 }, stageVariants: { growing: 'mouse-teen', mature: 'mouse-teen', legendary: 'mouse-legend', transcendent: 'mouse-legend' } },
   riolu:         { body: 'quadruped', main: '#6366F1', variant: 'pup', parts: { tail: 4, horns: 8 } },
   // ===== 国宝守护 =====
   panda:               { body: 'quadruped', main: '#F1F5F9', variant: 'panda', parts: { tail: 4, crown: 10 } },

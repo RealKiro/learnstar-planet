@@ -559,6 +559,47 @@ function fxShape(size: number): string {
           </g>
         </template>
 
+        <!-- 皮卡丘·成长期/成熟期（更大更挺，双颊带电光） -->
+        <template v-else-if="art.variant === 'mouse-teen'">
+          <path d="M126 116 Q152 102 158 86 L152 100 L148 84 L140 98" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="122" rx="31" ry="27" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="135" rx="20" ry="13" :fill="art.light" opacity="0.85"/>
+          <circle cx="100" cy="82" r="26" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M80 64 L66 38 L92 55 Z" :fill="art.main"/>
+            <path d="M120 64 L134 38 L108 55 Z" :fill="art.main"/>
+            <path d="M75 47 L70 39 L81 47 Z" fill="#1F2937"/>
+            <path d="M125 47 L130 39 L119 47 Z" fill="#1F2937"/>
+          </g>
+          <g class="cheeks">
+            <circle cx="84" cy="94" r="6" fill="#F87171" opacity="0.85"/>
+            <circle cx="116" cy="94" r="6" fill="#F87171" opacity="0.85"/>
+          </g>
+        </template>
+
+        <!-- 皮卡丘·传说/归真（雷丘威猛形态，金色电光缭绕） -->
+        <template v-else-if="art.variant === 'mouse-legend'">
+          <path d="M120 120 Q152 96 160 76 L150 96 L146 78 L136 94" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="125" rx="35" ry="31" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="139" rx="23" ry="15" :fill="art.light" opacity="0.85"/>
+          <circle cx="100" cy="80" r="28" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears">
+            <path d="M78 62 L62 34 L90 53 Z" :fill="art.main"/>
+            <path d="M122 62 L138 34 L110 53 Z" :fill="art.main"/>
+            <path d="M71 44 L66 36 L78 44 Z" fill="#1F2937"/>
+            <path d="M129 44 L134 36 L122 44 Z" fill="#1F2937"/>
+          </g>
+          <g class="cheeks">
+            <circle cx="81" cy="92" r="7" fill="#F87171" opacity="0.9"/>
+            <circle cx="119" cy="92" r="7" fill="#F87171" opacity="0.9"/>
+          </g>
+          <g v-if="level >= 9" class="legend-electric">
+            <path d="M58 58 Q70 44 86 50 M142 58 Q130 44 114 50" stroke="#FDE047" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.85"/>
+            <path d="M62 72 L54 78 L64 78 Z" fill="#FDE047" opacity="0.9"/>
+            <path d="M138 72 L146 78 L136 78 Z" fill="#FDE047" opacity="0.9"/>
+          </g>
+        </template>
+
         <!-- 利欧路（riolu） -->
         <template v-else-if="art.variant === 'pup'">
           <path d="M128 118 Q150 108 152 94" :fill="art.dark" class="tail"/>
