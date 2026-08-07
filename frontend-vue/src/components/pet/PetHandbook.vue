@@ -148,7 +148,7 @@ const poemLines = computed(() => poemToLines(poem.value))
             <div class="stat-item">
               <span class="stat-label">阶段</span>
               <span class="stat-value stage-badge" :class="'stage--' + (levels.find(l => l.level === previewLevel)?.stage || 'egg')">
-                {{ { egg: '新生', baby: '幼年', growing: '成长期', mature: '成熟期', legendary: '传说级' }[(levels.find(l => l.level === previewLevel)?.stage || 'egg')] }}
+                {{ { egg: '新生', baby: '幼年', growing: '成长期', mature: '成熟期', legendary: '传说级', transcendent: '归真' }[(levels.find(l => l.level === previewLevel)?.stage || 'egg')] }}
               </span>
             </div>
           </div>
@@ -470,6 +470,7 @@ const poemLines = computed(() => poemToLines(poem.value))
 .stage--growing { background: rgba(59,130,246,0.2); color: #3B82F6; }
 .stage--mature { background: rgba(139,92,246,0.2); color: #8B5CF6; }
 .stage--legendary { background: rgba(245,158,11,0.2); color: #F59E0B; }
+.stage--transcendent { background: rgba(244,114,182,0.2); color: #F472B6; }
 
 .unlock-hint {
   margin-top: 10px;

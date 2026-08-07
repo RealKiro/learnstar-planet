@@ -21,6 +21,7 @@ const stageLabels: Record<string, string> = {
   growing: '成长期',
   mature: '成熟期',
   legendary: '传说级',
+  transcendent: '归真级',
 }
 
 function isUnlocked(level: number): boolean {

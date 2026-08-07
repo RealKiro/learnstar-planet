@@ -839,9 +839,9 @@ export function getEvoLines(speciesName: string): string[] {
 
 /** 根据等级换算进化阶段索引(0-5)：新生之卵/幼年/成长期/成熟期/巅峰期/涅槃 */
 export function stageIndexForLevel(level: number): number {
-  if (level <= 1) return 0
-  if (level <= 2) return 1
-  if (level <= 5) return 2
+  if (level <= 2) return 0
+  if (level <= 4) return 1
+  if (level <= 6) return 2
   if (level <= 8) return 3
   if (level <= 10) return 4
   return 5

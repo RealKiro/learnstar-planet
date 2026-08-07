@@ -25,9 +25,9 @@ export interface PetArtConfig {
   /** 剪影变体：同身体模板下的独立外形（宝可梦/七侠/神话龙等需手绘贴合原型，跨阶段也随 variant 演化） */
   variant?: string
   /** 各阶段剪影变体（重点角色手调：随进化换更强模板） */
-  stageVariants?: Partial<Record<'egg' | 'baby' | 'growing' | 'mature' | 'legendary', string>>
+  stageVariants?: Partial<Record<'egg' | 'baby' | 'growing' | 'mature' | 'legendary' | 'transcendent', string>>
   /** 各阶段主色覆盖（未配置时用程序化阶段明暗） */
-  stageMain?: Partial<Record<'egg' | 'baby' | 'growing' | 'mature' | 'legendary', string>>
+  stageMain?: Partial<Record<'egg' | 'baby' | 'growing' | 'mature' | 'legendary' | 'transcendent', string>>
   /** 各部件出现的等级阈值 */
   parts?: Partial<Record<'horns' | 'wings' | 'tail' | 'fin' | 'halo' | 'crown', number>>
   /** 是否抽象灵体(无实体身体，如量子/星灵) */
@@ -51,7 +51,7 @@ export interface PetArtRender {
   glow: number
   /** 部件是否出现 */
   parts: { horns: boolean; wings: boolean; tail: boolean; fin: boolean; halo: boolean; crown: boolean }
-  stage: 'egg' | 'baby' | 'growing' | 'mature' | 'legendary'
+  stage: 'egg' | 'baby' | 'growing' | 'mature' | 'legendary' | 'transcendent'
   /** 眼睛风格 */
   eyes: 'big' | 'normal' | 'sharp' | 'serene'
   /** 腮红(幼年) */
@@ -253,18 +253,18 @@ export function computePetArt(speciesId: string, level: number): PetArtRender {
   const stage = getLevelStage(level)
 
   const scaleByStage: Record<string, number> = {
-    egg: 0.9, baby: 1, growing: 1.12, mature: 1.26, legendary: 1.4,
+    egg: 0.9, baby: 1, growing: 1.12, mature: 1.26, legendary: 1.4, transcendent: 1.55,
   }
   const glowByStage: Record<string, number> = {
-    egg: 0.25, baby: 0, growing: 0.3, mature: 0.55, legendary: 1,
+    egg: 0.25, baby: 0, growing: 0.3, mature: 0.55, legendary: 1, transcendent: 1,
   }
   const eyesByStage: Record<string, PetArtRender['eyes']> = {
-    egg: 'serene', baby: 'big', growing: 'normal', mature: 'sharp', legendary: 'serene',
+    egg: 'serene', baby: 'big', growing: 'normal', mature: 'sharp', legendary: 'serene', transcendent: 'serene',
   }
 
-  // 程序化阶段主色：幼年提亮、成熟加深、传说提亮（重点角色可用 stageMain 覆盖）
+  // 程序化阶段主色：幼年提亮、成熟加深、传说提亮、归真提亮（重点角色可用 stageMain 覆盖）
   const stageShade: Record<string, number> = {
-    egg: 0.45, baby: 0.28, growing: 0.05, mature: -0.18, legendary: 0.12,
+    egg: 0.45, baby: 0.28, growing: 0.05, mature: -0.18, legendary: 0.12, transcendent: 0.2,
   }
   const baseMain = cfg.stageMain?.[stage] || cfg.main
   const main = stageShade[stage] ? shade(baseMain, stageShade[stage]) : baseMain
@@ -276,6 +276,7 @@ export function computePetArt(speciesId: string, level: number): PetArtRender {
     growing:  { horns: true,  wings: false, fin: false, halo: false, crown: false },
     mature:   { horns: true,  wings: true,  fin: true,  halo: false, crown: false },
     legendary:{ horns: true,  wings: true,  fin: true,  halo: true,  crown: true },
+    transcendent:{ horns: true, wings: true, fin: true, halo: true, crown: true },
   }
   const allowed = stageAllowed[stage] || stageAllowed.growing
 

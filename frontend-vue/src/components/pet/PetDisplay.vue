@@ -350,6 +350,10 @@ const glowColor = computed(() => {
   background: linear-gradient(135deg, rgba(245,158,11,0.4), rgba(239,68,68,0.4));
   animation: legendaryBadge 2s ease-in-out infinite;
 }
+.level--transcendent {
+  background: linear-gradient(135deg, rgba(244,114,182,0.45), rgba(167,139,250,0.45));
+  animation: legendaryBadge 2.5s ease-in-out infinite;
+}
 @keyframes legendaryBadge {
   0%, 100% { box-shadow: 0 0 8px rgba(245,158,11,0.3); }
   50% { box-shadow: 0 0 16px rgba(245,158,11,0.6); }

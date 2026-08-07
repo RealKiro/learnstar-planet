@@ -55,10 +55,11 @@ class Pet extends Model
     {
         [$stage, $name, $title] = match (true) {
             $this->level <= 2 => ['egg', '新生之卵', '破壳新生'],
-            $this->level <= 5 => ['baby', '幼年', '蹒跚学步'],
-            $this->level <= 8 => ['growing', '成长期', '茁壮成长'],
-            $this->level <= 10 => ['mature', '成熟期', '英姿勃发'],
-            default => ['legendary', '传说级', '不朽传奇'],
+            $this->level <= 4 => ['baby', '幼年', '蹒跚学步'],
+            $this->level <= 6 => ['growing', '成长期', '茁壮成长'],
+            $this->level <= 8 => ['mature', '成熟期', '英姿勃发'],
+            $this->level <= 10 => ['legendary', '传说级', '超凡入圣'],
+            default => ['transcendent', '归真级', '返璞归真'],
         };
 
         return [
@@ -71,7 +72,8 @@ class Pet extends Model
                 'baby' => '#10B981',
                 'growing' => '#3B82F6',
                 'mature' => '#8B5CF6',
-                default => '#F59E0B',
+                'legendary' => '#F59E0B',
+                default => '#F472B6',
             },
             'level' => $this->level,
             'exp_max' => max(1, ($this->level + 1) * 10),
@@ -83,8 +85,9 @@ class Pet extends Model
     {
         return match (true) {
             $this->level <= 2 => '🥚',
-            $this->level <= 5 => '🐣',
-            $this->level <= 8 => '🌱',
+            $this->level <= 4 => '🐣',
+            $this->level <= 6 => '🌱',
+            $this->level <= 8 => '🌿',
             $this->level <= 10 => '🌟',
             default => '👑',
         };

@@ -68,7 +68,7 @@ export interface PetDetail extends Pet {
   /** 当前等级描述 */
   levelDescription?: string
   /** 阶段分类 */
-  stage?: 'egg' | 'baby' | 'growing' | 'mature' | 'legendary'
+  stage?: 'egg' | 'baby' | 'growing' | 'mature' | 'legendary' | 'transcendent'
   /** 所需累计积分 */
   requiredScore?: number
   /** 学生头像 */
