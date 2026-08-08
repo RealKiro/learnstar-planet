@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="月饼·三阶·练圆苦修·练皮润韧蛋黄稳中月圆立桌皮亮馅足">
+  <defs>
+    <!-- 背景：中秋厨房晨暖 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8CCA0"/>
+      <stop offset="52%" stop-color="#D0AC78"/>
+      <stop offset="100%" stop-color="#B08E68"/>
+    </linearGradient>
+    <!-- 灶暖 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 饼皮（润亮） -->
+    <radialGradient id="cake" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#F8D088"/>
+      <stop offset="100%" stop-color="#C89038"/>
+    </radialGradient>
+    <!-- 甜光 -->
+    <radialGradient id="sweet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F8D080" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#F8D080" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="48" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 灶台 -->
+  <path d="M 0 144 L 200 144 L 200 200 L 0 200 Z" fill="#9E8268" opacity="0.9"/>
+
+  <!-- 少年月饼（中，练圆，立桌） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="100" cy="104" r="16" fill="url(#sweet)">
+      <animate attributeName="opacity" values="0.5;0.28;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 圆身（润亮） -->
+    <circle cx="100" cy="104" r="15" fill="url(#cake)" stroke="#A87028" stroke-width="1"/>
+    <!-- 花纹（如月） -->
+    <path d="M 90 94 Q 96 90 102 94" stroke="#A87028" stroke-width="1.1" fill="none" opacity="0.85"/>
+    <path d="M 104 96 Q 108 98 109 102" stroke="#A87028" stroke-width="1" fill="none" opacity="0.8"/>
+    <path d="M 91 96 L 91 100 M 110 100 L 110 106" stroke="#A87028" stroke-width="0.8" fill="none" opacity="0.7"/>
+    <!-- 眼（专注） -->
+    <circle cx="94" cy="102" r="2.1" fill="#2E2A24"/>
+    <circle cx="94.6" cy="101.4" r="0.7" fill="#FFF"/>
+    <circle cx="106" cy="102" r="2.1" fill="#2E2A24"/>
+    <circle cx="106.6" cy="101.4" r="0.7" fill="#FFF"/>
+    <!-- 嘴（自信） -->
+    <path d="M 95 107 Q 100 109.6 105 107" fill="none" stroke="#8E6E3E" stroke-width="0.9" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="60" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="166" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

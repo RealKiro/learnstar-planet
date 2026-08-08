@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="月饼·二阶·干裂之困·中秋前夕被忘柜上皮干裂馅散对月看裂痕">
+  <defs>
+    <!-- 背景：中秋柜角夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E3A5A"/>
+      <stop offset="52%" stop-color="#4A4A5E"/>
+      <stop offset="100%" stop-color="#7A6E5E"/>
+    </linearGradient>
+    <!-- 月光（照裂痕） -->
+    <radialGradient id="moon" cx="80%" cy="18%" r="34%">
+      <stop offset="0%" stop-color="#F8F4E8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F8F4E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 饼皮（干裂） -->
+    <radialGradient id="cake" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#D0A858"/>
+      <stop offset="100%" stop-color="#A87830"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="160" cy="36" r="60" fill="url(#moon)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="160" cy="36" r="11" fill="#F8F4E8" opacity="0.9"/>
+
+  <!-- 柜面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7A6E5E" opacity="0.9"/>
+  <path d="M 0 148 L 200 148" stroke="#6A5E50" stroke-width="2"/>
+
+  <!-- 干裂的小月饼（中，裂纹） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 0.8;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 圆身（干，偏瘪） -->
+    <ellipse cx="100" cy="126" rx="16" ry="14" fill="url(#cake)" stroke="#96682A" stroke-width="1"/>
+    <!-- 裂纹（月光照） -->
+    <path d="M 88 116 L 92 122 L 90 128 L 96 132" stroke="#6E4E1E" stroke-width="1.2" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 112 116 L 108 122" stroke="#6E4E1E" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.8"/>
+    <!-- 散出的馅 -->
+    <circle cx="90" cy="136" r="2" fill="#E8B050" opacity="0.7"/>
+    <circle cx="96" cy="138" r="1.6" fill="#E8B050" opacity="0.6"/>
+    <!-- 眼（含沮） -->
+    <circle cx="94" cy="124" r="1.8" fill="#2E2A24"/>
+    <circle cx="106" cy="124" r="1.8" fill="#2E2A24"/>
+    <!-- 嘴（低垂） -->
+    <path d="M 96 129 Q 100 127.4 104 129" fill="none" stroke="#8E6E3E" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 尘灰 -->
+  <g fill="#D8C8A8" opacity="0.35">
+    <circle cx="52" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.1;0.35" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="80">
+      <animate attributeName="cy" values="80;72;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
