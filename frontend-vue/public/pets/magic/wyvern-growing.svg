@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="飞龙·三阶·练焰苦修·对崖练喷火收放火为灯笼练翼盘旋">
+  <defs>
+    <!-- 背景：空崖晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0E0D4"/>
+      <stop offset="52%" stop-color="#B0C4B8"/>
+      <stop offset="100%" stop-color="#90A898"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F0F8F0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F0F8F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年飞龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E9E8E"/>
+      <stop offset="100%" stop-color="#568278"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 云海 -->
+  <g fill="#F0F8F0" opacity="0.8">
+    <path d="M 0 132 Q 50 124 110 130 Q 160 134 200 128 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 崖（下） -->
+  <g fill="#A0A8B0" opacity="0.5">
+    <path d="M 120 200 L 128 172 Q 146 162 168 168 L 200 160 L 200 200 Z"/>
+  </g>
+
+  <!-- 风痕 -->
+  <g stroke="#E0ECE4" stroke-width="1.2" stroke-linecap="round" opacity="0.5" fill="none">
+    <path d="M 20 70 Q 60 64 100 70">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年飞龙（对崖练喷火收放，练翼盘旋） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 翼（展，盘旋） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-6 100 104;6 100 104;-6 100 104" dur="2s" repeatCount="indefinite"/>
+      <path d="M 90 108 L 56 96 L 62 108 L 44 100 L 60 112 Z" fill="url(#skin)" stroke="#46786C" stroke-width="0.9"/>
+      <path d="M 90 108 L 124 96 L 118 108 L 136 100 L 120 112 Z" fill="url(#skin)" stroke="#46786C" stroke-width="0.9"/>
+    </g>
+    <!-- 身 -->
+    <ellipse cx="92" cy="114" rx="8" ry="6" fill="url(#skin)" stroke="#46786C" stroke-width="0.8"/>
+    <!-- 尾 -->
+    <path d="M 99 116 L 110 118 L 112 123" stroke="url(#skin)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年飞龙头（喷火收放，专注） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="92" cy="104" rx="7" ry="6" fill="url(#skin)" stroke="#46786C" stroke-width="0.8"/>
+    <!-- 眼（专注） -->
+    <circle cx="89" cy="102.5" r="1.7" fill="#24180E"/>
+    <circle cx="89.4" cy="102.1" r="0.55" fill="#FFF"/>
+    <circle cx="95.4" cy="102.5" r="1.7" fill="#24180E"/>
+    <circle cx="95.8" cy="102.1" r="0.55" fill="#FFF"/>
+    <!-- 鼻/嘴（喷火） -->
+    <path d="M 91 107 L 89 109.6 L 93 109 Z" fill="#46786C"/>
+    <!-- 头上角（长） -->
+    <path d="M 89 99 L 87 95 M 94 99 L 96 95" stroke="#6E9E8E" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- 喷出的火（收放如珠） -->
+    <g fill="#F0A030">
+      <path d="M 92 108 Q 96 104 100 106 Q 96 110 92 108 Z">
+        <animateTransform attributeName="transform" type="scale" values="1 1;1.15 1.15;1 1" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <circle cx="101" cy="105" r="2.4" fill="#F8C878" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- 火珠光弧 -->
+    <circle cx="92" cy="108" r="9" fill="none" stroke="#F8C878" stroke-width="0.7" opacity="0.4">
+      <animateTransform attributeName="transform" type="rotate" values="0 92 108;120 92 108;240 92 108;360 92 108" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F0F8F0">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

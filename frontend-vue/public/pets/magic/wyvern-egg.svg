@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="飞龙·一阶·崖巢幼龙·扑腾嫩翼探云海母龙翼护">
+  <defs>
+    <!-- 背景：崖巢云海 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0DCE4"/>
+      <stop offset="52%" stop-color="#B0C4D0"/>
+      <stop offset="100%" stop-color="#8EA6B8"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F0F8FC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F0F8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 小飞龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E9E8E"/>
+      <stop offset="100%" stop-color="#588478"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 云海 -->
+  <g fill="#F4F8FC" opacity="0.9">
+    <path d="M 0 128 Q 40 120 90 126 Q 140 132 200 124 L 200 200 L 0 200 Z"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.85">
+    <path d="M 20 138 Q 60 130 110 136 Q 160 142 200 134 L 200 200 L 0 200 Z">
+      <animateTransform attributeName="transform" type="translate" values="0 0;4 0;0 0" dur="5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 崖（右下） -->
+  <g fill="#A0A8B0" opacity="0.5">
+    <path d="M 120 200 L 130 168 Q 150 158 170 166 L 200 158 L 200 200 Z"/>
+  </g>
+
+  <!-- 崖巢（右下） -->
+  <path d="M 140 166 Q 152 158 168 164" stroke="#8E969E" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+
+  <!-- 小飞龙（扑嫩翼，探看云海） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（巢中） -->
+    <ellipse cx="152" cy="156" rx="10" ry="7.5" fill="url(#skin)" stroke="#46786C" stroke-width="0.9"/>
+    <!-- 腹（黄） -->
+    <ellipse cx="149" cy="160" rx="6" ry="4" fill="#E0C890" opacity="0.7"/>
+    <!-- 翼膜（嫩红，扑） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-6 146 150;6 146 150;-6 146 150" dur="1.8s" repeatCount="indefinite"/>
+      <path d="M 148 150 L 138 144 L 140 152 Z" fill="#D8785E"/>
+    </g>
+    <!-- 短尾 -->
+    <path d="M 162 158 Q 168 158 170 162" stroke="url(#skin)" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 小飞龙头（探看云海） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="152" cy="144" rx="7" ry="6" fill="url(#skin)" stroke="#46786C" stroke-width="0.8"/>
+    <!-- 眼（望云） -->
+    <circle cx="149" cy="142.5" r="1.8" fill="#24180E"/>
+    <circle cx="149.5" cy="142.1" r="0.6" fill="#FFF"/>
+    <circle cx="155.5" cy="142.5" r="1.8" fill="#24180E"/>
+    <circle cx="156" cy="142.1" r="0.6" fill="#FFF"/>
+    <!-- 鼻/嘴 -->
+    <path d="M 150 146 L 148 148.4 L 152 147.8 Z" fill="#46786C"/>
+    <!-- 头上小角 -->
+    <path d="M 149 139 L 148 136 M 154 139 L 156 136" stroke="#6E9E8E" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 母飞龙（右上，翼护） -->
+  <g opacity="0.85">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 翼（展开如穹） -->
+    <path d="M 120 118 L 96 102 L 100 114 L 88 108 L 100 118 Z" fill="#5E8E7E"/>
+    <path d="M 120 118 L 144 102 L 140 114 L 152 108 L 140 118 Z" fill="#5E8E7E"/>
+    <!-- 身 -->
+    <ellipse cx="120" cy="122" rx="8" ry="5.5" fill="#5E8E7E"/>
+    <!-- 头（低，护） -->
+    <ellipse cx="128" cy="126" rx="6" ry="5" fill="#5E8E7E"/>
+    <path d="M 126 129 L 124 131.4 L 128 130.8 Z" fill="#5E8E7E"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F0F8FC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
