@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="梦魇夜马·二阶·被惧之痛·孩童躲开大人绕道低头退躲黑林">
+  <defs>
+    <!-- 背景：小镇边缘入夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E4A5E"/>
+      <stop offset="52%" stop-color="#2A3444"/>
+      <stop offset="100%" stop-color="#202834"/>
+    </linearGradient>
+    <!-- 镇灯暖（右） -->
+    <radialGradient id="glow" cx="82%" cy="26%" r="42%">
+      <stop offset="0%" stop-color="#F8E4A0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F8E4A0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 鬃毛（暗淡） -->
+    <radialGradient id="mane" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#A8C0D8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#A8C0D8" stop-opacity="0.05"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="164" cy="52" r="70" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.58;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 小镇灯火（右） -->
+  <g fill="#F8E4A0" opacity="0.8">
+    <rect x="152" y="70" width="6" height="8" rx="1">
+      <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.6s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="168" y="76" width="6" height="8" rx="1">
+      <animate attributeName="opacity" values="0.7;0.45;0.7" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="178" y="92" width="6" height="8" rx="1">
+      <animate attributeName="opacity" values="0.75;0.5;0.75" dur="2.8s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+  <g fill="#6E6658" opacity="0.8">
+    <rect x="146" y="64" width="30" height="40" rx="2"/>
+    <path d="M 146 118 L 146 140 L 176 140 L 176 118" stroke="#8E8270" stroke-width="1.4" fill="none"/>
+  </g>
+
+  <!-- 躲开的孩童（右，后退） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 0;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="152" cy="124" r="4" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.6"/>
+    <ellipse cx="152" cy="136" rx="5" ry="7" fill="#C8A878" stroke="#B0905E" stroke-width="0.7" transform="rotate(10 152 136)"/>
+    <path d="M 156 132 Q 162 130 164 126" stroke="#E8D0B4" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <circle cx="140" cy="126" r="3.6" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.6"/>
+    <ellipse cx="140" cy="137" rx="4.5" ry="6.5" fill="#B0806E" stroke="#9E6E5C" stroke-width="0.7" transform="rotate(14 140 137)"/>
+    <path d="M 143 133 Q 149 131 150 128" stroke="#E8D0B4" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#18202E" opacity="0.9"/>
+
+  <!-- 小梦魇马（低头，退躲黑林，走左） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;-0.8 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 后腿 -->
+    <path d="M 112 140 L 110 152 M 124 138 L 126 150" stroke="#1E202C" stroke-width="4" stroke-linecap="round"/>
+    <!-- 前腿 -->
+    <path d="M 134 136 L 134 148" stroke="#1E202C" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 142 134 L 144 146" stroke="#1E202C" stroke-width="4" stroke-linecap="round"/>
+    <!-- 身体 -->
+    <ellipse cx="128" cy="130" rx="16" ry="8.5" fill="#242634" stroke="#0E0E16" stroke-width="0.9"/>
+    <!-- 颈（低头） -->
+    <path d="M 118 124 Q 104 116 96 112" stroke="#242634" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <!-- 头（低垂） -->
+    <ellipse cx="90" cy="110" rx="7" ry="5.5" fill="#242634" stroke="#0E0E16" stroke-width="0.8" transform="rotate(-8 90 110)"/>
+    <path d="M 93 105 L 95 99 L 90 104 Z" fill="#242634" stroke="#0E0E16" stroke-width="0.6"/>
+    <!-- 眼（黯淡） -->
+    <circle cx="88" cy="109" r="1.4" fill="#8AA0B8" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 鬃毛（暗淡） -->
+    <g fill="none" stroke="#90A8C0" stroke-linecap="round" opacity="0.6">
+      <path d="M 94 106 Q 106 100 114 104" stroke-width="2"/>
+      <path d="M 96 110 Q 108 104 116 108" stroke-width="1.5" opacity="0.5"/>
+    </g>
+    <circle cx="108" cy="102" r="6" fill="url(#mane)">
+      <animate attributeName="opacity" values="0.35;0.15;0.35" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 尾毛（黯淡） -->
+    <path d="M 112 128 Q 100 124 94 130 Q 90 136 96 138" stroke="#90A8C0" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="-2 112 128;2 112 128;-2 112 128" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <!-- 蹄光（弱） -->
+    <g fill="#A8C0D8" opacity="0.4">
+      <circle cx="111" cy="153" r="1.1">
+        <animate attributeName="opacity" values="0.4;0.12;0.4" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 黑林（左，退躲方向） -->
+  <g fill="#0E121C" opacity="0.9">
+    <path d="M 0 76 L 6 40 L 12 74 L 18 48 L 24 80 L 0 200 L 0 80 Z"/>
+  </g>
+
+  <!-- 尘 -->
+  <g fill="#E8E4C8" opacity="0.5">
+    <circle cx="44" cy="98">
+      <animate attributeName="cy" values="98;90;98" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.14;0.45" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="176" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

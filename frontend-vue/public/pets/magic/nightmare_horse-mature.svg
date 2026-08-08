@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="梦魇夜马·四阶·引夜初成·暴雨夜林鬃光破夜引迷途旅人出林">
+  <defs>
+    <!-- 背景：暴雨夜林 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2A3A52"/>
+      <stop offset="52%" stop-color="#1C2A3E"/>
+      <stop offset="100%" stop-color="#16202E"/>
+    </linearGradient>
+    <!-- 破夜鬃光 -->
+    <radialGradient id="glow" cx="46%" cy="38%" r="42%">
+      <stop offset="0%" stop-color="#E8F0F8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#E8F0F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 鬃毛（淋雨仍亮） -->
+    <radialGradient id="mane" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E8F0F8" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#B8D0E8" stop-opacity="0.12"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="76" r="70" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 黑林剪影 -->
+  <g fill="#0E121C" opacity="0.85">
+    <path d="M 0 72 L 6 40 L 12 68 L 18 46 L 24 76 L 0 200 L 0 76 Z"/>
+    <path d="M 180 60 L 190 30 L 197 58 L 200 50 L 200 200 L 180 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#18202E" opacity="0.9"/>
+
+  <!-- 雨丝 -->
+  <g stroke="#A8C0D8" stroke-width="1" stroke-linecap="round" opacity="0.35">
+    <path d="M 30 20 L 26 40">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 14;0 28" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 70 10 L 66 30">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 14;0 28" dur="1.3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 150 16 L 146 36">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 14;0 28" dur="1.1s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 190 20 L 186 40">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 14;0 28" dur="1.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 50 40 L 46 60">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 14;0 28" dur="1.25s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 驿站灯光（右，终点） -->
+  <g>
+    <rect x="162" y="104" width="26" height="34" rx="2" fill="#6E6256" stroke="#544A40" stroke-width="0.8"/>
+    <rect x="170" y="112" width="8" height="10" rx="1" fill="#F8E4A0">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2.4s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- 被引的旅人（左后，跟随） -->
+  <g opacity="0.92">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0.8 0;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="54" cy="126" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="54" cy="140" rx="5.5" ry="8" fill="#A8886E" stroke="#8E6E50" stroke-width="0.8"/>
+    <path d="M 57 134 Q 63 132 65 128" stroke="#E8D0B4" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年梦魇马（鬃光破夜，引路） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 后腿 -->
+    <path d="M 80 132 L 78 146 M 92 132 L 92 146" stroke="#1E202C" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- 前腿 -->
+    <path d="M 104 130 L 104 144 M 116 128 L 118 142" stroke="#1E202C" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- 身体 -->
+    <ellipse cx="98" cy="126" rx="20" ry="10" fill="#242634" stroke="#0E0E16" stroke-width="0.9"/>
+    <!-- 颈 -->
+    <path d="M 114 120 Q 126 108 134 98" stroke="#242634" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <!-- 头 -->
+    <ellipse cx="140" cy="94" rx="8" ry="6" fill="#242634" stroke="#0E0E16" stroke-width="0.8"/>
+    <path d="M 136 89 L 134 82 L 140 88 Z" fill="#242634" stroke="#0E0E16" stroke-width="0.6"/>
+    <circle cx="143" cy="93" r="1.6" fill="#E8F0F8">
+      <animate attributeName="opacity" values="1;0.65;1" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 鬃毛（淋雨仍亮） -->
+    <g fill="none" stroke="#E8F0F8" stroke-linecap="round" opacity="0.95">
+      <path d="M 136 90 Q 124 80 110 84" stroke-width="2.4"/>
+      <path d="M 134 94 Q 120 86 106 90" stroke-width="1.9" opacity="0.8">
+        <animateTransform attributeName="transform" type="rotate" values="-2 134 94;2 134 94;-2 134 94" dur="2.6s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 132 98 Q 118 92 108 96" stroke-width="1.4" opacity="0.6"/>
+    </g>
+    <circle cx="116" cy="86" r="9" fill="url(#mane)">
+      <animate attributeName="opacity" values="0.55;0.28;0.55" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 尾毛 -->
+    <path d="M 80 126 Q 66 122 60 130 Q 56 138 64 142" stroke="#E8F0F8" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.95">
+      <animateTransform attributeName="transform" type="rotate" values="-3 80 126;3 80 126;-3 80 126" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="68" cy="128" r="8" fill="url(#mane)">
+      <animate attributeName="opacity" values="0.5;0.25;0.5" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 蹄光破夜 -->
+    <g fill="#E8F0F8" opacity="0.85">
+      <circle cx="79" cy="147" r="1.8">
+        <animate attributeName="opacity" values="0.85;0.42;0.85" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="91" cy="147" r="1.6">
+        <animate attributeName="opacity" values="0.75;0.38;0.75" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="105" cy="145" r="1.7">
+        <animate attributeName="opacity" values="0.8;0.4;0.8" dur="1.7s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- 引路光带（鬃→驿站） -->
+    <path d="M 140 100 Q 152 112 162 120" stroke="#C8DCE8" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.45">
+      <animate attributeName="opacity" values="0.45;0.18;0.45" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 月尘 -->
+  <g fill="#E8F0F8">
+    <circle cx="40" cy="92">
+      <animate attributeName="cy" values="92;84;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="176" cy="80">
+      <animate attributeName="cy" values="80;72;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
