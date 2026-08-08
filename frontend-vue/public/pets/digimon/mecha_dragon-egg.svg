@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="亚古兽·一阶·火球幼兽·数码草原小火球滚走见困救不得被烫叫">
+  <defs>
+    <!-- 背景：数码世界草原 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6EA8A0"/>
+      <stop offset="52%" stop-color="#7AB868"/>
+      <stop offset="100%" stop-color="#4E8858"/>
+    </linearGradient>
+    <!-- 数据光 -->
+    <radialGradient id="glow" cx="50%" cy="24%" r="50%">
+      <stop offset="0%" stop-color="#B8F0D8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#B8F0D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 橙黄圆身 -->
+    <radialGradient id="body" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#F8C860"/>
+      <stop offset="100%" stop-color="#E8A030"/>
+    </radialGradient>
+    <!-- 火苗 -->
+    <radialGradient id="flame" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#FFF0C0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F87830" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="40" r="76" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.45;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 数码草原 -->
+  <g fill="#3E7848" opacity="0.5">
+    <path d="M 0 132 Q 50 126 110 130 Q 160 134 200 128 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#4E8858" opacity="0.9"/>
+  <!-- 数据粒子 -->
+  <g fill="#B8F0D8" opacity="0.5">
+    <circle cx="30" cy="60" r="1.2">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="50" r="1">
+      <animate attributeName="opacity" values="0.45;0.15;0.45" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 被困的小滚球兽（右，数据裂缝） -->
+  <g>
+    <path d="M 148 120 Q 152 112 158 118 Q 156 128 148 128 Z" fill="#5AA8E8" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="152" cy="122" r="4" fill="#C8E8F8" stroke="#5AA8E8" stroke-width="0.6"/>
+    <circle cx="150" cy="120.5" r="1" fill="#24180E"/>
+    <circle cx="155" cy="120.5" r="1" fill="#24180E"/>
+  </g>
+
+  <!-- 小亚古兽（小火球，滚走） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;-0.8 0;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 圆身（橙黄） -->
+    <circle cx="96" cy="122" r="18" fill="url(#body)" stroke="#C88828" stroke-width="1.2"/>
+    <!-- 肚子亮 -->
+    <ellipse cx="96" cy="128" rx="10" ry="7" fill="#F8E8B8" opacity="0.6"/>
+    <!-- 眼（圆亮） -->
+    <circle cx="89" cy="118" r="3" fill="#2E241E"/>
+    <circle cx="90" cy="116.8" r="1.2" fill="#FFF"/>
+    <circle cx="103" cy="118" r="3" fill="#2E241E"/>
+    <circle cx="104" cy="116.8" r="1.2" fill="#FFF"/>
+    <!-- 嘴（嗷嗷叫） -->
+    <ellipse cx="96" cy="126" rx="3" ry="3.4" fill="#A85830"/>
+    <path d="M 92 124 L 94 122 M 100 124 L 98 122" stroke="#A85830" stroke-width="1" stroke-linecap="round"/>
+    <!-- 短爪 -->
+    <path d="M 80 124 L 76 130" stroke="#E8A030" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 112 124 L 116 130" stroke="#E8A030" stroke-width="3" stroke-linecap="round"/>
+    <!-- 小火苗（断断续续） -->
+    <path d="M 96 104 Q 93 96 97 90 Q 99 96 100 95 Q 102 89 104 92 Q 102 98 100 104" fill="url(#flame)" stroke="#E87830" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="-3 96 104;3 96 104;-3 96 104" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="96" cy="100" r="8" fill="url(#flame)">
+      <animate attributeName="opacity" values="0.5;0.25;0.5" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 烫到的爪印 -->
+    <path d="M 112 132 Q 114 134 112 136" stroke="#E86030" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#B8F0D8">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

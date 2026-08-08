@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="亚古兽·六阶·亚古兽传说·暮光老暴龙兽鼻尖碰小亚古兽传变强为护伴">
+  <defs>
+    <!-- 背景：数码草原暮色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8B088"/>
+      <stop offset="52%" stop-color="#9E9868"/>
+      <stop offset="100%" stop-color="#5E8868"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E8C8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F0E8C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 橙鳞 -->
+    <radialGradient id="scale" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#F0C058"/>
+      <stop offset="100%" stop-color="#D89828"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 数码粒子 -->
+  <g fill="#C8F0E0" opacity="0.4">
+    <circle cx="34" cy="104" r="1.2">
+      <animate attributeName="cy" values="104;96;104" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 草原 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#4E7858" opacity="0.9"/>
+
+  <!-- 安住的小滚球兽（下） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="88" cy="136" r="4" fill="#A8D8E8" stroke="#5AA8C8" stroke-width="0.6"/>
+    <circle cx="86" cy="134.5" r="1" fill="#24180E"/>
+    <circle cx="90" cy="134.5" r="1" fill="#24180E"/>
+  </g>
+
+  <!-- 小亚古兽（右，火球滚草） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="140" cy="122" r="12" fill="url(#scale)" stroke="#C88828" stroke-width="0.9"/>
+    <ellipse cx="140" cy="126" rx="7" ry="5" fill="#F8E8B8" opacity="0.6"/>
+    <circle cx="135" cy="119" r="2" fill="#2E241E"/>
+    <circle cx="135.6" cy="118.2" r="0.7" fill="#FFF"/>
+    <circle cx="145" cy="119" r="2" fill="#2E241E"/>
+    <circle cx="145.6" cy="118.2" r="0.7" fill="#FFF"/>
+    <ellipse cx="140" cy="125" rx="2.2" ry="2.6" fill="#A85830"/>
+    <path d="M 140 110 Q 138 104 141 100 Q 142 104 143 103 Q 145 98 146 102 Q 144 106 143 110" fill="#F8A848" stroke="#D87828" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="rotate" values="-3 140 110;3 140 110;-3 140 110" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 129 124 L 126 129" stroke="#D89828" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 151 124 L 154 129" stroke="#D89828" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老暴龙兽（左，鼻尖碰小亚古兽） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="76" cy="112" r="26" fill="#F0E8C8" opacity="0.16">
+      <animate attributeName="opacity" values="0.16;0.09;0.16" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 尾 -->
+    <path d="M 52 122 Q 38 116 34 126 Q 32 134 42 136" stroke="url(#scale)" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <!-- 腿 -->
+    <path d="M 64 132 L 59 152 M 84 132 L 89 152" stroke="url(#scale)" stroke-width="9" stroke-linecap="round"/>
+    <!-- 身（大，泛岁月光） -->
+    <ellipse cx="76" cy="120" rx="26" ry="15" fill="url(#scale)" stroke="#B87820" stroke-width="1.1"/>
+    <ellipse cx="74" cy="126" rx="16" ry="8" fill="#E8D8A8" opacity="0.55"/>
+    <!-- 背脊（古岩） -->
+    <path d="M 56 108 L 53 95 L 60 106 L 60 92 L 68 104 L 70 90 L 78 102" stroke="#B87820" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <!-- 颈（低垂，碰小亚古兽） -->
+    <path d="M 94 112 Q 106 104 116 96" stroke="url(#scale)" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <!-- 头（垂下） -->
+    <ellipse cx="120" cy="92" rx="12" ry="10" fill="url(#scale)" stroke="#B87820" stroke-width="1"/>
+    <path d="M 113 84 L 109 75 M 124 84 L 128 75" stroke="#D8A040" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 眼（温和，目含慈） -->
+    <path d="M 115 90 Q 117 88.6 119 90" stroke="#2E241E" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <path d="M 124 90 Q 126 88.6 127 90" stroke="#2E241E" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <!-- 鼻尖（碰小亚古兽） -->
+    <path d="M 130 96 L 134 94" stroke="#A85830" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 传心微光 -->
+    <circle cx="130" cy="100" r="10" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮色星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

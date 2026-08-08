@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="亚古兽·四阶·救伴初成·进化暴龙兽喷火破墙拉出伙伴">
+  <defs>
+    <!-- 背景：崩塌数据塔 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A5A78"/>
+      <stop offset="52%" stop-color="#3A485E"/>
+      <stop offset="100%" stop-color="#2E3A4E"/>
+    </linearGradient>
+    <!-- 火与数据光 -->
+    <radialGradient id="glow" cx="44%" cy="40%" r="46%">
+      <stop offset="0%" stop-color="#F8A848" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F8A848" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 橙鳞 -->
+    <radialGradient id="scale" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#F8C860"/>
+      <stop offset="100%" stop-color="#E0A028"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="80" r="76" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 崩塌数据塔（右） -->
+  <g fill="#5E7A96" opacity="0.8">
+    <path d="M 150 96 L 180 84 L 184 92 L 156 104 Z"/>
+    <path d="M 160 120 L 190 112 L 192 118 L 162 126 Z"/>
+    <rect x="152" y="104" width="14" height="6" rx="1" opacity="0.6"/>
+  </g>
+  <!-- 数据墙（破口） -->
+  <g stroke="#5AA8E8" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7">
+    <path d="M 138 96 Q 152 100 158 108">
+      <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 140 118 Q 154 120 160 126">
+      <animate attributeName="opacity" values="0.6;0.35;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 被拉出的伙伴（右，裂口合拢前） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 -2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="132" cy="108" r="4.5" fill="#C8E8F8" stroke="#5AA8E8" stroke-width="0.6"/>
+    <circle cx="130" cy="106.5" r="1.2" fill="#24180E"/>
+    <circle cx="135" cy="106.5" r="1.2" fill="#24180E"/>
+    <!-- 拉着的手（数据链） -->
+    <path d="M 128 112 L 118 116" stroke="#5AA8E8" stroke-width="1.4" stroke-linecap="round" opacity="0.8"/>
+  </g>
+
+  <!-- 废墟地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#3A485E" opacity="0.9"/>
+
+  <!-- 暴龙兽（喷火破墙，救伴） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 尾 -->
+    <path d="M 58 122 Q 44 116 40 126 Q 38 134 48 136" stroke="url(#scale)" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <!-- 腿 -->
+    <path d="M 78 130 L 74 148 M 98 130 L 102 148" stroke="url(#scale)" stroke-width="8" stroke-linecap="round"/>
+    <!-- 身 -->
+    <ellipse cx="90" cy="118" rx="22" ry="14" fill="url(#scale)" stroke="#C88828" stroke-width="1"/>
+    <ellipse cx="88" cy="124" rx="14" ry="8" fill="#F8E8B8" opacity="0.6"/>
+    <!-- 颈 -->
+    <path d="M 106 110 Q 114 100 118 92" stroke="url(#scale)" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <!-- 头 -->
+    <ellipse cx="122" cy="88" rx="11" ry="9" fill="url(#scale)" stroke="#C88828" stroke-width="1"/>
+    <path d="M 117 80 L 113 71 M 127 80 L 131 71" stroke="#E8B048" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 眼（含威含护） -->
+    <circle cx="118" cy="86" r="2.3" fill="#2E241E"/>
+    <circle cx="118.8" cy="85" r="0.9" fill="#FFF"/>
+    <circle cx="128" cy="86" r="2.3" fill="#2E241E"/>
+    <circle cx="128.8" cy="85" r="0.9" fill="#FFF"/>
+    <!-- 嘴（喷火破墙） -->
+    <path d="M 131 92 L 138 94" stroke="#A85830" stroke-width="2" stroke-linecap="round"/>
+    <!-- 破墙火柱 -->
+    <path d="M 138 94 Q 146 92 150 100" stroke="#F89838" stroke-width="3" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 138 93 Q 148 90 154 96" stroke="#F8C860" stroke-width="2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <!-- 短臂（拉伴） -->
+    <path d="M 100 110 L 112 114 L 118 116" stroke="url(#scale)" stroke-width="6" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#F8C860">
+    <circle cx="48" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
