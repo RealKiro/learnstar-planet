@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="冰霜翎狐·五阶·雪原守护·霜翎如纱落凉护蔫展翎挡出一片凉">
+  <defs>
+    <!-- 背景：宝可梦雪原 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8AC0E8"/>
+      <stop offset="52%" stop-color="#B0DCF0"/>
+      <stop offset="100%" stop-color="#F0F8FC"/>
+    </linearGradient>
+    <!-- 守护神光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="52%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 守护光环 -->
+    <radialGradient id="halo" cx="50%" cy="42%" r="42%">
+      <stop offset="0%" stop-color="#E8F8FC" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#E8F8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 雪白毛 -->
+    <radialGradient id="fur" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8EEF4"/>
+    </radialGradient>
+    <!-- 霜翎 -->
+    <radialGradient id="frost" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C8F0FC" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#C8F0FC" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="88" r="62" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.3;0.18;0.3" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪原 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#F0F8FC" opacity="0.9"/>
+  <path d="M 0 152 Q 60 148 130 151 Q 170 153 200 150" stroke="#D8E8F0" stroke-width="1.5" fill="none"/>
+
+  <!-- 被凉护的晒蔫小兽（左） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <circle cx="58" cy="126" r="4" fill="#F0C898" stroke="#D8A878" stroke-width="0.5"/>
+    <circle cx="56" cy="124.8" r="1" fill="#2E2A24"/>
+    <circle cx="61" cy="124.8" r="1" fill="#2E2A24"/>
+  </g>
+
+  <!-- 逼近的酷暑（右，被凉挡） -->
+  <g fill="#F0C878" opacity="0.5">
+    <path d="M 168 70 Q 176 60 184 70 Q 178 80 168 78 Z">
+      <animate attributeName="opacity" values="0.5;0.3;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 176 84 Q 184 74 192 84 Q 186 94 176 92 Z" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.22;0.4" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 雪原守护（中，霜翎如纱） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 大耳 -->
+    <path d="M 80 100 L 68 82 L 86 94 Z" fill="url(#fur)" stroke="#B8C8D8" stroke-width="0.9"/>
+    <path d="M 108 100 L 120 82 L 102 94 Z" fill="url(#fur)" stroke="#B8C8D8" stroke-width="0.9"/>
+    <path d="M 80 94 L 73 85" stroke="#C8F0FC" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+    <path d="M 108 94 L 115 85" stroke="#C8F0FC" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+    <!-- 蓬尾（如古霜） -->
+    <path d="M 74 118 Q 56 104 52 118 Q 50 132 64 138 Q 78 138 84 126 Z" fill="url(#fur)" stroke="#B8C8D8" stroke-width="0.9">
+      <animateTransform attributeName="transform" type="rotate" values="-4 74 118;4 74 118;-4 74 118" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="58" cy="128" r="2.5" fill="#C8F0FC" opacity="0.7"/>
+    <!-- 身 -->
+    <ellipse cx="94" cy="116" rx="17" ry="13" fill="url(#fur)" stroke="#B8C8D8" stroke-width="1"/>
+    <!-- 霜翎（如纱大展） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-3 78 106;3 78 106;-3 78 106" dur="2s" repeatCount="indefinite"/>
+      <path d="M 80 106 L 56 84 L 70 92 L 48 76 L 72 96 L 58 70 L 80 98 Z" fill="#C8F0FC" stroke="#8AC8E0" stroke-width="0.9" opacity="0.95"/>
+      <path d="M 80 106 L 100 86 L 92 94 L 108 78 L 96 96 L 104 74 L 92 96 Z" fill="#C8F0FC" stroke="#8AC8E0" stroke-width="0.8" opacity="0.85"/>
+    </g>
+    <circle cx="78" cy="96" r="9" fill="#C8F0FC" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.28;0.5" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 头 -->
+    <ellipse cx="94" cy="102" rx="11" ry="10" fill="url(#fur)" stroke="#B8C8D8" stroke-width="0.9"/>
+    <path d="M 98 106 Q 104 106 106 104 Q 104 110 98 110 Z" fill="#E8F0F8" stroke="#C8D8E8" stroke-width="0.6"/>
+    <!-- 眼（含威含温） -->
+    <circle cx="89" cy="101" r="2.6" fill="#2E2A24"/>
+    <circle cx="89.8" cy="99.8" r="1" fill="#FFF"/>
+    <circle cx="99" cy="101" r="2.6" fill="#2E2A24"/>
+    <circle cx="99.8" cy="99.8" r="1" fill="#FFF"/>
+    <!-- 额饰（霜花） -->
+    <circle cx="94" cy="93" r="3" fill="#C8F0FC" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 鼻 -->
+    <path d="M 104 105 L 102 107.5 L 106 107.5 Z" fill="#8AA0B8"/>
+    <!-- 嘴（定） -->
+    <path d="M 101 110 Q 103 111.4 105 110" fill="none" stroke="#8AA0B8" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 爪 -->
+    <path d="M 80 124 L 75 131" stroke="#E8EEF4" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 108 124 L 113 131" stroke="#E8EEF4" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#C8F0FC">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.16;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.14;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
