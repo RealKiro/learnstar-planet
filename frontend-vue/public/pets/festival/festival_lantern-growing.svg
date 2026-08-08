@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="花灯·三阶·练芯苦修·风口练点灯心稳风过不灭彩纸透亮烛光柔暖">
+  <defs>
+    <!-- 背景：元宵夜风口 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E4A6E"/>
+      <stop offset="52%" stop-color="#5A5A7E"/>
+      <stop offset="100%" stop-color="#8E7A6E"/>
+    </linearGradient>
+    <!-- 灯暖 -->
+    <radialGradient id="glow" cx="50%" cy="34%" r="42%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灯身（透亮） -->
+    <radialGradient id="lamp" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#FCE8C8"/>
+      <stop offset="100%" stop-color="#F0C080"/>
+    </radialGradient>
+    <!-- 暖光 -->
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="68" r="76" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 环绕的风痕（吹过，光不灭） -->
+  <g stroke="#8EA4BC" stroke-width="1" stroke-linecap="round" opacity="0.45">
+    <path d="M 22 66 Q 42 60 56 62">
+      <animateTransform attributeName="transform" type="translate" values="0 0;10 0;0 0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 144 54 Q 160 50 176 52">
+      <animateTransform attributeName="transform" type="translate" values="0 0;10 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 40 108 Q 56 104 68 106">
+      <animateTransform attributeName="transform" type="translate" values="0 0;10 0;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 台面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#6E5E50" opacity="0.9"/>
+
+  <!-- 少年花灯（中，灯心稳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="100" cy="80" r="24" fill="url(#aura)">
+      <animate attributeName="opacity" values="0.5;0.28;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 提绳 -->
+    <path d="M 100 52 L 100 44" stroke="#8E6E50" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- 顶盖 -->
+    <path d="M 82 52 Q 100 46 118 52 L 118 56 Q 100 50 82 56 Z" fill="#C8A868" stroke="#A89048" stroke-width="0.8"/>
+    <!-- 灯身（透亮） -->
+    <ellipse cx="100" cy="74" rx="18" ry="20" fill="url(#lamp)" stroke="#C89858" stroke-width="1"/>
+    <!-- 竹骨纹 -->
+    <path d="M 82 68 Q 100 62 118 68" stroke="#C89858" stroke-width="0.7" fill="none" opacity="0.7"/>
+    <path d="M 82 74 L 118 74" stroke="#C89858" stroke-width="0.7" fill="none" opacity="0.7"/>
+    <path d="M 82 80 Q 100 86 118 80" stroke="#C89858" stroke-width="0.7" fill="none" opacity="0.7"/>
+    <!-- 内亮（稳） -->
+    <circle cx="100" cy="72" r="8" fill="#FFF0D0" opacity="0.55">
+      <animate attributeName="opacity" values="0.55;0.35;0.55" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 脸（专注） -->
+    <circle cx="95" cy="72" r="2" fill="#3E2E24"/>
+    <circle cx="95.6" cy="71.4" r="0.65" fill="#FFF"/>
+    <circle cx="105" cy="72" r="2" fill="#3E2E24"/>
+    <circle cx="105.6" cy="71.4" r="0.65" fill="#FFF"/>
+    <path d="M 97 77 Q 100 78.8 103 77" fill="none" stroke="#B08A6A" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 底盖 -->
+    <path d="M 84 92 Q 100 98 116 92 L 116 95 Q 100 101 84 95 Z" fill="#C8A868" stroke="#A89048" stroke-width="0.8"/>
+    <!-- 灯穗（飘） -->
+    <path d="M 100 99 L 100 108" stroke="#D84048" stroke-width="1.4" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="-4 100 99;4 100 99;-4 100 99" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="100" cy="110" r="2" fill="#D84048"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="60" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="166" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

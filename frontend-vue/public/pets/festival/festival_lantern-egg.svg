@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="花灯·一阶·灯骨初扎·元宵灯铺竹骨彩纸灯穗轻晃看孩提灯跑过">
+  <defs>
+    <!-- 背景：元宵灯铺 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A5A7E"/>
+      <stop offset="52%" stop-color="#7A6A7E"/>
+      <stop offset="100%" stop-color="#B09878"/>
+    </linearGradient>
+    <!-- 铺灯暖 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灯身 -->
+    <radialGradient id="lamp" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#F8E4C0"/>
+      <stop offset="100%" stop-color="#E8B878"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 铺头挂灯（背景） -->
+  <g opacity="0.6">
+    <path d="M 148 26 L 148 40" stroke="#8E6E50" stroke-width="1.2"/>
+    <ellipse cx="148" cy="52" rx="10" ry="11" fill="#E87858" opacity="0.8"/>
+    <path d="M 148 41 L 148 63" stroke="#C06848" stroke-width="1"/>
+  </g>
+
+  <!-- 提灯跑过的小孩（右） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1.5 0;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="156" cy="122" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="156" cy="135" rx="5.5" ry="8" fill="#C87868" stroke="#A86050" stroke-width="0.8"/>
+    <!-- 提灯的手 -->
+    <path d="M 150 128 Q 144 124 140 120" stroke="#E8D0B4" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- 手里的大灯 -->
+    <path d="M 140 120 L 140 112" stroke="#8E6E50" stroke-width="1"/>
+    <ellipse cx="140" cy="100" rx="7" ry="8" fill="#F0A858" opacity="0.9"/>
+    <path d="M 140 92 L 140 108" stroke="#C88848" stroke-width="0.8"/>
+    <circle cx="137" cy="120.5" r="1.3" fill="#24180E"/>
+    <circle cx="137.4" cy="120.1" r="0.45" fill="#FFF"/>
+  </g>
+
+  <!-- 灯铺台面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#9E8268" opacity="0.9"/>
+
+  <!-- 小花灯（中，竹骨彩纸） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 提绳 -->
+    <path d="M 100 82 L 100 74" stroke="#8E6E50" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- 顶盖 -->
+    <path d="M 84 82 Q 100 76 116 82 L 116 86 Q 100 80 84 86 Z" fill="#C8A868" stroke="#A89048" stroke-width="0.8"/>
+    <!-- 灯身（圆） -->
+    <ellipse cx="100" cy="104" rx="16" ry="18" fill="url(#lamp)" stroke="#C89858" stroke-width="1"/>
+    <!-- 竹骨纹 -->
+    <path d="M 84 98 Q 100 92 116 98" stroke="#C89858" stroke-width="0.7" fill="none" opacity="0.7"/>
+    <path d="M 84 104 L 116 104" stroke="#C89858" stroke-width="0.7" fill="none" opacity="0.7"/>
+    <path d="M 84 110 Q 100 116 116 110" stroke="#C89858" stroke-width="0.7" fill="none" opacity="0.7"/>
+    <!-- 内亮 -->
+    <circle cx="100" cy="102" r="7" fill="#FFF0D0" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.3;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 脸 -->
+    <circle cx="95" cy="102" r="1.8" fill="#3E2E24"/>
+    <circle cx="95.5" cy="101.5" r="0.6" fill="#FFF"/>
+    <circle cx="105" cy="102" r="1.8" fill="#3E2E24"/>
+    <circle cx="105.5" cy="101.5" r="0.6" fill="#FFF"/>
+    <path d="M 97 107 Q 100 108.8 103 107" fill="none" stroke="#B08A6A" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 底盖 -->
+    <path d="M 86 120 Q 100 126 114 120 L 114 123 Q 100 129 86 123 Z" fill="#C8A868" stroke="#A89048" stroke-width="0.8"/>
+    <!-- 灯穗（晃） -->
+    <path d="M 100 127 L 100 136" stroke="#D84048" stroke-width="1.4" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="-4 100 127;4 100 127;-4 100 127" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="100" cy="138" r="2" fill="#D84048"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="50" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
