@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="雪豹·二阶·雪线之失·伏雪岩望陷阱山谷夜风低吼">
+  <defs>
+    <!-- 背景：夜色雪山 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E7E9E"/>
+      <stop offset="52%" stop-color="#4E6E8E"/>
+      <stop offset="100%" stop-color="#3E5E7E"/>
+    </linearGradient>
+    <!-- 夜色月 -->
+    <radialGradient id="glow" cx="70%" cy="22%" r="40%">
+      <stop offset="0%" stop-color="#DCE8F4" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#DCE8F4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灰白底毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C8CEDA"/>
+      <stop offset="100%" stop-color="#A8B0BC"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 月 -->
+  <circle cx="144" cy="44" r="11" fill="#DCE8F4"/>
+  <circle cx="140" cy="41" r="2" fill="#C4D0E4" opacity="0.7"/>
+  <circle cx="144" cy="32" r="42" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山夜色 -->
+  <g fill="#465E78" opacity="0.9">
+    <path d="M 0 100 L 36 56 L 70 100 Z"/>
+    <path d="M 46 100 L 92 44 L 138 100 Z"/>
+  </g>
+  <g fill="#5E7A94" opacity="0.6">
+    <path d="M 36 56 L 44 66 L 38 74 L 28 66 Z"/>
+    <path d="M 92 44 L 102 58 L 94 68 L 82 58 Z"/>
+  </g>
+
+  <!-- 退后的雪线（虚线） -->
+  <path d="M 0 86 Q 40 78 90 84 Q 130 88 200 80" stroke="#DCE8F4" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.6" fill="none"/>
+
+  <!-- 山谷陷阱（下方，远处） -->
+  <g opacity="0.7">
+    <path d="M 60 138 L 76 134 L 76 142 L 60 146 Z" stroke="#8E96A2" stroke-width="1" fill="none"/>
+    <path d="M 68 134 L 68 122" stroke="#8E96A2" stroke-width="1"/>
+    <path d="M 64 122 L 72 122" stroke="#6E766E" stroke-width="1.4"/>
+    <!-- 诱饵 -->
+    <ellipse cx="68" cy="132" rx="2.4" ry="1.6" fill="#C0A8A0"/>
+  </g>
+
+  <!-- 雪岩（前景高岩） -->
+  <path d="M 0 130 Q 30 118 70 124 Q 96 128 112 124 L 122 200 L 0 200 Z" fill="#6E7A88" stroke="#5E6A78" stroke-width="1.2"/>
+  <path d="M 20 140 Q 50 134 84 140 M 30 152 Q 60 148 96 154" stroke="#8A96A4" stroke-width="1" opacity="0.6" fill="none"/>
+  <!-- 沾雪 -->
+  <path d="M 60 126 Q 80 122 100 126" stroke="#DCE8F4" stroke-width="1.4" opacity="0.5" fill="none"/>
+
+  <!-- 夜风 -->
+  <g stroke="#DCE8F4" stroke-width="1.2" opacity="0.35" stroke-linecap="round" fill="none">
+    <path d="M 34 96 Q 48 92 62 96">
+      <animate attributeName="opacity" values="0.35;0.12;0.35" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 120 60 Q 134 56 148 60">
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 雪豹（4头身，伏最高雪岩，望山谷，警觉） -->
+  <!-- 后腿（伏） -->
+  <path d="M 78 118 Q 74 126 80 132 Q 86 134 88 128 Z" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.8"/>
+  <!-- 长尾（垂稳） -->
+  <path d="M 88 126 Q 100 128 106 136 Q 108 142 104 144" stroke="url(#fur)" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+  <path d="M 90 127 Q 100 129 105 136" stroke="#4E565E" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <!-- 身体（伏低，警觉） -->
+  <path d="M 58 106 Q 54 116 62 124 Q 74 130 84 126 Q 90 118 86 108 Q 72 102 58 106 Z" fill="url(#fur)" stroke="#8E96A2" stroke-width="1"/>
+  <!-- 黑斑 -->
+  <circle cx="64" cy="112" r="1.7" fill="#4E565E"/>
+  <circle cx="74" cy="116" r="1.5" fill="#4E565E"/>
+  <circle cx="70" cy="124" r="1.4" fill="#4E565E"/>
+  <!-- 前腿（撑伏） -->
+  <path d="M 64 118 C 60 124 58 128 58 134" fill="none" stroke="url(#fur)" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="58" cy="136" r="2.8" fill="#B4BCC8"/>
+
+  <!-- 头（警觉，望山谷） -->
+  <g>
+    <ellipse cx="58" cy="100" rx="9.5" ry="8" fill="url(#fur)" stroke="#8E96A2" stroke-width="1"/>
+    <!-- 圆耳 -->
+    <circle cx="49" cy="93" r="3.4" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.7"/>
+    <circle cx="67" cy="93" r="3.4" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.7"/>
+    <!-- 黑斑 -->
+    <circle cx="53" cy="95" r="1.2" fill="#4E565E"/>
+    <circle cx="63" cy="95" r="1.2" fill="#4E565E"/>
+    <!-- 眼（警觉，微眯） -->
+    <path d="M 51 99 Q 53 98 55 99" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+    <circle cx="53" cy="99.6" r="1.7" fill="#D8C078"/>
+    <circle cx="53" cy="99.6" r="0.9" fill="#24180E"/>
+    <path d="M 61 99 Q 63 98 65 99" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+    <circle cx="63" cy="99.6" r="1.7" fill="#D8C078"/>
+    <circle cx="63" cy="99.6" r="0.9" fill="#24180E"/>
+    <!-- 鼻 -->
+    <ellipse cx="58" cy="103" rx="2" ry="1.4" fill="#8E6E5E"/>
+    <!-- 长须 -->
+    <path d="M 52 102 L 46 101 M 52 104 L 45 105 M 64 102 L 70 101 M 64 104 L 71 105" stroke="#E4ECF4" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 低吼问雪山（声波） -->
+  <g stroke="#DCE8F4" stroke-width="1.3" opacity="0.45" stroke-linecap="round" fill="none">
+    <path d="M 52 108 Q 46 114 48 122">
+      <animate attributeName="opacity" values="0.45;0.15;0.45" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 夜雪尘 -->
+  <g fill="#DCE8F4">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="126" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

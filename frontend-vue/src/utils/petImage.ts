@@ -15,7 +15,7 @@ const MANIFEST: string[] = []
  * 已手绘 SVG 插画的物种 id 清单（样板阶段按提示词手绘的独立 SVG，每物种 6 张 {speciesId}-{stage}.svg）。
  * 例：['zhulong', 'charmander', ...]
  */
-const SVG_MANIFEST: string[] = ['zhulong', 'charmander', 'sun_wukong', 'nezha', 'zhong_kui', 'jiang_ziya', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao', 'lv_dongbin', 'he_xiangu', 'zhang_guolao', 'tie_guaili', 'han_zhongli', 'lan_caihe', 'cao_guojiu', 'taishang_laojun', 'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces', 'hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'heixinhu', 'heixiaohu', 'ma_sanniang', 'panda', 'golden_monkey', 'south_china_tiger', 'red_crowned_crane', 'chinese_alligator', 'crested_ibis', 'tibetan_antelope']
+const SVG_MANIFEST: string[] = ['zhulong', 'charmander', 'sun_wukong', 'nezha', 'zhong_kui', 'jiang_ziya', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao', 'lv_dongbin', 'he_xiangu', 'zhang_guolao', 'tie_guaili', 'han_zhongli', 'lan_caihe', 'cao_guojiu', 'taishang_laojun', 'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces', 'hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'heixinhu', 'heixiaohu', 'ma_sanniang', 'panda', 'golden_monkey', 'south_china_tiger', 'red_crowned_crane', 'chinese_alligator', 'crested_ibis', 'tibetan_antelope', 'snow_leopard']
 
 /**
  * 根据物种 + 阶段返回图片 URL（webp 优先，其次手绘 SVG）；均未生成时返回 null（PetSprite 回退程序化 SVG）。

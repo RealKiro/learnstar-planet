@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="雪豹·三阶·攀岩苦修·纵跃断崖长尾平衡">
+  <defs>
+    <!-- 背景：雪山天光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#BCD6E8"/>
+      <stop offset="52%" stop-color="#9AB8D0"/>
+      <stop offset="100%" stop-color="#7E9CB4"/>
+    </linearGradient>
+    <!-- 雪光 -->
+    <radialGradient id="glow" cx="46%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#F6FAFE" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F6FAFE" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灰白底毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#DCE0E6"/>
+      <stop offset="100%" stop-color="#BCC2CA"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="84" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪山 -->
+  <g fill="#EAF0F8" opacity="0.9">
+    <path d="M 0 96 L 38 44 L 74 96 Z"/>
+    <path d="M 50 96 L 100 30 L 150 96 Z"/>
+    <path d="M 120 96 L 162 52 L 200 94 Z"/>
+  </g>
+  <g fill="#F6FAFE" opacity="0.7">
+    <path d="M 38 44 L 48 56 L 40 66 L 28 56 Z"/>
+    <path d="M 100 30 L 112 48 L 102 60 L 88 48 Z"/>
+  </g>
+
+  <!-- 断崖（两侧岩壁） -->
+  <path d="M 0 112 Q 30 102 66 108 Q 88 112 96 110 L 100 200 L 0 200 Z" fill="#9AA6B4" stroke="#7E8A98" stroke-width="1.2"/>
+  <path d="M 104 112 L 132 104 Q 150 102 164 108 L 200 100 L 200 200 L 104 200 Z" fill="#8A96A4" stroke="#707C8A" stroke-width="1.2"/>
+  <!-- 岩缝雪 -->
+  <path d="M 20 122 Q 48 116 82 122 M 120 116 Q 150 112 180 118" stroke="#EAF0F8" stroke-width="1.3" opacity="0.6" fill="none"/>
+  <!-- 抓痕（反复练的痕迹） -->
+  <path d="M 98 112 L 98 104 M 101 112 L 101 103 M 104 112 L 104 105" stroke="#6E7A88" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- 雪豹（纵跃断崖，长尾平衡，爪锋利） -->
+  <!-- 长尾（向后伸展，平衡） -->
+  <path d="M 62 96 Q 44 90 32 82 Q 26 78 24 72" stroke="url(#fur)" stroke-width="3.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 62 96;8 62 96;0 62 96" dur="1.6s" repeatCount="indefinite"/>
+  </path>
+  <path d="M 60 96 Q 44 91 34 83" stroke="#4E565E" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <!-- 身体（腾空纵跃，伸展） -->
+  <ellipse cx="86" cy="90" rx="18" ry="9" fill="url(#fur)" stroke="#8E96A2" stroke-width="1"/>
+  <!-- 黑斑 -->
+  <circle cx="78" cy="86" r="1.8" fill="#4E565E"/>
+  <circle cx="90" cy="84" r="1.6" fill="#4E565E"/>
+  <circle cx="96" cy="92" r="1.5" fill="#4E565E"/>
+  <circle cx="82" cy="95" r="1.4" fill="#4E565E"/>
+  <!-- 后腿（蹬伸） -->
+  <path d="M 72 94 L 60 104 M 76 96 L 66 108" stroke="url(#fur)" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="58" cy="106" r="2.8" fill="#C4CAD2"/>
+  <path d="M 58 106 L 56 112 M 60 106 L 60 112" stroke="#8E96A2" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
+  <!-- 前腿（前探，落向对岸） -->
+  <path d="M 96 88 L 110 82 M 94 94 L 108 90" stroke="url(#fur)" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="112" cy="80" r="2.8" fill="#C4CAD2"/>
+  <path d="M 110 78 L 112 72 M 114 80 L 116 74" stroke="#8E96A2" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- 头（前伸，眼神坚定） -->
+  <g>
+    <ellipse cx="106" cy="78" rx="8.5" ry="7.5" fill="url(#fur)" stroke="#8E96A2" stroke-width="1"/>
+    <!-- 圆耳 -->
+    <circle cx="100" cy="72" r="3.2" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.7"/>
+    <circle cx="113" cy="72" r="3.2" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.7"/>
+    <!-- 黑斑 -->
+    <circle cx="103" cy="74" r="1.1" fill="#4E565E"/>
+    <circle cx="110" cy="74" r="1.1" fill="#4E565E"/>
+    <!-- 眼（坚定） -->
+    <path d="M 101 76 Q 103 75 105 76 M 107 76 Q 109 75 111 76" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+    <circle cx="103" cy="77.4" r="1.7" fill="#F0D890"/>
+    <circle cx="103" cy="77.4" r="0.9" fill="#24180E"/>
+    <circle cx="103.4" cy="77.1" r="0.4" fill="#FFF"/>
+    <circle cx="109" cy="77.4" r="1.7" fill="#F0D890"/>
+    <circle cx="109" cy="77.4" r="0.9" fill="#24180E"/>
+    <circle cx="109.4" cy="77.1" r="0.4" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="106" cy="81" rx="1.8" ry="1.3" fill="#8E6E5E"/>
+    <!-- 长须 -->
+    <path d="M 101 80 L 96 79 M 101 82 L 95 83 M 111 80 L 116 79 M 111 82 L 117 83" stroke="#EAF0F8" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 纵跃雪尘（身后） -->
+  <g fill="#EAF0F8">
+    <circle cx="120" cy="108" r="1.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 -6;0 0" dur="1.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.12;0.8" dur="1.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="132" cy="112" r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0;7 -7;0 0" dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.1;0.7" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 雪光星尘 -->
+  <g fill="#F6FAFE">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="雪豹·四阶·护山初成·纵跃叼起幼豹避开陷阱">
+  <defs>
+    <!-- 背景：雪山晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#BCD6E8"/>
+      <stop offset="52%" stop-color="#9AB8D0"/>
+      <stop offset="100%" stop-color="#7E9CB4"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="40%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF8D8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF8D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灰白底毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#DCE0E6"/>
+      <stop offset="100%" stop-color="#BCC2CA"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="80" cy="50" r="84" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪山 -->
+  <g fill="#EAF0F8" opacity="0.9">
+    <path d="M 0 94 L 40 42 L 76 94 Z"/>
+    <path d="M 52 94 L 102 30 L 152 94 Z"/>
+  </g>
+  <g fill="#F6FAFE" opacity="0.7">
+    <path d="M 40 42 L 50 54 L 42 64 L 30 54 Z"/>
+    <path d="M 102 30 L 114 48 L 104 60 L 90 48 Z"/>
+  </g>
+
+  <!-- 陷阱（下方，被避开） -->
+  <g opacity="0.6">
+    <path d="M 70 138 L 88 134 L 88 142 L 70 146 Z" stroke="#8E96A2" stroke-width="1" fill="none"/>
+    <path d="M 79 134 L 79 122" stroke="#8E96A2" stroke-width="1"/>
+    <path d="M 75 122 L 83 122" stroke="#6E766E" stroke-width="1.4"/>
+    <!-- 避开的痕迹 -->
+    <path d="M 88 140 Q 96 132 104 126" stroke="#EAF0F8" stroke-width="1" stroke-dasharray="3 3" opacity="0.7" fill="none"/>
+  </g>
+
+  <!-- 雪岩（右，跃回处） -->
+  <path d="M 96 116 Q 126 106 150 110 L 200 102 L 200 200 L 96 200 Z" fill="#9AA6B4" stroke="#7E8A98" stroke-width="1.2"/>
+  <path d="M 104 124 Q 132 116 166 122" stroke="#EAF0F8" stroke-width="1.3" opacity="0.6" fill="none"/>
+
+  <!-- 雪豹（叼着幼豹，跃回雪岩，落地） -->
+  <!-- 长尾（扬起平衡） -->
+  <path d="M 96 100 Q 84 92 76 82" stroke="url(#fur)" stroke-width="3.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 96 100;8 96 100;0 96 100" dur="1.8s" repeatCount="indefinite"/>
+  </path>
+  <path d="M 94 100 Q 84 93 78 84" stroke="#4E565E" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <!-- 身体（落地瞬间，微弓） -->
+  <path d="M 78 108 Q 74 118 82 126 Q 92 130 100 124 Q 106 116 102 106 Q 92 102 78 108 Z" fill="url(#fur)" stroke="#8E96A2" stroke-width="1"/>
+  <!-- 黑斑 -->
+  <circle cx="84" cy="112" r="1.7" fill="#4E565E"/>
+  <circle cx="94" cy="116" r="1.5" fill="#4E565E"/>
+  <circle cx="88" cy="122" r="1.4" fill="#4E565E"/>
+  <!-- 后腿（撑地） -->
+  <path d="M 86 124 C 82 130 80 134 80 140" fill="none" stroke="url(#fur)" stroke-width="4.4" stroke-linecap="round"/>
+  <circle cx="80" cy="142" r="2.8" fill="#C4CAD2"/>
+  <path d="M 96 122 C 102 128 104 132 106 138" fill="none" stroke="url(#fur)" stroke-width="4.4" stroke-linecap="round"/>
+  <circle cx="107" cy="140" r="2.8" fill="#C4CAD2"/>
+
+  <!-- 头（叼着幼豹，眼神温和） -->
+  <g>
+    <ellipse cx="74" cy="100" rx="9.5" ry="8" fill="url(#fur)" stroke="#8E96A2" stroke-width="1"/>
+    <!-- 圆耳 -->
+    <circle cx="65" cy="93" r="3.4" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.7"/>
+    <circle cx="83" cy="93" r="3.4" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.7"/>
+    <!-- 黑斑 -->
+    <circle cx="69" cy="95" r="1.2" fill="#4E565E"/>
+    <circle cx="79" cy="95" r="1.2" fill="#4E565E"/>
+    <!-- 眼（温和） -->
+    <path d="M 67 98 Q 69 97 71 98 M 77 98 Q 79 97 81 98" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+    <circle cx="69" cy="99.6" r="1.7" fill="#F0D890"/>
+    <circle cx="69" cy="99.6" r="0.9" fill="#24180E"/>
+    <circle cx="79" cy="99.6" r="1.7" fill="#F0D890"/>
+    <circle cx="79" cy="99.6" r="0.9" fill="#24180E"/>
+    <!-- 叼着的幼豹（低头，挂着） -->
+    <g>
+      <ellipse cx="66" cy="108" rx="5.5" ry="4.5" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.7"/>
+      <circle cx="66" cy="105" r="3.2" fill="url(#fur)" stroke="#8E96A2" stroke-width="0.6"/>
+      <circle cx="63" cy="104" r="1.2" fill="#4E565E"/>
+      <circle cx="69" cy="104" r="1.2" fill="#4E565E"/>
+      <circle cx="64" cy="104.6" r="0.8" fill="#24180E"/>
+      <circle cx="69" cy="104.6" r="0.8" fill="#24180E"/>
+      <!-- 蹭母豹（安心） -->
+      <path d="M 62 105 Q 60 104 60 102" stroke="url(#fur)" stroke-width="1" stroke-linecap="round" fill="none"/>
+      <!-- 小长尾（垂） -->
+      <path d="M 71 110 Q 75 113 77 116" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    </g>
+    <!-- 鼻 -->
+    <ellipse cx="74" cy="104" rx="2" ry="1.4" fill="#8E6E5E"/>
+    <!-- 长须 -->
+    <path d="M 68 103 L 62 102 M 68 105 L 61 106 M 80 103 L 86 102 M 80 105 L 87 106" stroke="#EAF0F8" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF8D8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
