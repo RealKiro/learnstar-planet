@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="吕洞宾·三阶·拜师学道·纯阳剑起松前练剑">
+  <defs>
+    <!-- 背景：终南道观 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AA8A0"/>
+      <stop offset="52%" stop-color="#7E9086"/>
+      <stop offset="100%" stop-color="#5E7268"/>
+    </linearGradient>
+    <!-- 剑光白 -->
+    <radialGradient id="sword" cx="50%" cy="46%" r="50%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青布道袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5E8E7E"/>
+      <stop offset="100%" stop-color="#3E6E5E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0DCC6"/>
+      <stop offset="100%" stop-color="#D8C0A4"/>
+    </radialGradient>
+
+    <!-- 头部模板：俊逸面容·眉目疏朗·眼神含剑意（脸中心 0,0） -->
+    <g id="lvdongbin-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8AC90" stroke-width="0.9"/>
+      <!-- 道髻簪木 -->
+      <path d="M -4 -9 Q 0 -12 4 -9 Q 2 -13 0 -13 Q -2 -13 -4 -9 Z" fill="#1E1814"/>
+      <path d="M -1 -12 L 2 -12 L 3 -15 L 0 -15 Z" fill="#8E7A5E"/>
+      <!-- 额发 -->
+      <path d="M -9.5 -3.5 Q -5.5 -8.5 0 -8.5 Q 5.5 -8.5 9.5 -3.5 Q 5.5 -7.5 0 -7.5 Q -5.5 -7.5 -9.5 -3.5 Z" fill="#1E1814"/>
+      <!-- 眉目疏朗 -->
+      <path d="M -8.5 -1.5 Q -5.5 -3.4 -2 -2.6 M 8.5 -1.5 Q 5.5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <!-- 眼神含剑意 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.3" ry="2" fill="#1E1008"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.3" ry="2" fill="#1E1008"/>
+      <circle cx="-5.1" cy="-0.4" r="0.8" fill="#FFF"/>
+      <circle cx="4.1" cy="-0.4" r="0.8" fill="#FFF"/>
+      <circle cx="-4.6" cy="0.4" r="0.7" fill="#FFF7E0"/>
+      <circle cx="4.6" cy="0.4" r="0.7" fill="#FFF7E0"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.5 L 0 3.4" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 含笑 -->
+      <path d="M -3 5.6 Q 0 7.2 3 5.6" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 云海 -->
+  <path d="M 0 140 Q 50 132 100 138 Q 150 144 200 136 L 200 200 L 0 200 Z" fill="#7E9086" opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0 0;5 1;0 0" dur="7s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 古松（右） -->
+  <path d="M 168 92 Q 164 70 168 50" stroke="#4E5E4E" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+  <path d="M 168 64 Q 152 58 144 62 M 168 56 Q 184 50 192 54 M 168 72 Q 180 68 186 74" stroke="#4E5E4E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+  <!-- 道观飞檐（左上） -->
+  <path d="M 0 0 L 84 0 L 68 18 Q 42 30 16 26 Z" fill="#5E7268" opacity="0.8"/>
+  <path d="M 0 0 L 84 0" stroke="#7E9086" stroke-width="1.4"/>
+
+  <!-- 练剑道场 -->
+  <path d="M 30 162 L 150 152 L 160 172 L 20 172 Z" fill="#5E7268"/>
+  <path d="M 30 162 L 150 152" stroke="#7E9086" stroke-width="1.6" opacity="0.6"/>
+
+  <!-- 青袍道者（持剑练，剑光如虹） -->
+  <!-- 腿（弓步） -->
+  <path d="M 82 136 L 76 160 L 82 160 L 88 138 Z" fill="#3E6E5E"/>
+  <path d="M 104 136 L 114 164 L 108 164 L 100 138 Z" fill="#3E6E5E"/>
+  <!-- 道袍 -->
+  <path d="M 84 96 Q 80 112 86 134 Q 98 140 108 134 Q 114 112 110 96 Q 98 90 84 96 Z" fill="url(#robe)" stroke="#2E5E4E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 84 116 L 108 116" stroke="#8E9A6E" stroke-width="1.6"/>
+  <!-- 腰悬酒葫芦 -->
+  <path d="M 84 112 Q 78 118 82 126 Q 86 130 90 126 Q 92 118 86 112 Z" fill="#A86A3E" stroke="#8E5A2E" stroke-width="1"/>
+  <path d="M 86 112 L 88 108" stroke="#6E4A2E" stroke-width="1.4" stroke-linecap="round"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#lvdongbin-face" transform="translate(98,88) scale(1)"/>
+
+  <!-- 左臂负剑（背负纯阳剑，剑柄露肩） -->
+  <path d="M 100 84 L 96 72" stroke="#C8CCD4" stroke-width="2" stroke-linecap="round"/>
+  <rect x="94" y="70" width="5" height="4" rx="1" fill="#B8964E"/>
+
+  <!-- 右臂持剑横扫（剑光如虹） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-6 110 96;4 110 96;-6 110 96" dur="1.7s" repeatCount="indefinite"/>
+    <path d="M 106 96 C 112 92 118 90 122 86" fill="none" stroke="#4E7E6E" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="124" cy="85" r="3.2" fill="#D8C0A4"/>
+    <!-- 纯阳剑 -->
+    <path d="M 123 88 L 136 58" stroke="#E8F0F8" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 136 58 L 139 50" stroke="#E8F0F8" stroke-width="2.6" stroke-linecap="round"/>
+    <rect x="121" y="86" width="5" height="3" rx="1" fill="#B8964E"/>
+  </g>
+  <!-- 剑光 -->
+  <circle cx="138" cy="54" r="18" fill="url(#sword)">
+    <animate attributeName="r" values="18;23;18" dur="1.7s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 剑气带起落叶 -->
+  <g fill="#A8904E">
+    <circle cx="144" cy="64">
+      <animate attributeName="cy" values="64;54;64" dur="2.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="134" cy="74">
+      <animate attributeName="cy" values="74;64;74" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 道观金尘 -->
+  <g fill="#FFF7E0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="116">
+      <animate attributeName="cy" values="116;108;116" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

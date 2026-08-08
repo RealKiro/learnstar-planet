@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="吕洞宾·一阶·儒生进士·伏案苦读书生意气">
+  <defs>
+    <!-- 背景：河中府书房夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7E6A52"/>
+      <stop offset="55%" stop-color="#5E4E3E"/>
+      <stop offset="100%" stop-color="#40362C"/>
+    </linearGradient>
+    <!-- 暖烛金 -->
+    <radialGradient id="candle" cx="58%" cy="44%" r="50%">
+      <stop offset="0%" stop-color="#E8B64C" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8B64C" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青衫 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E8EAE"/>
+      <stop offset="100%" stop-color="#4E6E8E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0DCC6"/>
+      <stop offset="100%" stop-color="#D8C0A4"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 窗外月色 -->
+  <circle cx="168" cy="48" r="42" fill="#FFF7E0" opacity="0.25">
+    <animate attributeName="opacity" values="0.25;0.15;0.25" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="168" cy="48" r="9" fill="#FFF7E0" opacity="0.5"/>
+
+  <!-- 书卷满架（背景） -->
+  <g fill="#4E3E32">
+    <rect x="24" y="40" width="10" height="70" rx="2"/>
+    <rect x="40" y="48" width="10" height="62" rx="2"/>
+    <rect x="56" y="44" width="10" height="66" rx="2"/>
+    <rect x="120" y="42" width="10" height="68" rx="2"/>
+    <rect x="136" y="50" width="10" height="60" rx="2"/>
+  </g>
+  <path d="M 20 34 L 150 34" stroke="#6E5A46" stroke-width="3" opacity="0.6"/>
+  <path d="M 20 34 L 150 34" stroke="#5E4A38" stroke-width="1.4" opacity="0.4"/>
+
+  <!-- 烛台（左） -->
+  <path d="M 70 70 L 66 76 L 74 76 Z" fill="#6E5A3E"/>
+  <circle cx="70" cy="68" r="4" fill="#E8B64C">
+    <animate attributeName="r" values="4;5.2;4" dur="2.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 书案 -->
+  <path d="M 76 138 L 148 138 L 152 148 L 72 148 Z" fill="#6E5A3E"/>
+  <path d="M 76 138 L 148 138" stroke="#8E7A4E" stroke-width="1.4" opacity="0.7"/>
+  <!-- 案上卷册 -->
+  <rect x="86" y="128" width="30" height="10" rx="2" fill="#C8B48E" transform="rotate(-6 101 133)"/>
+  <rect x="96" y="130" width="28" height="9" rx="2" fill="#B8A47E" transform="rotate(4 110 134)"/>
+
+  <!-- 青衫儒生（7头身，伏案执笔） -->
+  <!-- 身体 -->
+  <path d="M 98 88 Q 94 104 100 128 Q 112 134 122 128 Q 128 108 124 90 Q 112 82 98 88 Z" fill="url(#robe)" stroke="#3E5E7E" stroke-width="1"/>
+  <!-- 腰带玉佩 -->
+  <path d="M 100 112 L 122 112" stroke="#E8D8A8" stroke-width="1.6"/>
+  <circle cx="122" cy="114" r="2.4" fill="#E8D8A8"/>
+  <!-- 左臂按卷 -->
+  <path d="M 100 92 C 92 98 88 104 88 112" fill="none" stroke="#6E8EAE" stroke-width="4.4" stroke-linecap="round"/>
+
+  <!-- 右臂执笔（挥毫） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-3 122 92;2 122 92;-3 122 92" dur="2s" repeatCount="indefinite"/>
+    <path d="M 120 92 C 126 88 130 84 132 78" fill="none" stroke="#6E8EAE" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="133" cy="76" r="3" fill="#D8C0A4"/>
+    <!-- 笔 -->
+    <line x1="133" y1="76" x2="130" y2="68" stroke="#5E4A3E" stroke-width="2"/>
+  </g>
+
+  <!-- 头（儒巾束发，俊逸剑眉星目） -->
+  <circle cx="112" cy="80" r="10.5" fill="url(#skin)" stroke="#C8AC90" stroke-width="0.9"/>
+  <!-- 儒巾 -->
+  <path d="M 102 74 Q 112 68 122 74 L 120 71 Q 112 65 104 71 Z" fill="#4E6E8E" stroke="#3E5E7E" stroke-width="0.8"/>
+  <path d="M 108 70 L 108 64 L 114 64 L 114 69" stroke="#4E6E8E" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- 额发 -->
+  <path d="M 103 79 Q 107 74 112 74 Q 117 74 121 79 Q 117 75 112 75 Q 107 75 103 79 Z" fill="#1E1814"/>
+  <!-- 剑眉星目 -->
+  <path d="M 104 79 Q 107 77.5 110 78 M 114 78 Q 117 77.5 120 79" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <circle cx="108" cy="82" r="2.4" fill="#1E1008"/>
+  <circle cx="116" cy="82" r="2.4" fill="#1E1008"/>
+  <circle cx="109" cy="81.2" r="0.8" fill="#FFF"/>
+  <circle cx="117" cy="81.2" r="0.8" fill="#FFF"/>
+  <!-- 鼻梁挺 -->
+  <path d="M 112 83.5 L 112 86" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+  <!-- 含笑 -->
+  <path d="M 107 89 Q 112 91.4 117 89" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- 烛火星尘 -->
+  <g fill="#E8B64C">
+    <circle cx="60" cy="60">
+      <animate attributeName="cy" values="60;54;60" dur="2.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="84">
+      <animate attributeName="cy" values="84;78;84" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
