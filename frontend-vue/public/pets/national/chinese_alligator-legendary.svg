@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="扬子鳄·五阶·江域之王·伏看幼鳄学扑一浮眼神吓退船">
+  <defs>
+    <!-- 背景：泥潭暮色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8C890"/>
+      <stop offset="52%" stop-color="#D0B070"/>
+      <stop offset="100%" stop-color="#B89858"/>
+    </linearGradient>
+    <!-- 暮山金 -->
+    <radialGradient id="glow" cx="42%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青褐硬鳞（泛暮光） -->
+    <linearGradient id="scale" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6A6A4E"/>
+      <stop offset="100%" stop-color="#4E4E3A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="84" cy="56" r="84" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 暮色芦苇 -->
+  <g stroke="#8E7A4E" stroke-width="2.2" stroke-linecap="round" opacity="0.7">
+    <path d="M 164 44 Q 168 100 176 160"/>
+  </g>
+  <g fill="#C8A86E">
+    <ellipse cx="168" cy="42" rx="4" ry="7" opacity="0.9"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 130 Q 50 118 110 126 Q 160 132 200 122 L 200 200 L 0 200 Z" fill="#B08A5E" opacity="0.5"/>
+
+  <!-- 来船（右上，望见眼神，绕道） -->
+  <g opacity="0.7">
+    <path d="M 138 70 Q 156 66 174 70 L 172 76 L 140 76 Z" fill="#8E7A4E" stroke="#6E5E3E" stroke-width="1"/>
+    <path d="M 150 66 L 151 54 M 162 66 L 161 54" stroke="#8E7A4E" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M 150 56 L 162 56 L 162 60 L 150 60 Z" fill="#6E5E3E"/>
+    <!-- 绕道弧线 -->
+    <path d="M 156 72 Q 170 78 178 88" stroke="#D8C090" stroke-width="1" stroke-dasharray="3 3" fill="none">
+      <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 泥潭 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#8E7C54" opacity="0.9"/>
+  <path d="M 0 146 L 200 146" stroke="#B0A072" stroke-width="1.4" opacity="0.7"/>
+
+  <!-- 幼鳄（左下，学扑咬，偶露齿像笑） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 60 138 Q 52 132 48 130 Q 50 138 56 142 Q 62 142 66 140 Z" fill="url(#scale)" stroke="#3E3E2E" stroke-width="0.7"/>
+    <circle cx="58" cy="136" r="2.6" fill="#F0D890"/>
+    <circle cx="58" cy="135.6" r="1.3" fill="#24180E"/>
+    <path d="M 62 138 Q 66 136 70 136" stroke="#3E3E2E" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 扑咬的叶 -->
+    <path d="M 44 128 Q 48 124 52 126 Q 50 130 46 130 Q 44 129 44 128 Z" fill="#C8A86E">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-3 4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 小水花 -->
+    <path d="M 52 140 Q 56 138 60 140" stroke="#C8B888" stroke-width="1" opacity="0.6" fill="none"/>
+  </g>
+
+  <!-- 江域之王（大鳄，伏泥潭，沉静，抬头望船） -->
+  <!-- 尾巴（长，伏地） -->
+  <path d="M 132 140 Q 152 134 168 124 Q 174 122 176 128 Q 172 134 158 140 Q 144 145 136 144 Z" fill="url(#scale)" stroke="#3E3E2E" stroke-width="0.9"/>
+  <!-- 身体（大，伏） -->
+  <path d="M 92 138 Q 84 124 100 120 Q 122 116 136 124 Q 144 134 138 142 Q 116 148 92 138 Z" fill="url(#scale)" stroke="#3E3E2E" stroke-width="1"/>
+  <!-- 背棱鳞（如铠） -->
+  <path d="M 100 122 L 103 114 L 107 122 Z M 112 118 L 115 110 L 119 118 Z M 124 122 L 127 114 L 131 122 Z" fill="#3E3E2E"/>
+  <!-- 腹缘 -->
+  <path d="M 98 142 Q 116 147 136 141 L 136 145 Q 116 151 98 145 Z" fill="#A89864" opacity="0.85"/>
+
+  <!-- 头（抬望来船，眼神沉静威严） -->
+  <g>
+    <path d="M 70 134 Q 56 128 52 130 L 50 140 Q 62 142 70 138 L 80 135 Z" fill="url(#scale)" stroke="#3E3E2E" stroke-width="1"/>
+    <ellipse cx="76" cy="126" rx="10" ry="7.5" fill="url(#scale)" stroke="#3E3E2E" stroke-width="1"/>
+    <!-- 凸眼（沉静，望右上船） -->
+    <circle cx="72" cy="122" r="3.6" fill="#E8D090"/>
+    <circle cx="72" cy="121.6" r="1.8" fill="#24180E"/>
+    <circle cx="72.6" cy="121.2" r="0.7" fill="#FFF"/>
+    <circle cx="81" cy="121" r="3.4" fill="#E8D090"/>
+    <circle cx="81" cy="120.6" r="1.7" fill="#24180E"/>
+    <!-- 眼神威光 -->
+    <circle cx="76" cy="121" r="7" fill="#FFF8D8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.12;0.25" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 偶露齿像笑 -->
+    <path d="M 56 132 Q 62 135 68 132" stroke="#6E5A3E" stroke-width="0.9" fill="none"/>
+    <path d="M 58 132.6 L 57 134 M 62 133.4 L 61 135" stroke="#C8D4DC" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
+    <!-- 鼻孔 -->
+    <circle cx="56" cy="127" r="1.3" fill="#3E3E2E"/>
+  </g>
+
+  <!-- 暮光星尘 -->
+  <g fill="#FFF8DC">
+    <circle cx="40" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="124" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

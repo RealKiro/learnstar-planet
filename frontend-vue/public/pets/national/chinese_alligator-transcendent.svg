@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="扬子鳄·六阶·两亿年传说·江岸月色浮出低吼认先祖">
+  <defs>
+    <!-- 背景：江岸月色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4E5E7A"/>
+      <stop offset="52%" stop-color="#3E4E6A"/>
+      <stop offset="100%" stop-color="#334058"/>
+    </linearGradient>
+    <!-- 月光 -->
+    <radialGradient id="glow" cx="50%" cy="22%" r="46%">
+      <stop offset="0%" stop-color="#EAF2FF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#EAF2FF" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 岁月硬鳞（泛月光） -->
+    <linearGradient id="scale" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E6652"/>
+      <stop offset="100%" stop-color="#464C3C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 满月 -->
+  <circle cx="100" cy="44" r="15" fill="#EAF2FF"/>
+  <circle cx="94" cy="40" r="3" fill="#D4DEF0" opacity="0.7"/>
+  <circle cx="107" cy="50" r="2.2" fill="#D4DEF0" opacity="0.6"/>
+  <circle cx="100" cy="44" r="60" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.65;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 月光洒江面 -->
+  <g fill="#EAF2FF" opacity="0.2">
+    <path d="M 92 110 L 108 110 L 112 150 L 88 150 Z"/>
+  </g>
+  <g stroke="#EAF2FF" stroke-width="1" opacity="0.3" stroke-linecap="round" fill="none">
+    <path d="M 70 130 Q 86 126 102 130 Q 118 134 134 130">
+      <animate attributeName="opacity" values="0.3;0.15;0.3" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 60 142 Q 80 138 100 142 Q 120 146 140 142">
+      <animate attributeName="opacity" values="0.25;0.12;0.25" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 岸上恢复的芦苇（茂盛） -->
+  <g stroke="#5E8E6E" stroke-width="2.2" stroke-linecap="round" opacity="0.85">
+    <path d="M 16 44 Q 14 100 8 158 M 28 58 Q 24 104 20 158 M 170 46 Q 174 102 182 158 M 158 58 Q 162 100 168 158"/>
+  </g>
+  <g fill="#C4A86E">
+    <ellipse cx="14" cy="42" rx="4" ry="7" opacity="0.95"/>
+    <ellipse cx="26" cy="56" rx="4" ry="7" opacity="0.95"/>
+    <ellipse cx="172" cy="44" rx="4" ry="7" opacity="0.95"/>
+    <ellipse cx="162" cy="56" rx="4" ry="7" opacity="0.95"/>
+  </g>
+
+  <!-- 江面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#2E3A50" opacity="0.95"/>
+  <path d="M 0 150 L 200 150" stroke="#5A6C8C" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- 大鳄（浮出水面，望着满江月色，低吼认先祖） -->
+  <!-- 尾巴（浮于水面） -->
+  <path d="M 128 146 Q 148 140 162 130 Q 168 128 170 134 Q 166 140 152 146 Q 138 150 130 149 Z" fill="url(#scale)" stroke="#3E4232" stroke-width="0.8">
+    <animateTransform attributeName="transform" type="rotate" values="0 128 148;3 128 148;0 128 148" dur="3.4s" repeatCount="indefinite"/>
+  </path>
+  <!-- 身体（浮出，背脊出水面） -->
+  <path d="M 88 148 Q 80 136 96 132 Q 118 128 132 136 Q 140 146 134 152 Q 112 156 88 148 Z" fill="url(#scale)" stroke="#3E4232" stroke-width="1"/>
+  <!-- 背棱鳞（如史，泛岁月光） -->
+  <path d="M 96 134 L 99 126 L 103 134 Z M 108 130 L 111 122 L 115 130 Z M 120 134 L 123 126 L 127 134 Z" fill="#3E4232"/>
+  <path d="M 96 134 L 99 126 L 103 134 Z M 108 130 L 111 122 L 115 130 Z M 120 134 L 123 126 L 127 134 Z" fill="#EAF2FF" opacity="0.12"/>
+
+  <!-- 头（浮出，眼神温和，望满江月色） -->
+  <g>
+    <path d="M 68 142 Q 54 136 50 138 L 48 148 Q 60 150 68 146 L 78 143 Z" fill="url(#scale)" stroke="#3E4232" stroke-width="1"/>
+    <ellipse cx="74" cy="134" rx="10" ry="7.5" fill="url(#scale)" stroke="#3E4232" stroke-width="1"/>
+    <!-- 凸眼（温和，望月） -->
+    <circle cx="70" cy="130" r="3.5" fill="#E8D090"/>
+    <circle cx="70" cy="129.5" r="1.7" fill="#24180E"/>
+    <circle cx="70.6" cy="129.1" r="0.7" fill="#FFF"/>
+    <circle cx="79" cy="129" r="3.3" fill="#E8D090"/>
+    <circle cx="79" cy="128.5" r="1.6" fill="#24180E"/>
+    <!-- 硬鳞泛岁月光 -->
+    <path d="M 64 136 L 84 134" stroke="#EAF2FF" stroke-width="0.8" opacity="0.25" stroke-linecap="round"/>
+    <!-- 鼻孔 -->
+    <circle cx="54" cy="135" r="1.2" fill="#3E4232"/>
+    <!-- 温和抿唇 -->
+    <path d="M 58 140 Q 64 142.4 70 140" stroke="#6E5A3E" stroke-width="0.8" fill="none"/>
+  </g>
+
+  <!-- 低吼认先祖（温和声波，扬向月光） -->
+  <g stroke="#EAF2FF" stroke-width="1.6" opacity="0.6" stroke-linecap="round" fill="none">
+    <path d="M 74 108 Q 80 100 78 92">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 62 116 Q 66 106 64 96">
+      <animate attributeName="opacity" values="0.45;0.15;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 月色星尘 -->
+  <g fill="#EAF2FF">
+    <circle cx="34" cy="108">
+      <animate attributeName="cy" values="108;98;108" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

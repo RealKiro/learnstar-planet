@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="扬子鳄·四阶·护江初成·泥中雷霆而出低吼震慑">
+  <defs>
+    <!-- 背景：江岸晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8DEC4"/>
+      <stop offset="52%" stop-color="#A4C4A0"/>
+      <stop offset="100%" stop-color="#88A886"/>
+    </linearGradient>
+    <!-- 晨光金 -->
+    <radialGradient id="glow" cx="40%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF8D8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF8D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青褐硬鳞 -->
+    <linearGradient id="scale" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#62664C"/>
+      <stop offset="100%" stop-color="#484C38"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="80" cy="52" r="86" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 江岸芦苇 -->
+  <g stroke="#5E8E62" stroke-width="2.2" stroke-linecap="round" opacity="0.7">
+    <path d="M 12 42 Q 10 96 6 160 M 24 56 Q 20 102 16 160"/>
+  </g>
+  <g fill="#C4A86E">
+    <ellipse cx="10" cy="40" rx="4" ry="7" opacity="0.9"/>
+    <ellipse cx="22" cy="54" rx="4" ry="7" opacity="0.9"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 130 Q 50 118 110 126 Q 160 132 200 122 L 200 200 L 0 200 Z" fill="#6E9E78" opacity="0.5"/>
+
+  <!-- 泥岸 -->
+  <path d="M 0 144 L 200 144 L 200 200 L 0 200 Z" fill="#8E7C54" opacity="0.9"/>
+  <path d="M 0 144 L 200 144" stroke="#B0A072" stroke-width="1.4" opacity="0.7"/>
+  <!-- 水洼（尾拍处） -->
+  <ellipse cx="56" cy="152" rx="22" ry="7" fill="#A89064" opacity="0.85"/>
+
+  <!-- 偷挖者（右，踉跄而退，铲落地） -->
+  <g>
+    <path d="M 160 132 Q 156 140 158 150" stroke="#6E5A3E" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <path d="M 158 142 Q 152 138 150 134" stroke="#6E5A3E" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <!-- 头（惊惶回望） -->
+    <circle cx="163" cy="126" r="4.4" fill="#8E7A5E"/>
+    <path d="M 158 127 L 168 127" stroke="#6E5A3E" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
+    <!-- 落地铲 -->
+    <path d="M 148 148 L 158 142" stroke="#4E5E3E" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M 146 150 L 154 152 L 152 156 L 145 154 Z" fill="#8E7A5E"/>
+    <!-- 惊退 -->
+    <path d="M 160 148 Q 156 152 152 154" stroke="#6E5A3E" stroke-width="2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-2 0;0 0" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 低吼声波（从鳄口向右扩散） -->
+  <g stroke="#FFF8D8" fill="none" stroke-linecap="round" opacity="0.8">
+    <g>
+      <path d="M 116 118 Q 124 112 132 114 Q 138 116 140 122"/>
+      <path d="M 112 126 Q 124 120 136 124 Q 144 126 146 132"/>
+      <animateTransform attributeName="transform" type="scale" values="1;1.3" dur="1.3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.12" dur="1.3s" repeatCount="indefinite"/>
+    </g>
+  </g>
+
+  <!-- 扬子鳄（4头身，泥中雷霆而出，低吼） -->
+  <!-- 尾拍水面 -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 56 140;-16 56 140;0 56 140" dur="2s" repeatCount="indefinite"/>
+    <path d="M 56 136 Q 36 126 28 116 Q 24 112 28 108 Q 34 112 40 122 Q 50 132 58 134 Z" fill="url(#scale)" stroke="#3E3E2E" stroke-width="0.8"/>
+    <path d="M 34 116 L 30 112 M 26 110 L 24 106" stroke="#3E3E2E" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+  </g>
+  <!-- 尾拍水花 -->
+  <g fill="#C8B888">
+    <circle cx="30" cy="126">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 -8;0 0" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.1;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="42" cy="120">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-5 -7;0 0" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.1;0.7" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 身体（冲出泥面，更大） -->
+  <path d="M 84 136 Q 76 120 92 116 Q 114 112 128 122 Q 136 132 130 140 Q 108 146 84 136 Z" fill="url(#scale)" stroke="#3E3E2E" stroke-width="1"/>
+  <!-- 背棱鳞 -->
+  <path d="M 92 118 L 95 110 L 99 118 Z M 104 114 L 107 106 L 111 114 Z M 116 119 L 119 111 L 123 119 Z" fill="#3E3E2E"/>
+  <!-- 腹缘 -->
+  <path d="M 90 140 Q 108 145 128 139 L 128 143 Q 108 149 90 143 Z" fill="#A89864" opacity="0.85"/>
+  <!-- 泥渣 -->
+  <path d="M 80 134 Q 88 130 96 132 M 100 136 Q 108 132 116 134" stroke="#8E7C54" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- 头（低吼，怒视偷挖者） -->
+  <g>
+    <path d="M 62 132 Q 46 126 42 128 L 40 138 Q 54 140 62 136 L 72 133 Z" fill="url(#scale)" stroke="#3E3E2E" stroke-width="1"/>
+    <!-- 上颚（低吼开口） -->
+    <path d="M 40 126 Q 50 120 64 124 L 62 128 Q 52 125 42 131 Z" fill="#484C38"/>
+    <!-- 开口低吼 -->
+    <path d="M 44 130 Q 52 136 64 132" stroke="#6E5A3E" stroke-width="1.2" fill="none"/>
+    <!-- 细牙 -->
+    <path d="M 46 130 L 45 132 M 50 131 L 49 133 M 55 131.6 L 54 133.6" stroke="#C8D4DC" stroke-width="0.9" stroke-linecap="round"/>
+    <ellipse cx="68" cy="124" rx="10" ry="7.5" fill="url(#scale)" stroke="#3E3E2E" stroke-width="1"/>
+    <!-- 凸眼（如炬） -->
+    <circle cx="64" cy="120" r="3.6" fill="#F0D890"/>
+    <circle cx="64" cy="119.5" r="1.8" fill="#24180E"/>
+    <circle cx="64.6" cy="119.1" r="0.7" fill="#FFF"/>
+    <circle cx="73" cy="119" r="3.4" fill="#F0D890"/>
+    <circle cx="73" cy="118.5" r="1.7" fill="#24180E"/>
+    <!-- 眼上怒纹 -->
+    <path d="M 60 116 Q 64 114 68 116 M 70 115 Q 74 113 77 115" stroke="#3E3E2E" stroke-width="0.9" stroke-linecap="round" opacity="0.8"/>
+    <!-- 鼻孔 -->
+    <circle cx="46" cy="125" r="1.3" fill="#3E3E2E"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF8D8">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="90">
+      <animate attributeName="cy" values="90;80;90" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
