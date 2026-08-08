@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="桂花糕·四阶·寄香初成·离乡人收糕咬一口桂香漫闭眼说家乡秋">
+  <defs>
+    <!-- 背景：离乡书桌 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A6A5E"/>
+      <stop offset="52%" stop-color="#9E8A72"/>
+      <stop offset="100%" stop-color="#B09878"/>
+    </linearGradient>
+    <!-- 书桌暖 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="48%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 糕身 -->
+    <radialGradient id="cake" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EAE2D0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 窗外秋色 -->
+  <g>
+    <path d="M 152 46 Q 162 58 166 70" stroke="#8E7A50" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <g fill="#E8A838">
+      <ellipse cx="158" cy="60" rx="2" ry="2.5" transform="rotate(30 158 60)"/>
+      <ellipse cx="164" cy="68" rx="2" ry="2.5" transform="rotate(-20 164 68)"/>
+    </g>
+    <g stroke="#6E6256" stroke-width="1.2">
+      <path d="M 148 40 L 148 84 L 178 84"/>
+    </g>
+  </g>
+
+  <!-- 书桌 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#9E8E72" opacity="0.9"/>
+  <!-- 纸包（空） -->
+  <path d="M 60 132 L 84 128 L 86 140 L 62 144 Z" fill="#C8BE9E" stroke="#A89C7E" stroke-width="0.8"/>
+
+  <!-- 咬糕的离乡人（右，闭眼） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="152" cy="110" r="5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="152" cy="130" rx="6.5" ry="10" fill="#A8886E" stroke="#8E6E50" stroke-width="0.8"/>
+    <!-- 拿糕的手 -->
+    <path d="M 146 120 L 132 122" stroke="#E8D0B4" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- 手里的桂花糕（咬过） -->
+    <rect x="126" y="118" width="12" height="10" rx="3" fill="url(#cake)" stroke="#D0C8B4" stroke-width="0.7"/>
+    <path d="M 130 116 L 134 115" stroke="#F0C040" stroke-width="1" stroke-linecap="round"/>
+    <!-- 眼（闭） -->
+    <path d="M 147 108 Q 150 106.4 153 108" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <path d="M 155 108 Q 158 106.4 160 108" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- 嘴（说家乡秋） -->
+    <path d="M 149 114 Q 153 116 156 114" fill="none" stroke="#B08A6A" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 桌上的桂花糕（中，桂香漫） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 糕身 -->
+    <rect x="90" y="122" width="28" height="22" rx="6" fill="url(#cake)" stroke="#D0C8B4" stroke-width="0.8"/>
+    <!-- 桂点 -->
+    <g fill="#F0C040">
+      <circle cx="98" cy="124" r="1.6"/>
+      <circle cx="110" cy="123" r="1.5"/>
+    </g>
+    <!-- 眼（含温） -->
+    <circle cx="98" cy="131" r="1.8" fill="#2E2A24"/>
+    <circle cx="98.4" cy="130.6" r="0.6" fill="#FFF"/>
+    <circle cx="110" cy="131" r="1.8" fill="#2E2A24"/>
+    <circle cx="110.4" cy="130.6" r="0.6" fill="#FFF"/>
+    <path d="M 101 135 Q 104 136.2 107 135" fill="none" stroke="#B08A6A" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 桂香漫 -->
+    <path d="M 100 118 Q 96 110 100 102" stroke="#F8E8C0" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.75">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 112 120 Q 116 112 112 104" stroke="#F8E8C0" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.65">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#F8E8C0">
+    <circle cx="48" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
