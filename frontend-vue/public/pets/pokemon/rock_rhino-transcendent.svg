@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="岩甲犀·六阶·岩甲犀传说·暮光岩角碰小岩甲犀传最硬护最软">
+  <defs>
+    <!-- 背景：山岭暮色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8B088"/>
+      <stop offset="52%" stop-color="#9EA88A"/>
+      <stop offset="100%" stop-color="#78886C"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E8C8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F0E8C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 岩皮 -->
+    <radialGradient id="rock" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#A89880"/>
+      <stop offset="100%" stop-color="#7A644E"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山岭 -->
+  <g fill="#68805E" opacity="0.5">
+    <path d="M 0 134 Q 60 118 120 130 Q 170 140 200 124 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#78886C" opacity="0.9"/>
+
+  <!-- 安然的群落（下） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="90" cy="136" r="4" fill="#C8A878" stroke="#A88858" stroke-width="0.5"/>
+    <circle cx="102" cy="140" r="3.5" fill="#D0B888" stroke="#B09868" stroke-width="0.5"/>
+  </g>
+
+  <!-- 小岩甲犀（右，岩甲初硬） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="144" cy="124" rx="11" ry="9" fill="url(#rock)" stroke="#6E5A46" stroke-width="0.7"/>
+    <path d="M 136 118 Q 144 114 152 118" stroke="#8E7A64" stroke-width="1" fill="none" opacity="0.7"/>
+    <ellipse cx="144" cy="116" rx="7" ry="6" fill="url(#rock)" stroke="#6E5A46" stroke-width="0.6"/>
+    <path d="M 147 111 L 150 104 L 153 111 Z" fill="#8E7A64" stroke="#6E5A46" stroke-width="0.5"/>
+    <circle cx="141" cy="115" r="1.8" fill="#2E2A24"/>
+    <circle cx="141.8" cy="114.2" r="0.7" fill="#FFF"/>
+    <circle cx="149" cy="115" r="1.8" fill="#2E2A24"/>
+    <circle cx="149.8" cy="114.2" r="0.7" fill="#FFF"/>
+    <path d="M 151 119 L 154 119 L 152.5 121 Z" fill="#5E4A36"/>
+    <path d="M 136 130 L 133 134" stroke="#7A644E" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 152 130 L 155 134" stroke="#7A644E" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老岩甲犀（左，角碰小岩犀） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="76" cy="112" r="26" fill="#F0E8C8" opacity="0.16">
+      <animate attributeName="opacity" values="0.16;0.09;0.16" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 岩皮身（大，泛岁月光） -->
+    <ellipse cx="80" cy="120" rx="18" ry="14" fill="url(#rock)" stroke="#4E3A28" stroke-width="1"/>
+    <!-- 岩甲纹（如古墙） -->
+    <path d="M 64 112 Q 80 104 96 112" stroke="#C0B098" stroke-width="1.3" fill="none" opacity="0.7"/>
+    <path d="M 66 128 Q 80 120 94 128" stroke="#C0B098" stroke-width="1.1" fill="none" opacity="0.6"/>
+    <path d="M 76 106 L 76 114 M 86 106 L 86 114" stroke="#C0B098" stroke-width="0.8" fill="none" opacity="0.5"/>
+    <!-- 岩角（如古峰，伸向小岩犀） -->
+    <path d="M 88 106 L 100 92 L 104 106 Z" fill="#C0B098" stroke="#4E3A28" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="-3 88 106;3 88 106;-3 88 106" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 头 -->
+    <ellipse cx="84" cy="108" rx="10" ry="9" fill="url(#rock)" stroke="#4E3A28" stroke-width="0.8"/>
+    <!-- 眼（温和，目含慈） -->
+    <path d="M 79 107 Q 81 105.6 83 107" stroke="#2E2A24" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <path d="M 87 107 Q 89 105.6 90 107" stroke="#2E2A24" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- 鼻 -->
+    <path d="M 91 111 L 94 111 L 92.5 113.5 Z" fill="#4E3A28"/>
+    <!-- 嘴（慈） -->
+    <path d="M 92 115 Q 90 116.4 88 115" fill="none" stroke="#3E2A1A" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 腿（如古柱） -->
+    <path d="M 66 132 L 61 142" stroke="#7A644E" stroke-width="3.8" stroke-linecap="round"/>
+    <path d="M 94 132 L 99 142" stroke="#7A644E" stroke-width="3.8" stroke-linecap="round"/>
+    <!-- 角碰传 -->
+    <path d="M 100 104 Q 116 100 130 104" stroke="#E0D8C0" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <!-- 传心微光 -->
+    <circle cx="122" cy="102" r="10" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮色星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

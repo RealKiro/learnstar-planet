@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="岩甲犀·一阶·岩甲初生·宝可梦山岭岩甲初硬挡落石护小兽">
+  <defs>
+    <!-- 背景：宝可梦山岭 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AB0A0"/>
+      <stop offset="52%" stop-color="#B0C0A8"/>
+      <stop offset="100%" stop-color="#889888"/>
+    </linearGradient>
+    <!-- 岭光 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#E8F0D8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8F0D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 岩皮 -->
+    <radialGradient id="rock" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#A89880"/>
+      <stop offset="100%" stop-color="#88705A"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山岭 -->
+  <g fill="#78886C" opacity="0.5">
+    <path d="M 0 130 Q 60 116 120 128 Q 170 136 200 124 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#889888" opacity="0.9"/>
+
+  <!-- 被护的小兽（左） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="58" cy="130" r="4" fill="#C8A878" stroke="#A88858" stroke-width="0.5"/>
+    <circle cx="56" cy="128.8" r="1" fill="#2E2A24"/>
+    <circle cx="61" cy="128.8" r="1" fill="#2E2A24"/>
+  </g>
+
+  <!-- 落石（右） -->
+  <g>
+    <path d="M 150 96 L 162 92 L 158 104 Z" fill="#8E7A64" stroke="#6E5A46" stroke-width="0.7">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 3;0 0" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 小岩甲犀（中，挡石） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 岩皮身（圆） -->
+    <ellipse cx="96" cy="124" rx="16" ry="13" fill="url(#rock)" stroke="#6E5A46" stroke-width="1"/>
+    <!-- 岩甲纹 -->
+    <path d="M 82 118 Q 96 114 110 118" stroke="#8E7A64" stroke-width="1.2" fill="none" opacity="0.7"/>
+    <path d="M 84 130 Q 96 126 108 130" stroke="#8E7A64" stroke-width="1" fill="none" opacity="0.6"/>
+    <path d="M 90 116 L 90 122" stroke="#8E7A64" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <!-- 头 -->
+    <ellipse cx="96" cy="110" rx="10" ry="9" fill="url(#rock)" stroke="#6E5A46" stroke-width="0.8"/>
+    <!-- 小岩角 -->
+    <path d="M 100 104 L 104 94 L 108 104 Z" fill="#8E7A64" stroke="#6E5A46" stroke-width="0.6"/>
+    <!-- 眼（圆温） -->
+    <circle cx="92" cy="109" r="2.4" fill="#2E2A24"/>
+    <circle cx="92.8" cy="107.8" r="1" fill="#FFF"/>
+    <circle cx="101" cy="109" r="2.4" fill="#2E2A24"/>
+    <circle cx="101.8" cy="107.8" r="1" fill="#FFF"/>
+    <!-- 鼻（圆） -->
+    <path d="M 104 113 L 108 113 L 106 115.5 Z" fill="#6E5A46"/>
+    <!-- 嘴（挺） -->
+    <path d="M 103 117 Q 105 118.4 107 117" fill="none" stroke="#5E4A36" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 挡石的腿 -->
+    <path d="M 84 132 L 80 139" stroke="#88705A" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M 108 132 L 112 139" stroke="#88705A" stroke-width="3.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#E8F0D8">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
