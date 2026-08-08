@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="蓝采和·六阶·大音希声·风过松涛皆我歌">
+  <defs>
+    <!-- 背景：山巅霞光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8B8A8"/>
+      <stop offset="52%" stop-color="#C89078"/>
+      <stop offset="100%" stop-color="#9E6E5E"/>
+    </linearGradient>
+    <!-- 霞光金 -->
+    <radialGradient id="aura" cx="76%" cy="26%" r="36%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 素衫 -->
+    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0EEE8"/>
+      <stop offset="100%" stop-color="#D8D4CC"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：青年面容·眉眼含笑·眼神澄澈 -->
+    <g id="lancaihe-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 短发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 眉眼含笑 -->
+      <path d="M -8 -1.5 Q -5 -3 -2 -2.4 M 8 -1.5 Q 5 -3 2 -2.4" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 澄澈眼 -->
+      <ellipse cx="-4.2" cy="0.4" rx="2.1" ry="1.9" fill="#1E1008"/>
+      <ellipse cx="4.2" cy="0.4" rx="2.1" ry="1.9" fill="#1E1008"/>
+      <circle cx="-4.7" cy="-0.4" r="0.7" fill="#FFF"/>
+      <circle cx="3.7" cy="-0.4" r="0.7" fill="#FFF"/>
+      <circle cx="-4.2" cy="0.4" r="0.6" fill="#FFF3C4"/>
+      <circle cx="4.2" cy="0.4" r="0.6" fill="#FFF3C4"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 安和 -->
+      <path d="M -3 5.4 Q 0 7.2 3 5.4" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 霞光 -->
+  <circle cx="152" cy="52" r="54" fill="url(#aura)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="152" cy="52" r="13" fill="#FFF3C4" opacity="0.9">
+    <animate attributeName="r" values="13;15;13" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山巅云海 -->
+  <g opacity="0.7">
+    <path d="M 0 140 Q 50 132 100 138 Q 150 144 200 136 L 200 200 L 0 200 Z" fill="#E8E0D0">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 2;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 168 Q 60 160 120 166 Q 170 172 200 164 L 200 200 L 0 200 Z" fill="#D8CCB8" opacity="0.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-5 1;0 0" dur="8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 风过松涛（音符环绕，天地为琴） -->
+  <g fill="#FFF3C4" opacity="0.85">
+    <path d="M 46 92 L 48 86 L 52 88 Z">
+      <animate attributeName="opacity" values="0.85;0.3;0.85" dur="2.4s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 -2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="62" cy="76" r="2">
+      <animate attributeName="cy" values="76;68;76" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 138 78 L 140 72 L 144 74 Z">
+      <animate attributeName="opacity" values="0.85;0.3;0.85" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="150" cy="92" r="1.8">
+      <animate attributeName="cy" values="92;84;92" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- 风线（松涛声） -->
+  <g stroke="#FFF3C4" stroke-width="1.4" opacity="0.5" stroke-linecap="round">
+    <path d="M 20 104 Q 40 98 56 102">
+      <animateTransform attributeName="transform" type="translate" values="0 0;4 -1;0 0" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 144 100 Q 162 94 180 98">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 -1;0 0" dur="3.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 古松（右） -->
+  <path d="M 178 110 Q 176 94 180 78" stroke="#5E6E5E" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+  <path d="M 180 92 Q 166 86 158 90 M 179 82 Q 192 78 196 82 M 180 100 Q 190 96 194 102" stroke="#5E6E5E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  <!-- 溪流过石（下方，音符） -->
+  <g opacity="0.8">
+    <path d="M 96 158 Q 120 154 144 158 Q 158 160 152 166 Q 132 170 110 166 Q 98 164 96 158 Z" fill="#9AC8E0" opacity="0.7"/>
+    <circle cx="120" cy="160" r="1.8" fill="#FFF3C4">
+      <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 素衫歌者（负手山巅，静听天地） -->
+  <!-- 腿 -->
+  <path d="M 92 132 L 88 156 L 94 156 L 98 134 Z" fill="#D0C8C0"/>
+  <path d="M 106 132 L 114 158 L 108 158 L 102 134 Z" fill="#D0C8C0"/>
+  <!-- 素衫 -->
+  <path d="M 90 100 Q 86 116 92 134 Q 100 140 108 134 Q 114 116 110 100 Q 100 94 90 100 Z" fill="url(#cloth)" stroke="#C8C0B8" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 90 118 L 108 118" stroke="#B8B0A8" stroke-width="1.4"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#lancaihe-face" transform="translate(100,92) scale(1)"/>
+
+  <!-- 左臂负手（藏玉板） -->
+  <path d="M 92 104 C 88 108 86 114 88 122" fill="none" stroke="#E8E4DC" stroke-width="3.6" stroke-linecap="round"/>
+
+  <!-- 右臂负手（藏玉板，微微前伸聆听） -->
+  <path d="M 108 104 C 114 108 116 114 114 120" fill="none" stroke="#E8E4DC" stroke-width="3.6" stroke-linecap="round"/>
+
+  <!-- 心音音韵（自心口淡出，大音希声） -->
+  <g fill="none" stroke="#FFF3C4" stroke-width="1.3" opacity="0.55">
+    <circle cx="100" cy="110" r="7">
+      <animate attributeName="r" values="7;12;7" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.15;0.55" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="110" r="13">
+      <animate attributeName="r" values="13;18;13" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 霞光金尘 -->
+  <g fill="#FFF3C4">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="60">
+      <animate attributeName="cy" values="60;50;60" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

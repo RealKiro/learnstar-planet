@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="蓝采和·四阶·歌动人心·歌声光雨化忧为喜">
+  <defs>
+    <!-- 背景：城中愁巷 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A89880"/>
+      <stop offset="52%" stop-color="#8E7E68"/>
+      <stop offset="100%" stop-color="#6E5E4E"/>
+    </linearGradient>
+    <!-- 歌光金 -->
+    <radialGradient id="aura" cx="50%" cy="44%" r="55%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 铜钱黄 -->
+    <radialGradient id="coin" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFE066" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFE066" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 破绿衫 -->
+    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6EA878"/>
+      <stop offset="100%" stop-color="#4E885E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：青年面容·眉眼含笑·目光温暖 -->
+    <g id="lancaihe-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 短发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 眉眼含笑 -->
+      <path d="M -8 -1.5 Q -5 -3 -2 -2.4 M 8 -1.5 Q 5 -3 2 -2.4" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 目光温暖 -->
+      <ellipse cx="-4.2" cy="0.4" rx="2.1" ry="1.9" fill="#1E1008"/>
+      <ellipse cx="4.2" cy="0.4" rx="2.1" ry="1.9" fill="#1E1008"/>
+      <circle cx="-4.7" cy="-0.4" r="0.7" fill="#FFF"/>
+      <circle cx="3.7" cy="-0.4" r="0.7" fill="#FFF"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 温暖笑 -->
+      <path d="M -3 5.4 Q 0 7.4 3 5.4" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 歌光 -->
+  <circle cx="100" cy="100" r="84" fill="url(#aura)">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 街巷屋舍 -->
+  <g opacity="0.8">
+    <path d="M 14 80 L 14 66 L 38 66 L 38 80 L 48 80 L 48 58 L 6 58 L 6 80 Z" fill="#8E7252"/>
+    <path d="M 150 84 L 150 70 L 174 70 L 174 84 L 182 84 L 182 62 L 142 62 L 142 84 Z" fill="#987A58"/>
+  </g>
+
+  <!-- 歌声光雨（洒落） -->
+  <g stroke="#FFF7E0" stroke-width="1.3" opacity="0.6" stroke-linecap="round">
+    <path d="M 66 60 L 60 84">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 88 48 L 82 76">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 120 52 L 116 80">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 142 58 L 138 86">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 哭者展颜（左） -->
+  <g opacity="0.95">
+    <circle cx="40" cy="130" r="4.5" fill="#E8D8BC"/>
+    <path d="M 37 126 Q 40 123 43 126 Q 42 128 40 128 Q 38 128 37 126 Z" fill="#2E2620"/>
+    <path d="M 38 134 Q 36 144 38 150 Q 42 150 42 134 Z" fill="#8E7E6E"/>
+    <!-- 展颜（嘴角上扬） -->
+    <path d="M 38 131 Q 40 132.8 42 131" stroke="#8E5A3E" stroke-width="1" fill="none"/>
+    <path d="M 39 129 Q 39.5 128 40 129" stroke="#9AC8E8" stroke-width="1" fill="none"/>
+  </g>
+
+  <!-- 怒者平息（右） -->
+  <g opacity="0.95">
+    <circle cx="156" cy="134" r="4.5" fill="#E8D8BC"/>
+    <path d="M 153 130 Q 156 127 159 130 Q 158 132 156 132 Q 154 132 153 130 Z" fill="#2E2620"/>
+    <path d="M 154 138 Q 152 148 154 154 Q 158 154 158 138 Z" fill="#7E8E6E"/>
+    <path d="M 154 135 Q 156 133.5 158 135" stroke="#8E5A3E" stroke-width="1" fill="none"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 154 L 200 154 L 200 200 L 0 200 Z" fill="#5E4E3E" opacity="0.7"/>
+  <path d="M 0 154 L 200 154" stroke="#6E5E4E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 赤足歌者（立于街中，举玉板高歌） -->
+  <!-- 腿 -->
+  <path d="M 90 130 L 86 154 L 92 154 L 96 132 Z" fill="#4E885E"/>
+  <path d="M 106 130 L 114 156 L 108 156 L 102 132 Z" fill="#4E885E"/>
+  <!-- 破绿衫 -->
+  <path d="M 90 98 Q 86 114 92 132 Q 100 138 108 132 Q 114 114 110 98 Q 100 92 90 98 Z" fill="url(#cloth)" stroke="#3E6E4E" stroke-width="1"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#lancaihe-face" transform="translate(100,90) scale(1)"/>
+
+  <!-- 左臂举玉板高歌 -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 90 102;3 90 102;-4 90 102" dur="2s" repeatCount="indefinite"/>
+    <path d="M 90 102 C 84 104 80 106 78 100" fill="none" stroke="#5E986E" stroke-width="3.6" stroke-linecap="round"/>
+    <circle cx="77" cy="99" r="2.8" fill="#DCC4A0"/>
+    <rect x="71" y="90" width="10" height="16" rx="1.5" fill="#E8E0D0" stroke="#B8B0A0" stroke-width="0.8"/>
+  </g>
+
+  <!-- 右臂扬（挥洒光雨） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 108 102 C 114 104 118 106 120 112" fill="none" stroke="#5E986E" stroke-width="3.6" stroke-linecap="round"/>
+    <circle cx="121" cy="114" r="2.8" fill="#DCC4A0"/>
+  </g>
+
+  <!-- 铜钱化雨散财（飞向贫者） -->
+  <g fill="#E8B64C">
+    <circle cx="60" cy="116">
+      <animate attributeName="cy" values="116;108;116" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="110">
+      <animate attributeName="cy" values="110;102;110" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="130">
+      <animate attributeName="cy" values="130;124;130" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <circle cx="60" cy="120" r="22" fill="url(#coin)" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.2;0.4" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 歌星尘 -->
+  <g fill="#FFF7E0">
+    <circle cx="36" cy="100">
+      <animate attributeName="cy" values="100;92;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="72">
+      <animate attributeName="cy" values="72;64;72" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

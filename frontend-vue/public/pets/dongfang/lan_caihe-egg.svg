@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="蓝采和·一阶·市井歌者·玉板击节踏歌行">
+  <defs>
+    <!-- 背景：唐代街市烟火 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8A88A"/>
+      <stop offset="52%" stop-color="#9E8E72"/>
+      <stop offset="100%" stop-color="#7E6E58"/>
+    </linearGradient>
+    <!-- 市井暖光 -->
+    <radialGradient id="glow" cx="50%" cy="42%" r="56%">
+      <stop offset="0%" stop-color="#E8C07A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E8C07A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 破绿衫 -->
+    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6EA878"/>
+      <stop offset="100%" stop-color="#4E885E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="92" r="82" fill="url(#glow)"/>
+
+  <!-- 街市屋舍 -->
+  <g opacity="0.85">
+    <path d="M 16 84 L 16 70 L 40 70 L 40 84 L 50 84 L 50 62 L 8 62 L 8 84 Z" fill="#A87A56"/>
+    <path d="M 28 70 L 28 60 L 27 70 Z" fill="#A87A56"/>
+    <path d="M 148 86 L 148 72 L 172 72 L 172 86 L 180 86 L 180 64 L 140 64 L 140 86 Z" fill="#B08A62"/>
+    <path d="M 160 72 L 160 62 L 159 72 Z" fill="#B08A62"/>
+  </g>
+
+  <!-- 行人驻足（背景） -->
+  <g opacity="0.5">
+    <path d="M 34 116 Q 35 108 39 105 Q 43 107 43 116 Z" fill="#8E7E6E"/>
+    <path d="M 52 120 Q 53 112 57 109 Q 61 111 61 120 Z" fill="#7E8E6E"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#8E7E6E" opacity="0.7"/>
+  <path d="M 0 152 L 200 152" stroke="#9E8E7E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 破绿衫赤足少年（6头身，踏歌而行，玉板击节） -->
+  <!-- 腿（赤足） -->
+  <path d="M 90 132 L 84 158 L 89 158 L 94 134 Z" fill="#4E885E"/>
+  <path d="M 106 132 L 114 158 L 108 158 L 102 134 Z" fill="#4E885E"/>
+  <!-- 赤足（脚踝露出） -->
+  <path d="M 85 158 Q 83 161 86 163 Q 89 161 88 158 Z" fill="#DCC4A0"/>
+  <path d="M 111 158 Q 113 161 110 163 Q 107 161 108 158 Z" fill="#DCC4A0"/>
+  <!-- 破绿衫 -->
+  <path d="M 88 102 Q 84 116 90 134 Q 100 140 108 134 Q 114 116 110 102 Q 100 96 88 102 Z" fill="url(#cloth)" stroke="#3E6E4E" stroke-width="1"/>
+  <!-- 破补丁 -->
+  <rect x="96" y="112" width="7" height="7" fill="#5E986E" stroke="#3E6E4E" stroke-width="0.7"/>
+  <path d="M 94 124 L 98 128 M 100 122 L 104 126" stroke="#3E6E4E" stroke-width="0.7"/>
+  <!-- 腰挂铜钱 -->
+  <g fill="#E8B64C">
+    <circle cx="90" cy="118" r="2.2"/>
+    <circle cx="106" cy="118" r="2.2"/>
+  </g>
+
+  <!-- 头（少年面容，眉眼弯弯，眼含笑意，嘴角高歌） -->
+  <circle cx="99" cy="94" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 散乱短发 -->
+  <path d="M 90 90 Q 88 84 92 80" stroke="#2E2620" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 100 86 Q 104 80 108 82" stroke="#2E2620" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 90 90 Q 94 86 99 86 Q 104 86 108 90 Q 104 87 99 87 Q 94 87 90 90 Z" fill="#2E2620"/>
+  <!-- 眉眼弯弯 -->
+  <path d="M 91 91 Q 94 89.8 97 90.4 M 101 90.4 Q 104 89.8 107 91" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  <circle cx="94" cy="93.6" r="2.3" fill="#1E1008"/>
+  <circle cx="104" cy="93.6" r="2.3" fill="#1E1008"/>
+  <circle cx="95" cy="92.8" r="0.8" fill="#FFF"/>
+  <circle cx="105" cy="92.8" r="0.8" fill="#FFF"/>
+  <!-- 鼻梁 -->
+  <path d="M 99 95.5 L 99 98" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+  <!-- 嘴角高歌 -->
+  <path d="M 94 101 Q 99 103.6 104 101" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 左臂持玉板（击节） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-6 90 104;5 90 104;-6 90 104" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M 90 104 C 84 108 80 110 78 116" fill="none" stroke="#5E986E" stroke-width="3.6" stroke-linecap="round"/>
+    <circle cx="77" cy="118" r="2.8" fill="#DCC4A0"/>
+    <!-- 玉板 -->
+    <rect x="71" y="114" width="10" height="16" rx="1.5" fill="#E8E0D0" stroke="#B8B0A0" stroke-width="0.8"/>
+    <path d="M 71 118 L 81 118 M 71 122 L 81 122" stroke="#B8B0A0" stroke-width="0.7"/>
+  </g>
+
+  <!-- 右臂摆动（踏歌） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="5 108 104;-4 108 104;5 108 104" dur="2s" repeatCount="indefinite"/>
+    <path d="M 108 104 C 114 108 118 110 120 116" fill="none" stroke="#5E986E" stroke-width="3.6" stroke-linecap="round"/>
+    <circle cx="121" cy="118" r="2.8" fill="#DCC4A0"/>
+  </g>
+
+  <!-- 歌声音符（清越） -->
+  <g fill="#FFF7E0">
+    <path d="M 84 96 L 86 90 L 90 92 Z" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="76" cy="92" r="2" opacity="0.6">
+      <animate attributeName="cy" values="92;86;92" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70" cy="88" r="1.5" opacity="0.5">
+      <animate attributeName="cy" values="88;82;88" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 铜钱黄尘 -->
+  <g fill="#E8B64C">
+    <circle cx="44" cy="108">
+      <animate attributeName="cy" values="108;100;108" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="86">
+      <animate attributeName="cy" values="86;78;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
