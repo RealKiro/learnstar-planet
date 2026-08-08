@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="双鱼座·阿布罗狄·三阶·皇家恶魔玫瑰·指尖轻捻花瓣染夜">
+  <defs>
+    <!-- 背景：双鱼宫前绯红月光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E3E5E"/>
+      <stop offset="52%" stop-color="#4E324E"/>
+      <stop offset="100%" stop-color="#3E2640"/>
+    </linearGradient>
+    <!-- 恶魔玫红 -->
+    <radialGradient id="rose" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#E8627E" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#E8627E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 绯红月光 -->
+    <radialGradient id="moon" cx="76%" cy="26%" r="30%">
+      <stop offset="0%" stop-color="#F0A0B8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F0A0B8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜双鱼圣衣 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C8D0C8"/>
+      <stop offset="100%" stop-color="#9EAEA0"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F6E2CC"/>
+      <stop offset="100%" stop-color="#E2C8A8"/>
+    </radialGradient>
+
+    <!-- 头部模板：绝美面容·细眉·桃花眼含媚（脸中心 0,0） -->
+    <g id="pisces-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#D8C0A0" stroke-width="0.8"/>
+      <!-- 长发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <path d="M -8 -4 L -12 -2 M 8 -4 L 12 -2" stroke="#2E2620" stroke-width="1.6" stroke-linecap="round"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 细眉 -->
+      <path d="M -8 -1.5 Q -5 -3 -2 -2.4 M 8 -1.5 Q 5 -3 2 -2.4" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 桃花眼含媚 -->
+      <path d="M -7 0.4 Q -4.5 -0.8 -2 -0.2 L -2 1 Q -4.5 0.4 -7 1.6 Z" fill="#1E1008"/>
+      <path d="M 7 0.4 Q 4.5 -0.8 2 -0.2 L 2 1 Q 4.5 0.4 7 1.6 Z" fill="#1E1008"/>
+      <circle cx="-4.2" cy="0.3" r="1.5" fill="#1E1008"/>
+      <circle cx="4.2" cy="0.3" r="1.5" fill="#1E1008"/>
+      <circle cx="-4.2" cy="0.3" r="0.5" fill="#E8627E"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#D0B898" stroke-width="1" stroke-linecap="round"/>
+      <!-- 唇色玫瑰 -->
+      <path d="M -3 5.4 Q 0 7 3 5.4" fill="none" stroke="#C85068" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 绯红月光 -->
+  <circle cx="152" cy="48" r="42" fill="url(#moon)">
+    <animate attributeName="opacity" values="0.7;0.45;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="152" cy="48" r="10" fill="#F0A0B8" opacity="0.7"/>
+  <!-- 恶魔玫红 -->
+  <circle cx="100" cy="92" r="82" fill="url(#rose)">
+    <animate attributeName="opacity" values="0.85;0.45;0.85" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 花瓣飘散（染暗夜） -->
+  <g fill="#E8627E" opacity="0.8">
+    <circle cx="60" cy="60" r="2"><animate attributeName="cy" values="60;70;60" dur="2.4s" repeatCount="indefinite"/></circle>
+    <circle cx="140" cy="54" r="2"><animate attributeName="cy" values="54;64;54" dur="2.8s" repeatCount="indefinite"/></circle>
+    <circle cx="110" cy="40" r="1.8"><animate attributeName="cy" values="40;50;40" dur="3.2s" repeatCount="indefinite"/></circle>
+  </g>
+  <!-- 染夜花瓣（暗红晕染） -->
+  <g stroke="#E8627E" stroke-width="1.3" opacity="0.4" stroke-linecap="round">
+    <path d="M 100 70 Q 88 60 80 54">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 104 66 Q 118 58 128 52">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 双鱼宫（背景） -->
+  <g opacity="0.4">
+    <path d="M 20 20 L 64 20 L 58 32 Q 40 40 28 36 Z" fill="#3E2E3E"/>
+    <path d="M 20 20 L 64 20" stroke="#5E4E5E" stroke-width="1.2"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#3E2640" opacity="0.8"/>
+  <path d="M 0 152 L 200 152" stroke="#5E3E5E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 青铜双鱼圣斗士（6头身，指尖捻玫瑰轻吹） -->
+  <!-- 腿 -->
+  <path d="M 88 132 L 84 154 L 90 154 L 94 134 Z" fill="#9EAEA0"/>
+  <path d="M 104 132 L 112 156 L 106 156 L 100 134 Z" fill="#9EAEA0"/>
+  <!-- 圣衣（下摆） -->
+  <path d="M 88 122 Q 98 130 110 122 Q 114 116 110 108 Q 104 120 96 116 Q 88 120 88 122 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 88 92 Q 84 106 90 122 Q 100 128 110 122 Q 116 106 112 92 Q 100 86 88 92 Z" fill="url(#armor)" stroke="#7E8E80" stroke-width="1"/>
+  <!-- 绯红藤蔓 -->
+  <path d="M 86 96 Q 82 104 86 112" stroke="#E8627E" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.8"/>
+  <!-- 双鱼纹 -->
+  <path d="M 92 98 L 96 116 M 104 98 L 100 116" stroke="#E8F0E8" stroke-width="1.2" opacity="0.7"/>
+  <!-- 腰带 -->
+  <path d="M 88 108 L 112 108" stroke="#E8F0E8" stroke-width="1.6"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#pisces-face" transform="translate(100,84) scale(1)"/>
+
+  <!-- 左臂垂持 -->
+  <path d="M 90 96 C 84 100 82 106 84 114" fill="none" stroke="#C8D0C8" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="84" cy="116" r="3.2" fill="#E2C8A8"/>
+
+  <!-- 右手（捻玫瑰，轻吹） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 -2;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 108 96 C 114 94 118 92 120 88" fill="none" stroke="#C8D0C8" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="122" cy="86" r="3.2" fill="#E2C8A8"/>
+    <!-- 指尖恶魔玫瑰 -->
+    <circle cx="124" cy="82" r="7" fill="#E8627E" stroke="#C85068" stroke-width="1">
+      <animate attributeName="r" values="7;9;7" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 122 80 Q 124 77 126 80 Q 124 82 122 80 Z" fill="#F08098"/>
+    <!-- 轻吹之气 -->
+    <path d="M 112 88 Q 104 82 100 74" stroke="#E8627E" stroke-width="1.4" opacity="0.5" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 恶魔玫瑰星尘 -->
+  <g fill="#E8627E">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="双鱼座·阿布罗狄·一阶·玫瑰丛中·指尖触花玫瑰绽">
+  <defs>
+    <!-- 背景：双鱼宫玫瑰园绯红宫阙 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8989E"/>
+      <stop offset="52%" stop-color="#A8787E"/>
+      <stop offset="100%" stop-color="#88585E"/>
+    </linearGradient>
+    <!-- 玫瑰绯红 -->
+    <radialGradient id="rose" cx="50%" cy="44%" r="52%">
+      <stop offset="0%" stop-color="#E8627E" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8627E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 园青 -->
+    <radialGradient id="garden" cx="50%" cy="70%" r="45%">
+      <stop offset="0%" stop-color="#7EA878" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#7EA878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜学徒服 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8EA0B0"/>
+      <stop offset="100%" stop-color="#5E7484"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F6E2CC"/>
+      <stop offset="100%" stop-color="#E2C8A8"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 玫瑰绯红 -->
+  <circle cx="100" cy="96" r="76" fill="url(#rose)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 园青 -->
+  <circle cx="100" cy="150" r="50" fill="url(#garden)">
+    <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 绯红宫阙 -->
+  <g opacity="0.4">
+    <path d="M 20 20 L 72 20 L 62 34 Q 40 42 28 38 Z" fill="#A8787E"/>
+    <path d="M 20 20 L 72 20" stroke="#C8989E" stroke-width="1.2"/>
+  </g>
+
+  <!-- 地面（玫瑰园） -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#7E8E6E" opacity="0.7"/>
+
+  <!-- 玫瑰丛 -->
+  <g>
+    <circle cx="40" cy="146" r="6" fill="#E8627E"/>
+    <circle cx="38" cy="143" r="4" fill="#F08098"/>
+    <circle cx="42" cy="143" r="4" fill="#F08098"/>
+    <path d="M 40 150 Q 38 158 42 166" stroke="#5E8E5E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <circle cx="156" cy="148" r="6" fill="#E8627E"/>
+    <circle cx="154" cy="145" r="4" fill="#F08098"/>
+    <circle cx="158" cy="145" r="4" fill="#F08098"/>
+    <path d="M 156 152 Q 158 160 154 168" stroke="#5E8E5E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- 花苞 -->
+    <path d="M 92 140 Q 90 134 94 131 Q 97 134 95 140 Z" fill="#E8627E" opacity="0.8"/>
+  </g>
+
+  <!-- 青铜学徒美少年（5头身，立于花丛，极美） -->
+  <!-- 腿 -->
+  <path d="M 88 136 L 84 158 L 90 158 L 94 138 Z" fill="#5E7484"/>
+  <path d="M 104 136 L 112 160 L 106 160 L 100 138 Z" fill="#5E7484"/>
+  <!-- 青铜学徒服 -->
+  <path d="M 88 102 Q 84 118 90 136 Q 100 142 108 136 Q 114 118 110 102 Q 100 96 88 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 88 118 L 110 118" stroke="#A8B8C8" stroke-width="1.4"/>
+
+  <!-- 头（绝美面容，长发披肩，细眉桃花眼） -->
+  <circle cx="99" cy="94" r="10" fill="url(#skin)" stroke="#D8C0A0" stroke-width="0.8"/>
+  <!-- 长发披肩 -->
+  <path d="M 90 88 Q 86 84 88 80" stroke="#2E2620" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 108 88 Q 112 84 110 80" stroke="#2E2620" stroke-width="2" stroke-linecap="round"/>
+  <!-- 额发 -->
+  <path d="M 90 92 Q 94 87 99 87 Q 104 87 108 92 Q 104 88 99 88 Q 94 88 90 92 Z" fill="#2E2620"/>
+  <!-- 细眉 -->
+  <path d="M 91 92 Q 94 90.8 97 91 M 101 91 Q 104 90.8 107 92" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+  <!-- 桃花眼含情 -->
+  <path d="M 92 95 Q 95 93.6 97 94.2 M 101 94.2 Q 103 93.6 106 95" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+  <circle cx="95" cy="94.4" r="1.8" fill="#1E1008"/>
+  <circle cx="103" cy="94.4" r="1.8" fill="#1E1008"/>
+  <circle cx="95.6" cy="93.6" r="0.6" fill="#E8627E"/>
+  <circle cx="103.6" cy="93.6" r="0.6" fill="#E8627E"/>
+  <!-- 鼻梁 -->
+  <path d="M 99 96.5 L 99 98.5" stroke="#D0B898" stroke-width="1" stroke-linecap="round"/>
+  <!-- 唇色如玫瑰 -->
+  <path d="M 95 101.5 Q 99 103 103 101.5" fill="none" stroke="#C85068" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- 左臂垂持 -->
+  <path d="M 90 106 C 84 110 82 114 84 120" fill="none" stroke="#7E8E9E" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="84" cy="122" r="2.8" fill="#E2C8A8"/>
+
+  <!-- 右手（指尖触花，玫瑰绽放） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 106 106 C 112 104 116 102 120 100" fill="none" stroke="#7E8E9E" stroke-width="3.4" stroke-linecap="round"/>
+    <circle cx="122" cy="99" r="2.8" fill="#E2C8A8"/>
+    <!-- 指尖玫瑰绽放 -->
+    <circle cx="124" cy="96" r="6" fill="#E8627E">
+      <animate attributeName="r" values="6;9;6" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 122 94 Q 124 91 126 94 Q 124 96 122 94 Z" fill="#F08098"/>
+    <path d="M 122 98 Q 124 95 126 98 Q 124 100 122 98 Z" fill="#F08098"/>
+  </g>
+
+  <!-- 玫瑰星尘 -->
+  <g fill="#E8627E">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
