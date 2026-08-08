@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="灰袍智者·五阶·灰袍智者·翻书教查教孩子看星授问路光">
+  <defs>
+    <!-- 背景：塔楼月色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A5A6E"/>
+      <stop offset="52%" stop-color="#3A4A5E"/>
+      <stop offset="100%" stop-color="#9A8E7A"/>
+    </linearGradient>
+    <!-- 月色神光 -->
+    <radialGradient id="glow" cx="30%" cy="18%" r="36%">
+      <stop offset="0%" stop-color="#F0E8D0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F0E8D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 智者光环 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#D8DCC8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#D8DCC8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灰袍智者袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A8A8A8"/>
+      <stop offset="100%" stop-color="#8A8A8A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="60" cy="34" r="60" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 智者光环 -->
+  <circle cx="100" cy="110" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 月与星 -->
+  <circle cx="56" cy="30" r="13" fill="#F0E8D0" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.75;0.9" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <g fill="#E8E4CC">
+    <circle cx="120" cy="24" r="1.1">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="40" r="1.2">
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="52" r="1">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 塔楼窗 -->
+  <path d="M 130 56 L 130 96 L 170 96 L 170 56 Z" fill="#3A4A5E" stroke="#7E7260" stroke-width="1.6"/>
+
+  <!-- 翻开的书（案上，光） -->
+  <g>
+    <path d="M 30 132 L 78 128 L 82 148 L 34 152 Z" fill="#E8DCB8"/>
+    <g stroke="#B8A878" stroke-width="0.6">
+      <path d="M 36 136 L 76 132 M 36 140 L 76 136"/>
+    </g>
+    <circle cx="56" cy="140" r="10" fill="#F0E8D0" opacity="0.35">
+      <animate attributeName="opacity" values="0.35;0.18;0.35" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 看星的孩子（右，被教） -->
+  <g opacity="0.85">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="150" cy="128" r="4.5" fill="#D8C8A8"/>
+    <path d="M 146 132 L 144 140 M 150 132 L 150 140 M 154 132 L 156 140" stroke="#B0986E" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- 仰望星 -->
+    <circle cx="146" cy="124" r="0.8" fill="#E8E4CC" opacity="0.7"/>
+  </g>
+
+  <!-- 灰袍智者（翻书教查，指星） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体（如暮） -->
+    <path d="M 88 152 L 88 112 Q 88 102 96 102 L 96 152 Z" fill="url(#robe)" stroke="#767676" stroke-width="0.9"/>
+    <!-- 指星的手（抬） -->
+    <path d="M 96 112 Q 108 104 120 96" stroke="#C8B89A" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 96 112;6 96 112;0 96 112" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 指星光 -->
+    <path d="M 120 96 Q 132 84 140 72" stroke="#F0E8D0" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 翻书的手（左） -->
+    <path d="M 92 126 Q 84 132 76 136" stroke="#C8B89A" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 灰袍智者头（含智含温） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="94" cy="94" rx="8.5" ry="8.5" fill="#E8D8C0" stroke="#C8B89A" stroke-width="0.7"/>
+    <!-- 圆镜（如月） -->
+    <circle cx="90" cy="93" r="2.8" fill="none" stroke="#8E8E82" stroke-width="0.8"/>
+    <circle cx="98" cy="93" r="2.8" fill="none" stroke="#8E8E82" stroke-width="0.8"/>
+    <path d="M 92.8 93 L 95.2 93" stroke="#8E8E82" stroke-width="0.6"/>
+    <!-- 镜后眼（含智） -->
+    <circle cx="90" cy="93" r="1.3" fill="#24180E"/>
+    <circle cx="98" cy="93" r="1.3" fill="#24180E"/>
+    <!-- 嘴（授光） -->
+    <path d="M 91 99 Q 94 100.4 97 99" fill="none" stroke="#A8886A" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 白发束起 -->
+    <path d="M 92 88 Q 94 84 96 88" stroke="#C8C0B0" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- 额间智者光 -->
+    <circle cx="94" cy="87" r="2.8" fill="#F0E8D0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 智者光星尘 -->
+  <g fill="#F0E8D0">
+    <circle cx="100" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="178" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

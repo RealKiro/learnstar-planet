@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="灰袍智者·一阶·学徒幼龄·垫脚翻书认字放书救鸟">
+  <defs>
+    <!-- 背景：塔楼藏书阁晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8CCB8"/>
+      <stop offset="52%" stop-color="#B8AC98"/>
+      <stop offset="100%" stop-color="#9A8E7A"/>
+    </linearGradient>
+    <!-- 窗光 -->
+    <radialGradient id="glow" cx="60%" cy="20%" r="40%">
+      <stop offset="0%" stop-color="#F0E8D0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F0E8D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 小灰袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A8A8A8"/>
+      <stop offset="100%" stop-color="#8E8E8E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="120" cy="40" r="60" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.6;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 圆窗 -->
+  <circle cx="130" cy="36" r="16" fill="#A8CCE0" stroke="#8E8E82" stroke-width="2"/>
+  <path d="M 130 20 L 130 52 M 114 36 L 146 36" stroke="#8E8E82" stroke-width="1"/>
+
+  <!-- 书架 -->
+  <g>
+    <path d="M 20 120 L 90 120 L 90 150 L 20 150 Z" fill="#7E6E56"/>
+    <g stroke="#9A8A6E" stroke-width="1.6">
+      <path d="M 20 130 L 90 130 M 20 140 L 90 140"/>
+    </g>
+    <!-- 书 -->
+    <g fill="#C8A050">
+      <rect x="24" y="122" width="6" height="8"/>
+      <rect x="32" y="122" width="6" height="8" fill="#C86050"/>
+      <rect x="40" y="122" width="6" height="8" fill="#50A0C8"/>
+      <rect x="48" y="122" width="6" height="8" fill="#80B060"/>
+      <rect x="24" y="132" width="6" height="8" fill="#C8A050"/>
+      <rect x="32" y="132" width="6" height="8" fill="#A050A0"/>
+    </g>
+  </g>
+
+  <!-- 小灰袍（抱书，认字） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（小灰袍） -->
+    <path d="M 104 150 L 104 120 Q 104 112 110 112 L 110 150 Z" fill="url(#robe)" stroke="#7A7A7A" stroke-width="0.8"/>
+    <!-- 腰系书签 -->
+    <path d="M 104 132 L 110 132" stroke="#C8A050" stroke-width="1.4"/>
+    <!-- 抱着的书（大） -->
+    <path d="M 104 122 L 120 118 L 122 130 L 106 134 Z" fill="#7E6E56"/>
+    <path d="M 108 124 L 118 121" stroke="#9A8A6E" stroke-width="0.8"/>
+  </g>
+
+  <!-- 小灰袍头（戴圆镜，认字） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="104" cy="102" rx="8" ry="8" fill="#E8D8C0" stroke="#C8B89A" stroke-width="0.7"/>
+    <!-- 圆镜 -->
+    <circle cx="100" cy="101" r="2.6" fill="none" stroke="#8E8E82" stroke-width="0.8"/>
+    <circle cx="108" cy="101" r="2.6" fill="none" stroke="#8E8E82" stroke-width="0.8"/>
+    <path d="M 102.6 101 L 105.4 101" stroke="#8E8E82" stroke-width="0.6"/>
+    <!-- 镜后眼（眯） -->
+    <circle cx="100" cy="101" r="1.2" fill="#24180E"/>
+    <circle cx="108" cy="101" r="1.2" fill="#24180E"/>
+    <!-- 嘴（认字，认真） -->
+    <path d="M 101 106 Q 104 107.2 107 106" fill="none" stroke="#A8886A" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 头发蓬乱 -->
+    <path d="M 100 96 Q 98 92 101 91 M 106 95 Q 108 91 111 92" stroke="#6E5638" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 被救的小鸟（右，飞起） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 150 90 L 158 88 L 154 94 Z" fill="#8E9E88"/>
+    <path d="M 150 90 L 142 88 L 146 94 Z" fill="#8E9E88"/>
+    <ellipse cx="150" cy="92" rx="4" ry="3" fill="#8E9E88"/>
+  </g>
+
+  <!-- 窗光星尘 -->
+  <g fill="#F0E8D0">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
