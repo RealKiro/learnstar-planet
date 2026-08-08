@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="沧龙·六阶·沧龙传说·暮光鳍碰小沧龙传霸主为安海渊宁">
+  <defs>
+    <!-- 背景：深海暮光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A9AB8"/>
+      <stop offset="52%" stop-color="#5E829E"/>
+      <stop offset="100%" stop-color="#A8C4CC"/>
+    </linearGradient>
+    <!-- 暮光金 -->
+    <radialGradient id="glow" cx="50%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F0E8C8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F0E8C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#B8D8E8" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#B8D8E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 老沧龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#466A84"/>
+      <stop offset="100%" stop-color="#34546E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.48;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.3;0.2;0.3" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 海面光 -->
+  <g fill="#F0E8C8" opacity="0.5">
+    <circle cx="120" cy="28" r="4">
+      <animate attributeName="opacity" values="0.5;0.25;0.5" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 小海兽（左，安然） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="46" cy="144" rx="5.5" ry="4" fill="#C8BCA4" stroke="#AAA090" stroke-width="0.7"/>
+    <circle cx="46" cy="137" r="3.4" fill="#C8BCA4" stroke="#AAA090" stroke-width="0.6"/>
+    <path d="M 44 139 L 42 144 M 49 139 L 51 144" stroke="#AAA090" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 小沧龙（左下，追光） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身 -->
+    <ellipse cx="66" cy="138" rx="10" ry="6" fill="url(#skin)" stroke="#466A82" stroke-width="0.8"/>
+    <ellipse cx="64" cy="140" rx="6" ry="3.6" fill="#D8E4E8" opacity="0.7"/>
+    <!-- 尾 -->
+    <path d="M 76 140 Q 84 138 88 144" stroke="url(#skin)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <!-- 鳍 -->
+    <path d="M 62 134 L 56 130 L 58 138 Z" fill="url(#skin)" stroke="#466A82" stroke-width="0.7"/>
+  </g>
+  <!-- 小沧龙头 -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="58" cy="132" rx="7.5" ry="5.5" fill="url(#skin)" stroke="#466A82" stroke-width="0.8"/>
+    <circle cx="55" cy="130.5" r="1.8" fill="#24180E"/>
+    <circle cx="55.4" cy="130.1" r="0.6" fill="#FFF"/>
+    <circle cx="61.4" cy="130.5" r="1.8" fill="#24180E"/>
+    <circle cx="61.8" cy="130.1" r="0.6" fill="#FFF"/>
+    <path d="M 54 135 Q 58 136.6 62 135" fill="none" stroke="#466A82" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 追的光点 -->
+    <circle cx="52" cy="124" r="1.6" fill="#F0E8C8" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 老沧龙（鳍碰小沧龙，传安） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="116" cy="126" rx="20" ry="11" fill="url(#skin)" stroke="#2E4E64" stroke-width="1.1"/>
+    <ellipse cx="112" cy="130" rx="13" ry="7" fill="#C8D8E0" opacity="0.7"/>
+    <!-- 尾 -->
+    <path d="M 134 128 Q 146 124 152 116" stroke="url(#skin)" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+    <!-- 鳍（垂，碰小沧龙，传安） -->
+    <path d="M 100 122 L 90 114 L 96 128 Z" fill="url(#skin)" stroke="#2E4E64" stroke-width="0.9">
+      <animateTransform attributeName="transform" type="rotate" values="0 100 122;-6 100 122;0 100 122" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <!-- 传心微光 -->
+    <circle cx="84" cy="118" r="7" fill="#F0E8C8" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 老沧龙头（温和） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="98" cy="120" rx="10" ry="7.5" fill="url(#skin)" stroke="#2E4E64" stroke-width="0.9"/>
+    <circle cx="94.5" cy="118" r="2.1" fill="#24180E"/>
+    <circle cx="95" cy="117.5" r="0.7" fill="#FFF"/>
+    <circle cx="102.5" cy="118" r="2.1" fill="#24180E"/>
+    <circle cx="103" cy="117.5" r="0.7" fill="#FFF"/>
+    <path d="M 90 124 Q 98 126.4 106 124" fill="none" stroke="#2E4E64" stroke-width="0.9" stroke-linecap="round"/>
+  </g>
+
+  <!-- 暮光星尘 -->
+  <g fill="#F0E8C8">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

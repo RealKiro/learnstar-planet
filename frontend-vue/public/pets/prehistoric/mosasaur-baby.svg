@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="沧龙·二阶·深渊之惧·遇巨影拼命逃回浅海喘气立志">
+  <defs>
+    <!-- 背景：深海暗渊 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A6680"/>
+      <stop offset="52%" stop-color="#3A5270"/>
+      <stop offset="100%" stop-color="#8EB0C8"/>
+    </linearGradient>
+    <!-- 深渊光 -->
+    <radialGradient id="glow" cx="60%" cy="70%" r="45%">
+      <stop offset="0%" stop-color="#6A8EAC" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#6A8EAC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 幼沧龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E92A6"/>
+      <stop offset="100%" stop-color="#567C90"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="120" cy="140" r="90" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.5;0.34;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 深渊巨影（下方，暗） -->
+  <g opacity="0.7">
+    <path d="M 60 200 Q 80 150 130 160 Q 170 168 190 200 Z" fill="#2A3A48"/>
+    <!-- 巨眼（幽光） -->
+    <circle cx="90" cy="178" r="5" fill="#8EB0C8" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 深水暗影（氛围） -->
+  <g stroke="#2A3A48" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4">
+    <path d="M 30 60 Q 50 54 70 60"/>
+  </g>
+
+  <!-- 海底沙（浅处） -->
+  <path d="M 0 172 L 200 172 L 200 200 L 0 200 Z" fill="#8EB0C8" opacity="0.6"/>
+
+  <!-- 幼沧龙（逃回浅海，喘气） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="96" cy="138" rx="13" ry="7.5" fill="url(#skin)" stroke="#4E7286" stroke-width="0.9"/>
+    <ellipse cx="93" cy="141" rx="8" ry="4.5" fill="#D8E4E8" opacity="0.7"/>
+    <!-- 尾（疲） -->
+    <path d="M 108 140 Q 118 140 122 146" stroke="url(#skin)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <!-- 鳍 -->
+    <path d="M 90 134 L 84 130 L 86 138 Z" fill="url(#skin)" stroke="#4E7286" stroke-width="0.7"/>
+  </g>
+
+  <!-- 幼沧龙头（喘气，含惧含坚） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="86" cy="132" rx="9" ry="7" fill="url(#skin)" stroke="#4E7286" stroke-width="0.9"/>
+    <!-- 眼（惧+坚） -->
+    <circle cx="82.5" cy="130" r="2.2" fill="#24180E"/>
+    <circle cx="83" cy="129.5" r="0.7" fill="#FFF"/>
+    <circle cx="90.5" cy="130" r="2.2" fill="#24180E"/>
+    <circle cx="91" cy="129.5" r="0.7" fill="#FFF"/>
+    <!-- 嘴（喘） -->
+    <path d="M 79 136 Q 86 139 93 136" fill="none" stroke="#4E7286" stroke-width="0.9" stroke-linecap="round"/>
+    <!-- 气泡（喘） -->
+    <g fill="#D8E8F0" opacity="0.6">
+      <circle cx="88" cy="122" r="1.8">
+        <animate attributeName="cy" values="122;116;122" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.6;0.15;0.6" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="84" cy="118" r="1.2">
+        <animate attributeName="cy" values="118;112;118" dur="2.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0.12;0.5" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 深渊星尘 -->
+  <g fill="#6A8EAC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

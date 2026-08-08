@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="沧龙·一阶·浅海幼龙·追光斑尾拍水花见鱼队不咬">
+  <defs>
+    <!-- 背景：浅海光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8D8E8"/>
+      <stop offset="52%" stop-color="#90BCD4"/>
+      <stop offset="100%" stop-color="#6EA0BC"/>
+    </linearGradient>
+    <!-- 海光 -->
+    <radialGradient id="glow" cx="48%" cy="20%" r="52%">
+      <stop offset="0%" stop-color="#F0FAFC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F0FAFC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 幼沧龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7EA0B4"/>
+      <stop offset="100%" stop-color="#64889C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="40" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 光斑（海面透下） -->
+  <g fill="#F0FAFC" opacity="0.7">
+    <circle cx="120" cy="30" r="4">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="50" r="3">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="60" cy="40" r="3.5">
+      <animate attributeName="opacity" values="0.65;0.3;0.65" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 海底沙 -->
+  <path d="M 0 168 L 200 168 L 200 200 L 0 200 Z" fill="#C8D8D8" opacity="0.7"/>
+  <!-- 海藻 -->
+  <g stroke="#5E9E8E" stroke-width="2.4" stroke-linecap="round" fill="none">
+    <path d="M 40 170 Q 38 150 42 136">
+      <animateTransform attributeName="transform" type="rotate" values="0 40 170;-8 40 170;0 40 170" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 160 172 Q 162 152 158 138">
+      <animateTransform attributeName="transform" type="rotate" values="0 160 172;8 160 172;0 160 172" dur="3.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 鱼群（排队游过） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 70 150 L 76 148 L 74 152 Z" fill="#C0A890"/>
+    <path d="M 82 148 L 88 146 L 86 150 Z" fill="#C0A890"/>
+    <path d="M 94 150 L 100 148 L 98 152 Z" fill="#C0A890"/>
+    <path d="M 106 149 L 112 147 L 110 151 Z" fill="#C0A890"/>
+  </g>
+
+  <!-- 幼沧龙（追光斑，尾拍水花） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="104" cy="120" rx="15" ry="8" fill="url(#skin)" stroke="#4E7286" stroke-width="1"/>
+    <!-- 腹（白） -->
+    <ellipse cx="101" cy="124" rx="10" ry="5" fill="#D8E4E8" opacity="0.7"/>
+    <!-- 尾（拍水） -->
+    <path d="M 118 122 Q 130 118 136 112" stroke="url(#skin)" stroke-width="3.2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 118 122;10 118 122;0 118 122" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 短鳍 -->
+    <path d="M 96 116 L 88 112 L 90 120 Z" fill="url(#skin)" stroke="#4E7286" stroke-width="0.7"/>
+    <path d="M 110 116 L 120 112 L 118 120 Z" fill="url(#skin)" stroke="#4E7286" stroke-width="0.7"/>
+    <!-- 水花（尾拍） -->
+    <g fill="#D8E8F0" opacity="0.6">
+      <circle cx="138" cy="106" r="1.6">
+        <animate attributeName="opacity" values="0.6;0.15;0.6" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 幼沧龙头（张嘴又停，看鱼队） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="90" cy="116" rx="10" ry="7.5" fill="url(#skin)" stroke="#4E7286" stroke-width="0.9"/>
+    <!-- 眼（大） -->
+    <circle cx="86" cy="114" r="2.4" fill="#24180E"/>
+    <circle cx="86.6" cy="113.4" r="0.8" fill="#FFF"/>
+    <circle cx="94" cy="114" r="2.4" fill="#24180E"/>
+    <circle cx="94.6" cy="113.4" r="0.8" fill="#FFF"/>
+    <!-- 嘴（半张，又收） -->
+    <path d="M 82 120 Q 90 124 98 120" fill="none" stroke="#4E7286" stroke-width="1" stroke-linecap="round"/>
+    <path d="M 84 120 L 83 122.6 M 88 121.6 L 87 124" stroke="#4E7286" stroke-width="1" stroke-linecap="round"/>
+    <!-- 小牙 -->
+    <path d="M 86 122 L 87 124" stroke="#F0E8D8" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 海光星尘 -->
+  <g fill="#F0FAFC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
