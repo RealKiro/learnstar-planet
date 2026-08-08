@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="树人·一阶·树苗初生·舒展枝条接落叶问树累否">
+  <defs>
+    <!-- 背景：森林空地晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E4D0"/>
+      <stop offset="52%" stop-color="#B8CCB0"/>
+      <stop offset="100%" stop-color="#90AE92"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F0F8EC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F0F8EC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 小树人树皮 -->
+    <linearGradient id="bark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A88A60"/>
+      <stop offset="100%" stop-color="#8E724E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 森林影 -->
+  <g fill="#6E9E78" opacity="0.3">
+    <path d="M 0 108 Q 50 102 110 106 Q 160 110 200 104 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7EAA82" opacity="0.8"/>
+
+  <!-- 飘落的叶（被接） -->
+  <g fill="#C89850">
+    <path d="M 104 96 Q 108 92 112 96 Q 108 100 104 96 Z">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 4;0 0" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 小树人（舒展枝条接落叶） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 根（初） -->
+    <g stroke="#6E5638" stroke-width="2" stroke-linecap="round">
+      <path d="M 92 148 L 88 154 M 92 148 L 96 154 M 108 148 L 104 154 M 108 148 L 112 154"/>
+    </g>
+    <!-- 树干（小树人） -->
+    <path d="M 96 148 L 96 118 Q 100 110 104 118 L 104 148 Z" fill="url(#bark)" stroke="#7A5E3E" stroke-width="0.9"/>
+    <!-- 树皮纹 -->
+    <path d="M 98 132 L 102 132 M 98 140 L 102 140" stroke="#6E5638" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 嫩枝（舒展，接叶） -->
+    <path d="M 100 112 Q 104 102 108 98" stroke="#7E9E6E" stroke-width="1.8" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 100 112;-6 100 112;0 100 112" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 96 114 Q 88 108 84 104" stroke="#7E9E6E" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 小树人头（眼在枝干上） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 头顶嫩叶 -->
+    <g fill="#7EAE6E">
+      <path d="M 98 112 Q 94 108 92 104 Q 97 108 100 110 Z"/>
+      <path d="M 102 112 Q 106 108 108 104 Q 103 108 100 110 Z"/>
+    </g>
+    <!-- 眼（在树干上） -->
+    <circle cx="97.5" cy="122" r="1.6" fill="#3E2E1A"/>
+    <circle cx="102.5" cy="122" r="1.6" fill="#3E2E1A"/>
+    <!-- 嘴（问树累否） -->
+    <path d="M 98 127 Q 100 128 102 127" fill="none" stroke="#5E4A30" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 接住的叶（枝头） -->
+    <path d="M 108 96 Q 111 93 114 96 Q 111 99 108 96 Z" fill="#C89850">
+      <animateTransform attributeName="transform" type="scale" values="1 1;1.1 1.1;1 1" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F0F8EC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

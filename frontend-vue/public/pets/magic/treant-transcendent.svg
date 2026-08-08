@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="树人·六阶·树人传说·暮色伸枝放叶回小树人枝头传记叶语">
+  <defs>
+    <!-- 背景：森林暮霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C4A0"/>
+      <stop offset="52%" stop-color="#D8AC78"/>
+      <stop offset="100%" stop-color="#92AC96"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E4C8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F0E4C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 老树人树皮 -->
+    <linearGradient id="bark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A88A60"/>
+      <stop offset="100%" stop-color="#86704C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 森林 -->
+  <g fill="#6E9E78" opacity="0.4">
+    <path d="M 0 132 Q 50 122 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#86A87A" opacity="0.8"/>
+
+  <!-- 安卧的小兽（左） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="44" cy="144" rx="6" ry="4.4" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.7"/>
+    <circle cx="44" cy="137" r="3.8" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.6"/>
+  </g>
+
+  <!-- 小树人（左下，接叶） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 根 -->
+    <g stroke="#6E5638" stroke-width="1.6" stroke-linecap="round">
+      <path d="M 56 148 L 53 154 M 56 148 L 59 154 M 68 148 L 65 154 M 68 148 L 71 154"/>
+    </g>
+    <!-- 树干 -->
+    <path d="M 60 148 L 60 124 Q 63 118 66 124 L 66 148 Z" fill="url(#bark)" stroke="#7A5E3E" stroke-width="0.8"/>
+    <!-- 枝（接叶） -->
+    <path d="M 63 120 Q 66 114 69 111" stroke="#7E9E6E" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- 小树人头 -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <g fill="#7EAE6E">
+      <path d="M 61 120 Q 58 116 56 113 Q 60 116 63 118 Z"/>
+    </g>
+    <circle cx="61.5" cy="128" r="1.3" fill="#3E2E1A"/>
+    <circle cx="65.5" cy="128" r="1.3" fill="#3E2E1A"/>
+    <path d="M 62 132 Q 63 132.8 64 132" fill="none" stroke="#5E4A30" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 枝头的小叶（将接） -->
+    <path d="M 69 109 Q 71.5 106.5 74 109 Q 71.5 111.5 69 109 Z" fill="#C89850"/>
+  </g>
+
+  <!-- 老树人（伸枝放叶回小树人枝头，传） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 根 -->
+    <g stroke="#6E5638" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <path d="M 104 148 Q 90 145 82 145"/>
+      <path d="M 104 148 L 100 156"/>
+      <path d="M 122 148 Q 130 145 136 147"/>
+    </g>
+    <!-- 树干 -->
+    <path d="M 104 148 L 104 104 Q 112 92 120 104 L 120 148 Z" fill="url(#bark)" stroke="#7A5E3E" stroke-width="1.1"/>
+    <!-- 树皮纹 -->
+    <path d="M 107 120 L 117 120 M 107 130 L 117 130" stroke="#6E5638" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 伸下的枝（放叶回小树人） -->
+    <path d="M 112 98 Q 104 92 96 88" stroke="#7E9E6E" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 112 98;6 112 98;0 112 98" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <!-- 放下的叶（轻轻放回） -->
+    <path d="M 88 84 Q 91 81 94 84 Q 91 87 88 84 Z" fill="#C89850">
+      <animateTransform attributeName="transform" type="translate" values="0 0;2 2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 华盖叶 -->
+    <g fill="#7EAE6E">
+      <path d="M 112 92 Q 108 86 106 80 Q 110 84 114 90 Z"/>
+      <path d="M 120 92 Q 124 86 126 80 Q 122 84 118 90 Z"/>
+    </g>
+  </g>
+
+  <!-- 老树人头（温和） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="110" cy="112" r="2" fill="#3E2E1A"/>
+    <circle cx="110.6" cy="111.4" r="0.65" fill="#F0E8D0"/>
+    <circle cx="118" cy="112" r="2" fill="#3E2E1A"/>
+    <circle cx="118.6" cy="111.4" r="0.65" fill="#F0E8D0"/>
+    <path d="M 111 116 Q 114 117.4 117 116" fill="none" stroke="#5E4A30" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 传心微光 -->
+    <circle cx="84" cy="100" r="7" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮霞星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

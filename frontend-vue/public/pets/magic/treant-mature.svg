@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="树人·四阶·护林初成·山火根圈身挡火舌焦痕一道护小兽">
+  <defs>
+    <!-- 背景：山火林边 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8B890"/>
+      <stop offset="52%" stop-color="#B89A74"/>
+      <stop offset="100%" stop-color="#8A7E62"/>
+    </linearGradient>
+    <!-- 火光 -->
+    <radialGradient id="glow" cx="60%" cy="30%" r="44%">
+      <stop offset="0%" stop-color="#F0A850" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F0A850" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年树人树皮（焦痕） -->
+    <linearGradient id="bark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#967C54"/>
+      <stop offset="100%" stop-color="#7A6240"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="120" cy="60" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.48;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山火（右上） -->
+  <g fill="#F0A030" opacity="0.8">
+    <path d="M 156 90 Q 160 84 162 78 Q 164 84 160 90 Z">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 170 76 Q 174 70 176 64 Q 178 70 174 76 Z">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 焦林（右） -->
+  <g stroke="#5E4630" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M 180 150 L 178 120 L 176 108"/>
+  </g>
+
+  <!-- 焦土地 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#7E6E56" opacity="0.8"/>
+
+  <!-- 被护住的小兽（左，根圈中） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="52" cy="146" rx="6" ry="4.4" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.7"/>
+    <circle cx="52" cy="139" r="3.8" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.6"/>
+    <ellipse cx="52" cy="144" rx="10" ry="4" fill="#F0A850" opacity="0.2">
+      <animate attributeName="opacity" values="0.2;0.1;0.2" dur="2.6s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <!-- 少年树人（根圈身挡火） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 根（圈住小兽） -->
+    <g stroke="#6E5638" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <path d="M 88 148 Q 76 146 64 148"/>
+      <path d="M 88 148 L 84 156 L 88 160"/>
+      <path d="M 108 148 L 112 156 L 108 162"/>
+    </g>
+    <!-- 树干（挡火） -->
+    <path d="M 94 148 L 94 106 Q 100 96 106 106 L 106 148 Z" fill="url(#bark)" stroke="#6A5036" stroke-width="1.1"/>
+    <!-- 焦痕（被燎） -->
+    <path d="M 102 120 L 106 126 M 100 134 L 106 140" stroke="#3E2E1A" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+    <!-- 枝（挡火，微卷） -->
+    <path d="M 100 102 Q 104 92 108 88" stroke="#7E9666" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年树人头（含威含护） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 头顶叶（微卷） -->
+    <g fill="#6E9E5E">
+      <path d="M 96 102 Q 92 98 90 94 Q 95 98 98 100 Z"/>
+    </g>
+    <!-- 眼（含威含护） -->
+    <circle cx="97" cy="116" r="1.8" fill="#2E2012"/>
+    <circle cx="103" cy="116" r="1.8" fill="#2E2012"/>
+    <!-- 嘴（守） -->
+    <path d="M 98 121 Q 100 122.4 102 121" fill="none" stroke="#5E4A30" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 额间护光 -->
+    <circle cx="100" cy="110" r="2.4" fill="#F0A850" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 火光星尘 -->
+  <g fill="#F0A850">
+    <circle cx="80" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

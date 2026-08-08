@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="树人·三阶·扎根苦修·根扎深土触水脉引水浇林叶返绿">
+  <defs>
+    <!-- 背景：森林晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E4D0"/>
+      <stop offset="52%" stop-color="#B8CCB0"/>
+      <stop offset="100%" stop-color="#92AC94"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F0F8EC" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F0F8EC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年树人树皮 -->
+    <linearGradient id="bark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A88A60"/>
+      <stop offset="100%" stop-color="#8A704C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 森林 -->
+  <g fill="#6E9E78" opacity="0.3">
+    <path d="M 0 110 Q 50 104 110 108 Q 160 112 200 106 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7EAA82" opacity="0.8"/>
+
+  <!-- 地下水脉（地底，光） -->
+  <g>
+    <path d="M 60 172 Q 100 168 140 172" stroke="#A8D0BC" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="100" cy="170" r="3" fill="#A8D0BC" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 返绿的周围树（右） -->
+  <g fill="#7EAE6E">
+    <path d="M 156 118 Q 152 114 150 110 Q 154 114 158 116 Z">
+      <animateTransform attributeName="transform" type="scale" values="1 1;1.08 1.08;1 1" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年树人（根扎深土引水） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 根（深扎，触水脉） -->
+    <g stroke="#6E5638" stroke-width="2.2" stroke-linecap="round">
+      <path d="M 92 148 L 88 158 L 90 168 L 94 172" />
+      <path d="M 108 148 L 112 158 L 108 168 L 104 172" />
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="3s" repeatCount="indefinite"/>
+    </g>
+    <!-- 引上的水光（根→干） -->
+    <path d="M 94 172 Q 90 156 96 142" stroke="#A8D0BC" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 树干（渐高） -->
+    <path d="M 94 148 L 94 110 Q 100 100 106 110 L 106 148 Z" fill="url(#bark)" stroke="#7A5E3E" stroke-width="1"/>
+    <!-- 树皮纹 -->
+    <path d="M 96 126 L 104 126 M 96 136 L 104 136" stroke="#6E5638" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 枝（舒展） -->
+    <path d="M 100 106 Q 104 96 108 92" stroke="#7E9E6E" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M 96 108 Q 88 100 84 96" stroke="#7E9E6E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年树人头（沉稳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 头顶新绿 -->
+    <g fill="#7EAE6E">
+      <path d="M 96 106 Q 92 101 90 97 Q 95 101 98 104 Z"/>
+      <path d="M 104 106 Q 108 101 110 97 Q 105 101 102 104 Z"/>
+    </g>
+    <!-- 眼（专注沉稳） -->
+    <circle cx="97" cy="120" r="1.7" fill="#3E2E1A"/>
+    <circle cx="103" cy="120" r="1.7" fill="#3E2E1A"/>
+    <!-- 嘴 -->
+    <path d="M 98 125 Q 100 126 102 125" fill="none" stroke="#5E4A30" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 引水到顶的光 -->
+    <circle cx="100" cy="112" r="2.2" fill="#A8D0BC" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F0F8EC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
