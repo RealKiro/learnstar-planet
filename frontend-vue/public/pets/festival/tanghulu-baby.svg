@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="冰糖葫芦·二阶·糖化之痛·大太阳晒糖壳化黏糊滴答小孩皱眉甩手">
+  <defs>
+    <!-- 背景：庙会大太阳 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8C090"/>
+      <stop offset="52%" stop-color="#C89868"/>
+      <stop offset="100%" stop-color="#A8805E"/>
+    </linearGradient>
+    <!-- 烈日 -->
+    <radialGradient id="sun" cx="76%" cy="18%" r="30%">
+      <stop offset="0%" stop-color="#FFF0C0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0C0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 山楂（化糖） -->
+    <radialGradient id="berry" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#D86850"/>
+      <stop offset="100%" stop-color="#B83830"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="152" cy="36" r="60" fill="url(#sun)">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 太阳 -->
+  <circle cx="152" cy="36" r="11" fill="#FFF0C0" opacity="0.95"/>
+
+  <!-- 皱眉甩手的小孩（右） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="154" cy="118" r="4" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.6"/>
+    <ellipse cx="154" cy="131" rx="5" ry="7.5" fill="#C87868" stroke="#A86050" stroke-width="0.7"/>
+    <path d="M 149 116 Q 152 114.6 155 116" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <path d="M 157 116 Q 159 114.6 160 116" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- 甩手 -->
+    <path d="M 148 124 Q 140 128 136 134" stroke="#E8D0B4" stroke-width="1.8" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="-6 148 124;6 148 124;-6 148 124" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 草把 -->
+  <path d="M 82 146 L 114 146 L 116 152 L 80 152 Z" fill="#B0985E" stroke="#9E8650" stroke-width="1"/>
+
+  <!-- 糖化的小冰糖葫芦（中） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 0.8;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 竹签 -->
+    <path d="M 94 142 L 106 72" stroke="#D8C8A8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 下果（化） -->
+    <circle cx="97" cy="128" r="8" fill="url(#berry)" stroke="#983030" stroke-width="0.8"/>
+    <!-- 中果（化） -->
+    <circle cx="100" cy="108" r="8" fill="url(#berry)" stroke="#983030" stroke-width="0.8"/>
+    <!-- 顶果（脸，化） -->
+    <circle cx="103" cy="88" r="9" fill="url(#berry)" stroke="#983030" stroke-width="0.8"/>
+    <!-- 糖滴（黏） -->
+    <path d="M 95 133 Q 93 138 96 141" stroke="#D8A868" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 1.5;0 0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 102 116 Q 104 120 102 123" stroke="#D8A868" stroke-width="1.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 糖光（暗淡） -->
+    <circle cx="100" cy="85" r="2" fill="#FFF" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.25;0.5" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 顶果脸（沮） -->
+    <circle cx="99" cy="87" r="1.6" fill="#4E2020"/>
+    <circle cx="107" cy="87" r="1.6" fill="#4E2020"/>
+    <path d="M 101 90.5 Q 103 89.4 105 90.5" fill="none" stroke="#8E3E30" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 纸旗（耷拉） -->
+    <path d="M 106 72 L 114 66 L 112 70" stroke="#C8BE9E" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- 尘灰 -->
+  <g fill="#E8D8B8" opacity="0.4">
+    <circle cx="52" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="80">
+      <animate attributeName="cy" values="80;72;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.1;0.35" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

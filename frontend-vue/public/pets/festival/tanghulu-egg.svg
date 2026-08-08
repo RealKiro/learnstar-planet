@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="冰糖葫芦·一阶·红果初串·庙会小摊糖壳亮插草把小孩踮脚望">
+  <defs>
+    <!-- 背景：庙会小摊 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8606E"/>
+      <stop offset="52%" stop-color="#C88872"/>
+      <stop offset="100%" stop-color="#D0A078"/>
+    </linearGradient>
+    <!-- 庙会暖 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 山楂红 -->
+    <radialGradient id="berry" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#E87058"/>
+      <stop offset="100%" stop-color="#C84038"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 庙会彩旗（背景） -->
+  <g fill="#F0E8D0" opacity="0.5">
+    <path d="M 30 30 L 46 30 L 38 44 Z"/>
+    <path d="M 168 26 L 184 26 L 176 40 Z"/>
+  </g>
+
+  <!-- 踮脚的小孩（右） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <circle cx="152" cy="120" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="152" cy="133" rx="5.5" ry="8" fill="#C87868" stroke="#A86050" stroke-width="0.8"/>
+    <!-- 踮脚伸手 -->
+    <path d="M 146 128 Q 138 124 134 118" stroke="#E8D0B4" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M 156 141 L 158 147 M 150 141 L 150 147" stroke="#E8D0B4" stroke-width="1.6" stroke-linecap="round"/>
+    <circle cx="149" cy="118.5" r="1.3" fill="#24180E"/>
+    <circle cx="149.4" cy="118.1" r="0.45" fill="#FFF"/>
+  </g>
+
+  <!-- 草把 -->
+  <path d="M 84 146 L 116 146 L 118 152 L 82 152 Z" fill="#B0985E" stroke="#9E8650" stroke-width="1"/>
+  <path d="M 88 148 L 92 142 M 100 148 L 100 141 M 112 148 L 108 142" stroke="#9E8650" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 小冰糖葫芦（中） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 竹签 -->
+    <path d="M 96 142 L 108 66" stroke="#D8C8A8" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 下果 -->
+    <circle cx="99" cy="128" r="8" fill="url(#berry)" stroke="#A83030" stroke-width="0.8"/>
+    <!-- 中果 -->
+    <circle cx="102" cy="108" r="8" fill="url(#berry)" stroke="#A83030" stroke-width="0.8"/>
+    <!-- 顶果（脸） -->
+    <circle cx="105" cy="88" r="9" fill="url(#berry)" stroke="#A83030" stroke-width="0.8"/>
+    <!-- 糖壳亮光 -->
+    <circle cx="102" cy="85" r="2.5" fill="#FFF" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 顶果脸 -->
+    <circle cx="101" cy="87" r="1.7" fill="#4E2020"/>
+    <circle cx="109" cy="87" r="1.7" fill="#4E2020"/>
+    <path d="M 102 90.5 Q 105 92 108 90.5" fill="none" stroke="#8E3E30" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 纸旗 -->
+    <path d="M 108 66 L 118 56 L 116 62 L 124 54 L 120 62 L 122 60 L 116 66 Z" fill="#F0E8D0" stroke="#C8BE9E" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="-4 108 66;4 108 66;-4 108 66" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="50" cy="90">
+      <animate attributeName="cy" values="90;80;90" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
