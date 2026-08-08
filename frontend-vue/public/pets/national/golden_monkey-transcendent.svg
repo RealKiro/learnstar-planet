@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="金丝猴·六阶·深山传说·老猴王立高枝看新一代">
+  <defs>
+    <!-- 背景：高山之巅暮色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8B878"/>
+      <stop offset="52%" stop-color="#D09A5E"/>
+      <stop offset="100%" stop-color="#B87E48"/>
+    </linearGradient>
+    <!-- 暮山金 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="54%">
+      <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF8E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 金色长毛渐淡 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#DCC88A"/>
+      <stop offset="100%" stop-color="#C8A85E"/>
+    </linearGradient>
+    <!-- 蓝面染霜 -->
+    <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A8BCE0"/>
+      <stop offset="100%" stop-color="#8898C0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 暮山金 -->
+  <circle cx="100" cy="56" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 群山镀金 -->
+  <path d="M 0 130 Q 50 114 110 122 Q 160 128 200 118 L 200 200 L 0 200 Z" fill="#C89A5E" opacity="0.55"/>
+  <path d="M 0 148 Q 60 136 130 144 Q 180 150 200 142 L 200 200 L 0 200 Z" fill="#B08A4E" opacity="0.65"/>
+
+  <!-- 高枝 -->
+  <path d="M 40 108 Q 80 88 118 76 Q 140 70 150 78" stroke="#6E4A2E" stroke-width="4.4" stroke-linecap="round" fill="none"/>
+  <path d="M 118 76 L 112 64 M 118 76 L 128 66" stroke="#6E4A2E" stroke-width="2.6" stroke-linecap="round"/>
+
+  <!-- 新一代荡藤（左下，笑闹） -->
+  <g opacity="0.7">
+    <path d="M 30 90 Q 60 76 90 88" stroke="#5E8E52" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="0.7;0.45;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="52" cy="96" r="5.4" fill="#E8B84E">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-3 4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <ellipse cx="50" cy="94" rx="4" ry="3.2" fill="#9EB8E8"/>
+    <circle cx="76" cy="104" r="5" fill="#E8B84E">
+      <animateTransform attributeName="transform" type="translate" values="0 0;3 3;0 0" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <ellipse cx="74" cy="102" rx="3.8" ry="3" fill="#9EB8E8"/>
+  </g>
+
+  <!-- 哨声悠长 -->
+  <g stroke="#FFF8E0" stroke-width="1.8" opacity="0.8" stroke-linecap="round" fill="none">
+    <path d="M 118 58 Q 128 48 124 34">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 132 64 Q 144 56 150 44">
+      <animate attributeName="opacity" values="0.6;0.22;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 108 54 Q 106 44 110 36">
+      <animate attributeName="opacity" values="0.5;0.18;0.5" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#9E7842" opacity="0.85"/>
+  <path d="M 0 150 L 200 150" stroke="#B8925E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 老猴王（3头身，立高枝，身形依旧挺，蓝面染霜） -->
+  <!-- 腿（立） -->
+  <path d="M 100 116 Q 96 122 100 126 Q 106 126 108 120 Z" fill="#B8904E"/>
+  <!-- 身体 -->
+  <path d="M 94 86 Q 90 102 98 116 Q 108 122 114 116 Q 120 102 116 86 Q 106 80 94 86 Z" fill="url(#fur)" stroke="#9E7840" stroke-width="1"/>
+  <!-- 金毛披风（渐淡） -->
+  <path d="M 94 88 Q 84 98 80 112 Q 88 116 96 110 L 94 94 Z" fill="#C8B078" stroke="#A89058" stroke-width="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 -2;0 0" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <!-- 尾巴（长，微垂） -->
+  <path d="M 116 110 Q 126 104 130 96" stroke="#C8A85E" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 116 110;6 116 110;0 116 110" dur="3s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（蓝面染霜，圆眼含笑） -->
+  <ellipse cx="105" cy="76" rx="11" ry="10.5" fill="url(#fur)" stroke="#9E7840" stroke-width="0.9"/>
+  <!-- 金毛染霜 -->
+  <path d="M 96 70 Q 92 62 96 60 M 114 70 Q 120 64 116 60" stroke="#C8B078" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- 圆耳 -->
+  <circle cx="95" cy="68" r="3.4" fill="#DCC88A" stroke="#9E7840" stroke-width="0.7"/>
+  <circle cx="115" cy="68" r="3.4" fill="#DCC88A" stroke="#9E7840" stroke-width="0.7"/>
+  <!-- 蓝面染霜 -->
+  <ellipse cx="105" cy="80" rx="8.5" ry="6.5" fill="url(#face)" stroke="#7080A8" stroke-width="0.6"/>
+  <!-- 圆眼含笑 -->
+  <path d="M 99 78 Q 102 76 105 78 Q 102 80 99 78 Z" fill="#1E1008"/>
+  <path d="M 111 78 Q 108 76 105 78 Q 108 80 111 78 Z" fill="#1E1008"/>
+  <circle cx="100.6" cy="77.6" r="0.7" fill="#FFF8E0"/>
+  <circle cx="109.4" cy="77.6" r="0.7" fill="#FFF8E0"/>
+  <!-- 朝天鼻 -->
+  <ellipse cx="105" cy="81" rx="2.8" ry="2.2" fill="#6E7E9E"/>
+  <!-- 含笑抿唇 -->
+  <path d="M 100 85 Q 105 87.4 110 85" fill="none" stroke="#9E7E5E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左臂（垂放） -->
+  <path d="M 96 90 C 88 94 84 98 82 104" fill="none" stroke="#C8A85E" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="81" cy="106" r="3" fill="#D8BC7E"/>
+
+  <!-- 右手（哨声手势，望新一代） -->
+  <path d="M 112 90 C 118 86 122 82 124 76" fill="none" stroke="#C8A85E" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="125" cy="74" r="2.8" fill="#D8BC7E"/>
+
+  <!-- 暮金星尘 -->
+  <g fill="#FFF8E0">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

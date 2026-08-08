@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="金丝猴·一阶·蓝面金毛·抓藤荡起穿林越涧">
+  <defs>
+    <!-- 背景：高山密林 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#BFD8A8"/>
+      <stop offset="52%" stop-color="#A0C08C"/>
+      <stop offset="100%" stop-color="#82A872"/>
+    </linearGradient>
+    <!-- 林光 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="54%">
+      <stop offset="0%" stop-color="#F4FFE8" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#F4FFE8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 金色长毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8B84E"/>
+      <stop offset="100%" stop-color="#C89636"/>
+    </linearGradient>
+    <!-- 蓝面 -->
+    <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9EB8E8"/>
+      <stop offset="100%" stop-color="#7E96C8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="60" r="78" fill="url(#glow)"/>
+
+  <!-- 藤蔓 -->
+  <path d="M 30 30 Q 44 18 60 26 Q 76 34 90 24" stroke="#5E8E52" stroke-width="3" stroke-linecap="round" fill="none">
+    <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+  <!-- 树影 -->
+  <g stroke="#6E8E5E" stroke-width="2.6" stroke-linecap="round" opacity="0.5">
+    <path d="M 160 40 Q 158 100 152 160 M 180 44 Q 182 104 176 160"/>
+    <path d="M 162 60 L 154 72 M 178 58 L 186 70"/>
+  </g>
+
+  <!-- 远山 -->
+  <path d="M 0 128 Q 50 116 110 124 Q 160 130 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.75"/>
+  <path d="M 0 150 L 200 150" stroke="#88AE76" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 金毛小猴（3头身，抓藤荡起，蓝脸含笑） -->
+  <!-- 腿（荡起，轻盈） -->
+  <path d="M 92 130 L 86 148 L 92 150 L 98 132 Z" fill="#B88A30"/>
+  <path d="M 108 128 L 116 144 L 112 148 L 104 132 Z" fill="#B88A30"/>
+  <!-- 身体（金毛） -->
+  <path d="M 86 100 Q 82 118 90 134 Q 100 140 108 134 Q 114 118 110 100 Q 98 94 86 100 Z" fill="url(#fur)" stroke="#A87828" stroke-width="1"/>
+  <!-- 四肢内侧米白 -->
+  <path d="M 92 108 Q 98 112 104 108 L 102 120 Q 98 124 94 120 Z" fill="#E8E0C8" opacity="0.6"/>
+  <!-- 尾巴（卷） -->
+  <path d="M 112 128 Q 122 118 126 106 Q 122 100 118 104" stroke="#C89636" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 112 128;12 112 128;0 112 128" dur="1.8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（蓝面朝天鼻，圆眼灵动，金毛） -->
+  <ellipse cx="97" cy="94" rx="11" ry="10.5" fill="url(#fur)" stroke="#A87828" stroke-width="0.9"/>
+  <!-- 金毛披肩 -->
+  <path d="M 88 88 Q 86 82 90 80 Q 94 82 92 88" stroke="#C89636" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <path d="M 104 88 Q 108 82 104 80 Q 100 82 102 88" stroke="#C89636" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <!-- 蓝面 -->
+  <ellipse cx="97" cy="98" rx="8.5" ry="6.5" fill="url(#face)" stroke="#6E86B8" stroke-width="0.6"/>
+  <!-- 圆耳 -->
+  <circle cx="87" cy="86" r="3.4" fill="#E8B84E" stroke="#A87828" stroke-width="0.7"/>
+  <circle cx="107" cy="86" r="3.4" fill="#E8B84E" stroke="#A87828" stroke-width="0.7"/>
+  <!-- 圆眼灵动 -->
+  <circle cx="92" cy="95" r="3" fill="#1E1008"/>
+  <circle cx="102" cy="95" r="3" fill="#1E1008"/>
+  <circle cx="93" cy="94" r="1" fill="#FFF"/>
+  <circle cx="103" cy="94" r="1" fill="#FFF"/>
+  <!-- 朝天鼻 -->
+  <ellipse cx="97" cy="99" rx="2.8" ry="2.2" fill="#5E6E9E"/>
+  <path d="M 95 99 L 95 101 M 99 99 L 99 101" stroke="#4E5E8E" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- 咧嘴笑 -->
+  <path d="M 92 103 Q 97 106 102 103" fill="none" stroke="#8E6A4E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左臂（抓藤，荡起） -->
+  <path d="M 88 104 C 80 108 74 112 70 118" fill="none" stroke="#C89636" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="69" cy="120" r="3" fill="#D8A85E"/>
+  <!-- 握藤 -->
+  <line x1="69" y1="118" x2="60" y2="110" stroke="#5E8E52" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 右手（荡起摆臂） -->
+  <path d="M 106 104 C 112 98 116 92 118 86" fill="none" stroke="#C89636" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="119" cy="84" r="2.8" fill="#D8A85E"/>
+
+  <!-- 同伴（右，梳理金毛） -->
+  <g opacity="0.5">
+    <circle cx="152" cy="124" r="7" fill="#E8B84E"/>
+    <ellipse cx="150" cy="122" rx="5" ry="4" fill="#9EB8E8"/>
+    <circle cx="147" cy="121" r="1.6" fill="#1E1008"/>
+    <circle cx="153" cy="121" r="1.6" fill="#1E1008"/>
+    <path d="M 156 120 L 160 116" stroke="#C89636" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 林光星尘 -->
+  <g fill="#F4FFE8">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
