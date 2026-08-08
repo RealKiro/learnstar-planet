@@ -39,6 +39,9 @@ function openHandbook(s: CardStudent) {
   handbook.value = { speciesId: s.pet_species, level: s.pet_level, score: s.score }
 }
 
+// 冠亚季军奖牌色（金/银/铜）
+const MEDALS = ['#F59E0B', '#A8B0B8', '#CD7F32']
+
 const starBg = computed(() => {
   if (!data.value?.star_student?.pet_species) return 'var(--gradient-primary)'
   const series = getSeriesBySpeciesId(data.value.star_student.pet_species)
@@ -110,7 +113,7 @@ onMounted(async () => {
           <div v-if="data.star_student.student_no" style="position:absolute;top:20px;right:24px;font-size:11px;color:var(--color-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px;">学号 {{ data.star_student.student_no }}</div>
           <div class="star-display">
             <div class="star-avatar" :style="{ background: starBg, cursor: 'pointer' }" @click="openHandbook(data.star_student)" title="点击查看宠物介绍">
-              <div v-if="data.star_student.pet_species" style="width:84px;height:84px;">
+              <div v-if="data.star_student.pet_species" style="width:92px;height:92px;border-radius:50%;overflow:hidden;">
                 <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
               </div>
               <span v-else class="star-emoji">🌟</span>
@@ -156,32 +159,50 @@ onMounted(async () => {
         </div>
       </div>
 
-      <!-- TOP 5 排行榜 -->
+      <!-- TOP 5：前三名大卡片 + 4-5 名次位 -->
       <div class="top5-section">
         <div class="section-header">
           <span class="section-title">🏆 班级 TOP 5</span>
         </div>
-        <div class="top5-grid">
+        <!-- 冠亚季军大卡片 -->
+        <div class="top3-row">
           <div
-            v-for="(s, i) in data.top5"
+            v-for="(s, i) in data.top5.slice(0, 3)"
             :key="s.name"
-            class="top5-card"
-            :class="'rank--' + (i + 1)"
-            style="position:relative;"
+            class="top3-card"
+            :class="'medal--' + i"
+            @click="openHandbook(s)"
+            :title="s.pet_species ? '点击查看宠物介绍' : ''"
           >
-            <div class="rank-badge" style="position:absolute;top:8px;left:10px;">{{ ['🥇', '🥈', '🥉', '4', '5'][i] }}</div>
-            <div v-if="s.student_no" style="position:absolute;top:10px;right:10px;font-size:10px;color:var(--color-text-secondary);background:var(--tint-2);padding:1px 6px;border-radius:6px;">{{ s.student_no }}</div>
-            <div class="rank-avatar" style="cursor:pointer;" @click="openHandbook(s)" title="点击查看宠物介绍">
-              <div v-if="s.pet_species" style="width:64px;height:64px;">
-                <PetSprite :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
-              </div>
-              <span v-else class="rank-emoji">🌟</span>
+            <span class="top3-medal">{{ ['🥇', '🥈', '🥉'][i] }}</span>
+            <div class="top3-avatar" :style="{ '--medal': MEDALS[i] }">
+              <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+              <span v-else class="top3-emoji">🌟</span>
             </div>
-            <div class="rank-name">{{ s.name }}</div>
-            <div class="rank-pet">Lv.{{ s.pet_level }}</div>
-            <div class="rank-score">{{ s.score }} 分</div>
-            <div class="rank-bar">
-              <div class="bar-fill" :style="{ width: (s.score / data.top5[0].score) * 100 + '%' }"></div>
+            <div class="top3-name">{{ s.name }}</div>
+            <div v-if="s.student_no" class="top3-no">学号 {{ s.student_no }}</div>
+            <div class="top3-level">Lv.{{ s.pet_level }}</div>
+            <div class="top3-score">{{ s.score }} 分</div>
+            <div class="top3-bar"><div class="top3-fill" :style="{ width: (s.score / data.top5[0].score) * 100 + '%' }"></div></div>
+          </div>
+        </div>
+        <!-- 第 4-5 名次位 -->
+        <div class="top2-row">
+          <div
+            v-for="(s, i) in data.top5.slice(3)"
+            :key="s.name"
+            class="top4-card"
+            @click="openHandbook(s)"
+            :title="s.pet_species ? '点击查看宠物介绍' : ''"
+          >
+            <span class="top4-rank">{{ i + 4 }}</span>
+            <div class="top4-avatar">
+              <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+              <span v-else class="top4-emoji">🌟</span>
+            </div>
+            <div class="top4-info">
+              <div class="top4-name">{{ s.name }}</div>
+              <div class="top4-score">{{ s.score }} 分</div>
             </div>
           </div>
         </div>
@@ -283,6 +304,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
   box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
 .star-emoji { font-size: 40px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
@@ -319,57 +341,83 @@ onMounted(async () => {
 }
 .section-header { margin-bottom: 16px; }
 .section-title { font-size: 15px; font-weight: 700; }
-.top5-grid {
+/* 前三名大卡片 */
+.top3-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
-.top5-card {
-  text-align: center;
-  padding: 16px 12px;
-  border-radius: 16px;
-  border: 1px solid var(--color-border);
-  transition: all 0.25s ease;
+.top3-card {
   position: relative;
+  text-align: center;
+  padding: 20px 12px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.top3-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.medal--0 { background: linear-gradient(180deg, rgba(245,158,11,0.08), transparent); border-color: rgba(245,158,11,0.25); }
+.medal--1 { background: linear-gradient(180deg, rgba(168,176,184,0.08), transparent); border-color: rgba(168,176,184,0.25); }
+.medal--2 { background: linear-gradient(180deg, rgba(205,127,50,0.08), transparent); border-color: rgba(205,127,50,0.25); }
+.top3-medal { position: absolute; top: 8px; left: 12px; font-size: 22px; }
+.top3-avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
   overflow: hidden;
+  margin: 6px auto 10px;
+  border: 2.5px solid var(--medal, #6B7280);
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--medal, #6B7280) 22%, transparent);
 }
-.top5-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+.top3-emoji { font-size: 34px; }
+.top3-name { font-size: 16px; font-weight: 700; }
+.top3-no { font-size: 10px; color: var(--color-text-secondary); background: var(--tint-2); padding: 1px 8px; border-radius: 8px; display: inline-block; margin-top: 2px; }
+.top3-level { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.top3-score { font-size: 18px; font-weight: 800; color: var(--color-primary); margin-top: 2px; }
+.top3-bar { height: 4px; background: var(--color-border); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+.top3-fill { height: 100%; border-radius: 2px; background: var(--gradient-primary); transition: width 0.5s ease; }
+.medal--0 .top3-fill { background: linear-gradient(90deg, #F59E0B, #FCD34D); }
+
+/* 4-5 名次位 */
+.top2-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
 }
-.rank--1 {
-  background: linear-gradient(180deg, rgba(245,158,11,0.06), transparent);
-  border-color: rgba(245,158,11,0.2);
+.top4-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
-.rank--2 {
-  background: linear-gradient(180deg, rgba(148,163,184,0.04), transparent);
-  border-color: rgba(148,163,184,0.12);
-}
-.rank--3 {
-  background: linear-gradient(180deg, rgba(217,119,6,0.04), transparent);
-  border-color: rgba(217,119,6,0.12);
-}
-.rank-badge { font-size: 24px; margin-bottom: 6px; }
-.rank-avatar { margin-bottom: 6px; }
-.rank-emoji { font-size: 34px; }
-.rank-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-.rank-pet { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px; }
-.rank-score { font-size: 16px; font-weight: 700; color: var(--color-primary); margin-bottom: 6px; }
-.rank-bar {
-  height: 4px;
-  background: var(--color-border);
-  border-radius: 2px;
+.top4-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.top4-rank { font-size: 22px; font-weight: 800; color: var(--color-text-secondary); opacity: 0.6; min-width: 28px; }
+.top4-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   overflow: hidden;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.bar-fill {
-  height: 100%;
-  background: var(--gradient-primary);
-  border-radius: 2px;
-  transition: width 0.5s ease;
-}
-.rank--1 .bar-fill {
-  background: linear-gradient(90deg, #F59E0B, #FCD34D);
-}
+.top4-emoji { font-size: 22px; }
+.top4-info { min-width: 0; }
+.top4-name { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.top4-score { font-size: 13px; font-weight: 700; color: var(--color-primary); }
 
 /* 加载/空 */
 .loading-state, .empty-state {
@@ -390,6 +438,7 @@ onMounted(async () => {
 
 @media (max-width: 900px) {
   .overview-grid { grid-template-columns: 1fr; }
-  .top5-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .top3-row { grid-template-columns: 1fr; }
+  .top2-row { grid-template-columns: 1fr; }
 }
 </style>
