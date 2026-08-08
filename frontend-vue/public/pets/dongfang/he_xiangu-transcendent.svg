@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="何仙姑·六阶·花中真仙·花开满山泽被山水">
+  <defs>
+    <!-- 背景：满山花海春山如锦 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8C8A0"/>
+      <stop offset="52%" stop-color="#9AB88A"/>
+      <stop offset="100%" stop-color="#7E9E72"/>
+    </linearGradient>
+    <!-- 百花彩光 -->
+    <radialGradient id="aura" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#F8D8E8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F8D8E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 莲花粉 -->
+    <radialGradient id="lotus" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F8D8E8" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#F8D8E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 素衣仙姿 -->
+    <linearGradient id="gown" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F0E8E0"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F6E2CC"/>
+      <stop offset="100%" stop-color="#E2C8A8"/>
+    </radialGradient>
+
+    <!-- 头部模板：清秀面容·眉目含笑·慈悲温婉 -->
+    <g id="hexiangu-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#D8BC98" stroke-width="0.8"/>
+      <!-- 青丝 + 莲花簪 -->
+      <path d="M -5 -8 Q 0 -11 5 -8 Q 3 -12 0 -12 Q -3 -12 -5 -8 Z" fill="#1E1814"/>
+      <path d="M -5 -10 Q -2 -12 0 -11 L -1 -8 Z" fill="#E8A0C8"/>
+      <!-- 额发 -->
+      <path d="M -9 -3.5 Q -5 -8 0 -8 Q 5 -8 9 -3.5 Q 5 -7 0 -7 Q -5 -7 -9 -3.5 Z" fill="#1E1814"/>
+      <!-- 眉目含笑 -->
+      <path d="M -8 -1.5 Q -5 -3.2 -2 -2.6 M 8 -1.5 Q 5 -3.2 2 -2.6" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.2" cy="0.4" rx="2.1" ry="1.9" fill="#1E1008"/>
+      <ellipse cx="4.2" cy="0.4" rx="2.1" ry="1.9" fill="#1E1008"/>
+      <circle cx="-4.7" cy="-0.4" r="0.7" fill="#FFF"/>
+      <circle cx="3.7" cy="-0.4" r="0.7" fill="#FFF"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C8A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 慈悲温婉 -->
+      <path d="M -3 5.4 Q 0 7.4 3 5.4" fill="none" stroke="#B06A4A" stroke-width="1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 百花彩光 -->
+  <circle cx="100" cy="92" r="84" fill="url(#aura)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 满山花海（前景大面积） -->
+  <!-- 花丛 -->
+  <g>
+    <path d="M 0 150 Q 40 142 90 148 Q 140 154 200 144 L 200 200 L 0 200 Z" fill="#7E9E72"/>
+    <path d="M 0 164 Q 60 156 120 162 Q 170 168 200 160 L 200 200 L 0 200 Z" fill="#6E8E62"/>
+  </g>
+  <!-- 百花（彩点） -->
+  <g>
+    <circle cx="30" cy="152" r="3.4" fill="#E8A0C8"/>
+    <circle cx="52" cy="146" r="3" fill="#F0C040"/>
+    <circle cx="76" cy="154" r="3.4" fill="#A8B8E8"/>
+    <circle cx="98" cy="148" r="3" fill="#E8A0C8"/>
+    <circle cx="124" cy="156" r="3.4" fill="#F0C040"/>
+    <circle cx="148" cy="150" r="3" fill="#A8B8E8"/>
+    <circle cx="172" cy="156" r="3.4" fill="#E8A0C8"/>
+    <circle cx="42" cy="164" r="2.6" fill="#F0C040"/>
+    <circle cx="110" cy="166" r="2.6" fill="#E8A0C8"/>
+    <circle cx="160" cy="166" r="2.6" fill="#A8B8E8"/>
+  </g>
+  <!-- 花浪飘动 -->
+  <g fill="#E8A0C8" opacity="0.6">
+    <circle cx="64" cy="158">
+      <animate attributeName="cy" values="158;154;158" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="136" cy="160">
+      <animate attributeName="cy" values="160;156;160" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 春山如锦（远景） -->
+  <path d="M 0 120 Q 40 100 90 112 Q 140 122 200 108 L 200 200 L 0 200 Z" fill="#8EA878" opacity="0.6"/>
+  <!-- 远处村落祥和 -->
+  <g opacity="0.9">
+    <path d="M 150 96 L 150 84 L 166 84 L 166 96 L 174 96 L 174 76 L 142 76 L 142 96 Z" fill="#A87A56"/>
+    <path d="M 158 84 L 158 74 L 157 84 Z" fill="#A87A56"/>
+    <path d="M 159 74 Q 154 68 159 64 Q 164 60 159 56" stroke="#E8E0D0" stroke-width="1.4" stroke-linecap="round" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 仙姑（立于花间，莲花在侧，周身花气） -->
+  <!-- 腿 -->
+  <path d="M 92 132 L 88 154 L 94 154 L 98 134 Z" fill="#E0D8D0"/>
+  <path d="M 106 132 L 112 156 L 106 156 L 102 134 Z" fill="#E0D8D0"/>
+  <!-- 仙裙 -->
+  <path d="M 90 118 Q 88 130 92 138 Q 100 144 108 138 Q 112 130 110 118 Q 100 112 90 118 Z" fill="url(#gown)" stroke="#E0D8D0" stroke-width="1"/>
+  <!-- 上身 -->
+  <path d="M 94 96 Q 90 106 94 118 Q 100 124 106 118 Q 110 106 106 96 Q 100 92 94 96 Z" fill="url(#gown)" stroke="#E0D8D0" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 94 110 L 106 110" stroke="#A8906E" stroke-width="1.4"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#hexiangu-face" transform="translate(100,88) scale(1)"/>
+
+  <!-- 左臂垂持 -->
+  <path d="M 96 100 C 90 104 88 108 88 114" fill="none" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round"/>
+
+  <!-- 右臂轻拈莲花（百花听命） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1.5 -1;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 104 100 C 110 102 114 104 118 100" fill="none" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round"/>
+    <circle cx="120" cy="99" r="3" fill="#E2C8A8"/>
+    <!-- 莲花（一侧） -->
+    <g>
+      <circle cx="120" cy="84" r="11" fill="url(#lotus)">
+        <animate attributeName="r" values="11;15;11" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="120" cy="83" r="8" fill="#E8A0C8"/>
+      <path d="M 116 81 Q 120 77 124 81 Q 120 83 116 81 Z" fill="#F0B8D8"/>
+      <path d="M 116 86 Q 120 82 124 86 Q 120 88 116 86 Z" fill="#F0B8D8"/>
+    </g>
+  </g>
+
+  <!-- 莲花开处百花生（花随） -->
+  <g fill="#F8D8E8">
+    <circle cx="60" cy="118">
+      <animate attributeName="cy" values="118;108;118" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="112">
+      <animate attributeName="cy" values="112;102;112" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="130" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.12;0.55" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 泽被春意（花气流转） -->
+  <g stroke="#F0C040" stroke-width="1.4" opacity="0.4" stroke-linecap="round">
+    <path d="M 100 24 L 100 14"/><path d="M 56 56 L 48 48"/><path d="M 144 56 L 152 48"/>
+  </g>
+</svg>
