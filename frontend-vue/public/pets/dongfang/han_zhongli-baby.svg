@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="汉钟离·二阶·兵败入山·卸甲独行看破红尘">
+  <defs>
+    <!-- 背景：深山古径云雾 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AA8A0"/>
+      <stop offset="52%" stop-color="#7E9086"/>
+      <stop offset="100%" stop-color="#5E7268"/>
+    </linearGradient>
+    <!-- 云白 -->
+    <radialGradient id="glow" cx="50%" cy="38%" r="54%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青布道衣 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5E8E7E"/>
+      <stop offset="100%" stop-color="#3E6E5E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0D0B0"/>
+      <stop offset="100%" stop-color="#D8B894"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="92" r="78" fill="url(#glow)"/>
+
+  <!-- 远山 -->
+  <path d="M 0 136 Q 40 116 90 126 Q 140 134 200 122 L 200 200 L 0 200 Z" fill="#6E8E7E" opacity="0.5"/>
+
+  <!-- 来路烽烟（左下，远） -->
+  <g opacity="0.55">
+    <path d="M 20 150 Q 18 140 22 132" stroke="#8E5A3E" stroke-width="3" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="0.55;0.2;0.55" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="22" cy="130" r="5" fill="#C0483E" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 山径 -->
+  <path d="M 40 168 Q 70 156 100 160 Q 130 164 160 154 L 180 158 L 180 200 L 20 200 Z" fill="#7E8E84" opacity="0.6"/>
+
+  <!-- 卸甲武将（青布道衣，回头望一眼来路，继续前行） -->
+  <!-- 腿 -->
+  <path d="M 92 136 L 88 158 L 94 158 L 98 138 Z" fill="#3E6E5E"/>
+  <path d="M 108 136 L 114 160 L 108 160 L 104 138 Z" fill="#3E6E5E"/>
+  <!-- 青布道衣 -->
+  <path d="M 90 98 Q 86 114 92 136 Q 100 142 108 136 Q 114 114 110 98 Q 100 92 90 98 Z" fill="url(#robe)" stroke="#2E5E4E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 90 118 L 110 118" stroke="#8E9A6E" stroke-width="1.6"/>
+
+  <!-- 头（回望，赤发束起，虎目渐平，眉宇含思） -->
+  <circle cx="100" cy="90" r="11" fill="url(#skin)" stroke="#C8A880" stroke-width="0.9"/>
+  <!-- 赤发束起 -->
+  <path d="M 95 81 Q 100 78 105 81 Q 103 76 100 76 Q 97 76 95 81 Z" fill="#B8432E"/>
+  <!-- 额发 -->
+  <path d="M 90 88 Q 94 83 100 83 Q 106 83 110 88 Q 106 84 100 84 Q 94 84 90 88 Z" fill="#B8432E"/>
+  <!-- 浓眉（渐平） -->
+  <path d="M 91 88 Q 95 86.5 98 87 M 102 87 Q 105 86.5 109 88" stroke="#2E1A10" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- 虎目渐平（含思） -->
+  <ellipse cx="95" cy="91" rx="2.5" ry="2.2" fill="#1E1008"/>
+  <ellipse cx="105" cy="91" rx="2.5" ry="2.2" fill="#1E1008"/>
+  <circle cx="96" cy="90.2" r="0.8" fill="#FFF"/>
+  <circle cx="106" cy="90.2" r="0.8" fill="#FFF"/>
+  <!-- 鼻梁 -->
+  <path d="M 100 93 L 100 96" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+  <!-- 虬髯（渐疏） -->
+  <path d="M 94 99 Q 97 101 100 99 M 100 99 Q 103 101 106 99 M 96 102 Q 99 104 102 102" stroke="#2E1A10" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+
+  <!-- 左臂负背 -->
+  <path d="M 92 102 C 86 106 84 112 86 120" fill="none" stroke="#5E8E7E" stroke-width="4.2" stroke-linecap="round"/>
+
+  <!-- 右臂提行囊（几卷书） -->
+  <path d="M 108 102 C 114 104 118 108 120 114" fill="none" stroke="#5E8E7E" stroke-width="4.2" stroke-linecap="round"/>
+  <rect x="116" y="112" width="10" height="14" rx="1" fill="#8E6A42" stroke="#6E5238" stroke-width="0.8"/>
+
+  <!-- 云白金尘 -->
+  <g fill="#FFF7E0">
+    <circle cx="46" cy="104">
+      <animate attributeName="cy" values="104;96;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="154" cy="88">
+      <animate attributeName="cy" values="88;80;88" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
