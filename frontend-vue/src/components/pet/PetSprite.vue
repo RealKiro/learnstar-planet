@@ -2,7 +2,7 @@
 import { computed, useId } from 'vue'
 import { computePetArt, CONSTELLATION_LINES } from '@/utils/petArtParts'
 import { getPetImageUrl, PET_IMAGE_MODE } from '@/utils/petImage'
-import { getSpeciesEmoji } from '@/utils/petData'
+import { getStageEmoji } from '@/utils/stageEmoji'
 import type { BodyType, PetArtRender } from '@/utils/petArtParts'
 
 const props = withDefaults(defineProps<{
@@ -218,7 +218,7 @@ function fxShape(size: number): string {
     role="img"
     :aria-label="`宠物 Lv.${level}`"
   >
-    <text x="100" y="118" text-anchor="middle" font-size="150" style="user-select:none;">{{ getSpeciesEmoji(speciesId) }}</text>
+    <text x="100" y="118" text-anchor="middle" font-size="150" style="user-select:none;">{{ getStageEmoji(speciesId, level) }}</text>
   </svg>
   <img
     v-else-if="imgUrl"

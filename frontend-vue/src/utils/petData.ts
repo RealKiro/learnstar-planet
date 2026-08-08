@@ -144,107 +144,96 @@ export const SERIES_SCENES: Record<string, SceneConfig> = {
 
 /** 系列与物种的Emoji映射 */
 export const SPECIES_EMOJI: Record<string, string> = {
-  // 神话
-  zhulong: '🐉',
-  yinglong: '🐉',
-  nine_tail_fox: '🦊',
-  kunpeng: '🐋',
-  fenghuang: '🦅',
-  qilin: '🦄',
-  qiongqi: '🐯',
-  bifang: '🦚',
-  pixiu: '🦁',
-  jingwei: '🕊️',
-  xiangliu: '🐍',
-  xiezhi: '🐐',
-  // 宝可梦风
+  // ===== 山海经·神话（18） =====
+  zhulong: '🐉',          // 烛龙
+  yinglong: '🪽',         // 应龙（翼龙）
+  nine_tail_fox: '🦊',    // 九尾狐
+  kunpeng: '🐳',          // 鲲鹏（巨鱼化鸟）
+  fenghuang: '🌋',        // 凤凰
+  qilin: '🦄',            // 麒麟
+  qiongqi: '🐾',          // 穷奇（四翼猛兽）
+  bifang: '🐦',           // 毕方（单足火鸟）
+  pixiu: '🦁',            // 貔貅
+  jingwei: '🕊️',          // 精卫
+  xiangliu: '🐍',         // 相柳（九头蛇）
+  xiezhi: '🐐',           // 獬豸
+  qinglong: '🐲',         // 青龙
+  baihu: '🐯',            // 白虎
+  zhuque: '🦩',           // 朱雀
+  xuanwu: '🛡️',           // 玄武（龟蛇）
+  taotie: '👹',           // 饕餮
+  baize: '🐏',            // 白泽（雪白羊角瑞兽）
+  // ===== 宝可梦（6） =====
   charmander: '🦎',
   bulbasaur: '🐸',
   squirtle: '🐢',
-  eevee: '🦊',
+  eevee: '🦝',
   pikachu: '🐹',
   riolu: '🐕',
-  // 国宝
+  // ===== 国宝守护（12） =====
   panda: '🐼',
-  golden_monkey: '🐒',
-  red_crowned_crane: '🦩',
-  south_china_tiger: '🐯',
+  golden_monkey: '🐵',
+  red_crowned_crane: '🦢',
+  south_china_tiger: '🐅',
   chinese_alligator: '🐊',
-  crested_ibis: '🕊️',
-  // 机甲
+  crested_ibis: '🪿',
+  tibetan_antelope: '🦬',
+  snow_leopard: '🐆',
+  milu_deer: '🫎',
+  siberian_tiger: '🐺',
+  red_panda: '🐿️',
+  finless_porpoise: '🐬',
+  // ===== 数码/机甲（6） =====
   mecha_dragon: '🤖',
-  cyber_cat: '🐱',
+  cyber_cat: '🐈',
   space_mecha: '🦾',
   quantum_beast: '👾',
-  digital_phoenix: '🦅',
+  digital_phoenix: '🪶',
   mecha_shark: '🦈',
-  // 魔法
-  unicorn: '🦄',
-  wyvern: '🐉',
+  // ===== 魔法（12） =====
+  unicorn: '🐎',
+  wyvern: '🦇',
   fairy: '🧚',
   treant: '🌳',
   griffin: '🦅',
   mermaid: '🧜‍♀️',
-  // 史前
-  t_rex: '🦖',
-  triceratops: '🦕',
-  pterosaur: '🦅',
-  mammoth: '🐘',
-  sabertooth: '🐯',
-  mosasaur: '🐊',
-  // 星座
-  aries: '🐏',
-  taurus: '🐂',
-  gemini: '👥',
-  cancer: '🦀',
-  leo: '🦁',
-  virgo: '👩',
-  libra: '⚖️',
-  scorpio: '🦂',
-  sagittarius: '🏹',
-  capricorn: '🐐',
-  aquarius: '🏺',
-  pisces: '🐟',
-  // 神话·扩充
-  qinglong: '🐉',
-  baihu: '🐯',
-  zhuque: '🐦',
-  xuanwu: '🐢',
-  taotie: '😋',
-  baize: '📖',
-  // 元素·扩充
-  ice_fox: '🦊',
-  rock_rhino: '🦏',
-  wind_falcon: '🦅',
-  light_deer: '🦌',
-  dark_panther: '🐈‍⬛',
-  steel_armadillo: '🦔',
-  // 国宝·扩充
-  tibetan_antelope: '🐐',
-  snow_leopard: '🐆',
-  milu_deer: '🦌',
-  siberian_tiger: '🐯',
-  red_panda: '🐼',
-  finless_porpoise: '🐬',
-  // 魔法·扩充
   grey_wizard: '🧙',
-  wand_cat: '🐱',
-  dragon_knight: '🐲',
+  wand_cat: '🐈‍⬛',
+  dragon_knight: '⚔️',
   alchemy_golem: '🗿',
   nightmare_horse: '🐴',
   lamp_spirit: '🧞',
-  // 史前·扩充
-  spinosaurus: '🦖',
-  ankylosaurus: '🦕',
-  diplodocus: '🦕',
-  megalodon: '🦈',
+  // ===== 史前（12） =====
+  t_rex: '🦖',
+  triceratops: '🦕',
+  pterosaur: '🪁',
+  mammoth: '🐘',
+  sabertooth: '🦣',
+  mosasaur: '🦭',
+  spinosaurus: '🌊',
+  ankylosaurus: '🦔',
+  diplodocus: '🦒',
+  megalodon: '🐋',
   ground_sloth: '🦥',
   woolly_rhino: '🦏',
-  // 传统节日
+  // ===== 星座（12，用黄道符号，唯一且切题） =====
+  aries: '♈',
+  taurus: '♉',
+  gemini: '♊',
+  cancer: '♋',
+  leo: '♌',
+  virgo: '♍',
+  libra: '♎',
+  scorpio: '♏',
+  sagittarius: '♐',
+  capricorn: '♑',
+  aquarius: '♒',
+  pisces: '♓',
+  // ===== 传统节日（12） =====
   zongzi: '🫔',
   tangyuan: '🍡',
   mooncake: '🥮',
-  qingtuan: '🍡',
+  qingtuan: '🌿',
   chongyang_cake: '🍰',
   niangao: '🍥',
   laba_porridge: '🥣',
@@ -253,37 +242,44 @@ export const SPECIES_EMOJI: Record<string, string> = {
   osmanthus_cake: '🍮',
   wonton: '🥟',
   festival_lantern: '🏮',
-  // 虹猫蓝兔七侠传
+  // ===== 虹猫蓝兔七侠（9） =====
   hongmao: '🐱',
   lantu: '🐰',
   doudou: '🐶',
   dabeng: '🐻',
-  tiaotiao: '🐒',
-  shali: '🦊',
-  dada: '🐼',
-  heixinhu: '🐯',
-  heixiaohu: '🐯',
-  // 东方神话
+  tiaotiao: '🙈',
+  shali: '🥷',
+  dada: '🧸',
+  heixinhu: '🖤',
+  heixiaohu: '🌘',
+  // ===== 东方神话（20） =====
   jiang_ziya: '📜',
   nezha: '🔥',
-  yang_jian: '⚔️',
+  yang_jian: '🗡️',
   lei_zhenzi: '⚡',
-  huang_tianhua: '🗡️',
+  huang_tianhua: '🏹',
   tu_xingsun: '⛏️',
   yang_ren: '👁️',
   wei_hu: '🔱',
-  daji: '🦊',
-  shen_gongbao: '🐆',
+  daji: '💃',
+  shen_gongbao: '🪷',
   sun_wukong: '🐒',
-  lv_dongbin: '⚔️',
+  lv_dongbin: '🔪',
   he_xiangu: '🌸',
-  zhang_guolao: '🐴',
+  zhang_guolao: '🫏',
   tie_guaili: '🩼',
   han_zhongli: '🪭',
   lan_caihe: '🎵',
   cao_guojiu: '🪇',
   taishang_laojun: '☯️',
   zhong_kui: '👺',
+  // ===== 元素扩充（6） =====
+  ice_fox: '❄️',
+  rock_rhino: '🪨',
+  wind_falcon: '🦉',
+  light_deer: '🦌',
+  dark_panther: '🐈⬛',
+  steel_armadillo: '🧱',
 }
 
 /** 获取物种Emoji */
