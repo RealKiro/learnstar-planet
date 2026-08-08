@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="晨曦鹿·六阶·晨曦鹿传说·暮光角碰小鹿角传光为替人天亮">
+  <defs>
+    <!-- 背景：森林暮光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8B888"/>
+      <stop offset="52%" stop-color="#B0A080"/>
+      <stop offset="100%" stop-color="#A8C878"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E8C8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F0E8C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 栗色毛 -->
+    <radialGradient id="fur" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#C89868"/>
+      <stop offset="100%" stop-color="#9A6E42"/>
+    </radialGradient>
+    <!-- 角光 -->
+    <radialGradient id="horn" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF8D8" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#FFF8D8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 森林雾 -->
+  <g fill="#F8F0DC" opacity="0.45">
+    <ellipse cx="60" cy="142" rx="28" ry="9"/>
+    <ellipse cx="150" cy="148" rx="30" ry="10"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#A8C878" opacity="0.9"/>
+
+  <!-- 走出雾的小兽（下） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 0;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="96" cy="136" r="4" fill="#C8A878" stroke="#A88858" stroke-width="0.5"/>
+    <circle cx="94" cy="134.8" r="1" fill="#2E2A24"/>
+    <circle cx="99" cy="134.8" r="1" fill="#2E2A24"/>
+  </g>
+
+  <!-- 小晨曦鹿（右，角带微光） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 138 116 L 134 108 L 137 110 L 135 104 L 138 108 Z" fill="#B89060" stroke="#8E6838" stroke-width="0.5"/>
+    <path d="M 150 116 L 154 108 L 151 110 L 153 104 L 150 108 Z" fill="#B89060" stroke="#8E6838" stroke-width="0.5"/>
+    <circle cx="135" cy="105" r="2" fill="url(#horn)">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="153" cy="105" r="2" fill="url(#horn)">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <ellipse cx="144" cy="124" rx="10" ry="8.5" fill="url(#fur)" stroke="#8E6838" stroke-width="0.7"/>
+    <ellipse cx="144" cy="118" rx="7" ry="6" fill="url(#fur)" stroke="#8E6838" stroke-width="0.6"/>
+    <path d="M 148 122 Q 152 122 154 120 Q 152 126 148 126 Z" fill="#E0D4C0" stroke="#C0B098" stroke-width="0.4"/>
+    <circle cx="141" cy="117" r="1.8" fill="#2E2A24"/>
+    <circle cx="141.8" cy="116.2" r="0.7" fill="#FFF"/>
+    <circle cx="149" cy="117" r="1.8" fill="#2E2A24"/>
+    <circle cx="149.8" cy="116.2" r="0.7" fill="#FFF"/>
+    <path d="M 136 130 L 133 134" stroke="#9A6E42" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 152 130 L 155 134" stroke="#9A6E42" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老晨曦鹿（左，角碰小鹿角） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="76" cy="112" r="26" fill="#F0E8C8" opacity="0.16">
+      <animate attributeName="opacity" values="0.16;0.09;0.16" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 角（如古晨，伸向小鹿角） -->
+    <path d="M 74 104 L 62 86 L 70 90 L 64 74 L 72 88 Z" fill="#C89868" stroke="#6E5838" stroke-width="0.8"/>
+    <path d="M 96 104 L 110 86 L 102 90 L 108 74 L 100 88 Z" fill="#C89868" stroke="#6E5838" stroke-width="0.8"/>
+    <circle cx="64" cy="76" r="5" fill="url(#horn)">
+      <animate attributeName="opacity" values="1;0.7;1" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="107" cy="76" r="5" fill="url(#horn)">
+      <animate attributeName="opacity" values="1;0.7;1" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 大耳 -->
+    <path d="M 70 112 L 62 104 L 72 107 Z" fill="#C89868" stroke="#6E5838" stroke-width="0.6"/>
+    <path d="M 100 112 L 108 104 L 98 107 Z" fill="#C89868" stroke="#6E5838" stroke-width="0.6"/>
+    <!-- 身 -->
+    <ellipse cx="82" cy="124" rx="16" ry="12" fill="url(#fur)" stroke="#6E5838" stroke-width="0.9"/>
+    <ellipse cx="80" cy="130" rx="9" ry="5.5" fill="#E8DCC8" opacity="0.7"/>
+    <!-- 头 -->
+    <ellipse cx="82" cy="112" rx="10" ry="9" fill="url(#fur)" stroke="#6E5838" stroke-width="0.8"/>
+    <path d="M 86 116 Q 91 116 93 114 Q 91 120 86 120 Z" fill="#E0D4C0" stroke="#C0B098" stroke-width="0.5"/>
+    <!-- 眼（温和，目含慈） -->
+    <path d="M 77 111 Q 79 109.6 81 111" stroke="#2E2A24" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <path d="M 87 111 Q 89 109.6 90 111" stroke="#2E2A24" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- 鼻 -->
+    <path d="M 90 115 L 88 117.5 L 92 117.5 Z" fill="#6E5838"/>
+    <!-- 嘴（慈） -->
+    <path d="M 89 120 Q 87 121.4 85 120" fill="none" stroke="#6E5838" stroke-width="0.5" stroke-linecap="round"/>
+    <!-- 腿 -->
+    <path d="M 70 132 L 65 142" stroke="#9A6E42" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 94 132 L 99 142" stroke="#9A6E42" stroke-width="3" stroke-linecap="round"/>
+    <!-- 角碰传 -->
+    <path d="M 100 92 Q 116 90 132 96" stroke="#FFF8D8" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.55">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <!-- 传心微光 -->
+    <circle cx="122" cy="96" r="10" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮色星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

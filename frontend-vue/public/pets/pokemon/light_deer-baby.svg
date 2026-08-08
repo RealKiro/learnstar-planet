@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="晨曦鹿·二阶·光灭之痛·阴天角光被云压黯淡照不亮困雾小兽">
+  <defs>
+    <!-- 背景：阴天雾林 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8A948E"/>
+      <stop offset="52%" stop-color="#9EA69C"/>
+      <stop offset="100%" stop-color="#788A6E"/>
+    </linearGradient>
+    <!-- 云压光 -->
+    <radialGradient id="glow" cx="40%" cy="36%" r="40%">
+      <stop offset="0%" stop-color="#D8DCC8" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#D8DCC8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 栗色毛（沾雾） -->
+    <radialGradient id="fur" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#B89060"/>
+      <stop offset="100%" stop-color="#8E6838"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="80" cy="72" r="66" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 阴云 -->
+  <g fill="#6E786E" opacity="0.6">
+    <ellipse cx="120" cy="36" rx="40" ry="14"/>
+    <ellipse cx="160" cy="50" rx="34" ry="12"/>
+  </g>
+  <!-- 雾 -->
+  <g fill="#D8DCC8" opacity="0.5">
+    <ellipse cx="60" cy="140" rx="30" ry="10"/>
+    <ellipse cx="150" cy="146" rx="34" ry="11"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#788A6E" opacity="0.9"/>
+
+  <!-- 困雾的小兽（右） -->
+  <g opacity="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="154" cy="132" r="4" fill="#C8A878" stroke="#A88858" stroke-width="0.5"/>
+    <circle cx="152" cy="130.8" r="1" fill="#2E2A24"/>
+    <circle cx="157" cy="130.8" r="1" fill="#2E2A24"/>
+  </g>
+
+  <!-- 角光黯淡的小晨曦鹿（左） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 0.8;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 角（光暗） -->
+    <path d="M 72 108 L 67 99 L 70 101 L 68 94 L 72 99 Z" fill="#A88050" stroke="#6E5838" stroke-width="0.5"/>
+    <path d="M 82 108 L 87 99 L 84 101 L 86 94 L 82 99 Z" fill="#A88050" stroke="#6E5838" stroke-width="0.5"/>
+    <circle cx="69" cy="95" r="2" fill="#D8DCC8" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.25;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="84" cy="95" r="2" fill="#D8DCC8" opacity="0.45">
+      <animate attributeName="opacity" values="0.45;0.2;0.45" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 身 -->
+    <ellipse cx="76" cy="130" rx="13" ry="10" fill="url(#fur)" stroke="#6E5838" stroke-width="0.8"/>
+    <!-- 头（低垂） -->
+    <ellipse cx="76" cy="116" rx="8.5" ry="7.5" fill="url(#fur)" stroke="#6E5838" stroke-width="0.7" transform="rotate(-6 76 116)"/>
+    <path d="M 80 120 Q 85 120 87 118 Q 85 124 80 124 Z" fill="#E0D4C0" stroke="#C0B098" stroke-width="0.5"/>
+    <!-- 眼（含惑） -->
+    <circle cx="72" cy="115" r="2" fill="#2E2A24"/>
+    <circle cx="72.8" cy="113.8" r="0.8" fill="#FFF"/>
+    <circle cx="81" cy="115" r="2" fill="#2E2A24"/>
+    <circle cx="81.8" cy="113.8" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 85 119 L 83 121 L 87 121 Z" fill="#6E5838"/>
+    <!-- 嘴（低垂） -->
+    <path d="M 84 124 Q 82 122.6 80 124" fill="none" stroke="#6E5838" stroke-width="0.5" stroke-linecap="round"/>
+    <!-- 腿 -->
+    <path d="M 68 136 L 65 142" stroke="#8E6838" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 84 136 L 87 142" stroke="#8E6838" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 尘灰 -->
+  <g fill="#D8DCC8" opacity="0.35">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.12;0.35" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;74;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
