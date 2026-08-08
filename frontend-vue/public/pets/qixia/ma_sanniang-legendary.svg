@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="马三娘·五阶·身份败露·紫影剑指七侠剑锋尽露">
+  <defs>
+    <!-- 背景：玉蟾宫前对峙 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E4A6E"/>
+      <stop offset="52%" stop-color="#4E3A5E"/>
+      <stop offset="100%" stop-color="#3E2A4E"/>
+    </linearGradient>
+    <!-- 剑锋紫 -->
+    <radialGradient id="purple" cx="50%" cy="44%" r="52%">
+      <stop offset="0%" stop-color="#C8A8F0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#C8A8F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 对峙冷 -->
+    <radialGradient id="cold" cx="24%" cy="40%" r="38%">
+      <stop offset="0%" stop-color="#9EC8D8" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#9EC8D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 紫黑毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E6EBA"/>
+      <stop offset="100%" stop-color="#6E4E9A"/>
+    </linearGradient>
+    <!-- 紫黑劲装 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E4E9E"/>
+      <stop offset="100%" stop-color="#4E327E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0DCC6"/>
+      <stop offset="100%" stop-color="#D8C4AE"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 剑锋紫 -->
+  <circle cx="100" cy="88" r="78" fill="url(#purple)">
+    <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 对峙冷 -->
+  <circle cx="48" cy="82" r="54" fill="url(#cold)">
+    <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 七侠（左，对峙虚影） -->
+  <g opacity="0.5">
+    <path d="M 40 108 Q 42 100 45 98 Q 48 100 48 108 Z" fill="#6E4A3E"/>
+    <circle cx="45" cy="96" r="4.5" fill="#D8B090"/>
+    <!-- 剑影相抵 -->
+    <path d="M 44 102 Q 56 94 64 90" stroke="#C8A8F0" stroke-width="1.6" opacity="0.7" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#2E2A3E" opacity="0.9"/>
+  <path d="M 0 150 L 200 150" stroke="#4E4A5E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 紫衣剑客（6头身，撕下伪装，剑锋尽露，眼底含泪狠戾） -->
+  <!-- 腿 -->
+  <path d="M 84 134 L 80 158 L 86 158 L 90 136 Z" fill="#4E327E"/>
+  <path d="M 98 134 L 106 160 L 100 160 L 94 136 Z" fill="#4E327E"/>
+  <!-- 紫黑劲装 -->
+  <path d="M 82 98 Q 78 118 86 136 Q 96 142 104 136 Q 110 118 106 98 Q 94 92 82 98 Z" fill="url(#robe)" stroke="#3E2670" stroke-width="1"/>
+  <!-- 斗篷猎猎 -->
+  <path d="M 82 100 Q 68 116 64 138 Q 74 146 84 136 L 80 118 Z" fill="#7E6E9E" stroke="#5E4E7E" stroke-width="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+  <!-- 面纱半落 -->
+  <path d="M 88 84 L 100 84 L 102 92 L 86 92 Z" fill="#C8A8F0" opacity="0.7" transform="translate(0,4)"/>
+  <!-- 尾巴 -->
+  <path d="M 108 128 Q 118 122 122 114" stroke="#6E4E9A" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 108 128;10 108 128;0 108 128" dur="2.4s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（清冷面容，眼底含泪狠戾，长发披散） -->
+  <ellipse cx="94" cy="92" rx="10.5" ry="11" fill="url(#fur)" stroke="#5E3E8C" stroke-width="0.9"/>
+  <!-- 猫耳 -->
+  <path d="M 85 84 L 79 70 L 89 78 Z" fill="#8E6EBA" stroke="#5E3E8C" stroke-width="0.8"/>
+  <path d="M 103 84 L 109 70 L 99 78 Z" fill="#8E6EBA" stroke="#5E3E8C" stroke-width="0.8"/>
+  <path d="M 85 82 L 81 72 L 87 78 Z" fill="#C8A8D8"/>
+  <path d="M 103 82 L 107 72 L 101 78 Z" fill="#C8A8D8"/>
+  <!-- 长发披散 -->
+  <path d="M 90 84 Q 86 80 84 84 M 98 84 Q 102 80 104 84" stroke="#6E4E9A" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M 90 82 Q 86 78 88 74 M 98 82 Q 102 78 100 74" stroke="#6E4E9A" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- 细眉（上挑含怒） -->
+  <path d="M 85 86 Q 89 84.4 92 86 M 96 86 Q 99 84.4 103 86" stroke="#2E1A2E" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- 浅色面斑 -->
+  <ellipse cx="94" cy="96" rx="6.5" ry="5" fill="#F0DCC6"/>
+  <!-- 眼底含泪狠戾 -->
+  <path d="M 87 90 Q 90 88.4 93 90 L 93 91.8 Q 90 90.4 87 91.8 Z" fill="#1E1008"/>
+  <path d="M 101 90 Q 98 88.4 95 90 L 95 91.8 Q 98 90.4 101 91.8 Z" fill="#1E1008"/>
+  <circle cx="88.5" cy="90.3" r="1" fill="#FFF"/>
+  <circle cx="99.5" cy="90.3" r="1" fill="#FFF"/>
+  <circle cx="89.6" cy="90.4" r="0.7" fill="#C8A8F0"/>
+  <circle cx="98.4" cy="90.4" r="0.7" fill="#C8A8F0"/>
+  <!-- 泪光 -->
+  <path d="M 86 92 Q 85 94 86 96" stroke="#C8E8F8" stroke-width="1" stroke-linecap="round" opacity="0.7">
+    <animate attributeName="cy" values="92;97;92" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+  <!-- 鼻梁挺 -->
+  <path d="M 94 93 L 94 95.5" stroke="#B09078" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- 薄唇（咬牙） -->
+  <path d="M 90 99 Q 94 101 98 99" fill="none" stroke="#8E4E7E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左臂（剑指，魔教剑锋） -->
+  <path d="M 84 106 C 78 110 76 116 78 122" fill="none" stroke="#6E4E9E" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="78" cy="124" r="3" fill="#F0DCC6"/>
+
+  <!-- 右手持紫影剑（指向七侠，剑锋尽露） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="2.2s" repeatCount="indefinite"/>
+    <path d="M 102 106 C 110 100 116 96 120 88" fill="none" stroke="#6E4E9E" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="122" cy="86" r="3.2" fill="#F0DCC6"/>
+    <!-- 紫影剑 -->
+    <line x1="122" y1="88" x2="130" y2="56" stroke="#C8A8F0" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 130 56 L 133 50" stroke="#C8A8F0" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 剑锋紫光 -->
+    <circle cx="130" cy="54" r="13" fill="url(#purple)">
+      <animate attributeName="r" values="13;18;13" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 130 52 L 136 40 M 132 56 L 142 48" stroke="#C8A8F0" stroke-width="1.6" opacity="0.8" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 剑锋紫星尘 -->
+  <g fill="#C8A8F0">
+    <circle cx="36" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
