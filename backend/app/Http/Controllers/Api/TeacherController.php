@@ -2623,10 +2623,12 @@ class TeacherController extends Controller
             ->paginate(20);
 
         return response()->json([
-            'data' => collect($logs->items())->map(fn ($log) => array_merge($log->toArray(), [
-                'student_name' => $log->student?->name ?? '已删除学生',
-                'student_no' => $log->student?->student_no ?? '',
-            ])),
+            'data' => collect($logs->items())->map(static function (\App\Models\ExchangeLog $log): array {
+                return array_merge($log->toArray(), [
+                    'student_name' => $log->student->name ?? '已删除学生',
+                    'student_no' => $log->student->student_no ?? '',
+                ]);
+            }),
             'meta' => [
                 'current_page' => $logs->currentPage(),
                 'last_page' => $logs->lastPage(),
