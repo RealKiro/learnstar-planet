@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="腊八粥·一阶·杂粮初聚·腊八灶台五谷翻滚冒气小猫馋舔爪">
+  <defs>
+    <!-- 背景：腊八灶台 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8C4A0"/>
+      <stop offset="52%" stop-color="#D0A478"/>
+      <stop offset="100%" stop-color="#B08E6E"/>
+    </linearGradient>
+    <!-- 灶暖 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 粥稠 -->
+    <radialGradient id="porridge" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#F0D090"/>
+      <stop offset="100%" stop-color="#D8AE68"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 馋舔爪的小猫（右） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="152" cy="130" rx="9" ry="6" fill="#C88860" stroke="#A86848" stroke-width="0.8"/>
+    <path d="M 143 132 L 141 139 M 149 133 L 148 139 M 156 133 L 157 139 M 161 132 L 163 138" stroke="#A86848" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M 161 130 Q 168 128 170 134" stroke="#C88860" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 头（舔爪） -->
+    <ellipse cx="142" cy="122" rx="6" ry="5" fill="#C88860" stroke="#A86848" stroke-width="0.7"/>
+    <path d="M 138 118 L 136 113 L 140 117 Z" fill="#C88860"/>
+    <path d="M 146 118 L 148 113 L 144 117 Z" fill="#C88860"/>
+    <circle cx="140" cy="121" r="1.2" fill="#24180E"/>
+    <circle cx="145" cy="121" r="1.2" fill="#24180E"/>
+    <!-- 舔的爪 -->
+    <path d="M 136 124 Q 132 126 134 128" stroke="#C88860" stroke-width="1.8" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="-4 136 126;4 136 126;-4 136 126" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 灶台 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#9E8268" opacity="0.9"/>
+
+  <!-- 熬粥的锅（中） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 锅身 -->
+    <path d="M 68 108 Q 100 94 132 108 Q 130 132 100 132 Q 70 132 68 108 Z" fill="#6E6256" stroke="#544A40" stroke-width="1"/>
+    <!-- 锅沿 -->
+    <ellipse cx="100" cy="108" rx="32" ry="7" fill="#8E8270" stroke="#6E6256" stroke-width="0.9"/>
+    <!-- 粥面 -->
+    <ellipse cx="100" cy="108" rx="28" ry="5.5" fill="url(#porridge)"/>
+    <!-- 五谷粒（翻滚） -->
+    <g>
+      <circle cx="88" cy="106" r="1.8" fill="#C85848">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="104" cy="107" r="1.6" fill="#F0E8D0">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="112" cy="106" r="1.7" fill="#B08048">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="96" cy="108" r="1.5" fill="#E8C080">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.9;0 0" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- 粥面脸 -->
+    <circle cx="94" cy="106" r="1.7" fill="#3E2E24"/>
+    <circle cx="106" cy="106" r="1.7" fill="#3E2E24"/>
+    <path d="M 96 109 Q 100 110.6 104 109" fill="none" stroke="#8E6E3E" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 冒热气 -->
+    <path d="M 92 98 Q 88 90 92 82" stroke="#F8F0E0" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.7">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 108 100 Q 112 92 108 84" stroke="#F8F0E0" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="50" cy="90">
+      <animate attributeName="cy" values="90;80;90" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
