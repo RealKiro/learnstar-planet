@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="小熊猫·六阶·小熊猫传说·暮光蓬尾轻拢小熊猫传蓬尾是遮雨小伞">
+  <defs>
+    <!-- 背景：竹林暮光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8B888"/>
+      <stop offset="52%" stop-color="#A8A88A"/>
+      <stop offset="100%" stop-color="#7AA858"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E8C8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F0E8C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 红褐毛 -->
+    <radialGradient id="fur" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#D07048"/>
+      <stop offset="100%" stop-color="#9E4820"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 竹林 -->
+  <g stroke="#4E8858" stroke-width="5" stroke-linecap="round">
+    <path d="M 26 148 L 30 44"/>
+    <path d="M 172 148 L 176 48"/>
+  </g>
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#7AA858" opacity="0.9"/>
+
+  <!-- 安住的小兽（下） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="92" cy="136" r="4" fill="#C8A878" stroke="#A88858" stroke-width="0.5"/>
+    <circle cx="90" cy="134.8" r="1" fill="#2E2A24"/>
+    <circle cx="95" cy="134.8" r="1" fill="#2E2A24"/>
+  </g>
+
+  <!-- 小熊猫（右，竖尾） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 136 118 Q 133 108 138 102 Q 143 108 144 118 Z" fill="url(#fur)" stroke="#7A3A18" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="rotate" values="-4 139 110;4 139 110;-4 139 110" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <ellipse cx="144" cy="122" rx="10" ry="8.5" fill="url(#fur)" stroke="#7A3A18" stroke-width="0.7"/>
+    <ellipse cx="144" cy="116" rx="7" ry="6" fill="#F0E8DC" stroke="#C8B89A" stroke-width="0.5"/>
+    <circle cx="141" cy="115" r="1.8" fill="#2E2A24"/>
+    <circle cx="141.8" cy="114.2" r="0.7" fill="#FFF"/>
+    <circle cx="148" cy="115" r="1.8" fill="#2E2A24"/>
+    <circle cx="148.8" cy="114.2" r="0.7" fill="#FFF"/>
+    <path d="M 147 119 L 147 121 Z" stroke="#7A3A18" stroke-width="0.8" stroke-linecap="round"/>
+    <path d="M 136 128 L 133 132" stroke="#9E4820" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 152 128 L 155 132" stroke="#9E4820" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老小熊猫（左，蓬尾轻拢小熊猫） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="76" cy="112" r="26" fill="#F0E8C8" opacity="0.16">
+      <animate attributeName="opacity" values="0.16;0.09;0.16" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 蓬尾（伸向小熊猫，拢） -->
+    <path d="M 76 116 Q 92 104 106 110 Q 110 118 102 122 Q 90 124 80 120 Z" fill="url(#fur)" stroke="#6E3012" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="-3 76 116;3 76 116;-3 76 116" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 88 108 L 98 112" stroke="#6E3012" stroke-width="1.1" fill="none" opacity="0.6"/>
+    <!-- 圆耳 -->
+    <path d="M 66 102 L 58 92 L 70 98 Z" fill="#D07048" stroke="#6E3012" stroke-width="0.7"/>
+    <path d="M 90 102 L 98 92 L 86 98 Z" fill="#D07048" stroke="#6E3012" stroke-width="0.7"/>
+    <!-- 身 -->
+    <ellipse cx="80" cy="120" rx="15" ry="12" fill="url(#fur)" stroke="#6E3012" stroke-width="0.9"/>
+    <!-- 白脸 -->
+    <ellipse cx="80" cy="110" rx="9" ry="8" fill="#F0E8DC" stroke="#C0B090" stroke-width="0.6"/>
+    <path d="M 74 110 Q 76 112 74 114" stroke="#D07048" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.7"/>
+    <path d="M 86 110 Q 84 112 86 114" stroke="#D07048" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.7"/>
+    <!-- 眼（温和，目含慈） -->
+    <path d="M 76 109 Q 78 107.6 80 109" stroke="#2E2A24" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <path d="M 84 109 Q 86 107.6 87 109" stroke="#2E2A24" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- 鼻 -->
+    <path d="M 80 113 L 80 115 Z" stroke="#6E3012" stroke-width="1" stroke-linecap="round"/>
+    <!-- 嘴（慈） -->
+    <path d="M 78 116 Q 80 117.4 82 116" fill="none" stroke="#6E3012" stroke-width="0.5" stroke-linecap="round"/>
+    <!-- 短爪 -->
+    <path d="M 68 128 L 63 134" stroke="#9E4820" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M 92 128 L 97 134" stroke="#9E4820" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 尾拢传 -->
+    <path d="M 88 108 Q 106 102 124 108" stroke="#F0F8E0" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <!-- 传心微光 -->
+    <circle cx="120" cy="106" r="10" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮色星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
