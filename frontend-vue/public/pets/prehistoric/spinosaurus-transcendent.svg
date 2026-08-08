@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="棘龙·六阶·棘龙传说·暮色嘴碰小棘龙嫩帆传帆为灯塔语">
+  <defs>
+    <!-- 背景：河口暮霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C8A0"/>
+      <stop offset="52%" stop-color="#D8AC7C"/>
+      <stop offset="100%" stop-color="#94AE96"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F8D890" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F8D890" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 老棘龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A8BCA8"/>
+      <stop offset="100%" stop-color="#8AA48C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 芦荡 -->
+  <g stroke="#7E9678" stroke-width="2.2" stroke-linecap="round" fill="none">
+    <path d="M 26 150 Q 24 132 28 120"/>
+    <path d="M 174 152 Q 172 134 176 122"/>
+  </g>
+
+  <!-- 河口浅水 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#8EB8A0" opacity="0.8"/>
+  <g stroke="#A8D0BC" stroke-width="1.2" stroke-linecap="round" opacity="0.5" fill="none">
+    <path d="M 30 162 Q 60 159 90 162 Q 120 165 150 162"/>
+  </g>
+
+  <!-- 小鱼（安然） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 46 166 L 54 164 L 52 168 Z" fill="#C0A888"/>
+  </g>
+
+  <!-- 小棘龙（左下，晒嫩帆） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身 -->
+    <ellipse cx="62" cy="136" rx="11" ry="8" fill="url(#skin)" stroke="#6E8670" stroke-width="0.8"/>
+    <!-- 嫩帆 -->
+    <path d="M 57 130 Q 60 116 67 116 Q 69 122 72 129 Q 64 124 57 130 Z" fill="#E09070"/>
+    <!-- 腿 -->
+    <path d="M 56 141 L 54 147 M 69 141 L 71 147" stroke="#6E8670" stroke-width="2" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 73 140 Q 79 138 80 143" stroke="url(#skin)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- 小棘龙头 -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="62" cy="124" rx="8.5" ry="7.5" fill="url(#skin)" stroke="#6E8670" stroke-width="0.8"/>
+    <circle cx="58.5" cy="122.5" r="2" fill="#24180E"/>
+    <circle cx="59" cy="122" r="0.65" fill="#FFF"/>
+    <circle cx="66" cy="122.5" r="2" fill="#24180E"/>
+    <circle cx="66.5" cy="122" r="0.65" fill="#FFF"/>
+    <path d="M 59 127 Q 62 128.4 65 127" fill="none" stroke="#6E8670" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老棘龙（嘴碰小棘龙嫩帆，传灯塔） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="118" cy="128" rx="18" ry="12" fill="url(#skin)" stroke="#6E8670" stroke-width="1.1"/>
+    <ellipse cx="114" cy="132" rx="10" ry="6.5" fill="#D8DCC8" opacity="0.7"/>
+    <!-- 背帆（如旗，泛岁月） -->
+    <path d="M 107 120 Q 113 100 126 100 Q 131 112 136 120 Q 121 112 107 120 Z" fill="#E89878"/>
+    <!-- 腿 -->
+    <path d="M 108 136 L 106 146 M 130 136 L 132 146" stroke="#6E8670" stroke-width="3.2" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 136 132 Q 146 128 152 120" stroke="url(#skin)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <!-- 头（低，嘴碰小帆） -->
+    <path d="M 110 120 Q 100 124 92 126" stroke="url(#skin)" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <ellipse cx="88" cy="128" rx="9" ry="7.5" fill="url(#skin)" stroke="#6E8670" stroke-width="0.9"/>
+    <circle cx="84" cy="126" r="1.8" fill="#24180E"/>
+    <circle cx="84.4" cy="125.6" r="0.6" fill="#FFF"/>
+    <circle cx="92" cy="126" r="1.8" fill="#24180E"/>
+    <circle cx="92.4" cy="125.6" r="0.6" fill="#FFF"/>
+    <!-- 嘴（碰嫩帆） -->
+    <path d="M 80 131 L 74 133" stroke="#6E8670" stroke-width="1" stroke-linecap="round"/>
+    <!-- 传心微光 -->
+    <circle cx="78" cy="120" r="7" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮霞星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
