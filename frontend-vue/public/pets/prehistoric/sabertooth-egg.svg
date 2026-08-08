@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="剑齿虎·一阶·牙未露出·扑蝶摔跟看母长牙心慕">
+  <defs>
+    <!-- 背景：冰河林间雪 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DCE4D8"/>
+      <stop offset="52%" stop-color="#BCCAB8"/>
+      <stop offset="100%" stop-color="#96AE9E"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F8F8EC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F8F8EC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 小剑齿虎毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8C08C"/>
+      <stop offset="100%" stop-color="#C4AC78"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪林 -->
+  <g fill="#8EAE98" opacity="0.35">
+    <path d="M 0 108 Q 50 102 110 106 Q 160 110 200 104 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#E4ECE8" opacity="0.9"/>
+
+  <!-- 蝴蝶（飞） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -3;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <g fill="#E0A0B0">
+      <path d="M 88 92 Q 82 88 80 82 Q 86 86 90 90 Z"/>
+      <path d="M 88 92 Q 94 88 96 82 Q 90 86 86 90 Z"/>
+    </g>
+    <ellipse cx="88" cy="94" rx="1.2" ry="2" fill="#6E5650"/>
+  </g>
+
+  <!-- 母虎（右，长牙） -->
+  <g opacity="0.85">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身 -->
+    <ellipse cx="160" cy="136" rx="15" ry="10" fill="#D8C090" stroke="#B8A06C" stroke-width="1"/>
+    <!-- 头（长牙） -->
+    <ellipse cx="146" cy="122" rx="9" ry="8" fill="#D8C090" stroke="#B8A06C" stroke-width="0.8"/>
+    <!-- 长牙（标志） -->
+    <path d="M 142 126 Q 138 132 136 138" stroke="#F0E8D8" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 150 126 Q 154 132 156 138" stroke="#F0E8D8" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 眼 -->
+    <circle cx="143" cy="120" r="1.8" fill="#24180E"/>
+    <circle cx="150" cy="120" r="1.8" fill="#24180E"/>
+  </g>
+
+  <!-- 小剑齿虎（扑蝶，摔跟头） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（蹲，扑） -->
+    <ellipse cx="96" cy="134" rx="14" ry="10" fill="url(#fur)" stroke="#A89060" stroke-width="0.9"/>
+    <!-- 腹 -->
+    <ellipse cx="93" cy="139" rx="8" ry="5" fill="#ECE4D4" opacity="0.7"/>
+    <!-- 腿 -->
+    <path d="M 87 141 L 85 148 M 106 141 L 108 148" stroke="#A89060" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 110 138 Q 118 134 120 128" stroke="url(#fur)" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 110 138;8 110 138;0 110 138" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 前爪（扑蝶） -->
+    <path d="M 90 126 Q 86 120 84 116" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 90 126;-10 90 126;0 90 126" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 小剑齿虎头（圆耳，心慕） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="96" cy="114" rx="11" ry="10" fill="url(#fur)" stroke="#A89060" stroke-width="0.9"/>
+    <!-- 圆耳 -->
+    <path d="M 87 107 L 82 99 L 91 104 Z" fill="url(#fur)" stroke="#A89060" stroke-width="0.6"/>
+    <path d="M 105 107 L 110 99 L 101 104 Z" fill="url(#fur)" stroke="#A89060" stroke-width="0.6"/>
+    <!-- 眼（大） -->
+    <circle cx="91" cy="112" r="2.6" fill="#24180E"/>
+    <circle cx="91.7" cy="111.3" r="0.9" fill="#FFF"/>
+    <circle cx="101" cy="112" r="2.6" fill="#24180E"/>
+    <circle cx="101.7" cy="111.3" r="0.9" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="96" cy="117" rx="1.8" ry="1.4" fill="#C09070"/>
+    <!-- 嘴（微张，看母） -->
+    <path d="M 92 120 Q 96 121.6 100 120" fill="none" stroke="#8E7850" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 小牙（未露） -->
+    <path d="M 94 120 L 94.6 122 M 98 120 L 97.4 122" stroke="#F0E8D8" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F8F8EC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="剑齿虎·五阶·林地之王·卧林缘月下起身亮牙镇界护林">
+  <defs>
+    <!-- 背景：雪林月夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5A6A78"/>
+      <stop offset="52%" stop-color="#4A5A68"/>
+      <stop offset="100%" stop-color="#8EAE8E"/>
+    </linearGradient>
+    <!-- 月色神光 -->
+    <radialGradient id="glow" cx="30%" cy="20%" r="40%">
+      <stop offset="0%" stop-color="#E8EEF4" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8EEF4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 神威光环 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#D8E4EC" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#D8E4EC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 剑齿虎毛（如霜） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8C090"/>
+      <stop offset="100%" stop-color="#B8A074"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="58" cy="40" r="60" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.42;0.6" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 神威光环 -->
+  <circle cx="100" cy="110" r="58" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.3;0.2;0.3" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 月 -->
+  <circle cx="50" cy="32" r="14" fill="#E8EEF4" opacity="0.85">
+    <animate attributeName="opacity" values="0.85;0.7;0.85" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 星 -->
+  <g fill="#E8EEF4">
+    <circle cx="130" cy="22" r="1.1">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="44" r="1.2">
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 雪林丘 -->
+  <g fill="#6E8E78" opacity="0.5">
+    <path d="M 0 126 Q 60 118 130 124 Q 170 128 200 122 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#8EAE8E" opacity="0.6"/>
+  <path d="M 0 150 L 200 150" stroke="#A8C8A8" stroke-width="1.4" opacity="0.4"/>
+
+  <!-- 林中的生灵（左，安然） -->
+  <g opacity="0.85">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="50" cy="144" rx="6" ry="4.4" fill="#C8BCA4" stroke="#AAA090" stroke-width="0.7"/>
+    <circle cx="50" cy="137" r="3.8" fill="#C8BCA4" stroke="#AAA090" stroke-width="0.6"/>
+    <path d="M 48 139 L 46 144 M 53 139 L 55 144" stroke="#AAA090" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 被镇的入侵者（右远） -->
+  <g opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1.5 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <ellipse cx="162" cy="140" rx="8" ry="5.5" fill="#4E5A4E" stroke="#3E4A3E" stroke-width="0.7"/>
+    <circle cx="158" cy="134" r="4.5" fill="#4E5A4E"/>
+    <circle cx="155.8" cy="132.8" r="1" fill="#C84030" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 林地之王剑齿虎（起身，亮牙） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="106" cy="132" rx="17" ry="11" fill="url(#fur)" stroke="#A89060" stroke-width="1"/>
+    <ellipse cx="103" cy="137" rx="10" ry="6" fill="#ECE4D4" opacity="0.7"/>
+    <!-- 腿 -->
+    <path d="M 96 140 L 94 149 M 118 140 L 120 149" stroke="#A89060" stroke-width="3" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 123 136 Q 134 130 140 122" stroke="url(#fur)" stroke-width="2.8" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 123 136;5 123 136;0 123 136" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 林地之王头（月下亮牙，含威含温） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="106" cy="112" rx="12" ry="10.5" fill="url(#fur)" stroke="#A89060" stroke-width="0.9"/>
+    <!-- 圆耳 -->
+    <path d="M 96 105 L 90 96 L 100 102 Z" fill="url(#fur)" stroke="#A89060" stroke-width="0.6"/>
+    <path d="M 116 105 L 122 96 L 112 102 Z" fill="url(#fur)" stroke="#A89060" stroke-width="0.6"/>
+    <!-- 眼（含威含温） -->
+    <path d="M 97 110 Q 99 108.6 101 110 M 112 110 Q 114 108.6 115 110" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="99" cy="111" r="2.4" fill="#24180E"/>
+    <circle cx="99.6" cy="110.4" r="0.8" fill="#FFF"/>
+    <circle cx="113.5" cy="111" r="2.4" fill="#24180E"/>
+    <circle cx="114.1" cy="110.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="106" cy="115" rx="1.8" ry="1.4" fill="#C09070"/>
+    <!-- 长牙（月下亮） -->
+    <path d="M 101 117 Q 98 124 97 130" stroke="#F4F0E4" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 111 117 Q 114 124 115 130" stroke="#F4F0E4" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 额间王光 -->
+    <circle cx="106" cy="104" r="2.6" fill="#E8EEF4" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.45;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 月明星尘 -->
+  <g fill="#E8EEF4">
+    <circle cx="80" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="88">
+      <animate attributeName="cy" values="88;78;88" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

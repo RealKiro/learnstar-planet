@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="剑齿虎·四阶·护林初成·长牙逼退野狼护幼鹿让路走">
+  <defs>
+    <!-- 背景：雪林夕 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0D8BC"/>
+      <stop offset="52%" stop-color="#C0B490"/>
+      <stop offset="100%" stop-color="#9AAE96"/>
+    </linearGradient>
+    <!-- 护林威光 -->
+    <radialGradient id="glow" cx="52%" cy="28%" r="54%">
+      <stop offset="0%" stop-color="#F0F8F0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F0F8F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年剑齿虎毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8C090"/>
+      <stop offset="100%" stop-color="#BEA678"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="96" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.42;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪丘 -->
+  <g fill="#8EAE98" opacity="0.35">
+    <path d="M 0 118 Q 60 110 130 116 Q 170 120 200 114 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#E6EEE8" opacity="0.9"/>
+
+  <!-- 被护住的幼鹿（左，获救） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="58" cy="142" rx="6" ry="4.4" fill="#C8BCA4" stroke="#AAA090" stroke-width="0.7"/>
+    <circle cx="58" cy="135" r="3.8" fill="#C8BCA4" stroke="#AAA090" stroke-width="0.6"/>
+    <path d="M 56 137 L 54 142 M 61 137 L 63 142" stroke="#AAA090" stroke-width="1" stroke-linecap="round"/>
+    <!-- 感恩蹭 -->
+    <path d="M 64 138 Q 68 136 70 138" stroke="#AAA090" stroke-width="1" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 被逼退的野狼（右上） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="158" cy="118" rx="9" ry="6" fill="#6E7A6E" stroke="#5E6A5E" stroke-width="0.8"/>
+    <circle cx="168" cy="112" r="4.5" fill="#6E7A6E" stroke="#5E6A5E" stroke-width="0.7"/>
+    <circle cx="166.4" cy="111" r="1.1" fill="#C84030" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 150 122 L 144 126" stroke="#6E7A6E" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 少年剑齿虎（长牙一划，逼退） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="108" cy="132" rx="16" ry="10.5" fill="url(#fur)" stroke="#A89060" stroke-width="1"/>
+    <ellipse cx="105" cy="137" rx="9" ry="5.5" fill="#ECE4D4" opacity="0.7"/>
+    <!-- 腿 -->
+    <path d="M 98 139 L 96 148 M 120 139 L 122 148" stroke="#A89060" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 124 136 Q 133 130 138 122" stroke="url(#fur)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 124 136;6 124 136;0 124 136" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 前爪（逼前） -->
+    <path d="M 96 126 L 90 118" stroke="url(#fur)" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年剑齿虎头（长牙亮，含威含护） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="108" cy="112" rx="11.5" ry="10" fill="url(#fur)" stroke="#A89060" stroke-width="0.9"/>
+    <!-- 圆耳 -->
+    <path d="M 98 105 L 93 97 L 102 102 Z" fill="url(#fur)" stroke="#A89060" stroke-width="0.6"/>
+    <path d="M 118 105 L 123 97 L 114 102 Z" fill="url(#fur)" stroke="#A89060" stroke-width="0.6"/>
+    <!-- 眼（含威含护） -->
+    <path d="M 99 110 Q 101 108.6 103 110 M 114 110 Q 116 108.6 117 110" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="101" cy="111" r="2.4" fill="#24180E"/>
+    <circle cx="101.6" cy="110.4" r="0.8" fill="#FFF"/>
+    <circle cx="115.5" cy="111" r="2.4" fill="#24180E"/>
+    <circle cx="116.1" cy="110.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="108" cy="115" rx="1.8" ry="1.4" fill="#C09070"/>
+    <!-- 长牙（亮，逼退） -->
+    <path d="M 103 117 Q 100 123 99 129" stroke="#F0E8D8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 113 117 Q 116 123 117 129" stroke="#F0E8D8" stroke-width="2" stroke-linecap="round"/>
+    <!-- 吼威 -->
+    <g stroke="#D0E0D8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5">
+      <path d="M 118 104 Q 126 100 132 96">
+        <animate attributeName="opacity" values="0.5;0.18;0.5" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 夕照星尘 -->
+  <g fill="#F0F8F0">
+    <circle cx="38" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
