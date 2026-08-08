@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="掠风隼·六阶·掠风隼传说·暮光翼尖轻托小掠风隼传掠过风为赶到护">
+  <defs>
+    <!-- 背景：宝可梦天崖暮色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8B088"/>
+      <stop offset="52%" stop-color="#9EA890"/>
+      <stop offset="100%" stop-color="#6A8AB0"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E8C8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F0E8C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灰蓝羽 -->
+    <radialGradient id="feather" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#7A96B0"/>
+      <stop offset="100%" stop-color="#4A6482"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 崖 -->
+  <path d="M 0 150 L 200 148 L 200 200 L 0 200 Z" fill="#78889A" opacity="0.8"/>
+
+  <!-- 得救的小兽（下） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="90" cy="136" r="4" fill="#C8A878" stroke="#A88858" stroke-width="0.5"/>
+    <circle cx="88" cy="134.8" r="1" fill="#2E2A24"/>
+    <circle cx="93" cy="134.8" r="1" fill="#2E2A24"/>
+  </g>
+
+  <!-- 小掠风隼（右，扑翼） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="142" cy="118" rx="10" ry="8.5" fill="url(#feather)" stroke="#42586E" stroke-width="0.7"/>
+    <path d="M 136 114 L 126 106 L 134 116 Z" fill="url(#feather)" stroke="#42586E" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="-5 136 114;5 136 114;-5 136 114" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <ellipse cx="142" cy="112" rx="7" ry="6" fill="url(#feather)" stroke="#42586E" stroke-width="0.6"/>
+    <path d="M 147 110 L 153 109 L 147 113 Z" fill="#E8B868" stroke="#C89848" stroke-width="0.4"/>
+    <circle cx="139" cy="111" r="1.8" fill="#2E2A24"/>
+    <circle cx="139.8" cy="110.2" r="0.7" fill="#FFF"/>
+    <circle cx="145" cy="111" r="1.8" fill="#2E2A24"/>
+    <circle cx="145.8" cy="110.2" r="0.7" fill="#FFF"/>
+  </g>
+
+  <!-- 老掠风隼（左，翼托小掠风隼） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="76" cy="112" r="26" fill="#F0E8C8" opacity="0.16">
+      <animate attributeName="opacity" values="0.16;0.09;0.16" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 风翼（大，伸向小隼） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-4 82 106;4 82 106;-4 82 106" dur="2.2s" repeatCount="indefinite"/>
+      <path d="M 82 106 L 52 84 L 66 96 L 46 80 L 64 102 Z" fill="url(#feather)" stroke="#364A60" stroke-width="0.9"/>
+      <path d="M 82 106 L 58 92 L 74 95" stroke="#A8C0D4" stroke-width="0.7" fill="none" opacity="0.7"/>
+      <path d="M 66 96 L 56 88" stroke="#D8ECF4" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+    </g>
+    <!-- 身 -->
+    <ellipse cx="86" cy="116" rx="14" ry="11" fill="url(#feather)" stroke="#364A60" stroke-width="0.9"/>
+    <ellipse cx="85" cy="121" rx="8" ry="5" fill="#DCE6EE" opacity="0.7"/>
+    <!-- 尾 -->
+    <path d="M 74 122 L 64 128 L 72 131 L 62 136 L 72 134 L 64 142 L 76 130 Z" fill="url(#feather)" stroke="#364A60" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="rotate" values="-4 74 122;4 74 122;-4 74 122" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 头 -->
+    <ellipse cx="86" cy="104" rx="9" ry="8" fill="url(#feather)" stroke="#364A60" stroke-width="0.8"/>
+    <path d="M 82 98 Q 86 92 90 98" fill="#4A6482" stroke="#364A60" stroke-width="0.4"/>
+    <!-- 喙 -->
+    <path d="M 93 102 L 100 101 L 93 105 Z" fill="#E8B868" stroke="#C89848" stroke-width="0.5"/>
+    <!-- 眼（温和，目含慈） -->
+    <path d="M 84 103 Q 86 101.6 88 103" stroke="#2E2A24" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <path d="M 91 103 Q 93 101.6 94 103" stroke="#2E2A24" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- 翼托传 -->
+    <path d="M 72 98 Q 100 90 130 104" stroke="#E8F4F8" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.55">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <!-- 传心微光 -->
+    <circle cx="124" cy="106" r="10" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮色星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
