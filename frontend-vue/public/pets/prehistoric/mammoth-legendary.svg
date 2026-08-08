@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="猛犸象·五阶·冰原之王·领群迁徙最前拨雪开路幼象跟随">
+  <defs>
+    <!-- 背景：冰原迁徙夕照 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8D8B0"/>
+      <stop offset="52%" stop-color="#C8B488"/>
+      <stop offset="100%" stop-color="#98B2C0"/>
+    </linearGradient>
+    <!-- 王之神光 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="55%">
+      <stop offset="0%" stop-color="#FCF4D8" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FCF4D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 神威光环 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#E8ECF0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#E8ECF0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 猛犸绒毛（如雪覆） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#AC885C"/>
+      <stop offset="100%" stop-color="#8E7248"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="56" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.95;0.65;0.95" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 神威光环 -->
+  <circle cx="100" cy="112" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 冰川 -->
+  <g fill="#C8D8E4" opacity="0.6">
+    <path d="M 0 120 Q 60 112 130 118 Q 170 122 200 116 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#EAF2F6" opacity="0.9"/>
+
+  <!-- 跟随的族群（左，幼象们） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="44" cy="142" rx="7" ry="5.2" fill="#A08058" stroke="#8E7048" stroke-width="0.7"/>
+    <circle cx="44" cy="134" r="4.2" fill="#A08058" stroke="#8E7048" stroke-width="0.6"/>
+    <path d="M 40 132.6 Q 38 130.6 38 128.6" stroke="#A08058" stroke-width="0.8" stroke-linecap="round"/>
+    <ellipse cx="60" cy="144" rx="5.5" ry="4" fill="#987A50" stroke="#8E7048" stroke-width="0.6"/>
+    <circle cx="60" cy="138" r="3.4" fill="#987A50" stroke="#8E7048" stroke-width="0.5"/>
+  </g>
+
+  <!-- 冰原之王猛犸（领群最前，拨雪开路） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体（如墙如山） -->
+    <ellipse cx="116" cy="128" rx="21" ry="14" fill="url(#fur)" stroke="#7E6240" stroke-width="1.2"/>
+    <!-- 腿（如柱） -->
+    <path d="M 104 139 L 101 150 M 130 139 L 133 150" stroke="#7E6240" stroke-width="4" stroke-linecap="round"/>
+    <!-- 长牙（如圭，拨雪开路） -->
+    <path d="M 100 122 Q 82 120 70 112" stroke="#E8E0CC" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+    <path d="M 106 122 Q 120 126 130 132" stroke="#E8E0CC" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+    <!-- 拨开的雪路（前方） -->
+    <g fill="#D0E0E8" opacity="0.6">
+      <path d="M 66 116 Q 58 122 56 128 L 68 132 Q 72 124 74 118 Z"/>
+    </g>
+  </g>
+
+  <!-- 冰原之王头（含威含温） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="116" cy="110" rx="12.5" ry="11" fill="url(#fur)" stroke="#7E6240" stroke-width="1"/>
+    <!-- 眼（含威含温） -->
+    <path d="M 107 108 Q 109 106.6 111 108 M 122 108 Q 124 106.6 125 108" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="109" cy="109" r="2.4" fill="#24180E"/>
+    <circle cx="109.6" cy="108.4" r="0.8" fill="#FFF"/>
+    <circle cx="123.5" cy="109" r="2.4" fill="#24180E"/>
+    <circle cx="124.1" cy="108.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 111 114 L 121 114 L 116 117 Z" fill="#5E4628"/>
+    <!-- 耳 -->
+    <path d="M 106 103 Q 101 99 102 95 Q 106 97 108 101 Z" fill="#98784E"/>
+    <path d="M 126 103 Q 131 99 130 95 Q 126 97 124 101 Z" fill="#98784E"/>
+    <!-- 额间王光 -->
+    <circle cx="116" cy="102" r="3" fill="#FCF4D8" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 王光星尘 -->
+  <g fill="#FCF4D8">
+    <circle cx="36" cy="102">
+      <animate attributeName="cy" values="102;92;102" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="166" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

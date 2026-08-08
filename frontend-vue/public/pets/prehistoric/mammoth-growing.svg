@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="猛犸象·三阶·踏雪苦修·踏冰辨路长牙拨雪开路">
+  <defs>
+    <!-- 背景：冰原冰川晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0E0EC"/>
+      <stop offset="52%" stop-color="#B0C8DC"/>
+      <stop offset="100%" stop-color="#92B2C8"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F0F8FC" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F0F8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年猛犸绒毛（渐长） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#AC885C"/>
+      <stop offset="100%" stop-color="#92744C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 冰川（远） -->
+  <g fill="#C8D8E4" opacity="0.7">
+    <path d="M 0 104 Q 60 96 130 102 Q 170 106 200 100 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 雪地（路） -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#EAF2F6" opacity="0.9"/>
+  <g stroke="#C8D8E4" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M 40 148 L 30 168 M 168 148 L 178 164"/>
+  </g>
+
+  <!-- 薄冰裂缝（辨路） -->
+  <g stroke="#B8C8D4" stroke-width="1.4" fill="none" opacity="0.7">
+    <path d="M 138 148 L 134 160 M 134 160 L 142 168"/>
+  </g>
+
+  <!-- 被拨开的雪露草（左前，长牙开路） -->
+  <g>
+    <path d="M 70 150 Q 66 146 64 142" stroke="#7EAE6E" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 64 142 Q 60 138 58 134 Q 63 138 66 140 Z" fill="#7EAE6E">
+      <animateTransform attributeName="transform" type="scale" values="1 1;1.1 1.1;1 1" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 74 152 Q 72 148 72 146" stroke="#7EAE6E" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 少年猛犸（踏冰辨路，长牙拨雪） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（渐大） -->
+    <ellipse cx="108" cy="134" rx="18" ry="12" fill="url(#fur)" stroke="#7E6240" stroke-width="1.1"/>
+    <!-- 腿（踏稳） -->
+    <path d="M 98 143 L 96 151 M 120 143 L 122 151" stroke="#7E6240" stroke-width="3.4" stroke-linecap="round"/>
+    <!-- 长牙（拨雪） -->
+    <path d="M 96 132 Q 88 134 82 138" stroke="#E8E0CC" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 96 132;-6 96 132;0 96 132" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年猛犸头（沉稳，踏冰辨路） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="108" cy="116" rx="11" ry="10" fill="url(#fur)" stroke="#7E6240" stroke-width="0.9"/>
+    <!-- 眼（专注） -->
+    <circle cx="103" cy="114" r="2.3" fill="#24180E"/>
+    <circle cx="103.6" cy="113.4" r="0.75" fill="#FFF"/>
+    <circle cx="113.5" cy="114" r="2.3" fill="#24180E"/>
+    <circle cx="114.1" cy="113.4" r="0.75" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 104 120 L 111 120 L 107.5 122.5 Z" fill="#5E4628"/>
+    <!-- 耳（大） -->
+    <path d="M 99 109 Q 94 105 95 101 Q 99 103 101 107 Z" fill="#98784E"/>
+    <path d="M 117 109 Q 122 105 121 101 Q 117 103 115 107 Z" fill="#98784E"/>
+    <!-- 长牙（上） -->
+    <path d="M 104 118 Q 100 116 98 114" stroke="#E8E0CC" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- 看路的专注光 -->
+    <circle cx="100" cy="106" r="2.4" fill="#F0F8FC" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F0F8FC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

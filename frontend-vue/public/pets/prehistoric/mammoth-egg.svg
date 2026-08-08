@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="猛犸象·一阶·冰原幼象·绒毛拱母腿看母长牙拨雪">
+  <defs>
+    <!-- 背景：冰原雪野 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0E0EC"/>
+      <stop offset="52%" stop-color="#B0C8DC"/>
+      <stop offset="100%" stop-color="#8EAEC8"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F0F8FC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F0F8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 小猛犸绒毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A88458"/>
+      <stop offset="100%" stop-color="#8E7048"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 冰川（远） -->
+  <g fill="#C8D8E4" opacity="0.7">
+    <path d="M 0 100 Q 50 92 110 98 Q 160 102 200 96 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 雪地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#F0F6FA" opacity="0.9"/>
+  <g stroke="#C8D8E4" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M 40 148 L 30 168 M 170 148 L 182 166"/>
+  </g>
+  <!-- 飘雪 -->
+  <g fill="#F0F8FC" opacity="0.8">
+    <circle cx="40" cy="40" r="1.4">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 6;0 0" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="30" r="1.2">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 8;0 0" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 母猛犸（右，长牙拨雪） -->
+  <g opacity="0.85">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身（巨大，部分入画） -->
+    <path d="M 150 148 L 150 100 Q 136 90 126 96 Q 118 102 116 116 L 114 128 L 140 148 Z" fill="#8E7048"/>
+    <!-- 长牙（拨雪） -->
+    <path d="M 122 118 Q 108 120 98 128" stroke="#E8E0CC" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+    <!-- 腿 -->
+    <path d="M 138 148 L 138 158 M 152 148 L 152 158" stroke="#7E6240" stroke-width="4" stroke-linecap="round"/>
+    <!-- 拨开的雪（露草） -->
+    <g fill="#7EAE6E">
+      <path d="M 94 132 Q 90 128 88 124 Q 93 128 96 130 Z"/>
+      <path d="M 100 134 Q 98 130 96 128 Q 100 130 102 132 Z"/>
+    </g>
+  </g>
+
+  <!-- 小猛犸（绒毛，拱母腿） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（圆滚毛绒） -->
+    <ellipse cx="112" cy="136" rx="16" ry="12" fill="url(#fur)" stroke="#7E6240" stroke-width="1"/>
+    <!-- 腿（粗短） -->
+    <path d="M 103 145 L 101 153 M 121 145 L 123 153" stroke="#7E6240" stroke-width="3" stroke-linecap="round"/>
+    <!-- 小牙（未露） -->
+    <path d="M 104 140 Q 102 138 102 136" stroke="#E8E0CC" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 小猛犸头（拱母腿，看母拨雪） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="112" cy="118" rx="10.5" ry="9.5" fill="url(#fur)" stroke="#7E6240" stroke-width="0.9"/>
+    <!-- 眼（圆亮） -->
+    <circle cx="107.5" cy="116" r="2.4" fill="#24180E"/>
+    <circle cx="108.1" cy="115.4" r="0.8" fill="#FFF"/>
+    <circle cx="117" cy="116" r="2.4" fill="#24180E"/>
+    <circle cx="117.6" cy="115.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻（喷气） -->
+    <path d="M 109 122 L 115 122 L 112 125 Z" fill="#6E5638"/>
+    <!-- 耳（大） -->
+    <path d="M 104 112 Q 99 108 100 104 Q 104 106 106 110 Z" fill="#98784E"/>
+    <path d="M 120 112 Q 125 108 124 104 Q 120 106 118 110 Z" fill="#98784E"/>
+    <!-- 喷出的白气 -->
+    <g stroke="#F0F8FC" stroke-width="1.2" stroke-linecap="round" opacity="0.6" fill="none">
+      <path d="M 116 124 Q 120 122 122 124">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F0F8FC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
