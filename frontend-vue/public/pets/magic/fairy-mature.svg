@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="精灵·四阶·护花初成·大旱引露喂枯花花瓣舒展光点洒">
+  <defs>
+    <!-- 背景：旱后花田 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8D4B0"/>
+      <stop offset="52%" stop-color="#BCB894"/>
+      <stop offset="100%" stop-color="#9CA898"/>
+    </linearGradient>
+    <!-- 救命光 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="54%">
+      <stop offset="0%" stop-color="#F8F0D8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F8F0D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 精灵光身 -->
+    <linearGradient id="glowbody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F0E0"/>
+      <stop offset="100%" stop-color="#E8DCBC"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="96" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 旱裂土 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#B8AC8C" opacity="0.8"/>
+  <g stroke="#9E9272" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M 40 160 L 50 168 M 80 156 L 86 168 M 150 158 L 158 168"/>
+  </g>
+
+  <!-- 被救活的枯花（右，花瓣舒展） -->
+  <g>
+    <path d="M 150 150 L 150 138" stroke="#7E9E6E" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#F0A0B8">
+      <circle cx="146" cy="134" r="3.5"/>
+      <circle cx="154" cy="134" r="3.5"/>
+      <circle cx="150" cy="130" r="3.5"/>
+      <circle cx="150" cy="138" r="3.5"/>
+      <circle cx="150" cy="134" r="2.2" fill="#F8E8A0"/>
+    </g>
+    <!-- 舒展光 -->
+    <circle cx="150" cy="134" r="7" fill="#F8F0D8" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.15;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 喂入的露 -->
+    <circle cx="150" cy="128" r="1.6" fill="#DCE8F0" opacity="0.8">
+      <animate attributeName="cy" values="128;132;128" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 少年精灵（引露喂枯花） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="108" cy="116" rx="7" ry="9" fill="url(#glowbody)" stroke="#D0C098" stroke-width="0.8"/>
+    <!-- 翼（护） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-6 102 110;6 102 110;-6 102 110" dur="2s" repeatCount="indefinite"/>
+      <path d="M 102 110 Q 92 98 86 88 L 104 104 Z" fill="#F0E8F4" opacity="0.6"/>
+      <path d="M 102 110 Q 112 98 118 88 L 100 104 Z" fill="#F0E8F4" opacity="0.6"/>
+    </g>
+    <!-- 引露指尖（右，喂花） -->
+    <path d="M 114 116 Q 124 110 132 108" stroke="#D0C098" stroke-width="1.2" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="0 114 116;8 114 116;0 114 116" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 指尖露（喂入） -->
+    <circle cx="134" cy="107" r="1.8" fill="#DCE8F0" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.4;0.85" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 光点（盛） -->
+    <g fill="#F8F0D8">
+      <circle cx="106" cy="110" r="1.5">
+        <animate attributeName="opacity" values="0.8;0.35;0.8" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 少年精灵头（含温含亮） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="108" cy="100" rx="6" ry="6.5" fill="url(#glowbody)" stroke="#D0C098" stroke-width="0.7"/>
+    <!-- 眼（含温） -->
+    <circle cx="105" cy="99" r="1.5" fill="#24180E"/>
+    <circle cx="105.4" cy="98.6" r="0.5" fill="#FFF"/>
+    <circle cx="111" cy="99" r="1.5" fill="#24180E"/>
+    <circle cx="111.4" cy="98.6" r="0.5" fill="#FFF"/>
+    <!-- 笑（暖） -->
+    <path d="M 106 103 Q 108 104.2 110 103" fill="none" stroke="#C0B090" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 发 -->
+    <path d="M 104 96 Q 104 92 108 91 M 110 95 Q 112 92 114 93" stroke="#F0D8A0" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 旱光星尘 -->
+  <g fill="#F8F0D8">
+    <circle cx="38" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

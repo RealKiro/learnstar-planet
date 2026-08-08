@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="精灵·五阶·花田之灵·盘旋花田光点洒点虫唤鸟翼扶花">
+  <defs>
+    <!-- 背景：花田晴空 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8D8E0"/>
+      <stop offset="52%" stop-color="#C8B8C4"/>
+      <stop offset="100%" stop-color="#9CB49C"/>
+    </linearGradient>
+    <!-- 灵之光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="55%">
+      <stop offset="0%" stop-color="#FCF8EC" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FCF8EC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 神威光环 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E4F0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#F0E4F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 精灵光身 -->
+    <linearGradient id="glowbody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F0E0"/>
+      <stop offset="100%" stop-color="#E4D8B8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="56" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.95;0.65;0.95" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 神威光环 -->
+  <circle cx="100" cy="112" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 花田 -->
+  <g fill="#6E9E7A" opacity="0.35">
+    <path d="M 0 122 Q 60 114 130 120 Q 170 124 200 118 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#86AE8A" opacity="0.8"/>
+
+  <!-- 花（左，被扶） -->
+  <g>
+    <path d="M 50 150 L 50 140" stroke="#7E9E6E" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#F0A0B8">
+      <circle cx="47" cy="136" r="3.5"/>
+      <circle cx="53" cy="136" r="3.5"/>
+      <circle cx="50" cy="133" r="3.5"/>
+      <circle cx="50" cy="139" r="3.5"/>
+      <circle cx="50" cy="136" r="2.2" fill="#F8E8A0"/>
+    </g>
+    <!-- 扶花的光（翼尖） -->
+    <circle cx="50" cy="142" r="5" fill="#FCF8EC" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.12;0.25" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 被唤来的鸟（右，护花） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 -1;0 0" dur="3s" repeatCount="indefinite"/>
+    <ellipse cx="156" cy="96" rx="5.5" ry="4" fill="#8E9E88"/>
+    <path d="M 152 94 L 148 92 L 152 95 Z" fill="#8E9E88"/>
+    <path d="M 160 94 L 164 92 L 160 95 Z" fill="#8E9E88"/>
+  </g>
+
+  <!-- 被点的虫（右上，退） -->
+  <g opacity="0.7">
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="170" cy="110" rx="3.5" ry="2.4" fill="#5E6E5A"/>
+  </g>
+
+  <!-- 花田之灵精灵（盘旋，光点洒） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="100" cy="112" rx="8" ry="10" fill="url(#glowbody)" stroke="#D0C098" stroke-width="0.8"/>
+    <!-- 翼（展，如流光） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-8 92 106;8 92 106;-8 92 106" dur="1.8s" repeatCount="indefinite"/>
+      <path d="M 92 106 Q 78 92 70 80 L 94 98 Z" fill="#F0E8F4" opacity="0.65"/>
+      <path d="M 92 106 Q 106 92 114 80 L 90 98 Z" fill="#F0E8F4" opacity="0.65"/>
+    </g>
+    <!-- 洒下的光点（如星） -->
+    <g fill="#FCF8EC">
+      <circle cx="90" cy="108" r="1.5">
+        <animate attributeName="opacity" values="0.8;0.35;0.8" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="110" cy="106" r="1.3">
+        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="100" cy="102" r="1.2">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.8s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- 翼尖扶花（左下伸） -->
+    <path d="M 70 80 Q 60 92 54 104" stroke="#F0E8F4" stroke-width="1.4" stroke-linecap="round" opacity="0.7">
+      <animateTransform attributeName="transform" type="rotate" values="0 70 80;8 70 80;0 70 80" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 花田之灵头（含威含温） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="100" cy="96" rx="6.5" ry="7" fill="url(#glowbody)" stroke="#D0C098" stroke-width="0.7"/>
+    <!-- 眼（含威含温） -->
+    <circle cx="96.5" cy="95" r="1.6" fill="#24180E"/>
+    <circle cx="96.9" cy="94.6" r="0.55" fill="#FFF"/>
+    <circle cx="103.5" cy="95" r="1.6" fill="#24180E"/>
+    <circle cx="103.9" cy="94.6" r="0.55" fill="#FFF"/>
+    <!-- 笑 -->
+    <path d="M 98 99 Q 100 100.2 102 99" fill="none" stroke="#C0B090" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 发 -->
+    <path d="M 96 92 Q 96 87 100 86 M 102 91 Q 104 88 106 89" stroke="#F0D8A0" stroke-width="1" stroke-linecap="round"/>
+    <!-- 额间灵光 -->
+    <circle cx="100" cy="89" r="2.4" fill="#FCF8EC" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 灵光星尘 -->
+  <g fill="#FCF8EC">
+    <circle cx="36" cy="102">
+      <animate attributeName="cy" values="102;92;102" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="166" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
