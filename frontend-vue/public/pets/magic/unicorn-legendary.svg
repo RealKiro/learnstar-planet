@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="独角兽·五阶·圣林独角兽·立圣林高角光如月净化引迷路">
+  <defs>
+    <!-- 背景：圣林月光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8DCE8"/>
+      <stop offset="52%" stop-color="#A8C0D0"/>
+      <stop offset="100%" stop-color="#8EA8B8"/>
+    </linearGradient>
+    <!-- 圣光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="55%">
+      <stop offset="0%" stop-color="#F0F8FC" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#F0F8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 圣灵光环 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#E8F0F4" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#E8F0F4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 独角兽毛（如流光） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E6E2DA"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="56" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.95;0.65;0.95" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 圣灵光环 -->
+  <circle cx="100" cy="112" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 月 -->
+  <circle cx="150" cy="30" r="12" fill="#F0F6FC" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.75;0.9" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 圣林 -->
+  <g fill="#5E6E82" opacity="0.35">
+    <path d="M 0 122 Q 60 114 130 120 Q 170 124 200 118 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#7E9686" opacity="0.8"/>
+
+  <!-- 被污染的源头（左，净化中） -->
+  <g opacity="0.85">
+    <path d="M 40 152 L 60 152 L 60 164 Q 50 162 40 164 Z" fill="#8E8E82"/>
+    <circle cx="50" cy="156" r="4" fill="#F0F8FC" opacity="0.35">
+      <animate attributeName="opacity" values="0.35;0.15;0.35" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 迷途的小兽（右下，被光引） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="150" cy="144" rx="6" ry="4.4" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.7"/>
+    <circle cx="150" cy="137" r="3.8" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.6"/>
+    <!-- 引路光带 -->
+    <path d="M 118 136 Q 134 132 148 136" stroke="#F0F8FC" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 圣林独角兽（立高，角光如月） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="104" cy="130" rx="16" ry="11" fill="url(#fur)" stroke="#C8C2B8" stroke-width="1"/>
+    <!-- 腿（如柱） -->
+    <path d="M 94 138 L 91 148 M 116 138 L 119 148" stroke="#C8C2B8" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 120 134 Q 130 130 136 122" stroke="url(#fur)" stroke-width="2.8" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 120 134;5 120 134;0 120 134" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 圣林独角兽头（含威含温，角如月） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="104" cy="110" rx="11.5" ry="10" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 眼（含威含温） -->
+    <path d="M 96 108 Q 98 106.6 100 108 M 109 108 Q 111 106.6 112 108" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="98" cy="109" r="2.3" fill="#24180E"/>
+    <circle cx="98.6" cy="108.4" r="0.75" fill="#FFF"/>
+    <circle cx="110.5" cy="109" r="2.3" fill="#24180E"/>
+    <circle cx="111.1" cy="108.4" r="0.75" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="104" cy="114" rx="1.7" ry="1.3" fill="#C8A0A0"/>
+    <!-- 嘴 -->
+    <path d="M 100 117 Q 104 118.6 108 117" fill="none" stroke="#A8A098" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 耳 -->
+    <path d="M 95 104 L 91 97 L 99 101 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <path d="M 113 104 L 117 97 L 109 101 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <!-- 独角（如月，亮） -->
+    <path d="M 104 103 L 104 92" stroke="#E8E0D0" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="104" cy="91" r="3" fill="#F0F8FC" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 角光净化（→左源） -->
+    <path d="M 100 94 Q 80 112 66 132" stroke="#F0F8FC" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.16;0.4" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 圣光星尘 -->
+  <g fill="#F0F8FC">
+    <circle cx="36" cy="102">
+      <animate attributeName="cy" values="102;92;102" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="166" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

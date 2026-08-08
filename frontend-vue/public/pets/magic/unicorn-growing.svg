@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="独角兽·三阶·炼角苦修·圣泉冥想心入角角化浊气见角亮">
+  <defs>
+    <!-- 背景：圣泉月夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8DCE8"/>
+      <stop offset="52%" stop-color="#A8C0D0"/>
+      <stop offset="100%" stop-color="#8AA8BC"/>
+    </linearGradient>
+    <!-- 月光 -->
+    <radialGradient id="glow" cx="30%" cy="18%" r="36%">
+      <stop offset="0%" stop-color="#F0F6FC" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F0F6FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 独角兽毛（渐亮） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8E4DC"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="56" cy="36" r="60" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.62;0.8" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 月 -->
+  <circle cx="52" cy="32" r="12" fill="#F0F6FC" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.75;0.9" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 圣泉 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#8EB8C8" opacity="0.75"/>
+  <g fill="#B0D0DC" opacity="0.6">
+    <circle cx="70" cy="160" r="2">
+      <animate attributeName="cy" values="160;156;160" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="156" r="1.6">
+      <animate attributeName="cy" values="156;152;156" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 被微污的水（右，浊气） -->
+  <g opacity="0.8">
+    <path d="M 150 152 L 190 152 L 190 168 Q 170 166 150 168 Z" fill="#9A9A86"/>
+    <g stroke="#8E8E78" stroke-width="1" fill="none" opacity="0.5">
+      <path d="M 156 156 Q 170 154 184 156"/>
+    </g>
+  </g>
+
+  <!-- 少年独角兽（圣泉冥想，角化浊气） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（蹲坐冥想） -->
+    <ellipse cx="104" cy="132" rx="15" ry="10.5" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 腿（盘坐） -->
+    <path d="M 95 139 L 92 146 M 114 139 L 117 146" stroke="#C8C2B8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 119 136 Q 127 134 130 139" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 119 136;5 119 136;0 119 136" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <!-- 前蹄（合，冥想） -->
+    <path d="M 98 128 Q 104 124 110 128" stroke="url(#fur)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年独角兽头（专注冥想，角微亮化浊） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="104" cy="112" rx="10.5" ry="9.5" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 眼（闭，冥想） -->
+    <path d="M 97 111 Q 99 109.6 101 111 M 108 111 Q 110 109.6 111 111" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- 鼻 -->
+    <ellipse cx="104" cy="115" rx="1.6" ry="1.2" fill="#C8A0A0"/>
+    <!-- 嘴（静） -->
+    <path d="M 100 118 Q 104 119.4 108 118" fill="none" stroke="#A8A098" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 耳 -->
+    <path d="M 95 106 L 91 99 L 99 103 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <path d="M 113 106 L 117 99 L 109 103 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <!-- 独角（微亮，化浊） -->
+    <path d="M 104 105 L 104 96" stroke="#E8E0D0" stroke-width="2" stroke-linecap="round"/>
+    <!-- 角光（化浊气） -->
+    <circle cx="104" cy="95" r="2.6" fill="#F0F6FC" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 化开浊气的光（角尖→水） -->
+    <path d="M 104 95 Q 110 110 118 128" stroke="#F0F6FC" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.16;0.4" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 月光星尘 -->
+  <g fill="#F0F6FC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
