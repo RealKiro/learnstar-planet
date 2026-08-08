@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="水瓶座·卡妙·六阶·冰心无尘·绝对零度护圣域">
+  <defs>
+    <!-- 背景：水瓶宫顶极光冰川 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E5E8E"/>
+      <stop offset="52%" stop-color="#2E4E7E"/>
+      <stop offset="100%" stop-color="#1E3E6E"/>
+    </linearGradient>
+    <!-- 冰晶蓝 -->
+    <radialGradient id="ice" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#C8E8F8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#C8E8F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 曙光银 -->
+    <radialGradient id="dawn" cx="76%" cy="26%" r="36%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 极光青 -->
+    <radialGradient id="aurora" cx="50%" cy="60%" r="50%">
+      <stop offset="0%" stop-color="#8EC8B8" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#8EC8B8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 神圣衣·水瓶 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFF0D0"/>
+      <stop offset="100%" stop-color="#E8C878"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0E0CC"/>
+      <stop offset="100%" stop-color="#DCC8A8"/>
+    </radialGradient>
+
+    <!-- 头部模板：青年面容·剑眉·凤目温柔含光 -->
+    <g id="aquarius-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#D0BCA0" stroke-width="0.8"/>
+      <!-- 短发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 剑眉 -->
+      <path d="M -8 -1.5 Q -5 -3.2 -2 -2.4 M 8 -1.5 Q 5 -3.2 2 -2.4" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <!-- 凤目温柔含光 -->
+      <ellipse cx="-4.2" cy="0.4" rx="2.2" ry="2" fill="#1E1008"/>
+      <ellipse cx="4.2" cy="0.4" rx="2.2" ry="2" fill="#1E1008"/>
+      <circle cx="-4.7" cy="-0.4" r="0.7" fill="#C8E8F8"/>
+      <circle cx="3.7" cy="-0.4" r="0.7" fill="#FFF3C4"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C8B098" stroke-width="1" stroke-linecap="round"/>
+      <!-- 温柔 -->
+      <path d="M -3 5.4 Q 0 7.4 3 5.4" fill="none" stroke="#A89070" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 漫天星辰 -->
+  <g fill="#E8F4FA">
+    <circle cx="20" cy="30" r="1.4"/><circle cx="50" cy="14" r="1"/>
+    <circle cx="140" cy="18" r="1.3"/><circle cx="180" cy="50" r="1.1"/>
+    <circle cx="30" cy="130" r="1"/><circle cx="170" cy="150" r="1.2"/>
+  </g>
+
+  <!-- 曙光 -->
+  <circle cx="156" cy="48" r="50" fill="url(#dawn)">
+    <animate attributeName="opacity" values="0.85;0.55;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 极光 -->
+  <circle cx="100" cy="150" r="60" fill="url(#aurora)">
+    <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 冰晶 -->
+  <circle cx="100" cy="86" r="84" fill="url(#ice)">
+    <animate attributeName="opacity" values="0.9;0.55;0.9" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色圆光 -->
+  <g>
+    <circle cx="100" cy="86" r="62" fill="none" stroke="#FFF3C4" stroke-width="2.4" opacity="0.85">
+      <animate attributeName="r" values="62;67;62" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="86" r="54" fill="none" stroke="#C8E8F8" stroke-width="1.1" opacity="0.5">
+      <animate attributeName="r" values="54;57;54" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 圣域剪影（下方，被绝对零度与曙光护住） -->
+  <g opacity="0.5">
+    <path d="M 0 158 Q 40 150 90 156 Q 140 162 200 154 L 200 200 L 0 200 Z" fill="#1E2E56"/>
+    <path d="M 40 150 L 40 140 L 52 140 L 52 150 M 120 152 L 120 144 L 132 144 L 132 152" fill="#3E5E8E" opacity="0.7"/>
+  </g>
+  <!-- 冰晶曙光垂落圣域（护） -->
+  <g stroke="#C8E8F8" stroke-width="1.5" opacity="0.5" stroke-linecap="round">
+    <path d="M 60 110 Q 52 128 54 146">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 140 110 Q 148 128 146 146">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 冰川（背景） -->
+  <g opacity="0.5">
+    <path d="M 20 130 L 44 106 L 64 120 L 84 110 L 104 126 L 130 112 L 152 128 L 172 118 L 192 130 L 200 140 L 200 200 L 0 200 Z" fill="#3E6E9E"/>
+    <path d="M 20 130 L 44 106 L 64 120 L 84 110 L 104 126 L 130 112 L 152 128 L 172 118 L 192 130" stroke="#5E8EAE" stroke-width="1.2" opacity="0.7"/>
+  </g>
+
+  <!-- 神圣衣·水瓶圣斗士（双拳并出，冰心无尘） -->
+  <!-- 腿 -->
+  <path d="M 90 128 L 86 150 L 92 150 L 96 130 Z" fill="#E8C878"/>
+  <path d="M 106 128 L 114 152 L 108 152 L 102 130 Z" fill="#E8C878"/>
+  <!-- 神圣衣（下摆） -->
+  <path d="M 88 118 Q 98 126 110 118 Q 114 112 110 104 Q 104 116 96 112 Q 88 116 88 118 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 88 88 Q 84 102 90 118 Q 100 124 110 118 Q 116 102 112 88 Q 100 82 88 88 Z" fill="url(#armor)" stroke="#C8A868" stroke-width="1.2"/>
+  <!-- 圣衣纹 -->
+  <path d="M 92 94 L 96 112 M 104 94 L 100 112" stroke="#FFF7E0" stroke-width="1.2" opacity="0.8"/>
+  <!-- 腰带 -->
+  <path d="M 88 104 L 112 104" stroke="#FFF7E0" stroke-width="1.8"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#aquarius-face" transform="translate(100,80) scale(1)"/>
+
+  <!-- 左拳（并出，绝对零度） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 90 92 C 86 86 84 80 84 74" fill="none" stroke="#FFF0D0" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="83" cy="72" r="3.4" fill="#DCC8A8"/>
+    <!-- 拳上冰晶曙光 -->
+    <circle cx="83" cy="70" r="9" fill="url(#ice)">
+      <animate attributeName="r" values="9;13;9" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 右拳（并出） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 110 92 C 114 86 116 80 116 74" fill="none" stroke="#FFF0D0" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="117" cy="72" r="3.4" fill="#DCC8A8"/>
+    <circle cx="117" cy="70" r="9" fill="url(#ice)">
+      <animate attributeName="r" values="9;13;9" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 绝对零度与曙光交织（双拳间） -->
+  <path d="M 83 70 Q 100 58 117 70" stroke="#FFF3C4" stroke-width="1.8" opacity="0.6" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.4s" repeatCount="indefinite"/>
+  </path>
+  <path d="M 83 72 Q 100 62 117 72" stroke="#C8E8F8" stroke-width="1.6" opacity="0.5" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 漫天冰晶 -->
+  <g fill="#C8E8F8" opacity="0.8">
+    <circle cx="60" cy="60" r="1.4"><animate attributeName="cy" values="60;50;60" dur="2.6s" repeatCount="indefinite"/></circle>
+    <circle cx="140" cy="56" r="1.3"><animate attributeName="cy" values="56;46;56" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="100" cy="40" r="1.2"><animate attributeName="cy" values="40;30;40" dur="2.8s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- 冰晶星尘 -->
+  <g fill="#C8E8F8">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 云端散光 -->
+  <g stroke="#FFF3C4" stroke-width="1.4" opacity="0.45" stroke-linecap="round">
+    <path d="M 100 20 L 100 10"/><path d="M 56 36 L 48 28"/><path d="M 144 36 L 152 28"/>
+  </g>
+</svg>
