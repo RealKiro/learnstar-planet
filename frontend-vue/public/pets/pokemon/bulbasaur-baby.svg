@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="妙蛙种子·二阶·烈日之灾·藤鞭护蔫草种子苞垂">
+  <defs>
+    <!-- 背景：龟裂大地，烈日 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0C898"/>
+      <stop offset="52%" stop-color="#C4AC7C"/>
+      <stop offset="100%" stop-color="#A89868"/>
+    </linearGradient>
+    <!-- 烈日 -->
+    <radialGradient id="glow" cx="74%" cy="20%" r="30%">
+      <stop offset="0%" stop-color="#FFF8D8" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FFF8D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 蓝绿表皮（晒干） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#58A898"/>
+      <stop offset="100%" stop-color="#40887A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 烈日 -->
+  <circle cx="148" cy="40" r="15" fill="#FFF8D8"/>
+  <circle cx="148" cy="40" r="42" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.95;0.7;0.95" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 灼热光线 -->
+  <g stroke="#FFF8D8" stroke-width="1" opacity="0.5" stroke-linecap="round">
+    <path d="M 160 52 L 168 62 M 154 58 L 158 68 M 176 40 L 188 42 M 168 32 L 176 24">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 枯黄草木 -->
+  <g stroke="#A88858" stroke-width="1.8" stroke-linecap="round" opacity="0.8">
+    <path d="M 20 130 Q 18 124 16 116 M 28 128 Q 28 122 28 114 M 174 132 Q 176 126 176 118"/>
+  </g>
+
+  <!-- 龟裂地面 -->
+  <path d="M 0 144 L 200 144 L 200 200 L 0 200 Z" fill="#9E8A5E" opacity="0.9"/>
+  <path d="M 0 144 L 200 144" stroke="#BEA878" stroke-width="1.4" opacity="0.7"/>
+  <!-- 龟裂纹 -->
+  <g stroke="#8E7A4E" stroke-width="1.2" opacity="0.6" fill="none">
+    <path d="M 20 150 L 44 148 L 52 156 M 80 152 L 96 148 L 104 158 M 140 150 L 158 154 L 170 148"/>
+  </g>
+
+  <!-- 被护的蔫草（妙蛙种子用藤鞭挡阳） -->
+  <g opacity="0.95">
+    <path d="M 112 140 L 112 130 Q 111 126 109 122" stroke="#9E8A4E" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <path d="M 108 124 Q 110 128 112 130 Q 114 128 116 124 Q 112 122 108 124 Z" fill="#B0A058" opacity="0.8"/>
+    <path d="M 111 130 L 107 128 M 113 132 L 117 130" stroke="#9E8A4E" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 妙蛙种子（2头身，蔫，藤鞭护草） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 后腿 -->
+    <path d="M 62 138 L 58 148 L 64 149 L 70 140 Z" fill="url(#fur)" stroke="#2E6E62" stroke-width="0.9"/>
+    <!-- 身体（垂头） -->
+    <path d="M 50 126 Q 46 138 56 144 Q 72 149 86 144 Q 94 138 90 126 Q 76 118 50 126 Z" fill="url(#fur)" stroke="#2E6E62" stroke-width="1"/>
+    <!-- 腹部 -->
+    <path d="M 58 132 Q 54 140 66 144 Q 82 146 88 140 Q 90 134 84 128 Q 72 124 58 132 Z" fill="#72B8B0" opacity="0.6"/>
+    <!-- 前腿 -->
+    <path d="M 60 138 C 54 142 52 145 52 148" fill="none" stroke="url(#fur)" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="52" cy="149" r="2.4" fill="#40887A"/>
+    <path d="M 78 138 C 84 142 86 145 86 148" fill="none" stroke="url(#fur)" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="87" cy="149" r="2.4" fill="#40887A"/>
+    <!-- 尾（蔫垂） -->
+    <path d="M 88 132 Q 92 134 96 134" stroke="url(#fur)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 种子苞（垂着，无精打采） -->
+  <g>
+    <ellipse cx="72" cy="114" rx="11" ry="9" fill="#3E7E4E" stroke="#2A6038" stroke-width="0.8"/>
+    <!-- 蔫（低垂） -->
+    <animateTransform attributeName="transform" type="rotate" values="0 72 114;6 72 114;0 72 114" dur="3.4s" repeatCount="indefinite"/>
+    <!-- 枯黄尖 -->
+    <path d="M 66 108 Q 70 106 74 107" stroke="#A89858" stroke-width="1" opacity="0.7" fill="none"/>
+  </g>
+
+  <!-- 藤鞭（挡阳护草） -->
+  <g stroke="#2E7E3E" stroke-width="1.6" stroke-linecap="round" fill="none">
+    <path d="M 86 118 C 94 112 102 110 108 112 Q 112 114 114 118">
+      <animateTransform attributeName="transform" type="rotate" values="0 86 118;3 86 118;0 86 118" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 头（垂着，红眼含泪） -->
+  <g>
+    <ellipse cx="62" cy="114" rx="12.5" ry="10.5" fill="url(#fur)" stroke="#2E6E62" stroke-width="1"/>
+    <!-- 绿冠（垂） -->
+    <path d="M 62 105 L 60 98 L 63 100 L 62 93 L 65 100 L 67 98 L 66 104 Z" fill="#3A7E4A" stroke="#2A6038" stroke-width="0.5"/>
+    <!-- 红眼（含泪） -->
+    <circle cx="55" cy="113" r="2.8" fill="#D04040"/>
+    <circle cx="55.6" cy="112.4" r="0.9" fill="#FFF"/>
+    <circle cx="69" cy="113" r="2.8" fill="#D04040"/>
+    <circle cx="69.6" cy="112.4" r="0.9" fill="#FFF"/>
+    <!-- 泪 -->
+    <path d="M 71 116 Q 73 120 71 122" stroke="#B8D8D0" stroke-width="1.2" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 颊绿斑（暗） -->
+    <circle cx="49" cy="117" r="2" fill="#2E6E62" opacity="0.6"/>
+    <circle cx="75" cy="117" r="2" fill="#2E6E62" opacity="0.6"/>
+    <!-- 抿唇（执着） -->
+    <path d="M 58 119 Q 62 120.4 66 119" fill="none" stroke="#2E6E62" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 灼热尘 -->
+  <g fill="#FFF8D8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

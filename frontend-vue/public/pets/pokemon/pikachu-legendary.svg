@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="皮卡丘·五阶·雷丘形态·金电缭绕一记电光冲霄">
+  <defs>
+    <!-- 背景：雷云天 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A3A5E"/>
+      <stop offset="52%" stop-color="#2E2E4E"/>
+      <stop offset="100%" stop-color="#262642"/>
+    </linearGradient>
+    <!-- 金电 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="52%">
+      <stop offset="0%" stop-color="#FFE8A0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFE8A0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 雷丘金色电光 -->
+    <radialGradient id="halo" cx="50%" cy="52%" r="44%">
+      <stop offset="0%" stop-color="#F8D878" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F8D878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 金色电光毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0C040"/>
+      <stop offset="100%" stop-color="#D8AC28"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 金电威光 -->
+  <circle cx="100" cy="110" r="72" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.55;0.35;0.55" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雷云（上） -->
+  <g fill="#4E4E72" opacity="0.95">
+    <path d="M 0 44 Q 24 34 52 42 Q 80 32 108 42 Q 136 34 164 42 Q 184 38 200 44 L 200 64 L 0 64 Z"/>
+    <path d="M 20 58 Q 60 50 100 58 Q 140 50 180 58 L 200 56 L 200 72 L 0 72 Z" opacity="0.8"/>
+  </g>
+  <!-- 云中电光 -->
+  <g stroke="#FFF8A0" stroke-width="1.2" opacity="0.7" stroke-linecap="round">
+    <path d="M 40 66 L 46 76 L 42 76 L 50 86">
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 160 66 L 166 74 L 162 74 L 168 84">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 电光冲霄（雷丘头顶冲入云） -->
+  <g stroke="#FFE8A0" stroke-width="2.4" opacity="0.85" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 100 68 L 106 58 L 102 58 L 110 46 L 104 46 L 114 30">
+      <animate attributeName="opacity" values="0.85;0.45;0.85" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g stroke="#FFE8A0" stroke-width="1" opacity="0.5" stroke-linecap="round" fill="none">
+    <path d="M 92 66 L 88 54 L 90 50">
+      <animate attributeName="opacity" values="0.5;0.18;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 山林（下） -->
+  <g stroke="#3A3E5A" stroke-width="3" stroke-linecap="round" opacity="0.9">
+    <path d="M 14 56 L 8 160 M 28 64 L 20 160 M 172 54 L 182 160 M 186 48 L 194 160"/>
+  </g>
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#202038" opacity="0.95"/>
+  <path d="M 0 148 L 200 148" stroke="#4A4A6E" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- 雷丘形态（3头身，壮实，金电缭绕） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 尾巴（闪电，金电流转） -->
+    <path d="M 132 128 Q 146 118 152 104 Q 154 100 160 98 L 154 106 L 160 106 L 152 116 Q 144 126 130 132 Z" fill="url(#fur)" stroke="#C09018" stroke-width="0.9"/>
+    <!-- 金电流转 -->
+    <g stroke="#FFE8A0" stroke-width="1.2" opacity="0.7" stroke-linecap="round" fill="none">
+      <path d="M 154 102 L 158 98 M 150 100 L 148 96">
+        <animate attributeName="opacity" values="0.7;0.25;0.7" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- 身体（3头身，壮实） -->
+    <ellipse cx="104" cy="122" rx="21" ry="18" fill="url(#fur)" stroke="#C09018" stroke-width="1"/>
+    <!-- 背部深棕纹 -->
+    <path d="M 102 104 Q 104 110 104 116" stroke="#8E6E3E" stroke-width="3.6" stroke-linecap="round" opacity="0.85"/>
+    <!-- 双颊电囊（鼓胀如小太阳） -->
+    <circle cx="88" cy="130" r="7" fill="#E86A4A"/>
+    <circle cx="120" cy="130" r="7" fill="#E86A4A"/>
+    <!-- 金电缭绕周身 -->
+    <g stroke="#FFE8A0" stroke-width="1.4" opacity="0.8" stroke-linecap="round" fill="none">
+      <path d="M 82 122 Q 76 110 82 100">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 126 122 Q 132 110 126 100">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- 双腿 -->
+    <path d="M 92 138 L 88 150 M 116 138 L 120 150" stroke="#C09018" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（壮实，双耳挺立，自信） -->
+  <g>
+    <ellipse cx="104" cy="94" rx="16" ry="14.5" fill="url(#fur)" stroke="#C09018" stroke-width="1"/>
+    <!-- 双耳（挺立） -->
+    <path d="M 90 84 Q 82 68 78 58 Q 84 66 88 80 Z" fill="url(#fur)" stroke="#C09018" stroke-width="0.9"/>
+    <circle cx="80" cy="62" r="3" fill="#D8AC28"/>
+    <path d="M 118 84 Q 126 68 130 58 Q 124 66 120 80 Z" fill="url(#fur)" stroke="#C09018" stroke-width="0.9"/>
+    <circle cx="128" cy="62" r="3" fill="#D8AC28"/>
+    <!-- 黑豆圆眼（含威，亮） -->
+    <circle cx="94" cy="94" r="3.8" fill="#24180E"/>
+    <circle cx="94.8" cy="93.2" r="1.2" fill="#FFF"/>
+    <circle cx="114" cy="94" r="3.8" fill="#24180E"/>
+    <circle cx="114.8" cy="93.2" r="1.2" fill="#FFF"/>
+    <!-- 小鼻尖 -->
+    <ellipse cx="104" cy="100" rx="1.8" ry="1.3" fill="#8E6E3E"/>
+    <!-- 咧嘴自信 -->
+    <path d="M 97 105 Q 104 108.4 111 105" fill="none" stroke="#8E6E3E" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 金电星尘 -->
+  <g fill="#FFE8A0">
+    <circle cx="40" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="88">
+      <animate attributeName="cy" values="88;78;88" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="杰尼龟·三阶·蓄水苦修·水炮喷崖壁龟壳磨亮">
+  <defs>
+    <!-- 背景：崖壁前 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8D0E0"/>
+      <stop offset="52%" stop-color="#98B8D0"/>
+      <stop offset="100%" stop-color="#7EA2BC"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="36%" cy="26%" r="46%">
+      <stop offset="0%" stop-color="#F4FAFE" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F4FAFE" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 蓝色皮肤（水润） -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7EB0E8"/>
+      <stop offset="100%" stop-color="#6296D0"/>
+    </linearGradient>
+    <!-- 龟壳（磨亮） -->
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D0A068"/>
+      <stop offset="100%" stop-color="#AC7C48"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="72" cy="50" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 崖壁（右） -->
+  <path d="M 128 52 Q 136 50 140 56 L 168 130 Q 172 138 176 146 L 200 138 L 200 200 L 128 200 Z" fill="#8E96A2" stroke="#6E7682" stroke-width="1.2"/>
+  <path d="M 136 64 Q 152 90 164 122" stroke="#A8B0BC" stroke-width="1.4" opacity="0.6" fill="none"/>
+  <path d="M 148 100 Q 160 112 168 130" stroke="#A8B0BC" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 水炮（喷向崖壁） -->
+  <g stroke="#A8D8F0" stroke-width="3" opacity="0.85" stroke-linecap="round" fill="none">
+    <path d="M 92 118 C 104 114 114 112 124 116 Q 130 118 134 124">
+      <animate attributeName="opacity" values="0.85;0.5;0.85" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 崖壁水花 -->
+  <g fill="#D8EFFC">
+    <circle cx="134" cy="122" r="2.2">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-3 -5;0 0" dur="1.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.9;0.15;0.9" dur="1.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="142" cy="128" r="1.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 -6;0 0" dur="1.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.12;0.8" dur="1.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="130" cy="130" r="1.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 -4;0 0" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.12;0.8" dur="1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 地面水泽 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#5A86C0" opacity="0.8"/>
+  <path d="M 0 146 L 200 146" stroke="#8AB8E0" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 杰尼龟（2头身，水炮蓄力） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 后腿 -->
+    <path d="M 60 138 L 56 148 L 62 149 L 68 142 Z" fill="url(#skin)" stroke="#4A7AB6" stroke-width="0.9"/>
+    <!-- 尾 -->
+    <path d="M 76 140 Q 84 140 88 136 Q 86 132 80 134 Q 78 137 76 140 Z" fill="url(#skin)" stroke="#4A7AB6" stroke-width="0.8"/>
+    <!-- 前腿 -->
+    <path d="M 58 136 C 52 140 50 143 50 148" fill="none" stroke="url(#skin)" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="50" cy="149" r="2.4" fill="#6296D0"/>
+    <path d="M 70 136 C 76 140 78 143 78 148" fill="none" stroke="url(#skin)" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="79" cy="149" r="2.4" fill="#6296D0"/>
+  </g>
+
+  <!-- 背壳（磨亮） -->
+  <ellipse cx="60" cy="116" rx="17" ry="14" fill="url(#shell)" stroke="#8E6232" stroke-width="1"/>
+  <path d="M 60 104 L 60 128 M 46 114 L 74 118 M 48 122 L 72 124" stroke="#8E6232" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+  <!-- 磨亮高光 -->
+  <path d="M 48 108 Q 52 104 58 104" stroke="#F4E4C8" stroke-width="1.6" stroke-linecap="round" opacity="0.7" fill="none">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+  <ellipse cx="52" cy="112" rx="4" ry="2.4" fill="#F4E4C8" opacity="0.5"/>
+
+  <!-- 头（专注，腮帮鼓蓄水） -->
+  <g>
+    <ellipse cx="58" cy="98" rx="13" ry="11.5" fill="url(#skin)" stroke="#4A7AB6" stroke-width="1"/>
+    <!-- 口（蓄水鼓） -->
+    <path d="M 52 102 Q 56 105 60 102" fill="none" stroke="#4A76AE" stroke-width="0.9" stroke-linecap="round"/>
+    <!-- 腮帮（鼓蓄水） -->
+    <circle cx="47" cy="101" r="3.2" fill="#4A7AB6" opacity="0.5"/>
+    <circle cx="69" cy="101" r="3.2" fill="#4A7AB6" opacity="0.5"/>
+    <!-- 眼（专注） -->
+    <path d="M 48 97 Q 51 95 54 97 M 62 97 Q 65 95 68 97" stroke="#4A3820" stroke-width="0.8" stroke-linecap="round"/>
+    <circle cx="51" cy="98" r="2.8" fill="#4A3820"/>
+    <circle cx="51.6" cy="97.4" r="0.9" fill="#FFF"/>
+    <circle cx="66" cy="98" r="2.8" fill="#4A3820"/>
+    <circle cx="66.6" cy="97.4" r="0.9" fill="#FFF"/>
+    <!-- 头顶浅斑 -->
+    <circle cx="58" cy="90" r="2.6" fill="#9EC6F0" opacity="0.6"/>
+  </g>
+
+  <!-- 水光星尘 -->
+  <g fill="#F4FAFE">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

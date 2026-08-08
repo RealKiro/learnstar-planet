@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="妙蛙种子·三阶·扎根苦修·扎根晒阳藤鞭卷石块">
+  <defs>
+    <!-- 背景：清晨草地 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8E8B0"/>
+      <stop offset="52%" stop-color="#A4CC96"/>
+      <stop offset="100%" stop-color="#86AE78"/>
+    </linearGradient>
+    <!-- 晨光金 -->
+    <radialGradient id="glow" cx="44%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 蓝绿表皮 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6AB8B0"/>
+      <stop offset="100%" stop-color="#52A098"/>
+    </linearGradient>
+    <!-- 种子苞渐鼓 -->
+    <linearGradient id="bulb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#56A868"/>
+      <stop offset="100%" stop-color="#3E8650"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="50" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山 -->
+  <path d="M 0 128 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+
+  <!-- 草地 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#5E9A58" opacity="0.85"/>
+  <path d="M 0 146 L 200 146" stroke="#7EB872" stroke-width="1.4" opacity="0.6"/>
+  <!-- 湿润土 -->
+  <ellipse cx="80" cy="152" rx="26" ry="6" fill="#6E7A4E" opacity="0.8"/>
+  <path d="M 60 152 Q 80 150 100 152" stroke="#8E9A6E" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 被卷起的石块（藤鞭卷起） -->
+  <g>
+    <path d="M 136 118 Q 132 112 136 106 Q 140 104 143 108 Q 146 114 142 120 Z" fill="#8E96A2" stroke="#6E7682" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 藤鞭（卷石） -->
+  <g stroke="#3E8E4E" stroke-width="1.6" stroke-linecap="round" fill="none">
+    <path d="M 96 120 C 110 110 122 106 132 110 Q 138 112 140 116">
+      <animateTransform attributeName="transform" type="rotate" values="0 96 120;4 96 120;0 96 120" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 妙蛙种子（2头身，扎根稳立，晒阳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 根（扎进土） -->
+    <path d="M 66 146 Q 62 154 58 162 M 76 146 Q 76 154 78 162 M 88 146 Q 94 154 100 160" stroke="#5E8E5E" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- 后腿 -->
+    <path d="M 62 140 L 58 148 L 64 149 L 70 142 Z" fill="url(#fur)" stroke="#3E8E86" stroke-width="0.9"/>
+    <!-- 身体（稳立） -->
+    <path d="M 50 126 Q 46 138 56 144 Q 72 149 86 144 Q 94 138 90 126 Q 76 118 50 126 Z" fill="url(#fur)" stroke="#3E8E86" stroke-width="1"/>
+    <!-- 腹部 -->
+    <path d="M 58 132 Q 54 140 66 144 Q 82 146 88 140 Q 90 134 84 128 Q 72 124 58 132 Z" fill="#8AD0C8" opacity="0.7"/>
+    <!-- 前腿（撑地） -->
+    <path d="M 60 138 C 54 142 52 145 52 148" fill="none" stroke="url(#fur)" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="52" cy="149" r="2.4" fill="#52A098"/>
+    <path d="M 78 138 C 84 142 86 145 86 148" fill="none" stroke="url(#fur)" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="87" cy="149" r="2.4" fill="#52A098"/>
+    <!-- 尾 -->
+    <path d="M 88 132 Q 94 132 98 130" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 种子苞（渐鼓） -->
+  <g>
+    <ellipse cx="70" cy="112" rx="14" ry="11.5" fill="url(#bulb)" stroke="#2E7640" stroke-width="0.8"/>
+    <ellipse cx="70" cy="112" rx="7" ry="5" fill="#6EBC7E" opacity="0.45">
+      <animate attributeName="opacity" values="0.45;0.75;0.45" dur="2.4s" repeatCount="indefinite"/>
+    </ellipse>
+    <!-- 苞尖新芽 -->
+    <path d="M 70 100 L 70 94 L 72 98 L 74 92 L 75 98" stroke="#5EAE68" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 头（专注，红眼） -->
+  <g>
+    <ellipse cx="62" cy="114" rx="12.5" ry="10.5" fill="url(#fur)" stroke="#3E8E86" stroke-width="1"/>
+    <!-- 绿冠（挺立） -->
+    <path d="M 62 105 L 60 97 L 63 99 L 62 91 L 65 99 L 67 97 L 66 104 Z" fill="#4E9E5E" stroke="#3A7E4A" stroke-width="0.5"/>
+    <!-- 红眼（专注） -->
+    <circle cx="55" cy="113" r="3" fill="#E04040"/>
+    <circle cx="55.7" cy="112.3" r="1" fill="#FFF"/>
+    <circle cx="69" cy="113" r="3" fill="#E04040"/>
+    <circle cx="69.7" cy="112.3" r="1" fill="#FFF"/>
+    <!-- 颊绿斑 -->
+    <circle cx="49" cy="117" r="2.2" fill="#3E8E86" opacity="0.6"/>
+    <circle cx="75" cy="117" r="2.2" fill="#3E8E86" opacity="0.6"/>
+    <!-- 抿唇（坚毅） -->
+    <path d="M 58 119 Q 62 120.6 66 119" fill="none" stroke="#3E6E66" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF8DC">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
