@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="铁拐李·五阶·八仙过海·铁拐拄浪葫芦装海">
+  <defs>
+    <!-- 背景：沧海辽阔 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E8EAE"/>
+      <stop offset="52%" stop-color="#4E7E9E"/>
+      <stop offset="100%" stop-color="#3E6E8E"/>
+    </linearGradient>
+    <!-- 葫芦金 -->
+    <radialGradient id="aura" cx="50%" cy="44%" r="52%">
+      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 破衣 -->
+    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E7A5E"/>
+      <stop offset="100%" stop-color="#6E5E42"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E0C8AC"/>
+      <stop offset="100%" stop-color="#C8B090"/>
+    </radialGradient>
+
+    <!-- 头部模板：蓬头·眼神豪迈带笑 -->
+    <g id="tieguaili-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="10.5" fill="url(#skin)" stroke="#B8A080" stroke-width="0.9"/>
+      <!-- 蓬头 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#3A2A20"/>
+      <path d="M -9 -3 L -12 -1 M 9 -3 L 12 -1" stroke="#3A2A20" stroke-width="1.6" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <!-- 额发 -->
+      <path d="M -9 -3.5 Q -5 -8 0 -8 Q 5 -8 9 -3.5 Q 5 -7 0 -7 Q -5 -7 -9 -3.5 Z" fill="#3A2A20"/>
+      <!-- 眉（豪迈） -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.5" cy="0.4" rx="2.2" ry="2" fill="#1E1008"/>
+      <ellipse cx="4.5" cy="0.4" rx="2.2" ry="2" fill="#1E1008"/>
+      <circle cx="-5" cy="-0.4" r="0.8" fill="#FFF"/>
+      <circle cx="4" cy="-0.4" r="0.8" fill="#FFF"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.5 L 0 3.2" stroke="#B8A080" stroke-width="1" stroke-linecap="round"/>
+      <!-- 豪迈笑 -->
+      <path d="M -3.2 5.4 Q 0 7.4 3.2 5.4" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="100" r="80" fill="url(#aura)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 沧海 -->
+  <path d="M 0 146 Q 50 138 100 144 Q 150 150 200 142 L 200 200 L 0 200 Z" fill="#3E6E8E"/>
+  <path d="M 0 160 Q 60 152 120 158 Q 170 164 200 156 L 200 200 L 0 200 Z" fill="#2E5E7E"/>
+
+  <!-- 八仙虚影 -->
+  <g opacity="0.4">
+    <path d="M 28 132 Q 30 120 35 116 Q 40 118 40 132 Z" fill="#C8C0A8"/>
+    <path d="M 50 136 Q 51 124 56 120 Q 61 122 60 136 Z" fill="#B8A878"/>
+    <path d="M 168 130 Q 169 118 174 114 Q 179 116 178 130 Z" fill="#A8B8A8"/>
+    <path d="M 148 134 Q 149 122 154 118 Q 159 120 158 134 Z" fill="#D8C8A8"/>
+  </g>
+
+  <!-- 葫芦倾倒海水（右下，装海） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 150 100;10 150 100;0 150 100" dur="3.4s" repeatCount="indefinite"/>
+    <path d="M 150 86 C 156 82 160 74 158 68 C 156 64 152 64 150 66 C 148 64 144 64 142 68 C 140 74 144 82 150 86 Z" fill="#A86A3E" stroke="#8E5A2E" stroke-width="1"/>
+    <!-- 海水入葫芦 -->
+    <path d="M 146 68 Q 146 60 148 54" fill="none" stroke="#9AC8E0" stroke-width="2" stroke-linecap="round" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 浪头托足 -->
+  <circle cx="96" cy="144" r="18" fill="#E8F0FA" opacity="0.4">
+    <animate attributeName="r" values="18;24;18" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 跛足仙翁（拄拐立浪） -->
+  <!-- 腿 -->
+  <path d="M 88 128 L 82 148 L 88 148 L 94 130 Z" fill="#6E5E42"/>
+  <path d="M 106 128 L 114 152 L 108 152 L 102 130 Z" fill="#6E5E42"/>
+  <!-- 破衣 -->
+  <path d="M 86 106 Q 82 120 88 132 Q 98 138 108 132 Q 114 120 110 106 Q 100 100 86 106 Z" fill="url(#cloth)" stroke="#5E4E38" stroke-width="1"/>
+  <!-- 草绳 -->
+  <path d="M 86 118 L 110 118" stroke="#5E4E38" stroke-width="1.6"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#tieguaili-face" transform="translate(98,98) scale(1)"/>
+
+  <!-- 左臂拄铁拐（拄浪） -->
+  <path d="M 88 108 C 82 112 78 116 76 122" fill="none" stroke="#8E7A5E" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="75" cy="124" r="3.2" fill="#D8C0A4"/>
+  <!-- 铁拐拄浪 -->
+  <line x1="75" y1="124" x2="58" y2="176" stroke="#3A3A3E" stroke-width="3.4" stroke-linecap="round"/>
+  <!-- 铁拐顿浪纹 -->
+  <circle cx="58" cy="176" r="10" fill="none" stroke="#9AC8E0" stroke-width="1.4" opacity="0.6">
+    <animate attributeName="r" values="10;16;10" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 右臂（豪迈指向远方/持葫芦） -->
+  <path d="M 106 108 C 112 110 116 114 116 120" fill="none" stroke="#8E7A5E" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="116" cy="122" r="3" fill="#D8C0A4"/>
+
+  <!-- 浪花银尘 -->
+  <g fill="#E8F0FA">
+    <circle cx="40" cy="108">
+      <animate attributeName="cy" values="108;98;108" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="158" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

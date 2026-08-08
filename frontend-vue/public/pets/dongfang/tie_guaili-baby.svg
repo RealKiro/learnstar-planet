@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="铁拐李·二阶·神游焚身·肉身成灰魂魄飘零">
+  <defs>
+    <!-- 背景：火化炉前暮色苍茫 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E5E5E"/>
+      <stop offset="52%" stop-color="#4E423E"/>
+      <stop offset="100%" stop-color="#2E2624"/>
+    </linearGradient>
+    <!-- 火烬青烟 -->
+    <radialGradient id="smoke" cx="50%" cy="40%" r="52%">
+      <stop offset="0%" stop-color="#9AA8A8" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#9AA8A8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 魂影淡 -->
+    <radialGradient id="soul" cx="45%" cy="38%" r="60%">
+      <stop offset="0%" stop-color="#D8E0E8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#B8C8D8" stop-opacity="0.3"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 火烬青烟 -->
+  <circle cx="130" cy="120" r="70" fill="url(#smoke)">
+    <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 火化炉（左） -->
+  <g>
+    <rect x="100" y="108" width="44" height="52" rx="4" fill="#3E3232" stroke="#5A4848" stroke-width="1.4"/>
+    <!-- 炉膛口（余烬） -->
+    <ellipse cx="122" cy="146" rx="18" ry="8" fill="#6E2E22"/>
+    <path d="M 104 146 Q 122 138 140 146" fill="#B8432E" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 青烟（自炉顶升起） -->
+    <g stroke="#9AA8A8" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.7">
+      <path d="M 122 106 Q 114 94 120 82 Q 126 70 118 58">
+        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 130 104 Q 134 92 128 80">
+        <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- 余烬红 -->
+    <circle cx="112" cy="150" r="2" fill="#C8402A"><animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/></circle>
+    <circle cx="126" cy="152" r="1.6" fill="#C8402A"><animate attributeName="opacity" values="1;0.3;1" dur="2.6s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- 荒野地面 -->
+  <path d="M 0 160 L 200 160 L 200 200 L 0 200 Z" fill="#2E2624" opacity="0.8"/>
+  <path d="M 0 160 L 200 160" stroke="#423838" stroke-width="1.4" opacity="0.6"/>
+  <!-- 荒草 -->
+  <path d="M 30 168 Q 32 160 30 154 M 170 172 Q 173 164 171 158" stroke="#3A302E" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- 魂魄（飘忽，立于荒野，望余烬，悲恸） -->
+  <g opacity="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="3.4s" repeatCount="indefinite"/>
+    <!-- 魂影 -->
+    <path d="M 66 120 Q 60 130 64 146 Q 72 154 82 146 Q 88 132 84 118 Q 76 112 66 120 Z" fill="url(#soul)" stroke="#A8B8C8" stroke-width="1"/>
+    <!-- 魂袍飘 -->
+    <path d="M 64 140 Q 56 146 58 156 Q 66 158 70 148" fill="#B8C8D8" opacity="0.5"/>
+    <!-- 魂头 -->
+    <circle cx="75" cy="112" r="9" fill="url(#soul)" stroke="#A8B8C8" stroke-width="0.8"/>
+    <!-- 魂影淡发 -->
+    <path d="M 66 108 Q 62 102 66 98" stroke="#A8B8C8" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 面目悲恸（虚影眉眼） -->
+    <path d="M 69 110 Q 72 108.5 74 109 M 77 109 Q 79 108.5 81 110" stroke="#6E8296" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 72 112 Q 75 111 78 112" stroke="#6E8296" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <path d="M 71 116 Q 75 114.5 79 116" fill="none" stroke="#6E8296" stroke-width="1" stroke-linecap="round"/>
+    <!-- 魂泪（一缕） -->
+    <path d="M 70 113 Q 69 115 70 117" stroke="#A8C8E8" stroke-width="1" opacity="0.7">
+      <animate attributeName="cy" values="117;120;117" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 伸向余烬的魂手（大恸） -->
+  <g opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 -1;0 0" dur="3.4s" repeatCount="indefinite"/>
+    <path d="M 82 128 C 88 130 92 132 96 134" fill="none" stroke="#B8C8D8" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- 魂光星尘 -->
+  <g fill="#D8E0E8">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 火烬星尘 -->
+  <g fill="#C8402A">
+    <circle cx="150" cy="140">
+      <animate attributeName="cy" values="140;150;140" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="96" cy="150">
+      <animate attributeName="cy" values="150;160;150" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.08;0.4" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
