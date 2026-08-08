@@ -42,6 +42,37 @@ function openHandbook(s: CardStudent) {
 // 冠亚季军奖牌色（金/银/铜）
 const MEDALS = ['#F59E0B', '#A8B0B8', '#CD7F32']
 
+// 积分均衡阈值：第1名与末位分差 ≤ 该值视为「积分相近」，切换领跑群展示
+const TIGHT_THRESHOLD = 10
+
+/** 顶部完全并列（同分）：无梯度可排，隐藏 TOP 榜单 */
+const isAllTied = computed(() => {
+  const t = data.value?.top5 || []
+  return t.length >= 2 && t[0].score === t[t.length - 1].score
+})
+
+/** 积分相近但未完全并列：切换领跑群（不强行分冠亚季军） */
+const isTight = computed(() => {
+  const t = data.value?.top5 || []
+  if (t.length < 2 || isAllTied.value) return false
+  return t[0].score - t[t.length - 1].score <= TIGHT_THRESHOLD
+})
+
+/** 并列名次：同分同名次（1、1、3…），并标记该名次是否并列 */
+function calcRanks(list: CardStudent[]): Array<{ rank: number; tied: boolean }> {
+  const result: Array<{ rank: number; tied: boolean }> = []
+  list.forEach((s, i) => {
+    const prev = i > 0 ? list[i - 1].score : null
+    const next = i < list.length - 1 ? list[i + 1].score : null
+    const tied = (prev !== null && s.score === prev) || (next !== null && s.score === next)
+    const rank = i > 0 && prev !== null && s.score === prev ? result[i - 1].rank : i + 1
+    result.push({ rank, tied })
+  })
+  return result
+}
+
+const leaderRanks = computed(() => calcRanks(data.value?.top5 || []))
+
 const starBg = computed(() => {
   if (!data.value?.star_student?.pet_species) return 'var(--gradient-primary)'
   const series = getSeriesBySpeciesId(data.value.star_student.pet_species)
@@ -159,53 +190,77 @@ onMounted(async () => {
         </div>
       </div>
 
-      <!-- TOP 5：前三名大卡片 + 4-5 名次位 -->
-      <div class="top5-section">
+      <!-- TOP 5：积分拉开时前三名大卡片 + 名次位；相近时领跑群；完全并列时整块隐藏 -->
+      <div v-if="!isAllTied" class="top5-section">
         <div class="section-header">
-          <span class="section-title">🏆 班级 TOP 5</span>
+          <span class="section-title">{{ isTight ? '🏆 积分领跑' : '🏆 班级 TOP 5' }}</span>
+          <span v-if="isTight" class="top5-tight-tip">积分相近 · 并列不分先后</span>
         </div>
-        <!-- 冠亚季军大卡片 -->
-        <div class="top3-row">
+
+        <!-- 积分相近：领跑群（不标冠亚季军，并列名次） -->
+        <div v-if="isTight" class="leader-row">
           <div
-            v-for="(s, i) in data.top5.slice(0, 3)"
+            v-for="(s, i) in data.top5"
             :key="s.name"
-            class="top3-card"
-            :class="'medal--' + i"
+            class="leader-card"
             @click="openHandbook(s)"
             :title="s.pet_species ? '点击查看宠物介绍' : ''"
           >
-            <span class="top3-medal">{{ ['🥇', '🥈', '🥉'][i] }}</span>
-            <div class="top3-avatar" :style="{ '--medal': MEDALS[i] }">
+            <span class="leader-rank">{{ leaderRanks[i].tied ? '并列第 ' + leaderRanks[i].rank + ' 名' : '第 ' + leaderRanks[i].rank + ' 名' }}</span>
+            <div class="leader-avatar">
               <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
-              <span v-else class="top3-emoji">🌟</span>
+              <span v-else class="leader-emoji">🌟</span>
             </div>
-            <div class="top3-name">{{ s.name }}</div>
-            <div v-if="s.student_no" class="top3-no">学号 {{ s.student_no }}</div>
-            <div class="top3-level">Lv.{{ s.pet_level }}</div>
-            <div class="top3-score">{{ s.score }} 分</div>
-            <div class="top3-bar"><div class="top3-fill" :style="{ width: (s.score / data.top5[0].score) * 100 + '%' }"></div></div>
+            <div class="leader-name">{{ s.name }}</div>
+            <div v-if="s.student_no" class="leader-no">学号 {{ s.student_no }}</div>
+            <div class="leader-score">{{ s.score }} 分</div>
           </div>
         </div>
-        <!-- 第 4-5 名次位 -->
-        <div class="top2-row">
-          <div
-            v-for="(s, i) in data.top5.slice(3)"
-            :key="s.name"
-            class="top4-card"
-            @click="openHandbook(s)"
-            :title="s.pet_species ? '点击查看宠物介绍' : ''"
-          >
-            <span class="top4-rank">{{ i + 4 }}</span>
-            <div class="top4-avatar">
-              <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
-              <span v-else class="top4-emoji">🌟</span>
-            </div>
-            <div class="top4-info">
-              <div class="top4-name">{{ s.name }}</div>
-              <div class="top4-score">{{ s.score }} 分</div>
+
+        <!-- 积分拉开：前三名大卡片 + 4-5 名次位 -->
+        <template v-else>
+          <div class="top3-row">
+            <div
+              v-for="(s, i) in data.top5.slice(0, 3)"
+              :key="s.name"
+              class="top3-card"
+              :class="'medal--' + i"
+              @click="openHandbook(s)"
+              :title="s.pet_species ? '点击查看宠物介绍' : ''"
+            >
+              <span class="top3-medal">{{ ['🥇', '🥈', '🥉'][i] }}</span>
+              <div class="top3-avatar" :style="{ '--medal': MEDALS[i] }">
+                <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+                <span v-else class="top3-emoji">🌟</span>
+              </div>
+              <div class="top3-name">{{ s.name }}</div>
+              <div v-if="s.student_no" class="top3-no">学号 {{ s.student_no }}</div>
+              <div class="top3-level">Lv.{{ s.pet_level }}</div>
+              <div class="top3-score">{{ s.score }} 分</div>
+              <div class="top3-bar"><div class="top3-fill" :style="{ width: (s.score / data.top5[0].score) * 100 + '%' }"></div></div>
             </div>
           </div>
-        </div>
+          <!-- 第 4-5 名次位 -->
+          <div class="top2-row">
+            <div
+              v-for="(s, i) in data.top5.slice(3)"
+              :key="s.name"
+              class="top4-card"
+              @click="openHandbook(s)"
+              :title="s.pet_species ? '点击查看宠物介绍' : ''"
+            >
+              <span class="top4-rank">{{ i + 4 }}</span>
+              <div class="top4-avatar">
+                <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
+                <span v-else class="top4-emoji">🌟</span>
+              </div>
+              <div class="top4-info">
+                <div class="top4-name">{{ s.name }}</div>
+                <div class="top4-score">{{ s.score }} 分</div>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
     </template>
 
@@ -339,8 +394,65 @@ onMounted(async () => {
   border-radius: 20px;
   padding: 20px 24px;
 }
-.section-header { margin-bottom: 16px; }
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
 .section-title { font-size: 15px; font-weight: 700; }
+.top5-tight-tip {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  background: var(--tint-2);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+/* 积分相近 · 领跑群（并列名次，不标冠亚季军） */
+.leader-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+.leader-card {
+  text-align: center;
+  padding: 18px 12px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.leader-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.leader-rank {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: rgba(79,70,229,0.08);
+  border: 1px solid rgba(79,70,229,0.22);
+  padding: 2px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.leader-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 8px;
+  border: 2px solid var(--color-primary);
+  background: var(--color-bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leader-emoji { font-size: 26px; }
+.leader-name { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.leader-no { font-size: 10px; color: var(--color-text-secondary); background: var(--tint-2); padding: 1px 8px; border-radius: 8px; display: inline-block; margin-top: 2px; }
+.leader-score { font-size: 15px; font-weight: 800; color: var(--color-primary); margin-top: 2px; }
 /* 前三名大卡片 */
 .top3-row {
   display: grid;
