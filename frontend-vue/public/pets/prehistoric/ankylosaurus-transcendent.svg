@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="甲龙·六阶·甲龙传说·暮色头碰小甲龙背甲传甲不在身在心">
+  <defs>
+    <!-- 背景：原野暮霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C4A0"/>
+      <stop offset="52%" stop-color="#D8AC78"/>
+      <stop offset="100%" stop-color="#96AE84"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F8D890" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F8D890" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 老甲龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9AA08A"/>
+      <stop offset="100%" stop-color="#7E8672"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 原野 -->
+  <g fill="#6E9E72" opacity="0.4">
+    <path d="M 0 132 Q 50 122 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#86A87A" opacity="0.8"/>
+  <path d="M 0 148 L 200 148" stroke="#A8C49C" stroke-width="1.4" opacity="0.55"/>
+
+  <!-- 安卧的小兽（左） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="46" cy="144" rx="6" ry="4.4" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.7"/>
+    <circle cx="46" cy="137" r="3.8" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.6"/>
+  </g>
+
+  <!-- 小甲龙（左下，挡同伴前） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身 -->
+    <ellipse cx="62" cy="136" rx="11" ry="8" fill="url(#skin)" stroke="#8E9680" stroke-width="0.8"/>
+    <g stroke="#8E9680" stroke-width="0.8" fill="none" opacity="0.6">
+      <path d="M 55 133 Q 62 129 69 133 Q 62 137 55 133 Z"/>
+    </g>
+    <!-- 腿 -->
+    <path d="M 56 141 L 54 147 M 69 141 L 71 147" stroke="#8E9680" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 尾锤（软） -->
+    <path d="M 73 140 Q 79 138 80 143" stroke="url(#skin)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <ellipse cx="82" cy="144" rx="3.2" ry="2.4" fill="url(#skin)" stroke="#8E9680" stroke-width="0.6"/>
+  </g>
+  <!-- 小甲龙头 -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="62" cy="124" rx="8" ry="7" fill="url(#skin)" stroke="#8E9680" stroke-width="0.8"/>
+    <circle cx="58.5" cy="122.5" r="1.9" fill="#24180E"/>
+    <circle cx="59" cy="122.1" r="0.6" fill="#FFF"/>
+    <circle cx="65.5" cy="122.5" r="1.9" fill="#24180E"/>
+    <circle cx="66" cy="122.1" r="0.6" fill="#FFF"/>
+    <path d="M 59 127 L 65 127 L 62 129.5 Z" fill="#8E9278"/>
+  </g>
+
+  <!-- 老甲龙（头碰小甲龙背甲，传心） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="116" cy="128" rx="19" ry="13" fill="url(#skin)" stroke="#6E765E" stroke-width="1.1"/>
+    <g stroke="#8E9680" stroke-width="1" fill="none" opacity="0.6">
+      <path d="M 102 124 Q 116 116 130 124 Q 116 132 102 124 Z"/>
+      <path d="M 116 116 L 116 108 M 102 124 L 88 120 M 130 124 L 144 120"/>
+    </g>
+    <!-- 腿 -->
+    <path d="M 105 137 L 102 146 M 128 137 L 131 146" stroke="#8E9680" stroke-width="3.2" stroke-linecap="round"/>
+    <!-- 尾锤（垂） -->
+    <path d="M 135 132 Q 144 128 148 122" stroke="url(#skin)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <ellipse cx="150" cy="120" rx="4.5" ry="3.5" fill="url(#skin)" stroke="#6E765E" stroke-width="0.8"/>
+    <!-- 头（低，碰小甲龙背甲） -->
+    <path d="M 108 122 Q 96 124 88 124" stroke="url(#skin)" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <ellipse cx="84" cy="126" rx="9" ry="8" fill="url(#skin)" stroke="#6E765E" stroke-width="0.9"/>
+    <circle cx="80" cy="124" r="1.9" fill="#24180E"/>
+    <circle cx="80.5" cy="123.6" r="0.6" fill="#FFF"/>
+    <circle cx="88.5" cy="124" r="1.9" fill="#24180E"/>
+    <circle cx="89" cy="123.6" r="0.6" fill="#FFF"/>
+    <!-- 嘴（碰背甲） -->
+    <path d="M 76 130 L 70 132" stroke="#6E765E" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- 传心微光 -->
+    <circle cx="76" cy="118" r="7" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮霞星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

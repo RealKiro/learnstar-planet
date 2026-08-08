@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="甲龙·五阶·群落甲壁·卧族群外围甲身如壁尾锤悬护群安">
+  <defs>
+    <!-- 背景：原野夕照 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0D8AC"/>
+      <stop offset="52%" stop-color="#D0BC88"/>
+      <stop offset="100%" stop-color="#96AC86"/>
+    </linearGradient>
+    <!-- 甲壁神光 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="55%">
+      <stop offset="0%" stop-color="#F4F4DC" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F4F4DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 神威光环 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#E8E4D0" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#E8E4D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 甲龙皮（如玄铁） -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9AA08A"/>
+      <stop offset="100%" stop-color="#7E8672"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="56" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 神威光环 -->
+  <circle cx="100" cy="112" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 原野 -->
+  <g fill="#6E9E72" opacity="0.35">
+    <path d="M 0 122 Q 60 114 130 120 Q 170 124 200 118 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#86A87A" opacity="0.8"/>
+  <path d="M 0 150 L 200 150" stroke="#A8C49C" stroke-width="1.4" opacity="0.55"/>
+
+  <!-- 甲影下安卧的幼群（左） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="46" cy="144" rx="6" ry="4.4" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.6"/>
+    <circle cx="46" cy="137" r="3.6" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.5"/>
+    <ellipse cx="62" cy="146" rx="5" ry="3.8" fill="#BCC0A8" stroke="#9EA28C" stroke-width="0.6"/>
+    <circle cx="62" cy="140" r="3" fill="#BCC0A8"/>
+    <ellipse cx="54" cy="146" rx="8" ry="3.5" fill="#F4F4DC" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.12;0.25" dur="2.8s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <!-- 被镇的入侵者（右远） -->
+  <g opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1.5 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <ellipse cx="160" cy="142" rx="8" ry="5.5" fill="#4E5A4E" stroke="#3E4A3E" stroke-width="0.7"/>
+    <circle cx="156" cy="136" r="4.5" fill="#4E5A4E"/>
+  </g>
+
+  <!-- 群落甲壁甲龙（卧族群外围，甲如壁） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体（甲如玄铁壁） -->
+    <ellipse cx="112" cy="128" rx="21" ry="14" fill="url(#skin)" stroke="#6E765E" stroke-width="1.2"/>
+    <g stroke="#8E9680" stroke-width="1" fill="none" opacity="0.6">
+      <path d="M 96 123 Q 112 114 128 123 Q 112 132 96 123 Z"/>
+      <path d="M 112 114 L 112 104 M 96 123 L 80 118 M 128 123 L 144 118"/>
+      <path d="M 104 121 L 104 112 M 120 121 L 120 112"/>
+    </g>
+    <!-- 甲上撞痕如纹（史） -->
+    <g stroke="#666E56" stroke-width="1" fill="none" opacity="0.5">
+      <path d="M 100 118 L 104 124 M 122 116 L 126 122"/>
+    </g>
+    <ellipse cx="108" cy="134" rx="11" ry="6.5" fill="#E4DCC8" opacity="0.7"/>
+    <!-- 腿 -->
+    <path d="M 100 139 L 97 148 M 126 139 L 129 148" stroke="#8E9680" stroke-width="3.4" stroke-linecap="round"/>
+    <!-- 尾锤（悬起） -->
+    <path d="M 133 132 Q 144 126 150 116" stroke="url(#skin)" stroke-width="3.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 133 132;5 133 132;0 133 132" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <ellipse cx="153" cy="114" rx="5.5" ry="4.5" fill="url(#skin)" stroke="#6E765E" stroke-width="1"/>
+  </g>
+
+  <!-- 群落甲壁头（含威含温） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="112" cy="106" rx="12" ry="10.5" fill="url(#skin)" stroke="#6E765E" stroke-width="0.9"/>
+    <!-- 眼（含威含温） -->
+    <path d="M 104 104 Q 106 102.6 108 104 M 117 104 Q 119 102.6 120 104" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="106" cy="105" r="2.3" fill="#24180E"/>
+    <circle cx="106.6" cy="104.4" r="0.75" fill="#FFF"/>
+    <circle cx="118.5" cy="105" r="2.3" fill="#24180E"/>
+    <circle cx="119.1" cy="104.4" r="0.75" fill="#FFF"/>
+    <!-- 鼻/喙 -->
+    <path d="M 108 109 L 116 109 L 112 111.5 Z" fill="#8E9278"/>
+    <!-- 头侧甲 -->
+    <path d="M 100 99 Q 96 105 98 111" stroke="#6E765E" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <path d="M 124 99 Q 128 105 126 111" stroke="#6E765E" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <!-- 额间甲壁光 -->
+    <circle cx="112" cy="97" r="2.8" fill="#F4F4DC" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.5;0.85" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 甲壁星尘 -->
+  <g fill="#F4F4DC">
+    <circle cx="36" cy="102">
+      <animate attributeName="cy" values="102;92;102" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="166" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

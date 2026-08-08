@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="甲龙·三阶·练甲苦修·锤断粗木不散同伴站前碰即收">
+  <defs>
+    <!-- 背景：灌木空地晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DCE8CC"/>
+      <stop offset="52%" stop-color="#BCCEA8"/>
+      <stop offset="100%" stop-color="#94AE84"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F8F4D8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F8F4D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年甲龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ACB09A"/>
+      <stop offset="100%" stop-color="#949A86"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 灌木空地 -->
+  <g fill="#6E9E72" opacity="0.35">
+    <path d="M 0 110 Q 50 104 110 108 Q 160 112 200 106 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7EAA82" opacity="0.8"/>
+  <path d="M 0 148 L 200 148" stroke="#A0C8A4" stroke-width="1.4" opacity="0.55"/>
+
+  <!-- 被锤断的粗木（右，断口） -->
+  <g>
+    <path d="M 146 138 L 174 132" stroke="#8E7044" stroke-width="7" stroke-linecap="round"/>
+    <path d="M 154 136 L 156 143 M 162 134 L 164 142" stroke="#6E5230" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="158" cy="138" r="6" fill="#F4E8C8" opacity="0.28">
+      <animate attributeName="opacity" values="0.28;0.14;0.28" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 站角前的同伴（左，信任） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="56" cy="142" rx="7" ry="5.2" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.7"/>
+    <circle cx="56" cy="135" r="4.4" fill="#C4C8B0" stroke="#A6AA90" stroke-width="0.6"/>
+    <path d="M 52 133.6 Q 50 131.6 50 129.6" stroke="#C4C8B0" stroke-width="1" stroke-linecap="round"/>
+    <circle cx="53.6" cy="134" r="1.1" fill="#24180E"/>
+    <circle cx="58.4" cy="134" r="1.1" fill="#24180E"/>
+  </g>
+
+  <!-- 少年甲龙（控锤，碰即收） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（甲如盾） -->
+    <ellipse cx="104" cy="134" rx="17" ry="12" fill="url(#skin)" stroke="#8E9680" stroke-width="1"/>
+    <g stroke="#8E9680" stroke-width="1" fill="none" opacity="0.6">
+      <path d="M 92 130 Q 104 123 116 130 Q 104 137 92 130 Z"/>
+      <path d="M 104 123 L 104 116 M 92 130 L 80 127 M 116 130 L 128 127"/>
+    </g>
+    <ellipse cx="101" cy="140" rx="9" ry="5.5" fill="#E4DCC8" opacity="0.7"/>
+    <!-- 腿 -->
+    <path d="M 94 143 L 92 150 M 114 143 L 116 150" stroke="#8E9680" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 尾锤（收，碰即回） -->
+    <path d="M 121 138 Q 130 134 136 128" stroke="url(#skin)" stroke-width="2.8" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 121 138;-8 121 138;0 121 138" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <ellipse cx="138" cy="126" rx="4.5" ry="3.5" fill="url(#skin)" stroke="#8E9680" stroke-width="0.8"/>
+  </g>
+
+  <!-- 少年甲龙头（沉稳，控锤） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="104" cy="114" rx="11" ry="9.5" fill="url(#skin)" stroke="#8E9680" stroke-width="0.9"/>
+    <!-- 眼（专注） -->
+    <circle cx="99" cy="112" r="2.3" fill="#24180E"/>
+    <circle cx="99.6" cy="111.4" r="0.75" fill="#FFF"/>
+    <circle cx="109.5" cy="112" r="2.3" fill="#24180E"/>
+    <circle cx="110.1" cy="111.4" r="0.75" fill="#FFF"/>
+    <!-- 鼻/喙 -->
+    <path d="M 101 117 L 108 117 L 104.5 119.5 Z" fill="#8E9278"/>
+    <!-- 头侧甲 -->
+    <path d="M 93 108 Q 89 114 91 120" stroke="#8E9680" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 115 108 Q 119 114 117 120" stroke="#8E9680" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <!-- 控锤的光（点到即止） -->
+    <circle cx="108" cy="104" r="2.2" fill="#F4E8C8" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F8F4D8">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
