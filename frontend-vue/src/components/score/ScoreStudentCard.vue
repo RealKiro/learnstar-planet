@@ -186,20 +186,22 @@ const expPercent = computed(() => {
 
       <!-- 右栏：信息（50%） -->
       <div class="card-right">
+        <!-- 勾选框：绝对定位右上角 -->
+        <div
+          class="card-checkbox"
+          :class="{ picked: selected }"
+          role="checkbox"
+          :aria-checked="selected"
+          :aria-label="'选择 ' + student.name"
+          @click.stop="emit('toggle-select')"
+          title="多选后批量加减分"
+        >
+          <svg v-if="selected" viewBox="0 0 10 10" width="10" height="10"><path d="M1.2 5.2 L4 8 L8.8 2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <!-- 姓名 + 学号：同一行 -->
         <div class="card-name-row">
           <span class="card-name">{{ student.name }}</span>
           <span v-if="student.student_no" class="card-id">{{ pad2(student.student_no) }}</span>
-          <div
-            class="card-checkbox"
-            :class="{ picked: selected }"
-            role="checkbox"
-            :aria-checked="selected"
-            :aria-label="'选择 ' + student.name"
-            @click.stop="emit('toggle-select')"
-            title="多选后批量加减分"
-          >
-            <svg v-if="selected" viewBox="0 0 10 10" width="10" height="10"><path d="M1.2 5.2 L4 8 L8.8 2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
         </div>
         <div class="card-mid-row">
           <span class="card-score"><span class="score-icon">⭐</span>{{ student.total_score.toLocaleString() }}<span class="unit"> 分</span></span>
@@ -361,21 +363,21 @@ const expPercent = computed(() => {
 
 /* ===== 右栏：信息（50%） ===== */
 .card-right {
+  position: relative;
   flex: 1 1 50%;
   width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 7px;
-  padding: 12px 14px 10px;
+  padding: 24px 20px 10px 14px; /* 顶部留出右上角勾选框位置 */
   min-width: 0;
 }
-.card-name-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.card-name-row { display: flex; align-items: center; gap: 6px; }
 .card-name {
   font-size: 17px;
   font-weight: 700;
   color: var(--color-text);
-  flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -383,6 +385,9 @@ const expPercent = computed(() => {
   letter-spacing: 0.02em;
 }
 .card-checkbox {
+  position: absolute;
+  top: 6px;
+  right: 6px;
   width: 18px;
   height: 18px;
   border-radius: 50%;

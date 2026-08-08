@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet } from '@/utils/api'
+import { useAppMode } from '@/composables/useAppMode'
 import { avatarGradient } from '@/utils/constants'
 import { getSpeciesEmoji } from '@/utils/petData'
 import PetSprite from '@/components/pet/PetSprite.vue'
 import PetHandbook from '@/components/pet/PetHandbook.vue'
 import type { ApiResponse, LeaderboardEntry } from '@/types'
+
+// 教室端/教师端共用排行榜单页：教室端用 display 接口（全班总分榜），教师端用带标签页的 teacher 接口
+const { isClassroomMode } = useAppMode()
 
 type LbType = 'total' | 'weekly' | 'pet'
 
@@ -54,6 +58,29 @@ async function fetchData(type: LbType) {
   }
 }
 
+// 教室端：全班总分排行（display 接口，班级码）
+async function fetchDisplay() {
+  loading.value = true
+  try {
+    const token = sessionStorage.getItem('class_token') || ''
+    const res = await apiGet<{ data: Array<{ rank: number; id: number; name: string; score: number; no?: string }> }>(
+      '/api/v1/display/leaderboard', { params: { token } }
+    )
+    entries.value = (res.data || []).map((e) => ({
+      rank: e.rank,
+      student_id: e.id,
+      name: e.name,
+      student_no: e.no,
+      score: String(e.score),
+      pet_species: undefined,
+      pet_level: undefined,
+      pet_name: undefined,
+      pet_emoji: undefined,
+    }))
+  } catch { entries.value = [] }
+  finally { loading.value = false }
+}
+
 function generateDemoData(type: LbType): LeaderboardEntry[] {
   const names = ['张小明', '李小红', '王小刚', '赵小丽', '刘小强', '陈小美', '周小龙', '吴小凤']
   const baseScore = type === 'weekly' ? 50 : type === 'pet' ? 12 : 500
@@ -81,18 +108,21 @@ async function switchTab(type: LbType) {
   await fetchData(type)
 }
 
-onMounted(() => fetchData('total'))
+onMounted(() => {
+  if (isClassroomMode.value) fetchDisplay()
+  else fetchData('total')
+})
 </script>
 
 <template>
   <div class="leaderboard-page">
     <div class="page-header">
-      <h2 class="page-title">🏆 排行榜</h2>
-      <span class="page-subtitle">每周一重置 · 保持努力</span>
+      <h2 class="page-title">🏆 排行榜单</h2>
+      <span class="page-subtitle">{{ isClassroomMode ? '全班总分排行' : '每周一重置 · 保持努力' }}</span>
     </div>
 
-    <!-- Tab 切换 -->
-    <div class="tab-bar">
+    <!-- Tab 切换（仅教师端完整模式） -->
+    <div v-if="!isClassroomMode" class="tab-bar">
       <button
         v-for="t in tabs" :key="t.key"
         class="tab-btn"
@@ -138,7 +168,7 @@ onMounted(() => fetchData('total'))
             <span v-if="e.pet_species" class="champion-sprite" @click="openHandbook(e)" title="点击查看宠物介绍">
               <PetSprite :species-id="e.pet_species" :level="e.pet_level || 1" :animate="true" />
             </span>
-            <span v-else class="avatar-emoji">{{ e.pet_emoji || '🌟' }}</span>
+            <span v-else class="champion-avatar-initial">{{ e.name.charAt(0) }}</span>
           </div>
 
           <div class="champion-name">{{ e.name }}</div>
@@ -309,6 +339,12 @@ onMounted(() => fetchData('total'))
   align-items: center;
   justify-content: center;
   margin: 0 auto 8px;
+}
+.champion-avatar-initial {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 .avatar-emoji {
   font-size: 28px;

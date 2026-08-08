@@ -99,10 +99,13 @@ const filteredStudents = computed(() => {
   return arr
 })
 const positiveRules = computed(() => rules.value.filter(r => r.is_positive))
-// 教室端：简单姓名搜索（无筛选/排序）
+// 教室端：姓名搜索 + 排序（与教师端同 sortBy）
 const filtered = computed(() => {
-  if (!searchQuery.value) return students.value
-  return students.value.filter(s => s.name.includes(searchQuery.value))
+  const list = searchQuery.value ? students.value.filter(s => s.name.includes(searchQuery.value)) : [...students.value]
+  if (sortBy.value === 'score') list.sort((a, b) => b.total_score - a.total_score)
+  else if (sortBy.value === 'surname') list.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
+  else list.sort((a, b) => (a.student_no || '').localeCompare(b.student_no || '', 'zh-CN', { numeric: true }))
+  return list
 })
 const negativeRules = computed(() => rules.value.filter(r => !r.is_positive))
 function groupedRules(type: 'add' | 'sub'): Array<{ category: string; label: string; rules: ScoreRule[] }> {
@@ -542,10 +545,16 @@ onMounted(async () => {
           <button v-for="opt in SORT_OPTIONS" :key="opt.key" class="sort-tag" :class="{ active: sortBy === opt.key }" @click="sortBy = opt.key">{{ opt.label }}</button>
         </div>
       </div>
-      <!-- 教室端：搜索 -->
-      <div v-else class="class-search">
-        <span>🔍</span>
-        <input v-model="searchQuery" type="text" placeholder="搜索学生姓名..." />
+      <!-- 教室端：工具栏（搜索 + 排序） -->
+      <div v-else class="toolbar">
+        <div class="class-search">
+          <span>🔍</span>
+          <input v-model="searchQuery" type="text" placeholder="搜索学生姓名..." />
+        </div>
+        <div class="sort-group">
+          <span class="sort-label">排序</span>
+          <button v-for="opt in SORT_OPTIONS" :key="opt.key" class="sort-tag" :class="{ active: sortBy === opt.key }" @click="sortBy = opt.key">{{ opt.label }}</button>
+        </div>
       </div>
 
       <!-- 批量操作栏（两端共用） -->
@@ -859,7 +868,6 @@ onMounted(async () => {
   flex: 1;
   min-width: 200px;
   max-width: 360px;
-  margin-bottom: 16px;
 }
 .class-search input { background: transparent; border: none; outline: none; color: var(--color-text); font-size: 14px; width: 100%; font-family: inherit; }
 

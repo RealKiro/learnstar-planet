@@ -395,6 +395,21 @@ onUnmounted(() => {
 .stat-val.weekly { color: #10B981; }
 
 /* 班级之星 */
+.star-card {
+  border-color: rgba(245,158,11,0.28);
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(245,158,11,0.09), transparent 55%),
+    var(--color-bg-card);
+}
+.star-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #F59E0B, #FCD34D);
+  opacity: 0.9;
+  z-index: 2;
+}
 .star-display {
   display: flex;
   align-items: center;
@@ -484,6 +499,7 @@ onUnmounted(() => {
   gap: 12px;
 }
 .leader-card {
+  position: relative;
   text-align: center;
   padding: 18px 12px 16px;
   border-radius: 18px;
@@ -493,6 +509,13 @@ onUnmounted(() => {
   transition: all 0.25s ease;
 }
 .leader-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.leader-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  border-radius: 18px 18px 0 0;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  opacity: 0.7;
+}
 .leader-rank {
   display: inline-block;
   font-size: 11px;
@@ -537,6 +560,17 @@ onUnmounted(() => {
   transition: all 0.25s ease;
 }
 .top3-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.top3-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: 18px 18px 0 0;
+  background: linear-gradient(90deg, #F59E0B, #FCD34D);
+  opacity: 0.9;
+}
+.medal--1.top3-card::before { background: linear-gradient(90deg, #94A3B8, #E2E8F0); }
+.medal--2.top3-card::before { background: linear-gradient(90deg, #D97706, #F59E0B); }
 .medal--0 { background: linear-gradient(180deg, rgba(245,158,11,0.08), transparent); border-color: rgba(245,158,11,0.25); }
 .medal--1 { background: linear-gradient(180deg, rgba(168,176,184,0.08), transparent); border-color: rgba(168,176,184,0.25); }
 .medal--2 { background: linear-gradient(180deg, rgba(205,127,50,0.08), transparent); border-color: rgba(205,127,50,0.25); }
