@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { apiGet } from '@/utils/api'
 import { getSeriesBySpeciesId, SERIES_SCENES } from '@/utils/petData'
 import PetSprite from '@/components/pet/PetSprite.vue'
-import PetHandbook from '@/components/pet/PetHandbook.vue'
+import PetDetailModal from '@/components/pet/PetDetailModal.vue'
 import type { ApiResponse } from '@/types'
 
 interface CardStudent {
@@ -272,7 +272,7 @@ onMounted(async () => {
     </div>
 
     <!-- 宠物图鉴弹窗 -->
-    <PetHandbook v-if="handbook" :species-id="handbook.speciesId" :current-level="handbook.level" :current-score="handbook.score" @close="handbook = null" />
+    <PetDetailModal v-if="handbook" :species-id="handbook.speciesId" :level="handbook.level" :score="handbook.score" @close="handbook = null" />
   </div>
 </template>
 

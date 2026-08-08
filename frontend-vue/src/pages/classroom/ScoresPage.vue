@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { getSpeciesEmoji, PET_SERIES, getPetLevelName, getPetLevelDescription } from '@/utils/petData'
+import { getSpeciesEmoji, PET_SERIES } from '@/utils/petData'
 import PetSprite from '@/components/pet/PetSprite.vue'
-import { getPoems, getEvoLines, poemToLines } from '@/utils/petHandbookData'
+import PetDetailModal from '@/components/pet/PetDetailModal.vue'
 
 // 等级所需积分常量
 const LEVEL_SCORES = [0, 0, 15, 41, 68, 96, 125, 155, 185, 217, 250, 283, 318, 353, 390, 427, 465, 504, 545, 586, 628, 671, 715, 760, 805, 852, 900, 949, 998, 1049, 1100, 1153, 1206, 1261, 1316, 1372, 1429, 1487, 1546, 1606, 1667, 1729, 1792, 1856, 1921, 1986, 2053, 2120, 2189, 2258, 2329, 2400, 99999]
@@ -117,34 +117,6 @@ const detailStudent = ref<StudentEntry | null>(null)
 function openPetDetail(s: StudentEntry) {
   detailStudent.value = s
   showPetDetail.value = true
-}
-
-function detailStageIndex(level: number): number {
-  if (level <= 1) return 0
-  if (level <= 2) return 1
-  if (level <= 5) return 2
-  if (level <= 8) return 3
-  if (level <= 10) return 4
-  return 5
-}
-
-function getPetStageNames(level: number): string {
-  const names = ['新生之卵', '幼年期', '成长期', '成熟期', '巅峰期', '涅槃']
-  return names[detailStageIndex(level)] || ''
-}
-
-function getPetDetailPoems(speciesId: string, level: number): string {
-  const species = PET_SERIES.flatMap(s => s.species).find(sp => sp.id === speciesId)
-  if (!species) return ''
-  const poems = getPoems(species.name)
-  return poems[detailStageIndex(level)] || ''
-}
-
-function getPetDetailEvo(speciesId: string, level: number): string {
-  const species = PET_SERIES.flatMap(s => s.species).find(sp => sp.id === speciesId)
-  if (!species) return ''
-  const evos = getEvoLines(species.name)
-  return evos[detailStageIndex(level)] || ''
 }
 
 function requestSwitch(speciesId: string, name: string) {
@@ -436,62 +408,16 @@ onMounted(async () => {
         </div>
       </Transition>
 
-      <!-- 宠物详情弹窗 -->
-      <Transition name="fade">
-        <div v-if="showPetDetail && detailStudent" @click.self="showPetDetail = false"
-          style="position:fixed;inset:0;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;z-index:300;padding:20px;">
-          <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:480px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-              <div style="width:64px;height:64px;flex-shrink:0;background:var(--tint-2);border:1px solid var(--tint-3);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-                <PetSprite :species-id="detailStudent.pet_species" :level="detailStudent.pet_level" :animate="true" />
-              </div>
-              <div>
-                <div style="font-size:20px;font-weight:700;">{{ getPetLevelName(detailStudent.pet_species, detailStudent.pet_level) || detailStudent.pet_name }}</div>
-                <div style="font-size:13px;color:var(--md-text-secondary);">
-                  Lv.{{ detailStudent.pet_level }} · {{ getPetStageNames(detailStudent.pet_level) }}
-                </div>
-              </div>
-              <button @click="showPetDetail = false" style="margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid var(--tint-3);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-size:14px;">✕</button>
-            </div>
-
-            <!-- 阶段描述 -->
-            <div style="padding:14px 16px;background:var(--tint-1);border-radius:12px;border-left:3px solid var(--md-primary);margin-bottom:12px;">
-              <div style="font-size:11px;color:var(--md-text-secondary);font-weight:600;margin-bottom:4px;">📋 {{ getPetStageNames(detailStudent.pet_level) }} · {{ getPetLevelName(detailStudent.pet_species, detailStudent.pet_level) }}</div>
-              <div style="font-size:13px;color:var(--md-text-secondary);line-height:1.6;">{{ getPetLevelDescription(detailStudent.pet_species, detailStudent.pet_level) }}</div>
-            </div>
-
-            <!-- 进化台词 -->
-            <div v-if="getPetDetailEvo(detailStudent.pet_species, detailStudent.pet_level)" style="padding:12px 16px;background:rgba(245,158,11,0.06);border-radius:12px;border-left:3px solid #F59E0B;margin-bottom:12px;">
-              <div style="font-size:11px;color:rgba(245,158,11,0.6);font-weight:600;margin-bottom:4px;">💬 进化台词</div>
-              <div style="font-size:15px;color: var(--color-warning-text);font-style:italic;">{{ getPetDetailEvo(detailStudent.pet_species, detailStudent.pet_level) }}</div>
-            </div>
-
-            <!-- 诗文 -->
-            <div v-if="getPetDetailPoems(detailStudent.pet_species, detailStudent.pet_level)" style="padding:14px 16px;background:rgba(139,92,246,0.06);border-radius:12px;border-left:3px solid #8B5CF6;margin-bottom:16px;">
-              <div style="font-size:11px;color:rgba(139,92,246,0.6);font-weight:600;margin-bottom:4px;">📜 专属诗文</div>
-              <div style="font-size:13px;color:var(--color-primary);line-height:1.8;">
-                <div v-for="(line, i) in poemToLines(getPetDetailPoems(detailStudent.pet_species, detailStudent.pet_level))" :key="i" :style="i % 2 === 1 ? 'padding-left:1.4em;text-indent:-1.4em;' : ''">{{ line }}</div>
-              </div>
-            </div>
-
-            <!-- 进度条 -->
-            <div style="margin-bottom:16px;">
-              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--md-text-secondary);margin-bottom:4px;">
-                <span>升级进度</span>
-                <span>距 Lv.{{ detailStudent.pet_level + 1 }} 还差 <strong style="color:var(--md-gold);">{{ nextLevelProgress(detailStudent.total_score, detailStudent.pet_level).remaining }}</strong> 分</span>
-              </div>
-              <div style="height:6px;background:var(--tint-3);border-radius:3px;overflow:hidden;">
-                <div :style="{ width: nextLevelProgress(detailStudent.total_score, detailStudent.pet_level).percent + '%', height:'100%', background:'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'3px' }"></div>
-              </div>
-            </div>
-
-            <div style="display:flex;gap:8px;">
-              <button @click="showPetDetail = false; openPetPicker(detailStudent)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(167,139,250,0.15);background:rgba(167,139,250,0.08);color:var(--color-primary);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">🔄 切换宠物</button>
-              <button @click="showPetDetail = false" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--tint-3);background:transparent;color:var(--md-text-secondary);font-size:13px;cursor:pointer;font-family:inherit;">关闭</button>
-            </div>
-          </div>
-        </div>
-      </Transition>
+      <!-- 宠物角色介绍弹窗 -->
+      <PetDetailModal
+        v-if="showPetDetail && detailStudent"
+        :species-id="detailStudent.pet_species"
+        :level="detailStudent.pet_level"
+        :score="detailStudent.total_score"
+        :show-pet-switch="true"
+        @close="showPetDetail = false"
+        @switch-pet="showPetDetail = false; openPetPicker(detailStudent)"
+      />
 
       <!-- 宠物选择器（班级配置当前系列时只展示该系列物种） -->
       <Transition name="fade">
