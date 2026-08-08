@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="魔杖猫·一阶·幼猫初现·追尾光点爪拨魔杖光晃引狗回">
+  <defs>
+    <!-- 背景：魔法小镇巷子 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0D0B8"/>
+      <stop offset="52%" stop-color="#C0B498"/>
+      <stop offset="100%" stop-color="#9EA48C"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F8F4E4" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F8F4E4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 小魔杖猫毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#ECE8E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 巷子 -->
+  <g fill="#8E8270" opacity="0.4">
+    <path d="M 0 108 Q 50 102 110 106 Q 160 110 200 104 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#B0A890" opacity="0.8"/>
+
+  <!-- 巷墙（左） -->
+  <g fill="#A8987E">
+    <path d="M 0 60 L 60 60 L 60 148 L 0 148 Z"/>
+    <path d="M 0 80 L 60 80" stroke="#8E8270" stroke-width="1"/>
+  </g>
+
+  <!-- 走丢的小狗（右，呜呜） -->
+  <g opacity="0.85">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="156" cy="142" rx="6" ry="4.4" fill="#C4B498" stroke="#A8987E" stroke-width="0.7"/>
+    <circle cx="156" cy="135" r="3.8" fill="#C4B498" stroke="#A8987E" stroke-width="0.6"/>
+    <path d="M 152 133.6 Q 150 131.6 150 129.6" stroke="#C4B498" stroke-width="1" stroke-linecap="round"/>
+    <circle cx="154.4" cy="134" r="1" fill="#24180E"/>
+    <circle cx="157.6" cy="134" r="1" fill="#24180E"/>
+  </g>
+
+  <!-- 尾光（引路，小） -->
+  <path d="M 118 140 Q 128 136 134 130" stroke="#F8E4A0" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.2s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 小魔杖猫（追尾光点） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（蹲） -->
+    <ellipse cx="112" cy="134" rx="13" ry="10" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 腿 -->
+    <path d="M 104 141 L 102 148 M 120 141 L 122 148" stroke="#C8C2B8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 尾（追光点，摇） -->
+    <path d="M 125 138 Q 132 134 136 128" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 125 138;10 125 138;0 125 138" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="137" cy="127" r="2" fill="#F8E4A0">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 前爪（拨魔杖） -->
+    <path d="M 104 128 Q 100 122 102 118" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 104 128;-10 104 128;0 104 128" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 小魔杖猫头（圆眼亮） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="112" cy="114" rx="9.5" ry="8.5" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 尖耳 -->
+    <path d="M 104 108 L 100 100 L 109 105 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <path d="M 120 108 L 124 100 L 115 105 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <!-- 眼（大亮） -->
+    <circle cx="107.5" cy="112" r="2.4" fill="#24180E"/>
+    <circle cx="108.1" cy="111.4" r="0.8" fill="#FFF"/>
+    <circle cx="116.5" cy="112" r="2.4" fill="#24180E"/>
+    <circle cx="117.1" cy="111.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 111 116 L 113 116 L 112 117.4 Z" fill="#E8A0A0"/>
+    <!-- 嘴（引路） -->
+    <path d="M 109 118 Q 112 119.4 115 118" fill="none" stroke="#C8B0A0" stroke-width="0.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 魔杖（爪边） -->
+  <path d="M 104 118 L 98 110 L 96 106" stroke="#8E6E4E" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <circle cx="96" cy="105" r="1.6" fill="#C8A050"/>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F8F4E4">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

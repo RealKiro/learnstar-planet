@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="魔杖猫·三阶·练杖苦修·屋顶练挥杖点准尾光一明暗引路">
+  <defs>
+    <!-- 背景：小镇屋顶晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8CCB8"/>
+      <stop offset="52%" stop-color="#B8B098"/>
+      <stop offset="100%" stop-color="#9EA4A0"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F8F4E4" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F8F4E4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年魔杖猫毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8E4DC"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 屋顶（下） -->
+  <g fill="#A8987E">
+    <path d="M 0 148 L 60 132 L 120 148 L 200 138 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 60 132 L 120 148" stroke="#8E8270" stroke-width="1"/>
+
+  <!-- 被点中的目标（右前，光） -->
+  <g>
+    <circle cx="150" cy="140" r="5" fill="#F8E4A0" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.25;0.5" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 146 140 L 154 140 M 150 136 L 150 144" stroke="#F8E4A0" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- 少年魔杖猫（屋顶，练挥杖） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="104" cy="124" rx="13" ry="10" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 腿 -->
+    <path d="M 96 131 L 94 138 M 112 131 L 114 138" stroke="#C8C2B8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 尾（一明一暗） -->
+    <path d="M 117 128 Q 126 124 130 118" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 117 128;6 117 128;0 117 128" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 尾光（一明一暗） -->
+    <circle cx="131" cy="117" r="2.4" fill="#F8E4A0">
+      <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 少年魔杖猫头（专注，挥杖） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="104" cy="104" rx="9.5" ry="8.5" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 尖耳 -->
+    <path d="M 96 98 L 92 90 L 101 95 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <path d="M 112 98 L 116 90 L 107 95 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <!-- 眼（专注） -->
+    <circle cx="99.5" cy="102" r="2.3" fill="#24180E"/>
+    <circle cx="100.1" cy="101.4" r="0.75" fill="#FFF"/>
+    <circle cx="108.5" cy="102" r="2.3" fill="#24180E"/>
+    <circle cx="109.1" cy="101.4" r="0.75" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 103 106 L 105 106 L 104 107.4 Z" fill="#E8A0A0"/>
+    <!-- 嘴（练） -->
+    <path d="M 101 108.5 Q 104 109.8 107 108.5" fill="none" stroke="#C8B0A0" stroke-width="0.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 挥杖的前爪（点目标） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 100 112 Q 112 118 122 124" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 100 112;8 100 112;0 100 112" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 魔杖（指准） -->
+    <path d="M 122 124 L 136 132 L 140 135" stroke="#8E6E4E" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <circle cx="141" cy="136" r="2" fill="#F8E4A0">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F8F4E4">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
