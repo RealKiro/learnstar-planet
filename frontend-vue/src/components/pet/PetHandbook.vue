@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { getSpeciesById, getLevelRequiredScore, getSeriesBySpeciesId, getSpeciesEmoji, SERIES_SCENES } from '@/utils/petData'
+import { getSpeciesById, getLevelRequiredScore, getLevelStage, getSeriesBySpeciesId, getSpeciesEmoji, SERIES_SCENES } from '@/utils/petData'
 import { getStagePersonality, getStageAbility } from '@/utils/petTraits'
 import { getPoems, getEvoLines, stageIndexForLevel, poemToLines } from '@/utils/petHandbookData'
 import { getPetProfile } from '@/utils/petProfiles'
@@ -53,8 +53,8 @@ function getRequiredForNext(level: number): number {
   return getLevelRequiredScore(level)
 }
 
-// ===== 角色档案：形态 / 习性 / 进化台词 / 专属诗文 =====
-const profile = computed(() => getPetProfile(props.speciesId))
+// ===== 角色档案：按预览阶段显示九维（未写阶段时回退全局）；进化台词 / 专属诗文按阶段 =====
+const profile = computed(() => getPetProfile(props.speciesId, getLevelStage(previewLevel.value)))
 const stageIdx = computed(() => stageIndexForLevel(previewLevel.value))
 const evoLine = computed(() => {
   const lines = getEvoLines(species.value?.name || '')
