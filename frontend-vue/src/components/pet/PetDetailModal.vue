@@ -298,9 +298,9 @@ const STAGE_LABEL: Record<string, string> = {
   margin-bottom: 18px;
 }
 .current-scene {
-  width: 170px;
-  min-width: 170px;
-  height: 170px;
+  width: 220px;
+  min-width: 220px;
+  height: 220px;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -309,7 +309,7 @@ const STAGE_LABEL: Record<string, string> = {
   overflow: hidden;
   border: 1px solid var(--tint-2);
 }
-.current-sprite { width: 120px; height: 120px; }
+.current-sprite { width: 150px; height: 150px; }
 .current-badge {
   position: absolute;
   bottom: 10px;

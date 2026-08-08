@@ -102,23 +102,7 @@ const poemLines = computed(() => poemToLines(poem.value))
         </div>
       </div>
 
-      <!-- 角色档案：形态 / 习性 / 本源 / 别称 / 标志动作 / 意象 / 主题句 / 进化台词 / 专属诗文 -->
-      <div class="profile-card">
-        <div class="profile-title">📖 角色档案</div>
-        <div class="profile-row"><span class="profile-label">形态</span><span class="profile-text">{{ profile.form }}</span></div>
-        <div class="profile-row"><span class="profile-label">习性</span><span class="profile-text">{{ profile.habit }}</span></div>
-        <div v-if="profile.origin" class="profile-row"><span class="profile-label">本源</span><span class="profile-text">{{ profile.origin }}</span></div>
-        <div v-if="profile.epithet" class="profile-row"><span class="profile-label">别称</span><span class="profile-text">{{ profile.epithet }}</span></div>
-        <div v-if="profile.movement" class="profile-row"><span class="profile-label">标志</span><span class="profile-text">{{ profile.movement }}</span></div>
-        <div v-if="profile.symbol" class="profile-row"><span class="profile-label">意象</span><span class="profile-text">{{ profile.symbol }}</span></div>
-        <div v-if="profile.theme" class="profile-row profile-row--theme"><span class="profile-label">主题</span><span class="profile-text">{{ profile.theme }}</span></div>
-        <div class="profile-row profile-row--quote"><span class="profile-label">🎤</span><span class="profile-text">{{ evoLine }}</span></div>
-        <div class="profile-row profile-row--poem"><span class="profile-label">📜</span><span class="profile-text poem-block">
-          <span v-for="(line, i) in poemLines" :key="i" class="poem-line" :class="{ 'poem-line--second': i % 2 === 1 }">{{ line }}</span>
-        </span></div>
-      </div>
-
-      <!-- 预览区域 -->
+      <!-- 预览区域（先看大图，再读档案） -->
       <div class="preview-area">
         <div class="preview-scene" v-if="scene" :style="{ background: sceneBg }">
           <div class="preview-sprite">
@@ -163,6 +147,22 @@ const poemLines = computed(() => poemToLines(poem.value))
             还差 <strong>{{ Math.max(0, getRequiredForNext(previewLevel) - currentScore) }}</strong> 分解锁此形态
           </div>
         </div>
+      </div>
+
+      <!-- 角色档案：形态 / 习性 / 本源 / 别称 / 标志动作 / 意象 / 主题句 / 进化台词 / 专属诗文 -->
+      <div class="profile-card">
+        <div class="profile-title">📖 角色档案</div>
+        <div class="profile-row"><span class="profile-label">形态</span><span class="profile-text">{{ profile.form }}</span></div>
+        <div class="profile-row"><span class="profile-label">习性</span><span class="profile-text">{{ profile.habit }}</span></div>
+        <div v-if="profile.origin" class="profile-row"><span class="profile-label">本源</span><span class="profile-text">{{ profile.origin }}</span></div>
+        <div v-if="profile.epithet" class="profile-row"><span class="profile-label">别称</span><span class="profile-text">{{ profile.epithet }}</span></div>
+        <div v-if="profile.movement" class="profile-row"><span class="profile-label">标志</span><span class="profile-text">{{ profile.movement }}</span></div>
+        <div v-if="profile.symbol" class="profile-row"><span class="profile-label">意象</span><span class="profile-text">{{ profile.symbol }}</span></div>
+        <div v-if="profile.theme" class="profile-row profile-row--theme"><span class="profile-label">主题</span><span class="profile-text">{{ profile.theme }}</span></div>
+        <div class="profile-row profile-row--quote"><span class="profile-label">🎤</span><span class="profile-text">{{ evoLine }}</span></div>
+        <div class="profile-row profile-row--poem"><span class="profile-label">📜</span><span class="profile-text poem-block">
+          <span v-for="(line, i) in poemLines" :key="i" class="poem-line" :class="{ 'poem-line--second': i % 2 === 1 }">{{ line }}</span>
+        </span></div>
       </div>
 
       <!-- 全部等级列表 -->
@@ -382,8 +382,9 @@ const poemLines = computed(() => poemToLines(poem.value))
   margin-bottom: 20px;
 }
 .preview-scene {
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  min-width: 160px;
+  height: 160px;
   border-radius: 16px;
   flex-shrink: 0;
   display: flex;
@@ -394,8 +395,8 @@ const poemLines = computed(() => poemToLines(poem.value))
   overflow: hidden;
 }
 .preview-sprite {
-  width: 76px;
-  height: 76px;
+  width: 110px;
+  height: 110px;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 .preview-level-badge {
