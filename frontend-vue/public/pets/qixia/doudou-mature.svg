@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="逗逗·四阶·妙手初成·三日救醒垂危笑中带泪">
+  <defs>
+    <!-- 背景：医馆暖烛 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B89A78"/>
+      <stop offset="52%" stop-color="#967E62"/>
+      <stop offset="100%" stop-color="#745E4A"/>
+    </linearGradient>
+    <!-- 烛火暖 -->
+    <radialGradient id="fire" cx="70%" cy="46%" r="50%">
+      <stop offset="0%" stop-color="#F0D898" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F0D898" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 药香 -->
+    <radialGradient id="herb" cx="36%" cy="52%" r="40%">
+      <stop offset="0%" stop-color="#9EC878" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#9EC878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0F2F4"/>
+      <stop offset="100%" stop-color="#C8D0D8"/>
+    </linearGradient>
+    <!-- 黄米色劲装 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8C878"/>
+      <stop offset="100%" stop-color="#B09A56"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0DCC6"/>
+      <stop offset="100%" stop-color="#DCC8B2"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 烛火 -->
+  <circle cx="142" cy="100" r="66" fill="url(#fire)">
+    <animate attributeName="opacity" values="0.85;0.55;0.85" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 药香 -->
+  <circle cx="72" cy="104" r="56" fill="url(#herb)">
+    <animate attributeName="opacity" values="0.6;0.38;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 药柜 -->
+  <g opacity="0.8">
+    <path d="M 160 108 L 160 74 L 194 74 L 194 108 Z" fill="#A08868" stroke="#806850" stroke-width="1"/>
+    <path d="M 164 78 L 190 78 M 164 86 L 190 86 M 164 94 L 190 94 M 164 102 L 190 102" stroke="#806850" stroke-width="0.8"/>
+    <circle cx="177" cy="82" r="1.2" fill="#6E5648"/>
+    <circle cx="177" cy="90" r="1.2" fill="#6E5648"/>
+    <circle cx="177" cy="98" r="1.2" fill="#6E5648"/>
+  </g>
+
+  <!-- 病榻（垂危侠客） -->
+  <path d="M 120 138 L 120 114 Q 120 110 126 110 L 192 110 Q 196 110 196 116 L 196 138 Z" fill="#8E7864" stroke="#6E5A48" stroke-width="1"/>
+  <path d="M 122 114 L 194 114" stroke="#A08A72" stroke-width="1.2"/>
+  <!-- 垂危侠客 -->
+  <g opacity="0.5">
+    <path d="M 152 112 Q 152 106 156 104 Q 160 106 160 112 L 160 118 Q 156 120 152 118 Z" fill="#4E3E3A"/>
+    <circle cx="156" cy="102" r="5" fill="#D8C8B4"/>
+    <!-- 包扎 -->
+    <path d="M 152 104 L 160 100" stroke="#E8E0D0" stroke-width="1.4"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#5E4A3E" opacity="0.8"/>
+  <path d="M 0 152 L 200 152" stroke="#7E6A56" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 白毛小狗（6头身，劲装，药囊敞开） -->
+  <!-- 腿 -->
+  <path d="M 84 136 L 80 158 L 86 158 L 90 138 Z" fill="#C0C8D0"/>
+  <path d="M 100 136 L 108 160 L 102 160 L 96 138 Z" fill="#C0C8D0"/>
+  <!-- 劲装 -->
+  <path d="M 84 102 Q 80 120 86 136 Q 96 142 104 136 Q 110 120 106 102 Q 96 96 84 102 Z" fill="url(#robe)" stroke="#8E7844" stroke-width="1"/>
+  <!-- 药囊（敞开） -->
+  <path d="M 104 104 L 114 114 L 112 124 L 100 110 Z" fill="#C8B890" stroke="#A89268" stroke-width="0.8"/>
+  <path d="M 104 108 L 112 118" stroke="#7E6A4E" stroke-width="0.6" stroke-linecap="round"/>
+  <!-- 腰间药葫芦 -->
+  <circle cx="92" cy="120" r="2.4" fill="#A88A4E" stroke="#8E6A3E" stroke-width="0.6"/>
+  <!-- 尾巴（摇） -->
+  <path d="M 110 130 Q 120 124 124 116" stroke="#D0D8E0" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 110 130;12 110 130;0 110 130" dur="1.8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（狗脸，圆眼含泪带笑，发揪歪着） -->
+  <ellipse cx="94" cy="94" rx="10.5" ry="10.5" fill="url(#fur)" stroke="#9AA2A8" stroke-width="0.8"/>
+  <!-- 垂耳 -->
+  <path d="M 85 88 Q 77 88 75 96 Q 75 102 81 100 Q 85 96 87 90 Z" fill="#D0B868" stroke="#9E8A50" stroke-width="0.8"/>
+  <path d="M 103 88 Q 111 88 113 96 Q 113 102 107 100 Q 103 96 101 90 Z" fill="#D0B868" stroke="#9E8A50" stroke-width="0.8"/>
+  <!-- 发揪汗湿歪着 -->
+  <path d="M 94 82 Q 92 76 95 73 Q 98 76 96 82 Z" fill="#B0B8C0"/>
+  <path d="M 95 73 L 93 69" stroke="#C8B878" stroke-width="1" stroke-linecap="round"/>
+  <!-- 狗脸白斑 -->
+  <ellipse cx="94" cy="98" rx="7" ry="5.5" fill="#F0DCC6"/>
+  <!-- 圆眼含泪带笑 -->
+  <circle cx="89" cy="92" r="3" fill="#1E1008"/>
+  <circle cx="99" cy="92" r="3" fill="#1E1008"/>
+  <circle cx="90" cy="91" r="1" fill="#FFF"/>
+  <circle cx="100" cy="91" r="1" fill="#FFF"/>
+  <!-- 笑中带泪 -->
+  <path d="M 87 94 Q 86 96 87 98" stroke="#C8E8F8" stroke-width="1.1" stroke-linecap="round" opacity="0.8">
+    <animate attributeName="cy" values="94;99;94" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+  <!-- 狗鼻 -->
+  <circle cx="94" cy="97" r="1.8" fill="#3A2E26"/>
+  <!-- 咧嘴笑（含泪） -->
+  <path d="M 89 101 Q 94 105 99 101" fill="none" stroke="#8E6A5E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左臂（施针，银针微光） -->
+  <path d="M 86 106 C 80 110 76 114 74 120" fill="none" stroke="#D0C068" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="73" cy="122" r="3" fill="#F0DCC6"/>
+  <!-- 银针 -->
+  <line x1="73" y1="120" x2="68" y2="112" stroke="#E8E4DC" stroke-width="1.2" stroke-linecap="round">
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 右手（端药碗，向前） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 102 106 C 108 102 112 98 116 94" fill="none" stroke="#D0C068" stroke-width="3.6" stroke-linecap="round"/>
+    <circle cx="118" cy="92" r="2.8" fill="#F0DCC6"/>
+    <!-- 药碗 -->
+    <path d="M 112 94 Q 114 100 120 100 Q 126 100 128 94 Z" fill="#B08A5E" stroke="#8E6A44" stroke-width="0.8"/>
+    <!-- 药气升腾 -->
+    <path d="M 116 92 Q 114 88 116 84 Q 118 80 116 76" stroke="#E8E0D0" stroke-width="1.2" opacity="0.5" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 至亲虚影（烛火旁） -->
+  <g opacity="0.3">
+    <path d="M 156 76 Q 158 68 162 66 Q 166 68 166 76 Z" fill="#6E5A78"/>
+    <circle cx="163" cy="64" r="4.5" fill="#D8C8E0"/>
+  </g>
+
+  <!-- 药香星尘 -->
+  <g fill="#F0D898">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

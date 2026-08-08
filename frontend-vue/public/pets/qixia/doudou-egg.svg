@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="逗逗·一阶·药囊少年·山林溪边采药识药">
+  <defs>
+    <!-- 背景：山林溪边晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#BFE8C8"/>
+      <stop offset="52%" stop-color="#A0D8AE"/>
+      <stop offset="100%" stop-color="#82C894"/>
+    </linearGradient>
+    <!-- 溪光 -->
+    <radialGradient id="glow" cx="50%" cy="34%" r="56%">
+      <stop offset="0%" stop-color="#F4FFF0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F4FFF0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 雨花青 -->
+    <radialGradient id="rain" cx="50%" cy="44%" r="52%">
+      <stop offset="0%" stop-color="#7EE8C8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#7EE8C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#D8E0E8"/>
+    </linearGradient>
+    <!-- 黄米色小短褂 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E0C878"/>
+      <stop offset="100%" stop-color="#C0A85E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F6E2CC"/>
+      <stop offset="100%" stop-color="#E4CEB6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="70" r="80" fill="url(#glow)"/>
+  <!-- 雨花微光 -->
+  <circle cx="100" cy="96" r="66" fill="url(#rain)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山 -->
+  <path d="M 0 130 Q 40 118 90 126 Q 140 132 200 122 L 200 200 L 0 200 Z" fill="#7EB878" opacity="0.5"/>
+
+  <!-- 溪流 -->
+  <path d="M 0 150 Q 50 146 100 150 Q 150 154 200 148 L 200 200 L 0 200 Z" fill="#9ED8CE" opacity="0.75">
+    <animate attributeName="opacity" values="0.75;0.55;0.75" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <path d="M 0 150 Q 50 146 100 150 Q 150 154 200 148" stroke="#B8E8DE" stroke-width="1.4" opacity="0.7"/>
+
+  <!-- 药草（溪边几丛） -->
+  <g fill="#22C55E">
+    <path d="M 44 150 L 40 138 L 44 136 L 48 138 Z"/>
+    <path d="M 150 148 L 146 136 L 150 134 L 154 136 Z"/>
+  </g>
+
+  <!-- 白毛小狗（4头身，黄米短褂，斜挎药囊） -->
+  <!-- 腿 -->
+  <path d="M 86 134 L 82 156 L 88 156 L 92 136 Z" fill="#D0D8E0"/>
+  <path d="M 102 134 L 110 158 L 104 158 L 98 136 Z" fill="#D0D8E0"/>
+  <!-- 黄米短褂 -->
+  <path d="M 86 102 Q 82 118 88 134 Q 98 140 106 134 Q 112 118 108 102 Q 98 96 86 102 Z" fill="url(#robe)" stroke="#A08A4E" stroke-width="1"/>
+  <!-- 腰间药葫芦 -->
+  <circle cx="94" cy="120" r="2.6" fill="#B08A4E" stroke="#8E6A3E" stroke-width="0.6"/>
+  <!-- 布药囊（斜挎） -->
+  <path d="M 108 104 L 116 116 L 114 124 L 104 112 Z" fill="#C8B890" stroke="#A89268" stroke-width="0.8"/>
+  <path d="M 108 104 L 104 108" stroke="#A89268" stroke-width="1" stroke-linecap="round"/>
+  <!-- 尾巴（摇） -->
+  <path d="M 108 128 Q 118 120 122 112" stroke="#D0D8E0" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 108 128;12 108 128;0 108 128" dur="1.6s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（狗脸，圆眼机灵，咧嘴笑，腮圆） -->
+  <ellipse cx="97" cy="96" rx="10.5" ry="10.5" fill="url(#fur)" stroke="#A8B0B8" stroke-width="0.8"/>
+  <!-- 垂耳 -->
+  <path d="M 88 90 Q 80 90 78 98 Q 78 104 84 102 Q 88 98 90 92 Z" fill="#D8C878" stroke="#A89258" stroke-width="0.8"/>
+  <path d="M 106 90 Q 114 90 116 98 Q 116 104 110 102 Q 106 98 104 92 Z" fill="#D8C878" stroke="#A89258" stroke-width="0.8"/>
+  <!-- 头顶发揪 -->
+  <path d="M 97 84 Q 95 78 98 75 Q 101 78 99 84 Z" fill="#B8C0C8"/>
+  <!-- 狗脸白斑 -->
+  <ellipse cx="97" cy="100" rx="7" ry="5.5" fill="#F6E2CC"/>
+  <!-- 圆眼机灵 -->
+  <circle cx="92" cy="94" r="3" fill="#1E1008"/>
+  <circle cx="102" cy="94" r="3" fill="#1E1008"/>
+  <circle cx="93" cy="93" r="1" fill="#FFF"/>
+  <circle cx="103" cy="93" r="1" fill="#FFF"/>
+  <!-- 狗鼻 -->
+  <circle cx="97" cy="99" r="1.8" fill="#3A2E26"/>
+  <!-- 咧嘴笑 -->
+  <path d="M 92 103 Q 97 107 102 103" fill="none" stroke="#8E6A5E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左臂（采药） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 88 108;3 88 108;-4 88 108" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M 88 108 C 82 112 78 116 76 122" fill="none" stroke="#D0C078" stroke-width="3.8" stroke-linecap="round"/>
+    <circle cx="75" cy="124" r="3" fill="#F6E2CC"/>
+    <!-- 手中药草 -->
+    <path d="M 74 122 L 66 130 M 74 122 L 68 132" stroke="#22C55E" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 右手（药囊前，指药） -->
+  <path d="M 104 108 C 110 104 114 100 116 94" fill="none" stroke="#D0C078" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="117" cy="92" r="2.8" fill="#F6E2CC"/>
+
+  <!-- 药草星尘 -->
+  <g fill="#7EE8C8">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
