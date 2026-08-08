@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="藏羚羊·二阶·偷猎之危·狂奔腿软回望同伴倒下">
+  <defs>
+    <!-- 背景：荒原残阳 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B0A490"/>
+      <stop offset="52%" stop-color="#8E8478"/>
+      <stop offset="100%" stop-color="#6E6A5E"/>
+    </linearGradient>
+    <!-- 残阳 -->
+    <radialGradient id="glow" cx="70%" cy="30%" r="34%">
+      <stop offset="0%" stop-color="#E8B888" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#E8B888" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 背毛（沾尘） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A8905E"/>
+      <stop offset="100%" stop-color="#88703E"/>
+    </linearGradient>
+    <!-- 腹白 -->
+    <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8D0BC"/>
+      <stop offset="100%" stop-color="#C4BAA2"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 残阳 -->
+  <circle cx="140" cy="52" r="14" fill="#D8906E" opacity="0.85"/>
+  <circle cx="140" cy="52" r="40" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.45;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 荒原 -->
+  <path d="M 0 132 Q 50 124 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z" fill="#6E6A5A" opacity="0.8"/>
+  <path d="M 0 132 Q 50 124 110 130 Q 160 134 200 126" stroke="#8E8878" stroke-width="1.2" opacity="0.6"/>
+  <!-- 荒草 -->
+  <g stroke="#8E7E5E" stroke-width="1.4" stroke-linecap="round" opacity="0.6">
+    <path d="M 24 130 Q 22 124 20 118 M 30 130 Q 30 124 30 118"/>
+  </g>
+
+  <!-- 同伴倒下（远处，风里） -->
+  <g opacity="0.5">
+    <ellipse cx="156" cy="138" rx="10" ry="5" fill="#6E5E48"/>
+    <path d="M 152 136 Q 148 132 148 128" stroke="#6E5E48" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 158 136 L 164 134 L 160 138 Z" fill="#5E4E3A"/>
+    <path d="M 150 134 L 146 134" stroke="#6E5E48" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 枪声惊尘（左上，未散） -->
+  <g stroke="#C8C0AE" stroke-width="1.2" opacity="0.4" stroke-linecap="round" fill="none">
+    <path d="M 30 92 Q 40 88 50 92">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 44 102 Q 54 98 64 102">
+      <animate attributeName="opacity" values="0.35;0.12;0.35" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 幼羚（4头身，腿软站定，回望同伴，剑角微垂） -->
+  <!-- 后腿（发软） -->
+  <path d="M 104 126 L 108 138 L 114 140 L 112 128 Z" fill="url(#fur)" stroke="#6E5628" stroke-width="1"/>
+  <path d="M 94 124 L 96 136 L 102 136 L 100 126 Z" fill="url(#belly)" opacity="0.8"/>
+  <!-- 身体（微弓） -->
+  <path d="M 78 108 Q 74 120 82 128 Q 94 132 106 126 Q 110 116 104 106 Q 90 102 78 108 Z" fill="url(#fur)" stroke="#6E5628" stroke-width="1"/>
+  <!-- 腹白 -->
+  <path d="M 80 114 Q 76 124 84 128 Q 96 130 102 124 Q 104 116 98 110 Z" fill="url(#belly)" opacity="0.9"/>
+  <!-- 前腿（撑住） -->
+  <path d="M 84 122 C 78 128 76 132 76 138" fill="none" stroke="url(#fur)" stroke-width="4.6" stroke-linecap="round"/>
+  <circle cx="76" cy="140" r="2.6" fill="#5E4E3A"/>
+  <path d="M 98 122 C 104 128 106 132 108 138" fill="none" stroke="url(#fur)" stroke-width="4.6" stroke-linecap="round"/>
+  <circle cx="109" cy="140" r="2.6" fill="#5E4E3A"/>
+  <!-- 尾（垂） -->
+  <path d="M 106 112 Q 114 112 118 108" stroke="#88703E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+  <!-- 头（回望，剑角微垂，眼神惊惶） -->
+  <g>
+    <ellipse cx="76" cy="98" rx="10" ry="8" fill="url(#fur)" stroke="#6E5628" stroke-width="1"/>
+    <!-- 白颊 -->
+    <ellipse cx="73" cy="101" rx="5.5" ry="4" fill="url(#belly)" stroke="#BEB49C" stroke-width="0.5"/>
+    <!-- 剑角（微垂） -->
+    <path d="M 77 92 Q 76 84 72 80 Q 68 78 66 82" stroke="#5E4E3A" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+    <path d="M 81 92 Q 82 85 86 82" stroke="#5E4E3A" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+    <!-- 耳（耷） -->
+    <path d="M 70 94 Q 64 94 62 90" stroke="#A8905E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- 眼（惊惶，睁大） -->
+    <circle cx="72" cy="98" r="2" fill="#24180E"/>
+    <circle cx="72.5" cy="97.6" r="0.8" fill="#FFF"/>
+    <circle cx="81" cy="98" r="2" fill="#24180E"/>
+    <circle cx="81.5" cy="97.6" r="0.8" fill="#FFF"/>
+    <!-- 惊惶眉 -->
+    <path d="M 70 94 Q 72 93 74 94 M 79 94 Q 81 93 83 94" stroke="#6E5628" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+    <!-- 抿唇（低低呜咽） -->
+    <path d="M 70 103 Q 74 104.6 78 103" fill="none" stroke="#6E5628" stroke-width="0.9" stroke-linecap="round"/>
+    <!-- 沾尘 -->
+    <path d="M 84 110 L 90 108 M 96 112 L 102 110" stroke="#8E846E" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- 呜咽声波 -->
+  <g stroke="#D8D0C0" stroke-width="1.2" opacity="0.4" stroke-linecap="round" fill="none">
+    <path d="M 66 108 Q 62 114 64 120">
+      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 荒原尘 -->
+  <g fill="#9A927E">
+    <circle cx="44" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="126" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
