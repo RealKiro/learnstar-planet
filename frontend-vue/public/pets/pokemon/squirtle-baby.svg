@@ -1,139 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="杰尼龟·二阶·干涸之痛·背水喷水同伴渴卧">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="杰尼龟·二阶·干涸之痛">
   <defs>
-    <!-- 背景：干涸水泽，烈日 -->
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#E0C898"/>
-      <stop offset="52%" stop-color="#C4AC7C"/>
-      <stop offset="100%" stop-color="#A89868"/>
+      <stop offset="0%" stop-color="#D8C890"/><stop offset="100%" stop-color="#B8986E"/>
     </linearGradient>
-    <!-- 烈日 -->
-    <radialGradient id="glow" cx="74%" cy="20%" r="30%">
-      <stop offset="0%" stop-color="#FFF8D8" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#FFF8D8" stop-opacity="0"/>
-    </radialGradient>
-    <!-- 蓝色皮肤（发干） -->
     <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#5A86C0"/>
-      <stop offset="100%" stop-color="#4672AC"/>
+      <stop offset="0%" stop-color="#4E9ED8"/><stop offset="100%" stop-color="#2E7EBC"/>
     </linearGradient>
-    <!-- 龟壳（晒得发烫） -->
-    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#B88850"/>
-      <stop offset="100%" stop-color="#96683C"/>
+    <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCE8C8"/><stop offset="100%" stop-color="#F0CE96"/>
     </linearGradient>
+    <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C89A5E"/><stop offset="100%" stop-color="#9A6E3E"/>
+    </linearGradient>
+    <g id="sq-head">
+      <circle cx="0" cy="0" r="29" fill="url(#skin)" stroke="#1E5E8E" stroke-width="1.4"/>
+      <circle cx="-11" cy="-1" r="8" fill="#2B2B2B"/>
+      <circle cx="-9" cy="-3.4" r="3" fill="#FFF"/>
+      <circle cx="11" cy="-1" r="8" fill="#2B2B2B"/>
+      <circle cx="13" cy="-3.4" r="3" fill="#FFF"/>
+      <ellipse cx="0" cy="5" rx="1.8" ry="1.3" fill="#1E4E7E"/>
+      <path d="M -5 10 Q 0 14 6 11" fill="none" stroke="#1E4E7E" stroke-width="1.3" stroke-linecap="round"/>
+    </g>
   </defs>
-
   <rect width="200" height="200" fill="url(#bg)"/>
-  <!-- 烈日 -->
-  <circle cx="148" cy="40" r="15" fill="#FFF8D8"/>
-  <circle cx="148" cy="40" r="42" fill="url(#glow)">
-    <animate attributeName="opacity" values="0.95;0.7;0.95" dur="3s" repeatCount="indefinite"/>
-  </circle>
-  <g stroke="#FFF8D8" stroke-width="1" opacity="0.5" stroke-linecap="round">
-    <path d="M 160 52 L 168 62 M 154 58 L 158 68 M 176 40 L 188 42">
-      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/>
-    </path>
+  <circle cx="100" cy="40" r="26" fill="#F8E8A0" opacity="0.9"/>
+  <g stroke="#F8E8A0" stroke-width="2.6" stroke-linecap="round" opacity="0.8">
+    <line x1="100" y1="4" x2="100" y2="12"/><line x1="66" y1="34" x2="74" y2="40"/><line x1="134" y1="34" x2="126" y2="40"/>
   </g>
-
-  <!-- 干涸水泽 -->
-  <path d="M 0 144 L 200 144 L 200 200 L 0 200 Z" fill="#9E8A5E" opacity="0.9"/>
-  <path d="M 0 144 L 200 144" stroke="#BEA878" stroke-width="1.4" opacity="0.7"/>
-  <!-- 龟裂纹 -->
-  <g stroke="#8E7A4E" stroke-width="1.2" opacity="0.6" fill="none">
-    <path d="M 20 150 L 44 148 L 52 156 M 80 152 L 96 148 L 104 158 M 140 150 L 158 154 L 170 148"/>
+  <path d="M 0 168 L 200 168 L 200 200 L 0 200 Z" fill="#9A7A58"/>
+  <g stroke="#6E5638" stroke-width="2" stroke-linecap="round" opacity="0.7">
+    <path d="M 40 176 L 52 172 M 70 184 L 80 178 M 120 180 L 134 176 M 160 186 L 172 182"/>
   </g>
-  <!-- 蒸腾热浪 -->
-  <g stroke="#C8B888" stroke-width="1" opacity="0.5" stroke-linecap="round" fill="none">
-    <path d="M 120 130 Q 118 126 120 122 Q 122 118 120 114">
-      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.6s" repeatCount="indefinite"/>
-    </path>
-    <path d="M 132 128 Q 130 124 132 120 Q 134 116 132 112">
-      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="3s" repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- 同伴（右，渴卧） -->
-  <g opacity="0.9">
-    <ellipse cx="156" cy="136" rx="12" ry="7" fill="#5A86C0" stroke="#3E6A9E" stroke-width="0.8"/>
-    <ellipse cx="156" cy="130" rx="9" ry="6" fill="#A87848" stroke="#8E5E32" stroke-width="0.8"/>
-    <circle cx="148" cy="133" r="4.4" fill="#5A86C0" stroke="#3E6A9E" stroke-width="0.7"/>
-    <path d="M 146 132 Q 144 130 144 128" stroke="#4A76AE" stroke-width="1" stroke-linecap="round"/>
-    <circle cx="146" cy="132" r="1.2" fill="#4A3820"/>
-    <circle cx="151" cy="132" r="1.2" fill="#4A3820"/>
-    <path d="M 147 135 Q 149 136.4 151 135" stroke="#3E6A9E" stroke-width="0.6" stroke-linecap="round" fill="none"/>
-    <!-- 渴的舌头（微伸） -->
-    <path d="M 145 136 Q 143 138 142 140" stroke="#D87878" stroke-width="1" stroke-linecap="round"/>
-    <!-- 冒汗 -->
-    <path d="M 158 126 Q 160 124 160 122" stroke="#8AB8E0" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
-  </g>
-
-  <!-- 小水花（杰尼龟喷向同伴，杯水车薪） -->
-  <g stroke="#8AB8E0" stroke-width="1.6" opacity="0.7" stroke-linecap="round" fill="none">
-    <path d="M 96 116 Q 112 122 130 126">
-      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.4s" repeatCount="indefinite"/>
-    </path>
-  </g>
-  <g fill="#8AB8E0">
-    <circle cx="120" cy="124" r="1.4">
-      <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.4s" repeatCount="indefinite"/>
-    </circle>
-  </g>
-
-  <!-- 杰尼龟（2头身，背水喷水，执着） -->
-  <g>
-    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="3s" repeatCount="indefinite"/>
-    <!-- 后腿 -->
-    <path d="M 62 138 L 58 148 L 64 149 L 70 142 Z" fill="url(#skin)" stroke="#3A62A0" stroke-width="0.9"/>
-    <!-- 尾 -->
-    <path d="M 78 140 Q 86 140 90 136 Q 88 132 82 134 Q 80 137 78 140 Z" fill="url(#skin)" stroke="#3A62A0" stroke-width="0.8"/>
-    <!-- 前腿 -->
-    <path d="M 60 136 C 54 140 52 143 52 148" fill="none" stroke="url(#skin)" stroke-width="4.2" stroke-linecap="round"/>
-    <circle cx="52" cy="149" r="2.4" fill="#4672AC"/>
-    <path d="M 72 136 C 78 140 80 143 80 148" fill="none" stroke="url(#skin)" stroke-width="4.2" stroke-linecap="round"/>
-    <circle cx="81" cy="149" r="2.4" fill="#4672AC"/>
-  </g>
-
-  <!-- 背壳（发烫） -->
-  <ellipse cx="62" cy="118" rx="17" ry="14" fill="url(#shell)" stroke="#7E522C" stroke-width="1"/>
-  <path d="M 62 106 L 62 130 M 48 116 L 76 120 M 50 124 L 74 126" stroke="#7E522C" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
-  <!-- 发烫蒸汽 -->
-  <g stroke="#D8C898" stroke-width="1" opacity="0.5" stroke-linecap="round" fill="none">
-    <path d="M 54 104 Q 52 100 54 96">
-      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.2s" repeatCount="indefinite"/>
-    </path>
-    <path d="M 70 104 Q 72 100 70 96">
-      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="2.6s" repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- 头（执着，喷水） -->
-  <g>
-    <ellipse cx="58" cy="100" rx="13" ry="11.5" fill="url(#skin)" stroke="#3A62A0" stroke-width="1"/>
-    <!-- 口（喷水） -->
-    <path d="M 52 104 Q 56 106.6 60 104" fill="none" stroke="#3A5E94" stroke-width="0.9" stroke-linecap="round"/>
-    <!-- 眼（执着，含忧） -->
-    <circle cx="51" cy="99" r="3" fill="#4A3820"/>
-    <circle cx="51.6" cy="98.4" r="1" fill="#FFF"/>
-    <circle cx="66" cy="99" r="3" fill="#4A3820"/>
-    <circle cx="66.6" cy="98.4" r="1" fill="#FFF"/>
-    <!-- 腮帮 -->
-    <circle cx="47" cy="103" r="2" fill="#3A62A0" opacity="0.5"/>
-    <circle cx="69" cy="103" r="2" fill="#3A62A0" opacity="0.5"/>
-    <!-- 头顶浅斑（暗） -->
-    <circle cx="58" cy="92" r="2.6" fill="#6E9ACE" opacity="0.6"/>
-    <!-- 发干皮肤纹 -->
-    <path d="M 52 90 Q 58 88 64 90" stroke="#3A62A0" stroke-width="0.8" stroke-linecap="round" opacity="0.5" fill="none"/>
-  </g>
-
-  <!-- 灼热尘 -->
-  <g fill="#FFF8D8">
-    <circle cx="40" cy="104">
-      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="120" cy="84">
-      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
-    </circle>
+  <g transform="translate(100,116) scale(0.85)">
+    <animateTransform attributeName="transform" type="translate" values="100 116;100 114;100 116" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M -18 16 Q -28 24 -24 34 Q -20 42 -12 38 Q -10 30 -16 26 Z" fill="#3E7EAC" stroke="#1E5E8E" stroke-width="1"/>
+    <ellipse cx="10" cy="-2" rx="25" ry="23" fill="url(#shell)" stroke="#6E4A24" stroke-width="1.6"/>
+    <path d="M 6 -17 Q 17 -7 11 13 Q 1 21 -7 7 Q -5 -9 6 -17 Z" fill="#B87E4E" opacity="0.6"/>
+    <ellipse cx="-4" cy="4" rx="29" ry="26" fill="url(#skin)" stroke="#1E5E8E" stroke-width="1.3"/>
+    <ellipse cx="-4" cy="13" rx="17" ry="11" fill="url(#belly)" opacity="0.9"/>
+    <ellipse cx="-15" cy="27" rx="6" ry="4" fill="url(#skin)" stroke="#1E5E8E" stroke-width="1"/>
+    <ellipse cx="8" cy="27" rx="6" ry="4" fill="url(#skin)" stroke="#1E5E8E" stroke-width="1"/>
+    <use href="#sq-head" transform="translate(-4,-29) scale(0.94)"/>
+    <!-- 水枪无力（一小注） -->
+    <path d="M 10 16 Q 22 12 26 20 Q 28 26 24 30" stroke="#8EC8E8" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.8"/>
   </g>
 </svg>
