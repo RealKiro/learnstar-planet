@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="大熊猫·二阶·竹林之失·光秃山坡抱笋四顾">
+  <defs>
+    <!-- 背景：光秃山坡 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9E8E78"/>
+      <stop offset="52%" stop-color="#7E725E"/>
+      <stop offset="100%" stop-color="#5E5646"/>
+    </linearGradient>
+    <!-- 残阳 -->
+    <radialGradient id="sun" cx="50%" cy="34%" r="46%">
+      <stop offset="0%" stop-color="#E8C8A0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E8C8A0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 残竹青 -->
+    <radialGradient id="green" cx="30%" cy="52%" r="32%">
+      <stop offset="0%" stop-color="#7EA878" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#7EA878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 黑毛 -->
+    <linearGradient id="black" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3A3A44"/>
+      <stop offset="100%" stop-color="#1E1E28"/>
+    </linearGradient>
+    <!-- 白毛（沾泥） -->
+    <linearGradient id="white" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8E8EA"/>
+      <stop offset="100%" stop-color="#B8B8BE"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 残阳 -->
+  <circle cx="100" cy="70" r="70" fill="url(#sun)">
+    <animate attributeName="opacity" values="0.5;0.32;0.5" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 残竹微光 -->
+  <circle cx="64" cy="108" r="46" fill="url(#green)">
+    <animate attributeName="opacity" values="0.45;0.25;0.45" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 伐木残桩 -->
+  <g opacity="0.7">
+    <path d="M 130 130 Q 134 120 140 122 L 142 130 Z" fill="#8E7A5E" stroke="#6E5A44" stroke-width="0.8"/>
+    <path d="M 150 136 Q 154 128 159 130 L 160 136 Z" fill="#9E8A6E" stroke="#7E6A4E" stroke-width="0.8"/>
+    <circle cx="134" cy="126" r="4" fill="#7E6A4E" opacity="0.6"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 128 Q 50 116 110 124 Q 160 130 200 120 L 200 200 L 0 200 Z" fill="#6E6A5E" opacity="0.5"/>
+
+  <!-- 光秃坡地 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#4E4A3E" opacity="0.85"/>
+  <path d="M 0 150 L 200 150" stroke="#6E6A5E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 大熊猫（2头身，抱笋蹲坐，沾泥） -->
+  <!-- 腿 -->
+  <path d="M 82 146 Q 78 152 84 154 Q 90 154 90 148 Z" fill="#1E1E28"/>
+  <path d="M 104 146 Q 108 152 102 154 Q 96 154 96 148 Z" fill="#1E1E28"/>
+  <!-- 身体 -->
+  <ellipse cx="93" cy="126" rx="20" ry="17" fill="url(#white)" stroke="#A8A8B0" stroke-width="0.8"/>
+  <!-- 泥渍 -->
+  <path d="M 80 132 Q 82 138 79 142" stroke="#7E725E" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+  <path d="M 104 130 Q 106 136 103 140" stroke="#7E725E" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- 肩部黑色臂带 -->
+  <path d="M 73 120 Q 78 108 88 112 L 90 122 Q 80 128 73 120 Z" fill="url(#black)"/>
+  <path d="M 113 120 Q 108 108 98 112 L 96 122 Q 106 128 113 120 Z" fill="url(#black)"/>
+  <!-- 黑尾 -->
+  <circle cx="116" cy="132" r="3.4" fill="#1E1E28"/>
+
+  <!-- 头（黑耳耷拉，黑眼圈含忧） -->
+  <circle cx="93" cy="100" r="13" fill="url(#white)" stroke="#A8A8B0" stroke-width="0.8"/>
+  <!-- 黑耳（耷拉） -->
+  <ellipse cx="80" cy="91" rx="4.4" ry="3.8" fill="url(#black)"/>
+  <ellipse cx="106" cy="91" rx="4.4" ry="3.8" fill="url(#black)"/>
+  <!-- 黑眼圈 -->
+  <ellipse cx="87" cy="101" rx="4.6" ry="4" fill="url(#black)"/>
+  <ellipse cx="99" cy="101" rx="4.6" ry="4" fill="url(#black)"/>
+  <!-- 圆眼含忧 -->
+  <circle cx="87" cy="101" r="2.4" fill="#1E1008"/>
+  <circle cx="99" cy="101" r="2.4" fill="#1E1008"/>
+  <circle cx="87.6" cy="100.4" r="0.9" fill="#FFF"/>
+  <circle cx="99.6" cy="100.4" r="0.9" fill="#FFF"/>
+  <!-- 忧光 -->
+  <path d="M 85 103 Q 84 105 85 107" stroke="#C8E8F8" stroke-width="1" stroke-linecap="round" opacity="0.7">
+    <animate attributeName="cy" values="103;108;103" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+  <!-- 黑鼻 -->
+  <ellipse cx="93" cy="106" rx="2.6" ry="1.8" fill="#1E1008"/>
+  <!-- 忧抿唇 -->
+  <path d="M 89 109 Q 93 110.6 97 109" fill="none" stroke="#6E6E78" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 前爪（紧抱竹笋） -->
+  <path d="M 84 118 C 80 124 78 130 80 136" fill="none" stroke="#1E1E28" stroke-width="4.4" stroke-linecap="round"/>
+  <circle cx="80" cy="138" r="3.6" fill="#1E1E28"/>
+  <!-- 怀中竹笋（仅剩一株） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 76 134 Q 74 140 78 146 Q 82 148 84 144 Q 84 138 82 134 Z" fill="#C89A52" stroke="#A87A3E" stroke-width="0.8"/>
+    <path d="M 82 134 L 80 130" stroke="#C89A52" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+  <!-- 右爪（护笋） -->
+  <path d="M 102 118 C 106 124 108 130 106 136" fill="none" stroke="#1E1E28" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="106" cy="138" r="3.4" fill="#1E1E28"/>
+
+  <!-- 风沙星尘 -->
+  <g fill="#C8BCA0">
+    <circle cx="44" cy="100">
+      <animate attributeName="cy" values="100;92;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
