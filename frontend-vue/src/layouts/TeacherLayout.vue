@@ -40,7 +40,7 @@ const FULL_NAV = [
     { page: 'teacher-attendance', label: '智能考勤', icon: '✅' },
   ]},
   { section: '成长激励', items: [
-    { page: 'teacher-pets', label: '宠物花园', icon: '🌟' },
+    { page: 'teacher-pets', label: '宠物图鉴', icon: '📚' },
     { page: 'teacher-leaderboard', label: '排行榜', icon: '🏆' },
     { page: 'teacher-pk', label: '年级PK', icon: '⚔️' },
   ]},

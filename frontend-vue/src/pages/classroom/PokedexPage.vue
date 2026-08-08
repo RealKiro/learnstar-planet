@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { apiPost } from '@/utils/api'
+import { useAppMode } from '@/composables/useAppMode'
 import { getAllSeries, PET_SERIES, getSpeciesById } from '@/utils/petData'
 import { getPoems, getEvoLines, STAGE_NAMES, poemToLines } from '@/utils/petHandbookData'
 import PetSprite from '@/components/pet/PetSprite.vue'
+
+// 教室端/教师端共用图鉴页；教师端无 class_token，隐藏"切换系列"
+const { isClassroomMode } = useAppMode()
 
 /** 阶段 tab → 展示等级（与详情 Lv 显示一致） */
 function stageLevel(idx: number): number {
@@ -82,7 +86,8 @@ onUnmounted(() => clearInterval(timer))
     <!-- 顶栏 -->
     <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
       <h2 style="font-size:24px;font-weight:700;margin:0;">📚 宠物图鉴</h2>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <!-- 切换系列仅教室端可用（教师端无 class_token） -->
+      <div v-if="isClassroomMode" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <label style="font-size:13px;color:var(--md-text-secondary);">🏷️ 系列</label>
         <select v-model="currentSeries"
           style="padding:8px 14px;border-radius:var(--md-radius);background:var(--tint-3);border:1px solid var(--tint-3);color:var(--color-text);font-size:14px;font-weight:500;outline:none;cursor:pointer;font-family:inherit;">
