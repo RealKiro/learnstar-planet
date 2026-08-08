@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="摩羯座·修罗·一阶·奉剑之志·折枝为剑练剑忘我">
+  <defs>
+    <!-- 背景：摩羯宫前晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8B878"/>
+      <stop offset="52%" stop-color="#B8965E"/>
+      <stop offset="100%" stop-color="#8E7850"/>
+    </linearGradient>
+    <!-- 晨光金 -->
+    <radialGradient id="glow" cx="50%" cy="36%" r="56%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 剑意银 -->
+    <radialGradient id="sword" cx="50%" cy="42%" r="50%">
+      <stop offset="0%" stop-color="#E8F0F8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8F0F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜学徒服 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8EA0B0"/>
+      <stop offset="100%" stop-color="#5E7484"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8C8A8"/>
+      <stop offset="100%" stop-color="#D0B090"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="70" r="80" fill="url(#glow)"/>
+  <!-- 剑意 -->
+  <circle cx="100" cy="96" r="60" fill="url(#sword)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色宫阙 -->
+  <g opacity="0.5">
+    <path d="M 20 20 L 72 20 L 62 34 Q 40 42 28 38 Z" fill="#B8965E"/>
+    <path d="M 20 20 L 72 20" stroke="#D8B878" stroke-width="1.2"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#7E6E4E" opacity="0.7"/>
+  <path d="M 0 152 L 200 152" stroke="#9E8E6E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 青铜学徒少年（5头身，折枝为剑，锐利） -->
+  <!-- 腿 -->
+  <path d="M 88 136 L 84 158 L 90 158 L 94 138 Z" fill="#5E7484"/>
+  <path d="M 104 136 L 112 160 L 106 160 L 100 138 Z" fill="#5E7484"/>
+  <!-- 青铜学徒服 -->
+  <path d="M 88 102 Q 84 118 90 136 Q 100 142 108 136 Q 114 118 110 102 Q 100 96 88 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 88 118 L 110 118" stroke="#A8B8C8" stroke-width="1.6"/>
+
+  <!-- 头（少年面容，剑眉，眼含剑意） -->
+  <circle cx="99" cy="94" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 短发 -->
+  <path d="M 90 88 Q 94 84 99 84 Q 104 84 108 88 Q 104 85 99 85 Q 94 85 90 88 Z" fill="#2E2620"/>
+  <!-- 剑眉 -->
+  <path d="M 91 89 Q 95 87.5 98 88 M 100 88 Q 103 87.5 107 89" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <!-- 眼含剑意 -->
+  <ellipse cx="95" cy="92" rx="2.4" ry="2.2" fill="#1E1008"/>
+  <ellipse cx="103" cy="92" rx="2.4" ry="2.2" fill="#1E1008"/>
+  <circle cx="96" cy="91.2" r="0.7" fill="#E8F0F8"/>
+  <circle cx="104" cy="91.2" r="0.7" fill="#E8F0F8"/>
+  <!-- 鼻梁 -->
+  <path d="M 99 94.5 L 99 97" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+  <!-- 唇线坚毅 -->
+  <path d="M 94 100.5 Q 99 101.8 104 100.5" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 左臂（护胸，剑势） -->
+  <path d="M 90 106 C 84 110 82 114 84 120" fill="none" stroke="#7E8E9E" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="84" cy="122" r="2.8" fill="#D0B090"/>
+
+  <!-- 右手持树枝剑（练剑忘我） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-5 106 104;4 106 104;-5 106 104" dur="1.6s" repeatCount="indefinite"/>
+    <path d="M 106 104 C 112 100 116 96 118 90" fill="none" stroke="#7E8E9E" stroke-width="3.8" stroke-linecap="round"/>
+    <circle cx="119" cy="88" r="2.8" fill="#D0B090"/>
+    <!-- 树枝剑 -->
+    <line x1="118" y1="90" x2="136" y2="60" stroke="#8E6A42" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 136 60 L 139 56" stroke="#8E6A42" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 剑意微光 -->
+    <path d="M 136 60 Q 144 52 148 48" stroke="#E8F0F8" stroke-width="1.4" opacity="0.6" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 剑意星尘 -->
+  <g fill="#E8F0F8">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
