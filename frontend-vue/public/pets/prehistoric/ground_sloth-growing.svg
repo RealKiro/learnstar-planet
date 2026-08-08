@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="大地懒·三阶·练力苦修·一爪掀倒木慢吞攀树稳稳立">
+  <defs>
+    <!-- 背景：森林晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DCE8D4"/>
+      <stop offset="52%" stop-color="#BCCCBC"/>
+      <stop offset="100%" stop-color="#94AC96"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F0F8EC" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F0F8EC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年大地懒毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A08E76"/>
+      <stop offset="100%" stop-color="#86745C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 森林 -->
+  <g fill="#6E9E78" opacity="0.3">
+    <path d="M 0 110 Q 50 104 110 108 Q 160 112 200 106 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7EAA82" opacity="0.8"/>
+
+  <!-- 高树（右） -->
+  <g>
+    <path d="M 164 150 Q 166 116 158 92" stroke="#6E5640" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+    <path d="M 160 104 Q 148 96 140 90 M 160 116 Q 148 110 140 104" stroke="#6E5640" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <g fill="#7EAE6E">
+      <path d="M 140 90 Q 134 84 130 78 Q 138 82 142 86 Z"/>
+      <path d="M 140 104 Q 134 100 130 96 Q 137 99 142 101 Z"/>
+    </g>
+  </g>
+
+  <!-- 被掀开的倒木（左前，裂缝亮） -->
+  <g>
+    <path d="M 56 150 Q 60 142 72 140 Q 80 142 84 150 Z" fill="#8E7044"/>
+    <path d="M 62 148 L 66 142 M 70 146 L 74 140" stroke="#6E5230" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="68" cy="145" r="6" fill="#F0F8EC" opacity="0.28">
+      <animate attributeName="opacity" values="0.28;0.14;0.28" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 少年大地懒（一爪掀木，慢攀高树） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="104" cy="134" rx="17" ry="12" fill="url(#fur)" stroke="#6E5E46" stroke-width="1"/>
+    <ellipse cx="101" cy="140" rx="10" ry="6" fill="#DCD0B8" opacity="0.7"/>
+    <!-- 腿（立稳） -->
+    <path d="M 94 143 L 92 150 M 116 143 L 118 150" stroke="#6E5E46" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 短尾 -->
+    <path d="M 121 138 Q 128 137 130 141" stroke="url(#fur)" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- 爪（如铲，掀木） -->
+    <path d="M 100 128 Q 90 122 82 120" stroke="url(#fur)" stroke-width="3.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 100 128;-10 100 128;0 100 128" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 攀树的爪（伸向树） -->
+    <path d="M 122 126 Q 132 118 140 112" stroke="url(#fur)" stroke-width="3" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 122 126;6 122 126;0 122 126" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年大地懒头（沉稳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="104" cy="114" rx="11" ry="10" fill="url(#fur)" stroke="#6E5E46" stroke-width="0.9"/>
+    <!-- 眼（专注） -->
+    <circle cx="99" cy="112" r="2.4" fill="#24180E"/>
+    <circle cx="99.6" cy="111.4" r="0.8" fill="#FFF"/>
+    <circle cx="109.5" cy="112" r="2.4" fill="#24180E"/>
+    <circle cx="110.1" cy="111.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="104" cy="117" rx="1.9" ry="1.4" fill="#5E4E3A"/>
+    <!-- 嘴 -->
+    <path d="M 100 120 Q 104 121.6 108 120" fill="none" stroke="#8E7A5E" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 圆耳 -->
+    <circle cx="94" cy="106" r="2.3" fill="#7E6A52"/>
+    <circle cx="114" cy="106" r="2.3" fill="#7E6A52"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F0F8EC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

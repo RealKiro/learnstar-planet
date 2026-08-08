@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="大地懒·二阶·慢之窘·食兽扑来拼命挪躲树洞喘看爪">
+  <defs>
+    <!-- 背景：森林暗 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8B8A4"/>
+      <stop offset="52%" stop-color="#8A9E86"/>
+      <stop offset="100%" stop-color="#6E8272"/>
+    </linearGradient>
+    <!-- 昏光 -->
+    <radialGradient id="glow" cx="46%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#D8E4D4" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#D8E4D4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 小大地懒毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#967E66"/>
+      <stop offset="100%" stop-color="#7E6A52"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="78" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 林影 -->
+  <g fill="#5E6E5E" opacity="0.35">
+    <path d="M 0 112 Q 60 104 130 110 Q 170 114 200 108 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#7E9A7A" opacity="0.75"/>
+  <path d="M 0 150 L 200 150" stroke="#9EBA9E" stroke-width="1.4" opacity="0.5"/>
+
+  <!-- 徘徊的食肉兽（右，走远） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <ellipse cx="156" cy="140" rx="9" ry="6" fill="#4E5A4E" stroke="#3E4A3E" stroke-width="0.8"/>
+    <circle cx="166" cy="134" r="4.5" fill="#4E5A4E"/>
+    <circle cx="164.4" cy="133" r="1.1" fill="#C84030" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 树洞（左，躲藏） -->
+  <g>
+    <path d="M 20 150 Q 24 120 40 112 Q 56 108 62 124 Q 64 140 62 150 Z" fill="#6E5640"/>
+    <path d="M 30 150 Q 32 128 42 120 Q 52 116 56 130 Q 58 142 56 150 Z" fill="#2E2418"/>
+  </g>
+
+  <!-- 小大地懒（躲树洞，喘气） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体（缩洞中） -->
+    <ellipse cx="56" cy="136" rx="13" ry="9.5" fill="url(#fur)" stroke="#6E5E46" stroke-width="0.9"/>
+    <ellipse cx="54" cy="141" rx="8" ry="5" fill="#DCD0B8" opacity="0.7"/>
+    <!-- 腿（缩） -->
+    <path d="M 49 143 L 47 149 M 64 143 L 66 149" stroke="#6E5E46" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 爪（发抖） -->
+    <path d="M 52 132 L 48 130" stroke="url(#fur)" stroke-width="2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 52 132;8 52 132;0 52 132" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 小大地懒头（喘，惧+坚） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="56" cy="116" rx="9.5" ry="8.5" fill="url(#fur)" stroke="#6E5E46" stroke-width="0.9"/>
+    <!-- 眼（惧+坚） -->
+    <circle cx="52" cy="114" r="2.2" fill="#24180E"/>
+    <circle cx="52.6" cy="113.4" r="0.7" fill="#FFF"/>
+    <circle cx="60.5" cy="114" r="2.2" fill="#24180E"/>
+    <circle cx="61.1" cy="113.4" r="0.7" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="56" cy="118" rx="1.8" ry="1.4" fill="#5E4E3A"/>
+    <!-- 嘴（喘） -->
+    <path d="M 53 121 Q 56 122.4 59 121" fill="none" stroke="#8E7A5E" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 圆耳 -->
+    <circle cx="48" cy="108" r="2.2" fill="#7E6A52"/>
+    <circle cx="64" cy="108" r="2.2" fill="#7E6A52"/>
+    <!-- 喘气白 -->
+    <g stroke="#D8E4D4" stroke-width="1.2" stroke-linecap="round" opacity="0.6" fill="none">
+      <path d="M 62 120 Q 66 118 68 120">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 昏光星尘 -->
+  <g fill="#D8E4D4">
+    <circle cx="96" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
