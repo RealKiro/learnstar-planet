@@ -1962,7 +1962,7 @@ function fxShape(size: number): string {
 }
 .pet-img {
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 50%;
 }
 .pet-sprite--animated .egg-body { animation: eggPulse 2.2s ease-in-out infinite; }
 .pet-sprite--animated .egg-glow { animation: eggGlowPulse 2.2s ease-in-out infinite; }
