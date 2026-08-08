@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="霸王龙·三阶·炼牙苦修·叼木练咬刨地碎石爪下蚁安">
+  <defs>
+    <!-- 背景：白垩崖边晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DCE8D0"/>
+      <stop offset="52%" stop-color="#BCCEA8"/>
+      <stop offset="100%" stop-color="#94B080"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F8F4D8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F8F4D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 幼龙皮（渐亮） -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C8AC80"/>
+      <stop offset="100%" stop-color="#B09468"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 崖与岩 -->
+  <g fill="#A8A08A" opacity="0.55">
+    <path d="M 0 110 Q 50 102 110 108 Q 160 112 200 106 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#8E9E72" opacity="0.8"/>
+  <path d="M 0 150 L 200 150" stroke="#AEBE90" stroke-width="1.4" opacity="0.55"/>
+
+  <!-- 被咬断的粗木（右，咬痕） -->
+  <path d="M 148 138 L 172 134" stroke="#8E7044" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 158 136 L 160 142 M 164 135 L 166 141" stroke="#6E5230" stroke-width="1" stroke-linecap="round"/>
+  <circle cx="152" cy="137" r="4" fill="#F4E8C8" opacity="0.3">
+    <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 被爪裂的顽石（右前） -->
+  <g fill="#B0A88C">
+    <path d="M 136 144 L 156 141 L 160 152 L 140 154 Z"/>
+  </g>
+  <path d="M 144 146 L 148 153 M 152 145 L 154 152" stroke="#8E8268" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- 爪下安然的小蚂蚁（左前，专注护） -->
+  <g>
+    <circle cx="86" cy="153" r="1.2" fill="#6E5A3E"/>
+    <circle cx="91" cy="154" r="1.2" fill="#6E5A3E"/>
+    <circle cx="96" cy="153" r="1.2" fill="#6E5A3E">
+      <animateTransform attributeName="transform" type="translate" values="0 0;1 0;0 0" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="90" cy="151" r="5" fill="#F8F4D8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.12;0.25" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 少年霸王龙（练咬，身形渐壮） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="102" cy="132" rx="17" ry="11" fill="url(#skin)" stroke="#8E7248" stroke-width="1"/>
+    <ellipse cx="98" cy="137" rx="10" ry="6" fill="#E8DCC8" opacity="0.7"/>
+    <!-- 腿（立稳） -->
+    <path d="M 92 140 L 90 149 M 114 140 L 116 149" stroke="#987C50" stroke-width="3" stroke-linecap="round"/>
+    <!-- 尾（有力） -->
+    <path d="M 119 136 Q 130 132 136 122" stroke="url(#skin)" stroke-width="3" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 119 136;6 119 136;0 119 136" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 短手（刨地练力） -->
+    <path d="M 90 126 L 86 134" stroke="url(#skin)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 90 126;8 90 126;0 90 126" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年霸王龙头（专注） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="102" cy="112" rx="12.5" ry="10.5" fill="url(#skin)" stroke="#8E7248" stroke-width="0.9"/>
+    <!-- 眼（专注） -->
+    <circle cx="97" cy="110" r="2.6" fill="#24180E"/>
+    <circle cx="97.7" cy="109.3" r="0.9" fill="#FFF"/>
+    <circle cx="108" cy="110" r="2.6" fill="#24180E"/>
+    <circle cx="108.7" cy="109.3" r="0.9" fill="#FFF"/>
+    <!-- 叼着的木（练咬） -->
+    <path d="M 96 116 L 88 114 L 82 116" stroke="#8E7044" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M 96 116 L 88 114" stroke="#6E5230" stroke-width="1" stroke-linecap="round"/>
+    <!-- 牙（磨亮） -->
+    <path d="M 98 117 L 96 121 M 106 117 L 108 121" stroke="#F4F0E4" stroke-width="1" stroke-linecap="round"/>
+    <!-- 头上小角（微长） -->
+    <path d="M 97 103 L 94 97 M 108 103 L 111 97" stroke="#D8C090" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F8F4D8">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
