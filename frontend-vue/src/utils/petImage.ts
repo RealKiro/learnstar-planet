@@ -1,32 +1,16 @@
-// ===== 学趣星球 · AI 宠物图片加载 =====
-// 数据契约见 docs/宠物系统全案.md 6.4 节：
-//   目录 public/pets/{seriesId}/{speciesId}-{stage}.webp（egg/baby/growing/mature/legendary/transcendent）
-//   六阶视觉规范 + 提示词模板已就绪；生成图片后在该文件的 MANIFEST 登记 speciesId，PetSprite 自动优先加载图片、回退 SVG。
-
-import { getSeriesBySpeciesId } from './petData'
-
-/**
- * 已生成 AI 宠物图的物种 id 清单（AI 生图产物为 webp，生成后在此登记）。
- * 例：['sun_wukong', 'zhong_kui', ...]
- */
-const MANIFEST: string[] = []
+// ===== 学趣星球 · 宠物图加载（已停用手绘/AI 图） =====
+//
+// ⚠️ 2026-08-08 起停用手绘 SVG / AI 生图（原 SVG_MANIFEST / MANIFEST）：
+// 手绘 SVG 自带方形场景背景，在圆形裁剪（课堂评价卡片、宠物详情弹窗）里呈现为
+// 方形且观感差，远不如程序化 PetSprite 艺术干净统一。为全局一致 + 圆形展示美观，
+// getPetImageUrl 恒返回 null，PetSprite 一律回退到程序化 SVG。
+//
+// 如需重新启用：把对应 speciesId 登记进 MANIFEST(webp) / SVG_MANIFEST(手绘svg)，
+// 并在下方返回 `${import.meta.env.BASE_URL}pets/{seriesId}/{speciesId}-{stage}.webp|.svg`。
 
 /**
- * 已手绘 SVG 插画的物种 id 清单（样板阶段按提示词手绘的独立 SVG，每物种 6 张 {speciesId}-{stage}.svg）。
- * 例：['zhulong', 'charmander', ...]
+ * 返回宠物图片 URL；当前恒为 null（停用手绘/AI 图，统一走程序化 SVG）。
  */
-const SVG_MANIFEST: string[] = ['zhulong', 'yinglong', 'nine_tail_fox', 'kunpeng', 'fenghuang', 'qilin', 'qiongqi', 'bifang', 'pixiu', 'jingwei', 'xiangliu', 'xiezhi', 'qinglong', 'baihu', 'zhuque', 'xuanwu', 'taotie', 'baize', 'charmander', 'sun_wukong', 'nezha', 'zhong_kui', 'jiang_ziya', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao', 'lv_dongbin', 'he_xiangu', 'zhang_guolao', 'tie_guaili', 'han_zhongli', 'lan_caihe', 'cao_guojiu', 'taishang_laojun', 'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces', 'hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'heixinhu', 'heixiaohu', 'ma_sanniang', 'panda', 'golden_monkey', 'south_china_tiger', 'red_crowned_crane', 'chinese_alligator', 'crested_ibis', 'tibetan_antelope', 'snow_leopard', 'pikachu', 'bulbasaur', 'squirtle', 't_rex', 'triceratops', 'pterosaur', 'mammoth', 'sabertooth', 'mosasaur', 'spinosaurus', 'ankylosaurus', 'diplodocus', 'megalodon', 'ground_sloth', 'woolly_rhino', 'unicorn', 'wyvern', 'fairy', 'treant', 'griffin', 'mermaid', 'grey_wizard', 'wand_cat', 'dragon_knight', 'alchemy_golem', 'nightmare_horse', 'lamp_spirit', 'zongzi', 'tangyuan', 'mooncake', 'qingtuan', 'chongyang_cake', 'niangao', 'laba_porridge', 'spring_pancake', 'tanghulu', 'osmanthus_cake', 'wonton', 'festival_lantern', 'mecha_dragon', 'cyber_cat', 'space_mecha', 'quantum_beast', 'digital_phoenix', 'mecha_shark', 'eevee', 'riolu', 'ice_fox', 'rock_rhino', 'wind_falcon', 'light_deer', 'dark_panther', 'steel_armadillo', 'milu_deer', 'siberian_tiger', 'red_panda', 'finless_porpoise']
-
-/**
- * 根据物种 + 阶段返回图片 URL（webp 优先，其次手绘 SVG）；均未生成时返回 null（PetSprite 回退程序化 SVG）。
- */
-export function getPetImageUrl(speciesId: string, stage: string): string | null {
-  const seriesId = getSeriesBySpeciesId(speciesId)?.id || 'unknown'
-  if (MANIFEST.includes(speciesId)) {
-    return `${import.meta.env.BASE_URL}pets/${seriesId}/${speciesId}-${stage}.webp`
-  }
-  if (SVG_MANIFEST.includes(speciesId)) {
-    return `${import.meta.env.BASE_URL}pets/${seriesId}/${speciesId}-${stage}.svg`
-  }
+export function getPetImageUrl(_speciesId: string, _stage: string): null {
   return null
 }
