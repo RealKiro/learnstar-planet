@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="重阳糕·五阶·重阳之敬·层如云叠菊如金孩子掰顶层递长辈敬散每层">
+  <defs>
+    <!-- 背景：重阳人家暖阳 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8CCA0"/>
+      <stop offset="52%" stop-color="#D4AC78"/>
+      <stop offset="100%" stop-color="#B08E68"/>
+    </linearGradient>
+    <!-- 重阳神光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="52%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 重阳光环 -->
+    <radialGradient id="halo" cx="50%" cy="44%" r="42%">
+      <stop offset="0%" stop-color="#F0E4C8" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#F0E4C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 糕层 -->
+    <linearGradient id="cake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0D080"/>
+      <stop offset="100%" stop-color="#D8B060"/>
+    </linearGradient>
+    <!-- 敬光 -->
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F8D080" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#F8D080" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.95;0.64;0.95" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="100" r="62" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.32;0.2;0.32" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 案桌 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#9E8E72" opacity="0.9"/>
+
+  <!-- 递顶层的孩子（左） -->
+  <g opacity="0.95">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="60" cy="120" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="60" cy="134" rx="5.5" ry="8" fill="#C8A878" stroke="#B0905E" stroke-width="0.8"/>
+    <path d="M 66 126 Q 74 122 80 120" stroke="#E8D0B4" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+    <rect x="78" y="114" width="14" height="7" rx="2" fill="#E8C878" stroke="#B08A3E" stroke-width="0.6"/>
+  </g>
+  <!-- 接的长辈（右） -->
+  <g opacity="0.95">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="146" cy="116" r="5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <path d="M 140 112 Q 146 106 153 112" fill="#D8D8D4" stroke="#B8B8B4" stroke-width="0.6"/>
+    <ellipse cx="146" cy="134" rx="6.5" ry="10" fill="#A8886E" stroke="#8E6E50" stroke-width="0.8"/>
+    <path d="M 140 124 L 126 122" stroke="#E8D0B4" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M 141 115 Q 143 113.6 145 115 M 149 115 Q 151 113.6 152 115" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <path d="M 143 119 Q 146 120.8 149 119" fill="none" stroke="#B08A6A" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 重阳之敬（中，层如云叠） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="104" cy="100" r="28" fill="url(#aura)">
+      <animate attributeName="opacity" values="0.5;0.28;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 底层 -->
+    <rect x="76" y="126" width="56" height="16" rx="5" fill="#D0A858" stroke="#B08A3E" stroke-width="0.9"/>
+    <!-- 中层 -->
+    <rect x="80" y="110" width="48" height="16" rx="5" fill="#DCB468" stroke="#B08A3E" stroke-width="0.9"/>
+    <!-- 顶层（脸层，最稳最高） -->
+    <rect x="84" y="94" width="40" height="16" rx="5" fill="url(#cake)" stroke="#B08A3E" stroke-width="0.9"/>
+    <!-- 枣栗分明 -->
+    <circle cx="86" cy="134" r="2" fill="#8E4A3E"/>
+    <circle cx="122" cy="134" r="2" fill="#8E4A3E"/>
+    <circle cx="92" cy="118" r="1.8" fill="#B0803E"/>
+    <circle cx="116" cy="118" r="1.8" fill="#B0803E"/>
+    <!-- 眼（含威含温） -->
+    <circle cx="95" cy="101" r="2.2" fill="#3E2E24"/>
+    <circle cx="95.6" cy="100.4" r="0.7" fill="#FFF"/>
+    <circle cx="111" cy="101" r="2.2" fill="#3E2E24"/>
+    <circle cx="111.6" cy="100.4" r="0.7" fill="#FFF"/>
+    <!-- 嘴（敬） -->
+    <path d="M 99 105.5 Q 103 107.4 107 105.5" fill="none" stroke="#9E6E3E" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 顶菊（如金） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-2 104 88;2 104 88;-2 104 88" dur="2.4s" repeatCount="indefinite"/>
+      <ellipse cx="102" cy="90" rx="2.8" ry="5.5" fill="#F0C040" transform="rotate(-30 102 90)"/>
+      <ellipse cx="106" cy="90" rx="2.8" ry="5.5" fill="#F8D060" transform="rotate(30 106 90)"/>
+      <ellipse cx="104" cy="89" rx="2.8" ry="5.5" fill="#E8B038" transform="rotate(0 104 89)"/>
+      <circle cx="104" cy="89" r="2" fill="#F8E080"/>
+    </g>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
