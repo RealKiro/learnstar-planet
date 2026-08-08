@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="莎丽·三阶·武功被废·破庙独对断剑不甘">
+  <defs>
+    <!-- 背景：破庙黄昏 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8E8686"/>
+      <stop offset="52%" stop-color="#6E6A6A"/>
+      <stop offset="100%" stop-color="#4E4A4A"/>
+    </linearGradient>
+    <!-- 破庙残光 -->
+    <radialGradient id="light" cx="50%" cy="40%" r="44%">
+      <stop offset="0%" stop-color="#E8E0D0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#E8E0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 断剑锈光 -->
+    <radialGradient id="rust" cx="34%" cy="58%" r="30%">
+      <stop offset="0%" stop-color="#A088C8" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#A088C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 紫毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7E52AC"/>
+      <stop offset="100%" stop-color="#5E3A88"/>
+    </linearGradient>
+    <!-- 破旧布衣 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E7E7E"/>
+      <stop offset="100%" stop-color="#6E5E5E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8D4BE"/>
+      <stop offset="100%" stop-color="#D0BCA6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 破庙残光 -->
+  <circle cx="100" cy="88" r="64" fill="url(#light)">
+    <animate attributeName="opacity" values="0.4;0.25;0.4" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 断剑锈光 -->
+  <circle cx="70" cy="116" r="44" fill="url(#rust)">
+    <animate attributeName="opacity" values="0.45;0.25;0.45" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 破庙残垣 -->
+  <g opacity="0.6">
+    <path d="M 16 70 L 30 62 L 58 68 L 56 152 L 16 152 Z" fill="#7E7676"/>
+    <path d="M 170 66 L 188 62 L 192 152 L 168 152 Z" fill="#6E6A6A"/>
+    <path d="M 20 76 L 54 76" stroke="#9E9696" stroke-width="1.4"/>
+  </g>
+
+  <!-- 荒草 -->
+  <g fill="#7E8E6E" opacity="0.6">
+    <path d="M 120 148 L 116 136 L 120 134 L 124 136 Z"/>
+    <path d="M 140 150 L 136 138 L 140 136 L 144 138 Z"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#5E5A5A" opacity="0.9"/>
+  <path d="M 0 150 L 200 150" stroke="#7E7A7A" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 紫毛松鼠（5头身，布衣落魄，独坐，对断剑） -->
+  <!-- 腿（坐） -->
+  <path d="M 84 144 Q 90 148 98 144 Q 100 140 96 138 Q 90 142 84 138 Z" fill="#5E3A88"/>
+  <!-- 破旧布衣 -->
+  <path d="M 76 102 Q 72 124 84 144 Q 94 150 102 144 Q 108 124 104 102 Q 90 96 76 102 Z" fill="url(#robe)" stroke="#5E5252" stroke-width="1"/>
+  <!-- 破布条 -->
+  <path d="M 92 120 L 88 128" stroke="#7E7272" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+  <!-- 双手无力垂着 -->
+  <path d="M 80 118 C 74 122 72 128 74 134" fill="none" stroke="#8E7E7E" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="74" cy="136" r="3" fill="#E8D4BE"/>
+  <!-- 蓬松大尾（垂） -->
+  <path d="M 106 138 Q 116 132 120 124 Q 122 114 116 110 Q 112 114 112 122 Q 110 130 104 136 Z" fill="#6E4E94" stroke="#5E3A88" stroke-width="0.8"/>
+
+  <!-- 头（松鼠脸，圆眼不甘，颊边蓬毛凌乱，眉间恨意） -->
+  <ellipse cx="90" cy="98" rx="10.5" ry="11" fill="url(#fur)" stroke="#52308C" stroke-width="0.9"/>
+  <!-- 松鼠耳（垂） -->
+  <path d="M 81 90 L 75 76 L 85 84 Z" fill="#7E52AC" stroke="#52308C" stroke-width="0.8"/>
+  <path d="M 99 90 L 105 76 L 95 84 Z" fill="#7E52AC" stroke="#52308C" stroke-width="0.8"/>
+  <path d="M 81 88 L 77 78 L 83 84 Z" fill="#B8A0D8"/>
+  <path d="M 99 88 L 103 78 L 97 84 Z" fill="#B8A0D8"/>
+  <!-- 颊边蓬毛凌乱 -->
+  <path d="M 79 98 Q 74 96 76 102 Q 78 104 82 102" fill="#6E4E94"/>
+  <path d="M 101 98 Q 106 96 104 102 Q 102 104 98 102" fill="#6E4E94"/>
+  <!-- 发带不见（紫毛披散） -->
+  <path d="M 84 88 Q 86 84 90 86 Q 94 84 96 88" stroke="#6E4EA8" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <path d="M 86 86 Q 84 82 88 80" stroke="#6E4EA8" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- 浅色面斑 -->
+  <ellipse cx="90" cy="102" rx="6.5" ry="5" fill="#E8D4BE"/>
+  <!-- 圆眼不甘 -->
+  <circle cx="85" cy="96" r="3" fill="#1E1008"/>
+  <circle cx="95" cy="96" r="3" fill="#1E1008"/>
+  <circle cx="86" cy="95" r="1" fill="#FFF"/>
+  <circle cx="96" cy="95" r="1" fill="#FFF"/>
+  <!-- 眉间恨意 -->
+  <path d="M 82 91 Q 85 89.4 88 91 M 92 91 Q 95 89.4 98 91" stroke="#1E1008" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- 鼻 -->
+  <circle cx="90" cy="101" r="1.5" fill="#C06A9E"/>
+  <!-- 不甘抿唇 -->
+  <path d="M 86 105 Q 90 106.4 94 105" fill="none" stroke="#8E5A8E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 对着一柄断剑（身前） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="3s" repeatCount="indefinite"/>
+    <line x1="96" y1="140" x2="120" y2="150" stroke="#7E6A6A" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 120 150 L 124 152" stroke="#7E6A6A" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 96 140 Q 94 136 96 132" stroke="#A088C8" stroke-width="1.4" opacity="0.6" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 不甘星尘 -->
+  <g fill="#A088C8">
+    <circle cx="44" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
