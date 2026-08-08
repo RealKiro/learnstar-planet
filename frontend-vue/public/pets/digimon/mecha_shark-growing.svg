@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="哥玛兽·三阶·练稳苦修·鳍如桨破浪游进稳稳接住被冲小兽">
+  <defs>
+    <!-- 背景：数码浅海 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5AB0E0"/>
+      <stop offset="52%" stop-color="#6AC8E8"/>
+      <stop offset="100%" stop-color="#8AE0F0"/>
+    </linearGradient>
+    <!-- 海光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="50%">
+      <stop offset="0%" stop-color="#E8F8FC" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#E8F8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 海狮白毛（亮） -->
+    <radialGradient id="fur" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8ECEE"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 海底 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#6AC8E8" opacity="0.8"/>
+  <!-- 波浪 -->
+  <g stroke="#B8E8F8" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.5">
+    <path d="M 20 142 Q 60 136 100 142 Q 140 148 180 142">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 被接住的小兽（上，稳放） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <circle cx="132" cy="108" r="4" fill="#A8E0E8" stroke="#5AA8C8" stroke-width="0.5"/>
+    <circle cx="130" cy="106.8" r="1" fill="#24180E"/>
+    <circle cx="135" cy="106.8" r="1" fill="#24180E"/>
+  </g>
+
+  <!-- 少年哥玛兽（中，鳍如桨） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身 -->
+    <ellipse cx="96" cy="122" rx="15" ry="12" fill="url(#fur)" stroke="#C8D4D8" stroke-width="0.9"/>
+    <ellipse cx="94" cy="127" rx="9" ry="6" fill="#F8FAFA" opacity="0.7"/>
+    <!-- 尾鳍 -->
+    <path d="M 82 128 Q 72 132 70 138 Q 76 140 84 134 Z" fill="#E8ECEE" stroke="#C8D4D8" stroke-width="0.6"/>
+    <!-- 大鳍（如桨，接住小兽） -->
+    <path d="M 110 116 L 126 106" stroke="#E8ECEE" stroke-width="3.6" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="-5 110 116;5 110 116;-5 110 116" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 82 118 L 70 110" stroke="#E8ECEE" stroke-width="3.6" stroke-linecap="round"/>
+    <!-- 头 -->
+    <ellipse cx="96" cy="112" rx="9" ry="8" fill="url(#fur)" stroke="#C8D4D8" stroke-width="0.8"/>
+    <!-- 头顶毛（亮） -->
+    <path d="M 92 106 Q 96 100 100 106 M 90 108 Q 94 102 98 108" fill="#E8ECEE" stroke="#C8D4D8" stroke-width="0.5"/>
+    <!-- 眼（沉稳） -->
+    <circle cx="91" cy="111" r="2.4" fill="#2E2A24"/>
+    <circle cx="91.8" cy="109.8" r="1" fill="#FFF"/>
+    <circle cx="101" cy="111" r="2.4" fill="#2E2A24"/>
+    <circle cx="101.8" cy="109.8" r="1" fill="#FFF"/>
+    <!-- 嘴（定） -->
+    <path d="M 94 116 Q 97 117.4 100 116" fill="none" stroke="#B0BCC0" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 水花（破浪） -->
+    <g fill="#E8F8FC" opacity="0.7">
+      <circle cx="74" cy="134" r="2">
+        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="120" cy="132" r="1.8">
+        <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#E8F8FC">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
