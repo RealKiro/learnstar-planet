@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="巨蟹座·迪斯马斯克·六阶·黄泉归尽·没入冥门释然笑">
+  <defs>
+    <!-- 背景：冥界之门幽暗 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E3E3E"/>
+      <stop offset="52%" stop-color="#22302E"/>
+      <stop offset="100%" stop-color="#161E1E"/>
+    </linearGradient>
+    <!-- 黄泉幽蓝 -->
+    <radialGradient id="underworld" cx="50%" cy="55%" r="55%">
+      <stop offset="0%" stop-color="#6E9E9E" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#6E9E9E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 黄金残辉 -->
+    <radialGradient id="gold" cx="50%" cy="40%" r="40%">
+      <stop offset="0%" stop-color="#FFE9A8" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 神圣衣·巨蟹 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFF0D0"/>
+      <stop offset="100%" stop-color="#E8C878"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8D4BE"/>
+      <stop offset="100%" stop-color="#D0B8A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：阴柔面容·释然一笑 -->
+    <g id="cancer-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#C0A880" stroke-width="0.8"/>
+      <!-- 束发（散落） -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <path d="M -8 -3 L -12 -1 M 8 -3 L 12 -1" stroke="#2E2620" stroke-width="1.4" stroke-linecap="round"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 细眉（舒展） -->
+      <path d="M -8 -1.5 Q -5 -3 -2 -2.4 M 8 -1.5 Q 5 -3 2 -2.4" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼（释然） -->
+      <path d="M -7 0.4 Q -4.5 -0.8 -2 -0.2 L -2 1 Q -4.5 0.4 -7 1.6 Z" fill="#1E1008"/>
+      <path d="M 7 0.4 Q 4.5 -0.8 2 -0.2 L 2 1 Q 4.5 0.4 7 1.6 Z" fill="#1E1008"/>
+      <circle cx="-4.2" cy="0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.2" cy="0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-4.2" cy="0.3" r="0.5" fill="#FFE9A8"/>
+      <circle cx="4.2" cy="0.3" r="0.5" fill="#FFE9A8"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 释然笑 -->
+      <path d="M -3 5.4 Q 0 7.2 3 5.4" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 黄泉幽光 -->
+  <circle cx="100" cy="130" r="76" fill="url(#underworld)">
+    <animate attributeName="opacity" values="0.75;0.45;0.75" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 黄金残辉 -->
+  <circle cx="100" cy="80" r="60" fill="url(#gold)">
+    <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 冥界之门（大，吞没） -->
+  <g>
+    <path d="M 44 40 L 156 40 L 156 170 L 44 170 Z" fill="#1E2A2A" stroke="#4E6E6E" stroke-width="2.4"/>
+    <!-- 门内黄泉漩涡 -->
+    <path d="M 46 42 L 154 42 L 154 168 L 46 168 Z" fill="#121A1A"/>
+    <circle cx="100" cy="100" r="34" fill="#6E9E9E" opacity="0.5">
+      <animate attributeName="r" values="34;42;34" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 漩涡纹 -->
+    <g stroke="#8EAEAE" stroke-width="1.6" opacity="0.6" fill="none">
+      <circle cx="100" cy="100" r="26">
+        <animateTransform attributeName="transform" type="rotate" values="0 100 100;40 100 100;0 100 100" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="100" cy="100" r="14">
+        <animateTransform attributeName="transform" type="rotate" values="0 100 100;-30 100 100;0 100 100" dur="3.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- 黄泉之气 -->
+    <g stroke="#4E7E7E" stroke-width="1.6" stroke-linecap="round" opacity="0.7">
+      <path d="M 70 60 Q 62 50 70 42">
+        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.4s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 130 60 Q 138 50 130 42">
+        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 神圣衣·巨蟹圣斗士（被冥气反噬，没入冥门，回首一笑） -->
+  <g opacity="0.9">
+    <!-- 下半身已被冥门吞没 -->
+    <path d="M 92 118 Q 96 124 100 120 Q 104 124 108 118 Q 108 128 104 132 Q 96 132 92 118 Z" fill="#E8C878"/>
+    <!-- 上身（半没） -->
+    <path d="M 92 92 Q 88 104 94 118 Q 100 124 108 118 Q 112 104 110 92 Q 100 86 92 92 Z" fill="url(#armor)" stroke="#C8A868" stroke-width="1.2"/>
+    <!-- 蟹甲金纹 -->
+    <path d="M 96 98 Q 98 104 96 110 M 104 98 Q 102 104 104 110" stroke="#7E9E9E" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+
+    <!-- 头（面部模板，回首释然一笑） -->
+    <use href="#cancer-face" transform="translate(100,84) scale(1)"/>
+
+    <!-- 左臂（垂入冥门） -->
+    <path d="M 94 96 C 88 100 86 106 88 112" fill="none" stroke="#FFF0D0" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- 右手（伸向门外，回望） -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;1 -1;0 0" dur="3s" repeatCount="indefinite"/>
+      <path d="M 106 96 C 112 98 116 100 118 106" fill="none" stroke="#FFF0D0" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="119" cy="108" r="3" fill="#D0B8A0"/>
+    </g>
+
+    <!-- 反噬冥气（缠身） -->
+    <g stroke="#4E7E7E" stroke-width="1.6" stroke-linecap="round" opacity="0.8">
+      <path d="M 100 112 Q 94 116 98 122">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.4s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 104 110 Q 110 114 106 120">
+        <animate attributeName="opacity" values="0.7;0.25;0.7" dur="2.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 黄泉星尘 -->
+  <g fill="#6E9E9E">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 黄金残辉尘 -->
+  <g fill="#FFE9A8">
+    <circle cx="60" cy="60">
+      <animate attributeName="cy" values="60;52;60" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="56">
+      <animate attributeName="cy" values="56;48;56" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="巨蟹座·迪斯马斯克·四阶·冥河浸染·门中目光邪念反噬">
+  <defs>
+    <!-- 背景：冥界入口幽暗 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E3E3E"/>
+      <stop offset="52%" stop-color="#22302E"/>
+      <stop offset="100%" stop-color="#161E1E"/>
+    </linearGradient>
+    <!-- 冥河暗绿 -->
+    <radialGradient id="yin" cx="50%" cy="62%" r="52%">
+      <stop offset="0%" stop-color="#4E7E7E" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#4E7E7E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 恐惧黑 -->
+    <radialGradient id="fear" cx="50%" cy="42%" r="40%">
+      <stop offset="0%" stop-color="#2A2A2A" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#2A2A2A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白银巨蟹圣衣（冥气浸染） -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C8D0D0"/>
+      <stop offset="100%" stop-color="#8EA0A0"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E0CCB6"/>
+      <stop offset="100%" stop-color="#C8B098"/>
+    </radialGradient>
+
+    <!-- 头部模板：阴柔面容·第一次浮现恐惧 -->
+    <g id="cancer-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#C0A880" stroke-width="0.8"/>
+      <!-- 束发（微乱） -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <path d="M -8 -3 L -12 -1" stroke="#2E2620" stroke-width="1.4" stroke-linecap="round"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 细眉（蹙起，惧） -->
+      <path d="M -8 -1.5 Q -5 -2.6 -2 -2 M 8 -1.5 Q 5 -2.6 2 -2" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼（瞪大，恐惧） -->
+      <ellipse cx="-4.2" cy="0.4" rx="2" ry="2.2" fill="#1E1008"/>
+      <ellipse cx="4.2" cy="0.4" rx="2" ry="2.2" fill="#1E1008"/>
+      <circle cx="-4.7" cy="-0.6" r="0.6" fill="#FFF"/>
+      <circle cx="3.7" cy="-0.6" r="0.6" fill="#FFF"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.8 L 0 3.4" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 唇（微颤） -->
+      <path d="M -3 5.8 Q 0 6.6 3 5.8" fill="none" stroke="#8E5A3E" stroke-width="1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 冥河 -->
+  <circle cx="100" cy="150" r="70" fill="url(#yin)">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 恐惧 -->
+  <circle cx="100" cy="92" r="50" fill="url(#fear)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 冥河（前景水流） -->
+  <path d="M 0 156 Q 40 148 90 154 Q 140 160 200 150 L 200 200 L 0 200 Z" fill="#1E2E2E"/>
+  <path d="M 20 164 Q 60 156 100 162 Q 140 168 180 160" stroke="#4E7E7E" stroke-width="1.6" opacity="0.7">
+    <animateTransform attributeName="transform" type="translate" values="0 0;4 0;0 0" dur="4s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 冥界之门（左，门内一道目光） -->
+  <g>
+    <path d="M 40 60 L 84 60 L 84 150 L 40 150 Z" fill="#263434" stroke="#4E6E6E" stroke-width="2"/>
+    <!-- 门内幽暗 -->
+    <path d="M 42 62 L 82 62 L 82 148 L 42 148 Z" fill="#121A1A"/>
+    <!-- 门内目光（窥视） -->
+    <g opacity="0.85">
+      <ellipse cx="62" cy="96" rx="4" ry="3" fill="#7E9E9E" stroke="#4E6E6E" stroke-width="0.8"/>
+      <circle cx="62" cy="96" r="1.6" fill="#1E1E1E"/>
+      <ellipse cx="74" cy="100" rx="3.4" ry="2.6" fill="#7E9E9E" stroke="#4E6E6E" stroke-width="0.8"/>
+      <circle cx="74" cy="100" r="1.4" fill="#1E1E1E"/>
+      <animate attributeName="opacity" values="0.85;0.5;0.85" dur="2.4s" repeatCount="indefinite"/>
+    </g>
+    <!-- 门内冥气 -->
+    <g stroke="#4E7E7E" stroke-width="1.4" stroke-linecap="round" opacity="0.6">
+      <path d="M 50 110 Q 44 118 50 126">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.6s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 74 112 Q 80 120 74 128">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 圣域地面 -->
+  <path d="M 0 154 L 200 154 L 200 200 L 0 200 Z" fill="#161E1E" opacity="0.8"/>
+
+  <!-- 白银巨蟹圣斗士（立于门边，冥气浸染，首次惧色） -->
+  <!-- 腿 -->
+  <path d="M 104 132 L 100 154 L 106 154 L 110 134 Z" fill="#8EA0A0"/>
+  <path d="M 120 132 L 128 156 L 122 156 L 116 134 Z" fill="#8EA0A0"/>
+  <!-- 圣衣（下摆） -->
+  <path d="M 104 122 Q 114 130 126 122 Q 130 116 126 108 Q 120 120 112 116 Q 104 120 104 122 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 104 92 Q 100 106 106 122 Q 116 128 126 122 Q 132 106 128 92 Q 116 86 104 92 Z" fill="url(#armor)" stroke="#6E7E7E" stroke-width="1.2"/>
+  <!-- 蟹甲冥气浸染 -->
+  <path d="M 108 98 Q 110 104 108 110 M 122 98 Q 120 104 122 110" stroke="#4E7E7E" stroke-width="1.4" stroke-linecap="round" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.4s" repeatCount="indefinite"/>
+  </path>
+  <!-- 腰带 -->
+  <path d="M 104 108 L 128 108" stroke="#D8E0E0" stroke-width="1.6"/>
+
+  <!-- 头（面部模板，首次惧色） -->
+  <use href="#cancer-face" transform="translate(116,84) scale(1)"/>
+
+  <!-- 左臂（微微抬起，防） -->
+  <path d="M 106 96 C 100 100 98 104 100 110" fill="none" stroke="#C8D0D0" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="100" cy="112" r="3" fill="#C8B098"/>
+
+  <!-- 右臂（撑向门框，退） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 124 96 C 128 100 130 104 130 110" fill="none" stroke="#C8D0D0" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="130" cy="112" r="3" fill="#C8B098"/>
+  </g>
+
+  <!-- 冷汗（额角） -->
+  <circle cx="112" cy="76" r="1.2" fill="#9AC8C8" opacity="0.7">
+    <animate attributeName="cy" values="76;80;76" dur="2.4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 恐惧黑尘 -->
+  <g fill="#2A2A2A">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;96;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="100">
+      <animate attributeName="cy" values="100;92;100" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.1;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
