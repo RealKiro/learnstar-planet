@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="美人鱼·二阶·歌之惑·海面初歌招鲨影渔船惊逃躲礁捂嘴">
+  <defs>
+    <!-- 背景：海面暗 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7E9AB0"/>
+      <stop offset="52%" stop-color="#66829A"/>
+      <stop offset="100%" stop-color="#5A7690"/>
+    </linearGradient>
+    <!-- 昏光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="50%">
+      <stop offset="0%" stop-color="#C0D4DC" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#C0D4DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 美人鱼尾鳞（微乱） -->
+    <linearGradient id="tail" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#62BEAE"/>
+      <stop offset="100%" stop-color="#4CA296"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="78" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 海面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#6E8EA0" opacity="0.8"/>
+  <g stroke="#8EAEBC" stroke-width="1.3" stroke-linecap="round" opacity="0.6" fill="none">
+    <path d="M 20 158 Q 60 154 100 158 Q 140 162 180 158">
+      <animateTransform attributeName="transform" type="translate" values="0 0;4 0;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 鲨影（右，暗） -->
+  <g opacity="0.75">
+    <path d="M 140 158 Q 154 150 166 152 L 172 156 L 164 160 Q 150 162 140 158 Z" fill="#3E5266"/>
+    <!-- 背鳍 -->
+    <path d="M 150 152 L 150 144 L 154 150 Z" fill="#3E5266"/>
+    <!-- 眼 -->
+    <circle cx="146" cy="155" r="1.2" fill="#C84030" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 惊逃的渔船（右远） -->
+  <g opacity="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 164 152 L 180 150 L 186 158 L 158 158 Z" fill="#8E7A5E"/>
+    <path d="M 170 150 L 172 140 L 176 150 Z" fill="#C8B898"/>
+    <!-- 水花 -->
+    <g fill="#8EAEBC" opacity="0.6">
+      <circle cx="160" cy="158" r="1.5">
+        <animate attributeName="opacity" values="0.6;0.15;0.6" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 小美人鱼（躲礁，捂嘴） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 礁石（遮） -->
+    <path d="M 34 160 Q 40 148 52 150 Q 60 154 62 162 L 40 170 Z" fill="#8E8E82"/>
+    <!-- 鱼尾（缩） -->
+    <path d="M 48 138 Q 56 146 60 154" stroke="url(#tail)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+    <!-- 上身（缩礁后） -->
+    <ellipse cx="50" cy="132" rx="7" ry="8" fill="#F0DCC0" stroke="#D8C0A0" stroke-width="0.7"/>
+  </g>
+
+  <!-- 小美人鱼头（躲礁，捂嘴，惧） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="50" cy="118" rx="7" ry="7.5" fill="#F0DCC0" stroke="#D8C0A0" stroke-width="0.7"/>
+    <!-- 眼（惧） -->
+    <circle cx="46.5" cy="117" r="1.7" fill="#24180E"/>
+    <circle cx="46.9" cy="116.6" r="0.55" fill="#FFF"/>
+    <circle cx="53.5" cy="117" r="1.7" fill="#24180E"/>
+    <circle cx="53.9" cy="116.6" r="0.55" fill="#FFF"/>
+    <!-- 捂嘴的手 -->
+    <path d="M 48 121 Q 50 124 52 122" stroke="#E8D0B4" stroke-width="1.8" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 48 121;-6 48 121;0 48 121" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 长发（乱） -->
+    <path d="M 46 113 Q 42 106 38 104" stroke="#52887E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M 54 113 Q 58 106 62 104" stroke="#52887E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M 46 110 Q 40 110 36 112" stroke="#52887E" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <!-- 惧泪 -->
+    <path d="M 47 119.6 Q 45 122 45.5 124" stroke="#A8CCE8" stroke-width="0.9" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 昏光星尘 -->
+  <g fill="#C0D4DC">
+    <circle cx="96" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

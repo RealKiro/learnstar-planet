@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="美人鱼·三阶·练歌苦修·月下练歌悠远小船循歌靠岸">
+  <defs>
+    <!-- 背景：月下浅湾 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7E96AE"/>
+      <stop offset="52%" stop-color="#667E96"/>
+      <stop offset="100%" stop-color="#5A768E"/>
+    </linearGradient>
+    <!-- 月光 -->
+    <radialGradient id="glow" cx="26%" cy="18%" r="34%">
+      <stop offset="0%" stop-color="#F0F6F8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F0F6F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 美人鱼尾鳞（泛光） -->
+    <linearGradient id="tail" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6EC8B8"/>
+      <stop offset="100%" stop-color="#56B0A0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="52" cy="34" r="60" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 月 -->
+  <circle cx="48" cy="30" r="13" fill="#F0F6F8" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.75;0.9" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 海面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#6E8EA0" opacity="0.8"/>
+  <g stroke="#8EAEBC" stroke-width="1.3" stroke-linecap="round" opacity="0.6" fill="none">
+    <path d="M 20 158 Q 60 154 100 158 Q 140 162 180 158">
+      <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 小船循歌靠岸（右） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;-2 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 140 154 L 164 152 L 170 158 L 134 158 Z" fill="#8E7A5E"/>
+    <path d="M 150 152 L 152 144 L 156 152 Z" fill="#C8B898"/>
+    <!-- 循歌的光（歌→船） -->
+    <path d="M 100 140 Q 120 146 138 152" stroke="#F0F6F8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.16;0.4" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年美人鱼（月下练歌引航） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 鱼尾（摆） -->
+    <path d="M 96 126 Q 104 118 114 112" stroke="url(#tail)" stroke-width="5" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 96 126;6 96 126;0 96 126" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 尾鳍 -->
+    <path d="M 112 110 L 122 104 L 120 116 Z" fill="url(#tail)" stroke="#48A08E" stroke-width="0.8"/>
+    <!-- 上身 -->
+    <ellipse cx="94" cy="118" rx="8" ry="9" fill="#F0DCC0" stroke="#D8C0A0" stroke-width="0.7"/>
+    <!-- 贝壳饰 -->
+    <path d="M 91 122 Q 90 126 94 126 Q 98 126 97 122 Z" fill="#E8B8B0" opacity="0.8"/>
+  </g>
+
+  <!-- 少年美人鱼头（唱歌，专注） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="94" cy="102" rx="7.5" ry="8" fill="#F0DCC0" stroke="#D8C0A0" stroke-width="0.7"/>
+    <!-- 眼（闭，专注唱歌） -->
+    <path d="M 90 101 Q 92 99.6 94 101 M 95 101 Q 97 99.6 98 101" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+    <!-- 嘴（唱歌） -->
+    <path d="M 91 106 Q 94 107.4 97 106" fill="none" stroke="#C09880" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 长发如瀑 -->
+    <path d="M 90 97 Q 85 90 80 88" stroke="#5A8A80" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M 98 97 Q 103 90 108 88" stroke="#5A8A80" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M 90 94 Q 83 94 78 97" stroke="#5A8A80" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 额贝饰 -->
+    <circle cx="94" cy="96" r="1.6" fill="#F0E4C8"/>
+    <!-- 歌声波纹（悠远） -->
+    <g stroke="#F0F6F8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.4">
+      <path d="M 100 100 Q 108 96 114 92">
+        <animate attributeName="opacity" values="0.4;0.16;0.4" dur="2.4s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 100 104 Q 110 100 118 96">
+        <animate attributeName="opacity" values="0.3;0.12;0.3" dur="2.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 月光星尘 -->
+  <g fill="#F0F6F8">
+    <circle cx="96" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
