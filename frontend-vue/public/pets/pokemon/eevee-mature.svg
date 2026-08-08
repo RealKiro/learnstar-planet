@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="伊布·四阶·救伴初成·伴陷乱流一瞬扑出叼毛逆流回岸喘气">
+  <defs>
+    <!-- 背景：乱流边 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A5A8A"/>
+      <stop offset="52%" stop-color="#4A6AA0"/>
+      <stop offset="100%" stop-color="#6A9AC0"/>
+    </linearGradient>
+    <!-- 水光 -->
+    <radialGradient id="glow" cx="44%" cy="36%" r="44%">
+      <stop offset="0%" stop-color="#C8E8F8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#C8E8F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 棕褐毛（带水） -->
+    <radialGradient id="fur" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#C89858"/>
+      <stop offset="100%" stop-color="#A06830"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="72" r="74" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 乱流 -->
+  <g stroke="#8AC0E8" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.6">
+    <path d="M 140 90 Q 160 98 176 92">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 0;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 150 104 Q 170 110 184 106" opacity="0.4">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 岸 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#4A6AA0" opacity="0.8"/>
+  <g stroke="#8AC0E8" stroke-width="1" stroke-linecap="round" opacity="0.4">
+    <path d="M 0 156 Q 60 152 120 156 Q 160 159 200 155"/>
+  </g>
+
+  <!-- 叼着的伙伴（前） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <circle cx="120" cy="106" r="4.5" fill="#A8D8E8" stroke="#5AA8C8" stroke-width="0.5"/>
+    <circle cx="118" cy="104.8" r="1.1" fill="#24180E"/>
+    <circle cx="123" cy="104.8" r="1.1" fill="#24180E"/>
+  </g>
+
+  <!-- 救伴的伊布（中，叼毛逆流） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 大耳（立，湿） -->
+    <path d="M 78 100 L 70 86 L 84 95 Z" fill="url(#fur)" stroke="#7A5828" stroke-width="0.8"/>
+    <path d="M 102 100 L 110 86 L 96 95 Z" fill="url(#fur)" stroke="#7A5828" stroke-width="0.8"/>
+    <!-- 蓬尾（扬） -->
+    <path d="M 72 112 Q 60 102 56 112 Q 54 124 64 128 Q 74 128 78 120 Z" fill="url(#fur)" stroke="#7A5828" stroke-width="0.7">
+      <animateTransform attributeName="transform" type="rotate" values="-4 72 112;4 72 112;-4 72 112" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 身 -->
+    <ellipse cx="90" cy="110" rx="15" ry="12" fill="url(#fur)" stroke="#7A5828" stroke-width="0.9"/>
+    <!-- 头 -->
+    <ellipse cx="90" cy="100" rx="10" ry="9" fill="url(#fur)" stroke="#7A5828" stroke-width="0.8"/>
+    <path d="M 94 104 Q 100 104 102 102 Q 100 108 94 108 Z" fill="#D8C8B0" stroke="#C0B098" stroke-width="0.6"/>
+    <!-- 眼（含温含亮） -->
+    <circle cx="86" cy="99" r="2.5" fill="#2E2A24"/>
+    <circle cx="86.8" cy="97.8" r="1" fill="#FFF"/>
+    <circle cx="95" cy="99" r="2.5" fill="#2E2A24"/>
+    <circle cx="95.8" cy="97.8" r="1" fill="#FFF"/>
+    <!-- 鼻（叼） -->
+    <path d="M 100 103 L 98 105.5 L 102 105.5 Z" fill="#7A5828"/>
+    <!-- 嘴（叼毛） -->
+    <path d="M 103 106 Q 108 106 110 105" stroke="#7A5828" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- 水珠 -->
+    <circle cx="80" cy="118" r="1.2" fill="#8AC0E8" opacity="0.8">
+      <animate attributeName="cy" values="118;122;118" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="96" cy="122" r="1" fill="#8AC0E8" opacity="0.7">
+      <animate attributeName="cy" values="122;126;122" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#C8E8F8">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

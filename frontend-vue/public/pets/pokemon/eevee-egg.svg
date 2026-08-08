@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="伊布·一阶·毛绒幼崽·宝可梦草原毛绒滚扑落叶叼果放伤兽前">
+  <defs>
+    <!-- 背景：宝可梦草原 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7AC898"/>
+      <stop offset="52%" stop-color="#8AD8A0"/>
+      <stop offset="100%" stop-color="#68B880"/>
+    </linearGradient>
+    <!-- 草原光 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#F0FCD8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F0FCD8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 棕褐毛 -->
+    <radialGradient id="fur" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#C89858"/>
+      <stop offset="100%" stop-color="#A87838"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 草地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#68B880" opacity="0.9"/>
+  <g fill="#5AA870" opacity="0.6">
+    <path d="M 30 148 Q 34 136 30 128 M 60 150 Q 63 140 60 132 M 140 148 Q 143 138 140 130"/>
+  </g>
+
+  <!-- 受伤的小宝可梦（右，面前有果） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="152" cy="130" r="4.5" fill="#A8D8E8" stroke="#5AA8C8" stroke-width="0.5"/>
+    <circle cx="150" cy="128.8" r="1.1" fill="#24180E"/>
+    <circle cx="155" cy="128.8" r="1.1" fill="#24180E"/>
+    <!-- 伤处 -->
+    <path d="M 154 134 L 158 136" stroke="#D87868" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+    <!-- 放下的树果 -->
+    <circle cx="148" cy="138" r="2.5" fill="#E87858" stroke="#C85838" stroke-width="0.5"/>
+    <circle cx="151" cy="136" r="1.2" fill="#F0A080"/>
+  </g>
+
+  <!-- 小伊布（中，毛绒滚扑） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 大耳 -->
+    <path d="M 84 112 L 78 98 L 90 106 Z" fill="url(#fur)" stroke="#8E6838" stroke-width="0.8"/>
+    <path d="M 108 112 L 114 98 L 102 106 Z" fill="url(#fur)" stroke="#8E6838" stroke-width="0.8"/>
+    <path d="M 85 106 L 81 100" stroke="#C8A878" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 107 106 L 111 100" stroke="#C8A878" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <!-- 蓬尾 -->
+    <path d="M 78 126 Q 68 118 64 126 Q 62 136 70 140 Q 78 140 82 134 Z" fill="url(#fur)" stroke="#8E6838" stroke-width="0.7">
+      <animateTransform attributeName="transform" type="rotate" values="-4 78 126;4 78 126;-4 78 126" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 66 128 L 64 136" stroke="#D8C898" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    <!-- 身（毛绒圆） -->
+    <ellipse cx="96" cy="124" rx="15" ry="13" fill="url(#fur)" stroke="#8E6838" stroke-width="0.9"/>
+    <!-- 胸毛（奶白） -->
+    <ellipse cx="94" cy="132" rx="8" ry="5" fill="#E8D8C8" opacity="0.8"/>
+    <!-- 头 -->
+    <ellipse cx="96" cy="112" rx="10" ry="9" fill="url(#fur)" stroke="#8E6838" stroke-width="0.8"/>
+    <!-- 吻（奶白） -->
+    <path d="M 100 116 Q 106 116 108 114 Q 106 120 100 120 Z" fill="#E8D8C8" stroke="#C8B098" stroke-width="0.6"/>
+    <!-- 眼（大温柔） -->
+    <circle cx="92" cy="111" r="2.6" fill="#2E2A24"/>
+    <circle cx="92.8" cy="109.8" r="1" fill="#FFF"/>
+    <circle cx="101" cy="111" r="2.6" fill="#2E2A24"/>
+    <circle cx="101.8" cy="109.8" r="1" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 106 115 L 104 117.5 L 108 117.5 Z" fill="#8E6838"/>
+    <!-- 嘴（温柔） -->
+    <path d="M 103 120 Q 105 121.4 107 120" fill="none" stroke="#8E6838" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 短爪 -->
+    <path d="M 84 132 L 80 137" stroke="#A87838" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 108 132 L 112 137" stroke="#A87838" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 落叶（扑） -->
+  <g fill="#E8A838" opacity="0.8">
+    <path d="M 118 104 Q 122 98 126 102 Q 122 106 118 104 Z">
+      <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#F0FCD8">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

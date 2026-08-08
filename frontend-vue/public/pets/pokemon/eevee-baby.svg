@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="伊布·二阶·选择之惑·伙伴受伤纠结进化成谁想明白已晚蹲伙伴边">
+  <defs>
+    <!-- 背景：乱流边 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A566E"/>
+      <stop offset="52%" stop-color="#3A4458"/>
+      <stop offset="100%" stop-color="#3E5048"/>
+    </linearGradient>
+    <!-- 乱流光 -->
+    <radialGradient id="glow" cx="70%" cy="30%" r="44%">
+      <stop offset="0%" stop-color="#5AA8E8" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#5AA8E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 棕褐毛（微乱） -->
+    <radialGradient id="fur" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#B89050"/>
+      <stop offset="100%" stop-color="#906830"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="140" cy="60" r="74" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.5;0.32;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 犹豫的光影（闪烁） -->
+  <g opacity="0.6">
+    <circle cx="120" cy="80" r="6" fill="#F87830" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="128" cy="84" r="6" fill="#5AA8E8" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="136" cy="78" r="6" fill="#F8C860" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 乱流 -->
+  <g stroke="#5AA8E8" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.6">
+    <path d="M 140 96 Q 160 104 176 98">
+      <animateTransform attributeName="transform" type="translate" values="0 0;4 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 148 110 Q 168 116 182 112" opacity="0.4">
+      <animateTransform attributeName="transform" type="translate" values="0 0;4 0;0 0" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#3A4458" opacity="0.9"/>
+
+  <!-- 倒下的伙伴（中右，受伤） -->
+  <g>
+    <circle cx="128" cy="134" r="4.5" fill="#A8D8E8" stroke="#5AA8C8" stroke-width="0.5"/>
+    <circle cx="126" cy="132.8" r="1.1" fill="#24180E"/>
+    <circle cx="131" cy="132.8" r="1.1" fill="#24180E"/>
+    <path d="M 130 137 L 134 139" stroke="#D87868" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- 蹲伙伴边的小伊布（左，后悔） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 0.8;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 大耳（垂） -->
+    <path d="M 76 118 Q 70 106 78 112 Z" fill="url(#fur)" stroke="#7A5828" stroke-width="0.7"/>
+    <path d="M 94 118 Q 100 106 92 112 Z" fill="url(#fur)" stroke="#7A5828" stroke-width="0.7"/>
+    <!-- 蓬尾（垂） -->
+    <path d="M 66 132 Q 56 132 56 140 Q 58 146 66 144 Z" fill="url(#fur)" stroke="#7A5828" stroke-width="0.6"/>
+    <!-- 身（蹲） -->
+    <ellipse cx="78" cy="132" rx="13" ry="11" fill="url(#fur)" stroke="#7A5828" stroke-width="0.8"/>
+    <!-- 头（低垂） -->
+    <ellipse cx="78" cy="122" rx="9" ry="8" fill="url(#fur)" stroke="#7A5828" stroke-width="0.8" transform="rotate(-8 78 122)"/>
+    <path d="M 82 126 Q 88 126 90 124 Q 88 130 82 130 Z" fill="#D8C8B0" stroke="#C0B098" stroke-width="0.5"/>
+    <!-- 眼（含悔） -->
+    <circle cx="74" cy="121" r="2.2" fill="#2E2A24"/>
+    <circle cx="74.8" cy="119.8" r="0.9" fill="#FFF"/>
+    <circle cx="83" cy="121" r="2.2" fill="#2E2A24"/>
+    <circle cx="83.8" cy="119.8" r="0.9" fill="#FFF"/>
+    <circle cx="75" cy="120.5" r="1" fill="#A8D4E8" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 鼻 -->
+    <path d="M 87 125 L 85 127.5 L 89 127.5 Z" fill="#7A5828"/>
+    <!-- 嘴（低垂） -->
+    <path d="M 85 129 Q 82 127.6 79 129" fill="none" stroke="#7A5828" stroke-width="0.5" stroke-linecap="round"/>
+    <!-- 爪 -->
+    <path d="M 68 138 L 64 142" stroke="#906830" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 尘灰 -->
+  <g fill="#8EA4BC" opacity="0.3">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;74;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.28;0.1;0.28" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

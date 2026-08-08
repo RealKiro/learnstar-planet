@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="伊布·三阶·练判苦修·草原练判看清局势念起即出手">
+  <defs>
+    <!-- 背景：宝可梦草原晨暖 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7AC898"/>
+      <stop offset="52%" stop-color="#8AD8A0"/>
+      <stop offset="100%" stop-color="#68B880"/>
+    </linearGradient>
+    <!-- 草原光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="50%">
+      <stop offset="0%" stop-color="#F0FCD8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F0FCD8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 棕褐毛（亮） -->
+    <radialGradient id="fur" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#D0A868"/>
+      <stop offset="100%" stop-color="#A87840"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.56;0.8" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 草地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#68B880" opacity="0.9"/>
+  <g fill="#5AA870" opacity="0.6">
+    <path d="M 24 148 Q 28 136 24 128 M 150 148 Q 154 138 150 130"/>
+  </g>
+
+  <!-- 练习目标（右，落叶/小标记） -->
+  <g>
+    <path d="M 150 116 Q 156 108 162 114 Q 156 120 150 116 Z" fill="#E8A838" opacity="0.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年伊布（中，练判果断） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 大耳（立） -->
+    <path d="M 84 108 L 76 92 L 90 102 Z" fill="url(#fur)" stroke="#8E6838" stroke-width="0.8"/>
+    <path d="M 108 108 L 116 92 L 102 102 Z" fill="url(#fur)" stroke="#8E6838" stroke-width="0.8"/>
+    <path d="M 85 102 L 80 95" stroke="#D0B080" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 107 102 L 112 95" stroke="#D0B080" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <!-- 蓬尾（扬） -->
+    <path d="M 78 122 Q 66 112 62 122 Q 60 134 70 138 Q 80 138 84 130 Z" fill="url(#fur)" stroke="#8E6838" stroke-width="0.7">
+      <animateTransform attributeName="transform" type="rotate" values="-4 78 122;4 78 122;-4 78 122" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 64 122 L 62 130" stroke="#D8C898" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    <!-- 身 -->
+    <ellipse cx="96" cy="120" rx="15" ry="13" fill="url(#fur)" stroke="#8E6838" stroke-width="0.9"/>
+    <!-- 胸毛 -->
+    <ellipse cx="94" cy="128" rx="8" ry="5" fill="#E8D8C8" opacity="0.8"/>
+    <!-- 头 -->
+    <ellipse cx="96" cy="108" rx="10" ry="9" fill="url(#fur)" stroke="#8E6838" stroke-width="0.8"/>
+    <path d="M 100 112 Q 106 112 108 110 Q 106 116 100 116 Z" fill="#E8D8C8" stroke="#C8B098" stroke-width="0.6"/>
+    <!-- 眼（坚定） -->
+    <circle cx="92" cy="107" r="2.5" fill="#2E2A24"/>
+    <circle cx="92.8" cy="105.8" r="1" fill="#FFF"/>
+    <circle cx="101" cy="107" r="2.5" fill="#2E2A24"/>
+    <circle cx="101.8" cy="105.8" r="1" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 106 111 L 104 113.5 L 108 113.5 Z" fill="#8E6838"/>
+    <!-- 嘴（定） -->
+    <path d="M 103 116 Q 105 117.4 107 116" fill="none" stroke="#8E6838" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 扑出的前爪（念起出手） -->
+    <path d="M 108 118 L 122 112" stroke="#A87840" stroke-width="2.6" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="-5 108 118;5 108 118;-5 108 118" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 84 122 L 78 128" stroke="#A87840" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#F0FCD8">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
