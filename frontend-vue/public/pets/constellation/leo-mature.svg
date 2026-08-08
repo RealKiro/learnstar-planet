@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="狮子座·艾奥里亚·四阶·圣战死斗·光速拳燃烧小宇宙">
+  <defs>
+    <!-- 背景：狮子宫前圣战 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E3A3E"/>
+      <stop offset="52%" stop-color="#462A2E"/>
+      <stop offset="100%" stop-color="#321E22"/>
+    </linearGradient>
+    <!-- 电光蓝 -->
+    <radialGradient id="bolt" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#9AC8F0" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#9AC8F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 战火金 -->
+    <radialGradient id="fire" cx="76%" cy="26%" r="36%">
+      <stop offset="0%" stop-color="#E8A84E" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8A84E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白银狮子圣衣 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8ECF0"/>
+      <stop offset="100%" stop-color="#B8C4D0"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8C8A8"/>
+      <stop offset="100%" stop-color="#D0B090"/>
+    </radialGradient>
+
+    <!-- 头部模板：青年面容·剑眉·虎目如电 -->
+    <g id="leo-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 短发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 剑眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 虎目如电 -->
+      <ellipse cx="-4.3" cy="0.4" rx="2.4" ry="2.2" fill="#1E1008"/>
+      <ellipse cx="4.3" cy="0.4" rx="2.4" ry="2.2" fill="#1E1008"/>
+      <circle cx="-4.8" cy="-0.4" r="0.8" fill="#9AC8F0"/>
+      <circle cx="3.8" cy="-0.4" r="0.8" fill="#9AC8F0"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 坚毅 -->
+      <path d="M -3 5.4 Q 0 7 3 5.4" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 战火 -->
+  <circle cx="156" cy="52" r="52" fill="url(#fire)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 电光 -->
+  <circle cx="100" cy="96" r="70" fill="url(#bolt)">
+    <animate attributeName="opacity" values="0.75;0.4;0.75" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 敌群（左上，被光速拳打散） -->
+  <g opacity="0.5">
+    <path d="M 40 40 Q 42 30 46 27 Q 50 29 50 40 Z" fill="#241A2E"/>
+    <path d="M 56 46 Q 58 36 62 33 Q 66 35 66 46 Z" fill="#2A2034"/>
+  </g>
+  <!-- 拳影打散迸溅 -->
+  <g fill="#9AC8F0" opacity="0.7">
+    <circle cx="70" cy="50" r="2"><animate attributeName="opacity" values="0.7;0.15;0.7" dur="1.4s" repeatCount="indefinite"/></circle>
+    <circle cx="80" cy="62" r="1.6"><animate attributeName="opacity" values="0.7;0.15;0.7" dur="1.8s" repeatCount="indefinite"/></circle>
+    <circle cx="60" cy="40" r="1.8"><animate attributeName="opacity" values="0.7;0.15;0.7" dur="2s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- 狮子宫（背景） -->
+  <g opacity="0.4">
+    <path d="M 128 20 L 188 20 L 180 34 Q 158 42 140 38 Z" fill="#3E2A2E"/>
+    <path d="M 128 20 L 188 20" stroke="#5E4A4E" stroke-width="1.2"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#2A1E22" opacity="0.8"/>
+  <path d="M 0 152 L 200 152" stroke="#3E2A2E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 白银狮子圣斗士（立宫前，光速拳连发，金鬃猎猎） -->
+  <!-- 腿 -->
+  <path d="M 88 132 L 84 154 L 90 154 L 94 134 Z" fill="#B8C4D0"/>
+  <path d="M 104 132 L 112 156 L 106 156 L 100 134 Z" fill="#B8C4D0"/>
+  <!-- 圣衣（下摆） -->
+  <path d="M 88 122 Q 98 130 110 122 Q 114 116 110 108 Q 104 120 96 116 Q 88 120 88 122 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 88 92 Q 84 106 90 122 Q 100 128 110 122 Q 116 106 112 92 Q 100 86 88 92 Z" fill="url(#armor)" stroke="#8E9CAC" stroke-width="1.2"/>
+  <!-- 金鬃（战意） -->
+  <path d="M 86 90 Q 78 88 76 93 Q 82 97 88 96 Z" fill="#E8C878"/>
+  <path d="M 112 90 Q 120 88 122 93 Q 116 97 110 96 Z" fill="#E8C878"/>
+  <!-- 圣衣纹 -->
+  <path d="M 92 98 L 96 116 M 104 98 L 100 116" stroke="#F0F4F8" stroke-width="1.2" opacity="0.7"/>
+  <!-- 腰带 -->
+  <path d="M 88 108 L 112 108" stroke="#F0F4F8" stroke-width="1.6"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#leo-face" transform="translate(100,84) scale(1)"/>
+
+  <!-- 左臂（护身，蓄） -->
+  <path d="M 90 96 C 84 100 82 106 84 114" fill="none" stroke="#E8ECF0" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="84" cy="116" r="3.2" fill="#D0B090"/>
+
+  <!-- 右拳连发（闪电光速） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-5 110 96;4 110 96;-5 110 96" dur="1.4s" repeatCount="indefinite"/>
+    <path d="M 108 96 C 116 92 122 88 126 82" fill="none" stroke="#E8ECF0" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="128" cy="80" r="3.6" fill="#D0B090"/>
+    <!-- 光速拳影（连发如雨） -->
+    <g stroke="#9AC8F0" stroke-width="1.6" opacity="0.6" stroke-linecap="round">
+      <path d="M 128 78 L 142 68">
+        <animate attributeName="opacity" values="0.6;0.15;0.6" dur="1.4s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 130 82 L 146 76">
+        <animate attributeName="opacity" values="0.5;0.12;0.5" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 126 84 L 136 78">
+        <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 小宇宙燃烧（金色光焰） -->
+  <g fill="#E8A84E" opacity="0.6">
+    <path d="M 100 118 Q 96 110 100 104 Q 104 110 100 118 Z">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 108 114 Q 106 108 110 104 Q 112 110 108 114 Z">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="1.9s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 电光星尘 -->
+  <g fill="#9AC8F0">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

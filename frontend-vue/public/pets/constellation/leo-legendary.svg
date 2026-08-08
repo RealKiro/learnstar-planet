@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="狮子座·艾奥里亚·五阶·狮子宫主·黄金狮子雷霆绕拳">
+  <defs>
+    <!-- 背景：狮子宫大殿金色殿堂 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8B878"/>
+      <stop offset="52%" stop-color="#B8965E"/>
+      <stop offset="100%" stop-color="#8E7850"/>
+    </linearGradient>
+    <!-- 雷霆蓝 -->
+    <radialGradient id="bolt" cx="50%" cy="44%" r="55%">
+      <stop offset="0%" stop-color="#9AC8F0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#9AC8F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 黄金狮子圣衣 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFE9A8"/>
+      <stop offset="100%" stop-color="#D8B64E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8C8A8"/>
+      <stop offset="100%" stop-color="#D0B090"/>
+    </radialGradient>
+
+    <!-- 头部模板：青年面容·剑眉·虎目威光 -->
+    <g id="leo-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 短发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 剑眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 虎目威光 -->
+      <ellipse cx="-4.3" cy="0.4" rx="2.4" ry="2.2" fill="#1E1008"/>
+      <ellipse cx="4.3" cy="0.4" rx="2.4" ry="2.2" fill="#1E1008"/>
+      <circle cx="-4.8" cy="-0.4" r="0.8" fill="#FFE9A8"/>
+      <circle cx="3.8" cy="-0.4" r="0.8" fill="#FFE9A8"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 威仪 -->
+      <path d="M -3 5.4 Q 0 7 3 5.4" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 雷霆 -->
+  <circle cx="100" cy="94" r="80" fill="url(#bolt)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色圆光 -->
+  <g>
+    <circle cx="100" cy="94" r="62" fill="none" stroke="#FFE9A8" stroke-width="2.4" opacity="0.85">
+      <animate attributeName="r" values="62;67;62" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="94" r="54" fill="none" stroke="#FFE9A8" stroke-width="1.1" opacity="0.5">
+      <animate attributeName="r" values="54;57;54" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 狮子宫星象（背景） -->
+  <g opacity="0.5">
+    <g fill="#FFF0C0">
+      <circle cx="40" cy="70" r="1.8"/>
+      <circle cx="52" cy="60" r="1.4"/>
+      <circle cx="66" cy="66" r="1.6"/>
+    </g>
+    <path d="M 40 70 L 52 60 L 66 66" stroke="#FFF0C0" stroke-width="0.8" opacity="0.6"/>
+  </g>
+
+  <!-- 黄金殿堂柱 -->
+  <g opacity="0.4">
+    <path d="M 18 0 L 26 0 L 26 200 L 18 200 Z" fill="#B8965E"/>
+    <path d="M 174 0 L 182 0 L 182 200 L 174 200 Z" fill="#B8965E"/>
+  </g>
+
+  <!-- 云海托足 -->
+  <g opacity="0.6">
+    <path d="M 0 150 Q 50 142 100 148 Q 150 154 200 146 L 200 200 L 0 200 Z" fill="#C8AC84">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 2;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 黄金狮子圣斗士（端坐，威仪） -->
+  <!-- 腿（盘坐） -->
+  <path d="M 88 136 Q 94 144 106 140 Q 110 136 108 130 Q 100 140 92 134 Z" fill="#D8B64E"/>
+  <!-- 圣衣（下摆） -->
+  <path d="M 88 126 Q 98 134 110 126 Q 114 120 110 112 Q 104 124 96 120 Q 88 124 88 126 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 88 94 Q 84 108 90 126 Q 100 132 110 126 Q 116 108 112 94 Q 100 88 88 94 Z" fill="url(#armor)" stroke="#B8964E" stroke-width="1.2"/>
+  <!-- 金鬃威光 -->
+  <path d="M 86 90 Q 78 86 76 92 Q 84 98 90 96 Z" fill="#FFE9A8"/>
+  <path d="M 114 90 Q 122 86 124 92 Q 116 98 110 96 Z" fill="#FFE9A8"/>
+  <!-- 圣衣纹 -->
+  <path d="M 92 100 L 96 118 M 104 100 L 100 118" stroke="#FFF0C0" stroke-width="1.2" opacity="0.8"/>
+  <!-- 腰带 -->
+  <path d="M 88 108 L 112 108" stroke="#FFF0C0" stroke-width="1.8"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#leo-face" transform="translate(100,86) scale(1)"/>
+
+  <!-- 左臂抚膝 -->
+  <path d="M 90 98 C 84 102 82 108 84 116" fill="none" stroke="#FFE9A8" stroke-width="4.4" stroke-linecap="round"/>
+  <circle cx="84" cy="118" r="3.2" fill="#D0B090"/>
+
+  <!-- 右拳（雷霆绕拳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 -2;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 108 98 C 114 96 118 92 120 86" fill="none" stroke="#FFE9A8" stroke-width="4.2" stroke-linecap="round"/>
+    <!-- 拳 -->
+    <circle cx="122" cy="84" r="3.4" fill="#D0B090"/>
+    <!-- 雷霆绕拳 -->
+    <g stroke="#9AC8F0" stroke-width="1.6" opacity="0.8" stroke-linecap="round">
+      <path d="M 118 80 Q 122 76 126 80 Q 122 84 118 80 Z">
+        <animateTransform attributeName="transform" type="rotate" values="0 122 80;360 122 80" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 120 78 L 124 82">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.6s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 雷霆星尘 -->
+  <g fill="#9AC8F0">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 云端散光 -->
+  <g stroke="#FFE9A8" stroke-width="1.4" opacity="0.45" stroke-linecap="round">
+    <path d="M 100 22 L 100 12"/><path d="M 56 44 L 48 36"/><path d="M 144 44 L 152 36"/>
+  </g>
+</svg>

@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="狮子座·艾奥里亚·一阶·正义初燃·护住弱者怒目而视">
+  <defs>
+    <!-- 背景：圣域狮子宫金色宫阙 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8B878"/>
+      <stop offset="52%" stop-color="#B8965E"/>
+      <stop offset="100%" stop-color="#8E7850"/>
+    </linearGradient>
+    <!-- 热血红 -->
+    <radialGradient id="fire" cx="50%" cy="42%" r="50%">
+      <stop offset="0%" stop-color="#E8623A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E8623A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜学徒服 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8EA0B0"/>
+      <stop offset="100%" stop-color="#5E7484"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8C8A8"/>
+      <stop offset="100%" stop-color="#D0B090"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 热血 -->
+  <circle cx="100" cy="96" r="70" fill="url(#fire)">
+    <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色宫阙 -->
+  <g opacity="0.5">
+    <path d="M 20 20 L 72 20 L 62 34 Q 40 42 28 38 Z" fill="#B8965E"/>
+    <path d="M 20 20 L 72 20" stroke="#D8B878" stroke-width="1.2"/>
+    <path d="M 34 38 L 34 80 M 58 38 L 58 80" stroke="#B8965E" stroke-width="1.4"/>
+  </g>
+
+  <!-- 被欺的弱者（左，被护住） -->
+  <g opacity="0.85">
+    <circle cx="56" cy="136" r="4.5" fill="#E8D8BC"/>
+    <path d="M 53 132 Q 56 129 59 132 Q 58 134 56 134 Q 54 134 53 132 Z" fill="#2E2620"/>
+    <path d="M 54 140 Q 52 150 54 156 Q 58 156 58 140 Z" fill="#8E7E6E"/>
+    <path d="M 55 142 L 57 136" fill="none" stroke="#E8D8BC" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 圣域地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#7E6E4E" opacity="0.7"/>
+  <path d="M 0 152 L 200 152" stroke="#9E8E6E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 青铜学徒少年（5头身，护住弱者，怒目而视） -->
+  <!-- 腿 -->
+  <path d="M 84 136 L 80 158 L 86 158 L 90 138 Z" fill="#5E7484"/>
+  <path d="M 100 136 L 108 160 L 102 160 L 96 138 Z" fill="#5E7484"/>
+  <!-- 青铜学徒服 -->
+  <path d="M 84 102 Q 80 118 86 136 Q 96 142 104 136 Q 110 118 106 102 Q 96 96 84 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 84 118 L 104 118" stroke="#A8B8C8" stroke-width="1.6"/>
+
+  <!-- 头（少年面容，剑眉，虎目炯炯，怒目而视） -->
+  <circle cx="95" cy="94" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 短发 -->
+  <path d="M 86 88 Q 90 84 95 84 Q 100 84 104 88 Q 100 85 95 85 Q 90 85 86 88 Z" fill="#2E2620"/>
+  <!-- 剑眉 -->
+  <path d="M 87 89 Q 90 87.5 93 88 M 96 88 Q 99 87.5 102 89" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <!-- 虎目炯炯（怒） -->
+  <ellipse cx="91" cy="92" rx="2.5" ry="2.3" fill="#1E1008"/>
+  <ellipse cx="99" cy="92" rx="2.5" ry="2.3" fill="#1E1008"/>
+  <circle cx="92" cy="91.2" r="0.8" fill="#FFF"/>
+  <circle cx="100" cy="91.2" r="0.8" fill="#FFF"/>
+  <!-- 鼻梁 -->
+  <path d="M 95 94.5 L 95 97" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+  <!-- 坚毅抿唇 -->
+  <path d="M 90 100.5 Q 95 101.8 100 100.5" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- 左臂（护住弱者，张开） -->
+  <path d="M 86 106 C 80 110 74 112 70 118" fill="none" stroke="#7E8E9E" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="69" cy="120" r="3" fill="#D0B090"/>
+
+  <!-- 右拳（紧握，怒） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 102 106;3 102 106;-4 102 106" dur="2s" repeatCount="indefinite"/>
+    <path d="M 102 106 C 108 108 112 110 114 116" fill="none" stroke="#7E8E9E" stroke-width="4" stroke-linecap="round"/>
+    <!-- 拳 -->
+    <circle cx="116" cy="118" r="3.4" fill="#D0B090"/>
+    <path d="M 113 116 Q 117 114 119 118 L 117 120 Q 113 120 113 116 Z" fill="#D0B090"/>
+  </g>
+
+  <!-- 正义火苗（胸口一点） -->
+  <circle cx="95" cy="110" r="7" fill="#E8623A" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.2;0.4" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 热血星尘 -->
+  <g fill="#E8623A">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

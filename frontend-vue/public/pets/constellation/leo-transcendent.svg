@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="狮子座·艾奥里亚·六阶·雷霆守护·光速巅峰护圣域">
+  <defs>
+    <!-- 背景：狮子宫顶雷霆星河 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E4E7E"/>
+      <stop offset="52%" stop-color="#2E3E66"/>
+      <stop offset="100%" stop-color="#1E2E4E"/>
+    </linearGradient>
+    <!-- 神光金 -->
+    <radialGradient id="aura" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#E8F0FA" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 雷霆蓝 -->
+    <radialGradient id="bolt" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#9AC8F0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#9AC8F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 神圣衣·狮子 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFF0D0"/>
+      <stop offset="100%" stop-color="#E8C878"/>
+    </linearGradient>
+    <!-- 雷霆翼 -->
+    <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9AC8F0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#C8E0F8" stop-opacity="0.4"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8C8A8"/>
+      <stop offset="100%" stop-color="#D0B090"/>
+    </radialGradient>
+
+    <!-- 头部模板：青年面容·剑眉·虎目含光 -->
+    <g id="leo-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 短发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 剑眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 虎目含光 -->
+      <ellipse cx="-4.3" cy="0.4" rx="2.4" ry="2.2" fill="#1E1008"/>
+      <ellipse cx="4.3" cy="0.4" rx="2.4" ry="2.2" fill="#1E1008"/>
+      <circle cx="-4.8" cy="-0.4" r="0.8" fill="#FFF3C4"/>
+      <circle cx="3.8" cy="-0.4" r="0.8" fill="#FFF3C4"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 守护 -->
+      <path d="M -3 5.4 Q 0 7 3 5.4" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 漫天星辰 -->
+  <g fill="#E8F0FA">
+    <circle cx="20" cy="30" r="1.4"/><circle cx="50" cy="14" r="1"/>
+    <circle cx="140" cy="18" r="1.3"/><circle cx="180" cy="50" r="1.1"/>
+    <circle cx="30" cy="130" r="1"/><circle cx="170" cy="150" r="1.2"/>
+  </g>
+
+  <!-- 神光 -->
+  <circle cx="100" cy="92" r="84" fill="url(#aura)">
+    <animate attributeName="opacity" values="0.95;0.65;0.95" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色圆光 -->
+  <g>
+    <circle cx="100" cy="92" r="62" fill="none" stroke="#FFF3C4" stroke-width="2.4" opacity="0.85">
+      <animate attributeName="r" values="62;67;62" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="92" r="54" fill="none" stroke="#9AC8F0" stroke-width="1.1" opacity="0.5">
+      <animate attributeName="r" values="54;57;54" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 圣域剪影（下方，被光速拳护住） -->
+  <g opacity="0.5">
+    <path d="M 0 158 Q 30 150 60 156 Q 90 162 120 154 Q 150 148 180 154 L 200 158 L 200 200 L 0 200 Z" fill="#1E2E56"/>
+    <path d="M 40 150 L 40 140 L 52 140 L 52 150" fill="#3E5E8E" opacity="0.7"/>
+  </g>
+  <!-- 光速拳影垂落圣域（守护） -->
+  <g stroke="#FFF3C4" stroke-width="1.5" opacity="0.5" stroke-linecap="round">
+    <path d="M 60 120 Q 52 136 54 152">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 140 120 Q 148 136 146 152">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 雷霆万钧（环绕） -->
+  <g stroke="#9AC8F0" stroke-width="1.6" opacity="0.6" stroke-linecap="round">
+    <path d="M 40 100 Q 32 94 36 86">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 160 100 Q 168 94 164 86">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 雷霆翼（身后展开） -->
+  <g fill="url(#wing)" stroke="#9AC8F0" stroke-width="0.8" opacity="0.85">
+    <path d="M 72 68 Q 42 40 24 44 Q 40 64 74 78 Z"/>
+    <path d="M 74 82 Q 38 72 22 80 Q 42 92 76 90 Z"/>
+    <path d="M 128 68 Q 158 40 176 44 Q 160 64 126 78 Z"/>
+    <path d="M 126 82 Q 162 72 178 80 Q 158 92 124 90 Z"/>
+  </g>
+
+  <!-- 神圣衣·狮子圣斗士（立于雷霆之巅） -->
+  <!-- 腿 -->
+  <path d="M 88 130 L 84 152 L 90 152 L 94 132 Z" fill="#E8C878"/>
+  <path d="M 106 130 L 114 154 L 108 154 L 102 132 Z" fill="#E8C878"/>
+  <!-- 神圣衣（下摆） -->
+  <path d="M 88 120 Q 98 128 110 120 Q 114 114 110 106 Q 104 118 96 114 Q 88 118 88 120 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 88 90 Q 84 104 90 120 Q 100 126 110 120 Q 116 104 112 90 Q 100 84 88 90 Z" fill="url(#armor)" stroke="#C8A868" stroke-width="1.2"/>
+  <!-- 金鬃如日（肩甲） -->
+  <path d="M 86 88 Q 76 84 74 90 Q 82 96 88 94 Z" fill="#FFF3C4"/>
+  <path d="M 114 88 Q 124 84 126 90 Q 118 96 112 94 Z" fill="#FFF3C4"/>
+  <!-- 圣衣纹 -->
+  <path d="M 92 96 L 96 114 M 104 96 L 100 114" stroke="#FFF7E0" stroke-width="1.2" opacity="0.8"/>
+  <!-- 腰带 -->
+  <path d="M 88 106 L 112 106" stroke="#FFF7E0" stroke-width="1.8"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#leo-face" transform="translate(100,82) scale(1)"/>
+
+  <!-- 左臂（蓄拳，护圣域） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 90 94;3 90 94;-4 90 94" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 90 94 C 82 98 78 102 76 108" fill="none" stroke="#FFF0D0" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="75" cy="110" r="3.4" fill="#D0B090"/>
+    <!-- 拳上雷霆 -->
+    <g stroke="#9AC8F0" stroke-width="1.4" opacity="0.7" stroke-linecap="round">
+      <path d="M 75 112 Q 68 116 70 122">
+        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 右拳轰出（光速巅峰，漫天拳影） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 108 94 C 116 90 122 86 126 80" fill="none" stroke="#FFF0D0" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="128" cy="78" r="3.6" fill="#D0B090"/>
+    <!-- 光速拳影漫天 -->
+    <g stroke="#FFF3C4" stroke-width="1.6" opacity="0.7" stroke-linecap="round">
+      <path d="M 128 76 L 146 64">
+        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.6s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 130 80 L 150 74">
+        <animate attributeName="opacity" values="0.6;0.15;0.6" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 126 82 L 138 78">
+        <animate attributeName="opacity" values="0.5;0.12;0.5" dur="2.4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <circle cx="128" cy="78" r="10" fill="url(#bolt)">
+      <animate attributeName="r" values="10;15;10" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 雷霆星尘 -->
+  <g fill="#9AC8F0">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 云端散光 -->
+  <g stroke="#FFF3C4" stroke-width="1.4" opacity="0.45" stroke-linecap="round">
+    <path d="M 100 20 L 100 10"/><path d="M 56 36 L 48 28"/><path d="M 144 36 L 152 28"/>
+  </g>
+</svg>
