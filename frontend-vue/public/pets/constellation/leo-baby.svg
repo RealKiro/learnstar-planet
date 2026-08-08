@@ -25,6 +25,25 @@
       <stop offset="0%" stop-color="#E8C8A8"/>
       <stop offset="100%" stop-color="#D0B090"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="leo-face">
+      <ellipse cx="0" cy="0" rx="11" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -10 4 L 10 4 L 8 10 L -8 10 Z" fill="url(#skin)" stroke="#C8A882" stroke-width="0.5"/>
+      <!-- 虎目·正义 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2" fill="#1E1008"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2" fill="#1E1008"/>
+      <circle cx="-5.1" cy="-0.4" r="0.7" fill="#FFE066"/>
+      <circle cx="4.1" cy="-0.4" r="0.7" fill="#FFE066"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -64,25 +83,14 @@
   <path d="M 84 134 L 80 156 L 86 156 L 90 136 Z" fill="#6E7E7E"/>
   <path d="M 100 134 L 108 158 L 102 158 L 96 136 Z" fill="#6E7E7E"/>
   <!-- 训练服 -->
-  <path d="M 84 96 Q 80 112 86 132 Q 96 138 104 132 Q 110 112 106 96 Q 96 90 84 96 Z" fill="url(#robe)" stroke="#5E6E6E" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 84 114 L 104 114" stroke="#A8B8B8" stroke-width="1.4"/>
 
   <!-- 头（少年面容，剑眉虎目如电，咧嘴） -->
-  <circle cx="95" cy="88" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-  <!-- 短发 -->
-  <path d="M 86 82 Q 90 78 95 78 Q 100 78 104 82 Q 100 79 95 79 Q 90 79 86 82 Z" fill="#2E2620"/>
   <!-- 剑眉 -->
-  <path d="M 87 83 Q 90 81.5 93 82 M 96 82 Q 99 81.5 102 83" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
   <!-- 虎目如电 -->
-  <ellipse cx="91" cy="86" rx="2.5" ry="2.3" fill="#1E1008"/>
-  <ellipse cx="99" cy="86" rx="2.5" ry="2.3" fill="#1E1008"/>
-  <circle cx="92" cy="85.2" r="0.8" fill="#9AC8F0"/>
-  <circle cx="100" cy="85.2" r="0.8" fill="#9AC8F0"/>
   <!-- 鼻梁 -->
-  <path d="M 95 88.5 L 95 91" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
   <!-- 咧嘴 -->
-  <path d="M 90 94.5 Q 95 96.8 100 94.5" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
 
   <!-- 左臂（收于身侧，蓄） -->
   <path d="M 86 100 C 80 104 78 110 80 118" fill="none" stroke="#8E9E9E" stroke-width="4" stroke-linecap="round"/>
@@ -108,8 +116,6 @@
 
   <!-- 汗珠 -->
   <g fill="#9AC8F0">
-    <circle cx="84" cy="90" r="1.2"><animate attributeName="cy" values="90;93;90" dur="1.8s" repeatCount="indefinite"/></circle>
-    <circle cx="106" cy="92" r="1"><animate attributeName="cy" values="92;95;92" dur="2s" repeatCount="indefinite"/></circle>
   </g>
 
   <!-- 电光星尘 -->
@@ -123,4 +129,10 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#leo-face" transform="translate(95,88) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 86 82 Q 90 78 95 78 Q 100 78 104 82 Q 100 79 95 79 Q 90 79 86 82 Z" fill="#2E2620"/>
 </svg>

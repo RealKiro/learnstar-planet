@@ -20,6 +20,28 @@
       <stop offset="0%" stop-color="#E8D0B4"/>
       <stop offset="100%" stop-color="#C8B090"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="yang_ren-face">
+      <ellipse cx="0" cy="0" rx="11" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -10 4 L 10 4 L 8 10 L -8 10 Z" fill="url(#skin)" stroke="#C8A882" stroke-width="0.5"/>
+      <!-- 白眉·掌目 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#E8E4DC" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <path d="M -3.5 6.4 Q 0 8.4 3.5 6.4" fill="none" stroke="#E8E4DC" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -8 0 Q -5 -1.8 -2 -0.9 L -2 0.9 Q -5 0 -8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <path d="M 8 0 Q 5 -1.8 2 -0.9 L 2 0.9 Q 5 0 8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-5.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <circle cx="4.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -48,25 +70,15 @@
   <!-- 仰卧身躯 -->
   <path d="M 70 138 Q 66 146 72 152 Q 92 162 112 152 Q 120 146 116 136 Q 96 128 70 138 Z" fill="url(#robe)" stroke="#4E1A12" stroke-width="1"/>
   <!-- 血痕 -->
-  <path d="M 74 140 Q 78 146 74 150 M 110 138 Q 114 144 110 148" stroke="#A8281A" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
   <!-- 玉带（沾血） -->
-  <path d="M 76 142 L 114 144" stroke="#E8D8A8" stroke-width="2"/>
   <!-- 双腿 -->
   <path d="M 70 144 L 64 164 L 70 166 L 74 148 Z" fill="#5E2016"/>
   <path d="M 112 146 L 120 162 L 115 164 L 108 148 Z" fill="#5E2016"/>
 
   <!-- 头（侧卧，面无血色，双目殷红） -->
-  <circle cx="84" cy="130" r="10.5" fill="url(#skin)" stroke="#C0A884" stroke-width="0.8"/>
-  <!-- 散发 -->
-  <path d="M 74 126 Q 70 120 74 116 M 76 128 Q 72 122 76 118" stroke="#1E1814" stroke-width="2" stroke-linecap="round" fill="none"/>
-  <path d="M 84 120 Q 80 116 84 114" stroke="#1E1814" stroke-width="1.8" stroke-linecap="round"/>
   <!-- 眉紧蹙 -->
-  <path d="M 78 126 Q 81 124.5 84 125.5 M 86 125.5 Q 89 124.5 92 126" stroke="#1E1008" stroke-width="1.5" stroke-linecap="round" fill="none"/>
   <!-- 双目殷红（剜目） -->
-  <path d="M 79 129 L 89 130 M 80 133 L 89 133" stroke="#B0301E" stroke-width="1.6" stroke-linecap="round"/>
-  <circle cx="84" cy="130.5" r="1.2" fill="#B0301E"/>
   <!-- 唇紧抿 -->
-  <path d="M 80 137 Q 84 136.5 88 137" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
 
   <!-- 手中仍攥谏章 -->
   <g>
@@ -74,7 +86,6 @@
     <line x1="89" y1="140" x2="89" y2="154" stroke="#8E7A4E" stroke-width="0.7" transform="rotate(24 92 147)"/>
     <line x1="92" y1="140" x2="92" y2="154" stroke="#8E7A4E" stroke-width="0.7" transform="rotate(24 92 147)"/>
     <!-- 攥章之手 -->
-    <circle cx="84" cy="145" r="3" fill="#E8D0B4"/>
   </g>
 
   <!-- 忠魂不散（一点金光上浮） -->
@@ -100,4 +111,8 @@
       <animate attributeName="opacity" values="0.35;0.07;0.35" dur="3.8s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#yang_ren-face" transform="translate(84,130) scale(1.05)"/>
+
 </svg>

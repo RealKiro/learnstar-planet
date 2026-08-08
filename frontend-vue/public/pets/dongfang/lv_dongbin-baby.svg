@@ -20,6 +20,27 @@
       <stop offset="0%" stop-color="#F0DCC6"/>
       <stop offset="100%" stop-color="#D8C0A4"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="lv_dongbin-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -8 8 Q 0 12 8 8 Q 5 12 0 12.5 Q -5 12 -8 8 Z" fill="url(#skin)" opacity="0.6"/>
+      <!-- 剑眉星目 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -8 0 Q -5 -1.8 -2 -0.9 L -2 0.9 Q -5 0 -8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <path d="M 8 0 Q 5 -1.8 2 -0.9 L 2 0.9 Q 5 0 8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-5.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <circle cx="4.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -78,22 +99,11 @@
   <rect x="120" y="128" width="18" height="12" rx="2" fill="#8E7A4E"/>
 
   <!-- 头（侧卧，梦醒目光澄明） -->
-  <circle cx="98" cy="108" r="10.5" fill="url(#skin)" stroke="#C8AC90" stroke-width="0.9"/>
   <!-- 儒巾散落 -->
-  <path d="M 88 102 Q 86 96 90 92" stroke="#4E6E8E" stroke-width="2.4" stroke-linecap="round"/>
-  <!-- 额发 -->
-  <path d="M 89 107 Q 93 102 98 102 Q 103 102 107 107 Q 103 103 98 103 Q 93 103 89 107 Z" fill="#1E1814"/>
   <!-- 眉（醒时澄明） -->
-  <path d="M 90 107 Q 93 105.5 96 106 M 100 106 Q 103 105.5 106 107" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
   <!-- 目（睁大微怔，勘破） -->
-  <circle cx="94" cy="110" r="2.6" fill="#1E1008"/>
-  <circle cx="102" cy="110" r="2.6" fill="#1E1008"/>
-  <circle cx="95" cy="109.2" r="0.8" fill="#FFF"/>
-  <circle cx="103" cy="109.2" r="0.8" fill="#FFF"/>
   <!-- 鼻梁 -->
-  <path d="M 98 111.5 L 98 114" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
   <!-- 唇（微启，若有所悟） -->
-  <path d="M 94 117 Q 98 119 102 117" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
 
   <!-- 梦醒金尘 -->
   <g fill="#E8B64C">
@@ -106,4 +116,10 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#lv_dongbin-face" transform="translate(98,108) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 89 107 Q 93 102 98 102 Q 103 102 107 107 Q 103 103 98 103 Q 93 103 89 107 Z" fill="#1E1814"/>
 </svg>

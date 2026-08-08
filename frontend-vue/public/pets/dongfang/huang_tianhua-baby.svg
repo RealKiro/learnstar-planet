@@ -25,6 +25,27 @@
       <stop offset="0%" stop-color="#F2DEC2"/>
       <stop offset="100%" stop-color="#DCC4A0"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="huang_tianhua-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -8 8 Q 0 12 8 8 Q 5 12 0 12.5 Q -5 12 -8 8 Z" fill="url(#skin)" opacity="0.6"/>
+      <!-- 少年·剑眉 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -8 0 Q -5 -1.8 -2 -0.9 L -2 0.9 Q -5 0 -8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <path d="M 8 0 Q 5 -1.8 2 -0.9 L 2 0.9 Q 5 0 8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-5.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <circle cx="4.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -62,7 +83,6 @@
   <!-- 道袍下摆 -->
   <path d="M 88 128 Q 96 140 108 138 Q 114 132 112 124 Q 106 130 100 128 Q 94 130 88 128 Z" fill="url(#robe)"/>
   <!-- 身体 -->
-  <path d="M 90 100 Q 86 114 92 128 Q 100 133 108 128 Q 114 114 110 100 Q 100 95 90 100 Z" fill="url(#robe)" stroke="#1E2E42" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 90 118 L 110 118" stroke="#D8A040" stroke-width="1.6"/>
   <!-- 左臂负剑（背于后） -->
@@ -79,20 +99,9 @@
   </g>
 
   <!-- 头（少年圆脸，束发小髻） -->
-  <circle cx="100" cy="90" r="9.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-  <!-- 束发小髻 -->
-  <path d="M 96 81 Q 100 78 104 81 Q 102 76 100 76 Q 98 76 96 81 Z" fill="#1E1008"/>
-  <!-- 额发 -->
-  <path d="M 91 88 Q 95 83 100 83 Q 105 83 109 88 Q 105 84 100 84 Q 95 84 91 88 Z" fill="#1E1008"/>
   <!-- 剑眉 -->
-  <path d="M 93 87 Q 95 85 98 85.5 M 102 85.5 Q 105 85 107 87" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
   <!-- 明亮大眼 -->
-  <circle cx="95" cy="90" r="2.2" fill="#1E1008"/>
-  <circle cx="105" cy="90" r="2.2" fill="#1E1008"/>
-  <circle cx="95.8" cy="89.2" r="0.8" fill="#FFF"/>
-  <circle cx="105.8" cy="89.2" r="0.8" fill="#FFF"/>
   <!-- 嘴角微扬（少年意气） -->
-  <path d="M 95 95 Q 100 97 105 95" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
 
   <!-- 剑光尾迹（舞剑残影） -->
   <g fill="none" stroke="#E8F4FF" stroke-width="1.2" opacity="0.5" stroke-linecap="round">
@@ -115,4 +124,11 @@
       <animate attributeName="opacity" values="0.6;0.18;0.6" dur="3.8s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#huang_tianhua-face" transform="translate(100,90) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 96 81 Q 100 78 104 81 Q 102 76 100 76 Q 98 76 96 81 Z" fill="#1E1008"/>
+  <path d="M 91 88 Q 95 83 100 83 Q 105 83 109 88 Q 105 84 100 84 Q 95 84 91 88 Z" fill="#1E1008"/>
 </svg>

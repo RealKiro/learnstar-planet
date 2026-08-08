@@ -25,6 +25,24 @@
       <stop offset="0%" stop-color="#F2DEC2"/>
       <stop offset="100%" stop-color="#DCC4A0"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="gemini-face">
+      <ellipse cx="0" cy="0" rx="9.5" ry="12" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 善恶双相 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -7.5 0.4 Q -4.5 -1.8 -1.8 -0.6 L -1.8 0.9 Q -4.5 0.1 -7.5 1.8 Z" fill="#1E1008"/>
+      <path d="M 7.5 0.4 Q 4.5 -1.8 1.8 -0.6 L 1.8 0.9 Q 4.5 0.1 7.5 1.8 Z" fill="#1E1008"/>
+      <circle cx="-4.5" cy="0" r="1.6" fill="#A8282E"/>
+      <circle cx="4.5" cy="0" r="1.6" fill="#A8282E"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 2.6 Q 1.6 4 0 5 Q -1.6 4 0 2.6" fill="none" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.4 Q 0 6.8 3.2 6.4" fill="none" stroke="#6E4A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -67,28 +85,14 @@
   <path d="M 90 136 L 86 158 L 92 158 L 96 138 Z" fill="#5E7484"/>
   <path d="M 106 136 L 114 160 L 108 160 L 102 138 Z" fill="#5E7484"/>
   <!-- 青铜学徒服 -->
-  <path d="M 88 102 Q 84 118 90 136 Q 100 142 108 136 Q 114 118 110 102 Q 100 96 88 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 88 118 L 110 118" stroke="#A8B8C8" stroke-width="1.6"/>
 
   <!-- 头（俊美面容，束发，眼神幽深） -->
-  <circle cx="99" cy="94" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-  <!-- 束发（长发） -->
-  <path d="M 95 85 Q 99 82 103 85 Q 101 80 99 80 Q 97 80 95 85 Z" fill="#2E2620"/>
-  <!-- 额发 -->
-  <path d="M 90 92 Q 94 87 99 87 Q 104 87 108 92 Q 104 88 99 88 Q 94 88 90 92 Z" fill="#2E2620"/>
   <!-- 眉目温柔 -->
-  <path d="M 91 92 Q 95 90.5 98 91 M 100 91 Q 103 90.5 107 92" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
   <!-- 眼含仁善（偶现幽深） -->
-  <ellipse cx="95" cy="94.6" rx="2.2" ry="2" fill="#1E1008"/>
-  <ellipse cx="103" cy="94.6" rx="2.2" ry="2" fill="#1E1008"/>
-  <circle cx="96" cy="93.8" r="0.7" fill="#FFF"/>
-  <circle cx="104" cy="93.8" r="0.7" fill="#FFF"/>
-  <circle cx="95" cy="94.6" r="0.5" fill="#6E4E8E" opacity="0.6"/>
   <!-- 鼻梁 -->
-  <path d="M 99 96.5 L 99 98.5" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
   <!-- 温和 -->
-  <path d="M 95 102 Q 99 103.8 103 102" fill="none" stroke="#8E5A3E" stroke-width="1" stroke-linecap="round"/>
 
   <!-- 左臂垂持 -->
   <path d="M 90 106 C 84 110 82 114 84 120" fill="none" stroke="#7E8E9E" stroke-width="3.6" stroke-linecap="round"/>
@@ -117,4 +121,11 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#gemini-face" transform="translate(99,94) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 95 85 Q 99 82 103 85 Q 101 80 99 80 Q 97 80 95 85 Z" fill="#2E2620"/>
+  <path d="M 90 92 Q 94 87 99 87 Q 104 87 108 92 Q 104 88 99 88 Q 94 88 90 92 Z" fill="#2E2620"/>
 </svg>

@@ -30,6 +30,27 @@
       <stop offset="0%" stop-color="#F2DEC2"/>
       <stop offset="100%" stop-color="#DCC4A0"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="aries-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -8 8 Q 0 12 8 8 Q 5 12 0 12.5 Q -5 12 -8 8 Z" fill="url(#skin)" opacity="0.6"/>
+      <!-- 温柔·贤者 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2.2" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2.2" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.6" cy="0.4" r="1.4" fill="#1E1008"/>
+      <circle cx="4.6" cy="0.4" r="1.4" fill="#1E1008"/>
+      <circle cx="-5.1" cy="-0.4" r="0.5" fill="#FFF"/>
+      <circle cx="4.1" cy="-0.4" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -77,27 +98,14 @@
   <path d="M 66 138 L 62 158 L 68 158 L 72 140 Z" fill="#5E7484"/>
   <path d="M 82 138 L 90 162 L 84 162 L 78 140 Z" fill="#5E7484"/>
   <!-- 学徒服 -->
-  <path d="M 66 102 Q 62 118 68 138 Q 76 144 84 138 Q 90 118 86 102 Q 76 96 66 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 66 118 L 84 118" stroke="#A8B8C8" stroke-width="1.4"/>
 
   <!-- 头（俯身，专注，眼含星光） -->
-  <circle cx="76" cy="94" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-  <!-- 束发 -->
-  <path d="M 72 85 Q 76 82 80 85 Q 78 80 76 80 Q 74 80 72 85 Z" fill="#2E2620"/>
-  <!-- 额发 -->
-  <path d="M 67 92 Q 71 87 76 87 Q 81 87 85 92 Q 81 88 76 88 Q 71 88 67 92 Z" fill="#2E2620"/>
   <!-- 眉目专注 -->
-  <path d="M 68 92 Q 71 90.5 74 91 M 78 91 Q 81 90.5 84 92" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
   <!-- 眼含星光 -->
-  <circle cx="72" cy="94.6" r="2.2" fill="#1E1008"/>
-  <circle cx="80" cy="94.6" r="2.2" fill="#1E1008"/>
-  <circle cx="73" cy="93.8" r="0.7" fill="#C8E0F8"/>
-  <circle cx="81" cy="93.8" r="0.7" fill="#C8E0F8"/>
   <!-- 鼻梁 -->
-  <path d="M 76 96.5 L 76 98.5" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
   <!-- 专注抿唇 -->
-  <path d="M 71 102 Q 76 103 81 102" fill="none" stroke="#8E5A3E" stroke-width="1" stroke-linecap="round"/>
 
   <!-- 左臂持小锤（敲） -->
   <g>
@@ -124,4 +132,11 @@
       <animate attributeName="opacity" values="0.6;0.12;0.6" dur="3.4s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#aries-face" transform="translate(76,94) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 72 85 Q 76 82 80 85 Q 78 80 76 80 Q 74 80 72 85 Z" fill="#2E2620"/>
+  <path d="M 67 92 Q 71 87 76 87 Q 81 87 85 92 Q 81 88 76 88 Q 71 88 67 92 Z" fill="#2E2620"/>
 </svg>

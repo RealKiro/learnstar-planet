@@ -20,11 +20,31 @@
       <stop offset="0%" stop-color="#F6E2CC"/>
       <stop offset="100%" stop-color="#E2C8A8"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="he_xiangu-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -8 8 Q 0 12 8 8 Q 5 12 0 12.5 Q -5 12 -8 8 Z" fill="url(#skin)" opacity="0.6"/>
+      <!-- 柳眉·杏眼 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2.2" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2.2" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.6" cy="0.4" r="1.4" fill="#1E1008"/>
+      <circle cx="4.6" cy="0.4" r="1.4" fill="#1E1008"/>
+      <circle cx="-5.1" cy="-0.4" r="0.5" fill="#FFF"/>
+      <circle cx="4.1" cy="-0.4" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3 Q 1.2 4.4 0 5.4 Q -1.2 4.4 0 3" fill="none" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
   <!-- 云母光晕 -->
-  <circle cx="100" cy="92" r="80" fill="url(#mica)">
     <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.2s" repeatCount="indefinite"/>
   </circle>
 
@@ -55,34 +75,17 @@
     <path d="M 88 116 Q 86 126 90 132 Q 98 138 106 132 Q 110 126 108 116 Q 100 112 88 116 Z" fill="url(#gown)" stroke="#C8C4BC" stroke-width="1"/>
   </g>
   <!-- 上身 -->
-  <path d="M 92 96 Q 88 106 92 118 Q 100 124 106 118 Q 110 106 106 96 Q 100 92 92 96 Z" fill="url(#gown)" stroke="#C8C4BC" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 92 110 L 106 110" stroke="#A8906E" stroke-width="1.4"/>
   <!-- 竹篓仍在（背） -->
-  <path d="M 90 96 L 86 118 L 94 122 L 98 100 Z" fill="#C8A868" stroke="#A8884E" stroke-width="0.8"/>
-  <path d="M 92 98 C 88 102 86 106 88 112" stroke="#A8884E" stroke-width="1.2" fill="none"/>
 
   <!-- 头（清秀面容，眼神明亮） -->
-  <circle cx="99" cy="88" r="10" fill="url(#skin)" stroke="#D8BC98" stroke-width="0.8"/>
   <!-- 青丝 + 荆钗 -->
-  <path d="M 93 80 Q 97 76 101 80 Q 99 75 97 75 Q 95 75 93 80 Z" fill="#1E1814"/>
-  <path d="M 93 78 L 89 76" stroke="#A8906E" stroke-width="1.2" stroke-linecap="round"/>
-  <!-- 发丝扬 -->
-  <path d="M 101 78 Q 106 74 108 70" stroke="#1E1814" stroke-width="1.6" stroke-linecap="round">
     <animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
   </path>
-  <!-- 额发 -->
-  <path d="M 90 86 Q 94 81 99 81 Q 104 81 108 86 Q 104 82 99 82 Q 94 82 90 86 Z" fill="#1E1814"/>
   <!-- 眉眼明亮 -->
-  <path d="M 91 86 Q 94 84.8 97 85.4 M 101 85.4 Q 104 84.8 107 86" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-  <circle cx="94" cy="88.6" r="2.3" fill="#1E1008"/>
-  <circle cx="104" cy="88.6" r="2.3" fill="#1E1008"/>
-  <circle cx="95" cy="87.8" r="0.8" fill="#FFF"/>
-  <circle cx="105" cy="87.8" r="0.8" fill="#FFF"/>
   <!-- 鼻梁 -->
-  <path d="M 99 90 L 99 92.5" stroke="#C8A884" stroke-width="1" stroke-linecap="round"/>
   <!-- 含笑 -->
-  <path d="M 94 96 Q 99 98.6 104 96" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
 
   <!-- 双臂展臂迎风 -->
   <g>
@@ -109,4 +112,11 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#he_xiangu-face" transform="translate(99,88) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 93 80 Q 97 76 101 80 Q 99 75 97 75 Q 95 75 93 80 Z" fill="#1E1814"/>
+  <path d="M 90 86 Q 94 81 99 81 Q 104 81 108 86 Q 104 82 99 82 Q 94 82 90 86 Z" fill="#1E1814"/>
 </svg>

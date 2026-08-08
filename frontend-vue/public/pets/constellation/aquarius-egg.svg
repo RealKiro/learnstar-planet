@@ -25,11 +25,31 @@
       <stop offset="0%" stop-color="#F0E0CC"/>
       <stop offset="100%" stop-color="#DCC8A8"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="aquarius-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -8 8 Q 0 12 8 8 Q 5 12 0 12.5 Q -5 12 -8 8 Z" fill="url(#skin)" opacity="0.6"/>
+      <!-- 清冷·凤目 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -8 0 Q -5 -1.8 -2 -0.9 L -2 0.9 Q -5 0 -8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <path d="M 8 0 Q 5 -1.8 2 -0.9 L 2 0.9 Q 5 0 8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-5.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <circle cx="4.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
   <!-- 冰晶 -->
-  <circle cx="100" cy="96" r="70" fill="url(#ice)">
     <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.2s" repeatCount="indefinite"/>
   </circle>
 
@@ -53,25 +73,14 @@
   <path d="M 88 136 L 84 158 L 90 158 L 94 138 Z" fill="#5E7484"/>
   <path d="M 104 136 L 112 160 L 106 160 L 100 138 Z" fill="#5E7484"/>
   <!-- 青铜学徒服 -->
-  <path d="M 88 102 Q 84 118 90 136 Q 100 142 108 136 Q 114 118 110 102 Q 100 96 88 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 88 118 L 110 118" stroke="#A8B8C8" stroke-width="1.6"/>
 
   <!-- 头（少年面容，剑眉凤目清冷） -->
-  <circle cx="99" cy="94" r="10" fill="url(#skin)" stroke="#D0BCA0" stroke-width="0.8"/>
-  <!-- 短发 -->
-  <path d="M 90 88 Q 94 84 99 84 Q 104 84 108 88 Q 104 85 99 85 Q 94 85 90 88 Z" fill="#2E2620"/>
   <!-- 剑眉 -->
-  <path d="M 91 89 Q 95 87.5 98 88 M 100 88 Q 103 87.5 107 89" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
   <!-- 凤目清冷 -->
-  <path d="M 92 92 Q 95 90.5 97 91 M 101 91 Q 103 90.5 106 92" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-  <circle cx="95" cy="91.3" r="1.8" fill="#1E1008"/>
-  <circle cx="103" cy="91.3" r="1.8" fill="#1E1008"/>
-  <circle cx="95.6" cy="90.5" r="0.6" fill="#C8E8F8"/>
   <!-- 鼻梁 -->
-  <path d="M 99 93.5 L 99 96" stroke="#C8B098" stroke-width="1" stroke-linecap="round"/>
   <!-- 唇线薄而静 -->
-  <path d="M 94 99.5 Q 99 100.6 104 99.5" fill="none" stroke="#A89070" stroke-width="1" stroke-linecap="round"/>
 
   <!-- 左臂垂持 -->
   <path d="M 90 106 C 84 110 82 114 84 120" fill="none" stroke="#7E8E9E" stroke-width="3.6" stroke-linecap="round"/>
@@ -103,4 +112,10 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#aquarius-face" transform="translate(99,94) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 90 88 Q 94 84 99 84 Q 104 84 108 88 Q 104 85 99 85 Q 94 85 90 88 Z" fill="#2E2620"/>
 </svg>

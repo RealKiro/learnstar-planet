@@ -25,6 +25,22 @@
       <stop offset="0%" stop-color="#E8D4BE"/>
       <stop offset="100%" stop-color="#D0B8A0"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="cancer-face">
+      <ellipse cx="0" cy="0" rx="9.5" ry="12" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 阴柔·狞笑 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.3 Q -5 -2.4 -2 -2 M 8 -1.3 Q 5 -2.4 2 -2" stroke="#1E1008" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -7 0.6 Q -4.5 -1.4 -1.8 -0.4 L -1.8 1.4 Q -4.5 0.6 -7 2.2 Z" fill="#1E1008"/>
+      <path d="M 7 0.6 Q 4.5 -1.4 1.8 -0.4 L 1.8 1.4 Q 4.5 0.6 7 2.2 Z" fill="#1E1008"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 2.6 Q 1.6 4 0 5 Q -1.6 4 0 2.6" fill="none" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.4 5.8 Q 0 8 3.4 5.8" fill="none" stroke="#8E5A3E" stroke-width="1.3" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -62,28 +78,16 @@
   <path d="M 86 134 L 82 156 L 88 156 L 92 136 Z" fill="#8E9E9E"/>
   <path d="M 102 134 L 110 158 L 104 158 L 98 136 Z" fill="#8E9E9E"/>
   <!-- 青铜巨蟹圣衣 -->
-  <path d="M 86 96 Q 82 112 88 132 Q 98 138 106 132 Q 112 112 108 96 Q 98 90 86 96 Z" fill="url(#armor)" stroke="#6E7E7E" stroke-width="1"/>
   <!-- 蟹甲冥光 -->
   <path d="M 90 102 Q 92 108 90 114 M 104 102 Q 102 108 104 114" stroke="#7E9E9E" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
   <!-- 腰带 -->
   <path d="M 86 114 L 106 114" stroke="#C8D0D0" stroke-width="1.4"/>
 
   <!-- 头（阴柔面容，狂笑，眼神轻蔑） -->
-  <circle cx="97" cy="88" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-  <!-- 束发 -->
-  <path d="M 93 79 Q 97 76 101 79 Q 99 74 97 74 Q 95 74 93 79 Z" fill="#2E2620"/>
-  <!-- 额发 -->
-  <path d="M 88 86 Q 92 81 97 81 Q 102 81 106 86 Q 102 82 97 82 Q 92 82 88 86 Z" fill="#2E2620"/>
   <!-- 细眉（狂） -->
-  <path d="M 89 86 Q 92 85 95 85.6 M 99 85.6 Q 102 85 105 86" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
   <!-- 狭长眼（轻蔑） -->
-  <path d="M 90 89 Q 93 87.8 95 88.4 M 99 88.4 Q 101 87.8 104 89" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-  <circle cx="93" cy="88.6" r="1.5" fill="#1E1008"/>
-  <circle cx="101" cy="88.6" r="1.5" fill="#1E1008"/>
   <!-- 鼻梁 -->
-  <path d="M 97 90.5 L 97 92.5" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
   <!-- 狂笑 -->
-  <path d="M 92 95 Q 97 98.6 102 95" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
 
   <!-- 左臂负背 -->
   <path d="M 88 100 C 82 104 80 110 82 118" fill="none" stroke="#AEB8B8" stroke-width="4" stroke-linecap="round"/>
@@ -102,10 +106,8 @@
 
   <!-- 狂笑音浪 -->
   <g stroke="#C8D0D0" stroke-width="1.4" opacity="0.5" stroke-linecap="round">
-    <path d="M 86 84 Q 76 78 72 70">
       <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.2s" repeatCount="indefinite"/>
     </path>
-    <path d="M 88 88 Q 76 82 70 74">
       <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.6s" repeatCount="indefinite"/>
     </path>
   </g>
@@ -121,4 +123,11 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#cancer-face" transform="translate(97,88) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 93 79 Q 97 76 101 79 Q 99 74 97 74 Q 95 74 93 79 Z" fill="#2E2620"/>
+  <path d="M 88 86 Q 92 81 97 81 Q 102 81 106 86 Q 102 82 97 82 Q 92 82 88 86 Z" fill="#2E2620"/>
 </svg>

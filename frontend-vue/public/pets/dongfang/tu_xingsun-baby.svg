@@ -20,6 +20,23 @@
       <stop offset="0%" stop-color="#F2DEC2"/>
       <stop offset="100%" stop-color="#DCC4A0"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="tu_xingsun-face">
+      <ellipse cx="0" cy="0" rx="11" ry="11.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 胖腮·蒜头鼻 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.3 Q -5 -2.4 -2 -2 M 8 -1.3 Q 5 -2.4 2 -2" stroke="#1E1008" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -7 0.6 Q -4.5 -1.4 -1.8 -0.4 L -1.8 1.4 Q -4.5 0.6 -7 2.2 Z" fill="#1E1008"/>
+      <path d="M 7 0.6 Q 4.5 -1.4 1.8 -0.4 L 1.8 1.4 Q 4.5 0.6 7 2.2 Z" fill="#1E1008"/>
+      <!-- 鼻 -->
+      <circle cx="0" cy="3.4" r="2" fill="#C8A880"/>
+      <path d="M -2 4.4 Q 0 4.8 2 4.4" stroke="#B8A080" stroke-width="0.8" fill="none"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -40,7 +57,6 @@
   <!-- 矮小少年（2.5头身，从土里探出半身，得意贼笑） -->
   <!-- 下半身隐于土 -->
   <!-- 身体（灰衣沾泥） -->
-  <path d="M 82 120 Q 78 132 82 146 Q 90 152 100 146 Q 106 134 102 120 Q 92 114 82 120 Z" fill="url(#cloth)" stroke="#5E5446" stroke-width="1"/>
   <!-- 沾泥点 -->
   <circle cx="86" cy="128" r="1.6" fill="#8E6A42" opacity="0.7"/>
   <circle cx="96" cy="138" r="1.4" fill="#8E6A42" opacity="0.6"/>
@@ -57,23 +73,11 @@
   <circle cx="113" cy="109" r="3" fill="#DCC4A0"/>
 
   <!-- 头（圆脸沾土，眯眼贼笑） -->
-  <circle cx="92" cy="112" r="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-  <!-- 乱发沾土 -->
-  <path d="M 82 108 Q 84 102 90 104 Q 86 100 84 104" stroke="#3A2E24" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <path d="M 100 106 Q 102 100 104 104" stroke="#3A2E24" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <!-- 额发 -->
-  <path d="M 82 108 Q 86 105 92 105 Q 98 105 102 108 Q 98 104 92 104 Q 86 104 82 108 Z" fill="#3A2E24"/>
   <!-- 脸上泥点 -->
-  <circle cx="86" cy="110" r="1.2" fill="#8E6A42" opacity="0.8"/>
-  <circle cx="98" cy="114" r="1" fill="#8E6A42" opacity="0.7"/>
   <!-- 细眉扬起 -->
-  <path d="M 84 110 Q 87 108 90 108.5 M 94 108.5 Q 97 108 100 110" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
   <!-- 眯眼贼笑 -->
-  <path d="M 85 113 Q 87.5 115 90 113.5 M 94 113.5 Q 96.5 115 99 113" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
   <!-- 蒜头鼻 -->
-  <circle cx="92" cy="117" r="2" fill="#E0C0A0"/>
   <!-- 咧嘴 -->
-  <path d="M 86 121 Q 92 125 98 121" fill="none" stroke="#B06A4A" stroke-width="1.4" stroke-linecap="round"/>
 
   <!-- 土中金尘（土遁微光） -->
   <g fill="#E8C07A">
@@ -93,13 +97,17 @@
 
   <!-- 头顶泥土滑落（细节） -->
   <g fill="#8E6A42">
-    <circle cx="88" cy="100">
       <animate attributeName="cy" values="100;106;100" dur="3s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="96" cy="102">
       <animate attributeName="cy" values="102;108;102" dur="3.4s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.4s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#tu_xingsun-face" transform="translate(92,112) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 82 108 Q 86 105 92 105 Q 98 105 102 108 Q 98 104 92 104 Q 86 104 82 108 Z" fill="#3A2E24"/>
 </svg>

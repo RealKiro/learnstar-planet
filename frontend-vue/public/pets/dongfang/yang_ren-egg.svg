@@ -20,10 +20,31 @@
       <stop offset="0%" stop-color="#F0D8BC"/>
       <stop offset="100%" stop-color="#D8BC98"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="yang_ren-face">
+      <ellipse cx="0" cy="0" rx="11" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -10 4 L 10 4 L 8 10 L -8 10 Z" fill="url(#skin)" stroke="#C8A882" stroke-width="0.5"/>
+      <!-- 白眉·掌目 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#E8E4DC" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <path d="M -3.5 6.4 Q 0 8.4 3.5 6.4" fill="none" stroke="#E8E4DC" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -8 0 Q -5 -1.8 -2 -0.9 L -2 0.9 Q -5 0 -8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <path d="M 8 0 Q 5 -1.8 2 -0.9 L 2 0.9 Q 5 0 8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-5.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <circle cx="4.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
-  <circle cx="100" cy="80" r="86" fill="url(#glow)"/>
 
   <!-- 朝堂大殿柱 -->
   <path d="M 18 0 L 26 0 L 26 200 L 18 200 Z" fill="#3E3238" opacity="0.8"/>
@@ -57,7 +78,6 @@
   <path d="M 84 114 L 112 114" stroke="#E8D8A8" stroke-width="2.4"/>
   <rect x="96" y="112" width="6" height="4" rx="1" fill="#E8D8A8"/>
   <!-- 领口 -->
-  <path d="M 92 90 Q 98 96 104 90" stroke="#541E14" stroke-width="1.6" fill="none"/>
   <!-- 左臂垂持 -->
   <path d="M 86 96 C 80 102 78 110 80 118" fill="none" stroke="#8E3628" stroke-width="5" stroke-linecap="round"/>
 
@@ -74,23 +94,11 @@
   </g>
 
   <!-- 头（国字脸，浓眉虎目清正） -->
-  <circle cx="98" cy="84" r="11" fill="url(#skin)" stroke="#C8B090" stroke-width="0.9"/>
-  <!-- 冠冕 -->
   <path d="M 84 76 Q 98 68 112 76 L 112 74 Q 98 64 84 74 Z" fill="#E8D8A8" stroke="#B8A068" stroke-width="0.8"/>
-  <path d="M 90 72 L 90 66 L 94 66 L 94 71 M 102 72 L 102 66 L 106 66 L 106 71" stroke="#E8D8A8" stroke-width="1.4" stroke-linecap="round"/>
-  <!-- 额发 -->
-  <path d="M 88 82 Q 92 78 98 78 Q 104 78 108 82 Q 104 79 98 79 Q 92 79 88 82 Z" fill="#1E1814"/>
   <!-- 浓眉 -->
-  <path d="M 88 84 Q 93 82 96 83 M 100 83 Q 103 82 108 84" stroke="#1E1008" stroke-width="1.6" stroke-linecap="round" fill="none"/>
   <!-- 虎目清正 -->
-  <ellipse cx="93" cy="88" rx="2.6" ry="2.4" fill="#1E1008"/>
-  <ellipse cx="103" cy="88" rx="2.6" ry="2.4" fill="#1E1008"/>
-  <circle cx="94" cy="87.2" r="0.9" fill="#FFF"/>
-  <circle cx="104" cy="87.2" r="0.9" fill="#FFF"/>
   <!-- 鼻梁挺 -->
-  <path d="M 98 89 L 98 92" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
   <!-- 唇线刚直 -->
-  <path d="M 93 96 Q 98 97.6 103 96" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
 
   <!-- 烛火金尘 -->
   <g fill="#E8A84E">
@@ -103,4 +111,10 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#yang_ren-face" transform="translate(98,84) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 88 82 Q 92 78 98 78 Q 104 78 108 82 Q 104 79 98 79 Q 92 79 88 82 Z" fill="#1E1814"/>
 </svg>

@@ -11,7 +11,6 @@
       <stop offset="0%" stop-color="#FFE9A8" stop-opacity="0.8"/>
       <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
     </radialGradient>
-    <!-- 青布道袍（洗得发白） -->
     <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#B8C4B8"/>
       <stop offset="100%" stop-color="#9AA89A"/>
@@ -20,6 +19,25 @@
       <stop offset="0%" stop-color="#F2DEC2"/>
       <stop offset="100%" stop-color="#DCC4A0"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="wei_hu-face">
+      <ellipse cx="0" cy="0" rx="11" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -10 4 L 10 4 L 8 10 L -8 10 Z" fill="url(#skin)" stroke="#C8A882" stroke-width="0.5"/>
+      <!-- 怒目金刚 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2" fill="#1E1008"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2" fill="#1E1008"/>
+      <circle cx="-5.1" cy="-0.4" r="0.7" fill="#FFE066"/>
+      <circle cx="4.1" cy="-0.4" r="0.7" fill="#FFE066"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -45,7 +63,6 @@
   <path d="M 90 132 L 84 158 L 90 158 L 96 134 Z" fill="#9AA89A"/>
   <path d="M 104 132 L 112 160 L 106 160 L 100 134 Z" fill="#9AA89A"/>
   <!-- 道袍 -->
-  <path d="M 88 98 Q 84 116 90 132 Q 100 138 108 132 Q 114 116 110 98 Q 98 92 88 98 Z" fill="url(#robe)" stroke="#7E8C7E" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 88 114 L 110 114" stroke="#8E9A6E" stroke-width="1.6"/>
   <!-- 左臂（护胸） -->
@@ -63,27 +80,14 @@
     <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
   </circle>
   <!-- 周身护体金光 -->
-  <circle cx="99" cy="104" r="44" fill="url(#gold)" opacity="0.35">
     <animate attributeName="r" values="44;50;44" dur="3s" repeatCount="indefinite"/>
   </circle>
 
   <!-- 头（圆脸沉静，束发） -->
-  <circle cx="99" cy="90" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-  <!-- 束发 -->
-  <path d="M 95 81 Q 99 78 103 81 Q 101 76 99 76 Q 97 76 95 81 Z" fill="#2E2620"/>
-  <!-- 额发 -->
-  <path d="M 90 88 Q 94 83 99 83 Q 104 83 108 88 Q 104 84 99 84 Q 94 84 90 88 Z" fill="#2E2620"/>
   <!-- 眉目沉静 -->
-  <path d="M 91 88 Q 94 87 97 87.5 M 101 87.5 Q 104 87 107 88" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
   <!-- 眼含金光 -->
-  <circle cx="95" cy="91" r="2.5" fill="#1E1008"/>
-  <circle cx="103" cy="91" r="2.5" fill="#1E1008"/>
-  <circle cx="95.6" cy="90.2" r="0.8" fill="#FFE9A8"/>
-  <circle cx="103.6" cy="90.2" r="0.8" fill="#FFE9A8"/>
   <!-- 鼻梁 -->
-  <path d="M 99 92 L 99 94.5" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
   <!-- 笃定 -->
-  <path d="M 94 98 Q 99 100 104 98" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
 
   <!-- 金光粒子 -->
   <g fill="#FFE9A8">
@@ -100,4 +104,11 @@
       <animate attributeName="opacity" values="0.55;0.12;0.55" dur="3.4s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#wei_hu-face" transform="translate(99,90) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 95 81 Q 99 78 103 81 Q 101 76 99 76 Q 97 76 95 81 Z" fill="#2E2620"/>
+  <path d="M 90 88 Q 94 83 99 83 Q 104 83 108 88 Q 104 84 99 84 Q 94 84 90 88 Z" fill="#2E2620"/>
 </svg>

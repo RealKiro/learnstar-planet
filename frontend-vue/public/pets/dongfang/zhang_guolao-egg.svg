@@ -20,6 +20,24 @@
       <stop offset="0%" stop-color="#F0D8BC"/>
       <stop offset="100%" stop-color="#D8C0A0"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="zhang_guolao-face">
+      <ellipse cx="0" cy="0" rx="11" ry="11.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 白眉长垂 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#E8E4DC" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <path d="M -3.5 6.4 Q 0 8.4 3.5 6.4" fill="none" stroke="#E8E4DC" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -7 0.6 Q -4.5 -1.4 -1.8 -0.4 L -1.8 1.4 Q -4.5 0.6 -7 2.2 Z" fill="#1E1008"/>
+      <path d="M 7 0.6 Q 4.5 -1.4 1.8 -0.4 L 1.8 1.4 Q 4.5 0.6 7 2.2 Z" fill="#1E1008"/>
+      <!-- 鼻 -->
+      <circle cx="0" cy="3.4" r="2" fill="#C8A880"/>
+      <path d="M -2 4.4 Q 0 4.8 2 4.4" stroke="#B8A080" stroke-width="0.8" fill="none"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -44,31 +62,17 @@
   <path d="M 88 136 L 84 158 L 90 158 L 94 138 Z" fill="#8E7252"/>
   <path d="M 108 136 L 114 160 L 108 160 L 104 138 Z" fill="#8E7252"/>
   <!-- 麻衣 -->
-  <path d="M 90 98 Q 86 114 92 136 Q 100 142 108 136 Q 114 114 110 98 Q 100 92 90 98 Z" fill="url(#cloth)" stroke="#6E5238" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 90 118 L 110 118" stroke="#5E4A32" stroke-width="1.8"/>
   <!-- 腰别酒葫芦 -->
   <path d="M 90 114 Q 84 120 88 128 Q 92 132 96 128 Q 98 120 92 114 Z" fill="#A86A3E" stroke="#8E5A2E" stroke-width="1"/>
 
   <!-- 头（圆脸憨厚，粗眉，乱发扎巾） -->
-  <circle cx="100" cy="90" r="10.5" fill="url(#skin)" stroke="#C8A880" stroke-width="0.9"/>
   <!-- 扎巾 -->
-  <path d="M 92 82 Q 100 76 108 82 L 106 79 Q 100 73 94 79 Z" fill="#6E7258" stroke="#5E6238" stroke-width="0.8"/>
-  <!-- 乱发 -->
-  <path d="M 90 84 Q 86 78 90 74" stroke="#2E2620" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <!-- 额发 -->
-  <path d="M 90 88 Q 94 83 100 83 Q 106 83 110 88 Q 106 84 100 84 Q 94 84 90 88 Z" fill="#2E2620"/>
   <!-- 粗眉 -->
-  <path d="M 91 89 Q 95 87.5 98 88 M 102 88 Q 105 87.5 109 89" stroke="#2E1A10" stroke-width="1.6" stroke-linecap="round" fill="none"/>
   <!-- 眼大而诚 -->
-  <circle cx="95" cy="92" r="2.5" fill="#1E1008"/>
-  <circle cx="105" cy="92" r="2.5" fill="#1E1008"/>
-  <circle cx="96" cy="91.2" r="0.8" fill="#FFF"/>
-  <circle cx="106" cy="91.2" r="0.8" fill="#FFF"/>
   <!-- 鼻梁宽 -->
-  <circle cx="100" cy="95" r="2" fill="#C8A880"/>
   <!-- 带笑 -->
-  <path d="M 94 99.5 Q 100 102 106 99.5" fill="none" stroke="#8E5A3E" stroke-width="1.3" stroke-linecap="round"/>
 
   <!-- 柴担（肩挑） -->
   <line x1="70" y1="108" x2="132" y2="104" stroke="#5E4A32" stroke-width="2.6"/>
@@ -91,10 +95,8 @@
 
   <!-- 山歌音浪 -->
   <g stroke="#FFF7E0" stroke-width="1.4" opacity="0.5" fill="none" stroke-linecap="round">
-    <path d="M 88 96 Q 78 92 72 88">
       <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.4s" repeatCount="indefinite"/>
     </path>
-    <path d="M 90 100 Q 78 96 70 92">
       <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.8s" repeatCount="indefinite"/>
     </path>
   </g>
@@ -110,4 +112,10 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.8s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#zhang_guolao-face" transform="translate(100,90) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 90 88 Q 94 83 100 83 Q 106 83 110 88 Q 106 84 100 84 Q 94 84 90 88 Z" fill="#2E2620"/>
 </svg>

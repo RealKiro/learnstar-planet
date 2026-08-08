@@ -20,11 +20,29 @@
       <stop offset="0%" stop-color="#E8C8A8"/>
       <stop offset="100%" stop-color="#D0B090"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="scorpio-face">
+      <ellipse cx="0" cy="0" rx="11" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -10 4 L 10 4 L 8 10 L -8 10 Z" fill="url(#skin)" stroke="#C8A882" stroke-width="0.5"/>
+      <!-- 忠义·剑眉 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2" fill="#1E1008"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2" fill="#1E1008"/>
+      <circle cx="-5.1" cy="-0.4" r="0.7" fill="#FFE066"/>
+      <circle cx="4.1" cy="-0.4" r="0.7" fill="#FFE066"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
   <!-- 深红针光 -->
-  <circle cx="100" cy="100" r="76" fill="url(#needle)">
     <animate attributeName="opacity" values="0.8;0.45;0.8" dur="2.6s" repeatCount="indefinite"/>
   </circle>
 
@@ -67,25 +85,14 @@
   <path d="M 88 134 L 84 156 L 90 156 L 94 136 Z" fill="#6E7E7E"/>
   <path d="M 104 134 L 112 158 L 106 158 L 100 136 Z" fill="#6E7E7E"/>
   <!-- 训练服 -->
-  <path d="M 88 96 Q 84 112 90 132 Q 100 138 108 132 Q 114 112 110 96 Q 100 90 88 96 Z" fill="url(#robe)" stroke="#5E6E6E" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 88 114 L 108 114" stroke="#A8B8B8" stroke-width="1.4"/>
 
   <!-- 头（少年面容，剑眉虎目专注） -->
-  <circle cx="98" cy="88" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-  <!-- 短发 -->
-  <path d="M 89 82 Q 93 78 98 78 Q 103 78 107 82 Q 103 79 98 79 Q 93 79 89 82 Z" fill="#2E2620"/>
   <!-- 剑眉 -->
-  <path d="M 90 83 Q 94 81.5 97 82 M 99 82 Q 102 81.5 106 83" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
   <!-- 虎目专注 -->
-  <ellipse cx="94" cy="86" rx="2.4" ry="2.2" fill="#1E1008"/>
-  <ellipse cx="102" cy="86" rx="2.4" ry="2.2" fill="#1E1008"/>
-  <circle cx="95" cy="85.2" r="0.8" fill="#E8624A"/>
-  <circle cx="103" cy="85.2" r="0.8" fill="#E8624A"/>
   <!-- 鼻梁 -->
-  <path d="M 98 88.5 L 98 91" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
   <!-- 专注 -->
-  <path d="M 93 94.5 Q 98 96 103 94.5" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
 
   <!-- 左臂负背 -->
   <path d="M 90 100 C 84 104 82 110 84 118" fill="none" stroke="#8E9E9E" stroke-width="4" stroke-linecap="round"/>
@@ -113,4 +120,10 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#scorpio-face" transform="translate(98,88) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 89 82 Q 93 78 98 78 Q 103 78 107 82 Q 103 79 98 79 Q 93 79 89 82 Z" fill="#2E2620"/>
 </svg>

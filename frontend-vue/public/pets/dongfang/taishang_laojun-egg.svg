@@ -25,6 +25,25 @@
       <stop offset="0%" stop-color="#F2E2CC"/>
       <stop offset="100%" stop-color="#E0C8A8"/>
     </radialGradient>
+  
+    <!-- 差异化脸谱（脚本注入） -->
+    <g id="taishang_laojun-face">
+      <ellipse cx="0" cy="0" rx="11" ry="11.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -8 0 Q -5 -1.8 -2 -0.9 L -2 0.9 Q -5 0 -8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <path d="M 8 0 Q 5 -1.8 2 -0.9 L 2 0.9 Q 5 0 8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-5.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <circle cx="4.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
   </defs>
 
   <rect width="200" height="200" fill="url(#bg)"/>
@@ -35,7 +54,6 @@
     <circle cx="24" cy="150" r="1"/><circle cx="150" cy="170" r="1.2"/>
   </g>
   <!-- 紫气缭绕 -->
-  <circle cx="100" cy="92" r="82" fill="url(#ziqi)">
     <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.4s" repeatCount="indefinite"/>
   </circle>
 
@@ -58,37 +76,20 @@
     <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/>
   </path>
 
-  <!-- 白发道祖（立于紫气，一手拈诀） -->
   <!-- 腿 -->
   <path d="M 88 134 L 84 158 L 90 158 L 94 136 Z" fill="#5E4E8E"/>
   <path d="M 106 134 L 114 160 L 108 160 L 102 136 Z" fill="#5E4E8E"/>
   <!-- 紫金道袍 -->
-  <path d="M 88 96 Q 84 112 90 134 Q 100 140 108 134 Q 114 112 110 96 Q 100 90 88 96 Z" fill="url(#robe)" stroke="#4E3E7E" stroke-width="1"/>
   <!-- 腰带 -->
   <path d="M 88 116 L 110 116" stroke="#E8D8A8" stroke-width="1.6"/>
   <!-- 紫气纹 -->
-  <path d="M 92 102 Q 94 106 92 110 M 106 102 Q 104 106 106 110" stroke="#B89ED8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.7"/>
 
   <!-- 头（童颜鹤发，白发白须） -->
-  <circle cx="99" cy="88" r="11" fill="url(#skin)" stroke="#D0B890" stroke-width="0.9"/>
-  <!-- 白发 -->
-  <path d="M 94 79 Q 99 75 104 79 Q 102 74 99 74 Q 96 74 94 79 Z" fill="#E8E4DC"/>
-  <path d="M 90 86 Q 90 82 92 80" stroke="#E8E4DC" stroke-width="1.8" stroke-linecap="round"/>
-  <!-- 额发 -->
-  <path d="M 89 86 Q 93 81 99 81 Q 105 81 109 86 Q 105 82 99 82 Q 93 82 89 86 Z" fill="#E8E4DC"/>
   <!-- 眉目慈悲 -->
-  <path d="M 90 86 Q 94 84.5 97 85 M 101 85 Q 104 84.5 108 86" stroke="#B8B0A8" stroke-width="1.3" stroke-linecap="round" fill="none"/>
   <!-- 眼含无量道意 -->
-  <ellipse cx="94" cy="89" rx="2.4" ry="2.1" fill="#1E1814"/>
-  <ellipse cx="104" cy="89" rx="2.4" ry="2.1" fill="#1E1814"/>
-  <circle cx="95" cy="88.2" r="0.8" fill="#FFF3C4"/>
-  <circle cx="105" cy="88.2" r="0.8" fill="#FFF3C4"/>
   <!-- 鼻梁 -->
-  <path d="M 99 91 L 99 93.5" stroke="#D0B890" stroke-width="1" stroke-linecap="round"/>
   <!-- 白须 -->
-  <path d="M 93 97 Q 97 100 99 97 M 99 97 Q 103 100 105 97" stroke="#E8E4DC" stroke-width="1.4" stroke-linecap="round" fill="none"/>
   <!-- 含笑 -->
-  <path d="M 95 95.5 Q 99 97.6 103 95.5" fill="none" stroke="#A89070" stroke-width="1" stroke-linecap="round"/>
 
   <!-- 左手拈诀（清浊分判） -->
   <g>
@@ -116,4 +117,11 @@
       <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
     </circle>
   </g>
+
+  <!-- 差异化脸谱覆盖（脚本注入） -->
+  <use href="#taishang_laojun-face" transform="translate(99,88) scale(1.05)"/>
+
+  <!-- 原头发（保留在模板之上） -->
+  <path d="M 94 79 Q 99 75 104 79 Q 102 74 99 74 Q 96 74 94 79 Z" fill="#E8E4DC"/>
+  <path d="M 89 86 Q 93 81 99 81 Q 105 81 109 86 Q 105 82 99 82 Q 93 82 89 86 Z" fill="#E8E4DC"/>
 </svg>

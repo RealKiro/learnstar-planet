@@ -296,27 +296,107 @@ function generateFaceBlock(templateId, speciesId) {
 }
 
 // ---------- 批量替换 ----------
-let replaced = 0, files = 0, errors = 0
+let replaced = 0, injected = 0, files = 0, errors = 0
+
+// 物种形态角色（脸部本就是动物特征，不注入人形脸谱）
+const SPECIES_LIKE = new Set(['daji','zhulong','charmander','hongmao','lantu','doudou','dabeng','tiaotiao','shali','dada','heixinhu','heixiaohu','ma_sanniang','lei_zhenzi'])
 
 function processFile(filePath) {
   const raw = fs.readFileSync(filePath, 'utf8')
   let out = raw
-  // 匹配文件内 <g id="...face"> 块；注意：只替换 id 含 "face" 的模板，跳过普通 <g>
+  // 模式 A：文件已有 <g id="...face"> 模板 → 替换块内容（保留模板 id）
   const idMatch = /<g id="([a-zA-Z_\-]+face)">([\s\S]*?)<\/g>/.exec(out)
-  if (!idMatch) return
-  const templateId = idMatch[1]
-  // 解析基础名：去尾 -face / _face / face
-  const base = templateId.replace(/([-_])?face$/, '')
-  const speciesId = BASE_ALIAS[base] || base
-  if (!FACE_SPECS[speciesId]) return
-  const newBlock = generateFaceBlock(templateId, speciesId)
-  if (!newBlock) return
-  // 只替换第一个匹配（每文件模板唯一）
-  out = out.replace(/<g id="[a-zA-Z_\-]+face">[\s\S]*?<\/g>/, newBlock)
-  if (out !== raw) {
-    fs.writeFileSync(filePath, out)
-    replaced++
+  if (idMatch) {
+    const templateId = idMatch[1]
+    const base = templateId.replace(/([-_])?face$/, '')
+    const speciesId = BASE_ALIAS[base] || base
+    if (!FACE_SPECS[speciesId]) return
+    const newBlock = generateFaceBlock(templateId, speciesId)
+    if (!newBlock) return
+    out = out.replace(/<g id="[a-zA-Z_\-]+face">[\s\S]*?<\/g>/, newBlock)
+    if (out !== raw) { fs.writeFileSync(filePath, out); replaced++ }
+    return
   }
+  // 模式 B：无模板文件（baby/egg 等内联手绘脸）→ 注入差异化脸谱
+  // 识别角色名：从文件名 species-stage.svg
+  const fname = path.basename(filePath).replace('.svg', '')
+  const dash = fname.lastIndexOf('-')
+  const speciesId = fname.slice(0, dash)
+  if (!FACE_SPECS[speciesId]) return
+  if (SPECIES_LIKE.has(speciesId)) return // 物种形态保留
+  // 识别头部圆（fill=url(#skin) 的最大 circle）
+  const circles = [...out.matchAll(/<circle cx="([\d.]+)" cy="([\d.]+)" r="([\d.]+)" fill="url\(#skin\)"/g)]
+    .map(m => ({ x:+m[1], y:+m[2], r:+m[3] }))
+  if (!circles.length) return
+  const head = circles.sort((a,b) => b.r - a.r)[0]
+  if (head.r < 7) return // 头太小（如远处小人）不注入
+  // 生成模板块并注入 <defs>
+  const faceId = speciesId + '-face'
+  const faceBlock = generateFaceBlock(faceId, speciesId)
+  // 找到 <defs> 末尾插入
+  const defsMatch = /(<defs>[\s\S]*?)(<\/defs>)/.exec(out)
+  if (!defsMatch) return
+  const defsInsert = `\n    <!-- 差异化脸谱（脚本注入） -->\n    ${faceBlock}\n  `
+  out = out.replace(/(<defs>[\s\S]*?)(<\/defs>)/, (m, d1, d2) => d1 + defsInsert + d2)
+  // ===== 注入方案：末尾覆盖 + 头发上移 =====
+  // 1) 从原位置移除头部圆及周边五官元素；2) 抽出头发元素（深色系/发注释块）；
+  // 3) 在 </svg> 前插入 <use>（模板脸覆盖，最后绘制）；4) 把头发元素插到 use 之后（发型在模板之上）。
+  // 头部中心附近半径
+  const RADIUS = head.r + 5
+  // 头发深棕色（发和眼共用，靠"发注释块"识别保留）
+  const HAIR_DARK = ['1E1008','2E2620','1E1814','3A2E24','2A1E18','1E1412','2A1A0E','3A2A1E','B8432E','B83A2E','E84E3A','E8E4DC','D8D0C8','C8784E','8E7252','5E4E8E']
+  const lines = out.split('\n')
+  const hairLines = [] // 抽出的头发元素
+  const kept = []
+  let pendingHairComment = false // 刚见到头发注释，下一元素若是头顶深色则保留
+  for (const line of lines) {
+    // 头部圆 → 删除（替换为 use，稍后插入）
+    if (new RegExp('<circle cx="'+head.x+'" cy="'+head.y+'" r="'+head.r+'"[^>]*/>').test(line)) continue
+    // 头发注释：注释含 发/髻/冠/簪/辫/毛 且不含"头（"（头注释是整体，非头发）
+    if (/<!--/.test(line) && /发|髻|冠|簪|辫|毛/.test(line) && !/头（/.test(line)) {
+      pendingHairComment = true
+      // 注释本身不输出到 kept（避免残留），但记录待抽
+      continue
+    }
+    // 元素行坐标
+    let cx, cy
+    const c = /<circle cx="([-\d.]+)" cy="([-\d.]+)"/.exec(line)
+    const e = /<ellipse cx="([-\d.]+)" cy="([-\d.]+)"/.exec(line)
+    const p = /<path d="M ([-\d.]+)[ ,]([-\d.]+)/.exec(line)
+    if (c) { cx=+c[1]; cy=+c[2] }
+    else if (e) { cx=+e[1]; cy=+e[2] }
+    else if (p) { cx=+p[1]; cy=+p[2] }
+    const dist = cx!==undefined ? Math.hypot(cx-head.x, cy-head.y) : Infinity
+    // 头发：深色 **fill** path（覆盖头顶），五官是 stroke 或小圆
+    const isHairFill = /fill="#(1E1008|2E2620|1E1814|3A2E24|2A1E18|1E1412|2A1A0E|3A2A1E|B8432E|B83A2E|E84E3A|E8E4DC|D8D0C8|C8784E|8E7252|5E4E8E)"/.test(line)
+    const hasStrokeDark = /stroke="#(1E1008|2E2620)"/.test(line)
+    const isHairElement = isHairFill && !hasStrokeDark && cx!==undefined && cy <= head.y + 1 && dist <= RADIUS + 8
+    if (pendingHairComment && isHairElement) {
+      hairLines.push(line)
+      pendingHairComment = false
+      continue
+    }
+    // 若在头发注释后但元素非头发（如眼睛）→ 不抽，重置
+    pendingHairComment = false
+    // 头顶深色 fill 元素（无注释引导，但明显是发冠）→ 也抽
+    if (isHairElement && /<path/.test(line) && dist <= RADIUS + 6) {
+      hairLines.push(line)
+      continue
+    }
+    // 头部半径内的其他元素（五官/脸部）→ 删除（被模板覆盖）
+    if (cx!==undefined && dist <= RADIUS) {
+      // 身体/手臂粗线 → 保留（可能伸入头部下方）
+      if (/(stroke-width="[3-9]|stroke-width="1[0-9])/.test(line)) { kept.push(line); continue }
+      continue // 其余头部附近元素删除
+    }
+    kept.push(line)
+  }
+  // 在 </svg> 前插入 use + 头发
+  const useLine = `  <use href="#${faceId}" transform="translate(${head.x},${head.y}) scale(1.05)"/>`
+  const hairInsert = hairLines.join('\n')
+  const insertBlock = `\n  <!-- 差异化脸谱覆盖（脚本注入） -->\n${useLine}\n${hairInsert ? '\n  <!-- 原头发（保留在模板之上） -->\n' + hairInsert : ''}\n`
+  out = kept.join('\n').replace('</svg>', insertBlock + '</svg>')
+  if (out !== raw) { fs.writeFileSync(filePath, out); injected++ }
 }
 
 function walk(dir) {
@@ -331,7 +411,7 @@ function walk(dir) {
 }
 
 walk(PET_DIR)
-console.log(`扫描 SVG: ${files} 个，替换模板: ${replaced} 个，错误: ${errors}`)
+console.log(`扫描 SVG: ${files} 个，替换模板: ${replaced} 个，注入脸谱: ${injected} 个，错误: ${errors}`)
 
 // 列出所有角色脸谱规格（供核对）
 console.log('\n=== 脸谱分配 ===')
