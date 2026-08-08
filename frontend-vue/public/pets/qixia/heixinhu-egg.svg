@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="黑心虎·一阶·黑虎幼崽·立高石虎啸生风">
+  <defs>
+    <!-- 背景：山林 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#BFD8B8"/>
+      <stop offset="52%" stop-color="#A0C89A"/>
+      <stop offset="100%" stop-color="#82B07E"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="50%" cy="34%" r="56%">
+      <stop offset="0%" stop-color="#F4FFF0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F4FFF0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 虎目金 -->
+    <radialGradient id="eye" cx="50%" cy="44%" r="52%">
+      <stop offset="0%" stop-color="#FFE066" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFE066" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 黑毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A4E58"/>
+      <stop offset="100%" stop-color="#2A2E38"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#B89068"/>
+      <stop offset="100%" stop-color="#9E7858"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="70" r="80" fill="url(#glow)"/>
+  <!-- 虎目金 -->
+  <circle cx="100" cy="96" r="66" fill="url(#eye)">
+    <animate attributeName="opacity" values="0.55;0.32;0.55" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山 -->
+  <path d="M 0 130 Q 40 116 90 126 Q 140 132 200 122 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+
+  <!-- 高石 -->
+  <path d="M 70 140 Q 80 120 96 124 Q 110 128 112 140 Q 96 152 70 140 Z" fill="#8E9676" stroke="#A0A886" stroke-width="1"/>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.7"/>
+  <path d="M 0 150 L 200 150" stroke="#96AE7E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 黑毛猛虎（5头身，立高石，黑尾如鞭） -->
+  <!-- 腿 -->
+  <path d="M 78 132 L 74 152 L 80 152 L 84 134 Z" fill="#22242C"/>
+  <path d="M 94 132 L 102 154 L 96 154 L 90 134 Z" fill="#22242C"/>
+  <!-- 身体 -->
+  <path d="M 76 96 Q 72 112 80 132 Q 90 138 100 132 Q 106 112 102 96 Q 88 90 76 96 Z" fill="url(#fur)" stroke="#1E2028" stroke-width="1"/>
+  <!-- 虎纹 -->
+  <path d="M 80 104 Q 84 108 82 114" stroke="#1E2028" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M 94 104 Q 98 108 96 114" stroke="#1E2028" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- 黑尾如鞭 -->
+  <path d="M 104 126 Q 114 120 120 114" stroke="#2A2E38" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 104 126;10 104 126;0 104 126" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（虎脸，圆眼如炬，眉间王纹） -->
+  <ellipse cx="90" cy="94" rx="12" ry="11" fill="url(#fur)" stroke="#1E2028" stroke-width="1"/>
+  <!-- 虎耳 -->
+  <path d="M 80 86 Q 76 74 82 72 Q 86 74 84 86 Z" fill="#4A4E58" stroke="#1E2028" stroke-width="0.8"/>
+  <path d="M 100 86 Q 104 74 98 72 Q 94 74 96 86 Z" fill="#4A4E58" stroke="#1E2028" stroke-width="0.8"/>
+  <circle cx="82" cy="76" r="2.4" fill="#FFE066" opacity="0.8"/>
+  <circle cx="98" cy="76" r="2.4" fill="#FFE066" opacity="0.8"/>
+  <!-- 王纹 -->
+  <path d="M 90 82 L 86 78 M 90 82 L 94 78 M 90 82 L 90 76" stroke="#FFE066" stroke-width="1.2" stroke-linecap="round" opacity="0.9"/>
+  <!-- 白面斑 -->
+  <ellipse cx="90" cy="98" rx="7" ry="5" fill="#C8A888"/>
+  <!-- 圆眼如炬（金瞳） -->
+  <circle cx="84" cy="92" r="3.2" fill="#FFF3C4"/>
+  <circle cx="96" cy="92" r="3.2" fill="#FFF3C4"/>
+  <ellipse cx="84" cy="92" rx="2" ry="2.8" fill="#E8A024"/>
+  <ellipse cx="96" cy="92" rx="2" ry="2.8" fill="#E8A024"/>
+  <circle cx="84" cy="92" r="0.9" fill="#1E1008"/>
+  <circle cx="96" cy="92" r="0.9" fill="#1E1008"/>
+  <!-- 虎鼻 -->
+  <ellipse cx="90" cy="97" rx="2.6" ry="1.8" fill="#3A2E26"/>
+  <!-- 虎口 -->
+  <path d="M 85 101 Q 90 104 95 101" fill="none" stroke="#5E4A3E" stroke-width="1" stroke-linecap="round"/>
+  <!-- 虎须 -->
+  <path d="M 80 96 L 74 95 M 80 98 L 74 99 M 100 96 L 106 95 M 100 98 L 106 99" stroke="#D8C8B0" stroke-width="0.8" stroke-linecap="round"/>
+
+  <!-- 前爪（立于石上） -->
+  <path d="M 82 130 C 76 136 74 142 76 146" fill="none" stroke="#4A4E58" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="76" cy="148" r="3.4" fill="#C8A888"/>
+  <!-- 虎爪 -->
+  <path d="M 73 148 L 72 151 M 76 149 L 76 152 M 79 148 L 80 151" stroke="#2A2E38" stroke-width="0.8" stroke-linecap="round"/>
+
+  <!-- 后爪 -->
+  <path d="M 98 128 C 104 132 108 138 110 144" fill="none" stroke="#4A4E58" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="111" cy="146" r="3.2" fill="#C8A888"/>
+
+  <!-- 虎啸音波 -->
+  <path d="M 76 84 Q 68 82 64 76 M 104 84 Q 112 82 116 76" stroke="#FFE066" stroke-width="1.6" opacity="0.6" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 虎目金星尘 -->
+  <g fill="#FFE066">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
