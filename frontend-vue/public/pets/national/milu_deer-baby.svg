@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="麋鹿·二阶·四不像之惑·被笑四不像退进芦苇低头看水中倒影">
+  <defs>
+    <!-- 背景：湿地芦苇 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8AB89A"/>
+      <stop offset="52%" stop-color="#7AA88A"/>
+      <stop offset="100%" stop-color="#5E8E70"/>
+    </linearGradient>
+    <!-- 水光 -->
+    <radialGradient id="glow" cx="40%" cy="40%" r="40%">
+      <stop offset="0%" stop-color="#D8F0E0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#D8F0E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 褐黄毛 -->
+    <radialGradient id="fur" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#B89060"/>
+      <stop offset="100%" stop-color="#8E6838"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="80" cy="80" r="70" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.5;0.34;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 芦苇（左后） -->
+  <g fill="#4E8860" opacity="0.7">
+    <path d="M 30 148 Q 34 132 30 122 Q 36 132 38 120 Q 40 136 36 148 Z"/>
+  </g>
+
+  <!-- 笑远的孩子（右） -->
+  <g opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="158" cy="118" r="4" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.6"/>
+    <ellipse cx="158" cy="131" rx="5" ry="7.5" fill="#C8A878" stroke="#B0905E" stroke-width="0.7"/>
+    <path d="M 155 116 Q 157 114.6 159 116" fill="none" stroke="#B08A6A" stroke-width="0.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 湿地水面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#5E8E70" opacity="0.9"/>
+  <!-- 倒影（水波） -->
+  <g stroke="#C8E8D0" stroke-width="1" stroke-linecap="round" opacity="0.5">
+    <path d="M 30 156 Q 80 152 140 156 Q 170 159 200 154"/>
+  </g>
+
+  <!-- 低头看倒影的小麋鹿（左） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 0.8;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 鹿角（垂） -->
+    <path d="M 68 108 L 63 102 L 66 103 L 65 99 L 68 102 Z" fill="#9A6E42" stroke="#7A5A38" stroke-width="0.5"/>
+    <path d="M 82 108 L 87 102 L 84 103 L 85 99 L 82 102 Z" fill="#9A6E42" stroke="#7A5A38" stroke-width="0.5"/>
+    <!-- 驴尾（垂） -->
+    <path d="M 56 124 L 50 126 L 50 130" stroke="#8E6838" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="50" cy="131" r="1.4" fill="#6E5838"/>
+    <!-- 身 -->
+    <ellipse cx="68" cy="130" rx="13" ry="10" fill="url(#fur)" stroke="#6E5838" stroke-width="0.8"/>
+    <!-- 头（低垂看水） -->
+    <ellipse cx="68" cy="118" rx="9" ry="8" fill="url(#fur)" stroke="#6E5838" stroke-width="0.7" transform="rotate(8 68 118)"/>
+    <path d="M 72 122 Q 78 122 80 120 Q 78 126 72 126 Z" fill="#D8C8B0" stroke="#B8A890" stroke-width="0.5"/>
+    <!-- 眼（含惑，看倒影） -->
+    <circle cx="64" cy="117" r="2" fill="#2E2A24"/>
+    <circle cx="64.8" cy="115.8" r="0.8" fill="#FFF"/>
+    <circle cx="73" cy="117" r="2" fill="#2E2A24"/>
+    <circle cx="73.8" cy="115.8" r="0.8" fill="#FFF"/>
+    <circle cx="65" cy="116.5" r="0.9" fill="#A8D4E8" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 鼻 -->
+    <path d="M 78 121 L 76 123 L 80 123 Z" fill="#6E5838"/>
+    <!-- 嘴（低垂） -->
+    <path d="M 77 126 Q 75 124.6 73 126" fill="none" stroke="#6E5838" stroke-width="0.5" stroke-linecap="round"/>
+    <!-- 牛蹄 -->
+    <path d="M 58 136 L 55 142" stroke="#8E6838" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 78 136 L 81 142" stroke="#8E6838" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 水中倒影（模糊） -->
+    <ellipse cx="68" cy="152" rx="11" ry="5" fill="#8AB89A" opacity="0.5"/>
+  </g>
+
+  <!-- 尘灰 -->
+  <g fill="#D8F0E0" opacity="0.35">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.12;0.35" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;74;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

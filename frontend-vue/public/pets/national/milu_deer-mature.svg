@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="麋鹿·四阶·护湿初成·鹿角拨开倒木牛蹄踏稳救出小兽">
+  <defs>
+    <!-- 背景：湿地倒木 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8D0B0"/>
+      <stop offset="52%" stop-color="#8AB89A"/>
+      <stop offset="100%" stop-color="#6EA880"/>
+    </linearGradient>
+    <!-- 水光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="50%">
+      <stop offset="0%" stop-color="#E8F8E0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#E8F8E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 褐黄毛 -->
+    <radialGradient id="fur" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#C89868"/>
+      <stop offset="100%" stop-color="#A87848"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 湿地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#6EA880" opacity="0.9"/>
+  <g stroke="#C8E8D0" stroke-width="1" stroke-linecap="round" opacity="0.5">
+    <path d="M 0 156 Q 60 150 120 156 Q 160 160 200 154"/>
+  </g>
+
+  <!-- 被拨开的倒木（右，拨起） -->
+  <g>
+    <path d="M 138 108 L 168 100 L 166 112 Z" fill="#8E6E50" stroke="#6E5238" stroke-width="0.7" transform="rotate(12 152 106)">
+      <animateTransform attributeName="transform" type="translate" values="0 0;4 -3;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 钻出的小兽（右，获救） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <circle cx="146" cy="132" r="4.5" fill="#C8A878" stroke="#A88858" stroke-width="0.5"/>
+    <circle cx="144" cy="130.8" r="1.1" fill="#2E2A24"/>
+    <circle cx="149" cy="130.8" r="1.1" fill="#2E2A24"/>
+  </g>
+
+  <!-- 护湿的麋鹿（中，角拨蹄稳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 鹿角（拨木） -->
+    <path d="M 88 98 L 78 82 L 85 88 L 80 74 L 89 86 Z" fill="#A87848" stroke="#8E6838" stroke-width="0.8"/>
+    <path d="M 108 98 L 120 80 L 112 88 L 118 72 L 108 86 Z" fill="#A87848" stroke="#8E6838" stroke-width="0.8"/>
+    <!-- 大耳 -->
+    <path d="M 84 106 L 74 98 L 88 102 Z" fill="#C89868" stroke="#8E6838" stroke-width="0.7"/>
+    <path d="M 110 106 L 120 98 L 106 102 Z" fill="#C89868" stroke="#8E6838" stroke-width="0.7"/>
+    <!-- 驴尾 -->
+    <path d="M 78 124 Q 68 120 64 126" stroke="#A87848" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <circle cx="63" cy="127" r="1.8" fill="#8E6838"/>
+    <!-- 身 -->
+    <ellipse cx="98" cy="122" rx="17" ry="13" fill="url(#fur)" stroke="#8E6838" stroke-width="0.9"/>
+    <!-- 马脸 -->
+    <ellipse cx="98" cy="106" rx="11" ry="10" fill="url(#fur)" stroke="#8E6838" stroke-width="0.8"/>
+    <path d="M 102 110 Q 108 110 110 108 Q 108 114 102 114 Z" fill="#E0D0B8" stroke="#C0B098" stroke-width="0.5"/>
+    <!-- 眼（含温含亮） -->
+    <circle cx="93" cy="105" r="2.5" fill="#2E2A24"/>
+    <circle cx="93.8" cy="103.8" r="1" fill="#FFF"/>
+    <circle cx="103" cy="105" r="2.5" fill="#2E2A24"/>
+    <circle cx="103.8" cy="103.8" r="1" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 108 109 L 106 111 L 110 111 Z" fill="#8E6838"/>
+    <!-- 嘴（定） -->
+    <path d="M 107 114 Q 109 115.4 111 114" fill="none" stroke="#8E6838" stroke-width="0.5" stroke-linecap="round"/>
+    <!-- 牛蹄（踏稳，前伸拨木） -->
+    <path d="M 106 118 L 126 108" stroke="#A87848" stroke-width="3.4" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="-5 106 118;5 106 118;-5 106 118" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 86 130 L 81 138" stroke="#A87848" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M 110 130 L 115 138" stroke="#A87848" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M 80 139 L 79 142 M 82 139 L 82 142" stroke="#8E6838" stroke-width="1" stroke-linecap="round"/>
+    <path d="M 114 139 L 115 142 M 116 139 L 116 142" stroke="#8E6838" stroke-width="1" stroke-linecap="round"/>
+    <!-- 拨木震光 -->
+    <circle cx="128" cy="106" r="3" fill="#E8F8E0" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.28;0.6" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#E8F8E0">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
