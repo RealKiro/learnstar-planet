@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { apiGet } from '@/utils/api'
+import { useAppMode } from '@/composables/useAppMode'
 import { getSeriesBySpeciesId, SERIES_SCENES } from '@/utils/petData'
 import PetSprite from '@/components/pet/PetSprite.vue'
 import PetDetailModal from '@/components/pet/PetDetailModal.vue'
 import type { ApiResponse } from '@/types'
+
+// ===== 模式（教师完整 / 教室端+班级码基础） =====
+const { isClassroomMode, isTeacherMode } = useAppMode()
 
 interface CardStudent {
   name: string
@@ -79,7 +83,11 @@ const starBg = computed(() => {
   return series && SERIES_SCENES[series.id]?.bgGradient || 'var(--gradient-primary)'
 })
 
-onMounted(async () => {
+// ===== 数据加载（按模式互斥） =====
+const token = ref('')
+let pollTimer: ReturnType<typeof setInterval> | null = null
+
+async function fetchTeacherDashboard() {
   try {
     const res = await apiGet<ApiResponse<ClassOverviewData>>('/api/v1/teacher/dashboard')
     data.value = res.data
@@ -118,6 +126,28 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+}
+
+async function fetchClassDashboard() {
+  try {
+    const res = await apiGet<{ data: ClassOverviewData }>('/api/v1/display/dashboard', { params: { token: token.value } })
+    data.value = res.data
+  } catch { /* ignore */ } finally { loading.value = false }
+}
+
+onMounted(async () => {
+  if (isClassroomMode.value) {
+    token.value = sessionStorage.getItem('class_token') || ''
+    if (!token.value) { loading.value = false; return }
+    await fetchClassDashboard()
+    pollTimer = setInterval(fetchClassDashboard, 10000)
+  } else {
+    await fetchTeacherDashboard()
+  }
+})
+
+onUnmounted(() => {
+  if (pollTimer) { clearInterval(pollTimer); pollTimer = null }
 })
 </script>
 
@@ -143,7 +173,12 @@ onMounted(async () => {
           <div class="o-label">🏅 班级之星</div>
           <div v-if="data.star_student.student_no" style="position:absolute;top:20px;right:24px;font-size:11px;color:var(--color-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px;">学号 {{ data.star_student.student_no }}</div>
           <div class="star-display">
-            <div class="star-avatar" :style="{ background: starBg, cursor: 'pointer' }" @click="openHandbook(data.star_student)" title="点击查看宠物介绍">
+            <div
+              class="star-avatar"
+              :style="{ background: isClassroomMode ? 'linear-gradient(135deg,#f093fb,#f5576c)' : starBg, cursor: 'pointer' }"
+              @click="openHandbook(data.star_student)"
+              title="点击查看宠物介绍"
+            >
               <div v-if="data.star_student.pet_species" style="width:92px;height:92px;border-radius:50%;overflow:hidden;">
                 <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
               </div>
@@ -264,8 +299,8 @@ onMounted(async () => {
       </div>
     </template>
 
-    <!-- 空状态 -->
-    <div v-else class="empty-state">
+    <!-- 空状态（仅教师端：教室端 data 为空时保持空白） -->
+    <div v-else-if="isTeacherMode" class="empty-state">
       <div class="empty-icon">📭</div>
       <p>暂未分配班级</p>
       <p style="font-size:13px;color:var(--color-text-secondary);margin-top:6px;">请联系管理员为你分配班级后使用</p>

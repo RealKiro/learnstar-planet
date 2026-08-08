@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
+import { useAppMode } from '@/composables/useAppMode'
 import type { ApiResponse } from '@/types'
+
+// ===== 模式（教师完整 / 教室端+班级码基础） =====
+const { isClassroomMode, isTeacherMode } = useAppMode()
 
 interface ChatMessage { role: 'user' | 'assistant'; content: string }
 interface AICommand { label: string; prompt: string }
 interface Usage { configured: boolean; provider: string; model: string }
-
 
 const loading = ref(true)
 const commands = ref<AICommand[]>([])
@@ -18,6 +21,8 @@ const chatBody = ref<HTMLElement | null>(null)
 
 const showHint = ref(false)
 const loadError = ref('')
+// 教室端：AI 是否启用（硬门禁）
+const aiEnabled = ref(false)
 
 async function loadConfig() {
   try {
@@ -34,6 +39,19 @@ async function loadConfig() {
 }
 
 onMounted(async () => {
+  if (isClassroomMode.value) {
+    // 教室端：检查 display 设置（raw fetch，带 class_token）
+    const token = sessionStorage.getItem('class_token') || ''
+    try {
+      const res = await fetch('/api/v1/display/ai/settings', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      const data = await res.json()
+      aiEnabled.value = data?.data?.enabled || false
+    } catch { aiEnabled.value = false }
+    finally { loading.value = false }
+    return
+  }
   loading.value = false
   await loadConfig()
 })
@@ -50,6 +68,28 @@ async function send(prompt?: string) {
   input.value = ''
   sending.value = true
   await scrollToBottom()
+
+  if (isClassroomMode.value) {
+    // 教室端：display 接口
+    try {
+      const token = sessionStorage.getItem('class_token') || ''
+      const res = await fetch('/api/v1/display/ai/chat', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: content }),
+      })
+      const data = await res.json()
+      messages.value.push({ role: 'assistant', content: data?.data?.answer || '抱歉，我暂时无法回答这个问题' })
+    } catch {
+      messages.value.push({ role: 'assistant', content: '网络错误，请稍后重试' })
+    } finally {
+      sending.value = false
+      await scrollToBottom()
+    }
+    return
+  }
+
+  // 教师端
   try {
     const res = await apiPost<ApiResponse<{ reply: string }>>('/api/v1/teacher/ai/chat', { message: content })
     const reply = (res as unknown as { data: { reply: string } }).data?.reply ?? '暂无回复'
@@ -75,7 +115,7 @@ function useCommand(cmd: AICommand) {
   <div>
     <div class="page-header">
       <h2 class="page-title">AI 助手</h2>
-      <div v-if="usage" class="usage-badge">
+      <div v-if="isTeacherMode && usage" class="usage-badge">
         <span :class="usage.configured ? 'usage-config--on' : 'usage-config--off'">{{ usage.configured ? '✅ 已配置' : '❌ 未配置' }}</span>
         <span v-if="usage.configured" class="usage-meta">| {{ usage.provider }} · {{ usage.model }}</span>
       </div>
@@ -83,15 +123,21 @@ function useCommand(cmd: AICommand) {
 
     <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
 
+    <!-- 教室端：AI 未开启硬门禁（隐藏聊天） -->
+    <div v-else-if="isClassroomMode && !aiEnabled" class="ai-disabled">
+      <div class="ai-disabled__icon">🤖</div>
+      <p>AI 功能未开启，请联系管理员配置</p>
+    </div>
+
     <div v-else class="card chat-card">
-      <!-- 配置加载失败提示（不阻塞聊天） -->
-      <div v-if="loadError" class="config-error">
+      <!-- 教师端：配置加载失败提示（不阻塞聊天） -->
+      <div v-if="isTeacherMode && loadError" class="config-error">
         <span>{{ loadError }}</span>
         <button class="btn btn-sm btn-ghost" @click="loadConfig">重试</button>
       </div>
 
-      <!-- 配置提示 -->
-      <div v-if="showHint" class="hint-box">
+      <!-- 教师端：配置提示 -->
+      <div v-if="isTeacherMode && showHint" class="hint-box">
         <div class="hint-box__title">
           <span>⚠️</span>
           <span>AI 功能尚未配置</span>
@@ -105,8 +151,8 @@ function useCommand(cmd: AICommand) {
       <div ref="chatBody" class="chat-body">
         <div v-if="messages.length === 0" class="chat-empty">
           <div class="chat-empty__icon">🤖</div>
-          <p class="chat-empty__main">向 AI 助手提问，获取教学建议</p>
-          <p class="chat-empty__sub">例如：「如何提高学生课堂参与度？」</p>
+          <p class="chat-empty__main">{{ isTeacherMode ? '向 AI 助手提问，获取教学建议' : '有什么学习上的问题可以问我哦！' }}</p>
+          <p v-if="isTeacherMode" class="chat-empty__sub">例如：「如何提高学生课堂参与度？」</p>
         </div>
         <div v-for="(msg, i) in messages" :key="i"
           class="msg-row"
@@ -118,8 +164,8 @@ function useCommand(cmd: AICommand) {
         </div>
       </div>
 
-      <!-- 预设命令 -->
-      <div v-if="commands.length" class="commands-row">
+      <!-- 教师端：预设命令 -->
+      <div v-if="isTeacherMode && commands.length" class="commands-row">
         <button v-for="(cmd, i) in commands" :key="i" class="btn btn-sm btn-ghost cmd-btn"
           :disabled="sending" @click="useCommand(cmd)">
           {{ cmd.label }}
@@ -146,6 +192,10 @@ function useCommand(cmd: AICommand) {
 .usage-config--on { color: var(--color-accent); }
 .usage-config--off { color: #EF4444; }
 .usage-meta { color: var(--color-text-secondary); }
+
+/* ===== 教室端：AI 未开启门禁 ===== */
+.ai-disabled { text-align: center; padding: 48px; color: var(--color-text-secondary); }
+.ai-disabled__icon { font-size: 48px; margin-bottom: 12px; }
 
 /* ===== 聊天容器 ===== */
 .chat-card { display: flex; flex-direction: column; height: calc(100vh - 200px); min-height: 400px; }
@@ -200,4 +250,16 @@ function useCommand(cmd: AICommand) {
 .cmd-btn { font-size: 12px; }
 .input-row { display: flex; gap: 8px; padding-top: 8px; border-top: 1px solid var(--color-border); }
 .send-btn { width: auto; }
+
+/* ===== 加载 ===== */
+.loading-state { text-align: center; padding: 48px; color: var(--color-text-secondary); }
+.loading-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>

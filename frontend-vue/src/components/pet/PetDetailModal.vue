@@ -127,9 +127,11 @@ const STAGE_LABEL: Record<string, string> = {
 
       <!-- 当前形态展示 -->
       <div class="current-area">
-        <div class="current-scene" :style="{ background: sceneBg }">
-          <div class="current-sprite">
-            <PetSprite :species-id="speciesId" :level="level" :animate="true" />
+        <div class="current-left">
+          <div class="current-scene" :style="{ background: sceneBg }">
+            <div class="current-sprite">
+              <PetSprite :species-id="speciesId" :level="level" :animate="true" />
+            </div>
           </div>
           <div class="current-badge">{{ stageLabel }} · Lv.{{ level }}</div>
         </div>
@@ -198,13 +200,15 @@ const STAGE_LABEL: Record<string, string> = {
 }
 .detail-modal {
   width: 100%;
-  max-width: 620px;
-  max-height: 86vh;
+  max-width: 640px;
+  /* 单屏展示：内容紧凑化，整页无需上下滚动 */
+  max-height: calc(100vh - 40px);
   overflow-y: auto;
+  overscroll-behavior: contain;
   background: linear-gradient(180deg, var(--color-bg-card) 0%, var(--color-bg) 100%);
   border: 1px solid var(--tint-3);
   border-radius: 24px;
-  padding: 24px 28px;
+  padding: 18px 24px 14px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   animation: detailPop 0.25s ease;
 }
@@ -218,12 +222,12 @@ const STAGE_LABEL: Record<string, string> = {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
-.detail-emoji { font-size: 34px; }
+.detail-emoji { font-size: 30px; }
 .header-info { min-width: 0; }
-.detail-title { font-size: 20px; font-weight: 700; margin: 0; }
-.detail-series { font-size: 12px; color: var(--color-text-secondary); margin: 2px 0 0; }
+.detail-title { font-size: 18px; font-weight: 700; margin: 0; }
+.detail-series { font-size: 11px; color: var(--color-text-secondary); margin: 1px 0 0; }
 .close-btn {
   margin-left: auto;
   width: 30px;
@@ -238,17 +242,17 @@ const STAGE_LABEL: Record<string, string> = {
 }
 .close-btn:hover { background: var(--tint-1); color: var(--color-text); }
 
-/* 六阶段进化全览 */
+/* 六阶段进化全览（紧凑单行，不撑高弹窗） */
 .evo-track {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 4px;
-  padding: 14px 12px;
+  padding: 8px 10px;
   background: var(--tint-1);
   border: 1px solid var(--tint-2);
-  border-radius: 16px;
-  margin-bottom: 18px;
+  border-radius: 14px;
+  margin-bottom: 12px;
   overflow-x: auto;
 }
 .evo-node {
@@ -291,17 +295,18 @@ const STAGE_LABEL: Record<string, string> = {
   background: var(--tint-3);
 }
 
-/* 当前形态 */
+/* 当前形态：左图圆形展示 + 右栏紧凑信息，整体单屏 */
 .current-area {
   display: flex;
-  gap: 18px;
-  margin-bottom: 18px;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
 }
 .current-scene {
-  width: 220px;
-  min-width: 220px;
-  height: 220px;
-  border-radius: 20px;
+  width: 150px;
+  min-width: 150px;
+  height: 150px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -309,16 +314,19 @@ const STAGE_LABEL: Record<string, string> = {
   overflow: hidden;
   border: 1px solid var(--tint-2);
 }
-.current-sprite { width: 150px; height: 150px; }
+.current-sprite { width: 110px; height: 110px; }
+.current-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
 .current-badge {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   padding: 2px 10px;
-  border-radius: 12px;
+  border-radius: 10px;
   background: rgba(0, 0, 0, 0.45);
   color: #fff;
   white-space: nowrap;
@@ -329,16 +337,16 @@ const STAGE_LABEL: Record<string, string> = {
   min-width: 0;
 }
 .current-name {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
 }
 .current-stage {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--color-primary);
   background: rgba(79, 70, 229, 0.08);
@@ -346,16 +354,21 @@ const STAGE_LABEL: Record<string, string> = {
   border-radius: 12px;
 }
 .current-desc {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-secondary);
-  line-height: 1.6;
-  margin: 6px 0 12px;
+  line-height: 1.5;
+  margin: 4px 0 8px;
+  /* 单屏展示：描述最多显示 3 行，超长省略 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .info-block {
-  padding: 10px 14px;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  margin-bottom: 6px;
 }
 .quote-block {
   background: rgba(245, 158, 11, 0.06);
@@ -366,31 +379,38 @@ const STAGE_LABEL: Record<string, string> = {
   border-left: 3px solid #8b5cf6;
 }
 .info-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--color-text-secondary);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
-.quote-text { font-size: 14px; font-style: italic; color: var(--color-warning-text, #d97706); }
+.quote-text {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-warning-text, #d97706);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .poem-text {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-primary);
-  line-height: 1.8;
+  line-height: 1.7;
 }
 .poem-line { display: block; }
 .poem-line--second { padding-left: 1.4em; text-indent: -1.4em; }
 
 .info-row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 .info-pill {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 14px;
+  padding: 4px 11px;
+  border-radius: 12px;
   background: var(--tint-1);
   border: 1px solid var(--tint-2);
   color: var(--color-text);
@@ -399,19 +419,19 @@ const STAGE_LABEL: Record<string, string> = {
 
 .progress-block {
   background: var(--tint-1);
-  border-radius: 12px;
-  padding: 10px 14px;
+  border-radius: 10px;
+  padding: 7px 12px;
 }
 .progress-head {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--color-text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .progress-head strong { color: var(--md-gold, #f59e0b); }
 .progress-bar {
-  height: 6px;
+  height: 5px;
   background: var(--tint-3);
   border-radius: 3px;
   overflow: hidden;
@@ -428,11 +448,12 @@ const STAGE_LABEL: Record<string, string> = {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
+  margin-top: 2px;
 }
 .foot-btn {
-  padding: 9px 20px;
-  border-radius: 12px;
-  font-size: 13px;
+  padding: 7px 18px;
+  border-radius: 11px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   border: 1px solid transparent;
@@ -453,7 +474,7 @@ const STAGE_LABEL: Record<string, string> = {
 .foot-close:hover { background: var(--tint-1); }
 
 @media (max-width: 640px) {
-  .current-area { flex-direction: column; }
-  .current-scene { width: 100%; height: 160px; }
+  .current-area { flex-direction: column; align-items: center; }
+  .current-scene { width: 140px; min-width: 140px; height: 140px; }
 }
 </style>

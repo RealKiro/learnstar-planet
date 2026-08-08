@@ -25,12 +25,12 @@ const router = createRouter({
       component: () => import('@/layouts/TeacherLayout.vue'),
       children: [
         // 基础模式（班级码进入）
-        { path: 'dashboard-basic', name: 'teacher-dashboard-basic', component: () => import('@/pages/classroom/OverviewPage.vue'), meta: { basic: true } },
-        { path: 'scores-basic', name: 'teacher-scores-basic', component: () => import('@/pages/classroom/ScoresPage.vue'), meta: { basic: true } },
-        { path: 'leaderboard-basic', name: 'teacher-leaderboard-basic', component: () => import('@/pages/classroom/OverviewPage.vue'), meta: { basic: true } },
+        { path: 'dashboard-basic', name: 'teacher-dashboard-basic', component: () => import('@/pages/teacher/DashboardPage.vue'), meta: { basic: true } },
+        { path: 'scores-basic', name: 'teacher-scores-basic', component: () => import('@/pages/teacher/ScoresPage.vue'), meta: { basic: true } },
+        { path: 'leaderboard-basic', name: 'teacher-leaderboard-basic', component: () => import('@/pages/teacher/DashboardPage.vue'), meta: { basic: true } },
         { path: 'pk-basic', name: 'teacher-pk-basic', component: () => import('@/pages/classroom/PKPage.vue'), meta: { basic: true } },
         { path: 'pets-basic', name: 'teacher-pets-basic', component: () => import('@/pages/classroom/PokedexPage.vue'), meta: { basic: true } },
-        { path: 'ai-basic', name: 'teacher-ai-basic', component: () => import('@/pages/classroom/AIChatPage.vue'), meta: { basic: true } },
+        { path: 'ai-basic', name: 'teacher-ai-basic', component: () => import('@/pages/teacher/AIPage.vue'), meta: { basic: true } },
         // 完整模式（教师登录）
         { path: '', redirect: { name: 'teacher-dashboard' } },
         { path: 'dashboard', name: 'teacher-dashboard', component: () => import('@/pages/teacher/DashboardPage.vue') },
@@ -87,11 +87,11 @@ const router = createRouter({
       component: () => import('@/layouts/ClassroomLayout.vue'),
       children: [
         { path: '', redirect: { name: 'classroom-overview' } },
-        { path: 'overview', name: 'classroom-overview', component: () => import('@/pages/classroom/OverviewPage.vue') },
-        { path: 'scores', name: 'classroom-scores', component: () => import('@/pages/classroom/ScoresPage.vue') },
+        { path: 'overview', name: 'classroom-overview', component: () => import('@/pages/teacher/DashboardPage.vue') },
+        { path: 'scores', name: 'classroom-scores', component: () => import('@/pages/teacher/ScoresPage.vue') },
         { path: 'pk', name: 'classroom-pk', component: () => import('@/pages/classroom/PKPage.vue') },
         { path: 'pokedex', name: 'classroom-pokedex', component: () => import('@/pages/classroom/PokedexPage.vue') },
-        { path: 'ai', name: 'classroom-ai', component: () => import('@/pages/classroom/AIChatPage.vue') },
+        { path: 'ai', name: 'classroom-ai', component: () => import('@/pages/teacher/AIPage.vue') },
       ],
     },
 	],

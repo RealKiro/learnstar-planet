@@ -1,86 +1,26 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
+import { useAppMode } from '@/composables/useAppMode'
 import { categoryLabel } from '@/utils/scoreRules'
+import { getSpeciesEmoji, PET_SERIES } from '@/utils/petData'
 import PetSprite from '@/components/pet/PetSprite.vue'
-import type { ApiResponse, Student, ScoreRule } from '@/types'
+import PetDetailModal from '@/components/pet/PetDetailModal.vue'
+import ScoreStudentCard from '@/components/score/ScoreStudentCard.vue'
+import ScoreRuleModal from '@/components/score/ScoreRuleModal.vue'
+import ScoreReasonModal from '@/components/score/ScoreReasonModal.vue'
+import type { ApiResponse, ScoreRule } from '@/types'
+import type { CardStudent } from '@/components/score/ScoreStudentCard.vue'
 
-// ===== 数据 =====
-const students = ref<Student[]>([])
-const rules = ref<ScoreRule[]>([])
-const scoreSummary = ref({ total: 0, today: 0, this_week: 0 })
+// ===== 模式（教师完整 / 教室端+班级码基础） =====
+const { isClassroomMode, isTeacherMode } = useAppMode()
+const router = useRouter()
+
+// ===== 共用数据 =====
+const students = ref<CardStudent[]>([])
 const loading = ref(true)
-const loadError = ref('')
-
-// 搜索和筛选
 const searchQuery = ref('')
-const activeFilter = ref<'all' | 'high' | 'mid' | 'low'>('all')
-
-// 模态框
-const showModal = ref(false)
-const modalType = ref<'add' | 'sub'>('add')
-const modalStudent = ref<Student | null>(null)
-const modalError = ref('')
-
-// 浮动积分文本
-interface FloatText {
-  id: number
-  x: number
-  y: number
-  text: string
-  color: string
-}
-const floatTexts = ref<FloatText[]>([])
-let floatId = 0
-
-const giveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
-const batchStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
-const undoStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
-const activeReason = ref<string>('')
-
-function getBatchStatus(ruleId: number) {
-  return batchStatus.value[ruleId] || 'idle'
-}
-
-function getUndoStatus(scoreId: number) {
-  return undoStatus.value[scoreId] || 'idle'
-}
-
-function getBatchBtnText(rule: ScoreRule): string {
-  const s = getBatchStatus(rule.id)
-  const map: Record<string, string> = { idle: `${rule.amount > 0 ? '+' : ''}${rule.amount} ${rule.name}`, loading: '处理中...', success: '已完成', error: '操作失败' }
-  return map[s]
-}
-
-function getBatchBtnStyle(ruleId: number): Record<string, string> {
-  const s = getBatchStatus(ruleId)
-  if (s === 'idle') return {}
-  const bgMap: Record<string, string> = { loading: '#f59e0b', success: '#10b981', error: '#ef4444' }
-  return { background: bgMap[s], borderColor: 'transparent', color: '#fff' }
-}
-
-function getUndoBtnText(scoreId: number): string {
-  const s = getUndoStatus(scoreId)
-  const map: Record<string, string> = { idle: '↩ 撤回', loading: '撤回中...', success: '已撤回', error: '撤回失败' }
-  return map[s]
-}
-
-function getUndoBtnStyle(scoreId: number): Record<string, string> {
-  const s = getUndoStatus(scoreId)
-  const map: Record<string, string> = { idle: 'var(--color-danger)', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }
-  return { color: map[s] }
-}
-
-// ===== 排序 =====
-type SortKey = 'no' | 'surname' | 'score'
-const sortBy = ref<SortKey>('no')
-const SORT_OPTIONS: Array<{ key: SortKey; label: string }> = [
-  { key: 'no', label: '🔢 学号' },
-  { key: 'surname', label: '👤 姓氏' },
-  { key: 'score', label: '⭐ 积分' },
-]
-
-// ===== 多选批量 =====
 const selectedIds = ref<number[]>([])
 function isSelected(id: number) { return selectedIds.value.includes(id) }
 function toggleSelect(id: number) {
@@ -90,159 +30,10 @@ function toggleSelect(id: number) {
 }
 function clearSelect() { selectedIds.value = [] }
 
-// 批量弹窗
-const batchModal = ref(false)
-const batchType = ref<'add' | 'sub'>('add')
-const batchBusy = ref(false)
-
-// ===== 规则分组（加分/减分弹窗共用，按 category 并列） =====
-function groupedRules(type: 'add' | 'sub'): Array<{ category: string; label: string; rules: ScoreRule[] }> {
-  const list = type === 'add' ? positiveRules.value : negativeRules.value
-  const map = new Map<string, ScoreRule[]>()
-  for (const r of list) {
-    if (!map.has(r.category)) map.set(r.category, [])
-    map.get(r.category)!.push(r)
-  }
-  return [...map.entries()].map(([category, rules]) => ({
-    category,
-    label: categoryLabel(category),
-    rules,
-  }))
-}
-
-// ===== 计算属性 =====
-const filteredStudents = computed(() => {
-  const list = students.value.filter(s => {
-    const matchName = s.name.includes(searchQuery.value)
-    const level = calcLevel(s.total_score)
-    if (activeFilter.value === 'high') return matchName && level >= 10
-    if (activeFilter.value === 'mid') return matchName && level >= 4 && level <= 9
-    if (activeFilter.value === 'low') return matchName && level <= 3
-    return matchName
-  })
-  const arr = [...list]
-  if (sortBy.value === 'score') {
-    arr.sort((a, b) => b.total_score - a.total_score)
-  } else if (sortBy.value === 'surname') {
-    arr.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
-  } else {
-    arr.sort((a, b) => (a.student_no || '').localeCompare(b.student_no || '', 'zh-CN', { numeric: true }))
-  }
-  return arr
-})
-
-const positiveRules = computed(() => rules.value.filter(r => r.is_positive))
-const negativeRules = computed(() => rules.value.filter(r => !r.is_positive))
-
-// ===== 工具函数 =====
-const LEVEL_SCORES = [0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450]
-
-function calcLevel(score: number): number {
-  let lv = 1
-  for (let i = LEVEL_SCORES.length - 1; i >= 0; i--) {
-    if (score >= LEVEL_SCORES[i]) { lv = i + 1; break }
-  }
-  return Math.min(lv, 12)
-}
-
-function getLevelColor(lv: number): string {
-  if (lv >= 10) return '#F59E0B'
-  if (lv >= 7) return '#8B5CF6'
-  if (lv >= 4) return '#3B82F6'
-  return '#6B7280'
-}
-
-/** 宠物阶段（用于卡片光晕分档）：1-2 新生 / 3-4 幼年 / 5-6 成长期 / 7-8 成熟期 / 9-10 传说级 / 11-12 道果 */
-function getStageForLevel(level: number): string {
-  if (level >= 11) return 'transcendent'
-  if (level >= 9) return 'legendary'
-  if (level >= 7) return 'mature'
-  if (level >= 5) return 'growing'
-  if (level >= 3) return 'baby'
-  return 'egg'
-}
-
-function getStudentPetSpecies(student: Student): string {
-  // 优先真实宠物，无则兜底演示映射
-  if (student.pet_species) return student.pet_species
-  const species = ['zhulong', 'nine_tail_fox', 'charmander', 'pikachu', 'panda', 'cyber_cat', 'unicorn', 't_rex', 'fenghuang']
-  return species[(student.id - 1) % species.length]
-}
-
-// ===== 左右分栏卡片信息（按左右分栏优化方案）：阶段名 + 激励语 + 距下一级剩余 =====
-const STAGE_LABELS: Record<string, string> = { egg: '新生', baby: '幼年', growing: '成长期', mature: '成熟期', legendary: '传说级', transcendent: '道果' }
-function stageLabelOf(level: number): string {
-  if (level >= 11) return STAGE_LABELS.transcendent
-  if (level >= 9) return STAGE_LABELS.legendary
-  if (level >= 7) return STAGE_LABELS.mature
-  if (level >= 5) return STAGE_LABELS.growing
-  if (level >= 3) return STAGE_LABELS.baby
-  return STAGE_LABELS.egg
-}
-const MOTIVATIONS = ['加油哦！', '保持热爱，奔赴山海', '今天也要闪闪发光', '每一步都算数', '未来可期', '努力的样子最帅', '你是最棒的', '继续冲呀', '小宇宙爆发吧', '元气满满']
-function motivationFor(s: Student): string {
-  return MOTIVATIONS[(s.id - 1) % MOTIVATIONS.length]
-}
-function lvOf(s: Student): number {
-  return s.pet_level || calcLevel(s.total_score)
-}
-function remainingToNext(level: number, score: number): number {
-  if (level >= 12) return 0
-  return Math.max(0, LEVEL_SCORES[level] - score)
-}
-// 加分后卡片闪光反馈
-const lastFlashId = ref<number | null>(null)
-function flashCard(sid: number) {
-  lastFlashId.value = sid
-  setTimeout(() => { if (lastFlashId.value === sid) lastFlashId.value = null }, 500)
-}
-
-// ===== 加减分操作 =====
-function openModal(student: Student, type: 'add' | 'sub') {
-  modalStudent.value = student
-  modalType.value = type
-  modalError.value = ''
-  showModal.value = true
-}
-
-function closeModal() {
-  showModal.value = false
-  modalStudent.value = null
-}
-
-/** 单学生按规则加减分（规则真实分值，走 by-rule 落审计） */
-async function executeAction(rule: ScoreRule) {
-  const student = modalStudent.value
-  if (!student) return
-
-  if (student.total_score + rule.amount < 0) {
-    modalError.value = '积分不能为负数'
-    return
-  }
-
-  activeReason.value = rule.name
-  giveStatus.value = 'loading'
-  try {
-    await apiPost(`/api/v1/teacher/scores/by-rule/${rule.id}`, {
-      student_id: student.id,
-    })
-    student.total_score = Math.max(0, student.total_score + rule.amount)
-    giveStatus.value = 'success'
-    showFloatText(student.id, rule.amount)
-    flashCard(student.id)
-  } catch {
-    // 离线模式
-    student.total_score = Math.max(0, student.total_score + rule.amount)
-    giveStatus.value = 'success'
-    showFloatText(student.id, rule.amount)
-    flashCard(student.id)
-  }
-  setTimeout(() => {
-    giveStatus.value = 'idle'
-    closeModal()
-  }, 800)
-}
-
+// 浮动积分文本
+interface FloatText { id: number; x: number; y: number; text: string; color: string }
+const floatTexts = ref<FloatText[]>([])
+let floatId = 0
 function showFloatText(studentId: number, points: number) {
   const card = document.getElementById(`card-${studentId}`)
   if (!card) return
@@ -255,52 +46,142 @@ function showFloatText(studentId: number, points: number) {
     text: points > 0 ? `+${points}` : `${points}`,
     color: points > 0 ? '#10B981' : '#EF4444',
   })
-  setTimeout(() => {
-    floatTexts.value = floatTexts.value.filter(f => f.id !== id)
-  }, 1200)
+  setTimeout(() => { floatTexts.value = floatTexts.value.filter(f => f.id !== id) }, 1200)
+}
+const lastFlashId = ref<number | null>(null)
+function flashCard(sid: number) {
+  lastFlashId.value = sid
+  setTimeout(() => { if (lastFlashId.value === sid) lastFlashId.value = null }, 500)
 }
 
-// ===== 批量规则 =====
-async function undoScore(scoreId: number) {
-  undoStatus.value[scoreId] = 'loading'
-  try {
-    await apiPost(`/api/v1/teacher/scores/${scoreId}/undo`, {})
-    undoStatus.value[scoreId] = 'success'
-    setTimeout(() => { undoStatus.value[scoreId] = 'idle' }, 1500)
-    await loadRecentScores()
-  } catch {
-    undoStatus.value[scoreId] = 'error'
-    setTimeout(() => { undoStatus.value[scoreId] = 'idle' }, 3000)
+// ===== 教师端：等级（用于筛选/排序） =====
+const LEVEL_SCORES = [0, 15, 35, 60, 90, 125, 165, 210, 260, 315, 375, 450]
+function calcLevel(score: number): number {
+  let lv = 1
+  for (let i = LEVEL_SCORES.length - 1; i >= 0; i--) {
+    if (score >= LEVEL_SCORES[i]) { lv = i + 1; break }
   }
+  return Math.min(lv, 12)
 }
 
-async function handleBatchRuleScore(rule: ScoreRule) {
-  if (students.value.length === 0) return
-  batchStatus.value[rule.id] = 'loading'
-  try {
-    await apiPost('/api/v1/teacher/scores/batch-give', {
-      student_ids: students.value.map(s => s.id),
-      points: rule.amount,
-      reason: rule.name,
-    })
-    batchStatus.value[rule.id] = 'success'
-    students.value.forEach(s => { s.total_score += rule.amount })
-    setTimeout(() => { batchStatus.value[rule.id] = 'idle' }, 1500)
-  } catch {
-    batchStatus.value[rule.id] = 'success'
-    students.value.forEach(s => { s.total_score += rule.amount })
-    setTimeout(() => { batchStatus.value[rule.id] = 'idle' }, 1500)
+// ===== 教师端状态 =====
+const rules = ref<ScoreRule[]>([])
+const scoreSummary = ref({ total: 0, today: 0, this_week: 0 })
+const loadError = ref('')
+const activeFilter = ref<'all' | 'high' | 'mid' | 'low'>('all')
+type SortKey = 'no' | 'surname' | 'score'
+const sortBy = ref<SortKey>('no')
+const SORT_OPTIONS: Array<{ key: SortKey; label: string }> = [
+  { key: 'no', label: '🔢 学号' },
+  { key: 'surname', label: '👤 姓氏' },
+  { key: 'score', label: '⭐ 积分' },
+]
+const giveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const batchStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+const undoStatus = ref<Record<number, 'idle' | 'loading' | 'success' | 'error'>>({})
+const activeReason = ref<string>('')
+const recentScores = ref<Array<{id: number; student_name: string; amount: number; reason: string; created_at: string}>>([])
+const historyLoading = ref(false)
+
+const filteredStudents = computed(() => {
+  const list = students.value.filter(s => {
+    const matchName = s.name.includes(searchQuery.value)
+    const level = calcLevel(s.total_score)
+    if (activeFilter.value === 'high') return matchName && level >= 10
+    if (activeFilter.value === 'mid') return matchName && level >= 4 && level <= 9
+    if (activeFilter.value === 'low') return matchName && level <= 3
+    return matchName
+  })
+  const arr = [...list]
+  if (sortBy.value === 'score') arr.sort((a, b) => b.total_score - a.total_score)
+  else if (sortBy.value === 'surname') arr.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
+  else arr.sort((a, b) => (a.student_no || '').localeCompare(b.student_no || '', 'zh-CN', { numeric: true }))
+  return arr
+})
+const positiveRules = computed(() => rules.value.filter(r => r.is_positive))
+// 教室端：简单姓名搜索（无筛选/排序）
+const filtered = computed(() => {
+  if (!searchQuery.value) return students.value
+  return students.value.filter(s => s.name.includes(searchQuery.value))
+})
+const negativeRules = computed(() => rules.value.filter(r => !r.is_positive))
+function groupedRules(type: 'add' | 'sub'): Array<{ category: string; label: string; rules: ScoreRule[] }> {
+  const list = type === 'add' ? positiveRules.value : negativeRules.value
+  const map = new Map<string, ScoreRule[]>()
+  for (const r of list) {
+    if (!map.has(r.category)) map.set(r.category, [])
+    map.get(r.category)!.push(r)
   }
+  return [...map.entries()].map(([category, rules]) => ({ category, label: categoryLabel(category), rules }))
+}
+function getBatchStatus(ruleId: number) { return batchStatus.value[ruleId] || 'idle' }
+function getBatchBtnText(rule: ScoreRule): string {
+  const s = getBatchStatus(rule.id)
+  const map: Record<string, string> = { idle: `${rule.amount > 0 ? '+' : ''}${rule.amount} ${rule.name}`, loading: '处理中...', success: '已完成', error: '操作失败' }
+  return map[s]
+}
+function getBatchBtnStyle(ruleId: number): Record<string, string> {
+  const s = getBatchStatus(ruleId)
+  if (s === 'idle') return {}
+  const bgMap: Record<string, string> = { loading: '#f59e0b', success: '#10b981', error: '#ef4444' }
+  return { background: bgMap[s], borderColor: 'transparent', color: '#fff' }
+}
+function getUndoStatus(scoreId: number) { return undoStatus.value[scoreId] || 'idle' }
+function getUndoBtnText(scoreId: number): string {
+  const s = getUndoStatus(scoreId)
+  const map: Record<string, string> = { idle: '↩ 撤回', loading: '撤回中...', success: '已撤回', error: '撤回失败' }
+  return map[s]
+}
+function getUndoBtnStyle(scoreId: number): Record<string, string> {
+  const s = getUndoStatus(scoreId)
+  const map: Record<string, string> = { idle: 'var(--color-danger)', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }
+  return { color: map[s] }
 }
 
-// ===== 多选批量加减分 =====
+// ===== 教师端：单学生按规则加减分 =====
+const showModal = ref(false)
+const modalType = ref<'add' | 'sub'>('add')
+const modalStudent = ref<CardStudent | null>(null)
+const modalError = ref('')
+function openModal(student: CardStudent, type: 'add' | 'sub') {
+  modalStudent.value = student
+  modalType.value = type
+  modalError.value = ''
+  showModal.value = true
+}
+function closeModal() { showModal.value = false; modalStudent.value = null }
+async function executeAction(rule: ScoreRule) {
+  const student = modalStudent.value
+  if (!student) return
+  if (student.total_score + rule.amount < 0) { modalError.value = '积分不能为负数'; return }
+  activeReason.value = rule.name
+  giveStatus.value = 'loading'
+  try {
+    await apiPost(`/api/v1/teacher/scores/by-rule/${rule.id}`, { student_id: student.id })
+    student.total_score = Math.max(0, student.total_score + rule.amount)
+    giveStatus.value = 'success'
+    showFloatText(student.id, rule.amount)
+    flashCard(student.id)
+  } catch {
+    // 离线模式
+    student.total_score = Math.max(0, student.total_score + rule.amount)
+    giveStatus.value = 'success'
+    showFloatText(student.id, rule.amount)
+    flashCard(student.id)
+  }
+  setTimeout(() => { giveStatus.value = 'idle'; closeModal() }, 800)
+}
+
+// ===== 教师端：批量规则 =====
+const batchModal = ref(false)
+const batchType = ref<'add' | 'sub'>('add')
+const batchBusy = ref(false)
 function openBatchModal(type: 'add' | 'sub') {
   if (selectedIds.value.length === 0) return
   batchType.value = type
   batchBusy.value = false
   batchModal.value = true
 }
-
 async function executeBatch(rule: ScoreRule) {
   if (selectedIds.value.length === 0) return
   batchBusy.value = true
@@ -314,53 +195,41 @@ async function executeBatch(rule: ScoreRule) {
     })
   }
   try {
-    await apiPost('/api/v1/teacher/scores/batch-give', {
-      student_ids: selectedIds.value,
-      points: rule.amount,
-      reason: rule.name,
-    })
+    await apiPost('/api/v1/teacher/scores/batch-give', { student_ids: selectedIds.value, points: rule.amount, reason: rule.name })
     applyLocal()
-  } catch {
-    // 离线模式
-    applyLocal()
-  } finally {
+  } catch { applyLocal() }
+  finally {
     batchBusy.value = false
     batchModal.value = false
     clearSelect()
   }
 }
-
-onMounted(async () => {
+async function handleBatchRuleScore(rule: ScoreRule) {
+  if (students.value.length === 0) return
+  batchStatus.value[rule.id] = 'loading'
+  const applyLocal = () => { students.value.forEach(s => { s.total_score += rule.amount }) }
   try {
-    const [sRes, rRes, sumRes] = await Promise.all([
-      apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=100', { skipToast: true }),
-      apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules', { skipToast: true }),
-      apiGet<ApiResponse<{ total: number; today: number; this_week: number }>>('/api/v1/teacher/scores/summary', { skipToast: true }),
-    ])
-    students.value = sRes.data || []
-    rules.value = rRes.data || []
-    scoreSummary.value = sumRes.data || { total: 0, today: 0, this_week: 0 }
-    loadError.value = ''
+    await apiPost('/api/v1/teacher/scores/batch-give', { student_ids: students.value.map(s => s.id), points: rule.amount, reason: rule.name })
+    batchStatus.value[rule.id] = 'success'
+    applyLocal()
   } catch {
-    loadError.value = '数据加载失败，已显示演示数据'
-    // 生成演示数据
-    const names = ['张小明', '李小红', '王小刚', '赵小丽', '刘小强', '陈小美', '周小龙', '吴小凤', '郑小天', '孙小艺',
-      '胡小勇', '林小静', '郭小峰', '何小婷', '高小磊', '罗小欣', '梁小涛', '宋小敏', '唐小亮', '韩小洁']
-    students.value = names.map((name, i) => ({
-      id: i + 1,
-      name,
-      total_score: Math.floor(Math.random() * 400) + 20,
-      class_id: 1,
-      status: 'active' as const,
-    }))
-  } finally {
-    loading.value = false
+    batchStatus.value[rule.id] = 'success'
+    applyLocal()
   }
-})
-// ===== 最近积分记录 =====
-const recentScores = ref<Array<{id: number; student_name: string; amount: number; reason: string; created_at: string}>>([])
-const historyLoading = ref(false)
-
+  setTimeout(() => { batchStatus.value[rule.id] = 'idle' }, 1500)
+}
+async function undoScore(scoreId: number) {
+  undoStatus.value[scoreId] = 'loading'
+  try {
+    await apiPost(`/api/v1/teacher/scores/${scoreId}/undo`, {})
+    undoStatus.value[scoreId] = 'success'
+    setTimeout(() => { undoStatus.value[scoreId] = 'idle' }, 1500)
+    await loadRecentScores()
+  } catch {
+    undoStatus.value[scoreId] = 'error'
+    setTimeout(() => { undoStatus.value[scoreId] = 'idle' }, 3000)
+  }
+}
 async function loadRecentScores() {
   historyLoading.value = true
   try {
@@ -370,43 +239,237 @@ async function loadRecentScores() {
   finally { historyLoading.value = false }
 }
 
-onMounted(() => {
-  loadRecentScores()
-})
+// ===== 教室端状态 =====
+const token = ref('')
+const classTotal = computed(() => students.value.reduce((sum, s) => sum + s.total_score, 0))
+const stepValues = ref<Record<number, number>>({})
+const editingStep = ref<number | null>(null)
+const editInput = ref('1')
+function getStep(sid: number) { return stepValues.value[sid] || 1 }
+function startEdit(sid: number) { editingStep.value = sid; editInput.value = String(getStep(sid)) }
+function saveEdit(sid: number, event?: Event) {
+  const val = parseInt(event ? (event.target as HTMLInputElement).value : editInput.value)
+  if (val >= 1 && val <= 100) stepValues.value[sid] = val
+  editingStep.value = null
+}
 
+// 理由分组（学习/行为/品德）
+interface ReasonGroup { title: string; emoji: string; color: string; items: string[] }
+const reasonGroupsAdd: ReasonGroup[] = [
+  { title: '学习表现', emoji: '📚', color: '#3B82F6', items: ['✅ 作业优秀', '🏆 挑战难题', '📚 阅读之星', '🎨 科技创新'] },
+  { title: '行为表现', emoji: '🏅', color: '#10B981', items: ['📖 举手发言', '🤝 帮助同学', '📝 认真听讲', '🔍 专注课堂'] },
+  { title: '品德修养', emoji: '⭐', color: '#F59E0B', items: ['🧹 遵守纪律', '💬 积极互动', '🌟 诚实守信', '🏃 体育锻炼'] },
+]
+const reasonGroupsSub: ReasonGroup[] = [
+  { title: '学习懈怠', emoji: '📕', color: '#EF4444', items: ['⚠️ 上课走神', '📕 作业缺交'] },
+  { title: '课堂纪律', emoji: '🗣️', color: '#F97316', items: ['🗣️ 打扰课堂', '📱 课堂喧哗', '💬 说脏话'] },
+  { title: '行为品德', emoji: '🤕', color: '#F59E0B', items: ['🏃 追逐打闹', '😴 趴桌睡觉', '⚡ 与同学冲突', '🗑️ 乱扔垃圾'] },
+]
+
+// 教室端：单学生理由加减分弹窗
+const classShowModal = ref(false)
+const classModalType = ref<'add' | 'sub'>('add')
+const classModalStudent = ref<CardStudent | null>(null)
+const classBusy = ref(false)
+const classActionError = ref('')
+const reasonGroups = computed(() => classModalType.value === 'add' ? reasonGroupsAdd : reasonGroupsSub)
+function openReasonModal(s: CardStudent, type: 'add' | 'sub') {
+  classModalStudent.value = s
+  classModalType.value = type
+  classActionError.value = ''
+  classBusy.value = false
+  classShowModal.value = true
+}
+async function confirmReasonAction(reasons: string[]) {
+  const s = classModalStudent.value
+  if (!s || classBusy.value || reasons.length === 0) return
+  const step = getStep(s.id)
+  const points = classModalType.value === 'add' ? step * reasons.length : -step * reasons.length
+  classBusy.value = true
+  try {
+    await apiPost('/api/v1/display/scores/give', { token: token.value, student_id: s.id, points, reason: reasons.join('、') })
+    s.total_score = Math.max(0, s.total_score + points)
+    showFloatText(s.id, points)
+    flashCard(s.id)
+    classActionError.value = ''
+    classShowModal.value = false
+    classModalStudent.value = null
+  } catch (e: any) {
+    const msg = e?.response?.data?.message || ''
+    classActionError.value = msg.includes('30') ? '单次超过 30 分需要教师账号登录操作' : (msg || '操作失败，请稍后重试')
+    setTimeout(() => { classActionError.value = '' }, 3000)
+  } finally {
+    classBusy.value = false
+  }
+}
+
+// 教室端：批量理由加减分弹窗
+const classBatchModal = ref(false)
+const classBatchType = ref<'add' | 'sub'>('add')
+const classBatchBusy = ref(false)
+const classBatchError = ref('')
+const batchReasonGroups = computed(() => classBatchType.value === 'add' ? reasonGroupsAdd : reasonGroupsSub)
+function openClassBatchModal(type: 'add' | 'sub') {
+  classBatchType.value = type
+  classBatchError.value = ''
+  classBatchBusy.value = false
+  classBatchModal.value = true
+}
+async function confirmClassBatch(reasons: string[]) {
+  const ids = selectedIds.value
+  if (!ids.length || classBatchBusy.value || reasons.length === 0) return
+  const step = getStep(ids[0])
+  const points = classBatchType.value === 'add' ? step * reasons.length : -step * reasons.length
+  classBatchBusy.value = true
+  try {
+    await apiPost('/api/v1/display/scores/batch-give', { token: token.value, student_ids: ids, points, reason: reasons.join('、') })
+    for (const s of students.value) {
+      if (ids.includes(s.id)) {
+        s.total_score = Math.max(0, s.total_score + points)
+        showFloatText(s.id, points)
+        flashCard(s.id)
+      }
+    }
+    classBatchError.value = ''
+    classBatchModal.value = false
+    clearSelect()
+  } catch (e: any) {
+    const msg = e?.response?.data?.message || ''
+    classBatchError.value = msg.includes('30') ? '单次超过 30 分需要教师账号登录操作' : (msg || '操作失败，请稍后重试')
+    setTimeout(() => { classBatchError.value = '' }, 3000)
+  } finally {
+    classBatchBusy.value = false
+  }
+}
+
+/** 跳转教师登录（保留 class_token，登录后进入教师完整模式可正常操作） */
+function goTeacherLogin() {
+  router.push({ name: 'login', query: { role: 'teacher' } })
+}
+
+// ===== 教室端：宠物系统 =====
+const classPetSeries = ref('')
+const pickerSeriesList = computed(() => {
+  if (!classPetSeries.value) return PET_SERIES
+  const hit = PET_SERIES.find(s => s.id === classPetSeries.value)
+  return hit ? [hit] : PET_SERIES
+})
+const showPetDetail = ref(false)
+const detailStudent = ref<CardStudent | null>(null)
+function openPetDetail(s: CardStudent) { detailStudent.value = s; showPetDetail.value = true }
+const showPetPicker = ref(false)
+const petPickerStudent = ref<CardStudent | null>(null)
+const switchingPet = ref(false)
+const switchStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const switchError = ref('')
+const confirmSwitch = ref<{ speciesId: string; name: string } | null>(null)
+function openPetPicker(s: CardStudent) { petPickerStudent.value = s; showPetPicker.value = true }
+function requestSwitch(speciesId: string, name: string) { confirmSwitch.value = { speciesId, name } }
+function handlePick(speciesId: string, name: string) {
+  if (petPickerStudent.value?.pet_species === speciesId) return
+  requestSwitch(speciesId, name)
+}
+/** 切换宠物所需积分：首次免费；整班切系列后 3 天免费窗口内免费；否则按当前宠物等级扣（后端 switchCost = 5×等级） */
+function getSwitchCost(s: CardStudent | null): number {
+  if (!s || !s.pet_name) return 0
+  if (s.free_pick) return 0
+  return 5 * Math.max(1, s.pet_level || 1)
+}
+async function executeSwitch() {
+  if (!confirmSwitch.value) return
+  const s = petPickerStudent.value
+  if (!s || switchingPet.value) return
+  const speciesId = confirmSwitch.value.speciesId
+  confirmSwitch.value = null
+  switchingPet.value = true
+  switchStatus.value = 'loading'
+  try {
+    const res = await apiPost<{ data: { pet_emoji: string; total_score: number } }>(
+      '/api/v1/display/pets/switch', { token: token.value, student_id: s.id, pet_species: speciesId }
+    )
+    s.pet_species = speciesId
+    s.pet_emoji = res.data.pet_emoji
+    s.total_score = res.data.total_score
+    switchStatus.value = 'success'
+    switchError.value = ''
+    setTimeout(() => { switchStatus.value = 'idle' }, 1500)
+    showPetPicker.value = false
+  } catch (e: any) {
+    switchStatus.value = 'error'
+    switchError.value = e?.response?.data?.message || '切换失败，请稍后重试'
+    setTimeout(() => { switchStatus.value = 'idle'; switchError.value = '' }, 3000)
+  } finally {
+    switchingPet.value = false
+  }
+}
+
+// ===== 数据加载（按模式互斥） =====
+onMounted(async () => {
+  if (isTeacherMode.value) {
+    loading.value = true
+    try {
+      const [sRes, rRes, sumRes] = await Promise.all([
+        apiGet<ApiResponse<CardStudent[]>>('/api/v1/teacher/students?per_page=100', { skipToast: true }),
+        apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules', { skipToast: true }),
+        apiGet<ApiResponse<{ total: number; today: number; this_week: number }>>('/api/v1/teacher/scores/summary', { skipToast: true }),
+      ])
+      students.value = sRes.data || []
+      rules.value = rRes.data || []
+      scoreSummary.value = sumRes.data || { total: 0, today: 0, this_week: 0 }
+      loadError.value = ''
+    } catch {
+      loadError.value = '数据加载失败，已显示演示数据'
+      const names = ['张小明', '李小红', '王小刚', '赵小丽', '刘小强', '陈小美', '周小龙', '吴小凤', '郑小天', '孙小艺',
+        '胡小勇', '林小静', '郭小峰', '何小婷', '高小磊', '罗小欣', '梁小涛', '宋小敏', '唐小亮', '韩小洁']
+      students.value = names.map((name, i) => ({
+        id: i + 1, name, total_score: Math.floor(Math.random() * 400) + 20, class_id: 1, status: 'active' as const,
+      }))
+    } finally {
+      loading.value = false
+    }
+    await loadRecentScores()
+    return
+  }
+
+  // 教室端
+  token.value = sessionStorage.getItem('class_token') || ''
+  if (!token.value) { loading.value = false; return }
+  try {
+    const res = await apiGet<{ data: CardStudent[] }>('/api/v1/display/students', { params: { token: token.value } })
+    students.value = (res.data || []).map(s => ({ ...s, pet_emoji: s.pet_species ? getSpeciesEmoji(s.pet_species) : '🥚' }))
+  } catch { /* ignore */ } finally { loading.value = false }
+  try {
+    const cRes = await apiGet<{ data: { pet_series?: string | null } }>('/api/v1/display/class-settings', { params: { token: token.value } })
+    classPetSeries.value = cRes.data?.pet_series || ''
+  } catch { classPetSeries.value = '' }
+})
 </script>
 
 <template>
   <div class="scores-page">
-    <!-- 加载失败提示 -->
-    <div v-if="loadError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">
+    <!-- 教师端加载失败提示 -->
+    <div v-if="isTeacherMode && loadError" class="load-error">
       ⚠️ {{ loadError }}
     </div>
-    <!-- 顶部 -->
+
+    <!-- 页头：标题 + 统计/班级总分 -->
     <div class="page-top">
       <div class="page-header">
         <h2 class="page-title">✏️ 课堂评价</h2>
         <span class="page-subtitle">点击 +/− 选择行为原因</span>
+        <div v-if="isClassroomMode && students.length" class="class-total">
+          <span class="ct-icon">⭐</span>
+          <span class="ct-label">班级总分</span>
+          <strong class="ct-value">{{ classTotal.toLocaleString() }}</strong>
+        </div>
       </div>
 
-      <!-- 积分统计 -->
-      <div class="stats-row">
-        <div class="stat-chip">
-          <span class="chip-icon">⭐</span>
-          <span>累计 {{ scoreSummary.total.toLocaleString() }}</span>
-        </div>
-        <div class="stat-chip">
-          <span class="chip-icon">📅</span>
-          <span>今日 {{ scoreSummary.today.toLocaleString() }}</span>
-        </div>
-        <div class="stat-chip">
-          <span class="chip-icon">📈</span>
-          <span>本周 {{ scoreSummary.this_week.toLocaleString() }}</span>
-        </div>
-        <div class="stat-chip">
-          <span class="chip-icon">📋</span>
-          <span>规则 {{ rules.length }}</span>
-        </div>
+      <!-- 教师端：积分统计 -->
+      <div v-if="isTeacherMode" class="stats-row">
+        <div class="stat-chip"><span class="chip-icon">⭐</span><span>累计 {{ scoreSummary.total.toLocaleString() }}</span></div>
+        <div class="stat-chip"><span class="chip-icon">📅</span><span>今日 {{ scoreSummary.today.toLocaleString() }}</span></div>
+        <div class="stat-chip"><span class="chip-icon">📈</span><span>本周 {{ scoreSummary.this_week.toLocaleString() }}</span></div>
+        <div class="stat-chip"><span class="chip-icon">📋</span><span>规则 {{ rules.length }}</span></div>
       </div>
     </div>
 
@@ -416,219 +479,224 @@ onMounted(() => {
     </div>
 
     <template v-else>
-      <!-- 工具栏 -->
-      <div class="toolbar">
+      <!-- 教室端：首次使用认养提示 -->
+      <div v-if="isClassroomMode && students.some(s => !s.pet_name)" class="adopt-banner">
+        <span class="adopt-icon">🎉</span>
+        <div>
+          <div class="adopt-title">为同学们认养第一只宠物吧！</div>
+          <div class="adopt-desc">点击学生卡片左侧的宠物区域，可以为还没有宠物的同学免费选择第一只宠物 🆓</div>
+        </div>
+      </div>
+
+      <!-- 教师端：工具栏 -->
+      <div v-if="isTeacherMode" class="toolbar">
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="搜索学生姓名..."
-            class="search-input"
-          />
+          <input v-model="searchQuery" type="text" placeholder="搜索学生姓名..." class="search-input" />
         </div>
         <div class="filter-group">
-          <button
-            class="filter-tag"
-            :class="{ active: activeFilter === 'all' }"
-            @click="activeFilter = 'all'"
-          >全部</button>
-          <button
-            class="filter-tag"
-            :class="{ active: activeFilter === 'high' }"
-            @click="activeFilter = 'high'"
-          >⭐ 巅峰</button>
-          <button
-            class="filter-tag"
-            :class="{ active: activeFilter === 'mid' }"
-            @click="activeFilter = 'mid'"
-          >🌱 成长</button>
-          <button
-            class="filter-tag"
-            :class="{ active: activeFilter === 'low' }"
-            @click="activeFilter = 'low'"
-          >🥚 幼年</button>
+          <button class="filter-tag" :class="{ active: activeFilter === 'all' }" @click="activeFilter = 'all'">全部</button>
+          <button class="filter-tag" :class="{ active: activeFilter === 'high' }" @click="activeFilter = 'high'">⭐ 巅峰</button>
+          <button class="filter-tag" :class="{ active: activeFilter === 'mid' }" @click="activeFilter = 'mid'">🌱 成长</button>
+          <button class="filter-tag" :class="{ active: activeFilter === 'low' }" @click="activeFilter = 'low'">🥚 幼年</button>
         </div>
         <div class="sort-group">
           <span class="sort-label">排序</span>
-          <button
-            v-for="opt in SORT_OPTIONS" :key="opt.key"
-            class="sort-tag"
-            :class="{ active: sortBy === opt.key }"
-            @click="sortBy = opt.key"
-          >{{ opt.label }}</button>
+          <button v-for="opt in SORT_OPTIONS" :key="opt.key" class="sort-tag" :class="{ active: sortBy === opt.key }" @click="sortBy = opt.key">{{ opt.label }}</button>
         </div>
       </div>
+      <!-- 教室端：搜索 -->
+      <div v-else class="class-search">
+        <span>🔍</span>
+        <input v-model="searchQuery" type="text" placeholder="搜索学生姓名..." />
+      </div>
 
-      <!-- 批量操作栏 -->
+      <!-- 批量操作栏（两端共用） -->
       <div v-if="selectedIds.length > 0" class="batch-bar">
         <span class="batch-info">✅ 已选 <strong>{{ selectedIds.length }}</strong> 名学生</span>
-        <button class="batch-btn batch-add" @click="openBatchModal('add')">＋ 批量加分</button>
-        <button class="batch-btn batch-sub" @click="openBatchModal('sub')">－ 批量减分</button>
+        <button class="batch-btn batch-add" @click="isTeacherMode ? openBatchModal('add') : openClassBatchModal('add')">＋ 批量加分</button>
+        <button class="batch-btn batch-sub" @click="isTeacherMode ? openBatchModal('sub') : openClassBatchModal('sub')">－ 批量减分</button>
         <button class="batch-btn batch-clear" @click="clearSelect">取消选择</button>
       </div>
 
-      <!-- 快捷规则条 -->
-      <div class="quick-rules" v-if="positiveRules.length || negativeRules.length">
+      <!-- 教师端：快捷规则条 -->
+      <div v-if="isTeacherMode && (positiveRules.length || negativeRules.length)" class="quick-rules">
         <span class="qr-label">快捷规则</span>
         <div class="qr-group">
-          <button
-            v-for="r in positiveRules" :key="r.id"
-            class="qr-btn qr-add"
-            :style="getBatchBtnStyle(r.id)"
-            @click="handleBatchRuleScore(r)"
-            :disabled="getBatchStatus(r.id) === 'loading'"
-          >
-            {{ getBatchBtnText(r) }}
-          </button>
-          <button
-            v-for="r in negativeRules" :key="r.id"
-            class="qr-btn qr-sub"
-            :style="getBatchBtnStyle(r.id)"
-            @click="handleBatchRuleScore(r)"
-            :disabled="getBatchStatus(r.id) === 'loading'"
-          >
-            {{ getBatchBtnText(r) }}
-          </button>
+          <button v-for="r in positiveRules" :key="r.id" class="qr-btn qr-add" :style="getBatchBtnStyle(r.id)" @click="handleBatchRuleScore(r)" :disabled="getBatchStatus(r.id) === 'loading'">{{ getBatchBtnText(r) }}</button>
+          <button v-for="r in negativeRules" :key="r.id" class="qr-btn qr-sub" :style="getBatchBtnStyle(r.id)" @click="handleBatchRuleScore(r)" :disabled="getBatchStatus(r.id) === 'loading'">{{ getBatchBtnText(r) }}</button>
         </div>
       </div>
 
       <!-- 学生卡片网格 -->
       <div class="student-grid">
-        <div
-          v-if="filteredStudents.length === 0"
-          class="empty-grid"
-        >
+        <div v-if="(isTeacherMode ? filteredStudents : filtered).length === 0" class="empty-grid">
           👀 没有找到匹配的学生
         </div>
-
-        <div
-          v-for="s in filteredStudents"
+        <ScoreStudentCard
+          v-for="s in (isTeacherMode ? filteredStudents : filtered)"
           :key="s.id"
-          :id="'card-' + s.id"
-          class="student-card"
-          :class="[
-            'stage-' + getStageForLevel(lvOf(s)),
-            { 'card--selected': isSelected(s.id), flash: lastFlashId === s.id },
-          ]"
-          :style="{ '--card-color': getLevelColor(calcLevel(s.total_score)) }"
-        >
-          <!-- 左栏：宠物（40%） -->
-          <div class="card-left">
-            <div class="card-pet">
-              <PetSprite :species-id="getStudentPetSpecies(s)" :level="s.pet_level || 1" :animate="true" />
-            </div>
-            <div class="card-pet-meta">
-              <span class="lv">Lv.{{ lvOf(s) }}</span>
-              <span class="sep">·</span>
-              <span>{{ stageLabelOf(lvOf(s)) }}</span>
-              <span class="sep">·</span>
-              <span class="exp-text">{{ remainingToNext(lvOf(s), s.total_score) > 0 ? '距Lv.' + (lvOf(s) + 1) + ' 还差' + remainingToNext(lvOf(s), s.total_score) + '分' : '已满级' }}</span>
-            </div>
-          </div>
-
-          <!-- 右栏：信息（60%） -->
-          <div class="card-right">
-            <div class="card-top-row">
-              <div
-                class="card-checkbox"
-                :class="{ picked: isSelected(s.id) }"
-                role="checkbox"
-                :aria-checked="isSelected(s.id)"
-                :aria-label="'选择 ' + s.name"
-                @click.stop="toggleSelect(s.id)"
-              >
-                <svg v-if="isSelected(s.id)" viewBox="0 0 10 10" width="10" height="10"><path d="M1.2 5.2 L4 8 L8.8 2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <span class="card-name">{{ s.name }}</span>
-              <span class="card-id" v-if="s.student_no">学号 {{ s.student_no }}</span>
-            </div>
-            <div class="card-mid-row">
-              <span class="card-score">{{ s.total_score.toLocaleString() }}<span class="unit"> 分</span></span>
-              <span class="card-motivation">“{{ motivationFor(s) }}”</span>
-            </div>
-            <div class="card-bottom-row">
-              <button class="btn-minus" @click="openModal(s, 'sub')" title="选择减分原因">−</button>
-              <span class="step-num">1</span>
-              <button class="btn-plus" @click="openModal(s, 'add')" title="选择加分原因">+</button>
-            </div>
-          </div>
-        </div>
+          :student="s"
+          :is-teacher-mode="isTeacherMode"
+          :selected="isSelected(s.id)"
+          :flash="lastFlashId === s.id"
+          :editing-step="isClassroomMode && editingStep === s.id"
+          :step-value="getStep(s.id)"
+          :edit-input="editInput"
+          @toggle-select="toggleSelect(s.id)"
+          @open-detail="openPetDetail(s)"
+          @open-modal="(type) => isTeacherMode ? openModal(s, type) : openReasonModal(s, type)"
+          @start-edit="startEdit(s.id)"
+          @save-edit="saveEdit(s.id, $event)"
+          @update:edit-input="editInput = $event"
+        />
       </div>
     </template>
 
-    <!-- 行为选择模态框（按积分规则分类并列） -->
-    <Transition name="modal">
-      <div v-if="showModal && modalStudent" class="modal-overlay" @click.self="closeModal">
-        <div class="modal-box">
-          <h3 class="modal-title">{{ modalType === 'add' ? '🌟 加分 · ' : '⚠️ 减分 · ' }}{{ modalStudent.name }}</h3>
-          <p class="modal-sub">选择积分规则，按规则真实分值{{ modalType === 'add' ? '加分' : '减分' }}</p>
-          <div class="reason-groups">
-            <div v-for="group in groupedRules(modalType)" :key="group.category" class="reason-group">
-              <div class="group-title">{{ group.label }}</div>
-              <div class="group-btns">
-                <button
-                  v-for="rule in group.rules" :key="rule.id"
-                  class="rule-btn"
-                  :class="{ 'rule-add': rule.amount > 0, 'rule-sub': rule.amount < 0 }"
-                  :style="giveStatus !== 'idle' && activeReason === rule.name ? { background: giveStatus === 'loading' ? '#f59e0b' : giveStatus === 'success' ? '#10b981' : '#ef4444', color: '#fff', borderColor: 'transparent' } : {}"
-                  @click="executeAction(rule)"
-                  :disabled="giveStatus === 'loading'"
-                >
-                  <span class="rule-amt">{{ rule.amount > 0 ? '+' : '' }}{{ rule.amount }}</span>
-                  <span class="rule-name">{{ giveStatus !== 'idle' && activeReason === rule.name ? (giveStatus === 'loading' ? '处理中...' : giveStatus === 'success' ? '操作成功' : '操作失败') : rule.name }}</span>
-                </button>
-              </div>
-            </div>
+    <!-- 教师端：单学生规则弹窗 -->
+    <ScoreRuleModal
+      v-if="isTeacherMode"
+      :show="showModal && !!modalStudent"
+      :type="modalType"
+      :title="(modalType === 'add' ? '🌟 加分 · ' : '⚠️ 减分 · ') + (modalStudent?.name || '')"
+      :subtitle="'选择积分规则，按规则真实分值' + (modalType === 'add' ? '加分' : '减分')"
+      :groups="groupedRules(modalType)"
+      :busy="giveStatus === 'loading'"
+      :status="giveStatus"
+      :active-rule-name="activeReason"
+      :error="modalError"
+      @close="closeModal"
+      @apply="executeAction"
+    />
+    <!-- 教师端：批量规则弹窗 -->
+    <ScoreRuleModal
+      v-if="isTeacherMode"
+      :show="batchModal"
+      :type="batchType"
+      :title="(batchType === 'add' ? '🌟 批量加分' : '⚠️ 批量减分') + '（' + selectedIds.length + ' 名学生）'"
+      :subtitle="'选择积分规则，统一应用到所选学生'"
+      :groups="groupedRules(batchType)"
+      :busy="batchBusy"
+      :status="'idle'"
+      :active-rule-name="''"
+      :error="''"
+      @close="batchModal = false"
+      @apply="executeBatch"
+    />
+
+    <!-- 教室端：单学生理由弹窗（含 ±30 内联提示） -->
+    <ScoreReasonModal
+      v-if="isClassroomMode"
+      :show="classShowModal && !!classModalStudent"
+      :type="classModalType"
+      :student-name="classModalStudent?.name"
+      :step-value="getStep(classModalStudent?.id ?? 0)"
+      :busy="classBusy"
+      :error="classActionError"
+      :reason-groups="reasonGroups"
+      @close="classShowModal = false; classModalStudent = null"
+      @confirm="confirmReasonAction"
+      @go-login="goTeacherLogin"
+    />
+    <!-- 教室端：批量理由弹窗（含 ±30 内联提示） -->
+    <ScoreReasonModal
+      v-if="isClassroomMode"
+      :show="classBatchModal"
+      :type="classBatchType"
+      :selected-count="selectedIds.length"
+      :step-value="getStep(selectedIds[0] ?? 0)"
+      :busy="classBatchBusy"
+      :error="classBatchError"
+      :reason-groups="batchReasonGroups"
+      @close="classBatchModal = false"
+      @confirm="confirmClassBatch"
+      @go-login="goTeacherLogin"
+    />
+
+    <!-- 教室端：宠物切换确认 -->
+    <Transition name="fade">
+      <div v-if="isClassroomMode && confirmSwitch" class="overlay-high" @click.self="confirmSwitch = null">
+        <div class="switch-box">
+          <div class="switch-icon">🔄</div>
+          <h3>确认切换宠物？</h3>
+          <p class="switch-desc">将切换为 <strong>{{ confirmSwitch.name }}</strong></p>
+          <div v-if="petPickerStudent?.pet_name && petPickerStudent.free_pick" class="switch-info switch-free">🎉 免费窗口期内，本次切换免费！</div>
+          <div v-else-if="petPickerStudent?.pet_name && getSwitchCost(petPickerStudent) > 0" class="switch-info switch-cost">
+            💰 本次切换扣除 <strong>{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留当前等级
           </div>
-          <div v-if="modalError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ modalError }}</div>
-          <button class="cancel-btn" @click="closeModal">取消操作</button>
+          <div v-else class="switch-info switch-free">🎉 首次免费，不扣积分</div>
+          <div class="switch-actions">
+            <button class="sw-cancel" @click="confirmSwitch = null">取消</button>
+            <button class="sw-confirm" @click="executeSwitch" :disabled="switchStatus !== 'idle'" :style="switchStatus === 'loading' ? 'background:#f59e0b;color:#fff' : switchStatus === 'success' ? 'background:#10b981;color:#fff' : switchStatus === 'error' ? 'background:#ef4444;color:#fff' : ''">
+              <template v-if="switchStatus === 'loading'">切换中...</template>
+              <template v-else-if="switchStatus === 'success'">切换成功 ✓</template>
+              <template v-else-if="switchStatus === 'error'">切换失败 ✗</template>
+              <template v-else>确认切换</template>
+            </button>
+          </div>
+          <div v-if="switchError" class="switch-error">{{ switchError }}</div>
         </div>
       </div>
     </Transition>
 
-    <!-- 批量加减分弹窗（按积分规则分类并列） -->
-    <Transition name="modal">
-      <div v-if="batchModal" class="modal-overlay" @click.self="batchModal = false">
-        <div class="modal-box">
-          <h3 class="modal-title">{{ batchType === 'add' ? '🌟 批量加分' : '⚠️ 批量减分' }}（{{ selectedIds.length }} 名学生）</h3>
-          <p class="modal-sub">选择积分规则，统一应用到所选学生</p>
-          <div class="reason-groups">
-            <div v-for="group in groupedRules(batchType)" :key="group.category" class="reason-group">
-              <div class="group-title">{{ group.label }}</div>
-              <div class="group-btns">
-                <button
-                  v-for="rule in group.rules" :key="rule.id"
-                  class="rule-btn"
-                  :class="{ 'rule-add': rule.amount > 0, 'rule-sub': rule.amount < 0 }"
-                  @click="executeBatch(rule)"
-                  :disabled="batchBusy"
-                >
-                  <span class="rule-amt">{{ rule.amount > 0 ? '+' : '' }}{{ rule.amount }}</span>
-                  <span class="rule-name">{{ batchBusy ? '处理中...' : rule.name }}</span>
-                </button>
-              </div>
+    <!-- 教室端：宠物角色介绍 -->
+    <PetDetailModal
+      v-if="isClassroomMode && showPetDetail && detailStudent?.pet_species"
+      :species-id="detailStudent.pet_species"
+      :level="detailStudent.pet_level || 1"
+      :score="detailStudent.total_score"
+      :show-pet-switch="true"
+      @close="showPetDetail = false"
+      @switch-pet="showPetDetail = false; openPetPicker(detailStudent)"
+    />
+
+    <!-- 教室端：宠物选择器 -->
+    <Transition name="fade">
+      <div v-if="isClassroomMode && showPetPicker && petPickerStudent" class="overlay-high" @click.self="showPetPicker = false">
+        <div class="picker-box">
+          <div class="picker-head">
+            <span class="picker-emoji">{{ petPickerStudent.pet_emoji }}</span>
+            <div>
+              <div class="picker-name">{{ petPickerStudent.name }} · 选择宠物</div>
+              <div v-if="petPickerStudent.pet_name && petPickerStudent.free_pick" class="pick-badge pick-free">🎉 免费窗口期内，本次切换免费！</div>
+              <div v-else-if="petPickerStudent.pet_name" class="pick-badge pick-cost">💰 本次切换扣除 <strong>{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留等级</div>
+              <div v-else class="pick-badge pick-free">🎉 首次免费选择，不扣积分</div>
+            </div>
+            <button class="picker-close" @click="showPetPicker = false">✕</button>
+          </div>
+          <div v-for="series in pickerSeriesList" :key="series.id" class="picker-series">
+            <div class="series-name">{{ series.emoji }} {{ series.name }}</div>
+            <div class="series-grid">
+              <button
+                v-for="sp in series.species" :key="sp.id"
+                @click="handlePick(sp.id, sp.name)"
+                :disabled="switchingPet || petPickerStudent.pet_species === sp.id"
+                class="species-btn"
+                :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.08);cursor:default;' : ''"
+              >
+                <div class="species-sprite">
+                  <PetSprite :species-id="sp.id" :level="6" />
+                </div>
+                <div class="species-name">{{ sp.name }}</div>
+                <div v-if="petPickerStudent.pet_species === sp.id" class="species-current">✓ 当前</div>
+              </button>
             </div>
           </div>
-          <button class="cancel-btn" @click="batchModal = false">取消操作</button>
+          <button class="picker-cancel" @click="showPetPicker = false">取消</button>
         </div>
       </div>
     </Transition>
 
     <!-- 浮动积分 -->
     <Teleport to="body">
-      <div
-        v-for="f in floatTexts"
-        :key="f.id"
-        class="float-text"
-        :style="{ left: f.x + 'px', top: f.y + 'px', color: f.color }"
-      >
+      <div v-for="f in floatTexts" :key="f.id" class="float-text" :style="{ left: f.x + 'px', top: f.y + 'px', color: f.color }">
         {{ f.text }}
       </div>
     </Teleport>
   </div>
-  <!-- 最近积分记录 -->
-  <div class="card" style="margin-top:24px;">
+
+  <!-- 教师端：最近积分记录 -->
+  <div v-if="isTeacherMode" class="card" style="margin-top:24px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
       <h3 style="font-size:16px;font-weight:600;">📋 最近积分记录</h3>
       <button class="btn btn-sm" :disabled="historyLoading" @click="loadRecentScores">🔄 刷新</button>
@@ -650,32 +718,43 @@ onMounted(() => {
       </table>
     </div>
   </div>
-
 </template>
 
 <style scoped>
 .scores-page {
   max-width: 1200px;
 }
+.load-error {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 8px;
+  color: var(--color-danger-text);
+  font-size: 12px;
+}
 
 /* 顶部 */
-.page-top {
-  margin-bottom: 20px;
-}
-.page-header {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 12px;
-}
+.page-top { margin-bottom: 20px; }
+.page-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
 .page-title { font-size: 24px; font-weight: 700; margin: 0; }
 .page-subtitle { font-size: 13px; color: var(--color-text-secondary); }
-
-.stats-row {
+.class-total {
+  margin-left: auto;
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: var(--tint-2);
+  border: 1px solid var(--tint-3);
+  font-size: 12px;
+  color: var(--md-text-secondary);
 }
+.ct-icon { font-size: 14px; }
+.ct-value { font-size: 16px; font-weight: 800; color: var(--color-text); }
+
+.stats-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .stat-chip {
   display: flex;
   align-items: center;
@@ -690,14 +769,8 @@ onMounted(() => {
 }
 .chip-icon { font-size: 14px; }
 
-/* 工具栏 */
-.toolbar {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-  align-items: center;
-  flex-wrap: wrap;
-}
+/* 工具栏（教师端） */
+.toolbar { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
 .search-box {
   display: flex;
   align-items: center;
@@ -711,21 +784,9 @@ onMounted(() => {
   max-width: 360px;
 }
 .search-icon { font-size: 16px; }
-.search-input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--color-text);
-  font-size: 14px;
-  width: 100%;
-  font-family: inherit;
-}
+.search-input { background: transparent; border: none; outline: none; color: var(--color-text); font-size: 14px; width: 100%; font-family: inherit; }
 .search-input::placeholder { color: var(--color-text-secondary); opacity: 0.6; }
-
-.filter-group {
-  display: flex;
-  gap: 6px;
-}
+.filter-group { display: flex; gap: 6px; }
 .filter-tag {
   padding: 6px 14px;
   border-radius: 20px;
@@ -738,23 +799,9 @@ onMounted(() => {
   transition: all 0.2s ease;
 }
 .filter-tag:hover { color: var(--color-text); border-color: var(--color-text-secondary); }
-.filter-tag.active {
-  background: rgba(79,70,229,0.08);
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-  font-weight: 600;
-}
-/* 排序控件 */
-.sort-group {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.sort-label {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-}
+.filter-tag.active { background: rgba(79,70,229,0.08); border-color: var(--color-primary); color: var(--color-primary); font-weight: 600; }
+.sort-group { display: flex; align-items: center; gap: 6px; }
+.sort-label { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; }
 .sort-tag {
   padding: 6px 12px;
   border-radius: 20px;
@@ -767,12 +814,39 @@ onMounted(() => {
   transition: all 0.2s ease;
 }
 .sort-tag:hover { color: var(--color-text); border-color: var(--color-text-secondary); }
-.sort-tag.active {
-  background: rgba(16,185,129,0.08);
-  border-color: #10B981;
-  color: #10B981;
-  font-weight: 600;
+.sort-tag.active { background: rgba(16,185,129,0.08); border-color: #10B981; color: #10B981; font-weight: 600; }
+
+/* 教室端搜索 */
+.class-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--tint-2);
+  border: 1px solid var(--tint-3);
+  border-radius: 30px;
+  flex: 1;
+  min-width: 200px;
+  max-width: 360px;
+  margin-bottom: 16px;
 }
+.class-search input { background: transparent; border: none; outline: none; color: var(--color-text); font-size: 14px; width: 100%; font-family: inherit; }
+
+/* 教室端认养横幅 */
+.adopt-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, rgba(167,139,250,0.08), rgba(244,114,182,0.05));
+  border: 1px solid rgba(167,139,250,0.15);
+  border-radius: var(--md-radius);
+  flex-wrap: wrap;
+}
+.adopt-icon { font-size: 24px; }
+.adopt-title { font-weight: 700; font-size: 15px; }
+.adopt-desc { font-size: 13px; color: var(--md-text-secondary); }
 
 /* 批量操作栏 */
 .batch-bar {
@@ -787,39 +861,14 @@ onMounted(() => {
   flex-wrap: wrap;
   animation: modalPop 0.2s ease;
 }
-.batch-info {
-  font-size: 13px;
-  color: var(--color-text);
-}
+.batch-info { font-size: 13px; color: var(--color-text); }
 .batch-info strong { color: var(--color-primary); }
-.batch-btn {
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.15s ease;
-  font-family: inherit;
-}
-.batch-add {
-  background: rgba(16,185,129,0.1);
-  color: #10B981;
-  border-color: rgba(16,185,129,0.25);
-}
+.batch-btn { padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s ease; font-family: inherit; }
+.batch-add { background: rgba(16,185,129,0.1); color: #10B981; border-color: rgba(16,185,129,0.25); }
 .batch-add:hover { background: rgba(16,185,129,0.18); }
-.batch-sub {
-  background: rgba(239,68,68,0.1);
-  color: #EF4444;
-  border-color: rgba(239,68,68,0.25);
-}
+.batch-sub { background: rgba(239,68,68,0.1); color: #EF4444; border-color: rgba(239,68,68,0.25); }
 .batch-sub:hover { background: rgba(239,68,68,0.18); }
-.batch-clear {
-  margin-left: auto;
-  background: transparent;
-  color: var(--color-text-secondary);
-  border-color: var(--color-border);
-}
+.batch-clear { margin-left: auto; background: transparent; color: var(--color-text-secondary); border-color: var(--color-border); }
 .batch-clear:hover { background: var(--color-bg); }
 
 /* 快捷规则条 */
@@ -834,349 +883,21 @@ onMounted(() => {
   border-radius: 14px;
   flex-wrap: wrap;
 }
-.qr-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-}
-.qr-group {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.qr-btn {
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.15s ease;
-}
-.qr-add {
-  background: rgba(16,185,129,0.08);
-  color: #10B981;
-  border-color: rgba(16,185,129,0.2);
-}
+.qr-label { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; }
+.qr-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.qr-btn { padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s ease; }
+.qr-add { background: rgba(16,185,129,0.08); color: #10B981; border-color: rgba(16,185,129,0.2); }
 .qr-add:hover { background: rgba(16,185,129,0.15); }
-.qr-sub {
-  background: rgba(239,68,68,0.08);
-  color: #EF4444;
-  border-color: rgba(239,68,68,0.2);
-}
+.qr-sub { background: rgba(239,68,68,0.08); color: #EF4444; border-color: rgba(239,68,68,0.2); }
 .qr-sub:hover { background: rgba(239,68,68,0.15); }
 
-/* 学生卡片网格（左右分栏布局 · 按优化方案：280px 起步 / 4:3 / 左40%右60%） */
+/* 学生卡片网格 */
 .student-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 12px;
 }
-.empty-grid {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 60px 24px;
-  color: var(--color-text-secondary);
-  font-size: 16px;
-}
-
-/* 左右分栏卡片容器 */
-.student-card {
-  position: relative;
-  display: flex;
-  background: var(--color-bg-card);
-  border: 1.5px solid var(--color-border);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  min-height: 150px;
-  max-height: 200px;
-  aspect-ratio: 4 / 3;
-}
-.student-card:hover {
-  background: var(--color-bg);
-  border-color: var(--color-text-secondary);
-  transform: translateY(-1px);
-}
-.card--selected {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 1.5px var(--color-primary);
-}
-
-/* 左栏：宠物（40%） */
-.card-left {
-  flex: 0 0 40%;
-  background: radial-gradient(ellipse at center, var(--color-bg-card), var(--color-bg));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 6px;
-  position: relative;
-}
-.card-pet {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, var(--color-bg-card), var(--color-bg));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-bottom: 6px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  overflow: hidden;
-}
-.card-pet-meta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-size: 10px;
-  color: var(--color-text-secondary);
-  flex-wrap: wrap;
-  text-align: center;
-  padding: 0 4px;
-}
-.card-pet-meta .lv { color: var(--color-primary); font-weight: 700; }
-.card-pet-meta .sep { color: var(--color-border); }
-.card-pet-meta .exp-text { color: var(--color-text-secondary); opacity: 0.8; }
-
-/* 右栏：信息（60%） */
-.card-right {
-  flex: 1;
-  padding: 10px 12px 10px 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-width: 0;
-}
-.card-top-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.card-checkbox {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid var(--color-border);
-  background: var(--color-bg-card);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-}
-.card-checkbox:hover { border-color: var(--color-primary); }
-.card-checkbox.picked { background: var(--color-primary); border-color: var(--color-primary); }
-.card-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--color-text);
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.card-id {
-  font-size: 11px;
-  color: var(--color-text-secondary);
-  flex-shrink: 0;
-}
-.card-mid-row {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  padding: 2px 0;
-}
-.card-score {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--color-text);
-}
-.card-score .unit {
-  font-size: 11px;
-  font-weight: 400;
-  color: var(--color-text-secondary);
-}
-.card-motivation {
-  font-size: 11px;
-  color: var(--color-accent);
-  font-style: italic;
-  text-align: right;
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.card-bottom-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-  padding-top: 6px;
-  border-top: 1px solid var(--color-border);
-}
-.card-bottom-row button {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: inherit;
-}
-.btn-minus { background: rgba(239,68,68,0.1); color: #F87171; }
-.btn-minus:hover { background: rgba(239,68,68,0.25); }
-.btn-plus { background: rgba(79,70,229,0.12); color: var(--color-primary); }
-.btn-plus:hover { background: rgba(79,70,229,0.28); }
-.card-bottom-row button:hover { transform: scale(1.08); }
-.step-num {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-text);
-  min-width: 22px;
-  text-align: center;
-  user-select: none;
-}
-
-/* 加分闪光反馈 */
-@keyframes flash {
-  0% { background: rgba(124,58,237,0.15); }
-  100% { background: transparent; }
-}
-.student-card.flash {
-  animation: flash 0.5s ease;
-}
-
-/* 响应式：窄屏缩小卡片最小宽度，576px 以下满宽单列（左栏 35%） */
-@media (max-width: 768px) {
-  .student-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-}
-@media (max-width: 576px) {
-  .student-grid { grid-template-columns: 1fr; }
-  .card-left { flex: 0 0 35%; }
-}
-
-/* 模态框 */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 300;
-}
-.modal-box {
-  background: var(--color-bg-card);
-  border-radius: 20px;
-  padding: 28px 32px;
-  max-width: 420px;
-  width: 90%;
-  box-shadow: var(--shadow-lg);
-  animation: modalPop 0.25s ease;
-}
-@keyframes modalPop {
-  from { transform: scale(0.92); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.modal-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-.modal-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 20px; }
-.modal-sub strong { color: var(--color-text); }
-
-/* 规则分组（并列式） */
-.reason-groups {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 20px;
-  max-height: 56vh;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-.reason-group {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
-  padding: 10px 12px;
-}
-.group-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--color-text-secondary);
-  margin-bottom: 8px;
-  letter-spacing: 0.03em;
-}
-.group-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--color-border);
-}
-.group-btns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.rule-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-card);
-  color: var(--color-text);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-family: inherit;
-}
-.rule-btn:hover {
-  background: rgba(124,58,237,0.08);
-  border-color: var(--color-primary);
-  transform: translateY(-1px);
-}
-.rule-amt {
-  font-size: 13px;
-  font-weight: 800;
-  min-width: 30px;
-  text-align: center;
-}
-.rule-add .rule-amt { color: #10B981; }
-.rule-sub .rule-amt { color: #EF4444; }
-.rule-name {
-  white-space: nowrap;
-}
-.cancel-btn {
-  width: 100%;
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid var(--color-border);
-  background: transparent;
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-family: inherit;
-}
-.cancel-btn:hover { background: var(--color-bg); }
+.empty-grid { grid-column: 1 / -1; text-align: center; padding: 60px 24px; color: var(--color-text-secondary); font-size: 16px; }
 
 /* 浮动文字 */
 .float-text {
@@ -1192,18 +913,13 @@ onMounted(() => {
   0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
   100% { opacity: 0; transform: translateX(-50%) translateY(-80px) scale(1.3); }
 }
-
-/* 模态框过渡 */
-.modal-enter-active { transition: opacity 0.2s ease; }
-.modal-leave-active { transition: opacity 0.15s ease; }
-.modal-enter-from, .modal-leave-to { opacity: 0; }
+@keyframes modalPop {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
 
 /* 加载 */
-.loading-state {
-  text-align: center;
-  padding: 60px 24px;
-  color: var(--color-text-secondary);
-}
+.loading-state { text-align: center; padding: 60px 24px; color: var(--color-text-secondary); }
 .loading-spinner {
   width: 36px; height: 36px;
   border: 3px solid var(--color-border);
@@ -1214,19 +930,95 @@ onMounted(() => {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* 最近积分记录操作按钮（紧凑尺寸） */
-.btn-xs {
-  padding: 4px 12px;
-  font-size: 12px;
-  border-radius: 16px;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+/* 教室端宠物切换/选择器覆盖层 */
+.overlay-high {
+  position: fixed;
+  inset: 0;
+  z-index: 301;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
+.switch-box {
+  background: var(--color-bg-card);
+  border: 1px solid var(--tint-3);
+  border-radius: var(--md-radius);
+  padding: 28px 32px;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: var(--md-elevation);
+  animation: modalPop 0.25s ease;
+  text-align: center;
+}
+.switch-icon { font-size: 36px; margin-bottom: 12px; }
+.switch-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.switch-desc { font-size: 14px; color: var(--md-text-secondary); margin-bottom: 12px; }
+.switch-desc strong { color: var(--color-primary); }
+.switch-info { font-size: 14px; padding: 10px 14px; border-radius: 10px; margin-bottom: 16px; font-weight: 700; }
+.switch-free { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: var(--color-success-text); }
+.switch-cost { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: var(--color-warning-text); }
+.switch-actions { display: flex; gap: 10px; }
+.sw-cancel { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--tint-3); background: transparent; color: var(--md-text-secondary); font-size: 14px; cursor: pointer; font-family: inherit; }
+.sw-confirm {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(167,139,250,0.15);
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.switch-error { margin-top: 12px; padding: 8px 12px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; color: var(--color-danger-text); font-size: 12px; }
+
+.picker-box {
+  background: var(--color-bg-card);
+  border: 1px solid var(--tint-3);
+  border-radius: var(--md-radius);
+  padding: 24px 28px;
+  max-width: 520px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--md-elevation);
+  animation: modalPop 0.25s ease;
+}
+.picker-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.picker-emoji { font-size: 28px; }
+.picker-name { font-size: 16px; font-weight: 700; }
+.pick-badge { font-size: 12px; margin-top: 4px; padding: 4px 10px; border-radius: 8px; font-weight: 700; display: inline-block; }
+.pick-free { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: var(--color-success-text); }
+.pick-cost { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: var(--color-warning-text); }
+.picker-close { margin-left: auto; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--tint-3); background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+.picker-series { margin-bottom: 12px; }
+.series-name { font-size: 12px; font-weight: 600; color: var(--md-text-secondary); margin-bottom: 6px; padding-left: 4px; }
+.series-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 6px; }
+.species-btn { padding: 8px 4px; border-radius: 10px; border: 1px solid var(--tint-2); background: var(--tint-1); text-align: center; cursor: pointer; transition: 0.15s; font-family: inherit; }
+.species-btn:hover { background: var(--tint-3); }
+.species-sprite { width: 48px; height: 48px; margin: 0 auto 2px; }
+.species-name { font-size: 10px; font-weight: 500; color: var(--md-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.species-current { font-size: 9px; font-weight: 700; color: #10B981; }
+.picker-cancel { width: 100%; margin-top: 8px; padding: 8px; border-radius: 10px; border: 1px solid var(--tint-3); background: transparent; color: var(--md-text-secondary); font-size: 13px; cursor: pointer; font-family: inherit; }
+
+/* 过渡 */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* 最近积分记录操作按钮（紧凑尺寸） */
+.btn-xs { padding: 4px 12px; font-size: 12px; border-radius: 16px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); }
 .btn-xs:hover { background: rgba(239, 68, 68, 0.15); }
 
 @media (max-width: 768px) {
+  .student-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
   .toolbar { flex-direction: column; align-items: stretch; }
   .search-box { max-width: none; }
-  .toolbar-hint { display: none; }
+}
+@media (max-width: 576px) {
+  .student-grid { grid-template-columns: 1fr; }
 }
 </style>
