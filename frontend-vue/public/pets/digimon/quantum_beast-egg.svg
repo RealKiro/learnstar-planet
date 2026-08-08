@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="加布兽·一阶·裹皮幼兽·数码雪原裹蓝白皮见冻扯皮盖小兽">
+  <defs>
+    <!-- 背景：数码雪原 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8D8F0"/>
+      <stop offset="52%" stop-color="#C8E8F8"/>
+      <stop offset="100%" stop-color="#F0F8FC"/>
+    </linearGradient>
+    <!-- 雪光 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 蓝白皮 -->
+    <radialGradient id="fur" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#6A9AC8"/>
+      <stop offset="100%" stop-color="#4A78A8"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪原 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#F0F8FC" opacity="0.9"/>
+  <path d="M 0 152 Q 50 148 110 151 Q 160 154 200 150" stroke="#D8E8F0" stroke-width="1.5" fill="none"/>
+
+  <!-- 冻得发抖的小兽（右，被盖皮） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="152" cy="130" r="4.5" fill="#A8D8E8" stroke="#5AA8C8" stroke-width="0.5"/>
+    <circle cx="150" cy="128.8" r="1.1" fill="#24180E"/>
+    <circle cx="155" cy="128.8" r="1.1" fill="#24180E"/>
+    <!-- 盖上的皮 -->
+    <path d="M 148 126 Q 152 122 156 126 Q 154 134 148 134 Z" fill="#6A9AC8" opacity="0.8"/>
+  </g>
+
+  <!-- 小加布兽（中，裹皮） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 蓝白皮身 -->
+    <ellipse cx="96" cy="122" rx="16" ry="13" fill="url(#fur)" stroke="#3A6088" stroke-width="1"/>
+    <!-- 皮纹（蓝白相间） -->
+    <path d="M 82 116 Q 96 112 110 116" stroke="#A8D0F0" stroke-width="1.4" fill="none" opacity="0.7"/>
+    <path d="M 84 128 Q 96 124 108 128" stroke="#A8D0F0" stroke-width="1.2" fill="none" opacity="0.6"/>
+    <!-- 露出的一圈白毛 -->
+    <ellipse cx="96" cy="110" rx="11" ry="6" fill="#F0F6FC" stroke="#D8E8F0" stroke-width="0.6"/>
+    <!-- 圆眼（露在皮外） -->
+    <circle cx="90" cy="110" r="3" fill="#2E2A24"/>
+    <circle cx="91" cy="108.8" r="1.2" fill="#FFF"/>
+    <circle cx="102" cy="110" r="3" fill="#2E2A24"/>
+    <circle cx="103" cy="108.8" r="1.2" fill="#FFF"/>
+    <!-- 嘴（让皮，温柔） -->
+    <path d="M 93 115 Q 96 116.6 99 115" fill="none" stroke="#5E7E9E" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 短爪 -->
+    <path d="M 84 130 L 80 135" stroke="#3A6088" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 108 130 L 112 135" stroke="#3A6088" stroke-width="3" stroke-linecap="round"/>
+    <!-- 爪尖 -->
+    <path d="M 79 136 L 78 139 M 81 136 L 81 139" stroke="#D8E8F0" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFFFFF">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.16;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
