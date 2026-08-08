@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="青团·二阶·变凉之寂·清明过后被放桌角青色变淡艾香弱">
+  <defs>
+    <!-- 背景：清明后桌角 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9EA8A0"/>
+      <stop offset="52%" stop-color="#8E9A8E"/>
+      <stop offset="100%" stop-color="#7E8A7A"/>
+    </linearGradient>
+    <!-- 弱暖 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="40%">
+      <stop offset="0%" stop-color="#E8D8B8" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#E8D8B8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青团（淡） -->
+    <radialGradient id="ball" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#6EA87E"/>
+      <stop offset="100%" stop-color="#4E7E58"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="56" r="74" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.4;0.28;0.4" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 忙碌收拾的人影（右后） -->
+  <g opacity="0.5">
+    <circle cx="164" cy="110" r="4" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.6"/>
+    <ellipse cx="164" cy="124" rx="5" ry="8" fill="#A8886E" stroke="#8E6E50" stroke-width="0.7"/>
+    <path d="M 168 118 Q 174 114 176 108" stroke="#E8D0B4" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 灶台 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7E8A7A" opacity="0.9"/>
+
+  <!-- 放凉的小青团（左，青淡） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 0.8;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 圆身（淡） -->
+    <ellipse cx="76" cy="132" rx="13" ry="11.5" fill="url(#ball)" stroke="#3E6E46" stroke-width="0.9"/>
+    <!-- 艾香弱（几乎无） -->
+    <path d="M 70 120 Q 68 116 70 113" stroke="#E8E0D0" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.4">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <!-- 眼（含惑） -->
+    <circle cx="70" cy="130" r="1.8" fill="#1E2E22"/>
+    <circle cx="82" cy="130" r="1.8" fill="#1E2E22"/>
+    <!-- 嘴（低垂） -->
+    <path d="M 72 134.5 Q 76 133 80 134.5" fill="none" stroke="#4E6E3E" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 尘灰 -->
+  <g fill="#D8C8A8" opacity="0.35">
+    <circle cx="52" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.1;0.35" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="80">
+      <animate attributeName="cy" values="80;72;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

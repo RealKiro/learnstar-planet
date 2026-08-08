@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="青团·六阶·青团传说·暮光翠身碰小青团老人静坐念人传青为记念">
+  <defs>
+    <!-- 背景：清明案上暮色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8B098"/>
+      <stop offset="52%" stop-color="#A89A7E"/>
+      <stop offset="100%" stop-color="#7E8A7E"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E4C8" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#F0E4C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青团 -->
+    <radialGradient id="ball" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#8EC696"/>
+      <stop offset="100%" stop-color="#568A5E"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.58;0.85" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.32;0.2;0.32" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 案桌 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#8E9E86" opacity="0.9"/>
+
+  <!-- 静坐念人的老人（下右） -->
+  <g opacity="0.92">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="150" cy="134" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="150" cy="147" rx="5.5" ry="8" fill="#A8886E" stroke="#8E6E50" stroke-width="0.8"/>
+    <path d="M 145 143 Q 140 138 138 134" stroke="#E8D0B4" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <path d="M 145 131 Q 150 127 155 131" stroke="#C8C0B8" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 小青团（右，染青） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="132" cy="126" r="9" fill="url(#ball)" stroke="#3E7A46" stroke-width="0.8"/>
+    <circle cx="129" cy="124" r="1.5" fill="#1E2E22"/>
+    <circle cx="129.4" cy="123.6" r="0.5" fill="#FFF"/>
+    <circle cx="135" cy="124" r="1.5" fill="#1E2E22"/>
+    <circle cx="135.4" cy="123.6" r="0.5" fill="#FFF"/>
+    <path d="M 130 127.5 Q 132 129 134 127.5" fill="none" stroke="#4E6E3E" stroke-width="0.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老青团（左，翠身碰小青团） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="78" cy="114" r="24" fill="#C8E0BE" opacity="0.16">
+      <animate attributeName="opacity" values="0.16;0.09;0.16" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="78" cy="114" r="15" fill="url(#ball)" stroke="#3E7A46" stroke-width="1"/>
+    <!-- 眼（温和，目含慈） -->
+    <circle cx="72" cy="112" r="2.1" fill="#1E2E22"/>
+    <circle cx="72.6" cy="111.4" r="0.7" fill="#FFF"/>
+    <circle cx="84" cy="112" r="2.1" fill="#1E2E22"/>
+    <circle cx="84.6" cy="111.4" r="0.7" fill="#FFF"/>
+    <!-- 嘴（慈笑） -->
+    <path d="M 74 117 Q 78 119.2 82 117" fill="none" stroke="#4E6E3E" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 传心微光 -->
+    <circle cx="108" cy="120" r="10" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮色星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
