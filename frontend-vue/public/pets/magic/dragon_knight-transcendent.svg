@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="龙骑士·六阶·龙骑士传说·暮色扶起被颠下的小骑士传并肩非驭使">
+  <defs>
+    <!-- 背景：草原暮霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C4A0"/>
+      <stop offset="52%" stop-color="#D8AC78"/>
+      <stop offset="100%" stop-color="#9E9E94"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F0E4C8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F0E4C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 龙皮 -->
+    <linearGradient id="dragon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E9E8E"/>
+      <stop offset="100%" stop-color="#528478"/>
+    </linearGradient>
+    <!-- 岁月银甲 -->
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ECE4D0"/>
+      <stop offset="100%" stop-color="#B8A890"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远丘 -->
+  <g fill="#8E8270" opacity="0.4">
+    <path d="M 0 132 Q 50 124 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#A89C84" opacity="0.85"/>
+
+  <!-- 幼龙（左，看向小骑士） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="52" cy="134" rx="14" ry="9" fill="url(#dragon)" stroke="#46786C" stroke-width="0.9"/>
+    <ellipse cx="48" cy="139" rx="8" ry="4.5" fill="#D8E0D4" opacity="0.7"/>
+    <path d="M 44 141 L 42 148 M 60 141 L 62 148" stroke="#46786C" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 尾（轻摆） -->
+    <path d="M 66 136 Q 76 132 80 140" stroke="url(#dragon)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 66 136;-6 66 136;0 66 136" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 小翼（收） -->
+    <path d="M 42 128 L 32 122 L 40 130 Z" fill="url(#dragon)" stroke="#46786C" stroke-width="0.8"/>
+    <path d="M 62 128 L 72 122 L 64 130 Z" fill="url(#dragon)" stroke="#46786C" stroke-width="0.8"/>
+    <!-- 头（向右，温和） -->
+    <g>
+      <ellipse cx="62" cy="120" rx="9" ry="7.5" fill="url(#dragon)" stroke="#46786C" stroke-width="0.9"/>
+      <path d="M 57 114 L 54 108 M 68 114 L 71 108" stroke="#6E9E8E" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M 64 118 Q 66 116.6 68 118 M 69 118.5 Q 71 117.1 72 118.5" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+      <path d="M 69 122 L 67 124.2 L 71 124.6 Z" fill="#46786C"/>
+    </g>
+  </g>
+
+  <!-- 小骑士（被颠下，坐地，笑着拍龙鼻） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.2s" repeatCount="indefinite"/>
+    <ellipse cx="94" cy="146" rx="10" ry="8" fill="#D8C0A0" stroke="#C0A888" stroke-width="0.9" transform="rotate(-10 94 146)"/>
+    <path d="M 88 142 L 100 144 L 98 150 L 86 148 Z" fill="#A8886E" opacity="0.8"/>
+    <circle cx="78" cy="150" r="4" fill="#C8B058" stroke="#A89838" stroke-width="0.7"/>
+    <!-- 手（拍龙鼻） -->
+    <path d="M 96 140 Q 84 134 74 128" stroke="#D8C0A0" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 96 140;-6 96 140;0 96 140" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 头（大笑） -->
+    <g>
+      <ellipse cx="94" cy="130" rx="8" ry="8" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+      <path d="M 89 128 Q 91 126.6 93 128 M 96 128 Q 98 126.6 99 128" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M 91 133 Q 94 134.8 97 133" fill="none" stroke="#B08A6A" stroke-width="0.7" stroke-linecap="round"/>
+      <path d="M 91 124 Q 94 121 97 124 M 94 122 L 94 120" stroke="#8E6E4E" stroke-width="1.3" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- 老骑士（右，俯身扶起，传并肩） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体（俯身） -->
+    <ellipse cx="140" cy="126" rx="9" ry="13" fill="url(#silver)" stroke="#A09880" stroke-width="0.9" transform="rotate(8 140 126)"/>
+    <path d="M 135 136 L 132 148 M 145 136 L 147 148" stroke="#A09880" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 银甲岁月光 -->
+    <circle cx="136" cy="122" r="1.2" fill="#FFF" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="145" cy="130" r="1" fill="#FFF" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 伸向小骑士的手（扶起） -->
+    <path d="M 134 118 Q 120 122 110 130" stroke="url(#silver)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 134 118;-4 134 118;0 134 118" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <!-- 头（银发束起，温和） -->
+    <g>
+      <ellipse cx="142" cy="104" rx="8" ry="8" fill="#E8D0B4" stroke="#C8B090" stroke-width="0.7"/>
+      <path d="M 135 100 Q 138 94 144 95 Q 149 95 150 100" fill="#D8DEE4" stroke="#B0B8C0" stroke-width="0.6"/>
+      <path d="M 142 95 L 142 91" stroke="#D8DEE4" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M 138 102 Q 140 100.6 142 102 M 146 102 Q 148 100.6 149 102" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <circle cx="140" cy="103" r="2.1" fill="#24180E"/>
+      <circle cx="140.6" cy="102.4" r="0.7" fill="#FFF"/>
+      <circle cx="147.5" cy="103" r="2.1" fill="#24180E"/>
+      <circle cx="148.1" cy="102.4" r="0.7" fill="#FFF"/>
+      <path d="M 140 108 Q 143 109.4 146 108" fill="none" stroke="#A88A6A" stroke-width="0.7" stroke-linecap="round"/>
+    </g>
+    <!-- 传心微光（老骑士→小骑士） -->
+    <circle cx="112" cy="128" r="9" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮色星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="34" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

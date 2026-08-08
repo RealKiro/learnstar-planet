@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="龙骑士·四阶·护地初成·山洪断桥俯冲龙爪托村民回安全">
+  <defs>
+    <!-- 背景：洪流断桥 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#AEC0B8"/>
+      <stop offset="52%" stop-color="#8EA69E"/>
+      <stop offset="100%" stop-color="#6E8E88"/>
+    </linearGradient>
+    <!-- 护地威光 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="54%">
+      <stop offset="0%" stop-color="#F0F4E8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F0F4E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 龙皮 -->
+    <linearGradient id="dragon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6E9E8E"/>
+      <stop offset="100%" stop-color="#528478"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="96" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.42;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 洪流 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#6E9E9A" opacity="0.8"/>
+  <g stroke="#8EBEBA" stroke-width="1.4" stroke-linecap="round" opacity="0.6" fill="none">
+    <path d="M 20 158 Q 60 152 100 158 Q 140 164 180 158">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 断桥（右，断口） -->
+  <g fill="#8E8270">
+    <path d="M 130 138 L 200 132 L 200 144 L 130 148 Z"/>
+    <path d="M 172 134 L 176 146" stroke="#6E6250" stroke-width="1.2"/>
+  </g>
+
+  <!-- 被托起的村民（龙爪下，回安全） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <circle cx="112" cy="140" r="4.5" fill="#C8B898"/>
+    <path d="M 108 144 L 106 150 M 112 144 L 112 150 M 116 144 L 118 150" stroke="#A8906E" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 少年骑士与龙（俯冲，龙爪托村民） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 龙翼（展，俯冲） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-6 76 96;6 76 96;-6 76 96" dur="2s" repeatCount="indefinite"/>
+      <path d="M 70 100 L 40 88 L 48 98 L 34 92 L 46 102 Z" fill="url(#dragon)" stroke="#3E6E62" stroke-width="0.9"/>
+      <path d="M 70 100 L 100 88 L 92 98 L 108 92 L 96 102 Z" fill="url(#dragon)" stroke="#3E6E62" stroke-width="0.9"/>
+    </g>
+    <!-- 龙身 -->
+    <ellipse cx="74" cy="104" rx="10" ry="7" fill="url(#dragon)" stroke="#3E6E62" stroke-width="0.9"/>
+    <!-- 龙尾 -->
+    <path d="M 84 106 L 94 108 L 97 112" stroke="url(#dragon)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <!-- 龙爪（托村民） -->
+    <path d="M 74 110 Q 84 118 92 124" stroke="#3E6E62" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 74 110;5 74 110;0 74 110" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年骑士（骑龙，护村民） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="74" cy="88" rx="7" ry="9" fill="#D8C0A0" stroke="#C0A888" stroke-width="0.8" transform="rotate(-8 74 88)"/>
+    <!-- 皮甲 -->
+    <path d="M 68 82 L 80 84 L 78 92 L 66 90 Z" fill="#A8886E" opacity="0.8"/>
+    <!-- 护村民的手（前伸） -->
+    <path d="M 72 82 Q 66 74 70 68" stroke="#D8C0A0" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年骑士头（含护） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="74" cy="72" rx="7" ry="7" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <circle cx="71" cy="70.5" r="1.7" fill="#24180E"/>
+    <circle cx="71.4" cy="70.1" r="0.55" fill="#FFF"/>
+    <circle cx="77.5" cy="70.5" r="1.7" fill="#24180E"/>
+    <circle cx="77.9" cy="70.1" r="0.55" fill="#FFF"/>
+    <path d="M 72 75 Q 74 76.2 76 75" fill="none" stroke="#B08A6A" stroke-width="0.6" stroke-linecap="round"/>
+    <path d="M 71 67 Q 74 64 77 67 M 74 65 L 74 63" stroke="#8E6E4E" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 护地星尘 -->
+  <g fill="#F0F4E8">
+    <circle cx="38" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

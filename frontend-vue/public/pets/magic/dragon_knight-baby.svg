@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="龙骑士·二阶·骑乘之摔·幼龙疾驰摔下崴脚龙急围转">
+  <defs>
+    <!-- 背景：草原暗 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8C8AC"/>
+      <stop offset="52%" stop-color="#9AAC9A"/>
+      <stop offset="100%" stop-color="#7E947E"/>
+    </linearGradient>
+    <!-- 昏光 -->
+    <radialGradient id="glow" cx="46%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#E0E4D0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E0E4D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 幼龙皮 -->
+    <linearGradient id="dragon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#66948A"/>
+      <stop offset="100%" stop-color="#4E7A70"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="78" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 草原 -->
+  <g fill="#6E9E78" opacity="0.35">
+    <path d="M 0 112 Q 60 104 130 110 Q 170 114 200 108 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#7E9E7A" opacity="0.75"/>
+
+  <!-- 幼龙（急围转，担心） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="148" cy="130" rx="16" ry="11" fill="url(#dragon)" stroke="#3E6E62" stroke-width="0.9"/>
+    <!-- 腿 -->
+    <path d="M 138 138 L 136 146 M 160 138 L 162 146" stroke="#3E6E62" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 尾（急摆） -->
+    <path d="M 164 134 Q 174 130 178 124" stroke="url(#dragon)" stroke-width="2.8" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 164 134;10 164 134;0 164 134" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 幼龙头（急，看骑士） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="132" cy="118" rx="9.5" ry="8" fill="url(#dragon)" stroke="#3E6E62" stroke-width="0.9"/>
+    <!-- 眼（急） -->
+    <circle cx="128.5" cy="116" r="2.1" fill="#24180E"/>
+    <circle cx="129" cy="115.6" r="0.7" fill="#FFF"/>
+    <circle cx="136" cy="116" r="2.1" fill="#24180E"/>
+    <circle cx="136.5" cy="115.6" r="0.7" fill="#FFF"/>
+    <!-- 嘴（担心） -->
+    <path d="M 128 121 L 126 123.4 L 130 122.8 Z" fill="#3E6E62"/>
+    <!-- 头上角 -->
+    <path d="M 127 112 L 124 106 M 136 112 L 139 106" stroke="#6E9E8E" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 小骑士（摔地，崴脚） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体（坐地） -->
+    <ellipse cx="96" cy="138" rx="9" ry="6.5" fill="#D8C0A0" stroke="#C0A888" stroke-width="0.8"/>
+    <!-- 软皮甲 -->
+    <path d="M 90 134 L 102 136 L 100 142 L 88 140 Z" fill="#A8886E" opacity="0.8"/>
+    <!-- 崴的脚踝（裹布） -->
+    <path d="M 100 142 L 102 148" stroke="#C0A888" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M 99 145 L 104 145" stroke="#F0E8D8" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- 圆盾（旁） -->
+    <circle cx="84" cy="146" r="4" fill="#C8B058" stroke="#A89838" stroke-width="0.7"/>
+  </g>
+
+  <!-- 小骑士头（坐地，惧+坚） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="94" cy="124" rx="7.5" ry="7.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <!-- 眼（惧+坚） -->
+    <circle cx="90.5" cy="122.5" r="1.8" fill="#24180E"/>
+    <circle cx="90.9" cy="122.1" r="0.6" fill="#FFF"/>
+    <circle cx="97.5" cy="122.5" r="1.8" fill="#24180E"/>
+    <circle cx="97.9" cy="122.1" r="0.6" fill="#FFF"/>
+    <!-- 嘴（抿，坚） -->
+    <path d="M 91 127 Q 94 128.2 97 127" fill="none" stroke="#B08A6A" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 短发 -->
+    <path d="M 91 119 Q 94 116 97 119 M 94 117 L 94 115" stroke="#8E6E4E" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 昏光星尘 -->
+  <g fill="#E0E4D0">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
