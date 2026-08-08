@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { apiPost } from '@/utils/api'
-import { getAllSeries, getSpeciesEmoji, PET_SERIES, getSpeciesById } from '@/utils/petData'
+import { getAllSeries, PET_SERIES, getSpeciesById } from '@/utils/petData'
 import { getPoems, getEvoLines, STAGE_NAMES, poemToLines } from '@/utils/petHandbookData'
+import PetSprite from '@/components/pet/PetSprite.vue'
+
+/** 阶段 tab → 展示等级（与详情 Lv 显示一致） */
+function stageLevel(idx: number): number {
+  return idx === 0 ? 1 : idx <= 2 ? 2 : idx <= 3 ? 8 : idx === 4 ? 10 : 12
+}
 
 const token = ref('')
 const currentSeries = ref('myth')
@@ -98,9 +104,11 @@ onUnmounted(() => clearInterval(timer))
       <div v-if="selectedSpecies && detailSpecies" @click.self="closeDetail"
         style="position:fixed;inset:0;z-index:300;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;">
         <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-          <!-- 头部 -->
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-            <span style="font-size:48px;">{{ getSpeciesEmoji(selectedSpecies.speciesId) }}</span>
+          <!-- 头部：程序化宠物艺术，随阶段 tab 切换展示不同进化形态 -->
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+            <div style="width:100px;height:100px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--tint-2);border:2px solid var(--tint-3);box-shadow:0 4px 16px rgba(0,0,0,0.2);">
+              <PetSprite :species-id="selectedSpecies.speciesId" :level="stageLevel(detailStage)" :animate="true" />
+            </div>
             <div>
               <div style="font-size:22px;font-weight:700;">{{ selectedSpecies.name }}</div>
               <div style="font-size:13px;color:var(--md-text-secondary);">{{ selectedSpecies.seriesId }}系列</div>
@@ -172,7 +180,9 @@ onUnmounted(() => clearInterval(timer))
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;">
           <div v-for="sp in series.species" :key="sp.id" @click="openDetail(sp.id, sp.name)"
             style="background:var(--tint-1);border-radius:12px;padding:14px 12px;text-align:center;border:1px solid var(--tint-2);transition:0.2s;cursor:pointer;">
-            <span style="font-size:36px;display:block;margin-bottom:4px;">{{ getSpeciesEmoji(sp.id) }}</span>
+            <div style="width:84px;height:84px;border-radius:50%;overflow:hidden;margin:0 auto 6px;background:var(--tint-2);border:1px solid var(--tint-3);display:flex;align-items:center;justify-content:center;">
+              <PetSprite :species-id="sp.id" :level="6" />
+            </div>
             <div style="font-weight:600;font-size:16px;">{{ sp.name }}</div>
             <div style="font-size:12px;color:var(--md-text-secondary);margin-top:4px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">
               {{ sp.levels[0]?.description || '' }}

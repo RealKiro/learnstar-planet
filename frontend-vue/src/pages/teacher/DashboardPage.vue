@@ -179,7 +179,7 @@ onUnmounted(() => {
               @click="openHandbook(data.star_student)"
               title="点击查看宠物介绍"
             >
-              <div v-if="data.star_student.pet_species" style="width:92px;height:92px;border-radius:50%;overflow:hidden;">
+              <div v-if="data.star_student.pet_species" style="width:100%;height:100%;border-radius:50%;overflow:hidden;">
                 <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
               </div>
               <span v-else class="star-emoji">🌟</span>
@@ -473,8 +473,8 @@ onUnmounted(() => {
   margin-bottom: 8px;
 }
 .leader-avatar {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 8px;
@@ -509,8 +509,8 @@ onUnmounted(() => {
 .medal--2 { background: linear-gradient(180deg, rgba(205,127,50,0.08), transparent); border-color: rgba(205,127,50,0.25); }
 .top3-medal { position: absolute; top: 8px; left: 12px; font-size: 22px; }
 .top3-avatar {
-  width: 76px;
-  height: 76px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   overflow: hidden;
   margin: 6px auto 10px;
@@ -550,8 +550,8 @@ onUnmounted(() => {
 .top4-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
 .top4-rank { font-size: 22px; font-weight: 800; color: var(--color-text-secondary); opacity: 0.6; min-width: 28px; }
 .top4-avatar {
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid var(--color-border);

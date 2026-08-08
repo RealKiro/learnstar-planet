@@ -303,18 +303,36 @@ const STAGE_LABEL: Record<string, string> = {
   margin-bottom: 10px;
 }
 .current-scene {
-  width: 150px;
-  min-width: 150px;
-  height: 150px;
+  width: 152px;
+  min-width: 152px;
+  height: 152px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--tint-2);
+  border: 1px solid var(--tint-3);
+  box-shadow: inset 0 0 0 4px rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.25);
 }
-.current-sprite { width: 110px; height: 110px; }
+.current-sprite {
+  width: 134px;
+  height: 134px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255,255,255,0.14);
+  box-shadow: 0 0 18px rgba(0,0,0,0.25);
+}
+.current-sprite :deep(.pet-sprite),
+.current-sprite :deep(.pet-img) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
 .current-left {
   display: flex;
   flex-direction: column;

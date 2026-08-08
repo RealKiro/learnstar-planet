@@ -111,7 +111,35 @@ function motivationFor(s: CardStudent): string {
 }
 
 const lv = computed(() => lvOf(props.student))
-const clsRemaining = computed(() => nextLevelProgress(props.student.total_score, props.student.pet_level || 1).remaining)
+
+/** 距下一级剩余文案（两端公式不同，模式分支） */
+const expText = computed(() => {
+  const s = props.student
+  if (props.isTeacherMode) {
+    const r = remainingToNext(lv.value, s.total_score)
+    return r > 0 ? `距Lv.${lv.value + 1} 还差${r}分` : '已满级'
+  }
+  const l = s.pet_level || 1
+  const r = nextLevelProgress(s.total_score, l).remaining
+  return r > 0 ? `距Lv.${l + 1} 还差${r}分` : '已满级'
+})
+
+/** 距下一级进度百分比（两端公式不同） */
+const expPercent = computed(() => {
+  const s = props.student
+  if (props.isTeacherMode) {
+    if (lv.value >= 12) return 100
+    const cur = LEVEL_SCORES[lv.value - 1]
+    const next = LEVEL_SCORES[lv.value]
+    return Math.min(100, Math.max(0, ((s.total_score - cur) / (next - cur)) * 100))
+  }
+  const l = s.pet_level || 1
+  const maxLevel = CLASS_LEVEL_SCORES.length - 2
+  if (l >= maxLevel || s.total_score >= CLASS_LEVEL_SCORES[CLASS_LEVEL_SCORES.length - 2]) return 100
+  const cur = CLASS_LEVEL_SCORES[l] || 0
+  const next = CLASS_LEVEL_SCORES[Math.min(l + 1, maxLevel)] || 450
+  return Math.min(100, Math.max(0, ((s.total_score - cur) / (next - cur)) * 100))
+})
 </script>
 
 <template>
@@ -124,60 +152,69 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
     ]"
     :style="{ '--card-color': getLevelColor(calcLevel(student.total_score)) }"
   >
-    <!-- 左栏：宠物（40%） -->
-    <div class="card-left">
-      <!-- 教师端：固定宠物（含 demo 兜底），无点击 -->
-      <template v-if="isTeacherMode">
-        <div class="card-pet">
-          <PetSprite :species-id="teacherSpecies(student)" :level="student.pet_level || 1" :animate="true" />
+    <!-- 上部：左宠物 + 右信息（5:5） -->
+    <div class="card-top">
+      <!-- 左栏：宠物（50%） -->
+      <div class="card-left">
+        <div
+          class="card-pet"
+          @click="!isTeacherMode && emit('open-detail')"
+          :title="isTeacherMode ? undefined : (student.pet_species ? '点击查看宠物详情' : '未孵化 · 点击认养')"
+        >
+          <PetSprite
+            v-if="isTeacherMode || student.pet_species"
+            :species-id="isTeacherMode ? teacherSpecies(student) : student.pet_species!"
+            :level="student.pet_level || 1"
+            :animate="true"
+          />
+          <span v-else class="pet-emoji">{{ student.pet_emoji || '🥚' }}</span>
         </div>
-        <div class="card-pet-meta">
-          <span class="lv">Lv.{{ lv }}</span>
-          <span class="sep">·</span>
-          <span>{{ stageLabelOf(lv) }}</span>
-          <span class="sep">·</span>
-          <span class="exp-text">{{ remainingToNext(lv, student.total_score) > 0 ? '距Lv.' + (lv + 1) + ' 还差' + remainingToNext(lv, student.total_score) + '分' : '已满级' }}</span>
+        <div class="card-pet-name" v-if="student.pet_name">{{ student.pet_name }}</div>
+      </div>
+
+      <!-- 右栏：信息（50%） -->
+      <div class="card-right">
+        <div class="card-name-row">
+          <span class="card-name">{{ student.name }}</span>
+          <div
+            class="card-checkbox"
+            :class="{ picked: selected }"
+            role="checkbox"
+            :aria-checked="selected"
+            :aria-label="'选择 ' + student.name"
+            @click.stop="emit('toggle-select')"
+            title="多选后批量加减分"
+          >
+            <svg v-if="selected" viewBox="0 0 10 10" width="10" height="10"><path d="M1.2 5.2 L4 8 L8.8 2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
         </div>
-      </template>
-      <!-- 教室端：真实宠物可点击开详情 / 未孵化可认养 -->
-      <template v-else>
-        <div class="card-pet" @click="emit('open-detail')" title="点击查看宠物详情">
-          <PetSprite v-if="student.pet_species" :species-id="student.pet_species" :level="student.pet_level || 1" :animate="true" />
-          <span v-else style="font-size:34px;line-height:1;">{{ student.pet_emoji || '🥚' }}</span>
+        <div class="card-id-row">
+          <span class="card-id-icon">📛</span>
+          <span v-if="student.student_no" class="card-id">{{ student.student_no }}</span>
+          <span v-else class="card-id card-id--none">未编学号</span>
         </div>
-        <div class="card-pet-meta">
-          <span class="lv">Lv.{{ student.pet_level || 1 }}</span>
-          <span class="sep">·</span>
-          <span>{{ stageLabelOf(student.pet_level || 1) }}</span>
-          <span class="sep">·</span>
-          <span class="exp-text">{{ clsRemaining > 0 ? '距Lv.' + ((student.pet_level || 1) + 1) + ' 还差' + clsRemaining + '分' : '已满级' }}</span>
+        <div class="card-mid-row">
+          <span class="card-score"><span class="score-icon">⭐</span>{{ student.total_score.toLocaleString() }}<span class="unit"> 分</span></span>
+          <span class="card-motivation">“{{ motivationFor(student) }}”</span>
         </div>
-        <span v-if="!student.pet_species" class="unhatched">未孵化 · 点击认养</span>
-      </template>
+      </div>
     </div>
 
-    <!-- 右栏：信息（60%，两端共用） -->
-    <div class="card-right">
-      <div class="card-top-row">
-        <div
-          class="card-checkbox"
-          :class="{ picked: selected }"
-          role="checkbox"
-          :aria-checked="selected"
-          :aria-label="'选择 ' + student.name"
-          @click.stop="emit('toggle-select')"
-        >
-          <svg v-if="selected" viewBox="0 0 10 10" width="10" height="10"><path d="M1.2 5.2 L4 8 L8.8 2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <!-- 底部：左宠物等级/进度 + 右加减分（同层对齐） -->
+    <div class="card-bottom">
+      <div class="card-pet-meta">
+        <div class="meta-line">
+          <span class="lv">Lv.{{ lv }}</span>
+          <span class="sep">·</span>
+          <span class="stage">{{ stageLabelOf(lv) }}</span>
+          <span class="exp-text">{{ expText }}</span>
         </div>
-        <span class="card-name">{{ student.name }}</span>
-        <span class="card-id" v-if="student.student_no">学号 {{ student.student_no }}</span>
+        <div class="mini-progress">
+          <div class="mini-fill" :style="{ width: expPercent + '%' }"></div>
+        </div>
       </div>
-      <div class="card-mid-row">
-        <span class="card-score">{{ student.total_score.toLocaleString() }}<span class="unit"> 分</span></span>
-        <span class="card-motivation">“{{ motivationFor(student) }}”</span>
-      </div>
-      <!-- 底行：教师固定 1；教室可编辑步长 -->
-      <div class="card-bottom-row">
+
+      <div class="card-ops">
         <button class="btn-minus" @click="emit('open-modal', 'sub')" :title="isTeacherMode ? '选择减分原因' : undefined">−</button>
         <input
           v-if="!isTeacherMode && editingStep"
@@ -205,18 +242,18 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
 </template>
 
 <style scoped>
-/* 左右分栏卡片容器（两端共用 · 按左右分栏优化方案） */
+/* ===== 卡片容器（两端共用 · 5:5 分栏） ===== */
 .student-card {
   position: relative;
   display: flex;
+  flex-direction: column;
   background: var(--color-bg-card);
   border: 1.5px solid var(--color-border);
   border-radius: 14px;
   overflow: hidden;
   transition: all 0.2s ease;
-  min-height: 150px;
-  max-height: 200px;
-  aspect-ratio: 4 / 3;
+  min-height: 170px;
+  max-height: 210px;
 }
 .student-card:hover {
   background: var(--color-bg);
@@ -228,71 +265,84 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
   box-shadow: 0 0 0 1.5px var(--color-primary);
 }
 
-/* 左栏：宠物（40%） */
+/* ===== 上部：左宠物 + 右信息 ===== */
+.card-top {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
 .card-left {
-  flex: 0 0 40%;
+  flex: 1 1 50%;
+  width: 50%;
   background: radial-gradient(ellipse at center, var(--color-bg-card), var(--color-bg));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 6px;
+  padding: 8px 6px;
   position: relative;
+  gap: 4px;
 }
 .card-pet {
   position: relative;
-  width: 64px;
-  height: 64px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, var(--color-bg-card), var(--color-bg));
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-bottom: 6px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.3);
   overflow: hidden;
-  cursor: pointer;
+}
+.card-pet:hover { transform: scale(1.05); }
+.pet-emoji { font-size: 42px; line-height: 1; }
+.card-pet-name {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  max-width: 92%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 /* 宠物图(AI/hand SVG <img>)强制锁定圆形容器尺寸，防止占满页面 */
 .student-card :deep(.pet-sprite),
 .student-card :deep(.pet-img) {
-  width: 64px;
-  height: 64px;
-  max-width: 64px;
-  max-height: 64px;
+  width: 96px;
+  height: 96px;
+  max-width: 96px;
+  max-height: 96px;
   object-fit: contain;
   flex-shrink: 0;
 }
-.card-pet-meta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-size: 10px;
-  color: var(--color-text-secondary);
-  flex-wrap: wrap;
-  text-align: center;
-  padding: 0 4px;
-}
-.card-pet-meta .lv { color: var(--color-primary); font-weight: 700; }
-.card-pet-meta .sep { color: var(--color-border); }
-.card-pet-meta .exp-text { color: var(--color-text-secondary); opacity: 0.8; }
-.unhatched { font-size: 10px; color: var(--color-text-secondary); }
 
-/* 右栏：信息（60%） */
+/* ===== 右栏：信息（50%） ===== */
 .card-right {
-  flex: 1;
-  padding: 10px 12px 10px 10px;
+  flex: 1 1 50%;
+  width: 50%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 12px 8px;
   min-width: 0;
 }
-.card-top-row {
+.card-name-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  gap: 8px;
+}
+.card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .card-checkbox {
   width: 18px;
@@ -310,31 +360,36 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
 }
 .card-checkbox:hover { border-color: var(--color-primary); }
 .card-checkbox.picked { background: var(--color-primary); border-color: var(--color-primary); }
-.card-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--color-text);
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+.card-id-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
+.card-id-icon { font-size: 11px; }
 .card-id {
   font-size: 11px;
   color: var(--color-text-secondary);
-  flex-shrink: 0;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  padding: 1px 8px;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
 }
+.card-id--none { opacity: 0.5; }
+
 .card-mid-row {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  padding: 2px 0;
 }
 .card-score {
-  font-size: 17px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   color: var(--color-text);
+  white-space: nowrap;
 }
+.score-icon { font-size: 12px; margin-right: 2px; }
 .card-score .unit {
   font-size: 11px;
   font-weight: 400;
@@ -344,21 +399,71 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
   font-size: 11px;
   color: var(--color-accent);
   font-style: italic;
-  text-align: right;
   flex: 1;
+  min-width: 0;
+  text-align: right;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.card-bottom-row {
+
+/* ===== 底部：宠物等级/进度 + 加减分（同层对齐） ===== */
+.card-bottom {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-  padding-top: 6px;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 12px 7px;
   border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
 }
-.card-bottom-row button {
+.card-pet-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.meta-line {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  min-width: 0;
+}
+.meta-line .lv { color: var(--color-primary); font-weight: 700; }
+.meta-line .sep { color: var(--color-border); }
+.meta-line .stage { font-weight: 600; }
+.meta-line .exp-text {
+  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text-secondary);
+  opacity: 0.8;
+}
+.mini-progress {
+  height: 4px;
+  width: 100%;
+  background: var(--color-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.mini-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.card-ops {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.card-ops button {
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -375,7 +480,7 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
 .btn-minus:hover { background: rgba(239,68,68,0.25); }
 .btn-plus { background: rgba(79,70,229,0.12); color: var(--color-primary); }
 .btn-plus:hover { background: rgba(79,70,229,0.28); }
-.card-bottom-row button:hover { transform: scale(1.08); }
+.card-ops button:hover { transform: scale(1.08); }
 .step-num {
   font-size: 13px;
   font-weight: 700;
@@ -398,7 +503,7 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
   font-family: inherit;
 }
 
-/* 加分闪光反馈 */
+/* ===== 加分闪光反馈 ===== */
 @keyframes flash {
   0% { background: rgba(124,58,237,0.15); }
   100% { background: transparent; }
@@ -407,7 +512,7 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
   animation: flash 0.5s ease;
 }
 
-/* 阶段光晕 */
+/* ===== 阶段光晕 ===== */
 .stage-egg .card-pet { box-shadow: 0 0 10px rgba(148,163,184,0.18); }
 .stage-baby .card-pet { box-shadow: 0 0 12px rgba(16,185,129,0.18); }
 .stage-growing .card-pet { box-shadow: 0 0 14px rgba(59,130,246,0.22); }
@@ -416,6 +521,11 @@ const clsRemaining = computed(() => nextLevelProgress(props.student.total_score,
 .stage-transcendent .card-pet { box-shadow: 0 0 28px rgba(216,180,254,0.34), 0 0 46px rgba(255,255,255,0.06); }
 
 @media (max-width: 576px) {
-  .card-left { flex: 0 0 35%; }
+  .card-pet { width: 76px; height: 76px; }
+  .student-card :deep(.pet-sprite),
+  .student-card :deep(.pet-img) {
+    width: 76px; height: 76px;
+    max-width: 76px; max-height: 76px;
+  }
 }
 </style>

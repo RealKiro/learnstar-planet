@@ -362,13 +362,20 @@ const petPickerStudent = ref<CardStudent | null>(null)
 const switchingPet = ref(false)
 const switchStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const switchError = ref('')
-const confirmSwitch = ref<{ speciesId: string; name: string } | null>(null)
-function openPetPicker(s: CardStudent) { petPickerStudent.value = s; showPetPicker.value = true }
-function requestSwitch(speciesId: string, name: string) { confirmSwitch.value = { speciesId, name } }
+/** 选中待切换的宠物（在弹窗内联确认，不弹第二个弹窗） */
+const pendingSpecies = ref<{ speciesId: string; name: string } | null>(null)
+function openPetPicker(s: CardStudent) {
+  petPickerStudent.value = s
+  pendingSpecies.value = null
+  switchError.value = ''
+  showPetPicker.value = true
+}
 function handlePick(speciesId: string, name: string) {
   if (petPickerStudent.value?.pet_species === speciesId) return
-  requestSwitch(speciesId, name)
+  pendingSpecies.value = { speciesId, name }
+  switchError.value = ''
 }
+function clearPending() { pendingSpecies.value = null }
 /** 切换宠物所需积分：首次免费；整班切系列后 3 天免费窗口内免费；否则按当前宠物等级扣（后端 switchCost = 5×等级） */
 function getSwitchCost(s: CardStudent | null): number {
   if (!s || !s.pet_name) return 0
@@ -376,11 +383,10 @@ function getSwitchCost(s: CardStudent | null): number {
   return 5 * Math.max(1, s.pet_level || 1)
 }
 async function executeSwitch() {
-  if (!confirmSwitch.value) return
+  if (!pendingSpecies.value) return
   const s = petPickerStudent.value
   if (!s || switchingPet.value) return
-  const speciesId = confirmSwitch.value.speciesId
-  confirmSwitch.value = null
+  const speciesId = pendingSpecies.value.speciesId
   switchingPet.value = true
   switchStatus.value = 'loading'
   try {
@@ -394,6 +400,7 @@ async function executeSwitch() {
     switchError.value = ''
     setTimeout(() => { switchStatus.value = 'idle' }, 1500)
     showPetPicker.value = false
+    pendingSpecies.value = null
   } catch (e: any) {
     switchStatus.value = 'error'
     switchError.value = e?.response?.data?.message || '切换失败，请稍后重试'
@@ -613,32 +620,6 @@ onMounted(async () => {
       @go-login="goTeacherLogin"
     />
 
-    <!-- 教室端：宠物切换确认 -->
-    <Transition name="fade">
-      <div v-if="isClassroomMode && confirmSwitch" class="overlay-high" @click.self="confirmSwitch = null">
-        <div class="switch-box">
-          <div class="switch-icon">🔄</div>
-          <h3>确认切换宠物？</h3>
-          <p class="switch-desc">将切换为 <strong>{{ confirmSwitch.name }}</strong></p>
-          <div v-if="petPickerStudent?.pet_name && petPickerStudent.free_pick" class="switch-info switch-free">🎉 免费窗口期内，本次切换免费！</div>
-          <div v-else-if="petPickerStudent?.pet_name && getSwitchCost(petPickerStudent) > 0" class="switch-info switch-cost">
-            💰 本次切换扣除 <strong>{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留当前等级
-          </div>
-          <div v-else class="switch-info switch-free">🎉 首次免费，不扣积分</div>
-          <div class="switch-actions">
-            <button class="sw-cancel" @click="confirmSwitch = null">取消</button>
-            <button class="sw-confirm" @click="executeSwitch" :disabled="switchStatus !== 'idle'" :style="switchStatus === 'loading' ? 'background:#f59e0b;color:#fff' : switchStatus === 'success' ? 'background:#10b981;color:#fff' : switchStatus === 'error' ? 'background:#ef4444;color:#fff' : ''">
-              <template v-if="switchStatus === 'loading'">切换中...</template>
-              <template v-else-if="switchStatus === 'success'">切换成功 ✓</template>
-              <template v-else-if="switchStatus === 'error'">切换失败 ✗</template>
-              <template v-else>确认切换</template>
-            </button>
-          </div>
-          <div v-if="switchError" class="switch-error">{{ switchError }}</div>
-        </div>
-      </div>
-    </Transition>
-
     <!-- 教室端：宠物角色介绍 -->
     <PetDetailModal
       v-if="isClassroomMode && showPetDetail && detailStudent?.pet_species"
@@ -672,13 +653,33 @@ onMounted(async () => {
                 @click="handlePick(sp.id, sp.name)"
                 :disabled="switchingPet || petPickerStudent.pet_species === sp.id"
                 class="species-btn"
-                :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.08);cursor:default;' : ''"
+                :style="petPickerStudent.pet_species === sp.id ? 'border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.08);cursor:default;' : (pendingSpecies?.speciesId === sp.id ? 'border-color:var(--color-primary);background:rgba(167,139,250,0.12);' : '')"
               >
                 <div class="species-sprite">
                   <PetSprite :species-id="sp.id" :level="6" />
                 </div>
                 <div class="species-name">{{ sp.name }}</div>
                 <div v-if="petPickerStudent.pet_species === sp.id" class="species-current">✓ 当前</div>
+                <div v-else-if="pendingSpecies?.speciesId === sp.id" class="species-current">✓ 已选</div>
+              </button>
+            </div>
+          </div>
+          <!-- 内联确认：选中后在弹窗内确认，不弹第二个弹窗 -->
+          <div v-if="pendingSpecies" class="pick-confirm">
+            <div class="pick-confirm-main">
+              <div class="pick-confirm-name">将切换为 <strong>{{ pendingSpecies.name }}</strong></div>
+              <div v-if="petPickerStudent.pet_name && petPickerStudent.free_pick" class="pick-cost-free">🎉 免费窗口期内，本次切换免费！</div>
+              <div v-else-if="petPickerStudent.pet_name && getSwitchCost(petPickerStudent) > 0" class="pick-cost-charge">💰 本次切换扣除 <strong>{{ getSwitchCost(petPickerStudent) }}</strong> 积分 · 保留当前等级</div>
+              <div v-else class="pick-cost-free">🎉 首次免费，不扣积分</div>
+              <div v-if="switchError" class="switch-error">{{ switchError }}</div>
+            </div>
+            <div class="pick-confirm-actions">
+              <button class="pc-cancel" @click="clearPending" :disabled="switchingPet">取消选择</button>
+              <button class="pc-confirm" @click="executeSwitch" :disabled="switchingPet" :style="switchStatus === 'loading' ? 'background:#f59e0b;color:#fff' : switchStatus === 'success' ? 'background:#10b981;color:#fff' : switchStatus === 'error' ? 'background:#ef4444;color:#fff' : ''">
+                <template v-if="switchStatus === 'loading'">切换中...</template>
+                <template v-else-if="switchStatus === 'success'">切换成功 ✓</template>
+                <template v-else-if="switchStatus === 'error'">切换失败 ✗</template>
+                <template v-else>确认切换</template>
               </button>
             </div>
           </div>
@@ -942,39 +943,41 @@ onMounted(async () => {
   justify-content: center;
   padding: 20px;
 }
-.switch-box {
-  background: var(--color-bg-card);
+/* 内联确认条：选中宠物后在弹窗内确认，不弹第二个弹窗 */
+.pick-confirm {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--tint-1);
   border: 1px solid var(--tint-3);
   border-radius: var(--md-radius);
-  padding: 28px 32px;
-  max-width: 380px;
-  width: 90%;
-  box-shadow: var(--md-elevation);
-  animation: modalPop 0.25s ease;
-  text-align: center;
+  flex-wrap: wrap;
+  animation: modalPop 0.2s ease;
 }
-.switch-icon { font-size: 36px; margin-bottom: 12px; }
-.switch-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-.switch-desc { font-size: 14px; color: var(--md-text-secondary); margin-bottom: 12px; }
-.switch-desc strong { color: var(--color-primary); }
-.switch-info { font-size: 14px; padding: 10px 14px; border-radius: 10px; margin-bottom: 16px; font-weight: 700; }
-.switch-free { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: var(--color-success-text); }
-.switch-cost { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: var(--color-warning-text); }
-.switch-actions { display: flex; gap: 10px; }
-.sw-cancel { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--tint-3); background: transparent; color: var(--md-text-secondary); font-size: 14px; cursor: pointer; font-family: inherit; }
-.sw-confirm {
-  flex: 1;
-  padding: 10px;
+.pick-confirm-main { flex: 1; min-width: 0; }
+.pick-confirm-name { font-size: 13px; color: var(--color-text); }
+.pick-confirm-name strong { color: var(--color-primary); }
+.pick-cost-free { font-size: 12px; margin-top: 4px; padding: 3px 10px; border-radius: 8px; font-weight: 700; display: inline-block; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: var(--color-success-text); }
+.pick-cost-charge { font-size: 12px; margin-top: 4px; padding: 3px 10px; border-radius: 8px; font-weight: 700; display: inline-block; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: var(--color-warning-text); }
+.pick-confirm-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.pc-cancel { padding: 8px 16px; border-radius: 10px; border: 1px solid var(--tint-3); background: transparent; color: var(--md-text-secondary); font-size: 13px; cursor: pointer; font-family: inherit; }
+.pc-confirm {
+  padding: 8px 18px;
   border-radius: 10px;
   border: none;
-  background: rgba(167,139,250,0.15);
-  color: var(--color-primary);
-  font-size: 14px;
-  font-weight: 600;
+  background: var(--md-primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
   font-family: inherit;
+  transition: all 0.15s ease;
 }
-.switch-error { margin-top: 12px; padding: 8px 12px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; color: var(--color-danger-text); font-size: 12px; }
+.pc-confirm:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+.pc-confirm:disabled { opacity: 0.6; cursor: not-allowed; }
+.switch-error { margin-top: 8px; padding: 8px 12px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; color: var(--color-danger-text); font-size: 12px; }
 
 .picker-box {
   background: var(--color-bg-card);
