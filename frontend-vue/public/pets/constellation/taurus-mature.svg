@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="金牛座·阿鲁迪巴·四阶·金牛宫战·带伤豪迈大笑">
+  <defs>
+    <!-- 背景：金牛宫前圣战 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E3A3E"/>
+      <stop offset="52%" stop-color="#462A2E"/>
+      <stop offset="100%" stop-color="#321E22"/>
+    </linearGradient>
+    <!-- 战火金 -->
+    <radialGradient id="fire" cx="76%" cy="26%" r="36%">
+      <stop offset="0%" stop-color="#E8A84E" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8A84E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白银金牛圣衣 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8ECF0"/>
+      <stop offset="100%" stop-color="#B8C4D0"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8C8A8"/>
+      <stop offset="100%" stop-color="#D0B090"/>
+    </radialGradient>
+
+    <!-- 头部模板：圆脸·粗眉·虎目豪迈·咧嘴大笑 -->
+    <g id="taurus-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="10.5" fill="url(#skin)" stroke="#C8A880" stroke-width="0.9"/>
+      <!-- 短发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 双角（银角） -->
+      <path d="M -8 -6 Q -12 -10 -11 -15" stroke="#E8ECF0" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+      <path d="M 8 -6 Q 12 -10 11 -15" stroke="#E8ECF0" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+      <!-- 额发 -->
+      <path d="M -9 -3.5 Q -5 -8 0 -8 Q 5 -8 9 -3.5 Q 5 -7 0 -7 Q -5 -7 -9 -3.5 Z" fill="#2E2620"/>
+      <!-- 粗眉 -->
+      <path d="M -8.5 -1.5 Q -5 -3.2 -2 -2.4 M 8.5 -1.5 Q 5 -3.2 2 -2.4" stroke="#2E1A10" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <!-- 虎目 -->
+      <ellipse cx="-4.5" cy="0.4" rx="2.5" ry="2.3" fill="#1E1008"/>
+      <ellipse cx="4.5" cy="0.4" rx="2.5" ry="2.3" fill="#1E1008"/>
+      <circle cx="-5" cy="-0.4" r="0.8" fill="#FFF"/>
+      <circle cx="4" cy="-0.4" r="0.8" fill="#FFF"/>
+      <!-- 鼻梁宽 -->
+      <circle cx="0" cy="3" r="2" fill="#C8A880"/>
+      <!-- 咧嘴大笑 -->
+      <path d="M -3.6 5.8 Q 0 8.6 3.6 5.8" fill="none" stroke="#8E5A3E" stroke-width="1.4" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 战火 -->
+  <circle cx="156" cy="52" r="54" fill="url(#fire)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 敌阵（左上，被一角撞散） -->
+  <g opacity="0.5">
+    <path d="M 40 40 Q 42 30 46 27 Q 50 29 50 40 Z" fill="#241A2E"/>
+    <path d="M 56 46 Q 58 36 62 33 Q 66 35 66 46 Z" fill="#2A2034"/>
+    <path d="M 34 56 Q 36 46 40 43 Q 44 45 44 56 Z" fill="#201628"/>
+  </g>
+  <!-- 撞散迸溅 -->
+  <g fill="#E8A84E" opacity="0.6">
+    <circle cx="70" cy="50" r="2"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="1.6s" repeatCount="indefinite"/></circle>
+    <circle cx="80" cy="62" r="1.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="1.9s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- 金牛宫（背景） -->
+  <g opacity="0.4">
+    <path d="M 128 20 L 188 20 L 180 34 Q 158 42 140 38 Z" fill="#3E2A2E"/>
+    <path d="M 128 20 L 188 20" stroke="#5E4A4E" stroke-width="1.2"/>
+  </g>
+
+  <!-- 圣域地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#2A1E22" opacity="0.8"/>
+  <path d="M 0 152 L 200 152" stroke="#3E2A2E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 白银金牛圣斗士（立宫前，一角撞散敌阵后大笑） -->
+  <!-- 腿（稳如山） -->
+  <path d="M 92 134 L 88 158 L 95 158 L 100 136 Z" fill="#B8C4D0"/>
+  <path d="M 112 134 L 122 162 L 115 162 L 108 136 Z" fill="#B8C4D0"/>
+  <!-- 圣衣（下摆） -->
+  <path d="M 92 124 Q 102 132 114 124 Q 118 118 114 110 Q 108 122 100 118 Q 92 122 92 124 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 92 92 Q 88 108 94 124 Q 104 130 114 124 Q 120 108 116 92 Q 104 84 92 92 Z" fill="url(#armor)" stroke="#8E9CAC" stroke-width="1.2"/>
+  <!-- 宽肩 -->
+  <path d="M 88 90 Q 92 86 104 86 Q 116 86 120 90 L 118 96 L 90 96 Z" fill="#D8E0E8"/>
+  <!-- 圣衣纹 -->
+  <path d="M 96 98 L 100 118 M 110 98 L 106 118" stroke="#F0F4F8" stroke-width="1.2" opacity="0.7"/>
+  <!-- 战痕（伤） -->
+  <path d="M 98 112 Q 100 116 98 120" stroke="#B8404E" stroke-width="1.4" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 108 114 Q 110 118 108 122" stroke="#B8404E" stroke-width="1.4" stroke-linecap="round" opacity="0.8"/>
+  <!-- 腰带 -->
+  <path d="M 92 108 L 116 108" stroke="#F0F4F8" stroke-width="1.6"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#taurus-face" transform="translate(104,84) scale(1)"/>
+
+  <!-- 左臂（握拳举起，豪迈） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 94 96;3 94 96;-4 94 96" dur="2.2s" repeatCount="indefinite"/>
+    <path d="M 94 96 C 88 100 84 104 82 110" fill="none" stroke="#E8ECF0" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="81" cy="112" r="3.4" fill="#D0B090"/>
+    <!-- 握拳 -->
+    <path d="M 78 110 Q 82 108 84 112 L 82 114 Q 78 114 78 110 Z" fill="#D0B090"/>
+  </g>
+
+  <!-- 右臂（巨型号角起势，指敌） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 112 96 C 120 98 126 100 130 104" fill="none" stroke="#E8ECF0" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="132" cy="106" r="3.4" fill="#D0B090"/>
+    <!-- 巨型号角前指 -->
+    <path d="M 133 106 Q 144 102 150 108" stroke="#FFF7E0" stroke-width="1.8" opacity="0.6" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 大笑音浪 -->
+  <g stroke="#FFF7E0" stroke-width="1.4" opacity="0.5" stroke-linecap="round">
+    <path d="M 92 82 Q 82 76 78 68">
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 94 86 Q 82 80 76 72">
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 战尘 -->
+  <g fill="#FFF7E0">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

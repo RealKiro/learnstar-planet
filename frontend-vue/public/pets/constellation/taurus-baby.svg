@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="金牛座·阿鲁迪巴·二阶·力拔山河·一拳轰山壁">
+  <defs>
+    <!-- 背景：山壁前旷野 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AA890"/>
+      <stop offset="52%" stop-color="#7E8E72"/>
+      <stop offset="100%" stop-color="#5E6E58"/>
+    </linearGradient>
+    <!-- 尘烟金 -->
+    <radialGradient id="dust" cx="40%" cy="70%" r="42%">
+      <stop offset="0%" stop-color="#C8B878" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#C8B878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜训练服 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E9E8E"/>
+      <stop offset="100%" stop-color="#6E7E6E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#E8C8A8"/>
+      <stop offset="100%" stop-color="#D0B090"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 尘烟 -->
+  <circle cx="40" cy="130" r="60" fill="url(#dust)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山壁（左侧） -->
+  <path d="M 0 40 Q 20 70 16 110 Q 14 140 24 170 L 0 170 Z" fill="#7E8268" stroke="#6E7258" stroke-width="1.2"/>
+  <path d="M 6 60 Q 14 80 12 100" stroke="#6E7258" stroke-width="1.4" opacity="0.6"/>
+  <!-- 山石崩裂（被轰） -->
+  <g fill="#8A8A6E">
+    <circle cx="36" cy="108" r="3.4"/>
+    <circle cx="48" cy="118" r="2.6"/>
+    <circle cx="30" cy="122" r="2.2"/>
+    <path d="M 20 104 L 30 110 M 40 114 L 50 120" stroke="#6E7258" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+  </g>
+  <!-- 尘烟扬 -->
+  <g stroke="#C8B878" stroke-width="1.6" stroke-linecap="round" opacity="0.7">
+    <path d="M 40 120 Q 50 112 44 102">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 52 126 Q 62 118 56 108">
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 远山 -->
+  <path d="M 120 150 Q 150 134 180 142 Q 192 144 200 140 L 200 200 L 120 200 Z" fill="#6E8258" opacity="0.6"/>
+
+  <!-- 地面 -->
+  <path d="M 0 156 L 200 156 L 200 200 L 0 200 Z" fill="#5E6E58" opacity="0.8"/>
+  <path d="M 0 156 L 200 156" stroke="#6E7E68" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 魁梧少年（弓步出拳，肌肉虬结） -->
+  <!-- 腿（弓步） -->
+  <path d="M 100 134 L 94 158 L 101 158 L 106 136 Z" fill="#6E7E6E"/>
+  <path d="M 122 134 L 132 162 L 125 162 L 118 136 Z" fill="#6E7E6E"/>
+  <!-- 训练服 -->
+  <path d="M 98 94 Q 94 112 102 134 Q 112 142 122 134 Q 128 112 124 94 Q 112 86 98 94 Z" fill="url(#robe)" stroke="#5E6E5E" stroke-width="1.2"/>
+  <!-- 宽肩 -->
+  <path d="M 94 92 Q 98 88 110 88 Q 122 88 126 92 L 124 98 L 96 98 Z" fill="#7E8E7E"/>
+  <!-- 腰带 -->
+  <path d="M 98 114 L 124 114" stroke="#A8B8A8" stroke-width="1.8"/>
+
+  <!-- 头（圆脸，粗眉虎目豪迈，双角圣衣初现） -->
+  <circle cx="110" cy="84" r="10.5" fill="url(#skin)" stroke="#C8A880" stroke-width="0.9"/>
+  <!-- 短发 -->
+  <path d="M 101 78 Q 105 74 110 74 Q 115 74 119 78 Q 115 75 110 75 Q 105 75 101 78 Z" fill="#2E2620"/>
+  <!-- 双角（青铜，初现） -->
+  <path d="M 102 78 Q 96 72 97 66" stroke="#A8B0A0" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  <path d="M 118 78 Q 124 72 123 66" stroke="#A8B0A0" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  <!-- 粗眉 -->
+  <path d="M 102 82 Q 106 80.5 109 81 M 112 81 Q 115 80.5 118 82" stroke="#2E1A10" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <!-- 虎目 -->
+  <circle cx="106" cy="85" r="2.6" fill="#1E1008"/>
+  <circle cx="114" cy="85" r="2.6" fill="#1E1008"/>
+  <circle cx="107" cy="84.2" r="0.8" fill="#FFF"/>
+  <circle cx="115" cy="84.2" r="0.8" fill="#FFF"/>
+  <!-- 鼻梁宽 -->
+  <circle cx="110" cy="88" r="2" fill="#C8A880"/>
+  <!-- 咧嘴吼 -->
+  <path d="M 104 92.5 Q 110 95.6 116 92.5" fill="none" stroke="#8E5A3E" stroke-width="1.3" stroke-linecap="round"/>
+
+  <!-- 右拳轰出（一拳轰山壁） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 126 92;3 126 92;-4 126 92" dur="1.6s" repeatCount="indefinite"/>
+    <path d="M 124 92 C 130 88 134 84 138 80" fill="none" stroke="#7E8E7E" stroke-width="5" stroke-linecap="round"/>
+    <!-- 铁拳 -->
+    <circle cx="140" cy="79" r="4.4" fill="#D0B090"/>
+    <!-- 拳风（震山） -->
+    <path d="M 142 77 Q 152 70 148 60" stroke="#FFF7E0" stroke-width="1.8" opacity="0.7" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 左臂护胸 -->
+  <path d="M 100 96 C 94 100 92 106 94 114" fill="none" stroke="#7E8E7E" stroke-width="4.6" stroke-linecap="round"/>
+  <circle cx="94" cy="116" r="3.4" fill="#D0B090"/>
+
+  <!-- 尘烟金尘 -->
+  <g fill="#C8B878">
+    <circle cx="56" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
