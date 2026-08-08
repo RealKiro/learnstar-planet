@@ -1,160 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="妙蛙种子·六阶·花开传说·花下妙蛙种子聚藤鞭引新草">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="妙蛙种子·六阶·花开传说">
   <defs>
-    <!-- 背景：春日森林 -->
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#D4ECB8"/>
-      <stop offset="52%" stop-color="#ACCE98"/>
-      <stop offset="100%" stop-color="#8EB07A"/>
+      <stop offset="0%" stop-color="#A8E8C0"/><stop offset="100%" stop-color="#78C89A"/>
     </linearGradient>
-    <!-- 春日金 -->
-    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
-      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"/>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E9A72"/><stop offset="100%" stop-color="#2E7A52"/>
+    </linearGradient>
+    <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8F0D8"/><stop offset="100%" stop-color="#9AD8B0"/>
+    </linearGradient>
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FDE68A" stop-opacity="0"/>
     </radialGradient>
-    <!-- 传说余晖 -->
-    <radialGradient id="halo" cx="50%" cy="44%" r="42%">
-      <stop offset="0%" stop-color="#FFD8D8" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#FFD8D8" stop-opacity="0"/>
-    </radialGradient>
-    <!-- 蓝绿表皮 -->
-    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#5EB0A8"/>
-      <stop offset="100%" stop-color="#469890"/>
-    </linearGradient>
-    <!-- 花 -->
-    <linearGradient id="flower" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F08888"/>
-      <stop offset="100%" stop-color="#D8686E"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="200" height="200" fill="url(#bg)"/>
-  <circle cx="100" cy="48" r="82" fill="url(#glow)">
-    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
-  </circle>
-  <!-- 花开传说余晖 -->
-  <circle cx="100" cy="92" r="66" fill="url(#halo)">
-    <animate attributeName="opacity" values="0.45;0.28;0.45" dur="3.2s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 春林 -->
-  <g stroke="#5E8E5E" stroke-width="2.6" stroke-linecap="round" opacity="0.55">
-    <path d="M 12 42 Q 10 96 4 160 M 28 50 Q 24 100 18 160 M 176 40 Q 180 98 186 160"/>
-  </g>
-  <g fill="#6EA868" opacity="0.6">
-    <path d="M 12 46 Q 6 40 4 32 Q 10 38 12 46 Z"/>
-    <path d="M 176 44 Q 182 38 184 30 Q 178 36 176 44 Z"/>
-  </g>
-  <!-- 远山 -->
-  <path d="M 0 128 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
-  <!-- 草地 -->
-  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#5E9A58" opacity="0.85"/>
-  <path d="M 0 146 L 200 146" stroke="#7EB872" stroke-width="1.4" opacity="0.6"/>
-
-  <!-- 新生小草（右下，被藤鞭引路） -->
-  <g stroke="#5EAE5E" stroke-width="1.8" stroke-linecap="round" opacity="0.95">
-    <path d="M 160 148 Q 158 142 156 134 M 168 148 Q 168 142 168 134">
-      <animateTransform attributeName="transform" type="rotate" values="0 166 148;5 166 148;0 166 148" dur="2.6s" repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- 妙蛙花（3头身，中央盛放） -->
-  <g>
-    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
-    <!-- 后腿 -->
-    <path d="M 102 138 L 98 148 L 106 149 L 112 140 Z" fill="url(#fur)" stroke="#3A7E76" stroke-width="1"/>
-    <!-- 身体 -->
-    <path d="M 84 118 Q 80 132 92 140 Q 110 148 126 140 Q 134 132 130 118 Q 114 108 84 118 Z" fill="url(#fur)" stroke="#3A7E76" stroke-width="1"/>
-    <!-- 腹部 -->
-    <path d="M 90 126 Q 86 136 100 142 Q 118 144 126 136 Q 128 128 120 122 Q 106 116 90 126 Z" fill="#8AD0C8" opacity="0.7"/>
-    <!-- 前腿 -->
-    <path d="M 92 132 C 84 138 82 142 82 148" fill="none" stroke="url(#fur)" stroke-width="5" stroke-linecap="round"/>
-    <circle cx="82" cy="149" r="2.8" fill="#469890"/>
-    <path d="M 120 132 C 128 138 130 142 130 148" fill="none" stroke="url(#fur)" stroke-width="5" stroke-linecap="round"/>
-    <circle cx="131" cy="149" r="2.8" fill="#469890"/>
-    <!-- 尾 -->
-    <path d="M 128 128 Q 136 128 140 124" stroke="url(#fur)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
-  </g>
-
-  <!-- 背花（如盖，盛放） -->
-  <g>
-    <path d="M 102 110 Q 98 94 98 80" stroke="#4E9E5E" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <g fill="url(#flower)" stroke="#C8585E" stroke-width="0.8">
-      <path d="M 98 76 Q 82 56 74 60 Q 86 78 98 82 Z"/>
-      <path d="M 98 76 Q 116 56 122 60 Q 110 78 98 82 Z"/>
-      <path d="M 98 76 Q 74 42 82 38 Q 96 56 98 80 Z"/>
-      <path d="M 98 76 Q 122 42 114 38 Q 100 56 98 80 Z"/>
-      <path d="M 98 78 Q 78 90 82 98 Q 94 90 98 82 Z"/>
-      <path d="M 98 78 Q 118 90 114 98 Q 102 90 98 82 Z"/>
+    <g id="bb-head">
+      <circle cx="0" cy="0" r="31" fill="url(#skin)" stroke="#2E6A4E" stroke-width="1.5"/>
+      <circle cx="-11" cy="-14" r="2.6" fill="#E85A5A" opacity="0.8"/>
+      <circle cx="12" cy="-13" r="2.6" fill="#E85A5A" opacity="0.8"/>
+      <circle cx="-11" cy="-1" r="8.6" fill="#2B2B2B"/>
+      <circle cx="-9" cy="-3.7" r="3.2" fill="#FFF"/>
+      <circle cx="11" cy="-1" r="8.6" fill="#2B2B2B"/>
+      <circle cx="13" cy="-3.7" r="3.2" fill="#FFF"/>
+      <ellipse cx="0" cy="6" rx="1.9" ry="1.5" fill="#1E4E3A"/>
+      <path d="M -8 12 L -4 8 L 0 12 L 4 8 L 8 12" fill="none" stroke="#1E4E3A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
-    <circle cx="98" cy="74" r="7" fill="#F8D8C8"/>
-    <circle cx="98" cy="74" r="3.6" fill="#D89078"/>
-    <circle cx="84" cy="56" r="2.4" fill="#FFF" opacity="0.6"/>
-    <circle cx="114" cy="50" r="2" fill="#FFF" opacity="0.6"/>
-    <animateTransform attributeName="transform" type="rotate" values="0 98 74;3 98 74;0 98 74" dur="3.2s" repeatCount="indefinite"/>
+  </defs>
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="96" r="90" fill="url(#aura)">
+    <animate attributeName="opacity" values="1;0.65;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <path d="M 0 172 Q 50 162 100 172 Q 150 182 200 172 L 200 200 L 0 200 Z" fill="#4E8E6E"/>
+  <g fill="#F8A8C0" opacity="0.9">
+    <ellipse cx="40" cy="166" rx="5" ry="4"/>
+    <ellipse cx="164" cy="168" rx="5" ry="4"/>
+    <ellipse cx="70" cy="176" rx="4" ry="3"/>
+    <ellipse cx="140" cy="178" rx="4" ry="3"/>
   </g>
-
-  <!-- 藤鞭（引新草 + 护小妙蛙种子） -->
-  <g stroke="#3E8E4E" stroke-width="3" stroke-linecap="round" fill="none">
-    <path d="M 94 120 C 78 116 64 116 52 122 Q 46 126 44 132">
-      <animateTransform attributeName="transform" type="rotate" values="0 94 120;3 94 120;0 94 120" dur="2.8s" repeatCount="indefinite"/>
-    </path>
-    <path d="M 112 120 C 130 116 146 116 158 122 Q 164 126 166 130">
-      <animateTransform attributeName="transform" type="rotate" values="0 112 120;-3 112 120;0 112 120" dur="2.8s" repeatCount="indefinite"/>
-    </path>
+  <g transform="translate(100,128) scale(1.24)">
+    <animateTransform attributeName="transform" type="translate" values="100 128;100 120;100 128" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M -20 8 Q -31 10 -35 16" stroke="#2E6A4E" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <path d="M -37 14 L -33 20 L -41 18 Z" fill="#4E9A72"/>
+    <ellipse cx="0" cy="4" rx="40" ry="34" fill="url(#skin)" stroke="#2E6A4E" stroke-width="1.5"/>
+    <ellipse cx="0" cy="15" rx="25" ry="18" fill="url(#belly)" opacity="0.9"/>
+    <circle cx="-10" cy="23" r="3.2" fill="#E85A5A" opacity="0.7"/>
+    <circle cx="10" cy="24" r="3.2" fill="#E85A5A" opacity="0.7"/>
+    <ellipse cx="-16" cy="33" rx="7" ry="5" fill="url(#skin)" stroke="#2E6A4E" stroke-width="1"/>
+    <ellipse cx="16" cy="33" rx="7" ry="5" fill="url(#skin)" stroke="#2E6A4E" stroke-width="1"/>
+    <!-- 巨大的花（守护森林） -->
+    <g transform="translate(16,-36)">
+      <ellipse cx="0" cy="-6" rx="18" ry="6" fill="#5E8E5E"/>
+      <path d="M -6 2 L -22 -20 L -8 -12 L 0 -30 L 8 -12 L 22 -20 L 6 2 Z" fill="#F8A8C0" stroke="#D87898" stroke-width="1.2"/>
+      <path d="M -4 -12 L -14 -26 L -4 -20 L 0 -34 L 4 -20 L 14 -26 L 4 -12 Z" fill="#F8C8D8" opacity="0.9"/>
+      <ellipse cx="0" cy="2" rx="9" ry="6" fill="#F8D8E0"/>
+      <ellipse cx="0" cy="-10" rx="6" ry="2.4" fill="#F8E0C8"/>
+    </g>
+    <use href="#bb-head" transform="translate(0,-39) scale(1.08)"/>
+    <path d="M 22 10 Q 38 2 46 -8" stroke="#3E8A62" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M -22 12 Q -36 6 -42 -2" stroke="#3E8A62" stroke-width="3" stroke-linecap="round" fill="none"/>
   </g>
-  <!-- 藤端叶 -->
-  <path d="M 46 130 Q 40 128 36 124 Q 42 126 48 130 Z" fill="#4E9E5E"/>
-
-  <!-- 妙蛙种子小辈（花下，伏着，安然） -->
-  <g opacity="0.9">
-    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
-    <ellipse cx="44" cy="142" rx="7" ry="6" fill="#5EA8A0" stroke="#3E8E86" stroke-width="0.8"/>
-    <circle cx="44" cy="133" r="5.4" fill="#5EA8A0" stroke="#3E8E86" stroke-width="0.7"/>
-    <path d="M 44 128 L 43 124 L 45 125" fill="#4E9E5E"/>
-    <circle cx="41" cy="133" r="1.4" fill="#E04040"/>
-    <circle cx="48" cy="133" r="1.4" fill="#E04040"/>
-    <ellipse cx="44" cy="126" rx="4.4" ry="3.4" fill="#3E8650"/>
-    <path d="M 41 135 Q 44 136 47 135" stroke="#3E8E86" stroke-width="0.6" stroke-linecap="round" fill="none"/>
-  </g>
-  <g opacity="0.85">
-    <animateTransform attributeName="transform" type="translate" values="0 0;1 -1;0 0" dur="3.2s" repeatCount="indefinite"/>
-    <ellipse cx="70" cy="145" rx="6.4" ry="5.4" fill="#52A098" stroke="#3A7E76" stroke-width="0.8"/>
-    <circle cx="70" cy="137" r="4.8" fill="#52A098" stroke="#3A7E76" stroke-width="0.7"/>
-    <path d="M 70 132 L 69 129 L 71 130" fill="#4E9E5E"/>
-    <circle cx="67.5" cy="137" r="1.3" fill="#E04040"/>
-    <circle cx="73" cy="137" r="1.3" fill="#E04040"/>
-    <ellipse cx="70" cy="130" rx="4" ry="3" fill="#3E8650"/>
-  </g>
-
-  <!-- 头（花冠轻垂含笑，红眼温和） -->
-  <g>
-    <ellipse cx="104" cy="106" rx="14" ry="11.5" fill="url(#fur)" stroke="#3A7E76" stroke-width="1"/>
-    <!-- 绿冠（垂） -->
-    <path d="M 104 96 Q 102 90 103 85 Q 104 90 106 88 Q 105 92 107 95 Z" fill="#4E9E5E" stroke="#3A7E4A" stroke-width="0.5"/>
-    <!-- 红眼（温和，微眯） -->
-    <path d="M 96 106 Q 99 104 102 106" fill="none" stroke="#C04040" stroke-width="1" stroke-linecap="round"/>
-    <circle cx="99" cy="106" r="3" fill="#E04040"/>
-    <circle cx="99.6" cy="105.4" r="0.9" fill="#FFF"/>
-    <path d="M 108 106 Q 111 104 114 106" fill="none" stroke="#C04040" stroke-width="1" stroke-linecap="round"/>
-    <circle cx="111" cy="106" r="3" fill="#E04040"/>
-    <circle cx="111.6" cy="105.4" r="0.9" fill="#FFF"/>
-    <!-- 颊绿斑 -->
-    <circle cx="92" cy="110" r="2.2" fill="#3A7E76" opacity="0.6"/>
-    <circle cx="118" cy="110" r="2.2" fill="#3A7E76" opacity="0.6"/>
-    <!-- 含笑 -->
-    <path d="M 101 111 Q 104 112.4 107 111" fill="none" stroke="#3A6E66" stroke-width="0.9" stroke-linecap="round"/>
-  </g>
-
-  <!-- 春日星尘 -->
-  <g fill="#FFF8DC">
-    <circle cx="34" cy="106">
-      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="166" cy="84">
-      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
-    </circle>
+  <g fill="#FFF8C0">
+    <circle cx="50" cy="100" r="1.8"><animate attributeName="cy" values="100;86;100" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.1;0.8" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="154" cy="90" r="1.5"><animate attributeName="cy" values="90;76;90" dur="3.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="3.4s" repeatCount="indefinite"/></circle>
   </g>
 </svg>
