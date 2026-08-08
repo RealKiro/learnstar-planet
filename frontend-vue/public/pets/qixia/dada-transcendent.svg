@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="达达·六阶·七剑合璧·旋风破竹卸力守天下">
+  <defs>
+    <!-- 背景：决战之巅 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E4E5E"/>
+      <stop offset="52%" stop-color="#1E3E4E"/>
+      <stop offset="100%" stop-color="#122E3E"/>
+    </linearGradient>
+    <!-- 七色剑光 -->
+    <radialGradient id="seven" cx="50%" cy="36%" r="56%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#C8E878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 旋风金 -->
+    <radialGradient id="wind" cx="50%" cy="44%" r="52%">
+      <stop offset="0%" stop-color="#C8E878" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#8EA848" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 战火红 -->
+    <radialGradient id="fire" cx="82%" cy="24%" r="32%">
+      <stop offset="0%" stop-color="#E8623A" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#E8623A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 绿面 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8F0E4"/>
+      <stop offset="100%" stop-color="#CAD6CA"/>
+    </linearGradient>
+    <!-- 青衫侠客 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6EA878"/>
+      <stop offset="100%" stop-color="#4E8860"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2E4CE"/>
+      <stop offset="100%" stop-color="#DACCB6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 七色剑光 -->
+  <circle cx="100" cy="80" r="90" fill="url(#seven)">
+    <animate attributeName="opacity" values="0.95;0.6;0.95" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 旋风金 -->
+  <circle cx="100" cy="80" r="72" fill="url(#wind)">
+    <animate attributeName="opacity" values="0.9;0.55;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 战火 -->
+  <circle cx="162" cy="48" r="46" fill="url(#fire)">
+    <animate attributeName="opacity" values="0.65;0.4;0.65" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色圆光 -->
+  <g>
+    <circle cx="100" cy="80" r="60" fill="none" stroke="#FFF3C4" stroke-width="2.2" opacity="0.85">
+      <animate attributeName="r" values="60;66;60" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="80" r="52" fill="none" stroke="#FFF3C4" stroke-width="1" opacity="0.5">
+      <animate attributeName="r" values="52;55;52" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 七色剑光冲天 -->
+  <g stroke-linecap="round" fill="none">
+    <path d="M 100 44 Q 96 28 100 12" stroke="#FFF3C4" stroke-width="3" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 84 50 Q 76 38 72 24" stroke="#F58A3E" stroke-width="2.6" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.45;0.85" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 116 50 Q 124 38 128 24" stroke="#F58A3E" stroke-width="2.6" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.45;0.85" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 70 62 Q 58 54 50 44" stroke="#C8E878" stroke-width="2.4" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.45;0.85" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 130 62 Q 142 54 150 44" stroke="#C8E878" stroke-width="2.4" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.45;0.85" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 60 78 Q 50 72 42 64" stroke="#6E9EF0" stroke-width="2" opacity="0.75">
+      <animate attributeName="opacity" values="0.75;0.4;0.75" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 140 78 Q 150 72 158 64" stroke="#6E9EF0" stroke-width="2" opacity="0.75">
+      <animate attributeName="opacity" values="0.75;0.4;0.75" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 山河人间（下方，被护） -->
+  <g opacity="0.5">
+    <path d="M 0 154 Q 40 146 90 152 Q 140 158 200 150 L 200 200 L 0 200 Z" fill="#1E3E4E"/>
+    <path d="M 40 150 L 40 142 L 52 142 L 52 150 M 120 152 L 120 144 L 132 144 L 132 152" fill="#3E5E6E" opacity="0.7"/>
+  </g>
+
+  <!-- 绿面熊猫（6头身，青衫侠客，旋风剑在手，七侠长者） -->
+  <!-- 腿 -->
+  <path d="M 82 134 L 78 156 L 84 156 L 88 136 Z" fill="#4E8860"/>
+  <path d="M 98 134 L 106 158 L 100 158 L 94 136 Z" fill="#4E8860"/>
+  <!-- 青衫 -->
+  <path d="M 80 100 Q 76 118 84 134 Q 94 140 102 134 Q 108 118 104 100 Q 92 94 80 100 Z" fill="url(#robe)" stroke="#3E7048" stroke-width="1"/>
+  <!-- 腰间玉带 -->
+  <path d="M 80 116 L 104 116" stroke="#E8D8A8" stroke-width="1.4"/>
+  <!-- 尾巴 -->
+  <path d="M 106 128 Q 114 124 116 118" stroke="#4E8860" stroke-width="2.4" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 106 128;8 106 128;0 106 128" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（熊猫脸，圆眼沉稳含笑，斗笠） -->
+  <!-- 斗笠 -->
+  <path d="M 72 82 Q 88 72 106 82 Q 110 86 108 88 L 74 88 Q 72 86 72 82 Z" fill="#7E9678" stroke="#668A60" stroke-width="0.8">
+    <animateTransform attributeName="transform" type="rotate" values="0 90 82;2 90 82;0 90 82" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+  <!-- 熊猫脸 -->
+  <ellipse cx="90" cy="90" rx="11" ry="11.5" fill="url(#fur)" stroke="#7E9A76" stroke-width="0.9"/>
+  <!-- 熊猫耳 -->
+  <circle cx="79" cy="80" r="4" fill="#2A4236" stroke="#1E3A2E" stroke-width="0.8"/>
+  <circle cx="101" cy="80" r="4" fill="#2A4236" stroke="#1E3A2E" stroke-width="0.8"/>
+  <!-- 眼周黑斑 -->
+  <ellipse cx="85" cy="88" rx="4" ry="3.4" fill="#2A4236"/>
+  <ellipse cx="95" cy="88" rx="4" ry="3.4" fill="#2A4236"/>
+  <!-- 圆眼沉稳含笑 -->
+  <path d="M 84 88 Q 86 86.4 88 88 Q 86 89.6 84 88 Z" fill="#1E1008"/>
+  <path d="M 96 88 Q 94 86.4 92 88 Q 94 89.6 96 88 Z" fill="#1E1008"/>
+  <circle cx="85.6" cy="87.6" r="0.7" fill="#FFF3C4"/>
+  <circle cx="94.4" cy="87.6" r="0.7" fill="#FFF3C4"/>
+  <!-- 鼻 -->
+  <ellipse cx="90" cy="93" rx="2.4" ry="1.8" fill="#5E7668"/>
+  <!-- 沉稳含笑 -->
+  <path d="M 86 97 Q 90 99.4 94 97" fill="none" stroke="#6E8E7E" stroke-width="0.9" stroke-linecap="round"/>
+
+  <!-- 左臂（护身） -->
+  <path d="M 82 102 C 76 106 74 112 76 118" fill="none" stroke="#6EA878" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="76" cy="120" r="3" fill="#F2E4CE"/>
+
+  <!-- 右手持旋风剑（七剑合璧·为引） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 100 102 C 108 96 114 92 118 84" fill="none" stroke="#6EA878" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="120" cy="82" r="3.2" fill="#F2E4CE"/>
+    <!-- 旋风剑（为引，指天） -->
+    <line x1="120" y1="84" x2="130" y2="52" stroke="#C8E878" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 130 52 L 133 46" stroke="#C8E878" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 剑引七色 -->
+    <circle cx="130" cy="50" r="14" fill="url(#wind)">
+      <animate attributeName="r" values="14;19;14" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 旋叶星尘 -->
+  <g fill="#FFF3C4">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
