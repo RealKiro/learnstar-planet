@@ -28,13 +28,20 @@
 
     <!-- 头部模板：俊美面容·面具半掩·眼神阴鸷（脸中心 0,0） -->
     <g id="gemini-face">
-      <!-- 面具（教皇面具） -->
-      <path d="M -11 -3 Q -8 -9 0 -9 Q 8 -9 11 -3 Q 10 2 5 4 Q 0 5 -5 4 Q -10 2 -11 -3 Z" fill="#D8D0C8" stroke="#A8A098" stroke-width="1"/>
-      <!-- 面具眼洞（阴鸷） -->
-      <path d="M -7 -1 Q -4.5 -2.4 -2 -1.4 L -2 0.2 Q -4.5 -0.6 -7 1.2 Z" fill="#1E1008"/>
-      <path d="M 7 -1 Q 4.5 -2.4 2 -1.4 L 2 0.2 Q 4.5 -0.6 7 1.2 Z" fill="#1E1008"/>
-      <!-- 面具嘴（狞笑） -->
-      <path d="M -3.2 3.4 Q 0 5.4 3.2 3.4" fill="none" stroke="#A8A098" stroke-width="1.1" stroke-linecap="round"/>
+      <ellipse cx="0" cy="0" rx="9.5" ry="12" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 善恶双相 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -7.5 0.4 Q -4.5 -1.8 -1.8 -0.6 L -1.8 0.9 Q -4.5 0.1 -7.5 1.8 Z" fill="#1E1008"/>
+      <path d="M 7.5 0.4 Q 4.5 -1.8 1.8 -0.6 L 1.8 0.9 Q 4.5 0.1 7.5 1.8 Z" fill="#1E1008"/>
+      <circle cx="-4.5" cy="0" r="1.6" fill="#A8282E"/>
+      <circle cx="4.5" cy="0" r="1.6" fill="#A8282E"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 2.6 Q 1.6 4 0 5 Q -1.6 4 0 2.6" fill="none" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.4 Q 0 6.8 3.2 6.4" fill="none" stroke="#6E4A3E" stroke-width="1.1" stroke-linecap="round"/>
     </g>
   </defs>
 

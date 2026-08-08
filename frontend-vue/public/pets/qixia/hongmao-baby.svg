@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="虹猫·二阶·家园遭难·火光中怀抱长虹剑">
+  <defs>
+    <!-- 背景：火光家园 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E2E22"/>
+      <stop offset="52%" stop-color="#4E2018"/>
+      <stop offset="100%" stop-color="#301410"/>
+    </linearGradient>
+    <!-- 冲天烈焰 -->
+    <radialGradient id="fire" cx="70%" cy="40%" r="52%">
+      <stop offset="0%" stop-color="#E8623A" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#E8623A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 长虹暖金 -->
+    <radialGradient id="sword" cx="50%" cy="60%" r="42%">
+      <stop offset="0%" stop-color="#FFE066" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFE066" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 红毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D84A38"/>
+      <stop offset="100%" stop-color="#A83228"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0D8BC"/>
+      <stop offset="100%" stop-color="#D8C0A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 冲天烈焰 -->
+  <circle cx="150" cy="90" r="70" fill="url(#fire)">
+    <animate attributeName="opacity" values="0.8;0.45;0.8" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 火舌 -->
+  <g fill="#E8623A" opacity="0.8">
+    <path d="M 150 60 Q 144 48 150 40 Q 156 48 154 56 Z">
+      <animate attributeName="opacity" values="0.8;0.35;0.8" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 162 72 Q 168 62 164 52 Q 158 62 160 70 Z">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.9s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 父亲身影（没入火光，回头一笑） -->
+  <g opacity="0.6">
+    <path d="M 138 120 Q 140 108 145 104 Q 150 106 150 120 Z" fill="#1E120C"/>
+    <circle cx="147" cy="102" r="5" fill="#3A2418"/>
+    <!-- 回望的目光 -->
+    <path d="M 143 102 Q 138 98 136 94" stroke="#FFE066" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 废墟（前景） -->
+  <g opacity="0.6">
+    <path d="M 40 140 Q 30 130 42 124 Q 56 130 52 140 Z" fill="#3A2A24"/>
+    <path d="M 160 140 Q 168 132 158 128 Q 148 132 152 140 Z" fill="#2E2018"/>
+    <!-- 余烬火星 -->
+    <g fill="#E8623A">
+      <circle cx="60" cy="120" r="2"><animate attributeName="cy" values="120;132;120" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="150" cy="130" r="2"><animate attributeName="cy" values="130;142;130" dur="2.4s" repeatCount="indefinite"/></circle>
+    </g>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 154 L 200 154 L 200 200 L 0 200 Z" fill="#241410" opacity="0.8"/>
+  <path d="M 0 154 L 200 154" stroke="#3A2018" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 红毛小猫（带伤抱剑，垂泪） -->
+  <!-- 腿 -->
+  <path d="M 84 136 L 80 158 L 86 158 L 90 138 Z" fill="#A83228"/>
+  <path d="M 100 136 L 108 160 L 102 160 L 96 138 Z" fill="#A83228"/>
+  <!-- 劲装（染尘带伤） -->
+  <path d="M 84 104 Q 80 120 86 136 Q 96 142 104 136 Q 110 120 106 104 Q 96 98 84 104 Z" fill="#8E7A5E" stroke="#6E5A42" stroke-width="1"/>
+  <!-- 伤痕 -->
+  <path d="M 88 112 Q 90 116 88 120" stroke="#B8432E" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+  <!-- 腰间红带（松脱） -->
+  <path d="M 84 120 L 106 120" stroke="#B83A2E" stroke-width="1.4"/>
+  <!-- 尾巴（低垂） -->
+  <path d="M 106 132 Q 114 128 116 122" stroke="#A83228" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+
+  <!-- 头（猫脸，圆眼含泪，红毛凌乱） -->
+  <circle cx="95" cy="96" r="10.5" fill="url(#fur)" stroke="#A83228" stroke-width="0.8"/>
+  <!-- 猫耳 -->
+  <path d="M 86 88 L 80 76 L 92 84 Z" fill="#D84A38" stroke="#A83228" stroke-width="0.8"/>
+  <path d="M 104 88 L 110 76 L 98 84 Z" fill="#D84A38" stroke="#A83228" stroke-width="0.8"/>
+  <!-- 红毛凌乱 -->
+  <path d="M 88 88 Q 85 82 89 78" stroke="#A83228" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M 102 88 Q 106 82 102 78" stroke="#A83228" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- 猫脸白斑 -->
+  <ellipse cx="95" cy="99" rx="7" ry="5.5" fill="#E8D0B4"/>
+  <!-- 圆眼含泪 -->
+  <circle cx="90" cy="95" r="3" fill="#1E1008"/>
+  <circle cx="100" cy="95" r="3" fill="#1E1008"/>
+  <circle cx="91" cy="94" r="1" fill="#FFF"/>
+  <circle cx="101" cy="94" r="1" fill="#FFF"/>
+  <!-- 泪光 -->
+  <path d="M 88 97 Q 87 99 88 101" stroke="#C8E8F8" stroke-width="1.2" stroke-linecap="round" opacity="0.8">
+    <animate attributeName="cy" values="97;102;97" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+  <!-- 猫鼻 -->
+  <circle cx="95" cy="100" r="1.5" fill="#C85068"/>
+  <!-- 猫须 -->
+  <path d="M 86 99 L 80 98 M 86 101 L 80 102 M 104 99 L 110 98 M 104 101 L 110 102" stroke="#C8B098" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- 悲恸抿唇 -->
+  <path d="M 91 103 Q 95 104 99 103" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- 左臂（怀抱长虹剑） -->
+  <path d="M 86 108 C 80 112 78 118 80 124" fill="none" stroke="#9E8A68" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="80" cy="126" r="3" fill="#D8C0A0"/>
+
+  <!-- 怀中长虹剑（泛暖光） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <line x1="80" y1="124" x2="104" y2="136" stroke="#E8D8A8" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 80 122 L 78 128" stroke="#E8D8A8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 剑上暖光 -->
+    <circle cx="92" cy="130" r="10" fill="url(#sword)">
+      <animate attributeName="r" values="10;14;10" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 右手（紧抱剑，抚剑身） -->
+  <path d="M 104 108 C 110 112 112 118 110 124" fill="none" stroke="#9E8A68" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="109" cy="126" r="3" fill="#D8C0A0"/>
+
+  <!-- 火光长虹星尘 -->
+  <g fill="#FFE066">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

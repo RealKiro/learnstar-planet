@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="虹猫·一阶·剑意萌芽·家园晨光长虹剑">
+  <defs>
+    <!-- 背景：家园晨光青山 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8C078"/>
+      <stop offset="52%" stop-color="#C8A05E"/>
+      <stop offset="100%" stop-color="#A07E48"/>
+    </linearGradient>
+    <!-- 晨光金 -->
+    <radialGradient id="glow" cx="50%" cy="34%" r="56%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFF7E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 长虹七色 -->
+    <radialGradient id="rainbow" cx="50%" cy="44%" r="52%">
+      <stop offset="0%" stop-color="#FFE066" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#E8623A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 红毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E84E3A"/>
+      <stop offset="100%" stop-color="#B83A2E"/>
+    </linearGradient>
+    <!-- 劲装 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8B878"/>
+      <stop offset="100%" stop-color="#B8965E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0D8BC"/>
+      <stop offset="100%" stop-color="#D8C0A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="70" r="80" fill="url(#glow)"/>
+  <!-- 长虹七色 -->
+  <circle cx="100" cy="96" r="66" fill="url(#rainbow)">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山家园 -->
+  <path d="M 0 134 Q 40 116 90 126 Q 140 134 200 122 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+  <!-- 家园屋舍 -->
+  <g opacity="0.85">
+    <path d="M 150 96 L 150 84 L 166 84 L 166 96 L 172 96 L 172 76 L 144 76 L 144 96 Z" fill="#B08A62"/>
+    <path d="M 158 84 L 158 74 L 157 84 Z" fill="#B08A62"/>
+  </g>
+
+  <!-- 父亲身影（右，含笑） -->
+  <g opacity="0.6">
+    <path d="M 168 120 Q 170 108 175 104 Q 180 106 180 120 Z" fill="#8E6A4E"/>
+    <circle cx="177" cy="102" r="5" fill="#E0C8A8"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#8E7A5E" opacity="0.7"/>
+  <path d="M 0 150 L 200 150" stroke="#A8906E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 红毛小猫（4头身，持长虹剑，灵巧） -->
+  <!-- 腿 -->
+  <path d="M 86 136 L 82 158 L 88 158 L 92 138 Z" fill="#B83A2E"/>
+  <path d="M 102 136 L 110 160 L 104 160 L 98 138 Z" fill="#B83A2E"/>
+  <!-- 劲装 -->
+  <path d="M 86 104 Q 82 120 88 136 Q 98 142 106 136 Q 112 120 108 104 Q 98 98 86 104 Z" fill="url(#robe)" stroke="#A07E48" stroke-width="1"/>
+  <!-- 腰间红带 -->
+  <path d="M 86 120 L 108 120" stroke="#E84E3A" stroke-width="1.6"/>
+  <!-- 尾巴（灵巧） -->
+  <path d="M 108 130 Q 118 124 122 116" stroke="#B83A2E" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 108 130;10 108 130;0 108 130" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（猫脸，圆眼有神，红毛） -->
+  <circle cx="97" cy="96" r="10.5" fill="url(#fur)" stroke="#A83228" stroke-width="0.8"/>
+  <!-- 猫耳 -->
+  <path d="M 88 88 L 82 76 L 94 84 Z" fill="#E84E3A" stroke="#A83228" stroke-width="0.8"/>
+  <path d="M 106 88 L 112 76 L 100 84 Z" fill="#E84E3A" stroke="#A83228" stroke-width="0.8"/>
+  <!-- 内耳粉 -->
+  <path d="M 87 86 L 84 78 L 92 84 Z" fill="#F0B8C0"/>
+  <path d="M 107 86 L 110 78 L 102 84 Z" fill="#F0B8C0"/>
+  <!-- 红发带 -->
+  <path d="M 90 88 Q 97 84 104 88 L 102 86 Q 97 82 92 86 Z" fill="#B83A2E"/>
+  <path d="M 104 86 L 108 84" stroke="#B83A2E" stroke-width="1.4" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+  <!-- 猫脸白斑 -->
+  <ellipse cx="97" cy="99" rx="7" ry="5.5" fill="#F0D8BC"/>
+  <!-- 圆眼有神 -->
+  <circle cx="92" cy="95" r="3" fill="#1E1008"/>
+  <circle cx="102" cy="95" r="3" fill="#1E1008"/>
+  <circle cx="93" cy="94" r="1" fill="#FFF"/>
+  <circle cx="103" cy="94" r="1" fill="#FFF"/>
+  <!-- 猫鼻 -->
+  <circle cx="97" cy="100" r="1.5" fill="#C85068"/>
+  <!-- 猫须 -->
+  <path d="M 88 99 L 82 98 M 88 101 L 82 102 M 106 99 L 112 98 M 106 101 L 112 102" stroke="#C8B098" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- 含笑 -->
+  <path d="M 93 103 Q 97 105.2 101 103" fill="none" stroke="#8E5A3E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左臂（持长虹剑） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 90 108;3 90 108;-4 90 108" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M 90 108 C 84 112 80 116 78 122" fill="none" stroke="#C8A878" stroke-width="3.8" stroke-linecap="round"/>
+    <circle cx="77" cy="124" r="3" fill="#D0B090"/>
+    <!-- 长虹剑（斜持） -->
+    <line x1="78" y1="122" x2="56" y2="148" stroke="#E8D8A8" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 56 148 L 54 153" stroke="#E8D8A8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 剑光七色虹 -->
+    <g stroke="#FFE066" stroke-width="1.4" opacity="0.7" stroke-linecap="round">
+      <path d="M 56 148 Q 48 156 44 162">
+        <animate attributeName="opacity" values="0.7;0.25;0.7" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 52 152 Q 44 158 40 164">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 右手（剑指，剑意） -->
+  <path d="M 104 108 C 110 104 114 100 116 94" fill="none" stroke="#C8A878" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="117" cy="92" r="2.8" fill="#D0B090"/>
+
+  <!-- 长虹虹光星尘 -->
+  <g fill="#FFE066">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

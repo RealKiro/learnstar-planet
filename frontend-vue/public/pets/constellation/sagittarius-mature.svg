@@ -28,24 +28,23 @@
 
     <!-- 头部模板：青年面容·含笑·眼神安详 -->
     <g id="sag-face">
-      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#D0BCA0" stroke-width="0.8"/>
-      <!-- 短发 -->
-      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
-      <!-- 额发 -->
-      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
-      <!-- 染血痕 -->
-      <path d="M -7 -3 Q -6 -1 -7 1" stroke="#B8432E" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
-      <!-- 眉目温厚 -->
-      <path d="M -8 -1.5 Q -5 -3.2 -2 -2.4 M 8 -1.5 Q 5 -3.2 2 -2.4" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-      <!-- 眼含仁光（安详） -->
-      <ellipse cx="-4.3" cy="0.4" rx="2.3" ry="2.1" fill="#1E1008"/>
-      <ellipse cx="4.3" cy="0.4" rx="2.3" ry="2.1" fill="#1E1008"/>
-      <circle cx="-4.8" cy="-0.4" r="0.7" fill="#FFF3C4"/>
-      <circle cx="3.8" cy="-0.4" r="0.7" fill="#FFF3C4"/>
-      <!-- 鼻梁 -->
-      <path d="M 0 1.6 L 0 3.2" stroke="#C8B098" stroke-width="1" stroke-linecap="round"/>
-      <!-- 含笑 -->
-      <path d="M -3 5.4 Q 0 7.4 3 5.4" fill="none" stroke="#A89070" stroke-width="1.1" stroke-linecap="round"/>
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -8 8 Q 0 12 8 8 Q 5 12 0 12.5 Q -5 12 -8 8 Z" fill="url(#skin)" opacity="0.6"/>
+      <!-- 仁厚·星目 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2.2" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2.2" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.6" cy="0.4" r="1.4" fill="#1E1008"/>
+      <circle cx="4.6" cy="0.4" r="1.4" fill="#1E1008"/>
+      <circle cx="-5.1" cy="-0.4" r="0.5" fill="#FFF"/>
+      <circle cx="4.1" cy="-0.4" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
     </g>
   </defs>
 

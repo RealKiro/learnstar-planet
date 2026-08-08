@@ -28,27 +28,21 @@
 
     <!-- 头部模板：赤发·浓眉·虎目如日·虬髯方正威严 -->
     <g id="hanzhongli-face">
-      <ellipse cx="0" cy="0" rx="11" ry="11" fill="url(#skin)" stroke="#C8A880" stroke-width="0.9"/>
-      <!-- 赤发 -->
-      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#B8432E"/>
-      <path d="M -8 -4 L -12 -2 M 8 -4 L 12 -2" stroke="#B8432E" stroke-width="1.6" stroke-linecap="round">
-        <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="3s" repeatCount="indefinite"/>
-      </path>
-      <!-- 额发 -->
-      <path d="M -9 -3.5 Q -5 -8 0 -8 Q 5 -8 9 -3.5 Q 5 -7 0 -7 Q -5 -7 -9 -3.5 Z" fill="#B8432E"/>
-      <!-- 浓眉 -->
-      <path d="M -8.5 -1.5 Q -5 -3.2 -2 -2.4 M 8.5 -1.5 Q 5 -3.2 2 -2.4" stroke="#2E1A10" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-      <!-- 虎目如日 -->
-      <ellipse cx="-4.6" cy="0.4" rx="2.5" ry="2.2" fill="#1E1008"/>
-      <ellipse cx="4.6" cy="0.4" rx="2.5" ry="2.2" fill="#1E1008"/>
-      <circle cx="-5.1" cy="-0.4" r="0.8" fill="#FFF"/>
-      <circle cx="4.1" cy="-0.4" r="0.8" fill="#FFF"/>
-      <circle cx="-4.6" cy="0.4" r="0.7" fill="#FFE066"/>
-      <circle cx="4.6" cy="0.4" r="0.7" fill="#FFE066"/>
-      <!-- 鼻梁 -->
+      <ellipse cx="0" cy="0" rx="11" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -10 4 L 10 4 L 8 10 L -8 10 Z" fill="url(#skin)" stroke="#C8A882" stroke-width="0.5"/>
+      <!-- 赤发·虬髯 -->
+      <path d="M -4.5 7 Q -2 9 0 7.4 M 0 7.4 Q 2 9 4.5 7 M -2 9.2 Q 0 11 2 9.2" stroke="#2E1A10" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3.2 -2 -2.4 M 8 -1.5 Q 5 -3.2 2 -2.4" stroke="#2E1A10" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2" fill="#1E1008"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2" fill="#1E1008"/>
+      <circle cx="-5.1" cy="-0.4" r="0.7" fill="#FFE066"/>
+      <circle cx="4.1" cy="-0.4" r="0.7" fill="#FFE066"/>
+      <!-- 鼻 -->
       <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
-      <!-- 虬髯 -->
-      <path d="M -5 6 Q -3 8 0 6.5 M 0 6.5 Q 3 8 5 6 M -2 8.5 Q 0 10 2 8.5" stroke="#2E1A10" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
     </g>
   </defs>
 

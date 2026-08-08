@@ -28,26 +28,23 @@
 
     <!-- 头部模板：清俊面容·眉目慈悲·眼含温润 -->
     <g id="caoguojiu-face">
-      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A880" stroke-width="0.9"/>
-      <!-- 莲花冠 -->
-      <path d="M -6 -8 Q 0 -11 6 -8 Q 4 -12 0 -12 Q -4 -12 -6 -8 Z" fill="#E8D8A8" stroke="#C8B068" stroke-width="0.7"/>
-      <circle cx="0" cy="-11" r="2.6" fill="#F0C8D8"/>
-      <path d="M -2.4 -12 Q 0 -13.6 2.4 -12 Q 0 -11 0 -11 Z" fill="#F0C8D8"/>
-      <!-- 额发 -->
-      <path d="M -9 -3.5 Q -5 -8.5 0 -8.5 Q 5 -8.5 9 -3.5 Q 5 -7.5 0 -7.5 Q -5 -7.5 -9 -3.5 Z" fill="#1E1814"/>
-      <!-- 眉目慈悲 -->
-      <path d="M -8.5 -1.5 Q -5 -3.2 -2 -2.4 M 8.5 -1.5 Q 5 -3.2 2 -2.4" stroke="#1E1008" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-      <!-- 温润眼 -->
-      <ellipse cx="-4.6" cy="0.4" rx="2.3" ry="2.1" fill="#1E1008"/>
-      <ellipse cx="4.6" cy="0.4" rx="2.3" ry="2.1" fill="#1E1008"/>
-      <circle cx="-5.1" cy="-0.4" r="0.8" fill="#FFF"/>
-      <circle cx="4.1" cy="-0.4" r="0.8" fill="#FFF"/>
-      <circle cx="-4.6" cy="0.4" r="0.6" fill="#E8F4E8"/>
-      <circle cx="4.6" cy="0.4" r="0.6" fill="#E8F4E8"/>
-      <!-- 鼻梁 -->
-      <path d="M 0 1.5 L 0 3.4" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
-      <!-- 温润 -->
-      <path d="M -3.2 6 Q 0 7.4 3.2 6" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <path d="M -8 8 Q 0 12 8 8 Q 5 12 0 12.5 Q -5 12 -8 8 Z" fill="url(#skin)" opacity="0.6"/>
+      <!-- 温润·桃花眼 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.5 Q -5 -3 0 -2.6 Q 5 -3 8 -1.5" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -7.5 0.4 Q -4.5 -1.4 -1.8 -0.4 L -1.8 1 Q -4.5 0.2 -7.5 1.8 Z" fill="#1E1008"/>
+      <path d="M 7.5 0.4 Q 4.5 -1.4 1.8 -0.4 L 1.8 1 Q 4.5 0.2 7.5 1.8 Z" fill="#1E1008"/>
+      <circle cx="-4.5" cy="0.3" r="1.5" fill="#1E1008"/>
+      <circle cx="4.5" cy="0.3" r="1.5" fill="#1E1008"/>
+      <circle cx="-5" cy="-0.5" r="0.5" fill="#FFF"/>
+      <circle cx="4" cy="-0.5" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
     </g>
   </defs>
 

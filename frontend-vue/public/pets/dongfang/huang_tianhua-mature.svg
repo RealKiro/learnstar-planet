@@ -35,24 +35,22 @@
     <!-- 头部模板：少年方脸·剑眉·凤目如虹·英姿 -->
     <g id="huangtianhua-face">
       <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-      <!-- 金冠束发 -->
-      <path d="M -6 -9 Q 0 -12 6 -9 Q 4 -13 0 -13 Q -4 -13 -6 -9 Z" fill="#E8B64C"/>
-      <circle cx="0" cy="-12" r="2.2" fill="#FFE066"/>
-      <!-- 额发 -->
-      <path d="M -9.5 -4 Q -6 -8.5 0 -8.5 Q 6 -8.5 9.5 -4 Q 6 -7.5 0 -7.5 Q -6 -7.5 -9.5 -4 Z" fill="#1E1008"/>
-      <!-- 剑眉 -->
-      <path d="M -8.5 -2 Q -5 -4 -2 -3 M 8.5 -2 Q 5 -4 2 -3" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-      <!-- 凤目如虹 -->
-      <path d="M -7.5 0 Q -4.5 -1.8 -1.8 -0.8 L -1.8 0.8 Q -4.5 0 -7.5 1 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
-      <path d="M 7.5 0 Q 4.5 -1.8 1.8 -0.8 L 1.8 0.8 Q 4.5 0 7.5 1 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
-      <circle cx="-4.2" cy="-0.3" r="1.3" fill="#1E1008"/>
-      <circle cx="4.2" cy="-0.3" r="1.3" fill="#1E1008"/>
-      <circle cx="-4.7" cy="-0.8" r="0.5" fill="#FFF"/>
-      <circle cx="3.7" cy="-0.8" r="0.5" fill="#FFF"/>
-      <!-- 鼻梁 -->
-      <path d="M 0 1 L 0 3.2" stroke="#C8A882" stroke-width="1" stroke-linecap="round"/>
-      <!-- 战意唇线 -->
-      <path d="M -3.2 5.6 Q 0 7.2 3.2 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M -8 8 Q 0 12 8 8 Q 5 12 0 12.5 Q -5 12 -8 8 Z" fill="url(#skin)" opacity="0.6"/>
+      <!-- 少年·剑眉 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.8 Q -5 -3.4 -2 -2.6 M 8 -1.8 Q 5 -3.4 2 -2.6" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -8 0 Q -5 -1.8 -2 -0.9 L -2 0.9 Q -5 0 -8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <path d="M 8 0 Q 5 -1.8 2 -0.9 L 2 0.9 Q 5 0 8 1.2 Z" fill="#FFFDF2" stroke="#1E1008" stroke-width="0.7"/>
+      <circle cx="-4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="4.8" cy="-0.3" r="1.3" fill="#1E1008"/>
+      <circle cx="-5.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <circle cx="4.3" cy="-0.9" r="0.5" fill="#FFF"/>
+      <!-- 鼻 -->
+      <path d="M 0 1.5 L 0 3.6" stroke="#C0A884" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- 唇 -->
+      <path d="M -3.2 6.2 Q 0 7 3.2 6.2" fill="none" stroke="#8E5A3E" stroke-width="1.2" stroke-linecap="round"/>
     </g>
   </defs>
 

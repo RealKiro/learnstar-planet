@@ -23,20 +23,19 @@
 
     <!-- 头部模板：圆脸·细眉·眯眼含笑·逍遥 -->
     <g id="tuxingsun-face">
-      <ellipse cx="0" cy="0" rx="10.5" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
-      <!-- 束发 -->
-      <path d="M -4 -9 Q 0 -12 4 -9 Q 2 -13 0 -13 Q -2 -13 -4 -9 Z" fill="#2E2620"/>
-      <!-- 额发 -->
-      <path d="M -9 -3.5 Q -5 -8 0 -8 Q 5 -8 9 -3.5 Q 5 -7 0 -7 Q -5 -7 -9 -3.5 Z" fill="#2E2620"/>
-      <!-- 细眉 -->
-      <path d="M -8 -1.5 Q -5 -3 -2 -2.5 M 8 -1.5 Q 5 -3 2 -2.5" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-      <!-- 眯眼含笑（月牙弯） -->
-      <path d="M -7 0 Q -4.5 1.8 -2 0.8 L -2 -0.2 Q -4.5 0.8 -7 -1 Z" fill="#1E1008"/>
-      <path d="M 7 0 Q 4.5 1.8 2 0.8 L 2 -0.2 Q 4.5 0.8 7 -1 Z" fill="#1E1008"/>
-      <!-- 蒜头鼻 -->
-      <circle cx="0" cy="3.2" r="1.9" fill="#E0C0A0"/>
-      <!-- 咧嘴笑 -->
-      <path d="M -3 6 Q 0 8.2 3 6" fill="none" stroke="#B06A4A" stroke-width="1.2" stroke-linecap="round"/>
+      <ellipse cx="0" cy="0" rx="11" ry="11.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 胖腮·蒜头鼻 -->
+      
+      <!-- 眉 -->
+      <path d="M -8 -1.3 Q -5 -2.4 -2 -2 M 8 -1.3 Q 5 -2.4 2 -2" stroke="#1E1008" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+      <!-- 眼 -->
+      <path d="M -7 0.6 Q -4.5 -1.4 -1.8 -0.4 L -1.8 1.4 Q -4.5 0.6 -7 2.2 Z" fill="#1E1008"/>
+      <path d="M 7 0.6 Q 4.5 -1.4 1.8 -0.4 L 1.8 1.4 Q 4.5 0.6 7 2.2 Z" fill="#1E1008"/>
+      <!-- 鼻 -->
+      <circle cx="0" cy="3.4" r="2" fill="#C8A880"/>
+      <path d="M -2 4.4 Q 0 4.8 2 4.4" stroke="#B8A080" stroke-width="0.8" fill="none"/>
+      <!-- 唇 -->
+      <path d="M -3 5.6 Q 0 7.6 3 5.6" fill="none" stroke="#B06A4A" stroke-width="1.1" stroke-linecap="round"/>
     </g>
   </defs>
 
