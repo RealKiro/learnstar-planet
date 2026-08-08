@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="蓝兔·二阶·玉蟾宫围·雪染宫阙浴血守宫">
+  <defs>
+    <!-- 背景：宫难战火 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E2E3E"/>
+      <stop offset="52%" stop-color="#4E2030"/>
+      <stop offset="100%" stop-color="#30141E"/>
+    </linearGradient>
+    <!-- 冲天烈焰 -->
+    <radialGradient id="fire" cx="72%" cy="40%" r="52%">
+      <stop offset="0%" stop-color="#E8623A" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#E8623A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 冰魄蓝 -->
+    <radialGradient id="ice" cx="50%" cy="58%" r="42%">
+      <stop offset="0%" stop-color="#9AC8F0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#9AC8F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 蓝毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E8EC8"/>
+      <stop offset="100%" stop-color="#2E6EA8"/>
+    </linearGradient>
+    <!-- 素衣染血 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8DEE4"/>
+      <stop offset="100%" stop-color="#A8B4BE"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0DCC6"/>
+      <stop offset="100%" stop-color="#DCC8B2"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 冲天烈焰 -->
+  <circle cx="150" cy="88" r="72" fill="url(#fire)">
+    <animate attributeName="opacity" values="0.8;0.45;0.8" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 火舌 -->
+  <g fill="#E8623A" opacity="0.8">
+    <path d="M 152 56 Q 146 44 152 36 Q 158 44 156 52 Z">
+      <animate attributeName="opacity" values="0.8;0.35;0.8" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 164 68 Q 170 58 166 48 Q 160 58 162 66 Z">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.9s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 玉蟾宫（战火中） -->
+  <g opacity="0.7">
+    <path d="M 120 92 Q 116 74 122 66 Q 130 66 134 80 L 134 92 Z" fill="#3E2A2E"/>
+    <path d="M 122 70 L 126 58 M 130 70 L 132 60" stroke="#C85A3E" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- 被掳姐妹虚影（左） -->
+  <g opacity="0.4">
+    <path d="M 56 132 Q 58 122 62 119 Q 66 121 66 132 Z" fill="#6E5A78"/>
+    <circle cx="63" cy="117" r="4.5" fill="#D8C8E0"/>
+  </g>
+
+  <!-- 雪染红 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#4E2430" opacity="0.85"/>
+  <path d="M 0 150 L 200 150" stroke="#6E3A44" stroke-width="1.4" opacity="0.7"/>
+
+  <!-- 蓝毛白兔（5头身，染血守宫，冰魄剑封霜） -->
+  <!-- 腿 -->
+  <path d="M 84 134 L 80 156 L 86 156 L 90 136 Z" fill="#2E6EA8"/>
+  <path d="M 100 134 L 108 158 L 102 158 L 96 136 Z" fill="#2E6EA8"/>
+  <!-- 素衣染血 -->
+  <path d="M 84 100 Q 80 118 86 134 Q 96 140 104 134 Q 110 118 106 100 Q 96 94 84 100 Z" fill="url(#robe)" stroke="#8E9AA6" stroke-width="1"/>
+  <!-- 血痕 -->
+  <path d="M 90 110 Q 92 116 89 122" stroke="#C8483E" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+  <!-- 披帛断角 -->
+  <path d="M 106 102 L 114 94" stroke="#7EA8C8" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- 腰间冰魄坠 -->
+  <circle cx="96" cy="120" r="2.2" fill="#7EB8E8" stroke="#D8F0FC" stroke-width="0.5"/>
+  <!-- 尾巴（垂） -->
+  <circle cx="110" cy="128" r="3" fill="#D8DEE4"/>
+
+  <!-- 头（兔脸，含泪冷静，蓝毛微乱） -->
+  <ellipse cx="95" cy="96" rx="10.5" ry="11" fill="url(#fur)" stroke="#2E6EA8" stroke-width="0.8"/>
+  <!-- 兔耳（略垂） -->
+  <path d="M 87 88 Q 82 76 85 66 Q 90 66 91 78 Q 91 84 93 88 Z" fill="#4E8EC8" stroke="#2E6EA8" stroke-width="0.8"/>
+  <path d="M 103 88 Q 108 76 105 66 Q 100 66 99 78 Q 99 84 97 88 Z" fill="#4E8EC8" stroke="#2E6EA8" stroke-width="0.8"/>
+  <!-- 内耳粉 -->
+  <path d="M 87 86 Q 84 78 86 72 Q 89 73 89 80 Z" fill="#DCA8BC"/>
+  <path d="M 103 86 Q 106 78 104 72 Q 101 73 101 80 Z" fill="#DCA8BC"/>
+  <!-- 白脸斑 -->
+  <ellipse cx="95" cy="100" rx="6.5" ry="5" fill="#F0DCC6"/>
+  <!-- 兔眼含泪冷静 -->
+  <circle cx="90" cy="94" r="2.8" fill="#1E1008"/>
+  <circle cx="100" cy="94" r="2.8" fill="#1E1008"/>
+  <circle cx="91" cy="93" r="1" fill="#FFF"/>
+  <circle cx="101" cy="93" r="1" fill="#FFF"/>
+  <!-- 泪光 -->
+  <path d="M 88 96 Q 87 98 88 100" stroke="#B8E8F8" stroke-width="1.1" stroke-linecap="round" opacity="0.8">
+    <animate attributeName="cy" values="96;101;96" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+  <!-- 兔鼻 -->
+  <path d="M 93 99 L 95 101 L 97 99" fill="none" stroke="#C85A78" stroke-width="0.9" stroke-linecap="round"/>
+  <!-- 悲愤抿唇 -->
+  <path d="M 91 103 Q 95 104.4 99 103" fill="none" stroke="#8E5A6E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左臂（持冰魄剑，封霜） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 76 106;3 76 106;-4 76 106" dur="2s" repeatCount="indefinite"/>
+    <path d="M 88 106 C 82 110 78 114 76 120" fill="none" stroke="#D8DEE4" stroke-width="3.8" stroke-linecap="round"/>
+    <circle cx="75" cy="122" r="3" fill="#F0DCC6"/>
+    <!-- 冰魄剑 -->
+    <line x1="75" y1="120" x2="52" y2="146" stroke="#B8E8F8" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 52 146 L 50 152" stroke="#B8E8F8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 一剑封霜 -->
+    <path d="M 52 146 Q 42 154 36 160" stroke="#9AC8F0" stroke-width="1.6" opacity="0.8" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 右手（剑指，含恨） -->
+  <path d="M 102 106 C 108 102 112 98 114 92" fill="none" stroke="#D8DEE4" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="115" cy="90" r="2.8" fill="#F0DCC6"/>
+
+  <!-- 冰魄星尘 -->
+  <g fill="#9AC8F0">
+    <circle cx="36" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
