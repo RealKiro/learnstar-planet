@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="曹国舅·二阶·良心难安·见弟为恶锦衣如芒刺">
+  <defs>
+    <!-- 背景：华庭月夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E5A72"/>
+      <stop offset="52%" stop-color="#4A4658"/>
+      <stop offset="100%" stop-color="#3A3646"/>
+    </linearGradient>
+    <!-- 月白 -->
+    <radialGradient id="moon" cx="76%" cy="26%" r="30%">
+      <stop offset="0%" stop-color="#E8F0FA" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#E8F0FA" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 烛火金 -->
+    <radialGradient id="candle" cx="30%" cy="70%" r="40%">
+      <stop offset="0%" stop-color="#E8A84E" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#E8A84E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 锦袍金 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C0A04E"/>
+      <stop offset="100%" stop-color="#8E7E3E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0D0B4"/>
+      <stop offset="100%" stop-color="#D8B894"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 月 -->
+  <circle cx="156" cy="48" r="40" fill="url(#moon)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="156" cy="48" r="10" fill="#E8F0FA" opacity="0.85"/>
+
+  <!-- 金屋（背景，生寒） -->
+  <path d="M 0 0 L 96 0 L 82 16 Q 54 26 28 24 Z" fill="#6E5A4E"/>
+  <path d="M 0 0 L 96 0" stroke="#8E7A5E" stroke-width="1.2"/>
+  <!-- 窗外百姓指点影 -->
+  <g opacity="0.4">
+    <path d="M 140 120 Q 142 110 146 107 Q 150 109 150 120 Z" fill="#2E2A38"/>
+    <path d="M 156 124 Q 157 114 161 111 Q 165 113 164 124 Z" fill="#2A2634"/>
+  </g>
+
+  <!-- 烛台 -->
+  <path d="M 48 108 L 44 114 L 52 114 Z" fill="#6E5A3E"/>
+  <circle cx="48" cy="106" r="4" fill="#E8A84E">
+    <animate attributeName="r" values="4;5;4" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#2E2A38" opacity="0.8"/>
+  <path d="M 0 148 L 200 148" stroke="#423E4E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 锦袍公子（独坐，烛火明灭，眉间忧色） -->
+  <!-- 腿（坐） -->
+  <path d="M 88 138 Q 94 148 108 146 Q 112 142 110 136 Q 102 144 94 138 Z" fill="#8E7E5E"/>
+  <!-- 锦袍 -->
+  <path d="M 90 108 Q 86 124 92 140 Q 100 146 108 140 Q 114 124 110 108 Q 100 102 90 108 Z" fill="url(#robe)" stroke="#8E6E2E" stroke-width="1"/>
+  <!-- 玉带 -->
+  <path d="M 90 122 L 110 122" stroke="#FFFFFF" stroke-width="2"/>
+
+  <!-- 头（俊逸面容，眉微蹙，眼含愧意） -->
+  <circle cx="100" cy="100" r="10.5" fill="url(#skin)" stroke="#C8A880" stroke-width="0.9"/>
+  <!-- 束发莲花冠（微乱） -->
+  <path d="M 90 92 Q 100 85 110 92 L 108 88 Q 100 81 92 88 Z" fill="#D8C8A8" stroke="#B8A868" stroke-width="0.8"/>
+  <path d="M 92 90 Q 88 86 92 82" stroke="#1E1814" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- 额发 -->
+  <path d="M 90 98 Q 94 93 100 93 Q 106 93 110 98 Q 106 94 100 94 Q 94 94 90 98 Z" fill="#1E1814"/>
+  <!-- 眉微蹙 -->
+  <path d="M 91 98 Q 95 96.8 98 97.4 M 102 97.4 Q 105 96.8 109 98" stroke="#1E1008" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <!-- 眼含愧意 -->
+  <path d="M 92 102 Q 95 100.8 97 101.4 M 103 101.4 Q 105 100.8 108 102" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  <circle cx="95" cy="101.5" r="2.2" fill="#1E1008" opacity="0.85"/>
+  <circle cx="105" cy="101.5" r="2.2" fill="#1E1008" opacity="0.85"/>
+  <!-- 鼻梁 -->
+  <path d="M 100 103.5 L 100 106" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+  <!-- 嘴角抿紧 -->
+  <path d="M 95 110 Q 100 109.2 105 110" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- 左臂撑膝（垂首） -->
+  <path d="M 92 110 C 88 114 86 118 88 124" fill="none" stroke="#C0A04E" stroke-width="4.2" stroke-linecap="round"/>
+
+  <!-- 右臂抚心（良心之灼） -->
+  <path d="M 108 110 C 112 114 114 118 112 124" fill="none" stroke="#C0A04E" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="111" cy="116" r="3" fill="#D8B894"/>
+
+  <!-- 良心之灼（心口一点青影/火光） -->
+  <circle cx="100" cy="114" r="12" fill="#8EA8C8" opacity="0.15">
+    <animate attributeName="opacity" values="0.15;0.08;0.15" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="114" r="4" fill="#E8A84E" opacity="0.4">
+    <animate attributeName="r" values="4;5.5;4" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 愧影青尘 -->
+  <g fill="#8EA8C8">
+    <circle cx="44" cy="110">
+      <animate attributeName="cy" values="110;102;110" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.1;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
