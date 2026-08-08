@@ -160,6 +160,16 @@ function getLevelColor(lv: number): string {
   return '#6B7280'
 }
 
+/** 宠物阶段（用于卡片光晕分档）：1-2 新生 / 3-4 幼年 / 5-6 成长期 / 7-8 成熟期 / 9-10 传说级 / 11-12 道果 */
+function getStageForLevel(level: number): string {
+  if (level >= 11) return 'transcendent'
+  if (level >= 9) return 'legendary'
+  if (level >= 7) return 'mature'
+  if (level >= 5) return 'growing'
+  if (level >= 3) return 'baby'
+  return 'egg'
+}
+
 function getStudentPetSpecies(student: Student): string {
   // 优先真实宠物，无则兜底演示映射
   if (student.pet_species) return student.pet_species
@@ -475,10 +485,13 @@ onMounted(() => {
           :key="s.id"
           :id="'card-' + s.id"
           class="student-card"
-          :class="{ 'card--selected': isSelected(s.id) }"
+          :class="[
+            'stage-' + getStageForLevel(s.pet_level || calcLevel(s.total_score)),
+            { 'card--selected': isSelected(s.id) },
+          ]"
           :style="{ '--card-color': getLevelColor(calcLevel(s.total_score)) }"
         >
-          <!-- 圆孔多选框 -->
+          <!-- 圆孔多选框（左上） -->
           <div
             class="pick-circle"
             :class="{ picked: isSelected(s.id) }"
@@ -491,29 +504,26 @@ onMounted(() => {
           </div>
           <!-- 等级徽章（右上） -->
           <span class="card-level" :style="{ background: getLevelColor(calcLevel(s.total_score)) + '22', color: getLevelColor(calcLevel(s.total_score)) }">
-            Lv.{{ calcLevel(s.total_score) }}
+            Lv.{{ s.pet_level || calcLevel(s.total_score) }}
           </span>
 
-          <!-- 名片头部：圆形宠物头像 + 身份 -->
-          <div class="card-head">
-            <div class="card-avatar" :style="{ '--ring-color': getLevelColor(calcLevel(s.total_score)) }">
-              <PetSprite :species-id="getStudentPetSpecies(s)" :level="s.pet_level || 1" :animate="true" />
-            </div>
-            <div class="card-identity">
-              <div class="card-name">{{ s.name }}</div>
-              <div class="card-meta">
-                <span class="card-no" v-if="s.student_no">学号 {{ s.student_no }}</span>
-                <span class="card-pet-name" v-if="s.pet_name">{{ s.pet_name }}</span>
-              </div>
-            </div>
+          <!-- 顶部：姓名 · 宠物名 -->
+          <div class="card-title-row">
+            <span class="card-name">{{ s.name }}</span>
+            <span class="card-pet-name" v-if="s.pet_name">{{ s.pet_name }}</span>
           </div>
 
-          <!-- 数据区：积分 + 进度 -->
-          <div class="card-score">
-            <span class="score-label">⭐ 积分</span>
+          <!-- 中部主视觉：宠物大图居中 + 阶段光晕 -->
+          <div class="pet-stage">
+            <PetSprite :species-id="getStudentPetSpecies(s)" :level="s.pet_level || 1" :animate="true" />
+          </div>
+
+          <!-- 数据：积分 · 学号 -->
+          <div class="card-meta-row">
             <span class="score-num" :style="{ color: getLevelColor(calcLevel(s.total_score)) }">
               {{ s.total_score }}
             </span>
+            <span class="card-no" v-if="s.student_no">📛{{ s.student_no }}</span>
           </div>
           <div class="card-progress">
             <div
@@ -860,27 +870,28 @@ onMounted(() => {
   font-size: 16px;
 }
 
-/* 名片式学生卡片 */
+/* 养宠大图卡 */
 .student-card {
+  position: relative;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: 18px;
-  padding: 14px 14px 12px;
+  padding: 14px 12px 12px;
   transition: all 0.25s ease;
-  position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 .student-card::before {
   content: '';
   position: absolute;
   left: 0;
+  right: 0;
   top: 0;
-  bottom: 0;
-  width: 4px;
+  height: 4px;
   background: var(--card-color, #6B7280);
-  border-radius: 18px 0 0 18px;
 }
 .student-card:hover {
   transform: translateY(-3px);
@@ -894,10 +905,10 @@ onMounted(() => {
 /* 圆孔多选框 */
 .pick-circle {
   position: absolute;
-  left: 12px;
-  top: 12px;
-  width: 20px;
-  height: 20px;
+  left: 10px;
+  top: 14px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 2px solid var(--color-border);
   display: flex;
@@ -906,7 +917,7 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.15s ease;
   background: var(--color-bg-card);
-  z-index: 2;
+  z-index: 3;
 }
 .pick-circle:hover {
   border-color: var(--color-primary);
@@ -920,37 +931,23 @@ onMounted(() => {
 /* 等级徽章（右上） */
 .card-level {
   position: absolute;
-  right: 12px;
-  top: 12px;
+  right: 10px;
+  top: 14px;
   font-size: 12px;
   font-weight: 700;
   padding: 2px 10px;
   border-radius: 12px;
-  z-index: 2;
+  z-index: 3;
 }
 
-/* 名片头部：头像 + 身份 */
-.card-head {
+/* 顶部：姓名 · 宠物名 */
+.card-title-row {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 10px 0 8px;
-}
-.card-avatar {
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 2px solid var(--ring-color, #6B7280);
-  background: var(--color-bg);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--ring-color, #6B7280) 22%, transparent);
-}
-.card-identity {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 0 32px; /* 避开多选框与徽章 */
+  max-width: 100%;
 }
 .card-name {
   font-size: 16px;
@@ -959,45 +956,64 @@ onMounted(() => {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.card-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.card-pet-name {
   font-size: 11px;
   color: var(--color-text-secondary);
-}
-.card-no {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  padding: 1px 8px;
-  border-radius: 10px;
-}
-.card-pet-name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.card-score {
+/* 中部主视觉：宠物大图 + 阶段光晕 */
+.pet-stage {
+  width: 116px;
+  height: 116px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
 }
-.score-label { font-size: 12px; color: var(--color-text-secondary); }
-.score-num { font-size: 18px; font-weight: 800; }
+.student-card:hover .pet-stage {
+  transform: scale(1.06);
+}
+.stage-egg .pet-stage { box-shadow: 0 0 10px rgba(148,163,184,0.18); }
+.stage-baby .pet-stage { box-shadow: 0 0 12px rgba(16,185,129,0.18); }
+.stage-growing .pet-stage { box-shadow: 0 0 14px rgba(59,130,246,0.22); }
+.stage-mature .pet-stage { box-shadow: 0 0 18px rgba(139,92,246,0.26); }
+.stage-legendary .pet-stage { box-shadow: 0 0 24px rgba(245,158,11,0.30); }
+.stage-transcendent .pet-stage { box-shadow: 0 0 28px rgba(216,180,254,0.34), 0 0 46px rgba(255,255,255,0.06); }
+
+/* 数据行：积分 · 学号 */
+.card-meta-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+.score-num { font-size: 22px; font-weight: 800; }
+.card-no {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  padding: 1px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+}
 
 .card-progress {
-  height: 4px;
+  width: 100%;
+  height: 5px;
   background: var(--color-border);
-  border-radius: 2px;
+  border-radius: 3px;
   overflow: hidden;
-  margin-bottom: 10px;
 }
 .progress-fill {
   height: 100%;
   background: var(--gradient-primary);
-  border-radius: 2px;
+  border-radius: 3px;
   transition: width 0.4s ease;
 }
 
@@ -1005,10 +1021,10 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   padding-top: 8px;
   border-top: 1px solid var(--color-border);
-  margin-top: auto;
+  width: 100%;
 }
 .action-btn {
   width: 36px;

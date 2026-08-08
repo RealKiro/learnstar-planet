@@ -304,6 +304,7 @@ onMounted(() => fetchData('total'))
   width: 56px;
   height: 56px;
   border-radius: 50%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
