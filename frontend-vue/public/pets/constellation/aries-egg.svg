@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="白羊座·穆·一阶·星屑初醒·师从史昂小宇宙初醒">
+  <defs>
+    <!-- 背景：圣域夜空 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E3E5E"/>
+      <stop offset="52%" stop-color="#1E2E4E"/>
+      <stop offset="100%" stop-color="#141E38"/>
+    </linearGradient>
+    <!-- 星屑微光 -->
+    <radialGradient id="stardust" cx="50%" cy="44%" r="54%">
+      <stop offset="0%" stop-color="#C8E0F8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#C8E0F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜学徒服 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8EA0B0"/>
+      <stop offset="100%" stop-color="#5E7484"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 夜穹群星 -->
+  <g fill="#E8F0FA">
+    <circle cx="30" cy="40" r="1.3"/><circle cx="60" cy="20" r="1"/>
+    <circle cx="160" cy="34" r="1.2"/><circle cx="180" cy="70" r="1"/>
+    <circle cx="90" cy="16" r="0.8"/>
+  </g>
+  <!-- 星屑微光 -->
+  <circle cx="100" cy="100" r="70" fill="url(#stardust)">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 圣衣架（右，工具） -->
+  <g opacity="0.6">
+    <path d="M 160 60 L 160 130" stroke="#5E7484" stroke-width="2.4"/>
+    <path d="M 152 60 L 168 60" stroke="#5E7484" stroke-width="1.4"/>
+    <path d="M 148 70 L 172 70" stroke="#5E7484" stroke-width="1.4"/>
+    <!-- 架上圣衣残片 -->
+    <path d="M 152 74 Q 160 70 168 74 Q 168 84 160 84 Q 152 84 152 74 Z" fill="#A8B8C8" opacity="0.8"/>
+  </g>
+
+  <!-- 圣域地面 -->
+  <path d="M 0 156 L 200 156 L 200 200 L 0 200 Z" fill="#22304A" opacity="0.8"/>
+  <path d="M 0 156 L 200 156" stroke="#3A4A62" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 青铜学徒少年（5头身，闭目冥想） -->
+  <!-- 腿（盘坐） -->
+  <path d="M 88 140 Q 94 148 106 144 Q 110 140 108 134 Q 100 144 92 138 Z" fill="#5E7484"/>
+  <!-- 青铜学徒服 -->
+  <path d="M 88 102 Q 84 120 90 140 Q 100 146 108 140 Q 114 120 110 102 Q 100 96 88 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 88 118 L 110 118" stroke="#A8B8C8" stroke-width="1.6"/>
+  <!-- 腰间工具袋 -->
+  <rect x="90" y="120" width="8" height="10" rx="2" fill="#6E7E8E" stroke="#5E6E7E" stroke-width="0.8"/>
+  <path d="M 92 124 L 96 124" stroke="#8EA0B0" stroke-width="0.8"/>
+
+  <!-- 头（少年面容，束发，闭目冥想） -->
+  <circle cx="99" cy="94" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 束发 -->
+  <path d="M 95 85 Q 99 82 103 85 Q 101 80 99 80 Q 97 80 95 85 Z" fill="#2E2620"/>
+  <!-- 额发 -->
+  <path d="M 90 92 Q 94 87 99 87 Q 104 87 108 92 Q 104 88 99 88 Q 94 88 90 92 Z" fill="#2E2620"/>
+  <!-- 眉目温柔 -->
+  <path d="M 91 92 Q 95 90.5 98 91 M 100 91 Q 103 90.5 107 92" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  <!-- 闭目冥想 -->
+  <path d="M 93 95 Q 95.5 96.4 98 95 M 102 95 Q 104.5 96.4 107 95" stroke="#1E1008" stroke-width="1" stroke-linecap="round" fill="none"/>
+  <!-- 鼻梁 -->
+  <path d="M 99 97 L 99 99" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+  <!-- 含笑 -->
+  <path d="M 95 102 Q 99 103.8 103 102" fill="none" stroke="#8E5A3E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 双手结印于膝（冥想） -->
+  <circle cx="94" cy="132" r="3.2" fill="#DCC4A0"/>
+  <circle cx="106" cy="132" r="3.2" fill="#DCC4A0"/>
+
+  <!-- 小宇宙星屑（身周） -->
+  <g fill="#C8E0F8">
+    <circle cx="84" cy="110">
+      <animate attributeName="cy" values="110;102;110" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="114" cy="104">
+      <animate attributeName="cy" values="104;96;104" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.15;0.7" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="120">
+      <animate attributeName="cy" values="120;114;120" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.12;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#E8F0FA">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

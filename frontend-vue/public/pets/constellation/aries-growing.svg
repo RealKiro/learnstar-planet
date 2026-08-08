@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="白羊座·穆·三阶·水晶墙·第七感星光灭绝初成">
+  <defs>
+    <!-- 背景：白羊宫前夜穹 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E4E72"/>
+      <stop offset="52%" stop-color="#2E3E5E"/>
+      <stop offset="100%" stop-color="#1E2E4E"/>
+    </linearGradient>
+    <!-- 水晶透蓝 -->
+    <radialGradient id="crystal" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#9AC8E8" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#9AC8E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 星光灭绝 -->
+    <radialGradient id="star" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF7E0" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#C8E0F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜圣衣 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#B8C8D8"/>
+      <stop offset="100%" stop-color="#8E9EAE"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+
+    <!-- 头部模板：少年面容·眉目坚定·眼含星光（脸中心 0,0） -->
+    <g id="aries-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+      <!-- 束发 -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 眉目坚定 -->
+      <path d="M -8 -1.5 Q -5 -3.2 -2 -2.4 M 8 -1.5 Q 5 -3.2 2 -2.4" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <!-- 眼含星光 -->
+      <ellipse cx="-4.2" cy="0.4" rx="2.1" ry="1.9" fill="#1E1008"/>
+      <ellipse cx="4.2" cy="0.4" rx="2.1" ry="1.9" fill="#1E1008"/>
+      <circle cx="-4.7" cy="-0.4" r="0.7" fill="#FFF"/>
+      <circle cx="3.7" cy="-0.4" r="0.7" fill="#FFF"/>
+      <circle cx="-4.2" cy="0.4" r="0.6" fill="#C8E0F8"/>
+      <circle cx="4.2" cy="0.4" r="0.6" fill="#C8E0F8"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.6 L 0 3.2" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+      <!-- 坚定 -->
+      <path d="M -3 5.4 Q 0 6.8 3 5.4" fill="none" stroke="#8E5A3E" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 水晶墙（月幕，左侧，折射星光） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 30 60 Q 54 52 78 60 Q 90 64 90 72 L 90 132 Q 60 140 30 132 Z" fill="url(#crystal)" opacity="0.6"/>
+    <!-- 水晶折射光 -->
+    <path d="M 40 70 L 78 66 M 40 84 L 80 80 M 40 98 L 82 94" stroke="#C8E0F8" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+    <!-- 水晶月幕边框 -->
+    <path d="M 30 60 Q 54 52 78 60 L 90 72 L 90 132 Q 60 140 30 132 Z" fill="none" stroke="#C8E0F8" stroke-width="1.6" opacity="0.7"/>
+  </g>
+
+  <!-- 指尖星光灭绝（右上，如流星） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 -3;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="138" cy="56" r="12" fill="url(#star)">
+      <animate attributeName="r" values="12;17;12" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 流星尾迹 -->
+    <path d="M 138 56 L 122 40 M 140 60 L 128 42" stroke="#FFF7E0" stroke-width="1.8" opacity="0.7" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 星屑 -->
+    <g fill="#C8E0F8">
+      <circle cx="150" cy="48" r="1.5"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="146" cy="68" r="1.2"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="2.4s" repeatCount="indefinite"/></circle>
+    </g>
+  </g>
+
+  <!-- 圣域地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#22304A" opacity="0.8"/>
+  <path d="M 0 150 L 200 150" stroke="#3A4A62" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 少年圣斗士（6头身，双臂交叉） -->
+  <!-- 腿 -->
+  <path d="M 88 134 L 84 156 L 90 156 L 94 136 Z" fill="#8E9EAE"/>
+  <path d="M 106 134 L 114 158 L 108 158 L 102 136 Z" fill="#8E9EAE"/>
+  <!-- 青铜圣衣（下摆） -->
+  <path d="M 88 124 Q 98 132 110 124 Q 114 118 110 110 Q 104 122 96 118 Q 88 122 88 124 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 88 94 Q 84 108 90 124 Q 100 130 110 124 Q 116 108 112 94 Q 100 88 88 94 Z" fill="url(#armor)" stroke="#6E7E8E" stroke-width="1"/>
+  <!-- 圣衣纹 -->
+  <path d="M 92 100 L 96 118 M 104 100 L 100 118" stroke="#C8D8E8" stroke-width="1" opacity="0.7"/>
+  <!-- 白羊角（新月，头盔） -->
+  <path d="M 90 88 Q 84 80 86 72" stroke="#B8C8D8" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M 110 88 Q 116 80 114 72" stroke="#B8C8D8" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <!-- 腰带 -->
+  <path d="M 88 108 L 112 108" stroke="#C8D8E8" stroke-width="1.6"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#aries-face" transform="translate(100,86) scale(1)"/>
+
+  <!-- 左臂（交叉） -->
+  <path d="M 90 98 C 84 102 82 106 84 112" fill="none" stroke="#B8C8D8" stroke-width="4.4" stroke-linecap="round"/>
+  <circle cx="84" cy="114" r="3.2" fill="#DCC4A0"/>
+
+  <!-- 右臂（交叉，指尖向天） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-3 110 98;3 110 98;-3 110 98" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 108 98 C 114 96 118 92 120 86" fill="none" stroke="#B8C8D8" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="121" cy="84" r="3" fill="#DCC4A0"/>
+    <!-- 指尖星光灭绝 -->
+    <path d="M 122 84 L 126 76" stroke="#FFF7E0" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星屑尘 -->
+  <g fill="#C8E0F8">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

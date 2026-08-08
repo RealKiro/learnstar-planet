@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="白羊座·穆·二阶·圣衣修复·星光缝合裂纹">
+  <defs>
+    <!-- 背景：白羊宫工坊暖光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8E8070"/>
+      <stop offset="52%" stop-color="#6E6052"/>
+      <stop offset="100%" stop-color="#4E4438"/>
+    </linearGradient>
+    <!-- 工坊暖光 -->
+    <radialGradient id="glow" cx="50%" cy="44%" r="55%">
+      <stop offset="0%" stop-color="#E8C07A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E8C07A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 星光缝合 -->
+    <radialGradient id="stitch" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C8E0F8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#C8E0F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜学徒服 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8EA0B0"/>
+      <stop offset="100%" stop-color="#5E7484"/>
+    </linearGradient>
+    <!-- 圣衣金 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8D8A8"/>
+      <stop offset="100%" stop-color="#B8A878"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2DEC2"/>
+      <stop offset="100%" stop-color="#DCC4A0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="100" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 工坊背景（工具与典籍） -->
+  <g opacity="0.5">
+    <rect x="18" y="40" width="8" height="70" rx="2" fill="#5E4E3E"/>
+    <rect x="32" y="52" width="8" height="58" rx="2" fill="#6E5E4E"/>
+    <path d="M 168 40 L 176 40 L 176 110 L 168 110 Z" fill="#5E4E3E"/>
+    <!-- 典籍 -->
+    <rect x="150" y="52" width="14" height="9" rx="1" fill="#A8906E"/>
+    <rect x="150" y="64" width="14" height="9" rx="1" fill="#B8A07E"/>
+  </g>
+
+  <!-- 圣衣（工作台上，泛金光） -->
+  <g>
+    <path d="M 40 130 L 160 130 L 164 140 L 36 140 Z" fill="#5E4E3E"/>
+    <path d="M 40 130 L 160 130" stroke="#7E6E5E" stroke-width="1.4" opacity="0.7"/>
+    <!-- 圣衣部件（胸甲） -->
+    <path d="M 96 96 Q 90 108 98 122 Q 104 126 110 122 Q 118 108 112 96 Q 104 90 96 96 Z" fill="url(#armor)" stroke="#9E8E5E" stroke-width="1.2"/>
+    <!-- 裂纹 -->
+    <path d="M 100 102 L 106 110 L 102 116" stroke="#6E5E3E" stroke-width="1.2" fill="none" opacity="0.8"/>
+    <path d="M 108 100 L 112 106" stroke="#6E5E3E" stroke-width="1" fill="none" opacity="0.7"/>
+    <!-- 圣衣泛光 -->
+    <circle cx="104" cy="108" r="22" fill="url(#stitch)" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.2;0.4" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 星光缝合（丝线） -->
+  <g stroke="#C8E0F8" stroke-width="1.3" stroke-linecap="round" opacity="0.8">
+    <path d="M 100 102 Q 102 106 106 110 Q 104 113 102 116">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 106 100 Q 109 103 112 106">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年（俯身修复，专注） -->
+  <!-- 腿 -->
+  <path d="M 66 138 L 62 158 L 68 158 L 72 140 Z" fill="#5E7484"/>
+  <path d="M 82 138 L 90 162 L 84 162 L 78 140 Z" fill="#5E7484"/>
+  <!-- 学徒服 -->
+  <path d="M 66 102 Q 62 118 68 138 Q 76 144 84 138 Q 90 118 86 102 Q 76 96 66 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 66 118 L 84 118" stroke="#A8B8C8" stroke-width="1.4"/>
+
+  <!-- 头（俯身，专注，眼含星光） -->
+  <circle cx="76" cy="94" r="10" fill="url(#skin)" stroke="#C8A882" stroke-width="0.8"/>
+  <!-- 束发 -->
+  <path d="M 72 85 Q 76 82 80 85 Q 78 80 76 80 Q 74 80 72 85 Z" fill="#2E2620"/>
+  <!-- 额发 -->
+  <path d="M 67 92 Q 71 87 76 87 Q 81 87 85 92 Q 81 88 76 88 Q 71 88 67 92 Z" fill="#2E2620"/>
+  <!-- 眉目专注 -->
+  <path d="M 68 92 Q 71 90.5 74 91 M 78 91 Q 81 90.5 84 92" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  <!-- 眼含星光 -->
+  <circle cx="72" cy="94.6" r="2.2" fill="#1E1008"/>
+  <circle cx="80" cy="94.6" r="2.2" fill="#1E1008"/>
+  <circle cx="73" cy="93.8" r="0.7" fill="#C8E0F8"/>
+  <circle cx="81" cy="93.8" r="0.7" fill="#C8E0F8"/>
+  <!-- 鼻梁 -->
+  <path d="M 76 96.5 L 76 98.5" stroke="#C0A884" stroke-width="1" stroke-linecap="round"/>
+  <!-- 专注抿唇 -->
+  <path d="M 71 102 Q 76 103 81 102" fill="none" stroke="#8E5A3E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左臂持小锤（敲） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 68 106;3 68 106;-4 68 106" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M 68 106 C 62 110 58 112 56 118" fill="none" stroke="#7E8E9E" stroke-width="3.6" stroke-linecap="round"/>
+    <circle cx="55" cy="120" r="2.8" fill="#DCC4A0"/>
+    <!-- 小锤 -->
+    <line x1="55" y1="120" x2="52" y2="128" stroke="#5E4E3E" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 48 128 L 56 128 L 55 133 L 49 133 Z" fill="#A8906E"/>
+  </g>
+
+  <!-- 右手（扶圣衣） -->
+  <path d="M 84 106 C 90 108 94 112 96 116" fill="none" stroke="#7E8E9E" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="98" cy="118" r="2.8" fill="#DCC4A0"/>
+
+  <!-- 星光星尘 -->
+  <g fill="#C8E0F8">
+    <circle cx="120" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.15;0.7" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="40" cy="90">
+      <animate attributeName="cy" values="90;82;90" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.12;0.6" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
