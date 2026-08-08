@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="江豚·四阶·护江初成·渔网横江冲前吻顶引鱼群绕网笑脸">
+  <defs>
+    <!-- 背景：长江江心 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4E8AB0"/>
+      <stop offset="52%" stop-color="#5EA0C0"/>
+      <stop offset="100%" stop-color="#7AC0D8"/>
+    </linearGradient>
+    <!-- 水光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="50%">
+      <stop offset="0%" stop-color="#D8F0F8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#D8F0F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灰黑身 -->
+    <radialGradient id="body" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#7E8A90"/>
+      <stop offset="100%" stop-color="#525E64"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 江面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#5EA0C0" opacity="0.8"/>
+  <g stroke="#B8E0F0" stroke-width="1.2" stroke-linecap="round" opacity="0.5">
+    <path d="M 0 156 Q 60 150 120 156 Q 160 160 200 154">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 横江的渔网（右） -->
+  <g>
+    <g stroke="#7A6A5A" stroke-width="0.8" opacity="0.7">
+      <path d="M 140 92 L 176 116"/>
+      <path d="M 136 98 L 172 122"/>
+      <path d="M 132 104 L 168 128"/>
+      <path d="M 128 110 L 164 134"/>
+    </g>
+    <g stroke="#8E7E6E" stroke-width="1.2" opacity="0.8">
+      <path d="M 138 96 L 170 118" stroke-dasharray="4 4"/>
+    </g>
+  </g>
+
+  <!-- 被引的鱼群（右后，绕网） -->
+  <g opacity="0.9">
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="142" cy="128" rx="4" ry="2.5" fill="#C89858" stroke="#A87838" stroke-width="0.4"/>
+    <ellipse cx="132" cy="133" rx="3.5" ry="2" fill="#D0A868" stroke="#B08848" stroke-width="0.4"/>
+    <ellipse cx="154" cy="132" rx="3" ry="2" fill="#C89858" stroke="#A87838" stroke-width="0.4"/>
+  </g>
+
+  <!-- 护江的江豚（中，吻顶引鱼） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 圆身 -->
+    <ellipse cx="96" cy="118" rx="18" ry="12" fill="url(#body)" stroke="#3E4A50" stroke-width="1"/>
+    <!-- 滑亮 -->
+    <ellipse cx="92" cy="114" rx="10" ry="5" fill="#A8B4B8" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.25;0.4" dur="2.4s" repeatCount="indefinite"/>
+    </ellipse>
+    <!-- 头 -->
+    <ellipse cx="96" cy="108" rx="11" ry="9" fill="url(#body)" stroke="#3E4A50" stroke-width="0.8"/>
+    <!-- 笑脸（含温，上扬） -->
+    <path d="M 90 112 Q 96 115.5 102 112" fill="none" stroke="#2E3A40" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 89 111.5 Q 88 110.5 89 110" stroke="#2E3A40" stroke-width="0.8" stroke-linecap="round"/>
+    <path d="M 103 111.5 Q 104 110.5 103 110" stroke="#2E3A40" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 眼（含温含亮） -->
+    <circle cx="90" cy="106" r="2.4" fill="#2E2A24"/>
+    <circle cx="90.8" cy="104.8" r="1" fill="#FFF"/>
+    <circle cx="102" cy="106" r="2.4" fill="#2E2A24"/>
+    <circle cx="102.8" cy="104.8" r="1" fill="#FFF"/>
+    <!-- 吻（顶开鱼群方向） -->
+    <path d="M 104 110 L 114 108" stroke="#525E64" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="116" cy="107" r="2.5" fill="#D8F0F8" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 胸鳍 -->
+    <path d="M 82 118 L 74 124" stroke="#525E64" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 110 118 L 118 124" stroke="#525E64" stroke-width="3" stroke-linecap="round"/>
+    <!-- 尾鳍 -->
+    <path d="M 78 126 Q 70 132 62 126 L 60 134" stroke="#525E64" stroke-width="3" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="-4 78 126;4 78 126;-4 78 126" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 引路水纹 -->
+    <g stroke="#B8E0F0" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5">
+      <path d="M 96 128 Q 110 128 120 130">
+        <animate attributeName="opacity" values="0.5;0.22;0.5" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#D8F0F8">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
