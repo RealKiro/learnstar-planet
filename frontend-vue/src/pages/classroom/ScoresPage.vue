@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
 import { getSpeciesEmoji, PET_SERIES } from '@/utils/petData'
+import { getEvoLines } from '@/utils/petHandbookData'
 import PetSprite from '@/components/pet/PetSprite.vue'
 import PetDetailModal from '@/components/pet/PetDetailModal.vue'
+
+const router = useRouter()
 
 // 等级所需积分常量
 const LEVEL_SCORES = [0, 0, 15, 41, 68, 96, 125, 155, 185, 217, 250, 283, 318, 353, 390, 427, 465, 504, 545, 586, 628, 671, 715, 760, 805, 852, 900, 949, 998, 1049, 1100, 1153, 1206, 1261, 1316, 1372, 1429, 1487, 1546, 1606, 1667, 1729, 1792, 1856, 1921, 1986, 2053, 2120, 2189, 2258, 2329, 2400, 99999]
@@ -204,6 +208,37 @@ const filtered = computed(() => {
   return students.value.filter(s => s.name.includes(searchQuery.value))
 })
 
+// ===== 主卡片（视觉优化方案 5.1）：宠物主视觉 + 功能入口 + 班级总分 =====
+const spotlightStudent = computed(() => {
+  const withPet = students.value.filter(s => s.pet_species)
+  return [...withPet].sort((a, b) => b.total_score - a.total_score)[0] || withPet[0] || null
+})
+const classTotal = computed(() => students.value.reduce((sum, s) => sum + s.total_score, 0))
+const spotQuote = computed(() => {
+  const s = spotlightStudent.value
+  if (!s?.pet_name) return ''
+  const lines = getEvoLines(s.pet_name)
+  return lines[Math.min(s.pet_level || 1, lines.length) - 1] || lines[0] || ''
+})
+const spotProgress = computed(() => {
+  const s = spotlightStudent.value
+  if (!s) return { percent: 0, remaining: 0 }
+  return nextLevelProgress(s.total_score, s.pet_level || 1)
+})
+/** 功能入口导航：教室端用 classroom-*，教师基础模式用 teacher-*-basic */
+function navTo(key: 'overview' | 'scores' | 'leaderboard' | 'pk' | 'pokedex') {
+  const isClassroom = router.currentRoute.value.name?.toString().startsWith('classroom-')
+  const map: Record<string, { classroom: string; basic: string }> = {
+    overview: { classroom: 'classroom-overview', basic: 'teacher-dashboard-basic' },
+    scores: { classroom: 'classroom-scores', basic: 'teacher-scores-basic' },
+    leaderboard: { classroom: 'classroom-overview', basic: 'teacher-leaderboard-basic' },
+    pk: { classroom: 'classroom-pk', basic: 'teacher-pk-basic' },
+    pokedex: { classroom: 'classroom-pokedex', basic: 'teacher-pets-basic' },
+  }
+  const m = map[key]
+  if (m) router.push({ name: isClassroom ? m.classroom : m.basic })
+}
+
 function openModal(s: StudentEntry, type: 'add' | 'sub') {
   modalStudent.value = s; modalType.value = type; actionError.value = ''; resetReasonPick(); showModal.value = true
 }
@@ -273,6 +308,50 @@ onMounted(async () => {
     <div v-if="loading" style="text-align:center;padding:60px;color:var(--md-text-secondary);">加载中...</div>
 
     <template v-else>
+      <!-- 主卡片横幅（视觉优化方案 5.1：功能入口网格 + 宠物主视觉 + 统一积分操作区） -->
+      <div class="pet-main-card">
+        <div class="mc-header">
+          <h2>✨ 学趣星球</h2>
+          <button class="mc-nav" @click="navTo('overview')">📊 班级总览</button>
+        </div>
+
+        <div class="feature-grid">
+          <button class="feature-item" @click="navTo('overview')"><span class="fi-icon">📊</span><span>班级总览</span></button>
+          <button class="feature-item" @click="navTo('scores')"><span class="fi-icon">📝</span><span>课堂评价</span></button>
+          <button class="feature-item" @click="navTo('leaderboard')"><span class="fi-icon">🏆</span><span>排行榜</span></button>
+          <button class="feature-item" @click="navTo('pk')"><span class="fi-icon">⚔️</span><span>年级PK</span></button>
+          <button class="feature-item" @click="navTo('pokedex')"><span class="fi-icon">📖</span><span>宠物图鉴</span></button>
+        </div>
+
+        <div v-if="spotlightStudent" class="pet-spotlight">
+          <div class="spot-avatar" @click="openPetDetail(spotlightStudent)" title="点击查看宠物详情">
+            <PetSprite :species-id="spotlightStudent.pet_species" :level="spotlightStudent.pet_level" :animate="true" />
+          </div>
+          <div class="spot-info">
+            <div class="spot-name-row">
+              <span class="spot-name">{{ spotlightStudent.pet_name || spotlightStudent.name }}</span>
+              <span class="spot-level">Lv.{{ spotlightStudent.pet_level }}</span>
+            </div>
+            <div class="exp-bar"><div class="exp-fill" :style="{ width: spotProgress.percent + '%' }"></div></div>
+            <div class="exp-text">
+              <span v-if="spotProgress.remaining > 0">距 Lv.{{ (spotlightStudent.pet_level || 1) + 1 }} 还差 <strong style="color:var(--md-gold);">{{ spotProgress.remaining }}</strong> 分</span>
+              <span v-else>✅ 已达到下一级条件</span>
+            </div>
+            <div class="spot-quote" v-if="spotQuote">“{{ spotQuote }}”</div>
+          </div>
+          <button class="spot-detail" @click="openPetDetail(spotlightStudent)">详情 →</button>
+        </div>
+
+        <div class="score-controls">
+          <span style="font-size:12px;color:var(--md-text-secondary);">班级总分</span>
+          <span class="total-score">{{ classTotal.toLocaleString() }}</span>
+          <span class="mc-step-chip" style="margin-left:auto;" @click="spotlightStudent && startEdit(spotlightStudent.id)" title="点击修改步长">步长: <strong>{{ spotlightStudent ? getStep(spotlightStudent.id) : 1 }}</strong></span>
+          <input v-if="spotlightStudent && editingStep === spotlightStudent.id" v-model="editInput" type="number" min="1" max="100"
+            @blur="saveEdit(spotlightStudent.id)" @keydown.enter="saveEdit(spotlightStudent.id, $event)" autofocus
+            style="width:56px;padding:6px 8px;text-align:center;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;color:var(--color-text);font-size:15px;font-weight:700;outline:none;font-family:inherit;">
+        </div>
+      </div>
+
       <!-- 首次使用欢迎提示 -->
       <div v-if="students.some(s => !s.pet_name)" style="margin-bottom:16px;padding:14px 20px;background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(244,114,182,0.05));border:1px solid rgba(167,139,250,0.15);border-radius:var(--md-radius);">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -561,6 +640,68 @@ onMounted(async () => {
         font-family: inherit;
       }
       .reason-pick:hover { background: var(--tint-3); transform: translateY(-1px); }
+      /* 主卡片横幅（视觉优化方案 5.1：功能入口网格 + 宠物主视觉 + 统一积分操作区） */
+      .pet-main-card {
+        background: var(--color-bg-card);
+        border: 1px solid var(--tint-3);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: var(--md-elevation);
+      }
+      .mc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+      .mc-header h2 { font-size: 22px; font-weight: 800; margin: 0; }
+      .mc-nav {
+        padding: 7px 14px; border-radius: 20px;
+        border: 1px solid rgba(167,139,250,0.25); background: rgba(167,139,250,0.1);
+        color: var(--color-primary); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: 0.15s;
+      }
+      .mc-nav:hover { background: rgba(167,139,250,0.18); }
+      .feature-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px; }
+      .feature-item {
+        display: flex; flex-direction: column; align-items: center; gap: 5px;
+        padding: 12px 4px; border-radius: 14px;
+        background: var(--tint-1); border: 1px solid var(--tint-2);
+        color: var(--color-text); font-size: 11px; font-weight: 600;
+        cursor: pointer; font-family: inherit; transition: 0.15s;
+      }
+      .feature-item:hover { background: var(--tint-3); transform: translateY(-1px); }
+      .fi-icon { font-size: 20px; }
+      .pet-spotlight {
+        display: flex; align-items: center; gap: 16px;
+        padding: 16px; border-radius: 16px;
+        background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(244,114,182,0.05));
+        border: 1px solid rgba(167,139,250,0.15); margin-bottom: 12px;
+      }
+      .spot-avatar { width: 140px; height: 140px; flex-shrink: 0; cursor: pointer; }
+      .spot-info { flex: 1; min-width: 0; }
+      .spot-name-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+      .spot-name { font-size: 18px; font-weight: 800; }
+      .spot-level {
+        font-size: 12px; font-weight: 700; color: var(--md-gold);
+        background: rgba(255,215,0,0.12); padding: 2px 10px; border-radius: 12px;
+      }
+      .exp-bar { height: 6px; background: var(--tint-3); border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+      .exp-fill { height: 100%; background: linear-gradient(90deg, var(--md-primary), var(--md-secondary)); border-radius: 3px; }
+      .exp-text { font-size: 11px; color: var(--md-text-secondary); margin-bottom: 6px; }
+      .spot-quote { font-size: 13px; font-style: italic; color: var(--md-text-secondary); }
+      .spot-detail {
+        padding: 8px 16px; border-radius: 12px; border: none;
+        background: var(--md-primary); color: #fff;
+        font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap;
+      }
+      .score-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .total-score { font-size: 20px; font-weight: 800; color: var(--color-text); }
+      .mc-step-chip {
+        padding: 6px 14px; border-radius: 20px;
+        background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2);
+        color: var(--color-text); font-size: 13px; cursor: pointer; transition: 0.15s;
+      }
+      .mc-step-chip:hover { background: rgba(167,139,250,0.18); }
+      @media (max-width: 640px) {
+        .feature-grid { grid-template-columns: repeat(3, 1fr); }
+        .pet-spotlight { flex-direction: column; align-items: center; text-align: center; }
+      }
     </style>
   </div>
 </template>
