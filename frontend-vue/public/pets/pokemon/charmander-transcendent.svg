@@ -1,110 +1,67 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="小火龙·六阶·道果·超级喷火龙圣焰">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="小火龙·六阶·圣焰传说">
   <defs>
-    <radialGradient id="bg" cx="50%" cy="46%" r="60%">
-      <stop offset="0%" stop-color="#2A3A5E"/>
-      <stop offset="55%" stop-color="#1A2A4E"/>
-      <stop offset="100%" stop-color="#0E1830"/>
-    </radialGradient>
-    <radialGradient id="body" cx="42%" cy="36%" r="76%">
-      <stop offset="0%" stop-color="#FFB84D"/>
-      <stop offset="60%" stop-color="#FF8C42"/>
-      <stop offset="100%" stop-color="#E8602E"/>
-    </radialGradient>
-    <radialGradient id="belly" cx="45%" cy="40%" r="70%">
-      <stop offset="0%" stop-color="#FFF6E0"/>
-      <stop offset="100%" stop-color="#FFE0B8"/>
-    </radialGradient>
-    <linearGradient id="holy" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0%" stop-color="#4FC3F7"/>
-      <stop offset="55%" stop-color="#FBBF24"/>
-      <stop offset="100%" stop-color="#FFF3A6"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E1436"/><stop offset="100%" stop-color="#0E0A20"/>
     </linearGradient>
-    <radialGradient id="core" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#F5D742" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#F5D742" stop-opacity="0"/>
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F58E44"/><stop offset="100%" stop-color="#DA6A28"/>
+    </linearGradient>
+    <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCE8C8"/><stop offset="100%" stop-color="#F2CE96"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9ECCE0"/><stop offset="100%" stop-color="#4E92B8"/>
+    </linearGradient>
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F8C858" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#F8C858" stop-opacity="0"/>
     </radialGradient>
+    <g id="ch-head">
+      <circle cx="0" cy="0" r="33" fill="url(#fur)" stroke="#B84E16" stroke-width="1.5"/>
+      <ellipse cx="0" cy="10" rx="15" ry="9" fill="url(#belly)" opacity="0.85"/>
+      <circle cx="-12" cy="-2" r="8.6" fill="#2B2B2B"/>
+      <circle cx="-10" cy="-4.6" r="3.2" fill="#FFF"/>
+      <circle cx="12" cy="-2" r="8.6" fill="#2B2B2B"/>
+      <circle cx="14" cy="-4.6" r="3.2" fill="#FFF"/>
+      <ellipse cx="0" cy="5" rx="1.8" ry="1.2" fill="#5A3A20"/>
+      <path d="M -9 10 L -5 5 L 0 10 L 5 5 L 9 10" fill="none" stroke="#5A3A20" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M -15 -22 L -22 -44 L -7 -30 Z" fill="#E8B028" stroke="#B84E16" stroke-width="0.8"/>
+      <path d="M 15 -22 L 22 -44 L 7 -30 Z" fill="#E8B028" stroke="#B84E16" stroke-width="0.8"/>
+    </g>
   </defs>
-
   <rect width="200" height="200" fill="url(#bg)"/>
-
-  <!-- 圣光（呼吸） -->
-  <circle cx="100" cy="104" r="84" fill="url(#core)">
-    <animate attributeName="r" values="84;94;84" dur="3.2s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3.2s" repeatCount="indefinite"/>
+  <circle cx="100" cy="96" r="90" fill="url(#aura)">
+    <animate attributeName="opacity" values="1;0.6;1" dur="1.8s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="100" cy="104" r="72" fill="none" stroke="#4FC3F7" stroke-width="2" opacity="0.4">
-    <animateTransform attributeName="transform" type="rotate" values="0 100 104;25 100 104;0 100 104" dur="7s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 大翼（遮天，圣焰翼） -->
-  <g>
-    <animateTransform attributeName="transform" type="rotate" values="0 100 70;-3 100 70;0 100 70" dur="2.6s" repeatCount="indefinite"/>
-    <path d="M 60 82 C 26 64 10 34 16 12 C 48 26 72 52 78 80 Z" fill="url(#holy)" opacity="0.9"/>
-    <path d="M 140 82 C 174 64 190 34 184 12 C 152 26 128 52 122 80 Z" fill="url(#holy)" opacity="0.9"/>
-    <path d="M 46 68 C 28 58 18 44 18 32 C 40 42 52 56 58 66 Z" fill="#FFF3A6" opacity="0.95"/>
-    <path d="M 154 68 C 172 58 182 44 182 32 C 160 42 148 56 142 66 Z" fill="#FFF3A6" opacity="0.95"/>
+  <g stroke="#FDE68A" stroke-width="2.8" opacity="0.9" stroke-linecap="round" fill="none">
+    <path d="M 30 42 L 46 58 L 38 64 L 58 78"><animate attributeName="opacity" values="0.9;0.4;0.9" dur="1.2s" repeatCount="indefinite"/></path>
+    <path d="M 174 38 L 156 54 L 166 62 L 144 76"><animate attributeName="opacity" values="0.85;0.35;0.85" dur="1.5s" repeatCount="indefinite"/></path>
   </g>
-
-  <!-- 圣焰尾 -->
-  <path d="M 132 146 C 162 138 178 112 172 84" fill="none" stroke="url(#body)" stroke-width="15" stroke-linecap="round"/>
-  <g>
-    <animateTransform attributeName="transform" type="scale" values="1 1;1.15 1.2;1 1" dur="1.8s" repeatCount="indefinite" transform-origin="170 60"/>
-    <path d="M 173 78 C 164 60 168 46 173 36 C 178 46 182 60 173 78 Z" fill="url(#holy)"/>
-    <path d="M 173 70 C 168 60 170 52 173 48 C 176 52 178 60 173 70 Z" fill="#FFF3A6" opacity="0.95"/>
+  <g fill="#FFF8C0">
+    <circle cx="52" cy="116" r="1.8"><animate attributeName="cy" values="116;100;116" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.1;0.8" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="150" cy="92" r="1.5"><animate attributeName="cy" values="92;76;92" dur="3.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="3.4s" repeatCount="indefinite"/></circle>
   </g>
-
-  <!-- 脚 -->
-  <ellipse cx="85" cy="160" rx="13" ry="9" fill="#E8602E"/>
-  <ellipse cx="115" cy="160" rx="13" ry="9" fill="#E8602E"/>
-
-  <!-- 身体（完全体，挺立） -->
-  <ellipse cx="100" cy="126" rx="36" ry="42" fill="url(#body)"/>
-  <ellipse cx="100" cy="136" rx="22" ry="28" fill="url(#belly)"/>
-  <!-- 金色祥纹 -->
-  <path d="M 72 106 Q 82 112 74 124" fill="none" stroke="#FFD54F" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-  <path d="M 128 106 Q 118 112 126 124" fill="none" stroke="#FFD54F" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-
-  <!-- 手（展开蓄势） -->
-  <ellipse cx="68" cy="114" rx="8" ry="11" fill="#E8602E"/>
-  <ellipse cx="132" cy="114" rx="8" ry="11" fill="#E8602E"/>
-
-  <!-- 金鬃 -->
-  <path d="M 84 44 C 74 36 74 24 84 16 C 94 24 96 36 92 44 Z" fill="#FFD54F"/>
-  <path d="M 116 44 C 126 36 126 24 116 16 C 106 24 104 36 108 44 Z" fill="#FFD54F"/>
-
-  <!-- 头 -->
-  <ellipse cx="100" cy="70" rx="30" ry="28" fill="url(#body)"/>
-  <ellipse cx="100" cy="85" rx="16" ry="11" fill="url(#belly)"/>
-  <circle cx="93" cy="80" r="1.6" fill="#D84A20"/>
-  <circle cx="107" cy="80" r="1.6" fill="#D84A20"/>
-
-  <!-- 目光如炬（圣焰金瞳） -->
-  <circle cx="86" cy="67" r="7.6" fill="#1A0F0A"/>
-  <circle cx="114" cy="67" r="7.6" fill="#1A0F0A"/>
-  <circle cx="86" cy="67" r="4.2" fill="#F5D742"/>
-  <circle cx="114" cy="67" r="4.2" fill="#F5D742"/>
-  <path d="M 76 56 Q 86 50 96 55" fill="none" stroke="#E8602E" stroke-width="2.6" stroke-linecap="round"/>
-  <path d="M 124 56 Q 114 50 104 55" fill="none" stroke="#E8602E" stroke-width="2.6" stroke-linecap="round"/>
-
-  <!-- 口中圣焰 -->
-  <path d="M 92 88 Q 100 94 108 88" fill="none" stroke="#E8602E" stroke-width="2" stroke-linecap="round"/>
-  <path d="M 108 90 C 116 88 118 94 116 100 C 110 96 104 94 108 90 Z" fill="url(#holy)" opacity="0.95">
-    <animate attributeName="opacity" values="0.95;0.5;0.95" dur="1.6s" repeatCount="indefinite"/>
-  </path>
-
-  <!-- 圣焰环绕（光粒） -->
-  <g fill="#4FC3F7">
-    <circle cx="52" cy="110">
-      <animate attributeName="cy" values="110;100;110" dur="2.4s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.85;0.2;0.85" dur="2.4s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="148" cy="108">
-      <animate attributeName="cy" values="108;98;108" dur="2.8s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.75;0.15;0.75" dur="2.8s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="100" cy="182">
-      <animate attributeName="cy" values="182;172;182" dur="3s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3s" repeatCount="indefinite"/>
-    </circle>
+  <g transform="translate(100,126) scale(1.3)">
+    <animateTransform attributeName="transform" type="translate" values="100 126;100 118;100 126" dur="1.5s" repeatCount="indefinite"/>
+    <path d="M -20 -16 Q -50 -48 -72 -38 Q -50 -16 -22 2 Z" fill="url(#wing)" stroke="#3A6E88" stroke-width="1.2">
+      <animateTransform attributeName="transform" type="rotate" values="0 -26 -8;-5 -26 -8;0 -26 -8" dur="1.1s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 20 -16 Q 50 -48 72 -38 Q 50 -16 22 2 Z" fill="url(#wing)" stroke="#3A6E88" stroke-width="1.2">
+      <animateTransform attributeName="transform" type="rotate" values="0 26 -8;5 26 -8;0 26 -8" dur="1.1s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 28 -8 Q 58 -6 68 -30 Q 60 -54 42 -48 Q 30 -28 34 -14 Z" fill="#E86A2A">
+      <animateTransform attributeName="transform" type="scale" values="1 1;1 1.25;1 1" dur="0.45s" repeatCount="indefinite" additive="sum"/>
+    </path>
+    <path d="M 58 -28 Q 70 -42 54 -48 Q 42 -34 50 -22 Z" fill="#F8C858"/>
+    <path d="M 16 -6 Q 25 -8 31 -10" stroke="#B84E16" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <ellipse cx="0" cy="2" rx="39" ry="33" fill="url(#fur)" stroke="#B84E16" stroke-width="1.5"/>
+    <ellipse cx="0" cy="14" rx="24" ry="17" fill="url(#belly)" opacity="0.9"/>
+    <path d="M 0 -28 L 3 -20 M 9 -28 L 10 -20 M -7 -28 L -5 -20" stroke="#B84E16" stroke-width="3.2" stroke-linecap="round"/>
+    <ellipse cx="-15" cy="30" rx="9" ry="7" fill="url(#fur)" stroke="#B84E16" stroke-width="1"/>
+    <ellipse cx="15" cy="30" rx="9" ry="7" fill="url(#fur)" stroke="#B84E16" stroke-width="1"/>
+    <use href="#ch-head" transform="translate(0,-38) scale(1.08)"/>
+    <g stroke="#F8C858" stroke-width="3" opacity="0.95" stroke-linecap="round" fill="none">
+      <path d="M 28 6 L 50 -6 L 44 -18 L 72 -28"><animate attributeName="opacity" values="0.95;0.45;0.95" dur="0.7s" repeatCount="indefinite"/></path>
+    </g>
   </g>
 </svg>
