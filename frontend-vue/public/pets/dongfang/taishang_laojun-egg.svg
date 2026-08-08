@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="太上老君·一阶·一气化生·混沌初开天地分">
+  <defs>
+    <!-- 背景：混沌虚空星海 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E2E4E"/>
+      <stop offset="52%" stop-color="#221E3E"/>
+      <stop offset="100%" stop-color="#16122E"/>
+    </linearGradient>
+    <!-- 紫气 -->
+    <radialGradient id="ziqi" cx="50%" cy="42%" r="56%">
+      <stop offset="0%" stop-color="#9E6EB8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#9E6EB8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 初光金 -->
+    <radialGradient id="first" cx="50%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 紫金道袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E6EB8"/>
+      <stop offset="100%" stop-color="#5E4E8E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2E2CC"/>
+      <stop offset="100%" stop-color="#E0C8A8"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 星海 -->
+  <g fill="#C8D8F0">
+    <circle cx="30" cy="40" r="1.2"/><circle cx="70" cy="22" r="1"/>
+    <circle cx="160" cy="30" r="1.3"/><circle cx="180" cy="70" r="1"/>
+    <circle cx="24" cy="150" r="1"/><circle cx="150" cy="170" r="1.2"/>
+  </g>
+  <!-- 紫气缭绕 -->
+  <circle cx="100" cy="92" r="82" fill="url(#ziqi)">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 清气上升（右上） -->
+  <path d="M 120 60 Q 132 44 128 28" stroke="#E8F4E8" stroke-width="2" stroke-linecap="round" opacity="0.7" fill="none">
+    <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <circle cx="128" cy="26" r="3" fill="#E8F4E8" opacity="0.8">
+    <animate attributeName="cy" values="26;18;26" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 浊气下沉（右下） -->
+  <path d="M 120 132 Q 132 146 128 162" stroke="#4E3E5E" stroke-width="2" stroke-linecap="round" opacity="0.7" fill="none">
+    <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </path>
+  <circle cx="128" cy="164" r="3" fill="#4E3E5E" opacity="0.8">
+    <animate attributeName="cy" values="164;172;164" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 天地初分线（清浊之间） -->
+  <path d="M 30 96 Q 100 88 170 94" stroke="#FFF3C4" stroke-width="1.4" opacity="0.5" fill="none">
+    <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 白发道祖（立于紫气，一手拈诀） -->
+  <!-- 腿 -->
+  <path d="M 88 134 L 84 158 L 90 158 L 94 136 Z" fill="#5E4E8E"/>
+  <path d="M 106 134 L 114 160 L 108 160 L 102 136 Z" fill="#5E4E8E"/>
+  <!-- 紫金道袍 -->
+  <path d="M 88 96 Q 84 112 90 134 Q 100 140 108 134 Q 114 112 110 96 Q 100 90 88 96 Z" fill="url(#robe)" stroke="#4E3E7E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 88 116 L 110 116" stroke="#E8D8A8" stroke-width="1.6"/>
+  <!-- 紫气纹 -->
+  <path d="M 92 102 Q 94 106 92 110 M 106 102 Q 104 106 106 110" stroke="#B89ED8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+  <!-- 头（童颜鹤发，白发白须） -->
+  <circle cx="99" cy="88" r="11" fill="url(#skin)" stroke="#D0B890" stroke-width="0.9"/>
+  <!-- 白发 -->
+  <path d="M 94 79 Q 99 75 104 79 Q 102 74 99 74 Q 96 74 94 79 Z" fill="#E8E4DC"/>
+  <path d="M 90 86 Q 90 82 92 80" stroke="#E8E4DC" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- 额发 -->
+  <path d="M 89 86 Q 93 81 99 81 Q 105 81 109 86 Q 105 82 99 82 Q 93 82 89 86 Z" fill="#E8E4DC"/>
+  <!-- 眉目慈悲 -->
+  <path d="M 90 86 Q 94 84.5 97 85 M 101 85 Q 104 84.5 108 86" stroke="#B8B0A8" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+  <!-- 眼含无量道意 -->
+  <ellipse cx="94" cy="89" rx="2.4" ry="2.1" fill="#1E1814"/>
+  <ellipse cx="104" cy="89" rx="2.4" ry="2.1" fill="#1E1814"/>
+  <circle cx="95" cy="88.2" r="0.8" fill="#FFF3C4"/>
+  <circle cx="105" cy="88.2" r="0.8" fill="#FFF3C4"/>
+  <!-- 鼻梁 -->
+  <path d="M 99 91 L 99 93.5" stroke="#D0B890" stroke-width="1" stroke-linecap="round"/>
+  <!-- 白须 -->
+  <path d="M 93 97 Q 97 100 99 97 M 99 97 Q 103 100 105 97" stroke="#E8E4DC" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <!-- 含笑 -->
+  <path d="M 95 95.5 Q 99 97.6 103 95.5" fill="none" stroke="#A89070" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 左手拈诀（清浊分判） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 90 100 C 82 104 76 106 72 100" fill="none" stroke="#7E6E9E" stroke-width="4.2" stroke-linecap="round"/>
+    <!-- 拈诀指尖 -->
+    <circle cx="71" cy="98" r="3" fill="#E0C8A8"/>
+    <!-- 诀端初光 -->
+    <circle cx="70" cy="96" r="8" fill="url(#first)">
+      <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 右手负背 -->
+  <path d="M 108 100 C 114 104 116 110 114 118" fill="none" stroke="#7E6E9E" stroke-width="4.2" stroke-linecap="round"/>
+
+  <!-- 紫气星尘 -->
+  <g fill="#9E6EB8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="158" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

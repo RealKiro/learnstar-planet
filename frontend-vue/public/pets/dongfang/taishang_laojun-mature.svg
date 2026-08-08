@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="太上老君·四阶·八卦炉护法·炉中观劫暗中添柴">
+  <defs>
+    <!-- 背景：兜率宫紫气宫阙 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E4E7E"/>
+      <stop offset="52%" stop-color="#4A3E66"/>
+      <stop offset="100%" stop-color="#382E4E"/>
+    </linearGradient>
+    <!-- 炉火红（观劫） -->
+    <radialGradient id="fire" cx="50%" cy="60%" r="52%">
+      <stop offset="0%" stop-color="#E8623A" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#E8623A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 战影金 -->
+    <radialGradient id="gold" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 紫金道袍 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E6EB8"/>
+      <stop offset="100%" stop-color="#5E4E8E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2E2CC"/>
+      <stop offset="100%" stop-color="#E0C8A8"/>
+    </radialGradient>
+
+    <!-- 头部模板：童颜鹤发·眉目深邃·眼含天机 -->
+    <g id="laojun-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#D0B890" stroke-width="0.9"/>
+      <!-- 白发 -->
+      <path d="M -5 -8 Q 0 -11 5 -8 Q 3 -12 0 -12 Q -3 -12 -5 -8 Z" fill="#E8E4DC"/>
+      <!-- 额发 -->
+      <path d="M -9 -3.5 Q -5 -8.5 0 -8.5 Q 5 -8.5 9 -3.5 Q 5 -7.5 0 -7.5 Q -5 -7.5 -9 -3.5 Z" fill="#E8E4DC"/>
+      <!-- 眉目深邃 -->
+      <path d="M -8.5 -1.5 Q -5 -3.2 -2 -2.4 M 8.5 -1.5 Q 5 -3.2 2 -2.4" stroke="#B8B0A8" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <!-- 眼含天机 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2.1" fill="#1E1814"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2.1" fill="#1E1814"/>
+      <circle cx="-5.1" cy="-0.4" r="0.8" fill="#FFF3C4"/>
+      <circle cx="4.1" cy="-0.4" r="0.8" fill="#FFF3C4"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.5 L 0 3.4" stroke="#D0B890" stroke-width="1" stroke-linecap="round"/>
+      <!-- 白须 -->
+      <path d="M -4.5 6 Q -2 8.2 0 6.4 M 0 6.4 Q 2 8.2 4.5 6" stroke="#E8E4DC" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <!-- 沉静 -->
+      <path d="M -3.4 5 Q 0 6.4 3.4 5" fill="none" stroke="#A89070" stroke-width="1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 紫气宫阙（背景） -->
+  <path d="M 0 0 L 72 0 L 60 14 Q 38 22 20 20 Z" fill="#6E5E8E" opacity="0.7"/>
+  <path d="M 0 0 L 72 0" stroke="#8E7EAE" stroke-width="1.2"/>
+
+  <!-- 八卦炉（大，中央） -->
+  <g>
+    <circle cx="100" cy="140" r="50" fill="url(#fire)">
+      <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 72 100 Q 64 116 72 136 Q 80 154 100 156 Q 120 154 128 136 Q 136 116 128 100 Q 100 90 72 100 Z" fill="#5E4A3E" stroke="#7E5E4A" stroke-width="1.4"/>
+    <!-- 炉中战象（三界战火） -->
+    <ellipse cx="100" cy="132" rx="18" ry="9" fill="#2E1E16"/>
+    <g stroke="#E8623A" stroke-width="1.4" stroke-linecap="round" opacity="0.8">
+      <path d="M 88 128 Q 84 122 88 118 Q 92 114 88 110">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 112 130 Q 116 124 112 120 Q 108 116 112 112">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <!-- 战影剪影 -->
+      <path d="M 98 134 Q 96 130 100 128 Q 104 130 102 134 Z" fill="#FFF3C4" opacity="0.5"/>
+    </g>
+    <!-- 炉耳 -->
+    <path d="M 74 110 Q 68 114 72 122" fill="none" stroke="#7E5E4A" stroke-width="2.4"/>
+    <path d="M 126 110 Q 132 114 128 122" fill="none" stroke="#7E5E4A" stroke-width="2.4"/>
+    <!-- 八卦纹 -->
+    <circle cx="100" cy="142" r="9" fill="none" stroke="#B8964E" stroke-width="1" opacity="0.8"/>
+    <path d="M 100 133 L 100 151 M 91 142 L 109 142" stroke="#B8964E" stroke-width="0.8" opacity="0.6"/>
+  </g>
+
+  <!-- 金刚琢（左，悬浮） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="3s" repeatCount="indefinite"/>
+    <circle cx="52" cy="96" r="9" fill="none" stroke="#E8D8A8" stroke-width="2.4" opacity="0.9"/>
+    <circle cx="52" cy="96" r="5" fill="#FFE066" opacity="0.5">
+      <animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- 紫金红葫芦（右，悬浮） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="3.4s" repeatCount="indefinite"/>
+    <path d="M 146 84 C 152 80 156 72 154 66 C 152 62 148 62 146 64 C 144 62 140 62 138 66 C 136 72 140 80 146 84 Z" fill="#A86A3E" stroke="#8E5A2E" stroke-width="1"/>
+    <path d="M 144 66 L 144 60 L 150 60 L 150 66" fill="#8E5A2E"/>
+  </g>
+
+  <!-- 白发道祖（临炉观劫，立于炉前） -->
+  <!-- 腿 -->
+  <path d="M 60 126 L 56 150 L 62 150 L 66 128 Z" fill="#5E4E8E"/>
+  <path d="M 80 126 L 88 152 L 82 152 L 76 128 Z" fill="#5E4E8E"/>
+  <!-- 紫金道袍 -->
+  <path d="M 60 92 Q 56 108 62 130 Q 72 136 82 130 Q 88 108 84 92 Q 72 86 60 92 Z" fill="url(#robe)" stroke="#4E3E7E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 60 112 L 84 112" stroke="#E8D8A8" stroke-width="1.4"/>
+
+  <!-- 头（面部模板，面向炉） -->
+  <use href="#laojun-face" transform="translate(72,84) scale(1)"/>
+
+  <!-- 左手一指点化（炉中玄机） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 62 96 C 56 100 52 102 50 108" fill="none" stroke="#7E6E9E" stroke-width="3.8" stroke-linecap="round"/>
+    <!-- 指尖灵光 -->
+    <circle cx="49" cy="110" r="3" fill="#FFF3C4"/>
+    <circle cx="49" cy="110" r="9" fill="url(#gold)">
+      <animate attributeName="r" values="9;13;9" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 右手抚炉（暗中添柴） -->
+  <path d="M 82 98 C 90 100 96 104 100 110" fill="none" stroke="#7E6E9E" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="102" cy="112" r="3" fill="#E0C8A8"/>
+
+  <!-- 护法星尘 -->
+  <g fill="#FFF3C4">
+    <circle cx="40" cy="70">
+      <animate attributeName="cy" values="70;60;70" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

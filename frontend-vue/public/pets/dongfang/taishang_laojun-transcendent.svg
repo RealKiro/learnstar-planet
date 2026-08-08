@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="太上老君·六阶·道化天地·紫气化日月星辰无处不在">
+  <defs>
+    <!-- 背景：天地之间宇宙星海 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E1E3E"/>
+      <stop offset="52%" stop-color="#16122E"/>
+      <stop offset="100%" stop-color="#0E0E22"/>
+    </linearGradient>
+    <!-- 紫气化天地 -->
+    <radialGradient id="ziqi" cx="50%" cy="46%" r="58%">
+      <stop offset="0%" stop-color="#9E6EB8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#9E6EB8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 初光金 -->
+    <radialGradient id="first" cx="50%" cy="42%" r="50%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 紫金道袍（本相） -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9E7EB8"/>
+      <stop offset="100%" stop-color="#6E5E8E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F2E2CC"/>
+      <stop offset="100%" stop-color="#E0C8A8"/>
+    </radialGradient>
+
+    <!-- 头部模板：童颜鹤发·眉目含笑·眼含整个天地 -->
+    <g id="laojun-face">
+      <ellipse cx="0" cy="0" rx="10.5" ry="11" fill="url(#skin)" stroke="#D0B890" stroke-width="0.9"/>
+      <!-- 白发 -->
+      <path d="M -5 -8 Q 0 -11 5 -8 Q 3 -12 0 -12 Q -3 -12 -5 -8 Z" fill="#E8E4DC"/>
+      <path d="M -8 -4 L -12 -2 M 8 -4 L 12 -2" stroke="#E8E4DC" stroke-width="1.4" stroke-linecap="round" opacity="0.9">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <!-- 额发 -->
+      <path d="M -9 -3.5 Q -5 -8.5 0 -8.5 Q 5 -8.5 9 -3.5 Q 5 -7.5 0 -7.5 Q -5 -7.5 -9 -3.5 Z" fill="#E8E4DC"/>
+      <!-- 眉目含笑 -->
+      <path d="M -8.5 -1.5 Q -5 -3.2 -2 -2.4 M 8.5 -1.5 Q 5 -3.2 2 -2.4" stroke="#B8B0A8" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <!-- 眼含整个天地 -->
+      <ellipse cx="-4.6" cy="0.4" rx="2.4" ry="2.1" fill="#1E1814"/>
+      <ellipse cx="4.6" cy="0.4" rx="2.4" ry="2.1" fill="#1E1814"/>
+      <circle cx="-5.1" cy="-0.4" r="0.8" fill="#FFF7E0"/>
+      <circle cx="4.1" cy="-0.4" r="0.8" fill="#FFF7E0"/>
+      <circle cx="-4.6" cy="0.4" r="0.6" fill="#C89ED8"/>
+      <circle cx="4.6" cy="0.4" r="0.6" fill="#C89ED8"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 1.5 L 0 3.4" stroke="#D0B890" stroke-width="1" stroke-linecap="round"/>
+      <!-- 白须 -->
+      <path d="M -4.5 6 Q -2 8.2 0 6.4 M 0 6.4 Q 2 8.2 4.5 6" stroke="#E8E4DC" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <!-- 含笑 -->
+      <path d="M -3.4 5 Q 0 6.6 3.4 5" fill="none" stroke="#A89070" stroke-width="1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 星海 -->
+  <g fill="#C8D8F0">
+    <circle cx="24" cy="40" r="1.2"/><circle cx="60" cy="18" r="1"/>
+    <circle cx="150" cy="24" r="1.3"/><circle cx="180" cy="56" r="1"/>
+    <circle cx="30" cy="140" r="1"/><circle cx="170" cy="160" r="1.2"/>
+    <circle cx="90" cy="14" r="0.8"/>
+  </g>
+
+  <!-- 紫气化天地 -->
+  <circle cx="100" cy="96" r="86" fill="url(#ziqi)">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 初光 -->
+  <circle cx="100" cy="84" r="54" fill="url(#first)">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 紫气化作日月星辰（环绕） -->
+  <!-- 日（右，金黄） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 160 56;360 160 56" dur="40s" repeatCount="indefinite"/>
+    <circle cx="160" cy="56" r="7" fill="#FFE066" stroke="#FFE066" stroke-width="2" opacity="0.9"/>
+  </g>
+  <!-- 月（左，月白） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="360 42 60;0 42 60" dur="45s" repeatCount="indefinite"/>
+    <circle cx="42" cy="60" r="6" fill="#E8F0FA" stroke="#E8F0FA" stroke-width="2" opacity="0.85"/>
+  </g>
+  <!-- 星辰（环绕多颗） -->
+  <g fill="#FFF7E0">
+    <circle cx="46" cy="120" r="2"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="2.4s" repeatCount="indefinite"/></circle>
+    <circle cx="156" cy="130" r="1.8"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="2.8s" repeatCount="indefinite"/></circle>
+    <circle cx="70" cy="150" r="1.5"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="3.2s" repeatCount="indefinite"/></circle>
+    <circle cx="132" cy="150" r="1.6"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="2.6s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- 山河星辰光带（道化） -->
+  <g stroke="#C89ED8" stroke-width="1.4" opacity="0.5" stroke-linecap="round" fill="none">
+    <path d="M 30 96 Q 70 88 100 92 Q 140 96 172 90">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 春生秋杀（四季流转光点） -->
+  <g opacity="0.7">
+    <circle cx="38" cy="104" r="3" fill="#7EB080"/>
+    <circle cx="162" cy="104" r="3" fill="#D8A84E"/>
+  </g>
+
+  <!-- 云海 -->
+  <g opacity="0.6">
+    <path d="M 0 156 Q 50 148 100 154 Q 150 160 200 152 L 200 200 L 0 200 Z" fill="#2E2A4E">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 2;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 道祖本相（身化紫气，融入天地，若隐若现） -->
+  <g opacity="0.95">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="4s" repeatCount="indefinite"/>
+    <!-- 腿 -->
+    <path d="M 88 130 L 84 152 L 90 152 L 94 132 Z" fill="#6E5E8E"/>
+    <path d="M 106 130 L 114 154 L 108 154 L 102 132 Z" fill="#6E5E8E"/>
+    <!-- 紫金道袍（本相） -->
+    <path d="M 88 90 Q 84 108 90 130 Q 100 136 108 130 Q 114 108 110 90 Q 100 84 88 90 Z" fill="url(#robe)" stroke="#5E4E7E" stroke-width="1"/>
+    <!-- 紫气纹 -->
+    <path d="M 92 98 Q 94 104 92 110 M 106 98 Q 104 104 106 110" stroke="#D0B8E0" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.8"/>
+
+    <!-- 头（面部模板） -->
+    <use href="#laojun-face" transform="translate(99,82) scale(1)"/>
+
+    <!-- 左臂垂持（身融天地） -->
+    <path d="M 90 94 C 84 98 82 104 84 112" fill="none" stroke="#8E7EAE" stroke-width="3.8" stroke-linecap="round"/>
+
+    <!-- 右臂微抬（道指，化作光） -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="3.4s" repeatCount="indefinite"/>
+      <path d="M 108 94 C 114 96 118 98 120 94" fill="none" stroke="#8E7EAE" stroke-width="3.8" stroke-linecap="round"/>
+      <circle cx="121" cy="93" r="3" fill="#E0C8A8"/>
+      <!-- 指端化光（道即法） -->
+      <circle cx="122" cy="92" r="10" fill="url(#first)">
+        <animate attributeName="r" values="10;15;10" dur="3.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 身影融入天地的光粒子（消散感） -->
+  <g fill="#C89ED8">
+    <circle cx="70" cy="120">
+      <animate attributeName="cy" values="120;110;120" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.1;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="132" cy="116">
+      <animate attributeName="cy" values="116;106;116" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.08;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="64">
+      <animate attributeName="cy" values="64;54;64" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.55;0.1;0.55" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 紫气星尘 -->
+  <g fill="#9E6EB8">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="90">
+      <animate attributeName="cy" values="90;80;90" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
