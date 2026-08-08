@@ -400,6 +400,25 @@ function fxShape(size: number): string {
           <path d="M88 62 Q94 56 100 60 Q106 56 112 62" :stroke="art.dark" stroke-width="1.6" fill="none" opacity="0.6"/>
         </template>
 
+        <!-- 孙悟空·齐天大圣（金甲+虎皮裙+凤翅紫金冠+金箍棒） -->
+        <template v-else-if="art.variant === 'wukong-great'">
+          <line x1="142" y1="64" x2="120" y2="148" stroke="#DC2626" stroke-width="4" stroke-linecap="round"/>
+          <line x1="142" y1="64" x2="120" y2="148" stroke="#FDE68A" stroke-width="1.6"/>
+          <path d="M126 118 Q152 110 158 94 Q162 82 150 84" :fill="art.dark" class="tail"/>
+          <ellipse cx="100" cy="122" rx="30" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main" stroke="#B45309" stroke-width="1.5"/>
+          <path d="M84 110 Q100 102 116 110 L114 134 Q100 142 86 134 Z" fill="#FDE68A" opacity="0.85" stroke="#B45309" stroke-width="1.2"/>
+          <path d="M84 136 Q100 146 116 136 L114 146 Q100 154 86 146 Z" fill="#F97316" :stroke="art.dark" stroke-width="1"/>
+          <path d="M92 138 L100 148 M108 138 L100 148" :stroke="art.dark" stroke-width="1.2"/>
+          <ellipse cx="78" cy="148" rx="8" ry="6" :fill="art.dark"/>
+          <ellipse cx="122" cy="148" rx="8" ry="6" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears"><circle cx="78" cy="66" r="9" :fill="art.main" :stroke="art.dark" stroke-width="1.2"/><circle cx="122" cy="66" r="9" :fill="art.main" :stroke="art.dark" stroke-width="1.2"/></g>
+          <path d="M86 54 Q100 44 114 54 L110 62 L90 62 Z" fill="#FDE68A" stroke="#B45309" stroke-width="1.2"/>
+          <path d="M86 54 Q78 44 70 48 Q80 52 86 54 Z" fill="#FCA5A5"/>
+          <path d="M114 54 Q122 44 130 48 Q120 52 114 54 Z" fill="#FCA5A5"/>
+          <path d="M100 54 L100 45" :stroke="art.dark" stroke-width="1.4"/>
+        </template>
+
         <!-- 熊猫（达达） -->
         <template v-else-if="art.variant === 'panda'">
           <ellipse cx="100" cy="122" rx="32" ry="26" :fill="`url(#body-grad-${uid})`" class="body-main"/>
@@ -640,6 +659,27 @@ function fxShape(size: number): string {
             <path d="M81 57 L78 49 L90 55 Z" :fill="art.accent" opacity="0.8"/>
             <path d="M119 57 L122 49 L110 55 Z" :fill="art.accent" opacity="0.8"/>
           </g>
+        </template>
+
+        <!-- 九尾狐·九尾齐天（扇形九尾 + 光效） -->
+        <template v-else-if="art.variant === 'kitsune-nine'">
+          <g class="ninetails">
+            <path d="M116 118 Q152 102 164 72" :fill="art.main" opacity="0.85"/>
+            <path d="M118 120 Q158 116 172 92" :fill="art.light" opacity="0.8"/>
+            <path d="M120 122 Q160 130 170 110" :fill="art.dark" opacity="0.6"/>
+            <path d="M114 118 Q146 94 156 66" :fill="art.main" opacity="0.7"/>
+            <path d="M116 120 Q144 88 150 62" :fill="art.light" opacity="0.6"/>
+            <path d="M122 122 Q164 132 174 122" :fill="art.dark" opacity="0.5"/>
+            <path d="M118 120 Q154 106 168 80" :fill="art.main" opacity="0.6"/>
+            <path d="M112 114 Q138 80 142 58" :fill="art.light" opacity="0.55"/>
+            <path d="M124 122 Q168 122 176 114" :fill="art.dark" opacity="0.45"/>
+          </g>
+          <ellipse cx="100" cy="118" rx="26" ry="23" :fill="`url(#body-grad-${uid})`" class="body-main"/>
+          <ellipse cx="100" cy="130" rx="16" ry="10" :fill="art.light" opacity="0.85"/>
+          <ellipse cx="78" cy="142" rx="7" ry="5" :fill="art.dark"/>
+          <ellipse cx="122" cy="142" rx="7" ry="5" :fill="art.dark"/>
+          <circle cx="100" cy="80" r="27" :fill="`url(#body-grad-${uid})`"/>
+          <g class="ears"><path d="M80 60 L72 42 L94 55 Z" :fill="art.main"/><path d="M120 60 L128 42 L106 55 Z" :fill="art.main"/><path d="M81 57 L78 49 L90 55 Z" :fill="art.accent" opacity="0.8"/><path d="M119 57 L122 49 L110 55 Z" :fill="art.accent" opacity="0.8"/></g>
         </template>
 
         <!-- 赛博猫·电路猫 -->
@@ -1950,6 +1990,97 @@ function fxShape(size: number): string {
           <path d="M84 72 L116 72" :stroke="art.accent" stroke-width="3"/>
           <line x1="122" y1="96" x2="136" y2="132" :stroke="art.dark" stroke-width="2.4" stroke-linecap="round"/>
           <circle cx="136" cy="134" r="3" :fill="art.accent"/>
+        </template>
+
+        <!-- 姜子牙·杏黄旗与打神鞭 -->
+        <template v-else-if="art.variant === 'jiangziya'">
+          <path d="M78 116 Q74 150 86 156 L114 156 Q126 150 122 116 Z" :fill="art.main" :stroke="art.dark" stroke-width="1.5"/>
+          <path d="M82 132 Q100 142 118 132" :fill="art.accent" opacity="0.7"/>
+          <circle cx="100" cy="88" r="23" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M90 68 Q100 58 110 68 L108 76 L92 76 Z" :fill="art.dark" opacity="0.8"/>
+          <line x1="120" y1="150" x2="120" y2="72" :stroke="art.dark" stroke-width="2"/>
+          <path d="M120 72 L150 84 L120 96 Z" fill="#FDE047" :stroke="art.dark" stroke-width="1.2"/>
+          <line x1="82" y1="122" x2="64" y2="100" :stroke="art.dark" stroke-width="2.4" stroke-linecap="round"/>
+        </template>
+
+        <!-- 杨任·掌中眼（双手各一目） -->
+        <template v-else-if="art.variant === 'yangren'">
+          <path d="M78 116 Q74 150 86 156 L114 156 Q126 150 122 116 Z" :fill="art.main" :stroke="art.dark" stroke-width="1.5"/>
+          <path d="M82 132 Q100 142 118 132" :fill="art.accent" opacity="0.7"/>
+          <circle cx="100" cy="88" r="23" :fill="`url(#body-grad-${uid})`"/>
+          <circle cx="70" cy="108" r="10" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+          <circle cx="70" cy="108" r="3.2" :fill="art.dark"/>
+          <circle cx="130" cy="108" r="10" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+          <circle cx="130" cy="108" r="3.2" :fill="art.dark"/>
+        </template>
+
+        <!-- 申公豹·虎纹披肩长须 -->
+        <template v-else-if="art.variant === 'shen'">
+          <path d="M78 116 Q74 150 86 156 L114 156 Q126 150 122 116 Z" :fill="art.main" :stroke="art.dark" stroke-width="1.5"/>
+          <path d="M78 116 Q100 128 122 116 L122 130 Q100 142 78 130 Z" fill="#F97316" opacity="0.55"/>
+          <path d="M90 124 L96 130 M104 124 L110 130" :stroke="art.dark" stroke-width="1.4"/>
+          <circle cx="100" cy="88" r="23" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M88 104 Q94 118 92 130 M100 106 Q100 120 100 134 M112 104 Q106 118 108 130" :stroke="art.dark" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.85"/>
+        </template>
+
+        <!-- 吕洞宾·纯阳剑 -->
+        <template v-else-if="art.variant === 'lvdongbin'">
+          <path d="M128 76 L132 148" stroke="#CBD5E1" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M128 78 L132 84 L128 90" fill="#CBD5E1"/>
+          <line x1="126" y1="80" x2="134" y2="80" :stroke="art.dark" stroke-width="2"/>
+          <path d="M78 116 Q74 150 86 156 L114 156 Q126 150 122 116 Z" :fill="art.main" :stroke="art.dark" stroke-width="1.5"/>
+          <path d="M82 132 Q100 142 118 132" :fill="art.accent" opacity="0.7"/>
+          <circle cx="100" cy="88" r="23" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M90 68 Q100 58 110 68 L108 76 L92 76 Z" :fill="art.dark" opacity="0.8"/>
+        </template>
+
+        <!-- 曹国舅·阴阳玉板 -->
+        <template v-else-if="art.variant === 'caoguojiu'">
+          <path d="M78 116 Q74 150 86 156 L114 156 Q126 150 122 116 Z" :fill="art.main" :stroke="art.dark" stroke-width="1.5"/>
+          <rect x="118" y="96" width="16" height="40" rx="3" fill="#A7F3D0" :stroke="art.dark" stroke-width="1.4"/>
+          <rect x="138" y="100" width="16" height="36" rx="3" fill="#34D399" :stroke="art.dark" stroke-width="1.4"/>
+          <circle cx="100" cy="88" r="23" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M86 68 Q100 56 114 68 L110 76 L90 76 Z" fill="#1F2937"/>
+          <path d="M78 68 L122 68" stroke="#1F2937" stroke-width="2.4"/>
+        </template>
+
+        <!-- 太上老君·炼丹炉白发拂尘 -->
+        <template v-else-if="art.variant === 'laojun'">
+          <path d="M118 118 Q130 112 142 118 L140 142 Q130 148 120 142 Z" fill="#7C3AED" opacity="0.85" :stroke="art.dark" stroke-width="1.4"/>
+          <path d="M130 112 L130 108" :stroke="art.dark" stroke-width="1.6"/>
+          <circle cx="130" cy="106" r="3" fill="#FDE047"/>
+          <path d="M124 124 L136 124 M122 132 L138 132" :stroke="art.dark" stroke-width="1.2" opacity="0.5"/>
+          <path d="M78 116 Q74 150 86 156 L114 156 Q126 150 122 116 Z" :fill="art.main" :stroke="art.dark" stroke-width="1.5"/>
+          <path d="M82 132 Q100 142 118 132" :fill="art.accent" opacity="0.7"/>
+          <circle cx="100" cy="88" r="23" :fill="`url(#body-grad-${uid})`"/>
+          <path d="M88 66 Q100 56 112 66 L110 74 L90 74 Z" fill="#E2E8F0"/>
+          <line x1="80" y1="120" x2="64" y2="104" stroke="#E2E8F0" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M60 100 Q56 96 60 92 M62 102 Q58 100 62 96" stroke="#E2E8F0" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        </template>
+
+        <!-- 哪吒·三头六臂（六臂持法器 + 风火轮 + 混天绫） -->
+        <template v-else-if="art.variant === 'nezha-tri'">
+          <path d="M58 100 Q40 114 34 130 Q46 126 52 112" fill="#EF4444" opacity="0.85"/>
+          <path d="M142 100 Q160 114 166 130 Q154 126 148 112" fill="#EF4444" opacity="0.85"/>
+          <path d="M66 102 Q46 96 38 80" :stroke="art.dark" stroke-width="4" stroke-linecap="round"/>
+          <path d="M66 112 Q46 114 34 104" :stroke="art.dark" stroke-width="4" stroke-linecap="round"/>
+          <path d="M66 122 Q50 132 40 126" :stroke="art.dark" stroke-width="4" stroke-linecap="round"/>
+          <path d="M134 102 Q154 96 162 80" :stroke="art.dark" stroke-width="4" stroke-linecap="round"/>
+          <path d="M134 112 Q154 114 166 104" :stroke="art.dark" stroke-width="4" stroke-linecap="round"/>
+          <path d="M134 122 Q150 132 160 126" :stroke="art.dark" stroke-width="4" stroke-linecap="round"/>
+          <line x1="38" y1="80" x2="26" y2="64" stroke="#FDE68A" stroke-width="2.4"/>
+          <line x1="162" y1="80" x2="174" y2="64" stroke="#FDE68A" stroke-width="2.4"/>
+          <circle cx="174" cy="64" r="6" fill="#FDE68A" :stroke="art.dark" stroke-width="1.2"/>
+          <path d="M80 116 Q76 150 88 156 L112 156 Q124 150 120 116 Z" :fill="art.main" :stroke="art.dark" stroke-width="1.6"/>
+          <path d="M84 120 Q100 130 116 120 L116 132 Q100 142 84 132 Z" fill="#FDE68A" opacity="0.85"/>
+          <circle cx="86" cy="160" r="9" fill="none" stroke="#F97316" stroke-width="2.4"/>
+          <circle cx="114" cy="160" r="9" fill="none" stroke="#F97316" stroke-width="2.4"/>
+          <path d="M86 151 L86 169 M77 160 L95 160" stroke="#F97316" stroke-width="1.4"/>
+          <path d="M114 151 L114 169 M105 160 L123 160" stroke="#F97316" stroke-width="1.4"/>
+          <circle cx="100" cy="84" r="24" :fill="`url(#body-grad-${uid})`"/>
+          <circle cx="70" cy="92" r="16" :fill="art.light" opacity="0.9" :stroke="art.dark" stroke-width="1.2"/>
+          <circle cx="130" cy="92" r="16" :fill="art.light" opacity="0.9" :stroke="art.dark" stroke-width="1.2"/>
+          <path d="M88 60 Q100 52 112 60 L108 68 L92 68 Z" fill="#FDE68A" stroke="#B45309" stroke-width="1"/>
         </template>
 
         <!-- 龙骑士·铠甲 -->
