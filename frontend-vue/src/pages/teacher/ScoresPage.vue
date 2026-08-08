@@ -1112,11 +1112,20 @@ onMounted(() => {
   padding: 10px 12px;
 }
 .group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 12px;
   font-weight: 700;
   color: var(--color-text-secondary);
   margin-bottom: 8px;
   letter-spacing: 0.03em;
+}
+.group-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
 }
 .group-btns {
   display: flex;
@@ -1127,8 +1136,9 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
-  border-radius: 12px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: 20px;
   border: 1px solid var(--color-border);
   background: var(--color-bg-card);
   color: var(--color-text);
@@ -1138,7 +1148,7 @@ onMounted(() => {
   font-family: inherit;
 }
 .rule-btn:hover {
-  background: rgba(79,70,229,0.05);
+  background: rgba(124,58,237,0.08);
   border-color: var(--color-primary);
   transform: translateY(-1px);
 }
