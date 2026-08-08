@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
-import { getSpeciesEmoji } from '@/utils/petData'
+import { categoryLabel } from '@/utils/scoreRules'
+import PetSprite from '@/components/pet/PetSprite.vue'
 import type { ApiResponse, Student, ScoreRule } from '@/types'
 
 // ===== 数据 =====
@@ -20,7 +21,6 @@ const showModal = ref(false)
 const modalType = ref<'add' | 'sub'>('add')
 const modalStudent = ref<Student | null>(null)
 const modalError = ref('')
-const modalReasons = ref<string[]>([])
 
 // 浮动积分文本
 interface FloatText {
@@ -71,12 +71,48 @@ function getUndoBtnStyle(scoreId: number): Record<string, string> {
   return { color: map[s] }
 }
 
-const REASONS_ADD = ['📖 举手发言', '✅ 作业优秀', '🤝 帮助同学', '🧹 遵守纪律', '🏆 挑战难题', '📝 认真笔记']
-const REASONS_SUB = ['⚠️ 上课走神', '📕 作业缺交', '🗣️ 打扰课堂', '🏃 追逐打闹']
+// ===== 排序 =====
+type SortKey = 'no' | 'surname' | 'score'
+const sortBy = ref<SortKey>('no')
+const SORT_OPTIONS: Array<{ key: SortKey; label: string }> = [
+  { key: 'no', label: '🔢 学号' },
+  { key: 'surname', label: '👤 姓氏' },
+  { key: 'score', label: '⭐ 积分' },
+]
+
+// ===== 多选批量 =====
+const selectedIds = ref<number[]>([])
+function isSelected(id: number) { return selectedIds.value.includes(id) }
+function toggleSelect(id: number) {
+  const i = selectedIds.value.indexOf(id)
+  if (i >= 0) selectedIds.value.splice(i, 1)
+  else selectedIds.value.push(id)
+}
+function clearSelect() { selectedIds.value = [] }
+
+// 批量弹窗
+const batchModal = ref(false)
+const batchType = ref<'add' | 'sub'>('add')
+const batchBusy = ref(false)
+
+// ===== 规则分组（加分/减分弹窗共用，按 category 并列） =====
+function groupedRules(type: 'add' | 'sub'): Array<{ category: string; label: string; rules: ScoreRule[] }> {
+  const list = type === 'add' ? positiveRules.value : negativeRules.value
+  const map = new Map<string, ScoreRule[]>()
+  for (const r of list) {
+    if (!map.has(r.category)) map.set(r.category, [])
+    map.get(r.category)!.push(r)
+  }
+  return [...map.entries()].map(([category, rules]) => ({
+    category,
+    label: categoryLabel(category),
+    rules,
+  }))
+}
 
 // ===== 计算属性 =====
 const filteredStudents = computed(() => {
-  return students.value.filter(s => {
+  const list = students.value.filter(s => {
     const matchName = s.name.includes(searchQuery.value)
     const level = calcLevel(s.total_score)
     if (activeFilter.value === 'high') return matchName && level >= 10
@@ -84,6 +120,15 @@ const filteredStudents = computed(() => {
     if (activeFilter.value === 'low') return matchName && level <= 3
     return matchName
   })
+  const arr = [...list]
+  if (sortBy.value === 'score') {
+    arr.sort((a, b) => b.total_score - a.total_score)
+  } else if (sortBy.value === 'surname') {
+    arr.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
+  } else {
+    arr.sort((a, b) => (a.student_no || '').localeCompare(b.student_no || '', 'zh-CN', { numeric: true }))
+  }
+  return arr
 })
 
 const positiveRules = computed(() => rules.value.filter(r => r.is_positive))
@@ -116,7 +161,8 @@ function getLevelColor(lv: number): string {
 }
 
 function getStudentPetSpecies(student: Student): string {
-  // 根据学生ID映射不同宠物（演示用）
+  // 优先真实宠物，无则兜底演示映射
+  if (student.pet_species) return student.pet_species
   const species = ['zhulong', 'nine_tail_fox', 'charmander', 'pikachu', 'panda', 'cyber_cat', 'unicorn', 't_rex', 'fenghuang']
   return species[(student.id - 1) % species.length]
 }
@@ -125,7 +171,7 @@ function getStudentPetSpecies(student: Student): string {
 function openModal(student: Student, type: 'add' | 'sub') {
   modalStudent.value = student
   modalType.value = type
-  modalReasons.value = type === 'add' ? REASONS_ADD : REASONS_SUB
+  modalError.value = ''
   showModal.value = true
 }
 
@@ -134,43 +180,35 @@ function closeModal() {
   modalStudent.value = null
 }
 
-async function executeAction(reason: string) {
+/** 单学生按规则加减分（规则真实分值，走 by-rule 落审计） */
+async function executeAction(rule: ScoreRule) {
   const student = modalStudent.value
   if (!student) return
 
-  const step = getStudentStep(student.id)
-  const points = modalType.value === 'add' ? step : -step
-
-  if (student.total_score + points < 0) {
+  if (student.total_score + rule.amount < 0) {
     modalError.value = '积分不能为负数'
     return
   }
 
-  activeReason.value = reason
+  activeReason.value = rule.name
   giveStatus.value = 'loading'
   try {
-    await apiPost('/api/v1/teacher/scores/give', {
+    await apiPost(`/api/v1/teacher/scores/by-rule/${rule.id}`, {
       student_id: student.id,
-      points,
-      reason,
     })
-    student.total_score = Math.max(0, student.total_score + points)
+    student.total_score = Math.max(0, student.total_score + rule.amount)
     giveStatus.value = 'success'
-    showFloatText(student.id, points)
+    showFloatText(student.id, rule.amount)
   } catch {
     // 离线模式
-    student.total_score = Math.max(0, student.total_score + points)
+    student.total_score = Math.max(0, student.total_score + rule.amount)
     giveStatus.value = 'success'
-    showFloatText(student.id, points)
+    showFloatText(student.id, rule.amount)
   }
   setTimeout(() => {
     giveStatus.value = 'idle'
     closeModal()
   }, 800)
-}
-
-function getStudentStep(_studentId: number): number {
-  return 1 // default step
 }
 
 function showFloatText(studentId: number, points: number) {
@@ -220,6 +258,43 @@ async function handleBatchRuleScore(rule: ScoreRule) {
     batchStatus.value[rule.id] = 'success'
     students.value.forEach(s => { s.total_score += rule.amount })
     setTimeout(() => { batchStatus.value[rule.id] = 'idle' }, 1500)
+  }
+}
+
+// ===== 多选批量加减分 =====
+function openBatchModal(type: 'add' | 'sub') {
+  if (selectedIds.value.length === 0) return
+  batchType.value = type
+  batchBusy.value = false
+  batchModal.value = true
+}
+
+async function executeBatch(rule: ScoreRule) {
+  if (selectedIds.value.length === 0) return
+  batchBusy.value = true
+  const applyLocal = () => {
+    selectedIds.value.forEach(id => {
+      const s = students.value.find(x => x.id === id)
+      if (s) {
+        s.total_score = Math.max(0, s.total_score + rule.amount)
+        showFloatText(s.id, rule.amount)
+      }
+    })
+  }
+  try {
+    await apiPost('/api/v1/teacher/scores/batch-give', {
+      student_ids: selectedIds.value,
+      points: rule.amount,
+      reason: rule.name,
+    })
+    applyLocal()
+  } catch {
+    // 离线模式
+    applyLocal()
+  } finally {
+    batchBusy.value = false
+    batchModal.value = false
+    clearSelect()
   }
 }
 
@@ -342,7 +417,23 @@ onMounted(() => {
             @click="activeFilter = 'low'"
           >🥚 幼年</button>
         </div>
-        <span class="toolbar-hint">点击数字修改步长</span>
+        <div class="sort-group">
+          <span class="sort-label">排序</span>
+          <button
+            v-for="opt in SORT_OPTIONS" :key="opt.key"
+            class="sort-tag"
+            :class="{ active: sortBy === opt.key }"
+            @click="sortBy = opt.key"
+          >{{ opt.label }}</button>
+        </div>
+      </div>
+
+      <!-- 批量操作栏 -->
+      <div v-if="selectedIds.length > 0" class="batch-bar">
+        <span class="batch-info">✅ 已选 <strong>{{ selectedIds.length }}</strong> 名学生</span>
+        <button class="batch-btn batch-add" @click="openBatchModal('add')">＋ 批量加分</button>
+        <button class="batch-btn batch-sub" @click="openBatchModal('sub')">－ 批量减分</button>
+        <button class="batch-btn batch-clear" @click="clearSelect">取消选择</button>
       </div>
 
       <!-- 快捷规则条 -->
@@ -384,31 +475,46 @@ onMounted(() => {
           :key="s.id"
           :id="'card-' + s.id"
           class="student-card"
+          :class="{ 'card--selected': isSelected(s.id) }"
           :style="{ '--card-color': getLevelColor(calcLevel(s.total_score)) }"
         >
-          <!-- 顶部 -->
-          <div class="card-top">
-            <span class="card-name">{{ s.name }}</span>
-            <span class="card-level" :style="{ background: getLevelColor(calcLevel(s.total_score)) + '22', color: getLevelColor(calcLevel(s.total_score)) }">
-              Lv.{{ calcLevel(s.total_score) }}
-            </span>
+          <!-- 圆孔多选框 -->
+          <div
+            class="pick-circle"
+            :class="{ picked: isSelected(s.id) }"
+            role="checkbox"
+            :aria-checked="isSelected(s.id)"
+            :aria-label="'选择 ' + s.name"
+            @click.stop="toggleSelect(s.id)"
+          >
+            <svg v-if="isSelected(s.id)" viewBox="0 0 10 10" width="12" height="12"><path d="M1.2 5.2 L4 8 L8.8 2" stroke="#fff" stroke-width="2" fill="none"/></svg>
+          </div>
+          <!-- 等级徽章（右上） -->
+          <span class="card-level" :style="{ background: getLevelColor(calcLevel(s.total_score)) + '22', color: getLevelColor(calcLevel(s.total_score)) }">
+            Lv.{{ calcLevel(s.total_score) }}
+          </span>
+
+          <!-- 名片头部：圆形宠物头像 + 身份 -->
+          <div class="card-head">
+            <div class="card-avatar" :style="{ '--ring-color': getLevelColor(calcLevel(s.total_score)) }">
+              <PetSprite :species-id="getStudentPetSpecies(s)" :level="s.pet_level || 1" :animate="true" />
+            </div>
+            <div class="card-identity">
+              <div class="card-name">{{ s.name }}</div>
+              <div class="card-meta">
+                <span class="card-no" v-if="s.student_no">学号 {{ s.student_no }}</span>
+                <span class="card-pet-name" v-if="s.pet_name">{{ s.pet_name }}</span>
+              </div>
+            </div>
           </div>
 
-          <!-- 宠物信息 -->
-          <div class="card-pet">
-            <span class="pet-icon">{{ getSpeciesEmoji(getStudentPetSpecies(s)) }}</span>
-            <span class="pet-text">宠物伙伴</span>
-          </div>
-
-          <!-- 积分 -->
+          <!-- 数据区：积分 + 进度 -->
           <div class="card-score">
             <span class="score-label">⭐ 积分</span>
             <span class="score-num" :style="{ color: getLevelColor(calcLevel(s.total_score)) }">
               {{ s.total_score }}
             </span>
           </div>
-
-          <!-- 进度条 -->
           <div class="card-progress">
             <div
               class="progress-fill"
@@ -416,7 +522,7 @@ onMounted(() => {
             ></div>
           </div>
 
-          <!-- 操作按钮 -->
+          <!-- 操作区 -->
           <div class="card-actions">
             <button class="action-btn btn-sub" @click="openModal(s, 'sub')">
               <span>−</span>
@@ -430,29 +536,60 @@ onMounted(() => {
       </div>
     </template>
 
-    <!-- 行为选择模态框 -->
+    <!-- 行为选择模态框（按积分规则分类并列） -->
     <Transition name="modal">
       <div v-if="showModal && modalStudent" class="modal-overlay" @click.self="closeModal">
         <div class="modal-box">
-          <h3 class="modal-title">{{ modalType === 'add' ? '🌟 选择加分行为' : '⚠️ 选择减分原因' }}</h3>
-          <p class="modal-sub">
-            为 <strong>{{ modalStudent.name }}</strong> 选择原因
-            （每次{{ modalType === 'add' ? '加' : '减' }} <strong>1</strong> 分）
-          </p>
-          <div class="reason-grid">
-            <button
-              v-for="reason in modalReasons"
-              :key="reason"
-              class="reason-btn"
-              :style="giveStatus !== 'idle' && activeReason === reason ? { background: giveStatus === 'loading' ? '#f59e0b' : giveStatus === 'success' ? '#10b981' : '#ef4444', color: '#fff', borderColor: 'transparent', fontWeight: '700' } : {}"
-              @click="executeAction(reason)"
-              :disabled="giveStatus === 'loading'"
-            >
-              {{ giveStatus !== 'idle' && activeReason === reason ? (giveStatus === 'loading' ? '处理中...' : giveStatus === 'success' ? '操作成功' : '操作失败') : reason }}
-            </button>
+          <h3 class="modal-title">{{ modalType === 'add' ? '🌟 加分 · ' : '⚠️ 减分 · ' }}{{ modalStudent.name }}</h3>
+          <p class="modal-sub">选择积分规则，按规则真实分值{{ modalType === 'add' ? '加分' : '减分' }}</p>
+          <div class="reason-groups">
+            <div v-for="group in groupedRules(modalType)" :key="group.category" class="reason-group">
+              <div class="group-title">{{ group.label }}</div>
+              <div class="group-btns">
+                <button
+                  v-for="rule in group.rules" :key="rule.id"
+                  class="rule-btn"
+                  :class="{ 'rule-add': rule.amount > 0, 'rule-sub': rule.amount < 0 }"
+                  :style="giveStatus !== 'idle' && activeReason === rule.name ? { background: giveStatus === 'loading' ? '#f59e0b' : giveStatus === 'success' ? '#10b981' : '#ef4444', color: '#fff', borderColor: 'transparent' } : {}"
+                  @click="executeAction(rule)"
+                  :disabled="giveStatus === 'loading'"
+                >
+                  <span class="rule-amt">{{ rule.amount > 0 ? '+' : '' }}{{ rule.amount }}</span>
+                  <span class="rule-name">{{ giveStatus !== 'idle' && activeReason === rule.name ? (giveStatus === 'loading' ? '处理中...' : giveStatus === 'success' ? '操作成功' : '操作失败') : rule.name }}</span>
+                </button>
+              </div>
+            </div>
           </div>
           <div v-if="modalError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ modalError }}</div>
           <button class="cancel-btn" @click="closeModal">取消操作</button>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- 批量加减分弹窗（按积分规则分类并列） -->
+    <Transition name="modal">
+      <div v-if="batchModal" class="modal-overlay" @click.self="batchModal = false">
+        <div class="modal-box">
+          <h3 class="modal-title">{{ batchType === 'add' ? '🌟 批量加分' : '⚠️ 批量减分' }}（{{ selectedIds.length }} 名学生）</h3>
+          <p class="modal-sub">选择积分规则，统一应用到所选学生</p>
+          <div class="reason-groups">
+            <div v-for="group in groupedRules(batchType)" :key="group.category" class="reason-group">
+              <div class="group-title">{{ group.label }}</div>
+              <div class="group-btns">
+                <button
+                  v-for="rule in group.rules" :key="rule.id"
+                  class="rule-btn"
+                  :class="{ 'rule-add': rule.amount > 0, 'rule-sub': rule.amount < 0 }"
+                  @click="executeBatch(rule)"
+                  :disabled="batchBusy"
+                >
+                  <span class="rule-amt">{{ rule.amount > 0 ? '+' : '' }}{{ rule.amount }}</span>
+                  <span class="rule-name">{{ batchBusy ? '处理中...' : rule.name }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="cancel-btn" @click="batchModal = false">取消操作</button>
         </div>
       </div>
     </Transition>
@@ -586,12 +723,83 @@ onMounted(() => {
   color: var(--color-primary);
   font-weight: 600;
 }
-.toolbar-hint {
-  font-size: 11px;
-  color: var(--color-text-secondary);
-  opacity: 0.5;
-  margin-left: auto;
+/* 排序控件 */
+.sort-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+.sort-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+.sort-tag {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  transition: all 0.2s ease;
+}
+.sort-tag:hover { color: var(--color-text); border-color: var(--color-text-secondary); }
+.sort-tag.active {
+  background: rgba(16,185,129,0.08);
+  border-color: #10B981;
+  color: #10B981;
+  font-weight: 600;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(79,70,229,0.06), rgba(16,185,129,0.05));
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  flex-wrap: wrap;
+  animation: modalPop 0.2s ease;
+}
+.batch-info {
+  font-size: 13px;
+  color: var(--color-text);
+}
+.batch-info strong { color: var(--color-primary); }
+.batch-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+.batch-add {
+  background: rgba(16,185,129,0.1);
+  color: #10B981;
+  border-color: rgba(16,185,129,0.25);
+}
+.batch-add:hover { background: rgba(16,185,129,0.18); }
+.batch-sub {
+  background: rgba(239,68,68,0.1);
+  color: #EF4444;
+  border-color: rgba(239,68,68,0.25);
+}
+.batch-sub:hover { background: rgba(239,68,68,0.18); }
+.batch-clear {
+  margin-left: auto;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+}
+.batch-clear:hover { background: var(--color-bg); }
 
 /* 快捷规则条 */
 .quick-rules {
@@ -652,14 +860,17 @@ onMounted(() => {
   font-size: 16px;
 }
 
+/* 名片式学生卡片 */
 .student-card {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: 18px;
-  padding: 16px 14px 12px;
+  padding: 14px 14px 12px;
   transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .student-card::before {
   content: '';
@@ -675,32 +886,97 @@ onMounted(() => {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
+.card--selected {
+  border-color: var(--card-color, #6B7280);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--card-color, #6B7280) 18%, transparent);
+}
 
-.card-top {
+/* 圆孔多选框 */
+.pick-circle {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: var(--color-bg-card);
+  z-index: 2;
 }
-.card-name {
-  font-size: 16px;
-  font-weight: 700;
+.pick-circle:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
 }
+.pick-circle.picked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* 等级徽章（右上） */
 .card-level {
+  position: absolute;
+  right: 12px;
+  top: 12px;
   font-size: 12px;
   font-weight: 700;
   padding: 2px 10px;
   border-radius: 12px;
+  z-index: 2;
 }
 
-.card-pet {
+/* 名片头部：头像 + 身份 */
+.card-head {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
+  gap: 12px;
+  margin: 10px 0 8px;
 }
-.pet-icon { font-size: 20px; }
-.pet-text { font-size: 13px; color: var(--color-text-secondary); }
+.card-avatar {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--ring-color, #6B7280);
+  background: var(--color-bg);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--ring-color, #6B7280) 22%, transparent);
+}
+.card-identity {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.card-name {
+  font-size: 16px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+.card-no {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  padding: 1px 8px;
+  border-radius: 10px;
+}
+.card-pet-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .card-score {
   display: flex;
@@ -732,6 +1008,7 @@ onMounted(() => {
   gap: 8px;
   padding-top: 8px;
   border-top: 1px solid var(--color-border);
+  margin-top: auto;
 }
 .action-btn {
   width: 36px;
@@ -802,27 +1079,63 @@ onMounted(() => {
 .modal-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 20px; }
 .modal-sub strong { color: var(--color-text); }
 
-.reason-grid {
+/* 规则分组（并列式） */
+.reason-groups {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 14px;
   margin-bottom: 20px;
+  max-height: 56vh;
+  overflow-y: auto;
+  padding-right: 4px;
 }
-.reason-btn {
-  padding: 12px 16px;
+.reason-group {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+.group-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+}
+.group-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rule-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
   border-radius: 12px;
   border: 1px solid var(--color-border);
-  background: var(--color-bg);
+  background: var(--color-bg-card);
   color: var(--color-text);
-  font-size: 15px;
-  text-align: left;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
 }
-.reason-btn:hover {
-  background: rgba(79,70,229,0.04);
+.rule-btn:hover {
+  background: rgba(79,70,229,0.05);
   border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+.rule-amt {
+  font-size: 13px;
+  font-weight: 800;
+  min-width: 30px;
+  text-align: center;
+}
+.rule-add .rule-amt { color: #10B981; }
+.rule-sub .rule-amt { color: #EF4444; }
+.rule-name {
+  white-space: nowrap;
 }
 .cancel-btn {
   width: 100%;

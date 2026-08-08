@@ -21,6 +21,9 @@ export interface Student {
   class_grade?: string
   total_score: number
   status: 'active' | 'graduated' | 'disabled'
+  pet_species?: string
+  pet_level?: number
+  pet_name?: string
 }
 
 export interface ClassRoom {
