@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="汤圆·一阶·粉团初揉·元宵厨房案板滚圆看锅里浮沉">
+  <defs>
+    <!-- 背景：元宵厨房 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8C4A0"/>
+      <stop offset="52%" stop-color="#D0A478"/>
+      <stop offset="100%" stop-color="#B08E6E"/>
+    </linearGradient>
+    <!-- 灶暖 -->
+    <radialGradient id="glow" cx="64%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 汤圆粉白 -->
+    <radialGradient id="ball" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E4E0D4"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="128" cy="52" r="76" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 花灯（背景） -->
+  <g fill="#E87830" opacity="0.7">
+    <circle cx="30" cy="70" r="7">
+      <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 30 63 L 30 58 M 30 77 L 30 82" stroke="#C06828" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 25 67 L 27 63 L 33 63 L 35 67 Z" fill="#F0A040"/>
+  </g>
+  <g fill="#E8C860" opacity="0.7">
+    <circle cx="180" cy="60" r="6">
+      <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 180 54 L 180 49 M 180 66 L 180 71" stroke="#C8A040" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 案板 -->
+  <path d="M 40 138 L 170 138 L 178 152 L 32 152 Z" fill="#B08A5E" stroke="#9E7A4E" stroke-width="1.2"/>
+  <path d="M 40 138 L 170 138" stroke="#9E7A4E" stroke-width="1"/>
+  <!-- 灶台 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#9E8268" opacity="0.9"/>
+
+  <!-- 锅（右，浮沉） -->
+  <g>
+    <path d="M 150 118 Q 160 108 170 118 Q 168 128 160 128 Q 152 128 150 118 Z" fill="#6E6256" stroke="#544A40" stroke-width="0.8"/>
+    <ellipse cx="160" cy="118" rx="10" ry="4" fill="#B8B0A0"/>
+    <!-- 锅里的汤圆（浮） -->
+    <g fill="#F4F0E4" stroke="#D8D0C0" stroke-width="0.5">
+      <circle cx="156" cy="116" r="2.5">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="164" cy="115" r="2.3">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.3s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- 蒸汽 -->
+    <path d="M 158 106 Q 155 98 158 90" stroke="#F4F0E4" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 小汤圆（案板滚圆） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 96 126;-6 96 126;0 96 126" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 圆身 -->
+    <circle cx="96" cy="124" r="14" fill="url(#ball)" stroke="#D0C8B8" stroke-width="0.9"/>
+    <!-- 眼（亮） -->
+    <circle cx="90.5" cy="122" r="2" fill="#2E2A24"/>
+    <circle cx="91" cy="121.5" r="0.65" fill="#FFF"/>
+    <circle cx="101.5" cy="122" r="2" fill="#2E2A24"/>
+    <circle cx="102" cy="121.5" r="0.65" fill="#FFF"/>
+    <!-- 嘴（笑） -->
+    <path d="M 93 126.5 Q 96 128.4 99 126.5" fill="none" stroke="#B08A6A" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="52" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="172" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

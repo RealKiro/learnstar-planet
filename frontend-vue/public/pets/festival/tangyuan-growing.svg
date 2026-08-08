@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="汤圆·三阶·练圆苦修·揉皮练韧锅里稳浮不漏甜一颗不缺">
+  <defs>
+    <!-- 背景：元宵厨房晨暖 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8CCA0"/>
+      <stop offset="52%" stop-color="#D0AC78"/>
+      <stop offset="100%" stop-color="#B08E68"/>
+    </linearGradient>
+    <!-- 灶暖 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 汤圆（韧亮） -->
+    <radialGradient id="ball" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8E4D8"/>
+    </radialGradient>
+    <!-- 甜光 -->
+    <radialGradient id="sweet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F8D080" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#F8D080" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="48" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 灶台 -->
+  <path d="M 0 144 L 200 144 L 200 200 L 0 200 Z" fill="#9E8268" opacity="0.9"/>
+
+  <!-- 锅（右，稳浮） -->
+  <g>
+    <path d="M 142 116 Q 154 104 166 116 Q 164 128 154 128 Q 144 128 142 116 Z" fill="#6E6256" stroke="#544A40" stroke-width="0.9"/>
+    <ellipse cx="154" cy="116" rx="12" ry="5" fill="#B8B0A0"/>
+    <!-- 汤圆稳浮 -->
+    <circle cx="154" cy="114" r="4" fill="#F8F4E8" stroke="#D8D0C0" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 蒸汽 -->
+    <path d="M 152 100 Q 149 92 152 84" stroke="#F4F0E4" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年汤圆（中，练韧，甜光） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="100" cy="108" r="16" fill="url(#sweet)">
+      <animate attributeName="opacity" values="0.5;0.28;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 圆身（韧亮） -->
+    <circle cx="100" cy="108" r="15" fill="url(#ball)" stroke="#D0C8B8" stroke-width="0.9"/>
+    <!-- 眼（专注） -->
+    <circle cx="94" cy="106" r="2.2" fill="#2E2A24"/>
+    <circle cx="94.6" cy="105.4" r="0.7" fill="#FFF"/>
+    <circle cx="106" cy="106" r="2.2" fill="#2E2A24"/>
+    <circle cx="106.6" cy="105.4" r="0.7" fill="#FFF"/>
+    <!-- 嘴（自信） -->
+    <path d="M 95 111 Q 100 113.6 105 111" fill="none" stroke="#B08A6A" stroke-width="0.9" stroke-linecap="round"/>
+  </g>
+
+  <!-- 甜光星尘 -->
+  <g fill="#F8D080">
+    <circle cx="62" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="88">
+      <animate attributeName="cy" values="88;78;88" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
