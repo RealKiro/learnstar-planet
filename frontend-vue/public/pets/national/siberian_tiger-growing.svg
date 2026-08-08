@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="东北虎·三阶·练守苦修·对雪练扑控爪分寸踏遍山林记护角">
+  <defs>
+    <!-- 背景：北境山林雪 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8C8DC"/>
+      <stop offset="52%" stop-color="#C8DCE8"/>
+      <stop offset="100%" stop-color="#E8F0F4"/>
+    </linearGradient>
+    <!-- 雪光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 橙黄毛 -->
+    <radialGradient id="fur" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#ECB050"/>
+      <stop offset="100%" stop-color="#C88828"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪林 -->
+  <g fill="#B8D4E4" opacity="0.6">
+    <path d="M 24 148 L 32 100 L 40 148 Z"/>
+    <path d="M 168 148 L 176 104 L 184 148 Z"/>
+  </g>
+  <!-- 飘雪 -->
+  <g fill="#FFFFFF" opacity="0.6">
+    <circle cx="40" cy="30" r="1.2">
+      <animate attributeName="cy" values="30;54;30" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="20" r="1">
+      <animate attributeName="cy" values="20;44;20" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- 雪地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#E8F0F4" opacity="0.9"/>
+
+  <!-- 练扑的雪桩（右，被控爪） -->
+  <g>
+    <rect x="146" y="108" width="14" height="40" rx="2" fill="#C8D4DC" stroke="#A8B8C0" stroke-width="0.8"/>
+    <!-- 雪桩后的落叶（不伤） -->
+    <path d="M 162 140 Q 166 134 170 138 Q 166 144 162 140 Z" fill="#E8A838" opacity="0.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;1 -1;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年东北虎（中，控爪练扑） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 大耳 -->
+    <path d="M 84 104 L 76 92 L 90 99 Z" fill="#ECB050" stroke="#B87820" stroke-width="0.8"/>
+    <path d="M 108 104 L 116 92 L 102 99 Z" fill="#ECB050" stroke="#B87820" stroke-width="0.8"/>
+    <!-- 尾（扬，带纹） -->
+    <path d="M 76 120 Q 62 112 58 122 Q 56 132 68 136" stroke="#ECB050" stroke-width="3" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="-4 76 120;4 76 120;-4 76 120" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 62 116 L 64 123 M 68 128 L 69 133" stroke="#3E3228" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- 身（橙黄如焰） -->
+    <ellipse cx="96" cy="118" rx="17" ry="13" fill="url(#fur)" stroke="#B87820" stroke-width="1"/>
+    <!-- 黑纹（如墨） -->
+    <path d="M 80 110 Q 96 104 112 110" stroke="#3E3228" stroke-width="1.4" fill="none" opacity="0.8"/>
+    <path d="M 82 126 Q 96 120 110 126" stroke="#3E3228" stroke-width="1.2" fill="none" opacity="0.7"/>
+    <path d="M 90 106 L 90 114 M 102 106 L 102 114" stroke="#3E3228" stroke-width="0.9" fill="none" opacity="0.6"/>
+    <!-- 腹白 -->
+    <ellipse cx="94" cy="128" rx="9" ry="5.5" fill="#F0E8D0" opacity="0.7"/>
+    <!-- 头 -->
+    <ellipse cx="96" cy="104" rx="10" ry="9" fill="url(#fur)" stroke="#B87820" stroke-width="0.8"/>
+    <!-- 额间王纹（亮） -->
+    <path d="M 96 96 L 96 101 M 93 99 L 99 99" stroke="#3E3228" stroke-width="1.1" stroke-linecap="round" opacity="0.8"/>
+    <!-- 眼（沉稳） -->
+    <circle cx="92" cy="103" r="2.4" fill="#2E2A24"/>
+    <circle cx="92.8" cy="101.8" r="1" fill="#FFF"/>
+    <circle cx="101" cy="103" r="2.4" fill="#2E2A24"/>
+    <circle cx="101.8" cy="101.8" r="1" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 103 107 L 105 107 L 104 109 Z" fill="#8E6E50"/>
+    <!-- 嘴（定） -->
+    <path d="M 104 110 Q 106 111.4 108 110" fill="none" stroke="#8E6E50" stroke-width="0.5" stroke-linecap="round"/>
+    <!-- 前掌（控爪，扑向雪桩） -->
+    <path d="M 104 114 L 128 106" stroke="#ECB050" stroke-width="3.4" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="-5 104 114;5 104 114;-5 104 114" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <!-- 厚掌 -->
+    <path d="M 84 126 L 79 134" stroke="#ECB050" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M 108 126 L 113 134" stroke="#ECB050" stroke-width="3.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFFFFF">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.16;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
