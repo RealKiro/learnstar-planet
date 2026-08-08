@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="迪路兽·四阶·光耀初成·进化圣光化光绳从数据漩涡拉回伙伴">
+  <defs>
+    <!-- 背景：数据漩涡 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A4A72"/>
+      <stop offset="52%" stop-color="#2E3A5E"/>
+      <stop offset="100%" stop-color="#26304A"/>
+    </linearGradient>
+    <!-- 圣光 -->
+    <radialGradient id="glow" cx="38%" cy="40%" r="44%">
+      <stop offset="0%" stop-color="#F8E8B8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F8E8B8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白毛（如雪） -->
+    <radialGradient id="fur" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#ECE8E0"/>
+    </radialGradient>
+    <!-- 指尖圣光 -->
+    <radialGradient id="dot" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF8D8" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#FFF8D8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="76" cy="80" r="76" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 数据漩涡（右） -->
+  <g>
+    <circle cx="160" cy="104" r="24" fill="none" stroke="#5AA8E8" stroke-width="1.4" opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 160 104;40 160 104;0 160 104" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="104" r="17" fill="none" stroke="#5AA8E8" stroke-width="1.2" opacity="0.5">
+      <animateTransform attributeName="transform" type="rotate" values="0 160 104;-40 160 104;0 160 104" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="104" r="9" fill="#5AA8E8" opacity="0.35">
+      <animate attributeName="opacity" values="0.35;0.2;0.35" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 被拉回的伙伴 -->
+    <circle cx="148" cy="110" r="4" fill="#A8D8E8" stroke="#5AA8C8" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-3 2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#26304A" opacity="0.9"/>
+
+  <!-- 进化迪路兽（圣光指尖，光绳救人） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 尾（扬） -->
+    <path d="M 46 132 Q 36 124 40 116 Q 46 112 50 118" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="-3 46 132;3 46 132;-3 46 132" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 腿（站） -->
+    <path d="M 60 132 L 56 148 M 78 132 L 82 148" stroke="#ECE8E0" stroke-width="4" stroke-linecap="round"/>
+    <!-- 身 -->
+    <ellipse cx="70" cy="126" rx="13" ry="12" fill="url(#fur)" stroke="#D0CCC4" stroke-width="0.9"/>
+    <!-- 前爪（伸向漩涡） -->
+    <path d="M 78 118 L 94 112" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 指尖圣光（光绳） -->
+    <circle cx="96" cy="110" r="3.5" fill="url(#dot)">
+      <animate attributeName="opacity" values="1;0.7;1" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="96" cy="110" r="7" fill="#F8E8B8" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.16;0.3" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 光绳（探入漩涡） -->
+    <path d="M 96 110 Q 118 108 140 108" stroke="#F8E8B8" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 头（白，耳立） -->
+    <ellipse cx="70" cy="110" rx="9" ry="8" fill="url(#fur)" stroke="#D0CCC4" stroke-width="0.8"/>
+    <path d="M 62 105 Q 58 96 63 95 Q 67 101 68 106 Z" fill="#FFFFFF" stroke="#D0CCC4" stroke-width="0.6"/>
+    <path d="M 76 105 Q 80 96 75 95 Q 71 101 70 106 Z" fill="#FFFFFF" stroke="#D0CCC4" stroke-width="0.6"/>
+    <!-- 额饰（圣兽） -->
+    <path d="M 66 104 Q 70 101 74 104 L 70 107 Z" fill="#5AA8E8" opacity="0.8"/>
+    <!-- 眼（含温含亮） -->
+    <circle cx="65" cy="109" r="2" fill="#2E2A24"/>
+    <circle cx="65.8" cy="108" r="0.8" fill="#FFF"/>
+    <circle cx="76" cy="109" r="2" fill="#2E2A24"/>
+    <circle cx="76.8" cy="108" r="0.8" fill="#FFF"/>
+    <!-- 嘴（定） -->
+    <path d="M 68 114 Q 71 115.4 74 114" fill="none" stroke="#B0A090" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 旧线（已化光） -->
+    <path d="M 82 124 Q 88 128 86 134" stroke="#5A7A9A" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#F8E8B8">
+    <circle cx="48" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
