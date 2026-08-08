@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="春饼·五阶·立春之卷·薄如蝉翼透亮立盘人们卷菜咬春窗外新绿">
+  <defs>
+    <!-- 背景：立春人家暖阳 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8C8A0"/>
+      <stop offset="52%" stop-color="#C0CCA0"/>
+      <stop offset="100%" stop-color="#A0A890"/>
+    </linearGradient>
+    <!-- 立春神光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="52%">
+      <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFF8E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 立春风环 -->
+    <radialGradient id="halo" cx="50%" cy="44%" r="42%">
+      <stop offset="0%" stop-color="#E8F0E0" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#E8F0E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 春饼（透亮如春） -->
+    <radialGradient id="pancake" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#ECE4D0"/>
+    </radialGradient>
+    <!-- 春光 -->
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E8F0D8" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E8F0D8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.56;0.8" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="100" r="62" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.32;0.2;0.32" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 窗外新绿柳 -->
+  <g stroke="#5E9E4E" stroke-width="1.4" stroke-linecap="round" fill="none">
+    <path d="M 158 40 Q 166 56 162 70"/>
+    <path d="M 162 58 L 167 60 L 162 62 Z" fill="#7AB878"/>
+    <path d="M 160 66 L 165 68 L 160 70 Z" fill="#7AB878"/>
+  </g>
+
+  <!-- 餐桌 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#9E8E72" opacity="0.9"/>
+
+  <!-- 卷菜咬春的人（两侧） -->
+  <g opacity="0.95">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="60" cy="122" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="60" cy="136" rx="5.5" ry="8" fill="#C8A878" stroke="#B0905E" stroke-width="0.8"/>
+    <path d="M 66 128 Q 72 124 74 120" stroke="#E8D0B4" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <circle cx="148" cy="122" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="148" cy="136" rx="5.5" ry="8" fill="#B0806E" stroke="#9E6E5C" stroke-width="0.8"/>
+    <path d="M 142 128 Q 136 124 134 120" stroke="#E8D0B4" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 立春之卷（中，薄透） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="104" cy="106" r="28" fill="url(#aura)">
+      <animate attributeName="opacity" values="0.5;0.28;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 盘 -->
+    <ellipse cx="104" cy="136" rx="22" ry="5" fill="#D8CCB8" stroke="#B8AC98" stroke-width="0.9"/>
+    <!-- 大卷春饼 -->
+    <ellipse cx="104" cy="112" rx="14" ry="22" fill="url(#pancake)" stroke="#D8D0BC" stroke-width="1"/>
+    <!-- 透亮春光 -->
+    <ellipse cx="104" cy="110" rx="10" ry="16" fill="#FFF" opacity="0.35">
+      <animate attributeName="opacity" values="0.35;0.2;0.35" dur="2.4s" repeatCount="indefinite"/>
+    </ellipse>
+    <!-- 卷的菜彩 -->
+    <ellipse cx="88" cy="112" rx="3.5" ry="9" fill="#E8B048" opacity="0.8"/>
+    <ellipse cx="120" cy="112" rx="3.5" ry="9" fill="#7AA868" opacity="0.8"/>
+    <ellipse cx="96" cy="112" rx="3" ry="8" fill="#C87848" opacity="0.7"/>
+    <!-- 眼（含威含温） -->
+    <circle cx="98" cy="106" r="2.2" fill="#2E2A24"/>
+    <circle cx="98.6" cy="105.4" r="0.7" fill="#FFF"/>
+    <circle cx="110" cy="106" r="2.2" fill="#2E2A24"/>
+    <circle cx="110.6" cy="105.4" r="0.7" fill="#FFF"/>
+    <!-- 嘴（春） -->
+    <path d="M 100 112 Q 104 114 108 112" fill="none" stroke="#B08A6A" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
