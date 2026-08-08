@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="应龙·六阶·行雨传说·翼展千里布雨人间春种秋收">
+  <defs>
+    <!-- 背景：云海晴空 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8CCE8"/>
+      <stop offset="52%" stop-color="#90B8D8"/>
+      <stop offset="100%" stop-color="#8AAE88"/>
+    </linearGradient>
+    <!-- 传说金光 -->
+    <radialGradient id="glow" cx="46%" cy="22%" r="50%">
+      <stop offset="0%" stop-color="#FFF0C8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF0C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="40%">
+      <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#FFF8E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青白鳞（泛岁月光） -->
+    <linearGradient id="scale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#B8DCF0"/>
+      <stop offset="100%" stop-color="#9CC8E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="90" cy="40" r="84" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="110" r="64" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山 -->
+  <g fill="#6E8E9E" opacity="0.6">
+    <path d="M 0 126 L 44 82 L 84 126 Z M 116 126 L 158 86 L 200 126 Z"/>
+  </g>
+
+  <!-- 人间（下：春种与秋收） -->
+  <!-- 春田（左，绿苗） -->
+  <path d="M 0 140 L 96 140 L 96 200 L 0 200 Z" fill="#6E9E5E" opacity="0.8"/>
+  <g stroke="#7EB86A" stroke-width="1.8" stroke-linecap="round" opacity="0.9">
+    <path d="M 20 146 Q 18 138 16 130 M 40 146 Q 40 138 38 130 M 60 146 Q 60 138 58 130 M 80 146 Q 80 138 78 130">
+      <animateTransform attributeName="transform" type="rotate" values="0 40 146;3 40 146;0 40 146" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 秋收（右，金浪） -->
+  <path d="M 96 140 L 200 140 L 200 200 L 96 200 Z" fill="#D8B860" opacity="0.85"/>
+  <g stroke="#E8CC78" stroke-width="2.4" stroke-linecap="round" opacity="0.95">
+    <path d="M 116 146 Q 118 138 118 130 M 138 146 Q 138 138 138 130 M 160 146 Q 160 138 160 130 M 182 146 Q 182 138 182 130">
+      <animateTransform attributeName="transform" type="rotate" values="0 138 146;-4 138 146;0 138 146" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 金浪起伏（波光） -->
+  <path d="M 104 152 Q 124 150 144 152 Q 164 154 188 152" stroke="#F0D890" stroke-width="1.2" opacity="0.7" fill="none">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2.4s" repeatCount="indefinite"/>
+  </path>
+  <!-- 农夫（远景） -->
+  <g opacity="0.8">
+    <path d="M 150 134 L 148 144" stroke="#7E6E4E" stroke-width="1.6" stroke-linecap="round"/>
+    <circle cx="150" cy="130" r="2.6" fill="#8E7E5E"/>
+  </g>
+
+  <!-- 细雨（洒向春田） -->
+  <g stroke="#C8E4F4" stroke-width="1.2" opacity="0.6" stroke-linecap="round">
+    <path d="M 30 100 L 28 116 M 50 98 L 48 114 M 70 100 L 68 116">
+      <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 云（下缘） -->
+  <g fill="#EAF0F8" opacity="0.9">
+    <path d="M 0 112 Q 30 104 60 110 Q 90 116 120 110 Q 150 104 180 110 L 200 108 L 200 120 L 0 120 Z"/>
+  </g>
+
+  <!-- 应龙（翼展千里，盘旋云上） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 蛇身（盘云） -->
+    <path d="M 64 118 C 80 106 100 102 116 108 C 128 112 138 118 146 126" fill="none" stroke="url(#scale)" stroke-width="8" stroke-linecap="round"/>
+    <!-- 尾（垂稳） -->
+    <path d="M 146 126 C 156 132 158 140 150 144 Q 144 146 142 140" fill="none" stroke="url(#scale)" stroke-width="5" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="0 146 126;4 146 126;0 146 126" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 翼（展千里） -->
+    <path d="M 80 108 Q 58 84 48 60 Q 64 76 84 92 Z" fill="#C8E4F4" stroke="#8AB8D8" stroke-width="1">
+      <animateTransform attributeName="transform" type="rotate" values="0 80 108;-12 80 108;0 80 108" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 114 106 Q 136 82 146 58 Q 130 74 110 90 Z" fill="#C8E4F4" stroke="#8AB8D8" stroke-width="1">
+      <animateTransform attributeName="transform" type="rotate" values="0 114 106;12 114 106;0 114 106" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <!-- 龙角 -->
+    <path d="M 64 108 L 58 96 M 70 108 L 76 96" stroke="#E0D088" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 头（温和，低吟） -->
+    <ellipse cx="66" cy="112" rx="10" ry="9" fill="url(#scale)" stroke="#6E9EC0" stroke-width="1"/>
+    <circle cx="60" cy="110" r="2.6" fill="#24180E"/>
+    <circle cx="60.6" cy="109.4" r="0.9" fill="#FFF"/>
+    <circle cx="73" cy="110" r="2.6" fill="#24180E"/>
+    <circle cx="73.6" cy="109.4" r="0.9" fill="#FFF"/>
+    <!-- 吻须 -->
+    <path d="M 76 113 Q 84 116 90 114" stroke="#8AB8D8" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <!-- 低吟"我还在"（龙吟声波） -->
+    <g stroke="#FFF0C8" stroke-width="1.6" opacity="0.6" stroke-linecap="round" fill="none">
+      <path d="M 96 96 Q 104 90 102 82">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.8s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 106 100 Q 114 94 112 86">
+        <animate attributeName="opacity" values="0.45;0.15;0.45" dur="3.4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 传说星尘 -->
+  <g fill="#FFF0C8">
+    <circle cx="34" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="166" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="玄武·一阶·玄武幼龟·北渊游动吐气成冰爪划薄冰">
+  <defs>
+    <!-- 背景：北方雪渊 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8DCE8"/>
+      <stop offset="52%" stop-color="#A8C8D8"/>
+      <stop offset="100%" stop-color="#8EB0C8"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F0F8FC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F0F8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 玄龟壳 -->
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E5A58"/>
+      <stop offset="100%" stop-color="#3A4442"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪岸（上） -->
+  <g fill="#F4FAFC" opacity="0.9">
+    <path d="M 0 0 L 200 0 L 200 36 Q 160 44 120 40 Q 80 36 40 44 Q 16 48 0 42 Z"/>
+  </g>
+  <!-- 冰面波纹（渊） -->
+  <g stroke="#DCEAF2" stroke-width="1.2" stroke-linecap="round" opacity="0.5" fill="none">
+    <path d="M 20 100 Q 60 96 100 100 Q 140 104 180 100">
+      <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="3.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 30 130 Q 70 126 110 130 Q 150 134 190 130">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-3 0;0 0" dur="3.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 渊底 -->
+  <path d="M 0 168 L 200 168 L 200 200 L 0 200 Z" fill="#6E92AC" opacity="0.6"/>
+
+  <!-- 玄武幼兽（龟身蛇首，游动探水） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 龟壳 -->
+    <ellipse cx="100" cy="132" rx="22" ry="14" fill="url(#shell)" stroke="#2E3836" stroke-width="1.2"/>
+    <!-- 壳纹（龟纹） -->
+    <g stroke="#6E7E7A" stroke-width="0.9" fill="none" opacity="0.7">
+      <path d="M 88 130 L 100 126 L 112 130 L 100 134 Z"/>
+      <path d="M 100 126 L 100 120 M 88 130 L 78 128 M 112 130 L 122 128"/>
+    </g>
+    <!-- 爪（划水） -->
+    <path d="M 82 140 L 78 146 M 118 140 L 122 146" stroke="#3A4442" stroke-width="2" stroke-linecap="round"/>
+    <!-- 蛇首（探出） -->
+    <path d="M 100 128 Q 98 118 102 110 Q 105 104 112 100" stroke="url(#shell)" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 112 100 Q 116 96 120 98" stroke="#6E8E8C" stroke-width="4.4" stroke-linecap="round" fill="none"/>
+    <!-- 蛇首（昂，有神） -->
+    <ellipse cx="122" cy="96" rx="5.5" ry="4.6" fill="#6E8E8C" stroke="#526E6C" stroke-width="0.7"/>
+    <circle cx="124.4" cy="94.6" r="1.6" fill="#24180E"/>
+    <circle cx="124.8" cy="94.2" r="0.5" fill="#FFF"/>
+    <path d="M 126.6 98 L 130 99 L 126 100" fill="#E8B838"/>
+  </g>
+
+  <!-- 吐气成冰（薄冰） -->
+  <g>
+    <path d="M 130 104 L 136 102 L 140 104 L 136 106 Z" fill="#E8F4F8" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.5;0.85" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <g stroke="#F0F8FC" stroke-width="1.2" stroke-linecap="round" opacity="0.6" fill="none">
+      <path d="M 126 100 Q 132 104 138 102">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+  <!-- 幼兽爪划薄冰（好奇） -->
+  <path d="M 128 110 L 136 108" stroke="#3A4442" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F0F8FC">
+    <circle cx="40" cy="98">
+      <animate attributeName="cy" values="98;88;98" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

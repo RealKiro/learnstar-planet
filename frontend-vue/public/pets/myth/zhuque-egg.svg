@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="朱雀·一阶·南方雏羽·枝头扑翅敛火意见蚁搬家">
+  <defs>
+    <!-- 背景：南方林光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E4C8"/>
+      <stop offset="52%" stop-color="#B8CCB0"/>
+      <stop offset="100%" stop-color="#8EB09A"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFF8E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 赤羽 -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0604C"/>
+      <stop offset="100%" stop-color="#D84636"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 林荫 -->
+  <g fill="#5E8E68" opacity="0.28">
+    <path d="M 0 96 Q 40 90 90 94 Q 150 98 200 92 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 草地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7EAA84" opacity="0.8"/>
+  <path d="M 0 148 L 200 148" stroke="#A0C8A4" stroke-width="1.4" opacity="0.55"/>
+
+  <!-- 蚁群搬家长队（地面，敛火护蚁） -->
+  <g>
+    <g fill="#5E5448">
+      <circle cx="52" cy="154" r="1.1"/>
+      <circle cx="60" cy="156" r="1.1"/>
+      <circle cx="68" cy="155" r="1.1"/>
+      <circle cx="76" cy="157" r="1.1"/>
+      <circle cx="84" cy="156" r="1.1"/>
+      <circle cx="92" cy="158" r="1.1"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;2 0;0 0" dur="3s" repeatCount="indefinite"/>
+    </g>
+    <!-- 蚁卵 -->
+    <circle cx="56" cy="153" r="1" fill="#E8D8B0"/>
+    <circle cx="72" cy="154" r="1" fill="#E8D8B0"/>
+  </g>
+
+  <!-- 南枝 -->
+  <path d="M 96 140 Q 108 132 124 130" stroke="#6E5640" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 104 134 L 98 128 M 116 131 L 120 126" stroke="#6E5640" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- 嫩叶 -->
+  <g fill="#7EB86A">
+    <path d="M 98 128 Q 94 124 92 120 Q 97 124 100 126 Z"/>
+    <path d="M 120 126 Q 124 122 126 118 Q 121 122 118 124 Z"/>
+  </g>
+
+  <!-- 赤羽雏鸟（枝头扑翅，火意敛住） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="112" cy="118" rx="10" ry="8.5" fill="url(#feather)" stroke="#B83828" stroke-width="0.9"/>
+    <!-- 尾羽 -->
+    <path d="M 120 124 Q 128 126 132 122" stroke="url(#feather)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <path d="M 118 126 Q 126 130 130 128" stroke="#D84636" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 翅（扑翅） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-4 106 112;6 106 112;-4 106 112" dur="1.8s" repeatCount="indefinite"/>
+      <path d="M 104 112 Q 94 104 88 96 L 102 106 Z" fill="url(#feather)" stroke="#B83828" stroke-width="0.7"/>
+      <!-- 翅尖火意（敛住，微微） -->
+      <circle cx="88" cy="95" r="2.2" fill="#F0A030" opacity="0.7">
+        <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 赤羽雏鸟头 -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="112" cy="104" rx="8" ry="7" fill="url(#feather)" stroke="#B83828" stroke-width="0.8"/>
+    <!-- 头顶冠羽 -->
+    <path d="M 108 98 Q 108 92 112 90 M 112 98 Q 114 92 118 91" stroke="#F0604C" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 眼（圆亮） -->
+    <circle cx="108.5" cy="103" r="2.2" fill="#24180E"/>
+    <circle cx="109" cy="102.5" r="0.7" fill="#FFF"/>
+    <circle cx="116.5" cy="103" r="2.2" fill="#24180E"/>
+    <circle cx="117" cy="102.5" r="0.7" fill="#FFF"/>
+    <!-- 喙（短） -->
+    <path d="M 112 106 L 110 109 L 114 108 Z" fill="#E8B838"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF8E0">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

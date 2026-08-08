@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="玄武·三阶·御寒苦修·最冷处练吐息凝霜又化壳藏暖贴兽醒">
+  <defs>
+    <!-- 背景：北渊最冷处 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8D8E4"/>
+      <stop offset="52%" stop-color="#A8C0D0"/>
+      <stop offset="100%" stop-color="#7EA0B8"/>
+    </linearGradient>
+    <!-- 暖光晨 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#FCE8B8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FCE8B8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 玄龟壳（泛温） -->
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#566260"/>
+      <stop offset="100%" stop-color="#404A48"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.48;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 冰晶（冷） -->
+  <g fill="#E8F4F8" opacity="0.6">
+    <path d="M 66 72 L 68 68 L 70 72 L 68 76 Z" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 6;0 0" dur="3.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 北渊冰面 -->
+  <g fill="#E8F0F4" opacity="0.9">
+    <path d="M 0 126 L 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <g stroke="#C8D8E0" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M 40 126 L 30 150 M 170 126 L 180 148"/>
+  </g>
+
+  <!-- 冻僵被暖醒的小兽（左，壳边） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="74" cy="148" rx="5.6" ry="4.2" fill="#D8D0C4" stroke="#B0A898" stroke-width="0.6"/>
+    <circle cx="74" cy="142" r="3.4" fill="#D8D0C4" stroke="#B0A898" stroke-width="0.5"/>
+    <circle cx="72.4" cy="141.4" r="0.9" fill="#24180E"/>
+    <circle cx="75.6" cy="141.4" r="0.9" fill="#24180E"/>
+    <!-- 暖光（醒） -->
+    <circle cx="74" cy="146" r="7" fill="#FCE8B8" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 玄武（练吐息，壳内藏暖） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 龟壳 -->
+    <ellipse cx="108" cy="130" rx="24" ry="16" fill="url(#shell)" stroke="#2E3836" stroke-width="1.2"/>
+    <!-- 壳纹 -->
+    <g stroke="#6E7E7A" stroke-width="1" fill="none" opacity="0.7">
+      <path d="M 92 126 L 108 121 L 124 126 L 108 131 Z"/>
+      <path d="M 108 121 L 108 114 M 92 126 L 80 122 M 124 126 L 136 122"/>
+    </g>
+    <!-- 壳内暖光（藏暖） -->
+    <ellipse cx="108" cy="130" rx="16" ry="10" fill="#FCE8B8" opacity="0.28">
+      <animate attributeName="opacity" values="0.28;0.16;0.28" dur="2.6s" repeatCount="indefinite"/>
+    </ellipse>
+    <!-- 爪 -->
+    <path d="M 94 142 L 90 148 M 122 142 L 126 148" stroke="#3A4442" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 蛇首（沉稳，练吐息凝霜又化） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 108 126 Q 106 116 110 108 Q 113 102 120 98" stroke="url(#shell)" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 120 98 Q 126 94 130 98" stroke="#6E8E8C" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+    <ellipse cx="132" cy="96" rx="5.5" ry="4.6" fill="#6E8E8C" stroke="#526E6C" stroke-width="0.7"/>
+    <circle cx="134.4" cy="94.6" r="1.5" fill="#24180E"/>
+    <circle cx="134.8" cy="94.2" r="0.5" fill="#FFF"/>
+    <path d="M 136.4 98 L 139 99 L 135 100" fill="#E8B838"/>
+    <!-- 吐息（凝霜又化） -->
+    <g stroke="#F4F8FC" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.7">
+      <path d="M 136 100 Q 142 104 146 108">
+        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- 凝霜又化（霜→暖光） -->
+    <g>
+      <path d="M 148 112 Q 151 108 154 112 Q 151 116 148 112 Z" fill="#E8F4F8" opacity="0.7">
+        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 150 116 Q 152 114 154 116 Q 152 118 150 116 Z" fill="#FCE8B8" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 暖光星尘 -->
+  <g fill="#FCE8B8">
+    <circle cx="40" cy="98">
+      <animate attributeName="cy" values="98;88;98" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

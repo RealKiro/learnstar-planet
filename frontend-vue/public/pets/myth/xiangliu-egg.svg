@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="相柳·一阶·九头幼蛇·九头张望打闹吐毒雾呛嚏">
+  <defs>
+    <!-- 背景：山间 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8E0C0"/>
+      <stop offset="52%" stop-color="#A4C89C"/>
+      <stop offset="100%" stop-color="#84AE7E"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="44%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#F4FFE8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F4FFE8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 蛇鳞青 -->
+    <linearGradient id="scale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5EA898"/>
+      <stop offset="100%" stop-color="#4A8E7E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="50" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.6;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山林 -->
+  <g stroke="#5E8E5E" stroke-width="2.6" stroke-linecap="round" opacity="0.55">
+    <path d="M 12 44 Q 10 96 6 160 M 28 52 Q 24 100 18 160 M 176 42 Q 180 98 186 160"/>
+  </g>
+  <g fill="#6EA868" opacity="0.7">
+    <path d="M 12 48 Q 6 42 4 34 Q 10 40 12 48 Z"/>
+    <path d="M 176 46 Q 182 40 184 32 Q 178 38 176 46 Z"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 126 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.8"/>
+  <path d="M 0 146 L 200 146" stroke="#8EB87E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 蛇身（盘，九头） -->
+  <path d="M 70 136 Q 90 132 100 140 Q 110 146 118 140 Q 124 134 130 138" fill="none" stroke="url(#scale)" stroke-width="7" stroke-linecap="round"/>
+  <!-- 鳞纹 -->
+  <path d="M 80 134 L 82 138 M 96 138 L 98 142 M 112 138 L 113 142" stroke="#3E7E6E" stroke-width="1" opacity="0.5"/>
+
+  <!-- 主头（张望） -->
+  <g>
+    <ellipse cx="84" cy="118" rx="7" ry="6" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.8"/>
+    <circle cx="81" cy="117" r="1.6" fill="#24180E"/>
+    <circle cx="88" cy="117" r="1.6" fill="#24180E"/>
+    <!-- 蛇信 -->
+    <path d="M 78 120 L 74 122 M 74 122 L 72 120 M 74 122 L 72 124" stroke="#D85050" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 次头（四个小头，张望打闹） -->
+  <g>
+    <ellipse cx="74" cy="110" rx="5" ry="4.4" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 74 110;8 74 110;0 74 110" dur="2.2s" repeatCount="indefinite"/>
+    </ellipse>
+    <circle cx="72" cy="109" r="1.2" fill="#24180E"/>
+    <circle cx="77" cy="109" r="1.2" fill="#24180E"/>
+    <path d="M 71 112 L 68 114" stroke="#D85050" stroke-width="0.8" stroke-linecap="round"/>
+    <ellipse cx="96" cy="112" rx="5" ry="4.4" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 96 112;-8 96 112;0 96 112" dur="2.4s" repeatCount="indefinite"/>
+    </ellipse>
+    <circle cx="94" cy="111" r="1.2" fill="#24180E"/>
+    <circle cx="99" cy="111" r="1.2" fill="#24180E"/>
+    <ellipse cx="90" cy="104" rx="4.6" ry="4" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 90 104;10 90 104;0 90 104" dur="2.6s" repeatCount="indefinite"/>
+    </ellipse>
+    <circle cx="88" cy="103" r="1.1" fill="#24180E"/>
+    <circle cx="93" cy="103" r="1.1" fill="#24180E"/>
+    <ellipse cx="104" cy="104" rx="4.6" ry="4" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 104 104;-10 104 104;0 104 104" dur="2.8s" repeatCount="indefinite"/>
+    </ellipse>
+    <circle cx="102" cy="103" r="1.1" fill="#24180E"/>
+    <circle cx="107" cy="103" r="1.1" fill="#24180E"/>
+  </g>
+
+  <!-- 吐出的毒雾（呛鼻） -->
+  <g stroke="#9EBCAE" stroke-width="1.4" opacity="0.5" stroke-linecap="round" fill="none">
+    <path d="M 108 102 Q 114 98 120 102">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g fill="#9EBCAE" opacity="0.35">
+    <circle cx="124" cy="102" r="3">
+      <animate attributeName="r" values="2;4;2" dur="2.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.1;0.35" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F4FFE8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

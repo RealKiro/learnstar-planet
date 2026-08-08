@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="青龙·六阶·青龙传说·立春尾扶小龙吐息生芽春苗满野">
+  <defs>
+    <!-- 背景：东方立春 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8D8EC"/>
+      <stop offset="52%" stop-color="#9CC0D8"/>
+      <stop offset="100%" stop-color="#7EA88C"/>
+    </linearGradient>
+    <!-- 春辉 -->
+    <radialGradient id="glow" cx="50%" cy="24%" r="54%">
+      <stop offset="0%" stop-color="#F0FAF4" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F0FAF4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="40%">
+      <stop offset="0%" stop-color="#9ED8C8" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#9ED8C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青鳞 -->
+    <linearGradient id="scale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7AC8B8"/>
+      <stop offset="100%" stop-color="#5EB0A0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="48" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山 -->
+  <g fill="#7E9E6E" opacity="0.5">
+    <path d="M 0 132 Q 50 122 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 云 -->
+  <g fill="#EAF4F2" opacity="0.9">
+    <path d="M 0 120 Q 30 112 60 118 Q 90 124 120 118 Q 150 112 180 118 L 200 116 L 200 200 L 0 200 Z"/>
+  </g>
+
+  <!-- 春苗（满野） -->
+  <g stroke="#7EB86A" stroke-width="1.8" stroke-linecap="round" opacity="0.95">
+    <path d="M 30 148 Q 28 140 26 132 M 50 148 Q 50 140 48 132 M 70 148 Q 70 140 68 132 M 130 148 Q 130 140 128 132 M 150 148 Q 150 140 148 132 M 170 148 Q 170 140 168 132">
+      <animateTransform attributeName="transform" type="rotate" values="0 70 148;3 70 148;0 70 148" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#5E9E5E" opacity="0.85"/>
+  <path d="M 0 148 L 200 148" stroke="#7EBE7E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 小龙（左前，吐息生芽） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 78 126 C 88 120 96 118 104 122 Q 110 126 112 132" fill="none" stroke="#6EB8A8" stroke-width="4.6" stroke-linecap="round"/>
+    <!-- 小翼鳍 -->
+    <path d="M 88 120 Q 80 112 78 104" stroke="#8AD0C0" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- 小角 -->
+    <path d="M 76 116 L 73 110" stroke="#C8B868" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- 头 -->
+    <ellipse cx="78" cy="118" rx="6" ry="5.4" fill="#6EB8A8" stroke="#4A9E8E" stroke-width="0.6"/>
+    <circle cx="75" cy="117" r="1.6" fill="#24180E"/>
+    <circle cx="75.4" cy="116.7" r="0.5" fill="#FFF"/>
+    <circle cx="82" cy="117" r="1.6" fill="#24180E"/>
+    <circle cx="82.4" cy="116.7" r="0.5" fill="#FFF"/>
+    <!-- 吐息生芽 -->
+    <g stroke="#F0FAF4" stroke-width="1.2" opacity="0.6" stroke-linecap="round" fill="none">
+      <path d="M 72 120 Q 64 122 58 120">
+        <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <g fill="#7EB86A">
+      <path d="M 56 120 Q 52 116 50 112 Q 55 116 58 118 Z">
+        <animateTransform attributeName="transform" type="scale" values="0.8 0.8;1 1;0.8 0.8" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 老青龙（尾扶小龙，传暖息） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 蛇身（盘） -->
+    <path d="M 112 128 C 128 118 144 120 156 130" fill="none" stroke="url(#scale)" stroke-width="8" stroke-linecap="round"/>
+    <!-- 尾（扶小龙） -->
+    <path d="M 156 130 Q 148 124 140 122 Q 134 120 130 124" fill="none" stroke="url(#scale)" stroke-width="4.6" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="0 156 130;5 156 130;0 156 130" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <!-- 翼鳍 -->
+    <path d="M 120 118 Q 136 106 146 92" stroke="#9ED8C8" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <!-- 龙角 -->
+    <path d="M 112 122 L 108 114 M 116 122 L 120 114" stroke="#E0D088" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老龙头（温和，看小龙） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="114" cy="126" rx="9" ry="8" fill="url(#scale)" stroke="#4A9E8E" stroke-width="0.9"/>
+    <!-- 眼（温和） -->
+    <path d="M 108 124 Q 110 123 112 124 M 118 124 Q 120 123 122 124" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+    <circle cx="110" cy="125" r="2.2" fill="#24180E"/>
+    <circle cx="110.5" cy="124.6" r="0.7" fill="#FFF"/>
+    <circle cx="120" cy="125" r="2.2" fill="#24180E"/>
+    <circle cx="120.5" cy="124.6" r="0.7" fill="#FFF"/>
+    <path d="M 106 128 Q 110 130 114 128" stroke="#4A9E8E" stroke-width="0.9" stroke-linecap="round"/>
+  </g>
+
+  <!-- 传暖微光 -->
+  <circle cx="104" cy="124" r="6" fill="#F0FAF4" opacity="0.35">
+    <animate attributeName="opacity" values="0.35;0.15;0.35" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 春辉星尘 -->
+  <g fill="#F0FAF4">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

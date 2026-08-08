@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="毕方·三阶·驭火苦修·练控火火随心点亮枯枝">
+  <defs>
+    <!-- 背景：空旷夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A4E68"/>
+      <stop offset="52%" stop-color="#2E4058"/>
+      <stop offset="100%" stop-color="#263650"/>
+    </linearGradient>
+    <!-- 火光 -->
+    <radialGradient id="glow" cx="50%" cy="40%" r="44%">
+      <stop offset="0%" stop-color="#FFB878" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFB878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 赤羽（渐亮） -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E86848"/>
+      <stop offset="100%" stop-color="#D05038"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="82" r="60" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#1E2C44" opacity="0.9"/>
+  <path d="M 0 148 L 200 148" stroke="#4A5E78" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- 枯枝（被火点亮） -->
+  <path d="M 128 138 Q 138 132 148 134" stroke="#6E624E" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <!-- 点亮处 -->
+  <g fill="#FF9048">
+    <circle cx="148" cy="134" r="2.4">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g stroke="#FFC080" stroke-width="1" opacity="0.6" stroke-linecap="round">
+    <path d="M 150 132 L 153 130 M 150 136 L 153 138">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 毕方（练控火，一足稳健） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 一足 -->
+    <path d="M 92 122 L 92 136" stroke="#D05038" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 92 136 L 89 139 M 92 136 L 95 139" stroke="#D05038" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- 身体 -->
+    <ellipse cx="92" cy="116" rx="12" ry="10" fill="url(#feather)" stroke="#A83828" stroke-width="0.9"/>
+    <!-- 尾羽 -->
+    <path d="M 102 120 Q 108 122 112 120" stroke="#D05038" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 头（专注，火随心走） -->
+  <g>
+    <ellipse cx="92" cy="102" rx="9" ry="8" fill="url(#feather)" stroke="#A83828" stroke-width="0.8"/>
+    <path d="M 90 95 Q 88 91 90 88 M 93 95 Q 94 90 96 88" stroke="#F08868" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 眼（专注） -->
+    <path d="M 85 100 Q 87 99 89 100 M 95 100 Q 97 99 99 100" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="87" cy="101" r="2.2" fill="#24180E"/>
+    <circle cx="87.6" cy="100.4" r="0.7" fill="#FFF"/>
+    <circle cx="97" cy="101" r="2.2" fill="#24180E"/>
+    <circle cx="97.6" cy="100.4" r="0.7" fill="#FFF"/>
+    <!-- 喙 -->
+    <path d="M 84 104 L 79 103 L 84 106 Z" fill="#D89078"/>
+  </g>
+
+  <!-- 火随心走（从喙/羽尖引向枯枝） -->
+  <g stroke="#FF9048" stroke-width="1.6" opacity="0.8" stroke-linecap="round" fill="none">
+    <path d="M 98 98 C 108 100 116 106 122 112 Q 130 118 142 126 Q 146 130 148 132">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 火珠 -->
+  <circle cx="120" cy="110" r="2" fill="#FFB878">
+    <animateTransform attributeName="transform" type="translate" values="0 0;8 8;0 0" dur="1.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 火光星尘 -->
+  <g fill="#FFB878">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

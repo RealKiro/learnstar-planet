@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="貔貅·三阶·炼吞苦修·辨福晦之物才吞角拨开晦气">
+  <defs>
+    <!-- 背景：村口晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E8C0"/>
+      <stop offset="52%" stop-color="#B4D09C"/>
+      <stop offset="100%" stop-color="#94B080"/>
+    </linearGradient>
+    <!-- 金光 -->
+    <radialGradient id="glow" cx="46%" cy="30%" r="52%">
+      <stop offset="0%" stop-color="#FFF0C8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF0C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 貔貅金毛（渐亮） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8C878"/>
+      <stop offset="100%" stop-color="#D0A858"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="50" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 村落（远） -->
+  <g stroke="#7E6E4E" stroke-width="1.6" stroke-linecap="round" opacity="0.7">
+    <path d="M 20 118 L 20 128 M 30 114 L 30 128 M 42 118 L 42 128"/>
+  </g>
+  <g fill="#9E8E6E" opacity="0.6">
+    <path d="M 16 128 L 46 128 L 44 138 L 18 138 Z"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 126 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.8"/>
+  <path d="M 0 146 L 200 146" stroke="#8EB87E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 福物（金，可吞） -->
+  <g>
+    <circle cx="126" cy="136" r="4" fill="#FFE8A0" stroke="#D0A858" stroke-width="0.8">
+      <animate attributeName="opacity" values="0.9;0.6;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <g stroke="#FFE8A0" stroke-width="1" opacity="0.6" stroke-linecap="round">
+      <path d="M 126 128 L 126 132 M 126 140 L 126 144 M 118 136 L 122 136 M 130 136 L 134 136">
+        <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 晦气（灰，被角拨开） -->
+  <g opacity="0.6">
+    <path d="M 150 128 Q 156 122 162 126" stroke="#8E8E86" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 -3;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 156 134 Q 162 130 168 134" stroke="#8E8E86" stroke-width="2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="translate" values="0 0;8 -4;0 0" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 幼貔貅（辨福晦，才吞） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 尾 -->
+    <path d="M 88 132 Q 96 130 100 126" stroke="#D0A858" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <!-- 身体 -->
+    <path d="M 58 116 Q 54 128 64 134 Q 78 140 90 134 Q 96 128 92 116 Q 78 110 58 116 Z" fill="url(#fur)" stroke="#B88E3E" stroke-width="1"/>
+    <!-- 腿 -->
+    <path d="M 64 132 L 62 142 M 84 132 L 86 142" stroke="#B88E3E" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（辨福晦，角拨晦气） -->
+  <g>
+    <ellipse cx="62" cy="106" rx="11" ry="9.5" fill="url(#fur)" stroke="#B88E3E" stroke-width="1"/>
+    <!-- 一角（拨晦气，含金光） -->
+    <path d="M 66 98 Q 70 92 76 90" stroke="#F0E0C0" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="77" cy="89" r="2" fill="#FFE8A0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 眼（专注辨） -->
+    <path d="M 55 104 Q 57 103 59 104 M 67 104 Q 69 103 71 104" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="57" cy="105" r="2.4" fill="#24180E"/>
+    <circle cx="57.6" cy="104.4" r="0.8" fill="#FFF"/>
+    <circle cx="69" cy="105" r="2.4" fill="#24180E"/>
+    <circle cx="69.6" cy="104.4" r="0.8" fill="#FFF"/>
+    <!-- 大嘴（有度，微抿） -->
+    <path d="M 52 109 Q 58 111 64 109" fill="none" stroke="#8E6E2E" stroke-width="1" stroke-linecap="round"/>
+    <!-- 鼻 -->
+    <ellipse cx="62" cy="110" rx="2" ry="1.5" fill="#8E6E2E"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF0C8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

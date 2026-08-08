@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="朱雀·三阶·浴火苦修·焦土边引火收火翅尖火珠烤土护芽">
+  <defs>
+    <!-- 背景：南荒焦土晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0C8A0"/>
+      <stop offset="52%" stop-color="#C8AE88"/>
+      <stop offset="100%" stop-color="#9E9272"/>
+    </linearGradient>
+    <!-- 火晨光 -->
+    <radialGradient id="glow" cx="50%" cy="24%" r="54%">
+      <stop offset="0%" stop-color="#F8E8C0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F8E8C0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 赤羽（重生亮） -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0604C"/>
+      <stop offset="100%" stop-color="#D84636"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 焦土丘 -->
+  <g fill="#8E826E" opacity="0.5">
+    <path d="M 0 118 Q 50 112 110 116 Q 160 120 200 114 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 焦土地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7E6E58" opacity="0.8"/>
+  <path d="M 0 148 L 200 148" stroke="#9E8E72" stroke-width="1.4" opacity="0.5"/>
+
+  <!-- 烤开冻土护住的幼芽（右） -->
+  <g fill="#7EB86A">
+    <path d="M 148 144 L 144 134 Q 148 138 150 136 Z"/>
+    <path d="M 152 143 L 156 133 Q 152 137 150 135 Z"/>
+    <path d="M 148 138 Q 148 132 150 128 Q 151 132 150 138 Z">
+      <animateTransform attributeName="transform" type="scale" values="1 1;1.12 1.12;1 1" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 烤开的暖光（土缝） -->
+  <circle cx="150" cy="144" r="8" fill="#F8C878" opacity="0.35">
+    <animate attributeName="opacity" values="0.35;0.15;0.35" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 朱雀（引火收火，翅尖火珠） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 尾羽 -->
+    <path d="M 104 132 Q 94 138 88 132" stroke="url(#feather)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <path d="M 102 134 Q 96 140 92 138" stroke="#D84636" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 身体 -->
+    <ellipse cx="112" cy="118" rx="10" ry="8.5" fill="url(#feather)" stroke="#B83828" stroke-width="0.9"/>
+    <!-- 右翅（引火，火珠旋） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 120 112;-10 120 112;0 120 112" dur="1.8s" repeatCount="indefinite"/>
+      <path d="M 122 112 L 140 104 L 150 96 L 134 106 Z" fill="url(#feather)" stroke="#B83828" stroke-width="0.7"/>
+      <!-- 翅尖火珠 -->
+      <circle cx="150" cy="96" r="3" fill="#F0A030">
+        <animateTransform attributeName="transform" type="scale" values="1 1;1.2 1.2;1 1" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <!-- 火珠光弧 -->
+      <circle cx="150" cy="96" r="5" fill="none" stroke="#F8C878" stroke-width="0.8" opacity="0.5">
+        <animateTransform attributeName="transform" type="rotate" values="0 150 96;120 150 96;240 150 96;360 150 96" dur="3s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- 左翅（收火） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 104 112;8 104 112;0 104 112" dur="2s" repeatCount="indefinite"/>
+      <path d="M 102 112 L 88 104 L 80 96 L 94 106 Z" fill="url(#feather)" stroke="#B83828" stroke-width="0.7"/>
+      <circle cx="80" cy="96" r="2" fill="#F0A030" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- 朱雀头（专注） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="112" cy="102" rx="8" ry="7.2" fill="url(#feather)" stroke="#B83828" stroke-width="0.8"/>
+    <!-- 冠羽（重生亮） -->
+    <path d="M 108 96 Q 108 90 112 88 M 112 96 Q 114 90 118 89" stroke="#F0604C" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 眼（专注） -->
+    <circle cx="108.5" cy="101" r="2.2" fill="#24180E"/>
+    <circle cx="109" cy="100.5" r="0.7" fill="#FFF"/>
+    <circle cx="116.5" cy="101" r="2.2" fill="#24180E"/>
+    <circle cx="117" cy="100.5" r="0.7" fill="#FFF"/>
+    <!-- 喙 -->
+    <path d="M 112 104 L 110 107.4 L 114 106.4 Z" fill="#E8B838"/>
+    <!-- 引火气息 -->
+    <g stroke="#F8C878" stroke-width="1.2" stroke-linecap="round" opacity="0.5" fill="none">
+      <path d="M 118 100 Q 124 98 128 96">
+        <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 火尘星尘 -->
+  <g fill="#F8C878">
+    <circle cx="38" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

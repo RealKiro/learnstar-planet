@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="貔貅·四阶·吞灾纳福·守门槛吞邪祟吐福光屋主安然">
+  <defs>
+    <!-- 背景：夜宅 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A4E68"/>
+      <stop offset="52%" stop-color="#2E4058"/>
+      <stop offset="100%" stop-color="#263650"/>
+    </linearGradient>
+    <!-- 福光 -->
+    <radialGradient id="glow" cx="46%" cy="36%" r="44%">
+      <stop offset="0%" stop-color="#FFF0C8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFF0C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 貔貅金毛（鎏金） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8C878"/>
+      <stop offset="100%" stop-color="#D0A858"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 福光 -->
+  <circle cx="92" cy="100" r="58" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 宅门 -->
+  <path d="M 150 130 L 190 122 L 196 200 L 150 200 Z" fill="#5E523E" stroke="#4E4232" stroke-width="1.2"/>
+  <path d="M 160 130 Q 170 126 180 130" stroke="#7E725E" stroke-width="1" opacity="0.7" fill="none"/>
+  <!-- 宅门灯火（屋内安然） -->
+  <circle cx="172" cy="142" r="3" fill="#FFE8A0" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 邪祟（暗影，被吞） -->
+  <g opacity="0.7">
+    <path d="M 130 128 Q 138 120 146 126 Q 152 132 146 138 Q 138 142 132 136" fill="#3A3A34" stroke="#2E2E28" stroke-width="0.8"/>
+    <circle cx="138" cy="126" r="1.6" fill="#D87878">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="144" cy="124" r="1.4" fill="#D87878">
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 被吸向貔貅 -->
+    <g stroke="#FFE8A0" stroke-width="1.2" opacity="0.5" stroke-linecap="round" fill="none">
+      <path d="M 140 130 Q 126 128 116 124">
+        <animate attributeName="opacity" values="0.5;0.2;0.5" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#1E2C44" opacity="0.9"/>
+  <path d="M 0 148 L 200 148" stroke="#4A5E78" stroke-width="1.2" opacity="0.5"/>
+  <!-- 门槛 -->
+  <path d="M 96 144 L 152 138 L 156 148 L 96 148 Z" fill="#5E523E" stroke="#4E4232" stroke-width="1"/>
+
+  <!-- 幼貔貅（守门槛，吞邪祟） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 尾 -->
+    <path d="M 88 134 Q 96 132 100 128" stroke="#D0A858" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <!-- 身体 -->
+    <path d="M 58 118 Q 54 130 64 136 Q 78 142 90 136 Q 96 130 92 118 Q 78 112 58 118 Z" fill="url(#fur)" stroke="#B88E3E" stroke-width="1"/>
+    <!-- 腿 -->
+    <path d="M 64 134 L 62 144 M 84 134 L 86 144" stroke="#B88E3E" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（吞邪祟，吐福光） -->
+  <g>
+    <ellipse cx="62" cy="108" rx="11" ry="9.5" fill="url(#fur)" stroke="#B88E3E" stroke-width="1"/>
+    <!-- 一角（含金光） -->
+    <path d="M 66 100 Q 70 92 76 88" stroke="#F0E0C0" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="77" cy="87" r="2.2" fill="#FFE8A0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 眼（含威，护宅） -->
+    <path d="M 55 106 Q 57 105 59 106 M 67 106 Q 69 105 71 106" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="57" cy="107" r="2.4" fill="#24180E"/>
+    <circle cx="57.6" cy="106.4" r="0.8" fill="#FFF"/>
+    <circle cx="69" cy="107" r="2.4" fill="#24180E"/>
+    <circle cx="69.6" cy="106.4" r="0.8" fill="#FFF"/>
+    <!-- 大嘴（吞邪祟） -->
+    <path d="M 52 110 Q 58 113 64 110" fill="none" stroke="#8E6E2E" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- 鼻 -->
+    <ellipse cx="62" cy="112" rx="2" ry="1.5" fill="#8E6E2E"/>
+  </g>
+
+  <!-- 吞下的晦气（入腹） -->
+  <g stroke="#8E8E86" stroke-width="1.4" opacity="0.4" stroke-linecap="round" fill="none">
+    <path d="M 60 114 Q 58 118 60 122">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 吐出的福光（守护） -->
+  <g>
+    <circle cx="70" cy="96" r="4" fill="#FFE8A0" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2.2s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="scale" values="0.8 0.8;1.2 1.2;0.8 0.8" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <g stroke="#FFE8A0" stroke-width="1.2" opacity="0.6" stroke-linecap="round" fill="none">
+      <path d="M 76 92 Q 82 88 88 90">
+        <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 夜星尘 -->
+  <g fill="#FFF0C8">
+    <circle cx="36" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="白泽·一阶·幼白泽·追蝶问飞拦蚁问搬问树累否">
+  <defs>
+    <!-- 背景：山间花木 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DCE8D0"/>
+      <stop offset="52%" stop-color="#BCCEB0"/>
+      <stop offset="100%" stop-color="#90AE90"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F8FCF0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F8FCF0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 雪白毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#ECE8E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山丘 -->
+  <g fill="#6E9E78" opacity="0.3">
+    <path d="M 0 108 Q 50 102 110 106 Q 160 110 200 104 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 草地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#86AE7E" opacity="0.8"/>
+  <path d="M 0 148 L 200 148" stroke="#A8C8A0" stroke-width="1.4" opacity="0.55"/>
+
+  <!-- 花（问花） -->
+  <g>
+    <path d="M 150 146 L 150 140" stroke="#7E9E6E" stroke-width="1.2" stroke-linecap="round"/>
+    <g fill="#F0A0B8">
+      <circle cx="148" cy="138" r="1.6"/>
+      <circle cx="152" cy="138" r="1.6"/>
+      <circle cx="150" cy="136" r="1.6"/>
+      <circle cx="150" cy="140" r="1.6"/>
+      <circle cx="150" cy="138" r="1" fill="#F0E0A0"/>
+    </g>
+    <path d="M 162 146 L 162 142" stroke="#7E9E6E" stroke-width="1.2" stroke-linecap="round"/>
+    <g fill="#F8C860">
+      <circle cx="160.4" cy="140" r="1.4"/>
+      <circle cx="163.6" cy="140" r="1.4"/>
+      <circle cx="162" cy="138.4" r="1.4"/>
+      <circle cx="162" cy="141.6" r="1.4"/>
+      <circle cx="162" cy="140" r="0.9" fill="#F8F4D0"/>
+    </g>
+  </g>
+
+  <!-- 老树（右，被问） -->
+  <g>
+    <path d="M 152 148 Q 150 120 142 100" stroke="#6E5640" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+    <path d="M 144 108 Q 132 100 124 94 M 146 120 Q 134 116 126 110 M 142 96 Q 138 88 132 84" stroke="#6E5640" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <g fill="#7EAA6E">
+      <path d="M 124 94 Q 118 88 114 82 Q 122 86 126 90 Z"/>
+      <path d="M 132 84 Q 126 78 122 72 Q 130 78 134 82 Z"/>
+    </g>
+  </g>
+
+  <!-- 蝶（被追） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -3;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <g fill="#E894AC">
+      <path d="M 92 88 Q 86 84 84 78 Q 90 82 94 86 Z"/>
+      <path d="M 92 88 Q 98 84 100 78 Q 94 82 90 86 Z"/>
+    </g>
+    <ellipse cx="92" cy="90" rx="1.2" ry="2" fill="#6E5650"/>
+  </g>
+
+  <!-- 蚁（被问） -->
+  <g>
+    <g fill="#5E5448">
+      <circle cx="112" cy="148" r="1"/>
+      <circle cx="118" cy="149" r="1"/>
+      <circle cx="124" cy="148" r="1"/>
+    </g>
+  </g>
+
+  <!-- 幼白泽（通体雪白，追蝶问） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身 -->
+    <ellipse cx="96" cy="132" rx="14" ry="9.5" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 腿 -->
+    <path d="M 88 139 L 86 147 M 106 139 L 108 147" stroke="#C8C2B8" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 尾（茸尾） -->
+    <path d="M 110 136 Q 120 132 124 124" stroke="url(#fur)" stroke-width="3" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 110 136;7 110 136;0 110 136" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 前蹄（问蝶，微抬） -->
+    <path d="M 90 128 Q 86 122 88 118" stroke="url(#fur)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 90 128;-6 90 128;0 90 128" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 幼白泽头（双目灵透，好奇） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="96" cy="114" rx="11" ry="10" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 耳 -->
+    <path d="M 87 107 L 82 98 L 91 104 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <path d="M 105 107 L 110 98 L 101 104 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <path d="M 86 104 Q 84 100 87 100" stroke="#F0D8C8" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <!-- 鬃毛（如雪） -->
+    <path d="M 90 105 Q 88 100 90 98 Q 92 100 92 104" fill="url(#fur)"/>
+    <path d="M 100 105 Q 102 100 100 98 Q 98 100 98 104" fill="url(#fur)"/>
+    <!-- 双目（灵透好奇） -->
+    <path d="M 87 112 Q 89 110.6 91 112 M 102 112 Q 104 110.6 106 112" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="89" cy="113" r="2.4" fill="#24180E"/>
+    <circle cx="89.6" cy="112.4" r="0.8" fill="#FFF"/>
+    <circle cx="104" cy="113" r="2.4" fill="#24180E"/>
+    <circle cx="104.6" cy="112.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="96" cy="117" rx="1.7" ry="1.3" fill="#C8A0A0"/>
+    <!-- 问话的嘴（微张） -->
+    <path d="M 92 120 Q 96 121.6 100 120" fill="none" stroke="#A8A098" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 问号 -->
+    <text x="108" y="104" font-size="11" fill="#8EAE90" font-family="serif" font-weight="bold" opacity="0.7">？</text>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F8FCF0">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

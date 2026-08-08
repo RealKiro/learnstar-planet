@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="九尾狐·三阶·修尾苦修·二尾渐长引迷童出林">
+  <defs>
+    <!-- 背景：山林暖阳 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0E8B4"/>
+      <stop offset="52%" stop-color="#AACC98"/>
+      <stop offset="100%" stop-color="#88AE78"/>
+    </linearGradient>
+    <!-- 暖阳 -->
+    <radialGradient id="glow" cx="46%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 奶白绒毛（渐亮） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F4EE"/>
+      <stop offset="100%" stop-color="#E4DCCE"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="50" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山林 -->
+  <g stroke="#5E8E5E" stroke-width="2.6" stroke-linecap="round" opacity="0.55">
+    <path d="M 12 44 Q 10 96 6 160 M 28 52 Q 24 100 18 160 M 176 42 Q 180 98 186 160"/>
+  </g>
+  <g fill="#6EA868" opacity="0.7">
+    <path d="M 12 48 Q 6 42 4 34 Q 10 40 12 48 Z"/>
+    <path d="M 176 46 Q 182 40 184 32 Q 178 38 176 46 Z"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 126 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+  <!-- 草地 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.8"/>
+  <path d="M 0 146 L 200 146" stroke="#8EB87E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 老农（右侧，道谢） -->
+  <g opacity="0.9">
+    <path d="M 146 126 L 144 142 L 148 142 L 150 126 Z" fill="#7E6E4E" stroke="#6E5E3E" stroke-width="0.8"/>
+    <circle cx="148" cy="120" r="4.2" fill="#9E8E6E" stroke="#6E5E3E" stroke-width="0.6"/>
+    <path d="M 146 122 Q 148 124 150 122" stroke="#6E5E3E" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+    <!-- 拱手道谢 -->
+    <path d="M 144 128 L 138 126" stroke="#7E6E4E" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 138 124 L 134 122" stroke="#7E6E4E" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 草帽 -->
+    <path d="M 142 116 Q 148 112 154 116 L 142 116 Z" fill="#C8A860" stroke="#A88840" stroke-width="0.6"/>
+  </g>
+
+  <!-- 迷路孩童（中，被引着出林） -->
+  <g>
+    <path d="M 96 132 L 94 144 L 98 144 L 100 132 Z" fill="#A0886E" stroke="#8E7660" stroke-width="0.8"/>
+    <circle cx="98" cy="126" r="4" fill="#D8C8A8" stroke="#8E7660" stroke-width="0.6"/>
+    <path d="M 94 128 Q 98 130 102 128" stroke="#8E7660" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+    <path d="M 92 144 L 90 148 M 102 144 L 104 148" stroke="#8E7660" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 小狐（二尾，引路） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 二尾（渐长） -->
+    <path d="M 62 138 Q 76 134 82 126 Q 84 122 82 118" stroke="url(#fur)" stroke-width="3.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 62 138;10 62 138;0 62 138" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 64 139 Q 78 138 86 132 Q 90 128 90 124" stroke="url(#fur)" stroke-width="3" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 64 139;8 64 139;0 64 139" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 82 122 L 84 119 M 88 128 L 90 125" stroke="#E4DCCE" stroke-width="1.6" stroke-linecap="round" fill="#E4DCCE"/>
+    <!-- 身体 -->
+    <ellipse cx="54" cy="128" rx="12" ry="9" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.8"/>
+    <!-- 腿 -->
+    <path d="M 46 134 L 44 144 M 62 134 L 64 144" stroke="#C8C0AE" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 额间灵光（亮） -->
+    <circle cx="52" cy="114" r="2.8" fill="#FFE8A0" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.45;0.85" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 头（温善） -->
+  <g>
+    <ellipse cx="52" cy="108" rx="9.5" ry="8.5" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.8"/>
+    <path d="M 45 102 L 40 92 L 48 98 Z" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.6"/>
+    <path d="M 59 102 L 64 92 L 56 98 Z" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.6"/>
+    <!-- 眼（温善） -->
+    <circle cx="46" cy="107" r="2.4" fill="#4A3820"/>
+    <circle cx="46.6" cy="106.4" r="0.8" fill="#FFF"/>
+    <circle cx="58" cy="107" r="2.4" fill="#4A3820"/>
+    <circle cx="58.6" cy="106.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="52" cy="111" rx="1.4" ry="1" fill="#C8A89A"/>
+    <!-- 小嘴 -->
+    <path d="M 48 114 Q 52 115.6 56 114" fill="none" stroke="#B09A8A" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 灵光星尘 -->
+  <g fill="#FFF8DC">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

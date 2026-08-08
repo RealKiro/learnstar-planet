@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="饕餮·六阶·守食传说·暮色看雏数果角碰传语嘴用于守">
+  <defs>
+    <!-- 背景：果林暮霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C088"/>
+      <stop offset="52%" stop-color="#DCAC74"/>
+      <stop offset="100%" stop-color="#94AE78"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F8D890" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F8D890" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 饕餮毛（泛岁月光） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8AA8A4"/>
+      <stop offset="100%" stop-color="#6E8E8A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 果林丘 -->
+  <g fill="#5E8E68" opacity="0.4">
+    <path d="M 0 132 Q 50 122 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 草地 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7E9E5E" opacity="0.85"/>
+  <path d="M 0 148 L 200 148" stroke="#9EBE7E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 果堆（一粒粒，小饕餮在数） -->
+  <g>
+    <circle cx="52" cy="148" r="2.6" fill="#E0A048"/>
+    <circle cx="60" cy="149" r="2.4" fill="#E0684E"/>
+    <circle cx="66" cy="147" r="2.2" fill="#E0A048"/>
+    <circle cx="58" cy="146" r="8" fill="#FFF0D0" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.12;0.25" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 小饕餮（左下，数果一粒粒吃） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 小羊身 -->
+    <ellipse cx="60" cy="136" rx="10" ry="7.5" fill="url(#fur)" stroke="#4E726E" stroke-width="0.8"/>
+    <!-- 腿 -->
+    <path d="M 54 141 L 52 147 M 66 141 L 68 147" stroke="#4E726E" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 70 140 Q 76 140 77 145" stroke="url(#fur)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 前蹄数果 -->
+    <path d="M 56 130 L 51 125" stroke="url(#fur)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- 小饕餮头（数果，澄明） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="60" cy="124" rx="9" ry="8" fill="url(#fur)" stroke="#4E726E" stroke-width="0.8"/>
+    <path d="M 53 119 L 49 114 L 52 122 Q 54 121 53 119 Z" fill="#5E7E7A"/>
+    <path d="M 67 119 L 71 114 L 68 122 Q 66 121 67 119 Z" fill="#5E7E7A"/>
+    <circle cx="56.5" cy="122" r="2.2" fill="#24180E"/>
+    <circle cx="57" cy="121.6" r="0.7" fill="#FFF"/>
+    <circle cx="64" cy="122" r="2.2" fill="#24180E"/>
+    <circle cx="64.5" cy="121.6" r="0.7" fill="#FFF"/>
+    <!-- 大嘴（微抿，节制） -->
+    <path d="M 55 127 Q 60 129 65 127" fill="none" stroke="#3E4E4A" stroke-width="1.3" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老饕餮（角碰小饕餮，传守食） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 羊身 -->
+    <ellipse cx="116" cy="128" rx="15" ry="10.5" fill="url(#fur)" stroke="#4E726E" stroke-width="1"/>
+    <!-- 腿 -->
+    <path d="M 106 135 L 104 144 M 126 135 L 128 144" stroke="#4E726E" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 131 132 Q 140 128 144 122" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 131 132;5 131 132;0 131 132" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 老饕餮头（垂首，角碰小饕餮，温和） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="116" cy="112" rx="12" ry="10.5" fill="url(#fur)" stroke="#4E726E" stroke-width="0.9"/>
+    <!-- 羊耳 -->
+    <path d="M 107 105 L 102 99 L 105 109 Q 108 107 107 105 Z" fill="#5E7E7A"/>
+    <path d="M 125 105 L 130 99 L 127 109 Q 124 107 125 105 Z" fill="#5E7E7A"/>
+    <!-- 角（垂，碰小饕餮） -->
+    <path d="M 108 102 Q 104 96 98 92 Q 94 90 90 92" stroke="#D8C080" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <circle cx="89" cy="92" r="2.2" fill="#FFF0D0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 传道微光（角→小饕餮） -->
+    <circle cx="82" cy="104" r="7" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 双目（温和） -->
+    <path d="M 109 110 Q 111 108.6 113 110 M 120 110 Q 122 108.6 124 110" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="111" cy="111" r="2.6" fill="#24180E"/>
+    <circle cx="111.6" cy="110.4" r="0.8" fill="#FFF"/>
+    <circle cx="122" cy="111" r="2.6" fill="#24180E"/>
+    <circle cx="122.6" cy="110.4" r="0.8" fill="#FFF"/>
+    <!-- 大嘴（含慈） -->
+    <path d="M 107 118 Q 116 120.6 125 118" fill="none" stroke="#3E4E4A" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- 暮霞星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

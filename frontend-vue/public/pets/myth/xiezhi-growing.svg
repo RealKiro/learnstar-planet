@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="獬豸·三阶·明辨苦修·村口立着看往来人角尖随谎微热">
+  <defs>
+    <!-- 背景：村口晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E8C0"/>
+      <stop offset="52%" stop-color="#B4D09C"/>
+      <stop offset="100%" stop-color="#94B080"/>
+    </linearGradient>
+    <!-- 正光 -->
+    <radialGradient id="glow" cx="46%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#E8ECF8" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#E8ECF8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 羊雪白（亮） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F8F6"/>
+      <stop offset="100%" stop-color="#E0E0DC"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.75;0.55;0.75" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 村落（远） -->
+  <g stroke="#7E6E4E" stroke-width="1.6" stroke-linecap="round" opacity="0.7">
+    <path d="M 20 118 L 20 128 M 32 114 L 32 128 M 46 118 L 46 128"/>
+  </g>
+  <g fill="#9E8E6E" opacity="0.6">
+    <path d="M 16 128 L 50 128 L 48 138 L 18 138 Z"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 126 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.8"/>
+  <path d="M 0 146 L 200 146" stroke="#8EB87E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 往来人（辨真假的对象） -->
+  <g opacity="0.8">
+    <path d="M 120 134 L 118 146 L 122 146 L 124 134 Z" fill="#7E6E4E" stroke="#6E5E3E" stroke-width="0.7"/>
+    <circle cx="122" cy="128" r="3.6" fill="#9E8E6E" stroke="#6E5E3E" stroke-width="0.5"/>
+    <path d="M 120 129 Q 122 130.6 124 129" stroke="#6E5E3E" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+    <path d="M 146 136 L 144 148 L 148 148 L 150 136 Z" fill="#8E7E5E" stroke="#6E5E3E" stroke-width="0.7"/>
+    <circle cx="148" cy="130" r="3.6" fill="#AE9E7E" stroke="#6E5E3E" stroke-width="0.5"/>
+    <path d="M 146 131 Q 148 132.6 150 131" stroke="#6E5E3E" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- 谎话（气泡，角尖随之热） -->
+  <g fill="none" stroke="#8E8E86" stroke-width="0.8" opacity="0.5">
+    <circle cx="140" cy="120" r="2.4"/>
+    <path d="M 138 123 Q 139 125 140 126" stroke="#8E8E86" stroke-width="0.7"/>
+  </g>
+
+  <!-- 幼獬豸（立村口，辨真假） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="84" cy="130" rx="12" ry="8.5" fill="url(#fur)" stroke="#C0B8B0" stroke-width="0.8"/>
+    <!-- 腿 -->
+    <path d="M 78 136 L 76 146 M 92 136 L 94 146" stroke="#C0B8B0" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 96 132 Q 102 132 106 130" stroke="#E0D8D0" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 头（专注辨，角尖微热） -->
+  <g>
+    <ellipse cx="82" cy="114" rx="9.5" ry="8.5" fill="url(#fur)" stroke="#C0B8B0" stroke-width="0.8"/>
+    <!-- 独角（含正光，随谎微热） -->
+    <path d="M 86 106 Q 90 98 96 94" stroke="#F0E0C0" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="97" cy="93" r="2.4" fill="#FFE8A0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 角尖热光 -->
+    <g stroke="#FFE8A0" stroke-width="1" opacity="0.6" stroke-linecap="round">
+      <path d="M 99 90 L 102 87 M 101 93 L 105 92">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- 耳 -->
+    <path d="M 76 108 L 72 104" stroke="#E0D8D0" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- 眼（专注，如镜） -->
+    <path d="M 76 112 Q 78 111 80 112 M 86 112 Q 88 111 90 112" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="78" cy="113" r="2.2" fill="#24180E"/>
+    <circle cx="78.5" cy="112.5" r="0.7" fill="#FFF"/>
+    <circle cx="88" cy="113" r="2.2" fill="#24180E"/>
+    <circle cx="88.5" cy="112.5" r="0.7" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="82" cy="118" rx="1.6" ry="1.2" fill="#A8A098"/>
+    <!-- 抿唇（辨） -->
+    <path d="M 78 121 Q 82 122.4 86 121" fill="none" stroke="#A8A098" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF8DC">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

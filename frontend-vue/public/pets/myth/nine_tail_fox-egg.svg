@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="九尾狐·一阶·青丘幼狐·花间追蝶望九尾老祖">
+  <defs>
+    <!-- 背景：青丘花海 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E8C0"/>
+      <stop offset="52%" stop-color="#B4D09C"/>
+      <stop offset="100%" stop-color="#90B07C"/>
+    </linearGradient>
+    <!-- 灵光 -->
+    <radialGradient id="glow" cx="44%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 奶白绒毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F4EE"/>
+      <stop offset="100%" stop-color="#E4DCCE"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 青丘花海 -->
+  <g fill="#E8D8A8" opacity="0.8">
+    <circle cx="30" cy="132" r="3"/>
+    <circle cx="56" cy="138" r="2.6"/>
+    <circle cx="150" cy="136" r="3"/>
+    <circle cx="174" cy="140" r="2.6"/>
+  </g>
+  <g fill="#D87878" opacity="0.7">
+    <circle cx="40" cy="140" r="2.4"/>
+    <circle cx="164" cy="132" r="2.4"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 126 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+  <!-- 草地 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.8"/>
+  <path d="M 0 146 L 200 146" stroke="#8EB87E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 九尾老祖（远处，九尾如屏） -->
+  <g opacity="0.6">
+    <ellipse cx="156" cy="112" rx="10" ry="7" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.7"/>
+    <circle cx="156" cy="102" r="6" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.6"/>
+    <path d="M 152 96 Q 150 92 152 89 M 160 96 Q 162 92 160 89" stroke="#E4DCCE" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- 九尾 -->
+    <g stroke="#E4DCCE" stroke-width="2" stroke-linecap="round" fill="none">
+      <path d="M 162 114 Q 172 108 176 100"/>
+      <path d="M 164 116 Q 176 112 182 104"/>
+      <path d="M 162 118 Q 174 118 182 112"/>
+      <path d="M 150 114 Q 140 108 136 100"/>
+      <path d="M 148 116 Q 136 112 130 104"/>
+    </g>
+  </g>
+
+  <!-- 蝴蝶（小狐追的目标） -->
+  <g fill="#E8A8B8" opacity="0.9">
+    <path d="M 108 96 Q 104 92 100 94 Q 104 96 108 96 Z M 108 96 Q 112 92 116 94 Q 112 96 108 96 Z"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0;4 -3;0 0" dur="2.6s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- 幼狐（一尾，追蝶） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 尾（一尾，甩动） -->
+    <path d="M 78 138 Q 92 136 100 128 Q 104 124 102 120" stroke="url(#fur)" stroke-width="4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 78 138;12 78 138;0 78 138" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 100 124 L 102 121" stroke="#E4DCCE" stroke-width="2" stroke-linecap="round" fill="#E4DCCE"/>
+    <!-- 身体 -->
+    <ellipse cx="62" cy="128" rx="14" ry="11" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.9"/>
+    <!-- 腿 -->
+    <path d="M 52 134 L 50 144 M 70 134 L 72 144" stroke="#C8C0AE" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 额间灵光 -->
+    <circle cx="58" cy="114" r="2.6" fill="#FFE8A0" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 头（望老祖，羡慕） -->
+  <g>
+    <ellipse cx="58" cy="108" rx="10" ry="9" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.8"/>
+    <!-- 双耳（尖立） -->
+    <path d="M 51 102 L 46 92 L 54 98 Z" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.6"/>
+    <path d="M 65 102 L 70 92 L 62 98 Z" fill="url(#fur)" stroke="#C8C0AE" stroke-width="0.6"/>
+    <!-- 眼（深棕，羡慕） -->
+    <circle cx="52" cy="107" r="2.4" fill="#4A3820"/>
+    <circle cx="52.6" cy="106.4" r="0.8" fill="#FFF"/>
+    <circle cx="64" cy="107" r="2.4" fill="#4A3820"/>
+    <circle cx="64.6" cy="106.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="58" cy="111" rx="1.4" ry="1" fill="#C8A89A"/>
+    <!-- 小嘴（羡慕张） -->
+    <path d="M 54 114 Q 58 115.6 62 114" fill="none" stroke="#B09A8A" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 灵光星尘 -->
+  <g fill="#FFF8DC">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

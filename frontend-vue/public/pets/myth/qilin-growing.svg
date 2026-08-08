@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="麒麟·三阶·践仁苦修·立溪蹄定水波角顶落石护幼苗">
+  <defs>
+    <!-- 背景：溪流晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0E8C0"/>
+      <stop offset="52%" stop-color="#ACCC9C"/>
+      <stop offset="100%" stop-color="#8AAE78"/>
+    </linearGradient>
+    <!-- 晨光金 -->
+    <radialGradient id="glow" cx="44%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 麟青（渐亮） -->
+    <linearGradient id="scale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7AC0B0"/>
+      <stop offset="100%" stop-color="#5EA898"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="50" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山林 -->
+  <g stroke="#5E8E5E" stroke-width="2.6" stroke-linecap="round" opacity="0.55">
+    <path d="M 12 44 Q 10 96 6 160 M 28 52 Q 24 100 18 160 M 176 42 Q 180 98 186 160"/>
+  </g>
+  <g fill="#6EA868" opacity="0.7">
+    <path d="M 12 48 Q 6 42 4 34 Q 10 40 12 48 Z"/>
+    <path d="M 176 46 Q 182 40 184 32 Q 178 38 176 46 Z"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 126 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+
+  <!-- 溪水（立身处） -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#6E9E8E" opacity="0.75"/>
+  <path d="M 0 148 L 200 148" stroke="#8EBEAA" stroke-width="1.4" opacity="0.6"/>
+  <!-- 溪中石 -->
+  <path d="M 44 152 Q 52 148 60 152 Q 64 156 54 158 Z" fill="#8EA898" opacity="0.8"/>
+  <path d="M 130 154 Q 138 150 146 154 Q 150 158 140 160 Z" fill="#8EA898" opacity="0.8"/>
+
+  <!-- 落石（被角顶开） -->
+  <g>
+    <path d="M 118 118 Q 114 112 118 106 Q 124 104 127 108 Q 130 114 124 120 Z" fill="#7E8E7E" stroke="#5E6E5E" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 幼苗（被护） -->
+  <g stroke="#5EAE5E" stroke-width="1.6" stroke-linecap="round" opacity="0.95">
+    <path d="M 140 146 Q 140 138 138 130">
+      <animateTransform attributeName="transform" type="rotate" values="0 140 146;4 140 146;0 140 146" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 幼麟（立溪中，蹄定水波） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 后腿（立溪） -->
+    <path d="M 76 134 L 72 146 M 86 134 L 90 146" stroke="#5EA898" stroke-width="3" stroke-linecap="round"/>
+    <!-- 蹄下水波（定） -->
+    <g stroke="#A8E0D8" stroke-width="1" opacity="0.7" fill="none">
+      <path d="M 66 146 Q 72 144 78 146 M 84 146 Q 90 144 96 146">
+        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- 身体（稳立） -->
+    <path d="M 58 116 Q 54 128 64 134 Q 78 140 90 134 Q 96 128 92 116 Q 78 110 58 116 Z" fill="url(#scale)" stroke="#4A8E7E" stroke-width="1"/>
+    <!-- 麟甲纹 -->
+    <path d="M 64 122 Q 72 119 80 122 M 62 130 Q 74 134 86 130" stroke="#4A8E7E" stroke-width="1" opacity="0.5"/>
+    <!-- 尾 -->
+    <path d="M 92 128 Q 100 126 104 122" stroke="#5EA898" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <!-- 前蹄（撑溪） -->
+    <path d="M 62 128 L 58 138 M 62 128 L 64 136" stroke="#4A8E7E" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（角顶落石，专注） -->
+  <g>
+    <ellipse cx="62" cy="106" rx="10.5" ry="9.5" fill="url(#scale)" stroke="#4A8E7E" stroke-width="1"/>
+    <path d="M 56 100 Q 52 96 54 92 M 58 102 Q 55 98 56 94" stroke="#6EB8A8" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 独角（顶落石，含珠亮） -->
+    <path d="M 66 98 Q 70 90 76 84" stroke="#F0E0C0" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="77" cy="83" r="2.2" fill="#FFE8A0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 眼（专注） -->
+    <path d="M 55 104 Q 57 103 59 104 M 67 104 Q 69 103 71 104" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="57" cy="105" r="2.4" fill="#24180E"/>
+    <circle cx="57.6" cy="104.4" r="0.8" fill="#FFF"/>
+    <circle cx="69" cy="105" r="2.4" fill="#24180E"/>
+    <circle cx="69.6" cy="104.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 54 109 Q 60 110.6 66 109" stroke="#4A8E7E" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <!-- 抿唇 -->
+    <path d="M 58 112 Q 62 113.4 66 112" fill="none" stroke="#4A7E72" stroke-width="0.9" stroke-linecap="round"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF8DC">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

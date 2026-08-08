@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="精卫·五阶·填海之志·衔石飞过渔村渔人遥指">
+  <defs>
+    <!-- 背景：东海与渔村 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8CCE0"/>
+      <stop offset="52%" stop-color="#88B0CC"/>
+      <stop offset="100%" stop-color="#8EA88C"/>
+    </linearGradient>
+    <!-- 天光 -->
+    <radialGradient id="glow" cx="44%" cy="24%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFF0D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白羽（泛微光） -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0F0F2"/>
+      <stop offset="100%" stop-color="#D8D8E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="46" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.6;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山 -->
+  <g fill="#7E9E6E" opacity="0.6">
+    <path d="M 0 128 L 36 88 L 70 128 Z"/>
+  </g>
+
+  <!-- 东海 -->
+  <path d="M 100 128 Q 140 122 200 126 L 200 200 L 100 200 Z" fill="#5E8EC8" opacity="0.85"/>
+  <path d="M 100 128 Q 140 122 200 126" stroke="#8EB8E0" stroke-width="1.2" opacity="0.6"/>
+  <path d="M 120 140 Q 150 138 180 140" stroke="#A8D0E8" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 帆船（远） -->
+  <g opacity="0.8">
+    <path d="M 150 138 L 172 138 L 168 146 L 154 146 Z" fill="#7E6E4E" stroke="#5E4E34" stroke-width="0.8"/>
+    <path d="M 160 138 L 160 124" stroke="#5E4E34" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 160 126 Q 168 130 168 136 L 160 136 Z" fill="#E8D8B8" stroke="#5E4E34" stroke-width="0.6"/>
+    <path d="M 160 126 Q 152 130 152 136 L 160 136 Z" fill="#F0E8D0" stroke="#5E4E34" stroke-width="0.6"/>
+  </g>
+
+  <!-- 渔村（左） -->
+  <g stroke="#7E6E4E" stroke-width="1.8" stroke-linecap="round" opacity="0.85">
+    <path d="M 24 118 L 24 130 M 36 114 L 36 130 M 50 118 L 50 130 M 62 114 L 62 130"/>
+  </g>
+  <g fill="#9E8E6E" opacity="0.75">
+    <path d="M 18 130 L 68 130 L 66 140 L 20 140 Z"/>
+  </g>
+  <!-- 渔人（遥指精卫） -->
+  <g opacity="0.9">
+    <path d="M 40 134 L 38 146 L 42 146 L 44 134 Z" fill="#7E6E4E" stroke="#6E5E3E" stroke-width="0.7"/>
+    <circle cx="41" cy="128" r="3.6" fill="#9E8E6E" stroke="#6E5E3E" stroke-width="0.5"/>
+    <!-- 遥指的臂 -->
+    <path d="M 42 132 L 48 126 M 48 126 L 52 124" stroke="#7E6E4E" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- 草帽 -->
+    <path d="M 36 125 Q 41 121 46 125 L 36 125 Z" fill="#C8A860" stroke="#A88840" stroke-width="0.5"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.9"/>
+  <path d="M 0 146 L 200 146" stroke="#9EBE8E" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- 精卫（衔石，飞过渔村） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 -2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 赤足（收） -->
+    <path d="M 96 112 Q 92 118 90 122" stroke="#D85050" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- 身体 -->
+    <ellipse cx="100" cy="104" rx="12" ry="8" fill="url(#feather)" stroke="#B8B8C4" stroke-width="0.8"/>
+    <!-- 翅 -->
+    <path d="M 94 100 Q 80 90 72 78 Q 82 86 92 94 Z" fill="#E8E8EC" stroke="#B8B8C4" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 94 100;-14 94 100;0 94 100" dur="1.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 106 100 Q 120 90 128 78 Q 118 86 108 94 Z" fill="#E8E8EC" stroke="#B8B8C4" stroke-width="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 106 100;14 106 100;0 106 100" dur="1.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 尾羽 -->
+    <path d="M 110 108 Q 118 110 122 108" stroke="#D8D8E0" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 头（黑首，白喙，衔石，如炬） -->
+  <g>
+    <ellipse cx="88" cy="102" rx="6.5" ry="6" fill="#2E2E3A" stroke="#1E1E2A" stroke-width="0.6"/>
+    <path d="M 82 103 L 74 104 L 82 105 Z" fill="#F0F0F2"/>
+    <path d="M 70 103 Q 72 101 75 102 Q 77 104 74 106 Q 71 105 70 103 Z" fill="#8E96A2" stroke="#6E7682" stroke-width="0.6"/>
+    <!-- 眼（如炬） -->
+    <path d="M 86 100 Q 88 99 90 100" stroke="#1E1E2A" stroke-width="0.8" stroke-linecap="round"/>
+    <circle cx="88" cy="101" r="1.4" fill="#24180E"/>
+    <circle cx="88.4" cy="100.7" r="0.5" fill="#FFF"/>
+  </g>
+
+  <!-- 天光星尘 -->
+  <g fill="#FFF0D8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

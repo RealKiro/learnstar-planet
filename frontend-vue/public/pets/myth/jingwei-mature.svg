@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="精卫·四阶·填海初成·落自己填出的新礁海水退一寸">
+  <defs>
+    <!-- 背景：东海晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8CCE0"/>
+      <stop offset="52%" stop-color="#88B0CC"/>
+      <stop offset="100%" stop-color="#6E9AB8"/>
+    </linearGradient>
+    <!-- 晨光金 -->
+    <radialGradient id="glow" cx="44%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF0D8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白羽 -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0F0F2"/>
+      <stop offset="100%" stop-color="#D8D8E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="48" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 朝阳 -->
+  <circle cx="52" cy="104" r="13" fill="#FFF0D8" opacity="0.9"/>
+
+  <!-- 东海 -->
+  <path d="M 0 128 Q 50 122 110 126 Q 160 128 200 122 L 200 200 L 0 200 Z" fill="#5E8EC8" opacity="0.85"/>
+  <path d="M 0 128 Q 50 122 110 126 Q 160 128 200 122" stroke="#8EB8E0" stroke-width="1.2" opacity="0.6"/>
+  <!-- 海水退一寸（退后的水位线） -->
+  <path d="M 0 124 Q 50 118 110 122 Q 160 124 200 118" stroke="#C8E0F0" stroke-width="1.2" opacity="0.5" stroke-dasharray="3 5" fill="none"/>
+  <!-- 浪花 -->
+  <path d="M 30 136 Q 60 134 90 136 M 140 142 Q 170 140 190 142" stroke="#A8D0E8" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 新礁（精卫填出，突出水面） -->
+  <path d="M 84 138 L 100 126 Q 104 122 108 126 L 122 138 L 84 138 Z" fill="#7E8E7E" stroke="#5E6E5E" stroke-width="1"/>
+  <path d="M 92 134 Q 100 130 108 134" stroke="#96A696" stroke-width="1" opacity="0.7" fill="none"/>
+  <!-- 礁上旧石 -->
+  <path d="M 90 132 L 98 129 L 102 134" fill="#8E9E8E" opacity="0.8"/>
+
+  <!-- 精卫（落新礁，赤足踏礁） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 赤足（踏礁） -->
+    <path d="M 94 128 L 94 136 M 104 128 L 104 136" stroke="#D85050" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 身体 -->
+    <ellipse cx="99" cy="120" rx="12" ry="8" fill="url(#feather)" stroke="#B8B8C4" stroke-width="0.8"/>
+    <!-- 尾羽 -->
+    <path d="M 109 124 Q 116 126 120 124" stroke="#D8D8E0" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 头（黑首，白喙，红眶却坚定） -->
+  <g>
+    <ellipse cx="89" cy="118" rx="6.5" ry="6" fill="#2E2E3A" stroke="#1E1E2A" stroke-width="0.6"/>
+    <path d="M 83 119 L 75 120 L 83 121 Z" fill="#F0F0F2"/>
+    <!-- 眼（含泪却坚定） -->
+    <path d="M 87 116 Q 89 115 91 116" stroke="#1E1E2A" stroke-width="0.8" stroke-linecap="round"/>
+    <circle cx="89" cy="117" r="1.4" fill="#24180E"/>
+    <circle cx="89.4" cy="116.7" r="0.5" fill="#FFF"/>
+    <!-- 泪（红眶） -->
+    <path d="M 91 119 Q 92 122 91 124" stroke="#A8D0E8" stroke-width="1" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF0D8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

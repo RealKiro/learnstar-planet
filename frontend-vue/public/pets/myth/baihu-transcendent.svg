@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="白虎·六阶·白虎传说·秋分看崽追风尾拨落叶传护生">
+  <defs>
+    <!-- 背景：西丘秋分暮霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C088"/>
+      <stop offset="52%" stop-color="#DCAC74"/>
+      <stop offset="100%" stop-color="#94B080"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#FFE8B0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#FFE8B0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白虎毛（泛岁月光） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FCFAF4"/>
+      <stop offset="100%" stop-color="#EAE6DC"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山 -->
+  <g fill="#C8A060" opacity="0.5">
+    <path d="M 0 132 Q 50 122 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 秋野 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7E9E5E" opacity="0.85"/>
+  <path d="M 0 148 L 200 148" stroke="#9EBE7E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 落叶飘（秋分） -->
+  <g fill="#D8A850">
+    <path d="M 46 100 Q 50 96 54 100 Q 50 104 46 100 Z">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-1 4;0 0" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.35;0.8" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 小虎崽（左下，追风接叶） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="60" cy="138" rx="8.5" ry="6.4" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.7"/>
+    <!-- 腿 -->
+    <path d="M 55 142 L 54 147 M 66 142 L 67 147" stroke="#C0BAB0" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 68 140 Q 73 138 75 134" stroke="url(#fur)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <circle cx="75" cy="133" r="1" fill="#3A342E"/>
+    <!-- 抬爪接叶 -->
+    <path d="M 55 132 Q 51 127 48 123" stroke="url(#fur)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- 小虎崽头（额间小墨王纹） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="60" cy="124" rx="8" ry="7" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.7"/>
+    <path d="M 53 118 L 50 111 L 57 115 Z" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.5"/>
+    <path d="M 67 118 L 70 111 L 63 115 Z" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.5"/>
+    <path d="M 60 117 L 60 114 M 58 116 L 62 116" stroke="#24180E" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+    <circle cx="56" cy="123" r="1.8" fill="#24180E"/>
+    <circle cx="56.4" cy="122.6" r="0.6" fill="#FFF"/>
+    <circle cx="64" cy="123" r="1.8" fill="#24180E"/>
+    <circle cx="64.4" cy="122.6" r="0.6" fill="#FFF"/>
+    <ellipse cx="60" cy="127" rx="1.3" ry="1" fill="#C89088"/>
+    <!-- 接住的小叶 -->
+    <path d="M 46 124 Q 49 121 52 124 Q 49 127 46 124 Z" fill="#D8A850" opacity="0.9">
+      <animateTransform attributeName="transform" type="scale" values="1 1;1.15 1.15;1 1" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 老白虎（尾拨落叶，传护生语） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="112" cy="130" rx="14" ry="9.5" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.9"/>
+    <!-- 腿 -->
+    <path d="M 104 136 L 102 147 M 121 136 L 123 147" stroke="#C0BAB0" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 尾（垂，拨落叶，传护生） -->
+    <path d="M 126 132 Q 134 130 138 124" stroke="url(#fur)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 126 132;-6 126 132;0 126 132" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="139" cy="123" r="1.4" fill="#3A342E"/>
+    <!-- 传心微光（尾拨的落叶→小虎） -->
+    <path d="M 138 124 Q 120 114 98 120" stroke="#FFF0D0" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 60 122 Q 54 120 48 122" fill="#D8A850" opacity="0.85">
+      <animateTransform attributeName="transform" type="translate" values="0 0;2 2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 老白虎头（尾拨叶语，温和） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="112" cy="114" rx="10.5" ry="9.5" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.9"/>
+    <path d="M 104 107 L 100 98 L 109 104 Z" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.5"/>
+    <path d="M 120 107 L 124 98 L 115 104 Z" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.5"/>
+    <!-- 王纹（如圭，泛岁月） -->
+    <path d="M 112 106 L 112 101 M 108 104 L 116 104" stroke="#24180E" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <!-- 虎目（温和） -->
+    <path d="M 104 112 Q 106 110.4 108 112 M 116 112 Q 118 110.4 120 112" stroke="#24180E" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+    <circle cx="106" cy="113" r="2.2" fill="#24180E"/>
+    <circle cx="106.5" cy="112.5" r="0.7" fill="#FFF"/>
+    <circle cx="118" cy="113" r="2.2" fill="#24180E"/>
+    <circle cx="118.5" cy="112.5" r="0.7" fill="#FFF"/>
+    <ellipse cx="112" cy="117" rx="1.7" ry="1.3" fill="#C89088"/>
+    <path d="M 108 120 Q 112 121.4 116 120" fill="none" stroke="#A8A098" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 暮霞星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

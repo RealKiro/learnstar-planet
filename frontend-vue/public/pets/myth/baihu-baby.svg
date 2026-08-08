@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="白虎·二阶·西荒之危·扑身被拍翻低吼立志">
+  <defs>
+    <!-- 背景：西荒阴天 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8B4AC"/>
+      <stop offset="52%" stop-color="#A8A49C"/>
+      <stop offset="100%" stop-color="#8E9890"/>
+    </linearGradient>
+    <!-- 昏黄晨光 -->
+    <radialGradient id="glow" cx="46%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#F4E4BC" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F4E4BC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白虎毛（沾土） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F6F4EE"/>
+      <stop offset="100%" stop-color="#DCD8CE"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="78" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 西荒岩山 -->
+  <g fill="#8E8474" opacity="0.55">
+    <path d="M 0 108 Q 60 100 130 106 Q 170 110 200 104 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 荒原 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#98966E" opacity="0.75"/>
+  <path d="M 0 146 L 200 146" stroke="#B0AC88" stroke-width="1.4" opacity="0.5"/>
+
+  <!-- 西荒恶兽（叼走小兽，右） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 身 -->
+    <ellipse cx="142" cy="126" rx="17" ry="11" fill="#4E463E" stroke="#3A342E" stroke-width="1"/>
+    <!-- 腿 -->
+    <path d="M 132 134 L 130 146 M 152 134 L 154 146" stroke="#4E463E" stroke-width="3" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 158 128 Q 168 122 172 112" stroke="#4E463E" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <!-- 头（低，叼小兽） -->
+    <ellipse cx="124" cy="114" rx="9.5" ry="8" fill="#4E463E" stroke="#3A342E" stroke-width="0.8"/>
+    <circle cx="119" cy="112" r="1.6" fill="#C84030" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="129" cy="112" r="1.6" fill="#C84030" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M 116 118 Q 122 121 128 119" fill="none" stroke="#3A342E" stroke-width="1" stroke-linecap="round"/>
+    <!-- 叼着的小兽 -->
+    <g fill="#B8AC96">
+      <ellipse cx="114" cy="120" rx="4.6" ry="3.4"/>
+      <circle cx="112" cy="117" r="2.4"/>
+    </g>
+  </g>
+
+  <!-- 白虎崽（被拍翻，倒地上，怒而低吼） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体（侧倒） -->
+    <ellipse cx="86" cy="140" rx="14" ry="9" fill="url(#fur)" stroke="#B8B2A8" stroke-width="0.9" transform="rotate(-14 86 140)"/>
+    <!-- 腿（挣扎） -->
+    <path d="M 78 146 L 74 152 M 96 145 L 99 151" stroke="#C0BAB0" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- 尾（炸毛） -->
+    <path d="M 100 142 Q 110 142 114 148" stroke="url(#fur)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 100 142;8 100 142;0 100 142" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="114" cy="149" r="1.6" fill="#3A342E"/>
+  </g>
+
+  <!-- 白虎崽头（怒目，王纹微乱） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="84" cy="122" rx="11" ry="9.5" fill="url(#fur)" stroke="#B8B2A8" stroke-width="0.9"/>
+    <!-- 耳（直立） -->
+    <path d="M 74 115 L 70 106 L 79 112 Z" fill="url(#fur)" stroke="#B8B2A8" stroke-width="0.6"/>
+    <path d="M 94 115 L 98 106 L 89 112 Z" fill="url(#fur)" stroke="#B8B2A8" stroke-width="0.6"/>
+    <!-- 王纹（微乱） -->
+    <path d="M 84 112 L 84 108 M 80 110 L 88 110" stroke="#24180E" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <!-- 怒目 -->
+    <path d="M 75 120 Q 77 118 80 120 M 89 120 Q 91 118 93 120" stroke="#24180E" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <circle cx="78" cy="121" r="2.4" fill="#24180E"/>
+    <circle cx="78.6" cy="120.4" r="0.8" fill="#FFF"/>
+    <circle cx="91" cy="121" r="2.4" fill="#24180E"/>
+    <circle cx="91.6" cy="120.4" r="0.8" fill="#FFF"/>
+    <!-- 低吼露齿 -->
+    <path d="M 79 126 Q 84 129 89 126" fill="none" stroke="#A8A098" stroke-width="0.8" stroke-linecap="round"/>
+    <path d="M 81 126 L 82 128 M 84 126.8 L 84 128.8 M 87 126 L 86 128" stroke="#FFF" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 吼威 -->
+    <g stroke="#C8D8E8" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.6">
+      <path d="M 96 112 Q 104 108 110 102">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 昏黄星尘 -->
+  <g fill="#F4E4BC">
+    <circle cx="38" cy="98">
+      <animate attributeName="cy" values="98;88;98" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="毕方·五阶·赤火毕方·火翼如焰示警翼风逼火隔离带">
+  <defs>
+    <!-- 背景：林火 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B05838"/>
+      <stop offset="52%" stop-color="#8E4A3A"/>
+      <stop offset="100%" stop-color="#6E3A34"/>
+    </linearGradient>
+    <!-- 火翼光 -->
+    <radialGradient id="glow" cx="46%" cy="34%" r="50%">
+      <stop offset="0%" stop-color="#FFC080" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFC080" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 赤羽（如焰） -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E86848"/>
+      <stop offset="100%" stop-color="#D05038"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="80" r="64" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 林火（右） -->
+  <g fill="#FF9048" opacity="0.8">
+    <path d="M 150 140 Q 156 128 164 132 Q 170 136 160 148 Z"/>
+    <path d="M 172 144 Q 178 132 186 136 Q 192 140 180 154 Z"/>
+    <path d="M 138 146 Q 144 136 150 140 Q 154 146 142 154 Z"/>
+  </g>
+  <g fill="#FFB060" opacity="0.6">
+    <path d="M 162 120 Q 168 108 176 112 Q 182 116 168 130 Z"/>
+  </g>
+  <!-- 火烟 -->
+  <g stroke="#8E6A5A" stroke-width="2" opacity="0.6" stroke-linecap="round" fill="none">
+    <path d="M 160 104 Q 158 94 162 86 M 180 112 Q 184 100 180 92">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 隔离带（翼风逼出） -->
+  <path d="M 96 148 L 150 148 L 150 156 L 96 156 Z" fill="#5E3A30" opacity="0.9"/>
+  <path d="M 96 146 L 200 146 L 200 200 L 96 200 Z" fill="#4E322C" opacity="0.85"/>
+  <!-- 被逼退的火线 -->
+  <g stroke="#FF9048" stroke-width="1.4" opacity="0.6" stroke-linecap="round" fill="none">
+    <path d="M 120 148 Q 130 146 140 148">
+      <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#5E322E" opacity="0.9"/>
+  <path d="M 0 146 L 200 146" stroke="#8E5E4E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 毕方（火翼如焰，示警） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 一足 -->
+    <path d="M 92 122 L 92 136" stroke="#D05038" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 92 136 L 89 139 M 92 136 L 95 139" stroke="#D05038" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- 身体 -->
+    <ellipse cx="92" cy="112" rx="14" ry="11" fill="url(#feather)" stroke="#A83828" stroke-width="1"/>
+    <!-- 尾羽（如焰） -->
+    <path d="M 104 116 Q 112 120 118 116" stroke="#F08868" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 火翼（如焰，展开示警） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 80 100;-14 80 100;0 80 100" dur="2s" repeatCount="indefinite"/>
+    <path d="M 78 104 Q 60 84 50 62 Q 66 80 84 96 Z" fill="#E86848" stroke="#98382A" stroke-width="0.9"/>
+    <!-- 火翼焰尖 -->
+    <g fill="#FFB060">
+      <path d="M 50 62 L 46 56 L 54 60 Z"/>
+      <path d="M 56 68 L 52 62 L 60 66 Z"/>
+    </g>
+  </g>
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 104 100;14 104 100;0 104 100" dur="2s" repeatCount="indefinite"/>
+    <path d="M 102 104 Q 120 84 130 62 Q 114 80 96 96 Z" fill="#E86848" stroke="#98382A" stroke-width="0.9"/>
+    <g fill="#FFB060">
+      <path d="M 130 62 L 134 56 L 126 60 Z"/>
+      <path d="M 124 68 L 128 62 L 120 66 Z"/>
+    </g>
+  </g>
+
+  <!-- 翼风（逼火于隔离带） -->
+  <g stroke="#FFD8A0" stroke-width="1.8" opacity="0.7" stroke-linecap="round" fill="none">
+    <path d="M 108 118 Q 124 132 140 140">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 112 126 Q 128 138 144 144">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 头（含威，示警） -->
+  <g>
+    <ellipse cx="92" cy="98" rx="9" ry="8" fill="url(#feather)" stroke="#A83828" stroke-width="0.8"/>
+    <path d="M 90 91 Q 88 87 90 84 M 93 91 Q 94 86 96 84" stroke="#F08868" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <path d="M 86 96 Q 88 95 90 96 M 95 96 Q 97 95 99 96" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="88" cy="97" r="2.2" fill="#24180E"/>
+    <circle cx="88.6" cy="96.4" r="0.7" fill="#FFF"/>
+    <circle cx="97" cy="97" r="2.2" fill="#24180E"/>
+    <circle cx="97.6" cy="96.4" r="0.7" fill="#FFF"/>
+    <path d="M 84 100 L 79 99 L 84 102 Z" fill="#D89078"/>
+    <!-- 示警嘶鸣 -->
+    <g stroke="#FFD8A0" stroke-width="1.4" opacity="0.6" stroke-linecap="round" fill="none">
+      <path d="M 78 96 Q 72 92 72 86">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 火光星尘 -->
+  <g fill="#FFC080">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

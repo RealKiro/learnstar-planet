@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="九尾狐·二阶·妖异之惑·深夜躲山石后舔伤">
+  <defs>
+    <!-- 背景：青丘深夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A4E68"/>
+      <stop offset="52%" stop-color="#2E4058"/>
+      <stop offset="100%" stop-color="#263650"/>
+    </linearGradient>
+    <!-- 冷月 -->
+    <radialGradient id="glow" cx="70%" cy="22%" r="36%">
+      <stop offset="0%" stop-color="#DCE8F4" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#DCE8F4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 奶白绒毛（沾泥，微黯） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8D2C6"/>
+      <stop offset="100%" stop-color="#C4BCAE"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 冷月 -->
+  <circle cx="140" cy="44" r="12" fill="#DCE8F4"/>
+  <circle cx="136" cy="41" r="2.4" fill="#C4D0E4" opacity="0.7"/>
+  <circle cx="140" cy="34" r="40" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山夜影 -->
+  <g fill="#2A3A52" opacity="0.9">
+    <path d="M 0 110 L 36 70 L 72 110 Z M 100 110 L 142 72 L 180 110 Z"/>
+  </g>
+
+  <!-- 远处村落（灯火，没有它的位置） -->
+  <g opacity="0.7">
+    <path d="M 148 118 Q 162 112 176 116 L 176 126 L 148 126 Z" fill="#3A4A62"/>
+    <circle cx="156" cy="118" r="1.6" fill="#FFE8A0" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="117" r="1.4" fill="#FFE8A0" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 山石（小狐躲处） -->
+  <path d="M 0 134 Q 26 124 60 130 Q 76 134 84 132 L 88 200 L 0 200 Z" fill="#3A4658" stroke="#4A5668" stroke-width="1"/>
+  <path d="M 20 142 Q 44 136 72 142" stroke="#5A6A7C" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#1E2C44" opacity="0.9"/>
+  <path d="M 0 148 L 200 148" stroke="#4A5E78" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- 小狐（躲山石后，舔伤，尾垂） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 尾（垂着） -->
+    <path d="M 56 140 Q 44 142 38 148 Q 36 152 40 152" stroke="url(#fur)" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+    <!-- 身体（缩着） -->
+    <ellipse cx="46" cy="134" rx="12" ry="9" fill="url(#fur)" stroke="#A8A090" stroke-width="0.8"/>
+    <!-- 腿 -->
+    <path d="M 38 140 L 36 146 M 52 140 L 54 146" stroke="#A8A090" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 额间灵光（黯淡） -->
+    <circle cx="44" cy="122" r="2" fill="#B8A868" opacity="0.5"/>
+  </g>
+
+  <!-- 头（含泪，耳朵被砸伤，舔伤） -->
+  <g>
+    <ellipse cx="44" cy="116" rx="9" ry="8" fill="url(#fur)" stroke="#A8A090" stroke-width="0.8"/>
+    <!-- 受伤的耳（耷拉，带伤） -->
+    <path d="M 38 111 L 33 104 L 40 108 Z" fill="url(#fur)" stroke="#A8A090" stroke-width="0.6"/>
+    <path d="M 36 107 Q 34 105 34 103" stroke="#D87878" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 50 111 L 55 104 L 47 108 Z" fill="url(#fur)" stroke="#A8A090" stroke-width="0.6"/>
+    <!-- 眼（含泪） -->
+    <circle cx="38" cy="115" r="2.2" fill="#4A3820"/>
+    <circle cx="38.5" cy="114.5" r="0.7" fill="#FFF"/>
+    <circle cx="50" cy="115" r="2.2" fill="#4A3820"/>
+    <circle cx="50.5" cy="114.5" r="0.7" fill="#FFF"/>
+    <!-- 泪 -->
+    <path d="M 51 117 Q 53 121 51 123" stroke="#A8C8E0" stroke-width="1.2" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 鼻 -->
+    <ellipse cx="44" cy="119" rx="1.2" ry="0.9" fill="#A08A7A"/>
+    <!-- 抿唇 -->
+    <path d="M 41 122 Q 44 123.2 47 122" fill="none" stroke="#8E7E6E" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 夜风 -->
+  <g stroke="#A8C0D8" stroke-width="1.2" opacity="0.3" stroke-linecap="round" fill="none">
+    <path d="M 30 96 Q 44 92 58 96">
+      <animate attributeName="opacity" values="0.3;0.12;0.3" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 夜雪尘 -->
+  <g fill="#DCE8F4">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

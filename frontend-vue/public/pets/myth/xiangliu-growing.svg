@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="相柳·三阶·化毒苦修·深谷同心炼毒毒雾收放驱害兽护稼">
+  <defs>
+    <!-- 背景：深谷 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8CCB0"/>
+      <stop offset="52%" stop-color="#98B090"/>
+      <stop offset="100%" stop-color="#7A9674"/>
+    </linearGradient>
+    <!-- 谷光 -->
+    <radialGradient id="glow" cx="44%" cy="30%" r="48%">
+      <stop offset="0%" stop-color="#F0F4EC" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F0F4EC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 蛇鳞青 -->
+    <linearGradient id="scale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5EA898"/>
+      <stop offset="100%" stop-color="#4A8E7E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 深谷（两侧山壁） -->
+  <g fill="#8EA688" opacity="0.8">
+    <path d="M 0 100 L 26 60 L 48 100 Z"/>
+    <path d="M 152 100 L 178 60 L 200 100 Z"/>
+  </g>
+
+  <!-- 庄稼（被护，绿苗） -->
+  <g stroke="#6E9E5E" stroke-width="1.8" stroke-linecap="round" opacity="0.9">
+    <path d="M 140 138 Q 140 130 138 122">
+      <animateTransform attributeName="transform" type="rotate" values="0 140 138;3 140 138;0 140 138" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 156 140 Q 156 132 154 124">
+      <animateTransform attributeName="transform" type="rotate" values="0 156 140;-3 156 140;0 156 140" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 害兽（被驱走，远） -->
+  <g opacity="0.5">
+    <path d="M 170 110 Q 176 104 182 108" stroke="#4E5E4E" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="182" cy="102" r="3" fill="#5E6E5E" stroke="#4E5E4E" stroke-width="0.7"/>
+    <path d="M 186 106 Q 190 110 192 114" stroke="#4E5E4E" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 184 108 Q 186 110 188 112" stroke="#4E5E4E" stroke-width="1" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#5E8E6E" opacity="0.9"/>
+  <path d="M 0 146 L 200 146" stroke="#7EAE8E" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- 相柳（同心炼毒，蛇身盘） -->
+  <path d="M 70 140 Q 90 136 102 142 Q 112 148 120 142 Q 128 136 134 140" fill="none" stroke="url(#scale)" stroke-width="8" stroke-linecap="round"/>
+  <!-- 鳞纹 -->
+  <path d="M 82 138 L 84 142 M 102 142 L 103 146 M 120 138 L 122 142" stroke="#3E7E6E" stroke-width="1" opacity="0.5"/>
+
+  <!-- 主头（专注炼毒） -->
+  <g>
+    <ellipse cx="84" cy="122" rx="7.5" ry="6.5" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.8"/>
+    <path d="M 80 120 Q 82 119 84 120 M 88 120 Q 90 119 92 120" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+    <circle cx="82" cy="121" r="1.6" fill="#24180E"/>
+    <circle cx="82.4" cy="120.7" r="0.5" fill="#FFF"/>
+    <circle cx="90" cy="121" r="1.6" fill="#24180E"/>
+    <circle cx="90.4" cy="120.7" r="0.5" fill="#FFF"/>
+  </g>
+
+  <!-- 次头（同心） -->
+  <g>
+    <ellipse cx="72" cy="114" rx="5" ry="4.4" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.6"/>
+    <circle cx="70" cy="113" r="1.2" fill="#24180E"/>
+    <circle cx="75" cy="113" r="1.2" fill="#24180E"/>
+    <ellipse cx="98" cy="114" rx="5" ry="4.4" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.6"/>
+    <circle cx="96" cy="113" r="1.2" fill="#24180E"/>
+    <circle cx="101" cy="113" r="1.2" fill="#24180E"/>
+    <ellipse cx="78" cy="106" rx="4.6" ry="4" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.6"/>
+    <circle cx="76" cy="105" r="1.1" fill="#24180E"/>
+    <circle cx="81" cy="105" r="1.1" fill="#24180E"/>
+    <ellipse cx="92" cy="106" rx="4.6" ry="4" fill="url(#scale)" stroke="#3E7E6E" stroke-width="0.6"/>
+    <circle cx="90" cy="105" r="1.1" fill="#24180E"/>
+    <circle cx="95" cy="105" r="1.1" fill="#24180E"/>
+  </g>
+
+  <!-- 毒雾（收放，驱兽） -->
+  <g fill="#9EBCAE" opacity="0.4">
+    <circle cx="118" cy="108" r="5">
+      <animate attributeName="r" values="4;7;4" dur="2.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g stroke="#9EBCAE" stroke-width="1.4" opacity="0.5" stroke-linecap="round" fill="none">
+    <path d="M 104 108 Q 112 112 120 110 Q 128 108 134 106">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 谷光尘 -->
+  <g fill="#F0F4EC">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

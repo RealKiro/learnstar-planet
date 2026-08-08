@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="鲲鹏·四阶·化而为鹏·破水化鹏翼展垂天扶摇直上">
+  <defs>
+    <!-- 背景：云天与北冥 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8C8E4"/>
+      <stop offset="52%" stop-color="#86ACC8"/>
+      <stop offset="100%" stop-color="#6E92B4"/>
+    </linearGradient>
+    <!-- 化鹏金光 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="52%">
+      <stop offset="0%" stop-color="#FFF0C8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF0C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灰羽 -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9AA2AE"/>
+      <stop offset="100%" stop-color="#7A8290"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="84" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 云海（下，在翼下） -->
+  <g fill="#EAF0F8" opacity="0.95">
+    <path d="M 0 140 Q 30 130 60 138 Q 90 146 120 138 Q 150 130 180 138 L 200 134 L 200 200 L 0 200 Z"/>
+  </g>
+  <g fill="#F6FAFE" opacity="0.9">
+    <path d="M 20 146 Q 50 138 80 146 Q 108 152 138 144 Q 168 136 200 144 L 200 200 L 0 200 Z">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 0;0 0" dur="5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 化鹏光痕（从海面直上） -->
+  <g stroke="#FFF0C8" stroke-width="1.4" opacity="0.5" stroke-linecap="round" fill="none">
+    <path d="M 88 150 Q 86 130 90 110">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 104 150 Q 106 130 102 110">
+      <animate attributeName="opacity" values="0.45;0.18;0.45" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 巨鹏（破水化鹏，翼展垂天，扶摇直上） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 尾羽（下垂） -->
+    <path d="M 132 106 Q 146 112 154 120" stroke="#6E7682" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <!-- 身体（鹏） -->
+    <ellipse cx="104" cy="88" rx="22" ry="12" fill="url(#feather)" stroke="#5E6672" stroke-width="1"/>
+    <!-- 腹羽 -->
+    <ellipse cx="104" cy="94" rx="18" ry="7" fill="#A8B0BC" opacity="0.7"/>
+    <!-- 翼（展垂天，上） -->
+    <path d="M 92 82 Q 66 52 40 40 Q 60 58 82 70 Q 90 76 92 82 Z" fill="url(#feather)" stroke="#5E6672" stroke-width="0.9">
+      <animateTransform attributeName="transform" type="rotate" values="0 92 82;-12 92 82;0 92 82" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 116 82 Q 142 52 168 40 Q 148 58 126 70 Q 118 76 116 82 Z" fill="url(#feather)" stroke="#5E6672" stroke-width="0.9">
+      <animateTransform attributeName="transform" type="rotate" values="0 116 82;12 116 82;0 116 82" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 翼尖羽 -->
+    <path d="M 40 40 L 34 34 M 44 42 L 38 36 M 168 40 L 174 34 M 164 42 L 170 36" stroke="#8E96A2" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- 腿（收） -->
+    <path d="M 96 96 L 92 104 M 110 96 L 114 104" stroke="#6E7682" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（睥睨，俯瞰故海） -->
+  <g>
+    <ellipse cx="84" cy="80" rx="9" ry="8" fill="url(#feather)" stroke="#5E6672" stroke-width="0.9"/>
+    <!-- 喙（长，弯） -->
+    <path d="M 76 80 L 64 76 L 76 84 Z" fill="#6E7682"/>
+    <!-- 眼（睥睨） -->
+    <circle cx="82" cy="78" r="2" fill="#24180E"/>
+    <circle cx="82.5" cy="77.6" r="0.7" fill="#FFF"/>
+    <!-- 头顶羽冠 -->
+    <path d="M 86 72 Q 88 68 92 66" stroke="#8E96A2" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 云光星尘 -->
+  <g fill="#FFF0C8">
+    <circle cx="40" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

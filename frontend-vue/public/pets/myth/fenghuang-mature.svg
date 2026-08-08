@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="凤凰·四阶·涅槃初成·光焰四散彩凤涅槃而出尾羽如虹">
+  <defs>
+    <!-- 背景：涅槃烈焰 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C06038"/>
+      <stop offset="52%" stop-color="#A85040"/>
+      <stop offset="100%" stop-color="#7E3A36"/>
+    </linearGradient>
+    <!-- 涅槃金光 -->
+    <radialGradient id="glow" cx="46%" cy="34%" r="52%">
+      <stop offset="0%" stop-color="#FFE0A0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFE0A0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 五色羽 -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0B878"/>
+      <stop offset="100%" stop-color="#D89058"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 涅槃光 -->
+  <circle cx="96" cy="92" r="70" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 光焰（四散） -->
+  <g fill="#FFB060" opacity="0.7">
+    <path d="M 50 60 Q 44 48 50 40 Q 56 48 52 60 Z">
+      <animateTransform attributeName="transform" type="scale" values="0.8 0.8;1.2 1.2;0.8 0.8" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 150 50 Q 156 38 162 44 Q 162 52 152 58 Z">
+      <animateTransform attributeName="transform" type="scale" values="1.2 1.2;1.4 1.4;1.2 1.2" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g fill="#FFD8A0" opacity="0.5">
+    <path d="M 60 120 Q 54 108 60 100 Q 66 108 62 120 Z"/>
+    <path d="M 140 130 Q 146 118 152 124 Q 152 132 142 138 Z"/>
+  </g>
+
+  <!-- 火焰（底部） -->
+  <g fill="#FF9048" opacity="0.85">
+    <path d="M 30 146 Q 34 136 40 140 Q 44 144 40 150 Q 36 148 30 146 Z"/>
+    <path d="M 90 146 Q 94 134 100 138 Q 104 142 100 150 Q 96 148 90 146 Z"/>
+    <path d="M 150 146 Q 154 136 160 140 Q 164 144 160 150 Q 156 148 150 146 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#6E362E" opacity="0.9"/>
+
+  <!-- 彩凤（涅槃而出，盘旋，尾羽如虹） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 尾羽（如虹，长） -->
+    <g stroke="none" fill="none">
+      <path d="M 110 112 Q 140 120 156 116 Q 166 114 172 120" stroke="#E07878" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M 112 116 Q 142 128 160 128 Q 170 128 176 134" stroke="#F0A878" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M 110 120 Q 138 136 154 140 Q 164 142 170 148" stroke="#78B8A8" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+    <!-- 尾羽虹光 -->
+    <g fill="#FFE0A0" opacity="0.6">
+      <circle cx="172" cy="118" r="1.8"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.2s" repeatCount="indefinite"/></circle>
+      <circle cx="176" cy="132" r="1.6"><animate attributeName="opacity" values="0.5;0.18;0.5" dur="2.4s" repeatCount="indefinite"/></circle>
+    </g>
+    <!-- 身体（五色） -->
+    <ellipse cx="92" cy="96" rx="18" ry="12" fill="url(#feather)" stroke="#B87848" stroke-width="0.9"/>
+    <!-- 五色羽点 -->
+    <circle cx="84" cy="92" r="2.4" fill="#78B8A8" opacity="0.9"/>
+    <circle cx="98" cy="94" r="2.4" fill="#A888C8" opacity="0.9"/>
+    <circle cx="90" cy="100" r="2.2" fill="#F0C878" opacity="0.9"/>
+    <circle cx="76" cy="98" r="2" fill="#E07878" opacity="0.85"/>
+    <!-- 翼（展开） -->
+    <path d="M 82 90 Q 60 74 50 60 Q 66 74 84 84 Z" fill="#E8A878" stroke="#B87848" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="0 82 90;-10 82 90;0 82 90" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 102 90 Q 124 74 134 60 Q 118 74 100 84 Z" fill="#E8A878" stroke="#B87848" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="0 102 90;10 102 90;0 102 90" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 腿 -->
+    <path d="M 86 104 L 82 112 M 98 104 L 102 112" stroke="#B87848" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（含辉） -->
+  <g>
+    <ellipse cx="76" cy="82" rx="9" ry="8" fill="url(#feather)" stroke="#B87848" stroke-width="0.8"/>
+    <path d="M 74 75 Q 72 70 74 66 M 77 75 Q 78 69 80 66 M 80 75 Q 82 71 84 69" stroke="#F0C878" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <circle cx="71" cy="81" r="2.2" fill="#24180E"/>
+    <circle cx="71.5" cy="80.6" r="0.7" fill="#FFF"/>
+    <circle cx="81" cy="81" r="2.2" fill="#24180E"/>
+    <circle cx="81.5" cy="80.6" r="0.7" fill="#FFF"/>
+    <path d="M 68 84 L 63 83 L 68 86 Z" fill="#D89078"/>
+    <circle cx="68" cy="84" r="1.5" fill="#E07878" opacity="0.5"/>
+  </g>
+
+  <!-- 涅槃星尘 -->
+  <g fill="#FFE0A0">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

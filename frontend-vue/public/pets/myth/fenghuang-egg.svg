@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="凤凰·一阶·梧桐雏凤·五色雏凤学步百鸟朝鸣">
+  <defs>
+    <!-- 背景：梧桐朝霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F2C8A0"/>
+      <stop offset="52%" stop-color="#E0B088"/>
+      <stop offset="100%" stop-color="#B89878"/>
+    </linearGradient>
+    <!-- 朝霞 -->
+    <radialGradient id="glow" cx="46%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF0D8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 五色绒羽 -->
+    <linearGradient id="down" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8A878"/>
+      <stop offset="100%" stop-color="#C88058"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 梧桐（右） -->
+  <g stroke="#6E5640" stroke-width="3" stroke-linecap="round">
+    <path d="M 150 200 L 148 150 Q 146 130 138 118 Q 134 112 128 110"/>
+    <path d="M 146 140 Q 160 130 170 124 Q 174 122 176 118"/>
+    <path d="M 140 122 Q 150 112 158 106"/>
+  </g>
+  <!-- 梧桐叶 -->
+  <g fill="#6E9E6E" opacity="0.9">
+    <path d="M 170 118 Q 176 112 180 106 Q 176 114 172 116 Z"/>
+    <path d="M 158 106 Q 164 100 168 94 Q 164 102 160 104 Z"/>
+    <path d="M 128 110 Q 124 104 122 98 Q 126 104 130 106 Z"/>
+  </g>
+
+  <!-- 百鸟朝鸣（远处） -->
+  <g stroke="#8E7660" stroke-width="1.4" opacity="0.6" stroke-linecap="round" fill="none">
+    <path d="M 30 70 Q 34 66 38 70"/>
+    <path d="M 50 56 Q 54 52 58 56"/>
+    <path d="M 66 64 Q 70 60 74 64">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 -2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 地面（树干粗处） -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.75"/>
+  <path d="M 0 146 L 200 146" stroke="#9EBE8E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 雏凤（踉跄学步） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体（五色绒羽） -->
+    <ellipse cx="88" cy="128" rx="14" ry="11" fill="url(#down)" stroke="#A8684E" stroke-width="0.9"/>
+    <!-- 五色羽点 -->
+    <circle cx="80" cy="124" r="2" fill="#78B8A8" opacity="0.8"/>
+    <circle cx="94" cy="126" r="2" fill="#A888C8" opacity="0.8"/>
+    <circle cx="86" cy="132" r="1.8" fill="#F0C878" opacity="0.8"/>
+    <!-- 尾羽（未丰） -->
+    <path d="M 98 130 Q 108 130 114 126" stroke="#C88058" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 98 130;8 98 130;0 98 130" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 腿（踉跄） -->
+    <path d="M 82 136 L 80 146 M 94 136 L 96 146" stroke="#A8684E" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（冠羽蓬松，清澈） -->
+  <g>
+    <ellipse cx="86" cy="112" rx="10" ry="9" fill="url(#down)" stroke="#A8684E" stroke-width="0.8"/>
+    <!-- 冠羽 -->
+    <path d="M 84 103 Q 82 98 84 94 M 87 103 Q 88 97 90 94 M 90 103 Q 92 99 94 97" stroke="#F0C878" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- 眼（清澈） -->
+    <circle cx="81" cy="111" r="2.4" fill="#24180E"/>
+    <circle cx="81.6" cy="110.4" r="0.8" fill="#FFF"/>
+    <circle cx="92" cy="111" r="2.4" fill="#24180E"/>
+    <circle cx="92.6" cy="110.4" r="0.8" fill="#FFF"/>
+    <!-- 喙 -->
+    <path d="M 78 114 L 73 113 L 78 116 Z" fill="#D89078"/>
+    <!-- 颊红晕 -->
+    <circle cx="78" cy="114" r="1.6" fill="#E07878" opacity="0.5"/>
+  </g>
+
+  <!-- 朝霞星尘 -->
+  <g fill="#FFF0D8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

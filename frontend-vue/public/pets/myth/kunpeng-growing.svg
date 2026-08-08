@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="鲲鹏·三阶·化羽苦修·冲出水面越跃越高翼羽渐展">
+  <defs>
+    <!-- 背景：海天相接 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B0CCE0"/>
+      <stop offset="52%" stop-color="#8EB0CC"/>
+      <stop offset="100%" stop-color="#5A7A9E"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="42%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#FFF0C8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFF0C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 墨黑鳞（生灰羽） -->
+    <linearGradient id="scale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E5668"/>
+      <stop offset="100%" stop-color="#363E4C"/>
+    </linearGradient>
+    <!-- 翼羽 -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E96A2"/>
+      <stop offset="100%" stop-color="#6E7682"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="84" cy="44" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 海面（下） -->
+  <path d="M 0 132 L 200 132 L 200 200 L 0 200 Z" fill="#4E6E92" opacity="0.85"/>
+  <path d="M 0 132 L 200 132" stroke="#7E9EBC" stroke-width="1.4" opacity="0.6"/>
+  <!-- 水波 -->
+  <path d="M 20 142 Q 50 140 80 142 M 120 150 Q 150 148 180 150" stroke="#8EB0CC" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 冲出水面激起的水花 -->
+  <g fill="#C8E0F0">
+    <circle cx="80" cy="132" r="2.4">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 -6;0 0" dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.15;0.8" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="96" cy="134" r="2">
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 -7;0 0" dur="1.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.12;0.7" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="88" cy="130" r="1.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" dur="1.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0.12;0.8" dur="1.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- 浪 -->
+  <path d="M 60 134 Q 80 130 100 134 M 70 138 Q 88 136 104 138" stroke="#A8C8E0" stroke-width="1.4" opacity="0.6" fill="none"/>
+
+  <!-- 巨鲲（冲出水面，跃起，翼羽渐展） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 尾（摆动） -->
+    <path d="M 116 120 Q 132 112 140 102 Q 136 112 128 118 Z" fill="url(#scale)" stroke="#262E3C" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="0 116 120;12 116 120;0 116 120" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 身体（巨，跃起） -->
+    <ellipse cx="92" cy="112" rx="34" ry="16" fill="url(#scale)" stroke="#262E3C" stroke-width="1"/>
+    <!-- 鳞纹 -->
+    <path d="M 70 106 Q 88 102 108 106 M 66 116 Q 88 120 112 116" stroke="#3A4250" stroke-width="1" opacity="0.6"/>
+    <!-- 翼羽（从鳍芽渐展，两侧） -->
+    <path d="M 76 104 Q 60 90 52 74 Q 66 84 80 96 Z" fill="url(#feather)" stroke="#5E6672" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="0 76 104;-10 76 104;0 76 104" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 104 104 Q 120 90 128 74 Q 114 84 100 96 Z" fill="url(#feather)" stroke="#5E6672" stroke-width="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="0 104 104;10 104 104;0 104 104" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 翼羽羽尖 -->
+    <path d="M 52 74 L 48 70 M 56 76 L 52 72" stroke="#7A8290" stroke-width="1" stroke-linecap="round"/>
+    <path d="M 128 74 L 132 70 M 124 76 L 128 72" stroke="#7A8290" stroke-width="1" stroke-linecap="round"/>
+    <!-- 背鳍 -->
+    <path d="M 86 96 Q 90 88 96 92 Q 98 96 94 98 Z" fill="#262E3C"/>
+    <!-- 眼（坚定） -->
+    <circle cx="68" cy="108" r="3.2" fill="#C8D8E8"/>
+    <circle cx="68" cy="107" r="1.6" fill="#16223A"/>
+    <!-- 口（冲劲） -->
+    <path d="M 60 112 Q 64 114 68 112" fill="none" stroke="#5E5E6A" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF0C8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

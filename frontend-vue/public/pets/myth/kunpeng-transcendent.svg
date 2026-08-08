@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="鲲鹏·六阶·鲲鹏传说·风暴翼护迷舟托雏鸟教飞">
+  <defs>
+    <!-- 背景：海上风暴与晴光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5E7E9E"/>
+      <stop offset="52%" stop-color="#7E9EB8"/>
+      <stop offset="100%" stop-color="#B8D0E0"/>
+    </linearGradient>
+    <!-- 传说金光（右，归港方向） -->
+    <radialGradient id="glow" cx="78%" cy="36%" r="42%">
+      <stop offset="0%" stop-color="#FFF0C8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="40%" cy="44%" r="40%">
+      <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#FFF8E0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 灰羽（泛岁月光） -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A2AAB6"/>
+      <stop offset="100%" stop-color="#828A98"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="156" cy="72" r="70" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 翼护余晖 -->
+  <circle cx="84" cy="100" r="56" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 风暴（左） -->
+  <g fill="#4A6278" opacity="0.85">
+    <path d="M 0 30 Q 20 24 40 30 Q 56 34 64 28 L 64 56 L 0 56 Z"/>
+    <path d="M 0 60 Q 24 54 44 60 Q 58 64 66 58 L 66 80 L 0 80 Z" opacity="0.8"/>
+  </g>
+  <!-- 雨（风暴中） -->
+  <g stroke="#A8C0D8" stroke-width="1" opacity="0.4" stroke-linecap="round">
+    <path d="M 16 58 L 14 70 M 36 52 L 34 64 M 54 62 L 52 74">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 归港灯火（右远） -->
+  <g opacity="0.8">
+    <path d="M 172 132 Q 184 128 196 132 L 196 142 L 172 142 Z" fill="#6E7E5E"/>
+    <circle cx="180" cy="133" r="1.6" fill="#FFE8A0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="190" cy="132" r="1.4" fill="#FFE8A0" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 海面 -->
+  <path d="M 0 144 L 200 144 L 200 200 L 0 200 Z" fill="#4E6E8E" opacity="0.9"/>
+  <path d="M 0 144 L 200 144" stroke="#7E9EBC" stroke-width="1.4" opacity="0.6"/>
+  <path d="M 20 154 Q 50 152 80 154 M 120 162 Q 150 160 180 162" stroke="#8EB0CC" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 迷舟（翼下，被护） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 62 140 L 96 140 L 90 150 L 68 150 Z" fill="#7E6E4E" stroke="#5E4E34" stroke-width="1"/>
+    <path d="M 78 140 L 80 130 M 88 140 L 87 131" stroke="#6E5E3E" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 76 128 Q 82 126 88 128 L 88 132 L 76 132 Z" fill="#C8D8E8" stroke="#6E5E3E" stroke-width="0.8"/>
+    <!-- 船上的人（安然） -->
+    <circle cx="74" cy="136" r="2.6" fill="#9E8E6E"/>
+    <path d="M 82 134 Q 84 138 86 138 L 88 134" stroke="#7E6E4E" stroke-width="1" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 托雏鸟教飞（翼端，雏鸟被托） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;1 -2;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="108" cy="112" rx="5" ry="4" fill="#A89A88"/>
+    <circle cx="106" cy="107" r="3.4" fill="#B8AA98" stroke="#8E806E" stroke-width="0.6"/>
+    <path d="M 104 106 L 99 104 L 104 108 Z" fill="#C8B898"/>
+    <circle cx="105" cy="106" r="1" fill="#24180E"/>
+    <circle cx="108" cy="106" r="1" fill="#24180E"/>
+    <!-- 初张的小翼 -->
+    <path d="M 103 108 Q 98 106 96 102" stroke="#A89A88" stroke-width="1.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 103 108;-16 103 108;0 103 108" dur="1.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 111 108 Q 116 106 118 102" stroke="#A89A88" stroke-width="1.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 111 108;16 111 108;0 111 108" dur="1.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 巨鹏（翼护迷舟，托雏鸟） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 尾羽 -->
+    <path d="M 138 104 Q 152 110 160 118" stroke="#6E7682" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+    <!-- 身体 -->
+    <ellipse cx="108" cy="82" rx="24" ry="13" fill="url(#feather)" stroke="#5E6672" stroke-width="1"/>
+    <ellipse cx="108" cy="89" rx="20" ry="8" fill="#AAB2BE" opacity="0.7"/>
+    <!-- 翼（展，护迷舟） -->
+    <path d="M 94 76 Q 58 44 26 32 Q 52 54 82 66 Q 90 72 94 76 Z" fill="url(#feather)" stroke="#5E6672" stroke-width="1">
+      <animateTransform attributeName="transform" type="rotate" values="0 94 76;-8 94 76;0 94 76" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 122 76 Q 156 44 188 32 Q 162 54 132 66 Q 124 72 122 76 Z" fill="url(#feather)" stroke="#5E6672" stroke-width="1">
+      <animateTransform attributeName="transform" type="rotate" values="0 122 76;8 122 76;0 122 76" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 翼尖羽 -->
+    <path d="M 26 32 L 18 26 M 32 34 L 24 28 M 188 32 L 196 26 M 182 34 L 190 28" stroke="#8E96A2" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- 腿 -->
+    <path d="M 100 90 L 96 100 M 116 90 L 120 100" stroke="#6E7682" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（温和，看风的方向） -->
+  <g>
+    <ellipse cx="86" cy="74" rx="9.5" ry="8.5" fill="url(#feather)" stroke="#5E6672" stroke-width="0.9"/>
+    <path d="M 78 74 L 64 69 L 78 79 Z" fill="#6E7682"/>
+    <circle cx="84" cy="72" r="2.2" fill="#24180E"/>
+    <circle cx="84.5" cy="71.6" r="0.7" fill="#FFF"/>
+    <path d="M 88 65 Q 90 61 94 59" stroke="#8E96A2" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 传说星尘 -->
+  <g fill="#FFF0C8">
+    <circle cx="40" cy="108">
+      <animate attributeName="cy" values="108;98;108" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="166" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

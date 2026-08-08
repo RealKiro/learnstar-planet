@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="玄武·二阶·北寒之痛·极寒封渊缩壳护兽吐息凝冰花">
+  <defs>
+    <!-- 背景：极寒银白 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E4EC"/>
+      <stop offset="52%" stop-color="#B8CCD8"/>
+      <stop offset="100%" stop-color="#8EA6BC"/>
+    </linearGradient>
+    <!-- 寒光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F4F8FC" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F4F8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 玄龟壳（结霜） -->
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E5A58"/>
+      <stop offset="100%" stop-color="#3A4442"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.48;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 冰晶飘落（极寒） -->
+  <g fill="#F4F8FC" opacity="0.7">
+    <path d="M 60 70 L 62 66 L 64 70 L 62 74 Z" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 8;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 148 90 L 150 86 L 152 90 L 150 94 Z" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 7;0 0" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 冰封北渊 -->
+  <g fill="#E8F0F4" opacity="0.9">
+    <path d="M 0 120 L 200 120 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 冰面裂纹 -->
+  <g stroke="#C8D8E0" stroke-width="1" fill="none" opacity="0.7">
+    <path d="M 30 120 L 50 140 M 50 140 L 44 160 M 50 140 L 70 150"/>
+    <path d="M 150 120 L 140 150 M 140 150 L 160 168"/>
+  </g>
+
+  <!-- 被护的小兽（壳下，冻僵） -->
+  <g>
+    <ellipse cx="100" cy="146" rx="6" ry="4.4" fill="#D8D0C4" stroke="#B0A898" stroke-width="0.6"/>
+    <circle cx="100" cy="140" r="3.6" fill="#D8D0C4" stroke="#B0A898" stroke-width="0.5"/>
+    <path d="M 100 137 L 99 134" stroke="#D8D0C4" stroke-width="0.8" stroke-linecap="round"/>
+    <circle cx="98.4" cy="139.4" r="0.9" fill="#24180E"/>
+    <circle cx="101.6" cy="139.4" r="0.9" fill="#24180E"/>
+  </g>
+
+  <!-- 玄武（缩壳护住小兽） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 龟壳（护，微颤） -->
+    <ellipse cx="100" cy="128" rx="26" ry="17" fill="url(#shell)" stroke="#2E3836" stroke-width="1.2"/>
+    <!-- 壳纹（结霜） -->
+    <g stroke="#6E7E7A" stroke-width="1" fill="none" opacity="0.7">
+      <path d="M 84 124 L 100 119 L 116 124 L 100 129 Z"/>
+      <path d="M 100 119 L 100 112 M 84 124 L 72 120 M 116 124 L 128 120"/>
+    </g>
+    <!-- 壳上霜点 -->
+    <g fill="#E8F0F4" opacity="0.8">
+      <circle cx="90" cy="118" r="1.6"/>
+      <circle cx="112" cy="121" r="1.4"/>
+      <circle cx="104" cy="114" r="1.3"/>
+    </g>
+    <!-- 爪（护） -->
+    <path d="M 86 140 L 82 146 M 114 140 L 118 146" stroke="#3A4442" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 蛇首（微垂，吐息凝冰花） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 100 124 Q 98 114 102 106 Q 105 100 112 96" stroke="url(#shell)" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 112 96 Q 118 92 122 96" stroke="#6E8E8C" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+    <ellipse cx="124" cy="94" rx="5.5" ry="4.6" fill="#6E8E8C" stroke="#526E6C" stroke-width="0.7"/>
+    <circle cx="126.4" cy="92.6" r="1.5" fill="#24180E"/>
+    <circle cx="126.8" cy="92.2" r="0.5" fill="#FFF"/>
+    <path d="M 128.4 96 L 131 97 L 127 98" fill="#E8B838"/>
+    <!-- 吐息（凝冰花） -->
+    <g stroke="#F4F8FC" stroke-width="1.2" stroke-linecap="round" opacity="0.7" fill="none">
+      <path d="M 128 98 Q 134 102 138 108">
+        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- 凝出的冰花（想暖却成冰） -->
+    <g fill="#E8F4F8" opacity="0.85">
+      <path d="M 140 112 Q 143 108 146 112 Q 143 116 140 112 Z">
+        <animate attributeName="opacity" values="0.85;0.5;0.85" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 寒光星尘 -->
+  <g fill="#F4F8FC">
+    <circle cx="38" cy="96">
+      <animate attributeName="cy" values="96;86;96" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="164" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

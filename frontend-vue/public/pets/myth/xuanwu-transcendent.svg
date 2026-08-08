@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="玄武·六阶·玄武传说·深冬看幼凝冰尾碰壳传寒要守暖要藏">
+  <defs>
+    <!-- 背景：北渊深冬暮霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8E4DC"/>
+      <stop offset="52%" stop-color="#CCD4D0"/>
+      <stop offset="100%" stop-color="#A8BCC4"/>
+    </linearGradient>
+    <!-- 暮暖光 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FCE8B8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FCE8B8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F8C878" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#F8C878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 玄龟壳（泛岁月光） -->
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E5A58"/>
+      <stop offset="100%" stop-color="#3A4442"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.3;0.2;0.3" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 雪峰 -->
+  <g fill="#C8D4DC" opacity="0.5">
+    <path d="M 0 132 Q 50 122 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 雪原 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#E8F0F4" opacity="0.9"/>
+  <g stroke="#C8D8E0" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M 46 148 L 36 168 M 172 148 L 182 170"/>
+  </g>
+
+  <!-- 幼玄武（左下，凝冰又藏暖） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 小壳 -->
+    <ellipse cx="62" cy="138" rx="14" ry="9.5" fill="url(#shell)" stroke="#2E3836" stroke-width="1"/>
+    <g stroke="#6E7E7A" stroke-width="0.7" fill="none" opacity="0.7">
+      <path d="M 55 136 L 62 133 L 69 136 L 62 139 Z"/>
+    </g>
+    <!-- 爪 -->
+    <path d="M 55 144 L 52 147 M 69 144 L 72 147" stroke="#3A4442" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- 小蛇首（凝冰） -->
+    <path d="M 62 134 Q 61 128 64 124 Q 66 120 71 118" stroke="url(#shell)" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+    <path d="M 71 118 Q 75 116 78 119" stroke="#6E8E8C" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+    <ellipse cx="79" cy="117" rx="3.8" ry="3.2" fill="#6E8E8C" stroke="#526E6C" stroke-width="0.5"/>
+    <circle cx="80.6" cy="116" r="1" fill="#24180E"/>
+    <circle cx="80.9" cy="115.7" r="0.35" fill="#FFF"/>
+    <path d="M 81.8 119 L 83.6 120 L 80.8 120.6" fill="#E8B838"/>
+    <!-- 凝出的小冰花 -->
+    <path d="M 85 121 Q 87.4 118 90 121 Q 87.4 124 85 121 Z" fill="#E8F4F8" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 又急着藏暖（壳内暖） -->
+    <ellipse cx="62" cy="138" rx="9" ry="6" fill="#FCE8B8" opacity="0.22">
+      <animate attributeName="opacity" values="0.22;0.12;0.22" dur="2.4s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <!-- 老玄武（尾碰幼玄武的壳，传寒暖） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 龟壳 -->
+    <ellipse cx="118" cy="126" rx="26" ry="17" fill="url(#shell)" stroke="#2E3836" stroke-width="1.2"/>
+    <!-- 壳纹 -->
+    <g stroke="#6E7E7A" stroke-width="0.9" fill="none" opacity="0.7">
+      <path d="M 102 122 L 118 117 L 134 122 L 118 127 Z"/>
+      <path d="M 118 117 L 118 110 M 102 122 L 90 118 M 134 122 L 146 118"/>
+    </g>
+    <!-- 爪 -->
+    <path d="M 104 139 L 101 146 M 132 139 L 135 146" stroke="#3A4442" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 尾（垂，碰小壳） -->
+    <path d="M 92 128 Q 84 130 80 136" stroke="url(#shell)" stroke-width="3" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 92 128;5 92 128;0 92 128" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="79" cy="138" r="1.6" fill="#3A4442"/>
+    <!-- 传道微光（尾→小壳） -->
+    <circle cx="72" cy="132" r="7" fill="#FCE8B8" opacity="0.32">
+      <animate attributeName="opacity" values="0.32;0.16;0.32" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 老玄武蛇首（温和，含慈） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <path d="M 118 122 Q 116 112 120 104 Q 123 98 130 94" stroke="url(#shell)" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 130 94 Q 136 90 140 94" stroke="#6E8E8C" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+    <ellipse cx="142" cy="92" rx="5.5" ry="4.8" fill="#6E8E8C" stroke="#526E6C" stroke-width="0.7"/>
+    <circle cx="144.4" cy="90.6" r="1.5" fill="#24180E"/>
+    <circle cx="144.8" cy="90.2" r="0.5" fill="#FFF"/>
+    <path d="M 146.4 94 L 149 95 L 145 96" fill="#E8B838"/>
+    <!-- 温和气（含暖） -->
+    <g stroke="#FCE8B8" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.5">
+      <path d="M 146 96 Q 152 100 154 106">
+        <animate attributeName="opacity" values="0.5;0.22;0.5" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 暮暖星尘 -->
+  <g fill="#FCE8B8">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

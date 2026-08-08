@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="貔貅·一阶·幼貔貅·大嘴吞果吐出分同伴">
+  <defs>
+    <!-- 背景：山间果林 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0E8C0"/>
+      <stop offset="52%" stop-color="#ACCC9C"/>
+      <stop offset="100%" stop-color="#8AAE78"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="44%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 貔貅金毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8C878"/>
+      <stop offset="100%" stop-color="#D0A858"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="50" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 果林 -->
+  <g stroke="#5E8E5E" stroke-width="2.6" stroke-linecap="round" opacity="0.55">
+    <path d="M 12 44 Q 10 96 6 160 M 28 52 Q 24 100 18 160 M 176 42 Q 180 98 186 160"/>
+  </g>
+  <!-- 果子（树上） -->
+  <g fill="#E07848">
+    <circle cx="40" cy="60" r="3.4"/>
+    <circle cx="160" cy="56" r="3"/>
+    <circle cx="170" cy="70" r="3.2"/>
+  </g>
+  <g stroke="#5E8E5E" stroke-width="1" stroke-linecap="round" opacity="0.6">
+    <path d="M 40 60 L 42 56 M 160 56 L 162 52"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 126 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.8"/>
+  <path d="M 0 146 L 200 146" stroke="#8EB87E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 同伴（右下，等分果） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="132" cy="138" rx="8" ry="6" fill="#C8B098" stroke="#A88A70" stroke-width="0.7"/>
+    <circle cx="128" cy="131" r="4" fill="#D8C0A8" stroke="#A88A70" stroke-width="0.6"/>
+    <path d="M 126 130 L 123 129 M 129 130 L 132 129" stroke="#D8C0A8" stroke-width="0.7" stroke-linecap="round"/>
+    <circle cx="126.5" cy="130.4" r="1" fill="#24180E"/>
+    <circle cx="130" cy="130.4" r="1" fill="#24180E"/>
+    <path d="M 126 132 Q 128 133 130 132" stroke="#A88A70" stroke-width="0.5" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 分出的果子 -->
+  <g fill="#E07848">
+    <circle cx="116" cy="134" r="2.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 3;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 幼貔貅（狮身一角，大嘴吞纳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 尾 -->
+    <path d="M 92 132 Q 100 130 104 126" stroke="#D0A858" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 92 132;10 92 132;0 92 132" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 身体（圆润） -->
+    <path d="M 62 116 Q 58 128 68 134 Q 82 140 94 134 Q 100 128 96 116 Q 82 110 62 116 Z" fill="url(#fur)" stroke="#B88E3E" stroke-width="1"/>
+    <!-- 鬃毛 -->
+    <path d="M 66 112 Q 72 106 78 108" stroke="#F0D890" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- 腿 -->
+    <path d="M 68 132 L 66 142 M 88 132 L 90 142" stroke="#B88E3E" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（大嘴，一角，吞果） -->
+  <g>
+    <ellipse cx="66" cy="106" rx="11" ry="9.5" fill="url(#fur)" stroke="#B88E3E" stroke-width="1"/>
+    <!-- 一角 -->
+    <path d="M 70 98 Q 72 90 76 86" stroke="#F0E0C0" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="77" cy="85" r="2" fill="#FFE8A0" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.45;0.85" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 大嘴（吞，吐出果） -->
+    <path d="M 56 108 Q 60 112 66 110" fill="none" stroke="#8E6E2E" stroke-width="1" stroke-linecap="round"/>
+    <!-- 眼（无辜） -->
+    <circle cx="60" cy="105" r="2.6" fill="#24180E"/>
+    <circle cx="60.6" cy="104.4" r="0.8" fill="#FFF"/>
+    <circle cx="72" cy="105" r="2.6" fill="#24180E"/>
+    <circle cx="72.6" cy="104.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="66" cy="109" rx="2" ry="1.5" fill="#8E6E2E"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#FFF8DC">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

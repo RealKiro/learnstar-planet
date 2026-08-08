@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="穷奇·四阶·以力护弱·翼展如盾拦大兽低吼镇恶小兽蹭腿">
+  <defs>
+    <!-- 背景：山间晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8E0C0"/>
+      <stop offset="52%" stop-color="#A4C89C"/>
+      <stop offset="100%" stop-color="#84AE7E"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="44%" cy="26%" r="52%">
+      <stop offset="0%" stop-color="#F4FFE8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F4FFE8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 虎纹毛皮 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D09860"/>
+      <stop offset="100%" stop-color="#A87048"/>
+    </linearGradient>
+    <!-- 翼 -->
+    <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8EA6BE"/>
+      <stop offset="100%" stop-color="#6E869E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="50" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.6;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山林 -->
+  <g stroke="#5E8E5E" stroke-width="2.6" stroke-linecap="round" opacity="0.55">
+    <path d="M 12 44 Q 10 96 6 160 M 28 52 Q 24 100 18 160 M 176 42 Q 180 98 186 160"/>
+  </g>
+  <g fill="#6EA868" opacity="0.7">
+    <path d="M 12 48 Q 6 42 4 34 Q 10 40 12 48 Z"/>
+    <path d="M 176 46 Q 182 40 184 32 Q 178 38 176 46 Z"/>
+  </g>
+  <!-- 远山 -->
+  <path d="M 0 126 Q 50 116 110 124 Q 160 128 200 120 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.8"/>
+  <path d="M 0 146 L 200 146" stroke="#8EB87E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 大兽（右，被低吼镇住，仓皇） -->
+  <g opacity="0.85">
+    <ellipse cx="166" cy="132" rx="14" ry="9" fill="#4E4A3E" stroke="#3E3A30" stroke-width="0.9"/>
+    <circle cx="158" cy="124" r="5" fill="#5E5A4E" stroke="#3E3A30" stroke-width="0.7"/>
+    <path d="M 155 122 L 151 120 M 155 124 L 151 126" stroke="#8E8A7E" stroke-width="0.6" stroke-linecap="round"/>
+    <circle cx="157" cy="123" r="1.2" fill="#D87878"/>
+    <circle cx="161" cy="123" r="1.2" fill="#D87878"/>
+    <!-- 仓皇后退 -->
+    <path d="M 172 136 L 178 140" stroke="#3E3A30" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- 惊退的爪痕 -->
+    <path d="M 176 134 Q 180 132 182 128" stroke="#5E5A4E" stroke-width="1" opacity="0.6" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 小兽（左下，被护，蹭腿） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="66" cy="140" rx="6" ry="4.6" fill="#8EA876" stroke="#6E8E56" stroke-width="0.7"/>
+    <circle cx="63" cy="134" r="3.4" fill="#9EB886" stroke="#6E8E56" stroke-width="0.6"/>
+    <path d="M 61 133 L 59 131 M 64 133 L 66 131" stroke="#9EB886" stroke-width="0.8" stroke-linecap="round"/>
+    <circle cx="61.5" cy="133.6" r="1" fill="#24180E"/>
+    <circle cx="65" cy="133.6" r="1" fill="#24180E"/>
+    <!-- 蹭穷奇的腿 -->
+    <path d="M 69 138 Q 74 136 78 134" stroke="#9EB886" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  </g>
+
+  <!-- 穷奇（翼展如盾，拦中间，低吼） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 尾（扬起） -->
+    <path d="M 86 130 Q 74 124 68 116" stroke="url(#fur)" stroke-width="3.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 86 130;10 86 130;0 86 130" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 后腿 -->
+    <path d="M 80 132 L 76 144 M 92 132 L 96 144" stroke="#A87048" stroke-width="3.6" stroke-linecap="round"/>
+    <!-- 身体 -->
+    <path d="M 66 114 Q 62 126 72 132 Q 88 139 102 132 Q 108 126 104 114 Q 88 107 66 114 Z" fill="url(#fur)" stroke="#8E5838" stroke-width="1"/>
+    <!-- 虎纹 -->
+    <path d="M 68 120 Q 78 123 86 120 M 66 128 Q 78 131 92 128 M 100 120 Q 104 123 106 120" stroke="#4E3018" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+    <!-- 前腿（撑地，护） -->
+    <path d="M 100 118 C 106 124 110 128 112 134" fill="none" stroke="url(#fur)" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="113" cy="136" r="3" fill="#A87048"/>
+  </g>
+
+  <!-- 翼（展如盾，护小兽侧） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 74 100;-14 74 100;0 74 100" dur="2s" repeatCount="indefinite"/>
+    <path d="M 72 104 Q 56 86 48 68 Q 62 82 78 96 Z" fill="url(#wing)" stroke="#4E667E" stroke-width="0.9"/>
+  </g>
+
+  <!-- 头（低吼镇恶，护弱） -->
+  <g>
+    <ellipse cx="76" cy="100" rx="11" ry="9.5" fill="url(#fur)" stroke="#8E5838" stroke-width="1"/>
+    <path d="M 67 94 L 62 86 L 71 90 Z" fill="url(#fur)" stroke="#8E5838" stroke-width="0.7"/>
+    <path d="M 85 94 L 90 86 L 81 90 Z" fill="url(#fur)" stroke="#8E5838" stroke-width="0.7"/>
+    <!-- 低吼的獠牙 -->
+    <path d="M 78 104 L 80 108 L 79 104 Z" fill="#F0F0EE"/>
+    <path d="M 82 103 L 84 106 L 83 103 Z" fill="#F0F0EE"/>
+    <!-- 眼（含厉，护弱） -->
+    <path d="M 69 98 Q 71 97 73 98 M 81 98 Q 83 97 85 98" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="71" cy="99" r="2.8" fill="#F0A838"/>
+    <circle cx="71" cy="99" r="1.5" fill="#24180E"/>
+    <circle cx="71.6" cy="98.4" r="0.6" fill="#FFF"/>
+    <circle cx="83" cy="99" r="2.8" fill="#F0A838"/>
+    <circle cx="83" cy="99" r="1.5" fill="#24180E"/>
+    <!-- 鼻 -->
+    <ellipse cx="77" cy="103" rx="2" ry="1.5" fill="#4E3018"/>
+    <!-- 低吼声波 -->
+    <g stroke="#E8EEF2" stroke-width="1.4" opacity="0.6" stroke-linecap="round" fill="none">
+      <path d="M 86 96 Q 94 92 102 96">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 88 102 Q 96 100 104 104">
+        <animate attributeName="opacity" values="0.5;0.18;0.5" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F4FFE8">
+    <circle cx="40" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

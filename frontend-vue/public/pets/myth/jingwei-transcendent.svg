@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="精卫·六阶·填海传说·暮色教小海鸟衔石投海拨正歪石">
+  <defs>
+    <!-- 背景：山海暮色 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C088"/>
+      <stop offset="52%" stop-color="#DCAC74"/>
+      <stop offset="100%" stop-color="#8EB8D0"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="24%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="40%">
+      <stop offset="0%" stop-color="#FFE0A0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#FFE0A0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白羽 -->
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0F0F2"/>
+      <stop offset="100%" stop-color="#D8D8E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="48" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.4;0.26;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 西山（左） -->
+  <g fill="#B88E5E" opacity="0.6">
+    <path d="M 0 122 L 32 84 L 60 122 Z"/>
+  </g>
+  <!-- 东海（右） -->
+  <path d="M 100 128 Q 140 122 200 126 L 200 200 L 100 200 Z" fill="#5E8EC8" opacity="0.85"/>
+  <path d="M 100 128 Q 140 122 200 126" stroke="#8EB8E0" stroke-width="1.2" opacity="0.6"/>
+  <path d="M 120 140 Q 150 138 180 140" stroke="#A8D0E8" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 地面 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#8E9E76" opacity="0.9"/>
+  <path d="M 0 146 L 200 146" stroke="#AEBE96" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- 新礁（左前） -->
+  <path d="M 70 138 L 84 128 Q 87 125 90 128 L 104 138 L 70 138 Z" fill="#7E8E7E" stroke="#5E6E5E" stroke-width="0.9"/>
+
+  <!-- 小海鸟（学衔石投海，投歪了） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="60" cy="118" rx="9" ry="6" fill="#C8C8D0" stroke="#9E9EAA" stroke-width="0.7"/>
+    <!-- 小翅（扑） -->
+    <path d="M 56 115 Q 48 110 44 105" stroke="#C8C8D0" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 56 115;-16 56 115;0 56 115" dur="1.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 赤足（小） -->
+    <path d="M 56 122 L 54 128 M 64 122 L 66 128" stroke="#D85050" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+  <!-- 小海鸟头 -->
+  <g>
+    <ellipse cx="56" cy="111" rx="5" ry="4.6" fill="#2E2E3A" stroke="#1E1E2A" stroke-width="0.5"/>
+    <path d="M 52 112 L 47 113 L 52 113 Z" fill="#F0F0F2"/>
+    <!-- 衔着的歪石 -->
+    <path d="M 44 112 Q 45 110 47 111 Q 48 113 46 114 Z" fill="#8E96A2" stroke="#6E7682" stroke-width="0.5"/>
+    <!-- 眼（努力） -->
+    <circle cx="55" cy="110" r="1.2" fill="#24180E"/>
+    <circle cx="55.3" cy="109.8" r="0.4" fill="#FFF"/>
+  </g>
+
+  <!-- 老精卫（教投，拨正歪石） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 赤足（踏礁） -->
+    <path d="M 92 130 L 92 138 M 102 130 L 102 138" stroke="#D85050" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 身体 -->
+    <ellipse cx="97" cy="122" rx="12" ry="8" fill="url(#feather)" stroke="#B8B8C4" stroke-width="0.8"/>
+    <!-- 尾羽 -->
+    <path d="M 107 126 Q 114 128 118 126" stroke="#D8D8E0" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 老精卫头（垂首教雏，温和） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 88 120;6 88 120;0 88 120" dur="3s" repeatCount="indefinite"/>
+    <ellipse cx="88" cy="120" rx="6.5" ry="6" fill="#2E2E3A" stroke="#1E1E2A" stroke-width="0.6"/>
+    <path d="M 82 121 L 74 122 L 82 123 Z" fill="#F0F0F2"/>
+    <!-- 眼（温和） -->
+    <path d="M 86 118 Q 88 117 90 118" stroke="#1E1E2A" stroke-width="0.8" stroke-linecap="round"/>
+    <circle cx="88" cy="119" r="1.4" fill="#24180E"/>
+    <circle cx="88.4" cy="118.7" r="0.5" fill="#FFF"/>
+  </g>
+
+  <!-- 拨正歪石的喙尖（轻触） -->
+  <path d="M 74 122 Q 68 120 64 118 Q 60 116 56 115" stroke="#F0F0F2" stroke-width="2" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 74 122;3 74 122;0 74 122" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <!-- 传志微光 -->
+  <circle cx="62" cy="116" r="5" fill="#FFF0D0" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.2;0.4" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 暮霞星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="白虎·三阶·御风苦修·风口练扑爪裂顽石身随风行">
+  <defs>
+    <!-- 背景：西丘风口 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E4E8"/>
+      <stop offset="52%" stop-color="#B8C8D0"/>
+      <stop offset="100%" stop-color="#9EAE9E"/>
+    </linearGradient>
+    <!-- 风晨光 -->
+    <radialGradient id="glow" cx="48%" cy="24%" r="52%">
+      <stop offset="0%" stop-color="#F4FCF8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F4FCF8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白虎毛（亮） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8E6E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 风口风痕 -->
+  <g stroke="#E8F4F0" stroke-width="1.4" stroke-linecap="round" opacity="0.5" fill="none">
+    <path d="M 10 40 Q 50 34 90 40">
+      <animateTransform attributeName="transform" type="translate" values="0 0;8 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 20 66 Q 60 60 100 66">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-6 0;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 岩山 -->
+  <g fill="#A89A82" opacity="0.55">
+    <path d="M 0 118 Q 60 110 130 116 Q 170 120 200 114 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 风口地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#8E9E86" opacity="0.8"/>
+  <path d="M 0 148 L 200 148" stroke="#AEC0A6" stroke-width="1.4" opacity="0.55"/>
+
+  <!-- 被爪裂的顽石（右） -->
+  <g fill="#B0A48C">
+    <path d="M 152 134 L 170 132 L 174 146 L 154 148 Z"/>
+    <path d="M 158 138 L 160 144 M 166 137 L 166 142" stroke="#8E826A" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- 裂痕发光 -->
+    <path d="M 160 136 L 162 146 M 166 136 L 168 146" stroke="#FFF4D0" stroke-width="0.9" stroke-linecap="round" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 白虎（御风扑击，腾跃） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 尾（如鞭） -->
+    <path d="M 116 126 Q 130 118 138 106" stroke="url(#fur)" stroke-width="3.2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 116 126;7 116 126;0 116 126" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="139" cy="104" r="1.8" fill="#3A342E"/>
+    <!-- 身体（前扑） -->
+    <ellipse cx="96" cy="124" rx="17" ry="10" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.9" transform="rotate(-12 96 124)"/>
+    <!-- 腿（前扑） -->
+    <path d="M 84 122 L 76 112 M 108 128 L 112 120" stroke="url(#fur)" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 78 112 L 72 106 L 78 118 Z" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.6"/>
+    <!-- 后腿（蹬地） -->
+    <path d="M 104 132 L 106 142 M 88 132 L 86 142" stroke="#C8C2B8" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 爪裂动作线 -->
+    <g stroke="#FFF4D0" stroke-width="1.4" stroke-linecap="round" opacity="0.6" fill="none">
+      <path d="M 76 108 L 66 100">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- 白虎头（虎目如炬，王纹如墨） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="96" cy="104" rx="12.5" ry="11" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.9"/>
+    <!-- 耳（挺立） -->
+    <path d="M 85 95 L 79 84 L 90 92 Z" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.6"/>
+    <path d="M 107 95 L 113 84 L 102 92 Z" fill="url(#fur)" stroke="#C0BAB0" stroke-width="0.6"/>
+    <!-- 王纹（如墨） -->
+    <path d="M 96 93 L 96 88 M 91 91 L 101 91 M 93 89.6 L 99 89.6" stroke="#24180E" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <!-- 虎目如炬 -->
+    <path d="M 86 102 Q 88 100.4 91 102 M 102 102 Q 104 100.4 106 102" stroke="#24180E" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <circle cx="89" cy="103" r="2.6" fill="#24180E"/>
+    <circle cx="89.6" cy="102.4" r="0.8" fill="#FFF"/>
+    <circle cx="104" cy="103" r="2.6" fill="#24180E"/>
+    <circle cx="104.6" cy="102.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="96" cy="108" rx="2" ry="1.5" fill="#C89088"/>
+    <!-- 低吼 -->
+    <path d="M 92 111 Q 96 112.6 100 111" fill="none" stroke="#A8A098" stroke-width="0.8" stroke-linecap="round"/>
+    <path d="M 93 111 L 94 113 M 96 111.8 L 96 113.8 M 99 111 L 98 113" stroke="#FFF" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 风尘 -->
+  <g fill="#F4FCF8">
+    <circle cx="38" cy="98">
+      <animate attributeName="cy" values="98;88;98" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

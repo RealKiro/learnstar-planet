@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="白泽·四阶·答疑初成·月夜窗前指树影解孩童惑安然睡">
+  <defs>
+    <!-- 背景：月夜村窗 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A5468"/>
+      <stop offset="52%" stop-color="#3E4854"/>
+      <stop offset="100%" stop-color="#303840"/>
+    </linearGradient>
+    <!-- 月色 -->
+    <radialGradient id="glow" cx="24%" cy="16%" r="32%">
+      <stop offset="0%" stop-color="#E8EEF4" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E8EEF4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 雪白毛（如月） -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#ECE8E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="42" cy="32" r="70" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.5;0.34;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 月 -->
+  <circle cx="40" cy="30" r="14" fill="#E8EEF4" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.75;0.9" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 星 -->
+  <g fill="#E8EEF4">
+    <circle cx="120" cy="22" r="1.1">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="172" cy="46" r="1.2">
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 村舍（左，孩童屋） -->
+  <g>
+    <path d="M 76 108 L 76 146 L 128 146 L 128 108 Z" fill="#B0A898"/>
+    <path d="M 70 108 L 102 92 L 134 108 Z" fill="#8E867A"/>
+    <!-- 窗（孩童在被里） -->
+    <path d="M 92 114 L 92 132 L 108 132 L 108 114 Z" fill="#F4D088"/>
+    <!-- 树影（以为是鬼，窗外） -->
+    <g stroke="#3E4A54" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7">
+      <path d="M 128 132 Q 136 108 128 88"/>
+      <path d="M 130 108 Q 142 102 148 96 M 129 100 L 116 94 M 129 92 L 138 84"/>
+    </g>
+  </g>
+
+  <!-- 孩童（被里，探头看） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0.5 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 被 -->
+    <path d="M 96 122 L 96 134 L 106 134 L 106 122 Z" fill="#D8B8C8"/>
+    <circle cx="101" cy="118" r="3.6" fill="#E8D8D0"/>
+    <circle cx="99.6" cy="117.6" r="0.8" fill="#24180E"/>
+    <circle cx="102.4" cy="117.6" r="0.8" fill="#24180E"/>
+  </g>
+
+  <!-- 白泽（窗前指树影，解惑） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身（半立窗边） -->
+    <ellipse cx="138" cy="134" rx="13" ry="9" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 腿 -->
+    <path d="M 130 140 L 128 147 M 148 140 L 150 147" stroke="#C8C2B8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 151 138 Q 160 134 164 126" stroke="url(#fur)" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 151 138;6 151 138;0 151 138" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- 前蹄（指树影） -->
+    <path d="M 132 128 L 126 116" stroke="url(#fur)" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 132 128;-8 132 128;0 132 128" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 白泽头（温柔，指月影） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="138" cy="112" rx="10.5" ry="9.5" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.9"/>
+    <!-- 耳 -->
+    <path d="M 129 105 L 124 97 L 133 102 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <path d="M 147 105 L 152 97 L 143 102 Z" fill="url(#fur)" stroke="#C8C2B8" stroke-width="0.6"/>
+    <!-- 鬃毛（如月） -->
+    <path d="M 132 104 Q 130 100 132 98 Q 134 100 134 103" fill="url(#fur)"/>
+    <path d="M 142 104 Q 144 100 142 98 Q 140 100 140 103" fill="url(#fur)"/>
+    <!-- 双目（温柔） -->
+    <path d="M 130 110 Q 132 108.6 134 110 M 143 110 Q 145 108.6 147 110" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="132" cy="111" r="2.3" fill="#24180E"/>
+    <circle cx="132.5" cy="110.5" r="0.7" fill="#FFF"/>
+    <circle cx="145" cy="111" r="2.3" fill="#24180E"/>
+    <circle cx="145.5" cy="110.5" r="0.7" fill="#FFF"/>
+    <!-- 鼻 -->
+    <ellipse cx="138" cy="115" rx="1.6" ry="1.2" fill="#C8A0A0"/>
+    <!-- 说话的嘴 -->
+    <path d="M 134 118 Q 138 119.6 142 118" fill="none" stroke="#A8A098" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 月影画树（指的点） -->
+    <circle cx="124" cy="96" r="2.4" fill="#E8EEF4" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 月光星尘 -->
+  <g fill="#E8EEF4">
+    <circle cx="80" cy="88">
+      <animate attributeName="cy" values="88;78;88" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

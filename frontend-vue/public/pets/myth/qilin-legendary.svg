@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="麒麟·五阶·太平瑞兽·以角划线平息田界之争两家和">
+  <defs>
+    <!-- 背景：村落田园 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8E8C0"/>
+      <stop offset="52%" stop-color="#B4D09C"/>
+      <stop offset="100%" stop-color="#94B080"/>
+    </linearGradient>
+    <!-- 太平金 -->
+    <radialGradient id="glow" cx="46%" cy="30%" r="52%">
+      <stop offset="0%" stop-color="#FFF0C8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF0C8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 麟青（如青玉） -->
+    <linearGradient id="scale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7AC0B0"/>
+      <stop offset="100%" stop-color="#5EA898"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="52" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 远山 -->
+  <path d="M 0 128 Q 50 118 110 126 Q 160 130 200 122 L 200 200 L 0 200 Z" fill="#7E9E6E" opacity="0.5"/>
+
+  <!-- 田园（右，稻禾） -->
+  <g stroke="#B8A058" stroke-width="2.2" stroke-linecap="round" opacity="0.8">
+    <path d="M 132 150 Q 132 142 132 134 M 150 150 Q 150 142 150 134 M 168 150 Q 168 142 168 134 M 184 150 Q 184 142 184 134">
+      <animateTransform attributeName="transform" type="rotate" values="0 150 150;-3 150 150;0 150 150" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 田地分界 -->
+  <path d="M 96 148 L 200 148 L 200 200 L 96 200 Z" fill="#A8B078" opacity="0.7"/>
+  <path d="M 96 150 L 200 150" stroke="#8E9E5E" stroke-width="1" opacity="0.6"/>
+
+  <!-- 两家人（握手言和） -->
+  <g opacity="0.9">
+    <path d="M 120 132 L 118 144 L 122 144 L 124 132 Z" fill="#7E6E4E" stroke="#6E5E3E" stroke-width="0.8"/>
+    <circle cx="122" cy="126" r="4" fill="#9E8E6E" stroke="#6E5E3E" stroke-width="0.6"/>
+    <path d="M 120 128 Q 122 130 124 128" stroke="#6E5E3E" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+    <!-- 握手 -->
+    <path d="M 118 132 L 110 128 M 110 128 L 108 130" stroke="#7E6E4E" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M 132 132 L 134 144 L 138 144 L 140 132 Z" fill="#8E7E5E" stroke="#6E5E3E" stroke-width="0.8"/>
+    <circle cx="136" cy="126" r="4" fill="#AE9E7E" stroke="#6E5E3E" stroke-width="0.6"/>
+    <path d="M 134 128 Q 136 130 138 128" stroke="#6E5E3E" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+    <path d="M 142 132 L 150 128 M 150 128 L 152 130" stroke="#8E7E5E" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#6E9E5E" opacity="0.85"/>
+  <path d="M 0 148 L 200 148" stroke="#8EB87E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 公正的线（麒麟角划出） -->
+  <g stroke="#FFF0C8" stroke-width="1.6" opacity="0.7" fill="none">
+    <path d="M 96 142 Q 112 138 128 140">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 麒麟（立田埂，角划线） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 后腿 -->
+    <path d="M 92 136 L 88 146 M 100 136 L 104 146" stroke="#5EA898" stroke-width="3" stroke-linecap="round"/>
+    <!-- 身体（如青玉，健硕） -->
+    <path d="M 76 118 Q 72 130 82 136 Q 96 142 108 136 Q 114 130 110 118 Q 96 112 76 118 Z" fill="url(#scale)" stroke="#4A8E7E" stroke-width="1"/>
+    <!-- 麟甲纹 -->
+    <path d="M 82 124 Q 90 121 98 124 M 80 132 Q 92 136 104 132" stroke="#4A8E7E" stroke-width="1" opacity="0.5"/>
+    <!-- 尾 -->
+    <path d="M 110 130 Q 118 128 122 124" stroke="#5EA898" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <!-- 前蹄 -->
+    <path d="M 80 130 L 76 140 M 80 130 L 82 138" stroke="#4A8E7E" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 头（角划线，如圭） -->
+  <g>
+    <ellipse cx="80" cy="108" rx="11" ry="9.5" fill="url(#scale)" stroke="#4A8E7E" stroke-width="1"/>
+    <path d="M 74 102 Q 70 98 72 94 M 76 104 Q 73 100 74 96" stroke="#6EB8A8" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 角（如圭，划线） -->
+    <path d="M 84 100 Q 90 92 96 86" stroke="#F0E0C0" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="97" cy="85" r="2.2" fill="#FFE8A0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 眼（温正） -->
+    <path d="M 74 106 Q 76 105 78 106 M 84 106 Q 86 105 88 106" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="76" cy="107" r="2.4" fill="#24180E"/>
+    <circle cx="76.6" cy="106.4" r="0.8" fill="#FFF"/>
+    <circle cx="86" cy="107" r="2.4" fill="#24180E"/>
+    <circle cx="86.6" cy="106.4" r="0.8" fill="#FFF"/>
+    <!-- 鼻 -->
+    <path d="M 73 111 Q 79 112.6 85 111" stroke="#4A8E7E" stroke-width="1" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 太平星尘 -->
+  <g fill="#FFF0C8">
+    <circle cx="40" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="86">
+      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
