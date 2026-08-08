@@ -54,8 +54,8 @@
 
 /* ===== 夜间暗色（原 MD3 暗色主题整体搬入） ===== */
 html.dark {
-  --md-surface: #0e0e1a;
-  --md-surface-2: #1a1a2e;
+  --md-surface: #0F172A;
+  --md-surface-2: #1E293B;
   --md-primary: #a78bfa;
   --md-primary-light: #c4b5fd;
   --md-secondary: #f472b6;
@@ -66,7 +66,7 @@ html.dark {
   --color-border: rgba(255, 255, 255, 0.06);
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
-  --color-modal-bg: rgba(30, 30, 46, 0.92);
+  --color-modal-bg: rgba(30, 41, 59, 0.92);
   --color-modal-border: rgba(255, 255, 255, 0.06);
   --color-danger-text: #fca5a5;
   --color-success-text: #6ee7b7;
