@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="利欧路·一阶·波导初醒·宝可梦山谷胸前波导微亮靠进伤兽听心话">
+  <defs>
+    <!-- 背景：宝可梦山谷 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5A7AA8"/>
+      <stop offset="52%" stop-color="#6A8AB0"/>
+      <stop offset="100%" stop-color="#7AA8C0"/>
+    </linearGradient>
+    <!-- 谷光 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#B8D8F0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#B8D8F0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 黑蓝身形 -->
+    <radialGradient id="body" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#5A6A8A"/>
+      <stop offset="100%" stop-color="#3A4A68"/>
+    </radialGradient>
+    <!-- 波导光 -->
+    <radialGradient id="wave" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#68D8F8" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#68D8F8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 山谷 -->
+  <g fill="#4A6A88" opacity="0.5">
+    <path d="M 0 120 Q 50 104 100 118 Q 160 130 200 112 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#6A8AB0" opacity="0.9"/>
+
+  <!-- 受伤的小宝可梦（右） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="152" cy="130" r="4.5" fill="#A8D8E8" stroke="#5AA8C8" stroke-width="0.5"/>
+    <circle cx="150" cy="128.8" r="1.1" fill="#24180E"/>
+    <circle cx="155" cy="128.8" r="1.1" fill="#24180E"/>
+    <path d="M 154 134 L 158 136" stroke="#D87868" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- 小利欧路（中，波导微亮） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 头冠（黑蓝一撮） -->
+    <path d="M 92 100 Q 96 90 100 100 M 90 102 Q 94 94 98 102" fill="#4A5A78" stroke="#2E3E58" stroke-width="0.5"/>
+    <!-- 尖耳 -->
+    <path d="M 84 104 L 78 92 L 90 100 Z" fill="#4A5A78" stroke="#2E3E58" stroke-width="0.7"/>
+    <path d="M 104 104 L 110 92 L 98 100 Z" fill="#4A5A78" stroke="#2E3E58" stroke-width="0.7"/>
+    <path d="M 85 99 L 81 94" stroke="#68D8F8" stroke-width="0.9" stroke-linecap="round" opacity="0.5"/>
+    <path d="M 103 99 L 107 94" stroke="#68D8F8" stroke-width="0.9" stroke-linecap="round" opacity="0.5"/>
+    <!-- 细尾 -->
+    <path d="M 78 124 Q 68 118 66 126 Q 66 134 74 136" stroke="#3A4A68" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <!-- 身（黑蓝） -->
+    <ellipse cx="92" cy="122" rx="14" ry="12" fill="url(#body)" stroke="#2E3E58" stroke-width="0.9"/>
+    <!-- 头 -->
+    <ellipse cx="92" cy="106" rx="10" ry="9" fill="url(#body)" stroke="#2E3E58" stroke-width="0.8"/>
+    <!-- 眼（亮，看伤兽） -->
+    <circle cx="88" cy="105" r="2.5" fill="#2E2A24"/>
+    <circle cx="88.8" cy="103.8" r="1" fill="#FFF"/>
+    <circle cx="97" cy="105" r="2.5" fill="#2E2A24"/>
+    <circle cx="97.8" cy="103.8" r="1" fill="#FFF"/>
+    <!-- 嘴（轻） -->
+    <path d="M 89 110 Q 92 111.6 95 110" fill="none" stroke="#8EA8C0" stroke-width="0.6" stroke-linecap="round"/>
+    <!-- 胸前波导光 -->
+    <circle cx="92" cy="120" r="3.5" fill="url(#wave)">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="92" cy="120" r="6" fill="#68D8F8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.12;0.25" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 波导荡向伤兽 -->
+    <path d="M 96 122 Q 112 126 132 128" stroke="#68D8F8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.18;0.4" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 短爪 -->
+    <path d="M 80 128 L 76 133" stroke="#3A4A68" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 104 128 L 108 133" stroke="#3A4A68" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#B8D8F0">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
