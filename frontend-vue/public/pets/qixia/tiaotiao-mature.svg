@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="跳跳·四阶·复仇道义·青光斩绳放走无辜">
+  <defs>
+    <!-- 背景：魔教暗室 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4E4A62"/>
+      <stop offset="52%" stop-color="#3E3A52"/>
+      <stop offset="100%" stop-color="#2E2A42"/>
+    </linearGradient>
+    <!-- 青光（亮起） -->
+    <radialGradient id="cyan" cx="50%" cy="52%" r="42%">
+      <stop offset="0%" stop-color="#6EE8D8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6EE8D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 一缕暖 -->
+    <radialGradient id="warm" cx="28%" cy="62%" r="30%">
+      <stop offset="0%" stop-color="#F0C878" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F0C878" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 黑衣染尘 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E5E7E"/>
+      <stop offset="100%" stop-color="#36424E"/>
+    </linearGradient>
+    <!-- 绿毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4EA85E"/>
+      <stop offset="100%" stop-color="#2E8648"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0D8C0"/>
+      <stop offset="100%" stop-color="#D8C0A8"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 青光亮起 -->
+  <circle cx="100" cy="104" r="66" fill="url(#cyan)">
+    <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 一缕暖 -->
+  <circle cx="56" cy="126" r="40" fill="url(#warm)">
+    <animate attributeName="opacity" values="0.55;0.32;0.55" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 暗室烛火（一角） -->
+  <path d="M 162 96 L 162 86 L 164 86 L 164 96 Z" fill="#8E6A4E"/>
+  <path d="M 162 86 Q 160 80 162 77 Q 164 80 163 86 Z" fill="#F0C878" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="1.6s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 被放走的无辜者（右下，远） -->
+  <g opacity="0.5">
+    <path d="M 132 130 Q 134 122 137 120 Q 140 122 140 130 Z" fill="#6E5A6E"/>
+    <circle cx="138" cy="118" r="4.5" fill="#D8C8D8"/>
+    <path d="M 132 132 L 124 138" stroke="#7E6A7E" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+  <!-- 断绳 -->
+  <path d="M 70 100 Q 64 104 60 108 M 74 96 Q 80 92 86 92" stroke="#8E6A4E" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#2E2E42" opacity="0.9"/>
+  <path d="M 0 150 L 200 150" stroke="#4E4E5E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 绿毛小猴（6头身，黑衣染尘，蒙面半掩露笑） -->
+  <!-- 腿 -->
+  <path d="M 84 134 L 80 154 L 86 154 L 90 136 Z" fill="#36424E"/>
+  <path d="M 100 134 L 108 156 L 102 156 L 96 136 Z" fill="#36424E"/>
+  <!-- 黑衣 -->
+  <path d="M 82 100 Q 78 118 86 134 Q 96 140 104 134 Q 110 118 106 100 Q 94 94 82 100 Z" fill="url(#robe)" stroke="#2E3E52" stroke-width="1"/>
+  <!-- 尘土 -->
+  <path d="M 88 112 Q 90 118 87 124" stroke="#6E6A7E" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+  <!-- 腕上断绳余痕 -->
+  <path d="M 104 104 L 110 112" stroke="#8E6A4E" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <!-- 尾巴 -->
+  <path d="M 110 128 Q 118 122 122 114" stroke="#2E8648" stroke-width="2.4" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 110 128;10 110 128;0 110 128" dur="2.2s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（蒙面半掩，斗笠斜戴，露笑，眉间有光） -->
+  <!-- 斗笠斜戴 -->
+  <path d="M 78 86 Q 92 76 108 86 Q 112 90 110 92 L 80 92 Q 78 90 78 86 Z" fill="#5E5A6E" stroke="#4E4A5E" stroke-width="0.8">
+    <animateTransform attributeName="transform" type="rotate" values="0 94 86;3 94 86;0 94 86" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+  <!-- 蒙面松落一角 -->
+  <path d="M 80 92 Q 92 88 106 92 L 106 100 Q 92 104 80 100 Z" fill="#4E5E7E" stroke="#3E4E6E" stroke-width="0.8"/>
+  <path d="M 106 94 L 112 92" stroke="#4E5E7E" stroke-width="1" stroke-linecap="round"/>
+  <!-- 露眼（眉间有光） -->
+  <circle cx="88" cy="90" r="2.8" fill="#1E1008"/>
+  <circle cx="98" cy="90" r="2.8" fill="#1E1008"/>
+  <circle cx="88.6" cy="89.4" r="0.9" fill="#FFF"/>
+  <circle cx="98.6" cy="89.4" r="0.9" fill="#FFF"/>
+  <circle cx="88.6" cy="89.6" r="0.6" fill="#6EE8D8"/>
+  <circle cx="97.4" cy="89.6" r="0.6" fill="#6EE8D8"/>
+
+  <!-- 左臂（持青光剑，斩绳后） -->
+  <path d="M 84 104 C 78 108 76 114 78 120" fill="none" stroke="#4E5E7E" stroke-width="3.8" stroke-linecap="round"/>
+  <circle cx="78" cy="122" r="3" fill="#F0D8C0"/>
+
+  <!-- 右手（青光剑，斜指） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-3 104 106;3 104 106;-3 104 106" dur="2.2s" repeatCount="indefinite"/>
+    <path d="M 102 106 C 108 102 112 98 114 92" fill="none" stroke="#4E5E7E" stroke-width="3.8" stroke-linecap="round"/>
+    <circle cx="115" cy="90" r="3" fill="#F0D8C0"/>
+    <!-- 青光剑（亮） -->
+    <line x1="115" y1="92" x2="126" y2="60" stroke="#6EE8D8" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 126 60 L 128 54" stroke="#6EE8D8" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 剑光 -->
+    <circle cx="126" cy="58" r="11" fill="url(#cyan)">
+      <animate attributeName="r" values="11;15;11" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 青光星尘 -->
+  <g fill="#6EE8D8">
+    <circle cx="44" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="78">
+      <animate attributeName="cy" values="78;68;78" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
