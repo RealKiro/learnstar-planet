@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="巨齿鲨·三阶·驯牙苦修·含鱼练叼不破小鱼过嘴安然游">
+  <defs>
+    <!-- 背景：浅海晨 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8CCDC"/>
+      <stop offset="52%" stop-color="#84B4CC"/>
+      <stop offset="100%" stop-color="#669CB4"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="20%" r="52%">
+      <stop offset="0%" stop-color="#EFF8FC" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#EFF8FC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年巨齿鲨皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7696AC"/>
+      <stop offset="100%" stop-color="#5E8094"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="40" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 光斑 -->
+  <g fill="#EFF8FC" opacity="0.6">
+    <circle cx="130" cy="26" r="3.5">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 海底沙 -->
+  <path d="M 0 168 L 200 168 L 200 200 L 0 200 Z" fill="#B8CCD0" opacity="0.7"/>
+
+  <!-- 安然游过的小鱼（左下，不伤） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M 52 152 L 60 150 L 58 154 Z" fill="#C0A888"/>
+    <path d="M 64 154 L 72 152 L 70 156 Z" fill="#C0A888"/>
+    <path d="M 58 158 L 66 156 L 64 160 Z" fill="#C0A888"/>
+  </g>
+
+  <!-- 少年巨齿鲨（含鱼练叼） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="112" cy="124" rx="18" ry="9.5" fill="url(#skin)" stroke="#4E6E82" stroke-width="1"/>
+    <ellipse cx="108" cy="128" rx="11" ry="5.5" fill="#DCE8EC" opacity="0.7"/>
+    <!-- 尾 -->
+    <path d="M 130 126 Q 140 120 148 112" stroke="url(#skin)" stroke-width="3.4" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 130 126;7 130 126;0 130 126" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- 尾鳍 -->
+    <path d="M 146 110 L 156 102 L 154 114 Z" fill="url(#skin)" stroke="#4E6E82" stroke-width="0.8"/>
+    <!-- 背鳍 -->
+    <path d="M 108 116 L 105 100 L 114 114 Z" fill="url(#skin)" stroke="#4E6E82" stroke-width="0.8"/>
+    <!-- 胸鳍 -->
+    <path d="M 102 122 L 92 114 L 94 126 Z" fill="url(#skin)" stroke="#4E6E82" stroke-width="0.8"/>
+  </g>
+
+  <!-- 少年巨齿鲨头（含鱼，专注） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.2;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <ellipse cx="96" cy="120" rx="11" ry="8" fill="url(#skin)" stroke="#4E6E82" stroke-width="0.9"/>
+    <!-- 眼（专注） -->
+    <path d="M 90 118 Q 92 116.6 94 118 M 99 118 Q 101 116.6 102 118" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="92" cy="119" r="2.3" fill="#24180E"/>
+    <circle cx="92.6" cy="118.4" r="0.75" fill="#FFF"/>
+    <circle cx="100.5" cy="119" r="2.3" fill="#24180E"/>
+    <circle cx="101.1" cy="118.4" r="0.75" fill="#FFF"/>
+    <!-- 嘴（轻含鱼，不破） -->
+    <path d="M 88 124 Q 96 127 104 124" fill="none" stroke="#4E6E82" stroke-width="1" stroke-linecap="round"/>
+    <!-- 含着的鱼（练叼） -->
+    <path d="M 92 126 Q 96 122 100 124 L 96 128 Z" fill="#C0A888">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 牙（如玉，轻碰） -->
+    <path d="M 90 124 L 91 126.4 M 100 124 L 99 126.4" stroke="#F0E8D8" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#EFF8FC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
