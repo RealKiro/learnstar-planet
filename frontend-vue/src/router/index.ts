@@ -88,6 +88,7 @@ const router = createRouter({
       children: [
         { path: '', redirect: { name: 'classroom-overview' } },
         { path: 'overview', name: 'classroom-overview', component: () => import('@/pages/teacher/DashboardPage.vue') },
+        { path: 'leaderboard', name: 'classroom-leaderboard', component: () => import('@/pages/teacher/DashboardPage.vue') },
         { path: 'scores', name: 'classroom-scores', component: () => import('@/pages/teacher/ScoresPage.vue') },
         { path: 'pk', name: 'classroom-pk', component: () => import('@/pages/classroom/PKPage.vue') },
         { path: 'pokedex', name: 'classroom-pokedex', component: () => import('@/pages/classroom/PokedexPage.vue') },

@@ -40,9 +40,9 @@ const FULL_NAV = [
     { page: 'teacher-attendance', label: '智能考勤', icon: '✅' },
   ]},
   { section: '成长激励', items: [
+    { page: 'teacher-leaderboard', label: '排行榜单', icon: '🏆' },
+    { page: 'teacher-pk', label: '年级战场', icon: '⚔️' },
     { page: 'teacher-pets', label: '宠物图鉴', icon: '📚' },
-    { page: 'teacher-leaderboard', label: '排行榜', icon: '🏆' },
-    { page: 'teacher-pk', label: '年级PK', icon: '⚔️' },
   ]},
   { section: '数据中心', items: [
     { page: 'teacher-grades', label: '成绩管理', icon: '📊' },
@@ -75,8 +75,8 @@ const basicNav = computed(() => {
     { section: '概览', items: [{ page: 'teacher-dashboard-basic', label: '班级总览', icon: '🏠' }] },
     { section: '课堂', items: [
       { page: 'teacher-scores-basic', label: '课堂评价', icon: '✏️' },
-      { page: 'teacher-leaderboard-basic', label: '排行榜', icon: '🏆' },
-      { page: 'teacher-pk-basic', label: '年级PK', icon: '⚔️' },
+      { page: 'teacher-leaderboard-basic', label: '排行榜单', icon: '🏆' },
+      { page: 'teacher-pk-basic', label: '年级战场', icon: '⚔️' },
       { page: 'teacher-pets-basic', label: '宠物图鉴', icon: '📚' },
     ]},
     { section: '互动', items: [] as { page: string; label: string; icon: string }[] },

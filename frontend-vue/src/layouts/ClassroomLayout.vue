@@ -19,8 +19,9 @@ const activeNav = computed(() => String(route.name))
 const baseNavItems = [
   { page: 'classroom-overview', label: '班级总览', icon: '🏠' },
   { page: 'classroom-scores', label: '课堂评价', icon: '✏️' },
+  { page: 'classroom-leaderboard', label: '排行榜单', icon: '🏆' },
+  { page: 'classroom-pk', label: '年级战场', icon: '⚔️' },
   { page: 'classroom-pokedex', label: '宠物图鉴', icon: '📚' },
-  { page: 'classroom-pk', label: '年级战场', icon: '🏆' },
 ]
 
 const navItems = computed(() => {

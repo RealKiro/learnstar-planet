@@ -253,18 +253,43 @@ function saveEdit(sid: number, event?: Event) {
   editingStep.value = null
 }
 
-// 理由分组（学习/行为/品德）
+// 教室端理由分组：优先用后台积分规则（与教师端同源，原因一致），加载失败回退内置分组
 interface ReasonGroup { title: string; emoji: string; color: string; items: string[] }
-const reasonGroupsAdd: ReasonGroup[] = [
+const FALLBACK_ADD: ReasonGroup[] = [
   { title: '学习表现', emoji: '📚', color: '#3B82F6', items: ['✅ 作业优秀', '🏆 挑战难题', '📚 阅读之星', '🎨 科技创新'] },
   { title: '行为表现', emoji: '🏅', color: '#10B981', items: ['📖 举手发言', '🤝 帮助同学', '📝 认真听讲', '🔍 专注课堂'] },
   { title: '品德修养', emoji: '⭐', color: '#F59E0B', items: ['🧹 遵守纪律', '💬 积极互动', '🌟 诚实守信', '🏃 体育锻炼'] },
 ]
-const reasonGroupsSub: ReasonGroup[] = [
+const FALLBACK_SUB: ReasonGroup[] = [
   { title: '学习懈怠', emoji: '📕', color: '#EF4444', items: ['⚠️ 上课走神', '📕 作业缺交'] },
   { title: '课堂纪律', emoji: '🗣️', color: '#F97316', items: ['🗣️ 打扰课堂', '📱 课堂喧哗', '💬 说脏话'] },
   { title: '行为品德', emoji: '🤕', color: '#F59E0B', items: ['🏃 追逐打闹', '😴 趴桌睡觉', '⚡ 与同学冲突', '🗑️ 乱扔垃圾'] },
 ]
+const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
+  classroom: { emoji: '📖', color: '#3B82F6' },
+  homework: { emoji: '📝', color: '#10B981' },
+  behavior: { emoji: '🌟', color: '#F59E0B' },
+  literacy: { emoji: '📊', color: '#8B5CF6' },
+  daily: { emoji: '📅', color: '#F97316' },
+}
+const classroomRules = ref<ScoreRule[]>([])
+function rulesToReasonGroups(rules: ScoreRule[], type: 'add' | 'sub'): ReasonGroup[] {
+  const list = rules.filter(r => (type === 'add' ? r.amount > 0 : r.amount < 0))
+  const map = new Map<string, string[]>()
+  for (const r of list) {
+    const cat = r.category || 'custom'
+    if (!map.has(cat)) map.set(cat, [])
+    map.get(cat)!.push(r.name)
+  }
+  return [...map.entries()].map(([cat, items]) => ({
+    title: categoryLabel(cat), // 已含 emoji（如「📖 课堂表现」）
+    emoji: '',
+    color: CATEGORY_META[cat]?.color || '#6B7280',
+    items,
+  }))
+}
+const reasonGroupsAdd = computed<ReasonGroup[]>(() => classroomRules.value.length ? rulesToReasonGroups(classroomRules.value, 'add') : FALLBACK_ADD)
+const reasonGroupsSub = computed<ReasonGroup[]>(() => classroomRules.value.length ? rulesToReasonGroups(classroomRules.value, 'sub') : FALLBACK_SUB)
 
 // 教室端：单学生理由加减分弹窗
 const classShowModal = ref(false)
@@ -272,7 +297,7 @@ const classModalType = ref<'add' | 'sub'>('add')
 const classModalStudent = ref<CardStudent | null>(null)
 const classBusy = ref(false)
 const classActionError = ref('')
-const reasonGroups = computed(() => classModalType.value === 'add' ? reasonGroupsAdd : reasonGroupsSub)
+const reasonGroups = computed(() => classModalType.value === 'add' ? reasonGroupsAdd.value : reasonGroupsSub.value)
 function openReasonModal(s: CardStudent, type: 'add' | 'sub') {
   classModalStudent.value = s
   classModalType.value = type
@@ -308,7 +333,7 @@ const classBatchModal = ref(false)
 const classBatchType = ref<'add' | 'sub'>('add')
 const classBatchBusy = ref(false)
 const classBatchError = ref('')
-const batchReasonGroups = computed(() => classBatchType.value === 'add' ? reasonGroupsAdd : reasonGroupsSub)
+const batchReasonGroups = computed(() => classBatchType.value === 'add' ? reasonGroupsAdd.value : reasonGroupsSub.value)
 function openClassBatchModal(type: 'add' | 'sub') {
   classBatchType.value = type
   classBatchError.value = ''
@@ -449,6 +474,11 @@ onMounted(async () => {
     const cRes = await apiGet<{ data: { pet_series?: string | null } }>('/api/v1/display/class-settings', { params: { token: token.value } })
     classPetSeries.value = cRes.data?.pet_series || ''
   } catch { classPetSeries.value = '' }
+  // 教室端加减分原因：接后台积分规则（与教师端同源）
+  try {
+    const rRes = await apiGet<{ data: ScoreRule[] }>('/api/v1/display/scores/rules', { params: { token: token.value } })
+    classroomRules.value = rRes.data || []
+  } catch { classroomRules.value = [] }
 })
 </script>
 

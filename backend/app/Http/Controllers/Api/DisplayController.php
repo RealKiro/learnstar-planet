@@ -12,11 +12,13 @@ use App\Models\DisplayLoginLog;
 use App\Models\Pet;
 use App\Models\PetCollection;
 use App\Models\Score;
+use App\Models\ScoreRule;
 use App\Models\ShopItem;
 use App\Models\ShopRedemption;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\DisplayEventService;
+use App\Services\ScoreRuleService;
 use App\Services\ScoreService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -819,6 +821,21 @@ class DisplayController extends Controller
             ]);
 
         return response()->json(['data' => $students]);
+    }
+
+    /**
+     * 教室端 · 积分规则（与教师端同源，教室端加减分原因据此展示）
+     */
+    public function scoreRules(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token无效或已过期'], 401);
+        }
+        $classId = (int) $classInfo['class_id'];
+        $schoolId = (int) ClassRoom::findOrFail($classId)->school_id;
+        $rules = ScoreRuleService::rulesForClass($classId, $schoolId);
+        return response()->json(['data' => $rules]);
     }
 
     /**
