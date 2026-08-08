@@ -1,157 +1,61 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="皮卡丘·六阶·电光传说·电光四射照亮归家路新皮丘仰望">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="皮卡丘·六阶·电光传说">
   <defs>
-    <!-- 背景：雷雨夜森林 -->
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3A4E6E"/>
-      <stop offset="52%" stop-color="#2E4260"/>
-      <stop offset="100%" stop-color="#263A54"/>
+      <stop offset="0%" stop-color="#241B3E"/><stop offset="100%" stop-color="#120E22"/>
     </linearGradient>
-    <!-- 电光传说之光 -->
-    <radialGradient id="glow" cx="72%" cy="34%" r="52%">
-      <stop offset="0%" stop-color="#FFE8A0" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#FFE8A0" stop-opacity="0"/>
-    </radialGradient>
-    <!-- 传说余晖 -->
-    <radialGradient id="halo" cx="70%" cy="42%" r="40%">
-      <stop offset="0%" stop-color="#F8D878" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#F8D878" stop-opacity="0"/>
-    </radialGradient>
-    <!-- 金色电光毛 -->
     <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F0C040"/>
-      <stop offset="100%" stop-color="#D8AC28"/>
+      <stop offset="0%" stop-color="#FDD05A"/><stop offset="100%" stop-color="#E8A832"/>
     </linearGradient>
-  </defs>
-
-  <rect width="200" height="200" fill="url(#bg)"/>
-  <!-- 电光传说之光 -->
-  <circle cx="140" cy="84" r="76" fill="url(#glow)">
-    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="3s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="138" cy="96" r="62" fill="url(#halo)">
-    <animate attributeName="opacity" values="0.5;0.32;0.5" dur="3s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 雷云 + 细雨 -->
-  <g fill="#4E5E7E" opacity="0.9">
-    <path d="M 0 40 Q 30 30 60 38 Q 90 30 120 38 Q 150 30 180 38 L 200 34 L 200 56 L 0 56 Z"/>
-  </g>
-  <g stroke="#A8C4D8" stroke-width="1" opacity="0.3" stroke-linecap="round">
-    <path d="M 30 60 L 28 72 M 90 56 L 88 68 M 160 58 L 158 70 M 120 70 L 118 82 M 50 80 L 48 92">
-      <animate attributeName="opacity" values="0.3;0.12;0.3" dur="1.6s" repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- 森林（下） -->
-  <g stroke="#26324E" stroke-width="3" stroke-linecap="round" opacity="0.95">
-    <path d="M 12 50 L 6 160 M 28 58 L 20 160 M 44 66 L 36 160"/>
-  </g>
-  <!-- 高岩（雷丘所立） -->
-  <path d="M 96 150 L 128 110 Q 136 106 142 110 L 176 150 Z" fill="#4E5E78" stroke="#3E4E68" stroke-width="1.2"/>
-  <path d="M 112 130 Q 132 122 152 130" stroke="#6A7A94" stroke-width="1.2" opacity="0.6" fill="none"/>
-
-  <!-- 地面 -->
-  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#1E2C44" opacity="0.95"/>
-  <path d="M 0 150 L 200 150" stroke="#4A5E78" stroke-width="1.2" opacity="0.5"/>
-
-  <!-- 归家的小宝可梦（下方，被电光照亮归路） -->
-  <g opacity="0.85">
-    <ellipse cx="52" cy="142" rx="5" ry="4.4" fill="#7E9E5E" stroke="#5E7E4E" stroke-width="0.7"/>
-    <circle cx="52" cy="136" r="3.4" fill="#8EAE6E" stroke="#5E7E4E" stroke-width="0.6"/>
-    <path d="M 50 135 Q 48 132 48 130" stroke="#8EAE6E" stroke-width="1" stroke-linecap="round" fill="none"/>
-    <circle cx="50" cy="135" r="0.9" fill="#24180E"/>
-    <circle cx="55" cy="135" r="0.9" fill="#24180E"/>
-    <path d="M 48 142 L 46 146 M 56 142 L 58 146" stroke="#5E7E4E" stroke-width="1" stroke-linecap="round"/>
-    <ellipse cx="78" cy="146" rx="4.6" ry="4" fill="#9E7E5E" stroke="#7E5E4E" stroke-width="0.7"/>
-    <circle cx="78" cy="140" r="3" fill="#AE8E6E" stroke="#7E5E4E" stroke-width="0.6"/>
-    <path d="M 76 139 Q 74 137 74 135" stroke="#AE8E6E" stroke-width="0.9" stroke-linecap="round" fill="none"/>
-    <circle cx="76" cy="139" r="0.8" fill="#24180E"/>
-    <circle cx="80" cy="139" r="0.8" fill="#24180E"/>
-    <path d="M 74 146 L 72 150 M 82 146 L 84 150" stroke="#7E5E4E" stroke-width="1" stroke-linecap="round"/>
-  </g>
-
-  <!-- 照亮归路的光带 -->
-  <g stroke="#FFE8A0" stroke-width="1.6" opacity="0.55" stroke-linecap="round" fill="none">
-    <path d="M 136 116 Q 110 132 84 142">
-      <animate attributeName="opacity" values="0.55;0.25;0.55" dur="2.6s" repeatCount="indefinite"/>
-    </path>
-    <path d="M 142 114 Q 130 132 120 146">
-      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- 新一代皮丘（左下，仰望，满眼崇拜） -->
-  <g>
-    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
-    <path d="M 32 138 Q 26 134 22 128" stroke="#E0AC28" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-    <ellipse cx="38" cy="134" rx="8" ry="7" fill="#F0BC38" stroke="#C09018" stroke-width="0.8"/>
-    <path d="M 36 120 Q 32 114 30 110" stroke="#F0BC38" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-    <path d="M 42 120 Q 46 114 48 110" stroke="#F0BC38" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-    <circle cx="34" cy="130" r="2" fill="#E86A4A"/>
-    <circle cx="44" cy="130" r="2" fill="#E86A4A"/>
-    <circle cx="35" cy="125" r="1.8" fill="#24180E"/>
-    <circle cx="42" cy="125" r="1.8" fill="#24180E"/>
-    <ellipse cx="39" cy="128.5" rx="1" ry="0.8" fill="#8E6E3E"/>
-    <!-- 仰望的眼（崇拜，有光点） -->
-    <circle cx="35" cy="125.4" r="0.7" fill="#FFE8A0"/>
-    <circle cx="42" cy="125.4" r="0.7" fill="#FFE8A0"/>
-  </g>
-
-  <!-- 雷丘（3头身，立高岩，电光四射如披风，看新皮丘） -->
-  <g>
-    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
-    <!-- 尾巴（闪电） -->
-    <path d="M 156 112 Q 168 104 174 92 Q 176 88 182 86 L 176 94 L 182 94 L 174 104 Q 168 112 154 118 Z" fill="url(#fur)" stroke="#C09018" stroke-width="0.9"/>
-    <!-- 身体 -->
-    <ellipse cx="138" cy="108" rx="19" ry="16" fill="url(#fur)" stroke="#C09018" stroke-width="1"/>
-    <!-- 背部深棕纹 -->
-    <path d="M 136 92 Q 138 98 138 104" stroke="#8E6E3E" stroke-width="3.4" stroke-linecap="round" opacity="0.85"/>
-    <!-- 双颊电囊（如小太阳） -->
-    <circle cx="123" cy="116" r="6.4" fill="#E86A4A"/>
-    <circle cx="153" cy="116" r="6.4" fill="#E86A4A"/>
-    <!-- 电光如披风（四射） -->
-    <g stroke="#FFE8A0" stroke-width="1.3" opacity="0.8" stroke-linecap="round" fill="none">
-      <path d="M 120 102 Q 112 92 114 84">
-        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.2s" repeatCount="indefinite"/>
-      </path>
-      <path d="M 158 102 Q 166 92 164 84">
-        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.4s" repeatCount="indefinite"/>
-      </path>
-      <path d="M 126 122 Q 120 130 122 138">
-        <animate attributeName="opacity" values="0.7;0.25;0.7" dur="2.6s" repeatCount="indefinite"/>
-      </path>
+    <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF4D0"/><stop offset="100%" stop-color="#F6DD9A"/>
+    </linearGradient>
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#FDE68A" stop-opacity="0"/>
+    </radialGradient>
+    <g id="pk-head">
+      <circle cx="0" cy="0" r="34" fill="url(#fur)" stroke="#C89A22" stroke-width="1.6"/>
+      <path d="M -14 -25 L -40 -68 L -4 -38 Z" fill="url(#fur)" stroke="#C89A22" stroke-width="1.2"/>
+      <path d="M -27 -56 L -36 -68 L -18 -54 Z" fill="#2B2B2B"/>
+      <path d="M 14 -25 L 40 -68 L 4 -38 Z" fill="url(#fur)" stroke="#C89A22" stroke-width="1.2"/>
+      <path d="M 27 -56 L 36 -68 L 18 -54 Z" fill="#2B2B2B"/>
+      <circle cx="-13" cy="-1" r="8.2" fill="#2B2B2B"/>
+      <circle cx="-11" cy="-3.5" r="3.1" fill="#FFF"/>
+      <circle cx="13" cy="-1" r="8.2" fill="#2B2B2B"/>
+      <circle cx="15" cy="-3.5" r="3.1" fill="#FFF"/>
+      <ellipse cx="0" cy="6" rx="2" ry="1.5" fill="#4A3423"/>
+      <path d="M -9 10 L -5 15 L 0 10 L 5 15 L 9 10" fill="none" stroke="#4A3423" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="-20" cy="7" r="7.2" fill="#F87171" opacity="1"/>
+      <circle cx="20" cy="7" r="7.2" fill="#F87171" opacity="1"/>
     </g>
-    <!-- 双腿 -->
-    <path d="M 128 122 L 126 136 M 148 122 L 150 136" stroke="#C09018" stroke-width="4" stroke-linecap="round"/>
+  </defs>
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="96" r="92" fill="url(#aura)">
+    <animate attributeName="opacity" values="1;0.6;1" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <g stroke="#FDE68A" stroke-width="3" opacity="0.95" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 28 40 L 46 56 L 36 62 L 56 76"><animate attributeName="opacity" values="0.95;0.4;0.95" dur="1.2s" repeatCount="indefinite"/></path>
+    <path d="M 176 36 L 156 52 L 166 60 L 144 74"><animate attributeName="opacity" values="0.85;0.35;0.85" dur="1.5s" repeatCount="indefinite"/></path>
+    <path d="M 100 24 L 108 40 L 100 46 L 112 60"><animate attributeName="opacity" values="0.9;0.4;0.9" dur="1.3s" repeatCount="indefinite"/></path>
   </g>
-
-  <!-- 头（皮神笑，望下方归家路与新皮丘） -->
-  <g>
-    <ellipse cx="138" cy="82" rx="15" ry="13.5" fill="url(#fur)" stroke="#C09018" stroke-width="1"/>
-    <!-- 双耳（挺立） -->
-    <path d="M 125 74 Q 118 60 114 50 Q 120 58 123 70 Z" fill="url(#fur)" stroke="#C09018" stroke-width="0.9"/>
-    <circle cx="116" cy="54" r="2.8" fill="#D8AC28"/>
-    <path d="M 151 74 Q 158 60 162 50 Q 156 58 153 70 Z" fill="url(#fur)" stroke="#C09018" stroke-width="0.9"/>
-    <circle cx="160" cy="54" r="2.8" fill="#D8AC28"/>
-    <!-- 黑豆圆眼（含笑） -->
-    <circle cx="129" cy="82" r="3.6" fill="#24180E"/>
-    <circle cx="129.8" cy="81.2" r="1.1" fill="#FFF"/>
-    <circle cx="147" cy="82" r="3.6" fill="#24180E"/>
-    <circle cx="147.8" cy="81.2" r="1.1" fill="#FFF"/>
-    <!-- 皮神标志笑 -->
-    <path d="M 132 87 Q 138 90 144 87" fill="none" stroke="#8E6E3E" stroke-width="1.1" stroke-linecap="round"/>
-    <ellipse cx="138" cy="88" rx="1.6" ry="1.2" fill="#8E6E3E"/>
+  <g fill="#FFF8C0">
+    <circle cx="48" cy="120" r="2"><animate attributeName="cy" values="120;104;120" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.1;0.8" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="156" cy="96" r="1.6"><animate attributeName="cy" values="96;80;96" dur="3.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="3.4s" repeatCount="indefinite"/></circle>
+    <circle cx="132" cy="140" r="1.4"><animate attributeName="cy" values="140;124;140" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.1;0.7" dur="2.6s" repeatCount="indefinite"/></circle>
   </g>
-
-  <!-- 电光星尘 -->
-  <g fill="#FFE8A0">
-    <circle cx="36" cy="106">
-      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.2s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="164" cy="86">
-      <animate attributeName="cy" values="86;76;86" dur="3.6s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.6s" repeatCount="indefinite"/>
-    </circle>
+  <g transform="translate(100,122) scale(1.24)">
+    <animateTransform attributeName="transform" type="translate" values="100 122;100 114;100 122" dur="1.5s" repeatCount="indefinite"/>
+    <path d="M 26 -24 Q 54 -36 66 -54 L 52 -38 L 64 -26 L 44 -38 Z" fill="url(#fur)" stroke="#C89A22" stroke-width="1.2" class="tail">
+      <animateTransform attributeName="transform" type="rotate" values="0 44 -26;6 44 -26;0 44 -26" dur="1s" repeatCount="indefinite"/>
+    </path>
+    <ellipse cx="0" cy="0" rx="40" ry="34" fill="url(#fur)" stroke="#C89A22" stroke-width="1.5"/>
+    <ellipse cx="0" cy="11" rx="25" ry="18" fill="url(#belly)" opacity="0.92"/>
+    <path d="M -10 -28 Q 0 -24 10 -28" stroke="#8E6E3E" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <ellipse cx="-16" cy="30" rx="9" ry="7" fill="url(#fur)" stroke="#C89A22" stroke-width="1"/>
+    <ellipse cx="16" cy="30" rx="9" ry="7" fill="url(#fur)" stroke="#C89A22" stroke-width="1"/>
+    <use href="#pk-head" transform="translate(0,-40) scale(1.06)"/>
+  </g>
+  <g stroke="#FDE68A" stroke-width="1.8" opacity="0.95" stroke-linecap="round" fill="none">
+    <path d="M 58 58 L 66 68 M 142 58 L 134 68 M 100 42 L 100 54"><animate attributeName="opacity" values="0.95;0.3;0.95" dur="1s" repeatCount="indefinite"/></path>
   </g>
 </svg>
