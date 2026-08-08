@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="处女座·沙加·三阶·天魔降伏·闭目神光喝断万邪">
+  <defs>
+    <!-- 背景：圣域处女宫前 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AB0A0"/>
+      <stop offset="52%" stop-color="#7E9688"/>
+      <stop offset="100%" stop-color="#5E7668"/>
+    </linearGradient>
+    <!-- 神光金 -->
+    <radialGradient id="aura" cx="50%" cy="40%" r="56%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白金之光 -->
+    <radialGradient id="white" cx="50%" cy="46%" r="50%">
+      <stop offset="0%" stop-color="#F8F4E8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F8F4E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜处女圣衣 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C8D0C8"/>
+      <stop offset="100%" stop-color="#9EAEA0"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0E0CC"/>
+      <stop offset="100%" stop-color="#DCC8A8"/>
+    </radialGradient>
+
+    <!-- 头部模板：清秀面容·闭目·眉宇慈悲含威 -->
+    <g id="virgo-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#D0BCA0" stroke-width="0.8"/>
+      <!-- 短发（佛相） -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 眉含威 -->
+      <path d="M -8 -1.8 Q -5 -3.2 -2 -2.6 M 8 -1.8 Q 5 -3.2 2 -2.6" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <!-- 双目紧闭 -->
+      <path d="M -7 0.6 Q -4.5 2 -2 0.6 M 2 0.6 Q 4.5 2 7 0.6" stroke="#1E1008" stroke-width="1" stroke-linecap="round" fill="none"/>
+      <!-- 眉间佛印 -->
+      <circle cx="0" cy="-3.4" r="1.5" fill="#FFF3C4" opacity="0.9">
+        <animate attributeName="r" values="1.5;2;1.5" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+      <!-- 鼻梁 -->
+      <path d="M 0 2 L 0 4" stroke="#C8B098" stroke-width="1" stroke-linecap="round"/>
+      <!-- 微阖 -->
+      <path d="M -3 7 Q 0 8.2 3 7" fill="none" stroke="#A89070" stroke-width="1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 神光 -->
+  <circle cx="100" cy="92" r="84" fill="url(#aura)">
+    <animate attributeName="opacity" values="0.85;0.5;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 白金之光 -->
+  <circle cx="100" cy="92" r="60" fill="url(#white)">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 万邪俯首（四周，被喝断） -->
+  <g opacity="0.5">
+    <path d="M 30 70 Q 28 62 32 56 Q 38 60 34 68 Z" fill="#4E3A4E"/>
+    <path d="M 168 70 Q 172 62 168 56 Q 162 60 166 68 Z" fill="#4E3A4E"/>
+    <path d="M 40 120 Q 38 112 42 106 Q 48 110 44 118 Z" fill="#3E3A4E"/>
+    <path d="M 158 120 Q 162 112 158 106 Q 152 110 156 118 Z" fill="#3E3A4E"/>
+  </g>
+  <!-- 喝断之光（四散） -->
+  <g stroke="#FFF3C4" stroke-width="1.4" opacity="0.6" stroke-linecap="round">
+    <path d="M 84 66 Q 74 56 70 48">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 116 66 Q 126 56 130 48">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 处女宫（背景） -->
+  <g opacity="0.4">
+    <path d="M 20 20 L 64 20 L 58 32 Q 40 40 28 36 Z" fill="#5E7668"/>
+    <path d="M 20 20 L 64 20" stroke="#7E9688" stroke-width="1.2"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#4E6E56" opacity="0.7"/>
+  <path d="M 0 152 L 200 152" stroke="#6E8E72" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 青铜处女圣斗士（6头身，双掌一合，天魔降伏） -->
+  <!-- 腿 -->
+  <path d="M 88 132 L 84 154 L 90 154 L 94 134 Z" fill="#9EAEA0"/>
+  <path d="M 104 132 L 112 156 L 106 156 L 100 134 Z" fill="#9EAEA0"/>
+  <!-- 圣衣（下摆） -->
+  <path d="M 88 122 Q 98 130 110 122 Q 114 116 110 108 Q 104 120 96 116 Q 88 120 88 122 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 88 92 Q 84 106 90 122 Q 100 128 110 122 Q 116 106 112 92 Q 100 86 88 92 Z" fill="url(#armor)" stroke="#7E8E80" stroke-width="1"/>
+  <!-- 白金纹 -->
+  <path d="M 92 98 L 96 116 M 104 98 L 100 116" stroke="#F0F4F0" stroke-width="1.2" opacity="0.8"/>
+  <!-- 腰带 -->
+  <path d="M 88 108 L 112 108" stroke="#F0F4F0" stroke-width="1.6"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#virgo-face" transform="translate(100,84) scale(1)"/>
+
+  <!-- 双手合十（胸前，天魔降伏） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 94 112 Q 100 108 106 112 Q 100 115 94 112 Z" fill="#DCC8A8" stroke="#C8B098" stroke-width="0.8"/>
+    <!-- 双掌间神光 -->
+    <circle cx="100" cy="110" r="8" fill="url(#white)">
+      <animate attributeName="r" values="8;12;8" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 天魔降伏神光（自合十双手涌出） -->
+  <g stroke="#FFF3C4" stroke-width="1.6" opacity="0.7" stroke-linecap="round">
+    <path d="M 100 106 Q 88 96 84 84">
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 100 106 Q 112 96 116 84">
+      <animate attributeName="opacity" values="0.7;0.25;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 神光金尘 -->
+  <g fill="#FFF3C4">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

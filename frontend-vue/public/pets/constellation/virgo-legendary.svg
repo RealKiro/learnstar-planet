@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="处女座·沙加·五阶·处女宫主·黄金处女闭目禅相">
+  <defs>
+    <!-- 背景：处女宫大殿金色殿堂 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8B878"/>
+      <stop offset="52%" stop-color="#B8965E"/>
+      <stop offset="100%" stop-color="#8E7850"/>
+    </linearGradient>
+    <!-- 白金之光 -->
+    <radialGradient id="white" cx="50%" cy="42%" r="56%">
+      <stop offset="0%" stop-color="#F8F4E8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F8F4E8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 佛光金 -->
+    <radialGradient id="aura" cx="50%" cy="42%" r="52%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 黄金处女圣衣 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFE9A8"/>
+      <stop offset="100%" stop-color="#D8B64E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0E0CC"/>
+      <stop offset="100%" stop-color="#DCC8A8"/>
+    </radialGradient>
+
+    <!-- 头部模板：清秀面容·闭目·佛相慈悲 -->
+    <g id="virgo-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#D0BCA0" stroke-width="0.8"/>
+      <!-- 短发（佛相） -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 眉含慈悲 -->
+      <path d="M -8 -1.5 Q -5 -3 -2 -2.4 M 8 -1.5 Q 5 -3 2 -2.4" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 双目紧闭 -->
+      <path d="M -7 0.6 Q -4.5 1.8 -2 0.6 M 2 0.6 Q 4.5 1.8 7 0.6" stroke="#1E1008" stroke-width="1" stroke-linecap="round" fill="none"/>
+      <!-- 眉间佛印 -->
+      <circle cx="0" cy="-3.4" r="1.5" fill="#FFF3C4" opacity="0.9">
+        <animate attributeName="r" values="1.5;2;1.5" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+      <!-- 鼻梁 -->
+      <path d="M 0 2 L 0 4" stroke="#C8B098" stroke-width="1" stroke-linecap="round"/>
+      <!-- 慈悲 -->
+      <path d="M -3 7 Q 0 8.4 3 7" fill="none" stroke="#A89070" stroke-width="1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 白金之光 -->
+  <circle cx="100" cy="94" r="84" fill="url(#white)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 佛光 -->
+  <circle cx="100" cy="94" r="70" fill="url(#aura)">
+    <animate attributeName="opacity" values="0.7;0.45;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 金色圆光 -->
+  <g>
+    <circle cx="100" cy="94" r="62" fill="none" stroke="#FFF3C4" stroke-width="2.4" opacity="0.85">
+      <animate attributeName="r" values="62;67;62" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="94" r="54" fill="none" stroke="#FFF3C4" stroke-width="1.1" opacity="0.5">
+      <animate attributeName="r" values="54;57;54" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 天舞宝轮（身后，虚影） -->
+  <g opacity="0.6">
+    <circle cx="150" cy="62" r="16" fill="none" stroke="#FFF3C4" stroke-width="1.4"/>
+    <circle cx="150" cy="62" r="10" fill="none" stroke="#FFF3C4" stroke-width="0.9" stroke-dasharray="2 4">
+      <animateTransform attributeName="transform" type="rotate" values="0 150 62;360 150 62" dur="8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 宝轮光点 -->
+    <circle cx="150" cy="46" r="1.8" fill="#FFF3C4"/>
+    <circle cx="166" cy="62" r="1.8" fill="#FFF3C4"/>
+    <circle cx="150" cy="78" r="1.8" fill="#FFF3C4"/>
+  </g>
+
+  <!-- 处女宫星象（背景） -->
+  <g opacity="0.5">
+    <g fill="#FFF0C0">
+      <circle cx="40" cy="70" r="1.8"/>
+      <circle cx="52" cy="60" r="1.4"/>
+      <circle cx="66" cy="66" r="1.6"/>
+    </g>
+    <path d="M 40 70 L 52 60 L 66 66" stroke="#FFF0C0" stroke-width="0.8" opacity="0.6"/>
+  </g>
+
+  <!-- 黄金殿堂柱 -->
+  <g opacity="0.4">
+    <path d="M 18 0 L 26 0 L 26 200 L 18 200 Z" fill="#B8965E"/>
+    <path d="M 174 0 L 182 0 L 182 200 L 174 200 Z" fill="#B8965E"/>
+  </g>
+
+  <!-- 云海托足 -->
+  <g opacity="0.6">
+    <path d="M 0 150 Q 50 142 100 148 Q 150 154 200 146 L 200 200 L 0 200 Z" fill="#C8AC84">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 2;0 0" dur="7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 黄金处女圣斗士（闭目端坐，禅相） -->
+  <!-- 腿（盘坐，莲座） -->
+  <path d="M 88 138 Q 94 146 106 142 Q 110 138 108 132 Q 100 142 92 136 Z" fill="#D8B64E"/>
+  <!-- 圣衣（下摆） -->
+  <path d="M 88 126 Q 98 134 110 126 Q 114 120 110 112 Q 104 124 96 120 Q 88 124 88 126 Z" fill="url(#armor)"/>
+  <!-- 上身 -->
+  <path d="M 88 94 Q 84 108 90 126 Q 100 132 110 126 Q 116 108 112 94 Q 100 88 88 94 Z" fill="url(#armor)" stroke="#B8964E" stroke-width="1.2"/>
+  <!-- 白金纹 -->
+  <path d="M 92 100 L 96 118 M 104 100 L 100 118" stroke="#FFF0C0" stroke-width="1.2" opacity="0.8"/>
+  <!-- 腰带 -->
+  <path d="M 88 108 L 112 108" stroke="#FFF0C0" stroke-width="1.8"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#virgo-face" transform="translate(100,86) scale(1)"/>
+
+  <!-- 双手合十（胸前） -->
+  <path d="M 94 114 Q 100 110 106 114 Q 100 117 94 114 Z" fill="#DCC8A8" stroke="#C8B098" stroke-width="0.8"/>
+  <!-- 掌心佛光 -->
+  <circle cx="100" cy="112" r="8" fill="#FFF3C4" opacity="0.6">
+    <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 白金星尘 -->
+  <g fill="#F8F4E8">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 云端散光 -->
+  <g stroke="#FFF3C4" stroke-width="1.4" opacity="0.45" stroke-linecap="round">
+    <path d="M 100 22 L 100 12"/><path d="M 56 44 L 48 36"/><path d="M 144 44 L 152 36"/>
+  </g>
+</svg>

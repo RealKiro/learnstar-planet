@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="处女座·沙加·二阶·沙罗冥想·六道轮回入禅心">
+  <defs>
+    <!-- 背景：沙罗双树下 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8EA890"/>
+      <stop offset="52%" stop-color="#6E8E72"/>
+      <stop offset="100%" stop-color="#4E6E56"/>
+    </linearGradient>
+    <!-- 轮回金光 -->
+    <radialGradient id="cycle" cx="50%" cy="44%" r="56%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜圣衣（渐具） -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C8D0C8"/>
+      <stop offset="100%" stop-color="#9EAEA0"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0E0CC"/>
+      <stop offset="100%" stop-color="#DCC8A8"/>
+    </radialGradient>
+
+    <!-- 头部模板：清秀面容·双目紧闭·佛相渐成（脸中心 0,0） -->
+    <g id="virgo-face">
+      <ellipse cx="0" cy="0" rx="10" ry="10.5" fill="url(#skin)" stroke="#D0BCA0" stroke-width="0.8"/>
+      <!-- 短发（佛相） -->
+      <path d="M -4 -8 Q 0 -11 4 -8 Q 2 -12 0 -12 Q -2 -12 -4 -8 Z" fill="#2E2620"/>
+      <!-- 额发 -->
+      <path d="M -8.5 -3.5 Q -5 -8 0 -8 Q 5 -8 8.5 -3.5 Q 5 -7 0 -7 Q -5 -7 -8.5 -3.5 Z" fill="#2E2620"/>
+      <!-- 眉含慈悲 -->
+      <path d="M -8 -1.5 Q -5 -3 -2 -2.4 M 8 -1.5 Q 5 -3 2 -2.4" stroke="#1E1008" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <!-- 双目紧闭 -->
+      <path d="M -7 0.6 Q -4.5 2 -2 0.6 M 2 0.6 Q 4.5 2 7 0.6" stroke="#1E1008" stroke-width="1" stroke-linecap="round" fill="none"/>
+      <!-- 眉间佛印 -->
+      <circle cx="0" cy="-3.2" r="1.3" fill="#FFF3C4" opacity="0.8"/>
+      <!-- 鼻梁 -->
+      <path d="M 0 2 L 0 4" stroke="#C8B098" stroke-width="1" stroke-linecap="round"/>
+      <!-- 微阖 -->
+      <path d="M -3 7 Q 0 8.4 3 7" fill="none" stroke="#A89070" stroke-width="1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 轮回金光 -->
+  <circle cx="100" cy="96" r="80" fill="url(#cycle)">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 六道轮回虚影（绕身，流转） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 100 96;20 100 96;0 100 96" dur="16s" repeatCount="indefinite"/>
+    <!-- 六道小相（天道/人道/修罗/畜生/饿鬼/地狱，抽象六朵光莲） -->
+    <circle cx="100" cy="36" r="4" fill="#FFF3C4" opacity="0.7"/>
+    <circle cx="150" cy="70" r="3.4" fill="#FFF0C0" opacity="0.6"/>
+    <circle cx="138" cy="136" r="3.4" fill="#F5E0A8" opacity="0.6"/>
+    <circle cx="62" cy="136" r="3.4" fill="#F5E0A8" opacity="0.6"/>
+    <circle cx="50" cy="70" r="3.4" fill="#FFF0C0" opacity="0.6"/>
+    <circle cx="100" cy="158" r="4" fill="#FFF3C4" opacity="0.7"/>
+    <!-- 轮回连线 -->
+    <circle cx="100" cy="96" r="42" fill="none" stroke="#FFF3C4" stroke-width="1.2" opacity="0.5" stroke-dasharray="3 8"/>
+    <circle cx="100" cy="96" r="30" fill="none" stroke="#FFF3C4" stroke-width="0.9" opacity="0.4"/>
+  </g>
+
+  <!-- 沙罗双树（两侧） -->
+  <g>
+    <path d="M 26 140 Q 24 116 28 96" stroke="#4E6E4E" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <circle cx="28" cy="92" r="10" fill="#7EA878"/>
+    <path d="M 174 140 Q 176 116 172 96" stroke="#4E6E4E" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <circle cx="172" cy="92" r="10" fill="#7EA878"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 154 L 200 154 L 200 200 L 0 200 Z" fill="#4E6E56" opacity="0.7"/>
+
+  <!-- 青铜少年（6头身，合十入定） -->
+  <!-- 腿（盘坐） -->
+  <path d="M 88 138 Q 94 146 106 142 Q 110 138 108 132 Q 100 142 92 136 Z" fill="#9EAEA0"/>
+  <!-- 青铜圣衣 -->
+  <path d="M 88 102 Q 84 118 90 138 Q 100 144 108 138 Q 114 118 110 102 Q 100 96 88 102 Z" fill="url(#armor)" stroke="#7E8E80" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 88 118 L 110 118" stroke="#E8F0E8" stroke-width="1.4"/>
+
+  <!-- 头（面部模板） -->
+  <use href="#virgo-face" transform="translate(99,94) scale(1)"/>
+
+  <!-- 双手合十 -->
+  <path d="M 94 114 Q 99 110 104 114 Q 99 117 94 114 Z" fill="#DCC8A8" stroke="#C8B098" stroke-width="0.8"/>
+
+  <!-- 佛光渐盛（身周） -->
+  <circle cx="99" cy="102" r="18" fill="#FFF3C4" opacity="0.25">
+    <animate attributeName="r" values="18;24;18" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 沙罗叶落 -->
+  <g fill="#A8C878">
+    <path d="M 60 108 L 62 116 L 58 114 Z" opacity="0.7">
+      <animate attributeName="cy" values="108;120;108" dur="3.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 140 104 L 142 112 L 138 110 Z" opacity="0.6">
+      <animate attributeName="cy" values="104;116;104" dur="3.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 佛光金尘 -->
+  <g fill="#FFF3C4">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;96;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="100">
+      <animate attributeName="cy" values="100;92;100" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
