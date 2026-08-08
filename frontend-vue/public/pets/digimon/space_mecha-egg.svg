@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="巴达兽·一阶·小翼初扑·数码云海扑腾小翼飞不高见卡云缝够不着">
+  <defs>
+    <!-- 背景：数码云海 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8AC8E8"/>
+      <stop offset="52%" stop-color="#A8D8F0"/>
+      <stop offset="100%" stop-color="#C8E8F8"/>
+    </linearGradient>
+    <!-- 云光 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#F8FCF8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F8FCF8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 乳白身 -->
+    <radialGradient id="body" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8E8E2"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 云海 -->
+  <g fill="#F8FCF8" opacity="0.8">
+    <ellipse cx="60" cy="150" rx="30" ry="10"/>
+    <ellipse cx="150" cy="156" rx="34" ry="11"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#A8D8F0" opacity="0.7"/>
+
+  <!-- 云缝卡住的小兽（右） -->
+  <g>
+    <path d="M 148 96 Q 152 90 158 96 Q 156 104 150 104 Z" fill="#F8FCF8" stroke="#C8E0F0" stroke-width="0.8"/>
+    <circle cx="152" cy="98" r="3.5" fill="#A8E0E8" stroke="#68A8C8" stroke-width="0.5"/>
+    <circle cx="150" cy="96.8" r="0.9" fill="#24180E"/>
+    <circle cx="155" cy="96.8" r="0.9" fill="#24180E"/>
+  </g>
+
+  <!-- 小巴达兽（扑小翼，飞不高） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 小翼（扑） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-5 84 110;5 84 110;-5 84 110" dur="1.8s" repeatCount="indefinite"/>
+      <path d="M 84 110 L 70 100 L 76 106 L 66 98 L 74 108 Z" fill="#E8F0F8" stroke="#B8D0E8" stroke-width="0.7"/>
+      <path d="M 108 108 L 122 98 L 116 104 L 126 96 L 118 106 Z" fill="#E8F0F8" stroke="#B8D0E8" stroke-width="0.7"/>
+    </g>
+    <!-- 身（乳白圆润，海豚样） -->
+    <ellipse cx="96" cy="118" rx="15" ry="12" fill="url(#body)" stroke="#D0D0CA" stroke-width="0.9"/>
+    <!-- 肚 -->
+    <ellipse cx="94" cy="124" rx="9" ry="6" fill="#F8F4F0" opacity="0.7"/>
+    <!-- 海豚吻 -->
+    <path d="M 108 116 Q 116 116 118 114 Q 116 120 108 120 Z" fill="#F0F0EA" stroke="#C8C8C2" stroke-width="0.6"/>
+    <!-- 眼（圆亮） -->
+    <circle cx="99" cy="114" r="2.8" fill="#2E2A24"/>
+    <circle cx="100" cy="112.8" r="1.1" fill="#FFF"/>
+    <circle cx="108" cy="114" r="2.8" fill="#2E2A24"/>
+    <circle cx="109" cy="112.8" r="1.1" fill="#FFF"/>
+    <!-- 嘴（够不着，嘟） -->
+    <ellipse cx="115" cy="118" rx="2" ry="2.4" fill="#E8C8B8"/>
+    <!-- 尾鳍 -->
+    <path d="M 82 122 Q 74 118 72 124 Q 74 130 82 126 Z" fill="#F0F0EA" stroke="#C8C8C2" stroke-width="0.6"/>
+    <!-- 小短鳍（臂） -->
+    <path d="M 90 122 L 86 128" stroke="#F0F0EA" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#F8FCF8">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
