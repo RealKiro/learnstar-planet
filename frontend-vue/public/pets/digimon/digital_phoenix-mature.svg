@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="比丘兽·四阶·救伴初成·稳飞去一啄精准解藤结救出伙伴">
+  <defs>
+    <!-- 背景：数码森林 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5AA878"/>
+      <stop offset="52%" stop-color="#6AB880"/>
+      <stop offset="100%" stop-color="#4E9868"/>
+    </linearGradient>
+    <!-- 森林光 -->
+    <radialGradient id="glow" cx="50%" cy="28%" r="50%">
+      <stop offset="0%" stop-color="#C8F0D8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#C8F0D8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 橙黄羽毛（透亮） -->
+    <radialGradient id="feather" cx="40%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#F8D078"/>
+      <stop offset="100%" stop-color="#E8A840"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 森林树影 -->
+  <g fill="#3E7848" opacity="0.45">
+    <path d="M 0 56 L 10 18 L 20 54 L 26 28 L 34 60 L 0 200 L 0 60 Z"/>
+    <path d="M 172 52 L 182 14 L 190 50 L 200 40 L 200 200 L 172 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#4E9868" opacity="0.9"/>
+
+  <!-- 藤散开脱困的伙伴（右，惊讶） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <circle cx="150" cy="120" r="4.5" fill="#A8D8E8" stroke="#5AA8C8" stroke-width="0.5"/>
+    <circle cx="148" cy="118.8" r="1.1" fill="#24180E"/>
+    <circle cx="153" cy="118.8" r="1.1" fill="#24180E"/>
+    <ellipse cx="150" cy="124" rx="1.5" ry="2" fill="#7A90A8" opacity="0.7"/>
+  </g>
+  <!-- 散开的藤 -->
+  <g stroke="#5AA8E8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5">
+    <path d="M 138 112 L 146 108">
+      <animate attributeName="opacity" values="0.5;0.25;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 142 124 L 148 128" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.2;0.4" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年比丘兽（中，一啄解藤） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 翅（展） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-5 80 108;5 80 108;-5 80 108" dur="1.8s" repeatCount="indefinite"/>
+      <path d="M 80 108 L 58 92 L 68 100 L 52 90 L 66 104 Z" fill="#F0C860" stroke="#C88828" stroke-width="0.8"/>
+    </g>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-5 122 106;5 122 106;-5 122 106" dur="1.8s" repeatCount="indefinite"/>
+      <path d="M 122 106 L 144 90 L 134 98 L 150 88 L 136 102 Z" fill="#F0C860" stroke="#C88828" stroke-width="0.8"/>
+    </g>
+    <!-- 身 -->
+    <ellipse cx="100" cy="112" rx="15" ry="13" fill="url(#feather)" stroke="#C88828" stroke-width="0.9"/>
+    <!-- 蓬毛尾 -->
+    <path d="M 88 122 Q 80 126 84 130 Q 90 128 94 124" fill="#F0C860" stroke="#C88828" stroke-width="0.6"/>
+    <!-- 头顶毛（亮） -->
+    <path d="M 96 102 Q 100 93 104 102 M 92 104 Q 96 97 100 104" fill="#F0C860" stroke="#C88828" stroke-width="0.5"/>
+    <!-- 头 -->
+    <ellipse cx="100" cy="102" rx="9" ry="8" fill="url(#feather)" stroke="#C88828" stroke-width="0.8"/>
+    <!-- 眼（含温含亮） -->
+    <circle cx="96" cy="101" r="2.5" fill="#2E2A24"/>
+    <circle cx="96.8" cy="99.8" r="1" fill="#FFF"/>
+    <circle cx="105" cy="101" r="2.5" fill="#2E2A24"/>
+    <circle cx="105.8" cy="99.8" r="1" fill="#FFF"/>
+    <!-- 嘴（精啄，伸向藤） -->
+    <path d="M 107 103 L 116 102 L 107 105.5 Z" fill="#E88848" stroke="#C86828" stroke-width="0.5"/>
+    <!-- 啄开的藤结 -->
+    <path d="M 118 100 L 124 104" stroke="#5AA8E8" stroke-width="1.4" stroke-linecap="round" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#C8F0D8">
+    <circle cx="46" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;76;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.45;0.12;0.45" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
