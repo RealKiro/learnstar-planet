@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="翼龙·三阶·练翼苦修·展翼如帆乘风滑翔绕崖俯瞰">
+  <defs>
+    <!-- 背景：白垩崖边云 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4E0E8"/>
+      <stop offset="52%" stop-color="#B4C8D4"/>
+      <stop offset="100%" stop-color="#92AAB8"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F4FAFC" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F4FAFC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年翼龙皮 -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#B8C0C8"/>
+      <stop offset="100%" stop-color="#9EA8B0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 云海 -->
+  <g fill="#F4F8FC" opacity="0.9">
+    <path d="M 0 128 Q 40 120 90 126 Q 140 132 200 124 L 200 200 L 0 200 Z"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.85">
+    <path d="M 10 140 Q 60 132 110 138 Q 160 144 200 136 L 200 200 L 0 200 Z">
+      <animateTransform attributeName="transform" type="translate" values="0 0;4 0;0 0" dur="5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 崖（右下） -->
+  <g fill="#A0A8B0" opacity="0.55">
+    <path d="M 120 200 L 132 168 Q 152 158 172 166 L 200 158 L 200 200 Z"/>
+  </g>
+  <!-- 风痕 -->
+  <g stroke="#E8F4F0" stroke-width="1.3" stroke-linecap="round" opacity="0.5" fill="none">
+    <path d="M 30 70 Q 70 64 110 70">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 20 96 Q 60 90 100 96">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-5 0;0 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年翼龙（展翼乘风滑翔） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 翼（展如帆） -->
+    <path d="M 96 104 L 60 88 L 66 100 L 44 92 L 64 104 Z" fill="url(#skin)" stroke="#8E989E" stroke-width="0.9"/>
+    <path d="M 96 104 L 132 88 L 126 100 L 148 92 L 128 104 Z" fill="url(#skin)" stroke="#8E989E" stroke-width="0.9"/>
+    <!-- 身 -->
+    <ellipse cx="96" cy="110" rx="8" ry="6" fill="url(#skin)" stroke="#8E989E" stroke-width="0.8"/>
+    <!-- 尾 -->
+    <path d="M 102 112 L 112 114 L 114 118" stroke="url(#skin)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年翼龙头（乘风向） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="96" cy="100" rx="6.5" ry="5.5" fill="url(#skin)" stroke="#8E989E" stroke-width="0.8"/>
+    <circle cx="93" cy="98.5" r="1.6" fill="#24180E"/>
+    <circle cx="93.4" cy="98.1" r="0.5" fill="#FFF"/>
+    <circle cx="99.4" cy="98.5" r="1.6" fill="#24180E"/>
+    <circle cx="99.8" cy="98.1" r="0.5" fill="#FFF"/>
+    <path d="M 95 102 L 93 105 L 97 104.4 Z" fill="#C0B888"/>
+    <path d="M 93 96 L 92 93 M 98 96 L 100 93" stroke="#B8C0C8" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- 俯瞰（看到大地） -->
+    <circle cx="104" cy="90" r="2" fill="#F4FAFC" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F4FAFC">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
