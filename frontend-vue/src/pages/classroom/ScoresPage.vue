@@ -617,14 +617,16 @@ onMounted(async () => {
       @keyframes floatUp { 0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); } 100% { opacity: 0; transform: translateX(-50%) translateY(-80px) scale(1.3); } }
       .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
       .fade-enter-from, .fade-leave-to { opacity: 0; }
-      /* 多选挖空圆 checkbox */
+      /* 多选挖空圆 checkbox（醒目：实心底+清晰边框+投影） */
       .pick-circle {
-        width: 18px; height: 18px; border-radius: 50%;
-        border: 2px solid var(--tint-4);
+        width: 22px; height: 22px; border-radius: 50%;
+        border: 2px solid var(--color-border);
+        background: var(--color-bg-card);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
         display: flex; align-items: center; justify-content: center;
-        cursor: pointer; transition: 0.15s; flex-shrink: 0; background: transparent;
+        cursor: pointer; transition: 0.15s; flex-shrink: 0;
       }
-      .pick-circle:hover { border-color: var(--md-primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
+      .pick-circle:hover { border-color: var(--md-primary); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
       .pick-circle.picked { background: var(--md-primary); border-color: var(--md-primary); }
       /* 加减分原因标签：44px 触控 pill（视觉优化方案 5.3） */
       .reason-pick {
