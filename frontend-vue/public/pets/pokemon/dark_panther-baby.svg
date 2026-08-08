@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="夜隐豹·二阶·吓人之痛·从影里跳出吓跑小兽停原地看远背影">
+  <defs>
+    <!-- 背景：月夜林 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E2A3E"/>
+      <stop offset="52%" stop-color="#2E3A4E"/>
+      <stop offset="100%" stop-color="#3E4E5E"/>
+    </linearGradient>
+    <!-- 月光 -->
+    <radialGradient id="moon" cx="76%" cy="20%" r="34%">
+      <stop offset="0%" stop-color="#E8F0F8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#E8F0F8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 乌黑毛 -->
+    <radialGradient id="fur" cx="40%" cy="36%" r="70%">
+      <stop offset="0%" stop-color="#262A32"/>
+      <stop offset="100%" stop-color="#0E1018"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="152" cy="40" r="60" fill="url(#moon)">
+    <animate attributeName="opacity" values="0.8;0.56;0.8" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="152" cy="40" r="10" fill="#E8F0F8" opacity="0.9"/>
+
+  <!-- 星 -->
+  <g fill="#C8D8E8" opacity="0.4">
+    <circle cx="36" cy="44" r="1">
+      <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#2E3A4E" opacity="0.9"/>
+
+  <!-- 吓跑的小兽（右，跑远） -->
+  <g opacity="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0;3 0;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <circle cx="164" cy="120" r="4" fill="#C8A878" stroke="#A88858" stroke-width="0.5"/>
+    <circle cx="162" cy="118.8" r="1" fill="#2E2A24"/>
+    <circle cx="167" cy="118.8" r="1" fill="#2E2A24"/>
+    <path d="M 166 124 L 170 128" stroke="#A88858" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 160 124 L 158 128" stroke="#A88858" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- 停原地的小夜隐豹（左，黯然） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 0.8;0 0" dur="3s" repeatCount="indefinite"/>
+    <!-- 影 -->
+    <ellipse cx="72" cy="140" rx="20" ry="4.5" fill="#0E141E" opacity="0.7"/>
+    <!-- 尾（耷拉） -->
+    <path d="M 56 122 Q 46 128 46 136 Q 48 142 56 140" stroke="#0E1018" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <!-- 大耳（垂） -->
+    <path d="M 64 112 L 60 102 L 70 107 Z" fill="#0E1018" stroke="#060810" stroke-width="0.6"/>
+    <path d="M 82 112 L 86 102 L 76 107 Z" fill="#0E1018" stroke="#060810" stroke-width="0.6"/>
+    <!-- 身 -->
+    <ellipse cx="72" cy="124" rx="13" ry="11" fill="url(#fur)" stroke="#060810" stroke-width="0.8"/>
+    <!-- 头（低垂） -->
+    <ellipse cx="72" cy="114" rx="8" ry="7" fill="url(#fur)" stroke="#060810" stroke-width="0.7" transform="rotate(-6 72 114)"/>
+    <!-- 眼（黯然，微暗） -->
+    <circle cx="68" cy="113" r="2" fill="#C8B880" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="76" cy="113" r="2" fill="#C8B880" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="69" cy="112.5" r="0.9" fill="#A8D4E8" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- 鼻 -->
+    <path d="M 75 117 L 77 117 L 76 119 Z" fill="#2E3A4E"/>
+    <!-- 爪 -->
+    <path d="M 62 130 L 58 136" stroke="#0E1018" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 82 130 L 86 136" stroke="#0E1018" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 尘灰 -->
+  <g fill="#C8D8E8" opacity="0.3">
+    <circle cx="44" cy="96">
+      <animate attributeName="cy" values="96;88;96" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="82">
+      <animate attributeName="cy" values="82;74;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.28;0.1;0.28" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
