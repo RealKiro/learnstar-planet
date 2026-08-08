@@ -329,8 +329,8 @@ onUnmounted(() => {
 .overview-grid {
   display: grid;
   grid-template-columns: 1.2fr 1.4fr 1fr;
-  gap: 20px;
-  margin-bottom: 28px;
+  gap: 16px;
+  margin-bottom: 22px;
 }
 .o-card {
   position: relative;
@@ -339,8 +339,8 @@ onUnmounted(() => {
     radial-gradient(120% 90% at 0% 0%, rgba(79,70,229,0.05), transparent 55%),
     var(--color-bg-card);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 24px;
+  border-radius: 18px;
+  padding: 18px 20px;
   transition: all 0.25s ease;
 }
 .o-card::after {
@@ -357,28 +357,28 @@ onUnmounted(() => {
   box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 3px 10px rgba(0,0,0,0.06);
 }
 .o-label {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-secondary);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 .o-value {
-  font-size: 36px;
+  font-size: 30px;
   font-weight: 800;
   line-height: 1;
   margin-bottom: 4px;
 }
 .o-sub {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-secondary);
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 .o-stats-row {
   display: flex;
-  gap: 20px;
-  padding-top: 12px;
+  gap: 16px;
+  padding-top: 10px;
   border-top: 1px solid var(--color-border);
 }
 .stat-label {
@@ -402,8 +402,8 @@ onUnmounted(() => {
 }
 .star-avatar {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -423,9 +423,9 @@ onUnmounted(() => {
 .star-avatar > * { position: relative; z-index: 1; }
 @keyframes spinRing { to { transform: rotate(360deg); } }
 .star-emoji { font-size: 40px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-.star-name { font-size: 20px; font-weight: 700; }
-.star-pet { font-size: 13px; color: var(--color-text-secondary); }
-.star-score { font-size: 22px; font-weight: 800; color: var(--color-primary); }
+.star-name { font-size: 18px; font-weight: 700; }
+.star-pet { font-size: 12px; color: var(--color-text-secondary); }
+.star-score { font-size: 20px; font-weight: 800; color: var(--color-primary); }
 
 /* 新闻 */
 .news-list {
@@ -458,8 +458,8 @@ onUnmounted(() => {
 .top5-section {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 20px 24px;
+  border-radius: 18px;
+  padding: 16px 20px;
 }
 .section-header {
   display: flex;
@@ -542,11 +542,11 @@ onUnmounted(() => {
 .medal--2 { background: linear-gradient(180deg, rgba(205,127,50,0.08), transparent); border-color: rgba(205,127,50,0.25); }
 .top3-medal { position: absolute; top: 8px; left: 12px; font-size: 22px; }
 .top3-avatar {
-  width: 90px;
-  height: 90px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   overflow: hidden;
-  margin: 6px auto 10px;
+  margin: 6px auto 8px;
   border: 2.5px solid var(--medal, #6B7280);
   background: var(--color-bg);
   display: flex;

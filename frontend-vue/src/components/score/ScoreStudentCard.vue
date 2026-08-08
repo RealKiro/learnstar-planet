@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { getSpeciesById } from '@/utils/petData'
 import PetSprite from '@/components/pet/PetSprite.vue'
 
 /** 卡片学生（教师 Student / 教室 StudentEntry 的结构兼容子集） */
@@ -105,12 +106,23 @@ function stageLabelOf(level: number): string {
   if (level >= 3) return STAGE_LABELS.baby
   return STAGE_LABELS.egg
 }
-const MOTIVATIONS = ['加油哦！', '保持热爱，奔赴山海', '今天也要闪闪发光', '每一步都算数', '未来可期', '努力的样子最帅', '你是最棒的', '继续冲呀', '小宇宙爆发吧', '元气满满']
-function motivationFor(s: CardStudent): string {
-  return MOTIVATIONS[(s.id - 1) % MOTIVATIONS.length]
+const lv = computed(() => lvOf(props.student))
+
+/** 学号补零为两位（01-99） */
+function pad2(n: string | number | undefined): string {
+  return String(Number(n) || 0).padStart(2, '0')
 }
 
-const lv = computed(() => lvOf(props.student))
+/** 当前阶段该角色的称呼（如 孙悟空·传说级 → 齐天大圣） */
+const stageName = computed(() => {
+  const s = props.student
+  const species = getSpeciesById(s.pet_species || teacherSpecies(s))
+  if (!species?.levels?.length) return ''
+  const l = lv.value
+  const stage = l >= 11 ? 'transcendent' : l >= 9 ? 'legendary' : l >= 7 ? 'mature' : l >= 5 ? 'growing' : l >= 3 ? 'baby' : 'egg'
+  const levelEntry = species.levels.find(x => x.stage === stage)
+  return levelEntry?.name || species.name || ''
+})
 
 /** 距下一级剩余文案（两端公式不同，模式分支） */
 const expText = computed(() => {
@@ -169,13 +181,14 @@ const expPercent = computed(() => {
           />
           <span v-else class="pet-emoji">{{ student.pet_emoji || '🥚' }}</span>
         </div>
-        <div class="card-pet-name" v-if="student.pet_name">{{ student.pet_name }}</div>
+        <div class="card-pet-name" v-if="stageName">{{ stageName }}</div>
       </div>
 
       <!-- 右栏：信息（50%） -->
       <div class="card-right">
         <div class="card-name-row">
           <span class="card-name">{{ student.name }}</span>
+          <span v-if="student.student_no" class="card-id">{{ pad2(student.student_no) }}</span>
           <div
             class="card-checkbox"
             :class="{ picked: selected }"
@@ -188,14 +201,12 @@ const expPercent = computed(() => {
             <svg v-if="selected" viewBox="0 0 10 10" width="10" height="10"><path d="M1.2 5.2 L4 8 L8.8 2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
         </div>
-        <div class="card-id-row">
-          <span class="card-id-icon">📛</span>
-          <span v-if="student.student_no" class="card-id">{{ student.student_no }}</span>
-          <span v-else class="card-id card-id--none">未编学号</span>
-        </div>
         <div class="card-mid-row">
           <span class="card-score"><span class="score-icon">⭐</span>{{ student.total_score.toLocaleString() }}<span class="unit"> 分</span></span>
-          <span class="card-motivation">“{{ motivationFor(student) }}”</span>
+        </div>
+        <div class="card-progress-text">
+          <span class="pt-icon">📈</span>
+          <span>{{ expText }}</span>
         </div>
       </div>
     </div>
@@ -206,7 +217,6 @@ const expPercent = computed(() => {
         <div class="meta-line">
           <span class="lv-pill">Lv.{{ lv }}</span>
           <span class="stage">{{ stageLabelOf(lv) }}</span>
-          <span class="exp-text">{{ expText }}</span>
         </div>
         <div class="mini-progress">
           <div class="mini-fill" :style="{ width: expPercent + '%' }"></div>
@@ -392,42 +402,38 @@ const expPercent = computed(() => {
   border-color: transparent;
   box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
 }
-.card-id-row { display: flex; align-items: center; gap: 5px; }
-.card-id-icon { font-size: 11px; }
 .card-id {
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--color-text-secondary);
   background: var(--color-bg);
   border: 1px solid var(--color-border);
-  padding: 1px 8px;
-  border-radius: 8px;
-  letter-spacing: 0.3px;
+  padding: 0 7px;
+  border-radius: 7px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
 }
-.card-id--none { opacity: 0.5; }
-.card-mid-row { display: flex; align-items: baseline; gap: 8px; }
+.card-mid-row { display: flex; align-items: baseline; }
 .card-score {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--color-text);
   white-space: nowrap;
 }
-.score-icon { font-size: 12px; margin-right: 2px; }
+.score-icon { font-size: 13px; margin-right: 2px; }
 .card-score .unit {
   font-size: 11px;
   font-weight: 400;
   color: var(--color-text-secondary);
 }
-.card-motivation {
-  font-size: 11px;
-  color: var(--color-accent);
-  font-style: italic;
-  flex: 1;
-  min-width: 0;
-  text-align: right;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.card-progress-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
 }
+.pt-icon { font-size: 12px; }
 
 /* ===== 底部：等级/进度 + 加减分 ===== */
 .card-bottom {
@@ -452,13 +458,6 @@ const expPercent = computed(() => {
   border-radius: 10px;
 }
 .meta-line .stage { font-weight: 600; color: var(--color-text); }
-.meta-line .exp-text {
-  margin-left: auto;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 0.8;
-}
 .mini-progress {
   height: 5px;
   width: 100%;
