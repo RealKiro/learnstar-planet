@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="朱鹮·四阶·衔祥初成·展翅覆水衔鱼置前">
+  <defs>
+    <!-- 背景：水田晨光 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4E6C4"/>
+      <stop offset="52%" stop-color="#B0CC9E"/>
+      <stop offset="100%" stop-color="#90B082"/>
+    </linearGradient>
+    <!-- 晨光金 -->
+    <radialGradient id="glow" cx="44%" cy="28%" r="52%">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 白羽如雪 -->
+    <linearGradient id="white" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FCFCFE"/>
+      <stop offset="100%" stop-color="#E4E8F0"/>
+    </linearGradient>
+    <!-- 粉翼 -->
+    <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F4A8B8"/>
+      <stop offset="100%" stop-color="#E08CA0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="88" cy="56" r="82" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 水田 -->
+  <g stroke="#5E8E5E" stroke-width="2" stroke-linecap="round" opacity="0.6">
+    <path d="M 12 44 Q 10 96 6 160 M 24 58 Q 20 102 16 160"/>
+  </g>
+  <g fill="#C4A86E">
+    <ellipse cx="10" cy="42" rx="4" ry="7" opacity="0.9"/>
+    <ellipse cx="22" cy="56" rx="4" ry="7" opacity="0.9"/>
+  </g>
+  <!-- 浅滩水面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#6E9E7C" opacity="0.8"/>
+  <path d="M 0 150 L 200 150" stroke="#9CC4AC" stroke-width="1.4" opacity="0.6"/>
+  <path d="M 24 158 Q 52 156 82 158 M 120 164 Q 148 162 178 164" stroke="#EAF8F0" stroke-width="1" opacity="0.5" fill="none"/>
+
+  <!-- 填滩人（右，举铲愣住，放下铲） -->
+  <g>
+    <path d="M 158 132 Q 154 140 156 150" stroke="#6E5A3E" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <path d="M 156 142 Q 150 138 148 134" stroke="#6E5A3E" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    <!-- 头（愣住低头看脚边） -->
+    <circle cx="161" cy="126" r="4.4" fill="#8E7A5E"/>
+    <path d="M 156 127 L 166 127" stroke="#6E5A3E" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
+    <!-- 放下的铲 -->
+    <path d="M 146 146 L 156 140" stroke="#4E5E3E" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M 144 148 L 152 150 L 150 154 L 143 152 Z" fill="#8E7A5E"/>
+    <!-- 愣住的神情（省略号？用微光） -->
+    <circle cx="163" cy="130" r="1.2" fill="#8E7A5E">
+      <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 朱鹮（4头身，展翅覆水，衔鱼置人脚边） -->
+  <!-- 腿（立于浅水） -->
+  <path d="M 96 128 L 94 150" stroke="#6E7682" stroke-width="1.7" stroke-linecap="round"/>
+  <path d="M 106 126 L 108 150" stroke="#6E7682" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- 身体 -->
+  <ellipse cx="101" cy="118" rx="16" ry="10" fill="url(#white)" stroke="#C4C8D8" stroke-width="0.8"/>
+  <!-- 覆水粉翼（展翅如盖，覆在浅水上） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="4 92 112;-2 92 112;4 92 112" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 92 112 Q 70 100 50 104 Q 58 118 76 122 Q 86 120 92 112 Z" fill="url(#pink)" stroke="#A87888" stroke-width="0.7"/>
+    <path d="M 62 108 Q 54 104 50 104 Q 54 116 64 118 Q 62 112 62 108 Z" fill="#F6D8E0"/>
+  </g>
+  <!-- 右侧翅（收着） -->
+  <path d="M 108 114 Q 118 110 124 112 Q 120 118 112 118 Z" fill="url(#pink)" opacity="0.8"/>
+  <!-- 尾羽 -->
+  <path d="M 116 122 Q 126 124 130 128" stroke="#F0A8B8" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+  <!-- 头（垂向人脚边，长喙衔鱼置前） -->
+  <circle cx="92" cy="106" r="5" fill="url(#white)" stroke="#C4C8D8" stroke-width="0.7"/>
+  <!-- 头冠（蓬起） -->
+  <path d="M 90 101 Q 88 96 90 92 M 93 101 Q 94 95 96 92 M 96 101 Q 98 97 100 95" stroke="#F0A8B8" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <!-- 朱红脸 -->
+  <ellipse cx="90" cy="107" rx="3.4" ry="2.6" fill="#E06A4A"/>
+  <!-- 长喙（衔鱼，置前） -->
+  <path d="M 89 108 L 78 118 L 88 111 Z" fill="#2A2E3A"/>
+  <!-- 衔着的小鱼（放人脚边） -->
+  <ellipse cx="78" cy="120" rx="3.6" ry="2.2" fill="#8EAAAE"/>
+  <path d="M 75 119 L 72 117 L 73 121 Z" fill="#8EAAAE"/>
+  <!-- 眼（诚恳，歪头看人） -->
+  <circle cx="93" cy="106" r="1.1" fill="#24180E"/>
+  <path d="M 91 104 Q 93 103 95 104" stroke="#24180E" stroke-width="0.7" stroke-linecap="round" fill="none" opacity="0.8"/>
+
+  <!-- 水面微光（被护的水田） -->
+  <g fill="#FFF8DC">
+    <circle cx="40" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="90">
+      <animate attributeName="cy" values="90;80;90" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
