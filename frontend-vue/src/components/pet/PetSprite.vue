@@ -218,7 +218,7 @@ function fxShape(size: number): string {
     role="img"
     :aria-label="`宠物 Lv.${level}`"
   >
-    <text x="100" y="118" text-anchor="middle" font-size="150" style="user-select:none;">{{ getStageEmoji(speciesId, level) }}</text>
+    <text x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="150" style="user-select:none;">{{ getStageEmoji(speciesId, level) }}</text>
   </svg>
   <img
     v-else-if="imgUrl"

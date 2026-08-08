@@ -37,12 +37,12 @@ const FULL_NAV = [
   { section: '课堂教学', items: [
     { page: 'teacher-scores', label: '课堂评价', icon: '✏️' },
     { page: 'teacher-rules', label: '积分规则', icon: '📋' },
-    { page: 'teacher-attendance', label: '智能考勤', icon: '✅' },
   ]},
   { section: '成长激励', items: [
     { page: 'teacher-leaderboard', label: '排行榜单', icon: '🏆' },
     { page: 'teacher-pk', label: '年级战场', icon: '⚔️' },
     { page: 'teacher-pets', label: '宠物图鉴', icon: '📚' },
+    { page: 'teacher-attendance', label: '智能考勤', icon: '✅' },
   ]},
   { section: '数据中心', items: [
     { page: 'teacher-grades', label: '成绩管理', icon: '📊' },

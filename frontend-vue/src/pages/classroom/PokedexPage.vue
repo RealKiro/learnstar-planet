@@ -4,6 +4,7 @@ import { apiPost } from '@/utils/api'
 import { useAppMode } from '@/composables/useAppMode'
 import { getAllSeries, PET_SERIES, getSpeciesById } from '@/utils/petData'
 import { getPoems, getEvoLines, STAGE_NAMES, poemToLines } from '@/utils/petHandbookData'
+import { getPetLifeStory } from '@/utils/petLifeStories'
 import PetSprite from '@/components/pet/PetSprite.vue'
 
 // 教室端/教师端共用图鉴页；教师端无 class_token，隐藏"切换系列"
@@ -42,6 +43,10 @@ const detailEvoLines = computed(() => {
   if (!selectedSpecies.value) return []
   return getEvoLines(selectedSpecies.value.name)
 })
+
+/** 角色人生档案（故事演义：品性/行为/服饰/功法/台词/诗词/年龄/关键词） */
+const lifeStory = computed(() => selectedSpecies.value ? getPetLifeStory(selectedSpecies.value.speciesId) : null)
+const lifeStage = computed(() => lifeStory.value?.stages?.[detailStage.value])
 
 function goToSlide(idx: number) {
   currentSlide.value = idx
@@ -121,6 +126,9 @@ onUnmounted(() => clearInterval(timer))
             <button @click="closeDetail" style="margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid var(--tint-4);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer;">✕</button>
           </div>
 
+          <!-- 主题句（人生档案·故事演义） -->
+          <div v-if="lifeStory?.theme" class="life-theme">「{{ lifeStory.theme }}」</div>
+
           <!-- 阶段Tab -->
           <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;">
             <button v-for="(name, i) in STAGE_NAMES" :key="i" @click="detailStage = i"
@@ -134,29 +142,57 @@ onUnmounted(() => clearInterval(timer))
 
           <!-- 阶段详情 -->
           <div style="margin-bottom:16px;">
-            <div style="font-size:14px;font-weight:600;margin-bottom:8px;">
-              Lv.{{ detailStage === 0 ? 1 : detailStage <= 2 ? 2 : detailStage <= 3 ? 8 : detailStage === 4 ? 10 : 12 }}
-              阶段
-            </div>
-            <div style="padding:14px 16px;background:var(--tint-1);border-radius:12px;border-left:3px solid var(--md-primary);margin-bottom:12px;">
-              <div style="font-size:13px;color:var(--md-text-secondary);line-height:1.6;">
-                {{ detailSpecies.levels[detailStage]?.description || '待完善' }}
-              </div>
-            </div>
-
-            <!-- 进化台词 -->
-            <div v-if="detailEvoLines[detailStage]" style="padding:12px 16px;background:rgba(245,158,11,0.06);border-radius:12px;border-left:3px solid #F59E0B;margin-bottom:12px;">
-              <div style="font-size:11px;color:rgba(245,158,11,0.6);font-weight:600;margin-bottom:4px;">💬 进化台词</div>
-              <div style="font-size:16px;color: var(--color-warning-text);font-style:italic;">{{ detailEvoLines[detailStage] }}</div>
+            <!-- 阶段标题：人生档案阶段名 + 年龄 + 关键词 -->
+            <div class="life-stage-head">
+              <span class="life-stage-name">{{ lifeStage?.name || ((detailStage === 0 ? 1 : detailStage <= 2 ? 2 : detailStage <= 3 ? 8 : detailStage === 4 ? 10 : 12) + ' 阶段') }}</span>
+              <template v-if="lifeStage">
+                <span class="life-age">{{ lifeStage.age }}</span>
+                <span class="life-keyword">{{ lifeStage.keyword }}</span>
+              </template>
             </div>
 
-            <!-- 诗歌 -->
-            <div v-if="detailPoems[detailStage]" style="padding:14px 16px;background:rgba(139,92,246,0.06);border-radius:12px;border-left:3px solid #8B5CF6;">
-              <div style="font-size:11px;color:rgba(139,92,246,0.6);font-weight:600;margin-bottom:4px;">📜 专属诗文</div>
-              <div style="font-size:14px;color:var(--color-primary);line-height:1.8;">
-                <div v-for="(line, i) in poemToLines(detailPoems[detailStage] || '')" :key="i" :style="i % 2 === 1 ? 'padding-left:1.4em;text-indent:-1.4em;' : ''">{{ line }}</div>
+            <!-- 有角色人生档案：展示故事演义（品性/行为/服饰/功法/台词/诗文） -->
+            <template v-if="lifeStage">
+              <div class="life-block life-char">
+                <div class="life-label">🎭 品性</div>
+                <div class="life-text">{{ lifeStage.character }}</div>
               </div>
-            </div>
+              <div class="life-block life-action">
+                <div class="life-label">🏃 行为</div>
+                <div class="life-text">{{ lifeStage.action }}</div>
+              </div>
+              <div class="life-pills">
+                <span class="life-pill">👘 {{ lifeStage.attire }}</span>
+                <span class="life-pill pill-skill">⚡ {{ lifeStage.technique }}</span>
+              </div>
+              <div v-if="lifeStage.line" class="life-block life-quote">
+                <div class="life-label">💬 台词</div>
+                <div class="life-text quote">{{ lifeStage.line }}</div>
+              </div>
+              <div v-if="lifeStage.poem" class="life-block life-poem">
+                <div class="life-label">📜 诗文</div>
+                <div class="life-text poem">
+                  <div v-for="(line, i) in poemToLines(lifeStage.poem)" :key="i" :class="i % 2 === 1 ? 'poem-line poem-line--second' : 'poem-line'">{{ line }}</div>
+                </div>
+              </div>
+            </template>
+
+            <!-- 无档案兜底：物种等级描述 + 台词 + 诗文 -->
+            <template v-else>
+              <div class="life-block life-desc">
+                <div class="life-text">{{ detailSpecies.levels[detailStage]?.description || '待完善' }}</div>
+              </div>
+              <div v-if="detailEvoLines[detailStage]" class="life-block life-quote">
+                <div class="life-label">💬 进化台词</div>
+                <div class="life-text quote">{{ detailEvoLines[detailStage] }}</div>
+              </div>
+              <div v-if="detailPoems[detailStage]" class="life-block life-poem">
+                <div class="life-label">📜 专属诗文</div>
+                <div class="life-text poem">
+                  <div v-for="(line, i) in poemToLines(detailPoems[detailStage] || '')" :key="i" :class="i % 2 === 1 ? 'poem-line poem-line--second' : 'poem-line'">{{ line }}</div>
+                </div>
+              </div>
+            </template>
           </div>
 
           <!-- 进化链指示器 -->
@@ -280,4 +316,74 @@ onUnmounted(() => clearInterval(timer))
 }
 .species-card-dots { display: flex; justify-content: center; gap: 2px; margin-top: 8px; }
 .species-card-dots span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+
+/* ===== 详情弹窗·角色人生档案（故事演义） ===== */
+.life-theme {
+  margin: -6px 0 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(244,114,182,0.05));
+  border: 1px solid rgba(167,139,250,0.18);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--md-gold);
+  line-height: 1.6;
+}
+.life-stage-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.life-stage-name { font-size: 17px; font-weight: 800; color: var(--color-text); }
+.life-age {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: rgba(167,139,250,0.12);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+.life-keyword {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--md-text-secondary);
+}
+.life-block {
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.life-char { background: rgba(79,70,229,0.06); border-left: 3px solid var(--color-primary); }
+.life-action { background: rgba(16,185,129,0.06); border-left: 3px solid #10B981; }
+.life-desc { background: var(--tint-1); border-left: 3px solid var(--md-primary); }
+.life-quote { background: rgba(245,158,11,0.06); border-left: 3px solid #F59E0B; }
+.life-poem { background: rgba(139,92,246,0.06); border-left: 3px solid #8B5CF6; }
+.life-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--md-text-secondary);
+  margin-bottom: 5px;
+}
+.life-text {
+  font-size: 13px;
+  color: var(--color-text);
+  line-height: 1.7;
+}
+.life-text.quote { font-size: 15px; font-style: italic; color: var(--color-warning-text); }
+.life-text.poem { color: var(--color-primary); line-height: 1.8; }
+.poem-line { display: block; }
+.poem-line--second { padding-left: 1.4em; text-indent: -1.4em; }
+.life-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.life-pill {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 14px;
+  background: var(--tint-1);
+  border: 1px solid var(--tint-3);
+  color: var(--color-text);
+}
+.life-pill.pill-skill { color: var(--color-primary); border-color: rgba(167,139,250,0.3); }
 </style>
