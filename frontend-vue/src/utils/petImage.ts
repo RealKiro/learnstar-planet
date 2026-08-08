@@ -15,7 +15,7 @@ const MANIFEST: string[] = []
  * 已手绘 SVG 插画的物种 id 清单（样板阶段按提示词手绘的独立 SVG，每物种 6 张 {speciesId}-{stage}.svg）。
  * 例：['zhulong', 'charmander', ...]
  */
-const SVG_MANIFEST: string[] = ['zhulong', 'charmander', 'sun_wukong', 'nezha', 'zhong_kui', 'jiang_ziya', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao', 'lv_dongbin', 'he_xiangu']
+const SVG_MANIFEST: string[] = ['zhulong', 'charmander', 'sun_wukong', 'nezha', 'zhong_kui', 'jiang_ziya', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao', 'lv_dongbin', 'he_xiangu', 'zhang_guolao']
 
 /**
  * 根据物种 + 阶段返回图片 URL（webp 优先，其次手绘 SVG）；均未生成时返回 null（PetSprite 回退程序化 SVG）。
