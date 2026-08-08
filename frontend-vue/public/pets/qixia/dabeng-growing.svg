@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="大奔·三阶·奔雷苦修·深山劈石虎口缠布">
+  <defs>
+    <!-- 背景：深山石壁 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7E8696"/>
+      <stop offset="52%" stop-color="#666E7E"/>
+      <stop offset="100%" stop-color="#4E5666"/>
+    </linearGradient>
+    <!-- 奔雷金 -->
+    <radialGradient id="thunder" cx="50%" cy="50%" r="48%">
+      <stop offset="0%" stop-color="#FFE066" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFE066" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 石壁裂光 -->
+    <radialGradient id="crack" cx="72%" cy="44%" r="34%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 棕毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8E522C"/>
+      <stop offset="100%" stop-color="#663A20"/>
+    </linearGradient>
+    <!-- 破袖劲装 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#967A5E"/>
+      <stop offset="100%" stop-color="#745C44"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#B08E6C"/>
+      <stop offset="100%" stop-color="#967A5E"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 奔雷微光 -->
+  <circle cx="100" cy="96" r="74" fill="url(#thunder)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 石壁（被劈裂） -->
+  <path d="M 130 60 Q 140 80 136 110 Q 148 140 140 170 L 200 170 L 200 60 Z" fill="#8E96A6" opacity="0.7"/>
+  <!-- 裂缝 -->
+  <path d="M 138 70 Q 144 92 140 118 M 140 118 Q 150 140 144 162" stroke="#FFE066" stroke-width="1.6" opacity="0.7" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.7;0.35;0.7" dur="2.4s" repeatCount="indefinite"/>
+  </path>
+  <circle cx="140" cy="96" r="26" fill="url(#crack)">
+    <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 碎石灰尘 -->
+  <g fill="#C8D0DA" opacity="0.6">
+    <circle cx="120" cy="70" r="2"><animate attributeName="cy" values="70;82;70" dur="2s" repeatCount="indefinite"/></circle>
+    <circle cx="132" cy="80" r="1.6"><animate attributeName="cy" values="80;92;80" dur="2.4s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#5E6676" opacity="0.8"/>
+  <path d="M 0 152 L 200 152" stroke="#7E8696" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 棕毛大熊（5头身，破袖劲装，右臂缠布） -->
+  <!-- 腿 -->
+  <path d="M 76 138 L 72 158 L 78 158 L 82 140 Z" fill="#5E3420"/>
+  <path d="M 94 138 L 102 162 L 96 162 L 90 140 Z" fill="#5E3420"/>
+  <!-- 破袖劲装 -->
+  <path d="M 76 104 Q 72 120 78 138 Q 88 144 96 138 Q 102 120 98 104 Q 88 98 76 104 Z" fill="url(#robe)" stroke="#5E4A3A" stroke-width="1"/>
+  <!-- 破袖 -->
+  <path d="M 76 106 L 68 114" stroke="#745C44" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- 革带挂剑鞘 -->
+  <path d="M 76 120 L 98 120" stroke="#6E5648" stroke-width="1.6"/>
+  <line x1="98" y1="118" x2="106" y2="138" stroke="#4E3A2E" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- 尾巴 -->
+  <path d="M 100 132 Q 108 128 110 122" stroke="#5E3420" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+
+  <!-- 头（熊脸，圆眼坚毅，咬牙，棕毛高马尾） -->
+  <ellipse cx="88" cy="96" rx="12" ry="11.5" fill="url(#fur)" stroke="#4E2A18" stroke-width="0.9"/>
+  <!-- 圆耳 -->
+  <circle cx="76" cy="86" r="4" fill="#8E522C" stroke="#4E2A18" stroke-width="0.8"/>
+  <circle cx="100" cy="86" r="4" fill="#8E522C" stroke="#4E2A18" stroke-width="0.8"/>
+  <circle cx="76" cy="86" r="2" fill="#A88060"/>
+  <circle cx="100" cy="86" r="2" fill="#A88060"/>
+  <!-- 高马尾 -->
+  <path d="M 84 84 Q 80 74 84 70 Q 90 72 92 82" fill="#6E4022"/>
+  <path d="M 92 82 Q 94 76 90 72" stroke="#8E522C" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- 熊脸浅斑 -->
+  <ellipse cx="88" cy="101" rx="7" ry="5" fill="#B08E6C"/>
+  <!-- 圆眼坚毅 -->
+  <circle cx="82" cy="94" r="3.2" fill="#1E1008"/>
+  <circle cx="94" cy="94" r="3.2" fill="#1E1008"/>
+  <circle cx="83" cy="93" r="1.1" fill="#FFF"/>
+  <circle cx="95" cy="93" r="1.1" fill="#FFF"/>
+  <!-- 宽鼻 -->
+  <ellipse cx="88" cy="99" rx="2.6" ry="2" fill="#3A2E26"/>
+  <!-- 咬牙 -->
+  <path d="M 84 103 Q 88 104.6 92 103" fill="none" stroke="#6E4A3E" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- 左臂（持奔雷剑，劈向石壁） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-8 72 108;6 72 108;-8 72 108" dur="2s" repeatCount="indefinite"/>
+    <path d="M 78 108 C 72 112 70 118 72 124" fill="none" stroke="#968A6E" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="72" cy="126" r="3.2" fill="#B08E6C"/>
+    <!-- 奔雷剑 -->
+    <line x1="72" y1="124" x2="60" y2="100" stroke="#FFE066" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 60 100 L 58 94" stroke="#FFE066" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 剑雷光 -->
+    <path d="M 60 102 Q 54 96 52 90" stroke="#FFE066" stroke-width="1.6" opacity="0.8" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 右手（握拳，虎口缠布） -->
+  <path d="M 96 108 C 102 112 106 116 108 122" fill="none" stroke="#968A6E" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="109" cy="124" r="3.2" fill="#B08E6C"/>
+  <!-- 虎口缠布 -->
+  <path d="M 106 120 L 112 128" stroke="#D8D0C0" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- 汗珠 -->
+  <circle cx="94" cy="82" r="1.4" fill="#C8E8F8" opacity="0.7">
+    <animate attributeName="cy" values="82;86;82" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 奔雷星尘 -->
+  <g fill="#FFE066">
+    <circle cx="36" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
