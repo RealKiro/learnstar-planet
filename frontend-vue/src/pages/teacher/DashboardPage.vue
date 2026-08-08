@@ -333,14 +333,28 @@ onUnmounted(() => {
   margin-bottom: 28px;
 }
 .o-card {
-  background: var(--color-bg-card);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(79,70,229,0.05), transparent 55%),
+    var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: 20px;
   padding: 24px;
   transition: all 0.25s ease;
 }
+.o-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(var(--color-text-secondary) 0.8px, transparent 0.8px);
+  background-size: 18px 18px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+.o-card > * { position: relative; z-index: 1; }
 .o-card:hover {
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 3px 10px rgba(0,0,0,0.06);
 }
 .o-label {
   font-size: 13px;
@@ -387,6 +401,7 @@ onUnmounted(() => {
   gap: 16px;
 }
 .star-avatar {
+  position: relative;
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -395,8 +410,18 @@ onUnmounted(() => {
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12), 0 0 24px rgba(0,0,0,0.08);
 }
+.star-avatar::before {
+  content: '';
+  position: absolute; inset: -8px; border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--color-primary), transparent 40%, var(--color-secondary), transparent 70%, var(--color-primary));
+  opacity: 0.3;
+  animation: spinRing 14s linear infinite;
+  z-index: 0;
+}
+.star-avatar > * { position: relative; z-index: 1; }
+@keyframes spinRing { to { transform: rotate(360deg); } }
 .star-emoji { font-size: 40px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
 .star-name { font-size: 20px; font-weight: 700; }
 .star-pet { font-size: 13px; color: var(--color-text-secondary); }
@@ -414,10 +439,17 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
+  padding: 9px 11px;
   background: var(--color-bg);
-  border-radius: 10px;
+  border: 1px solid transparent;
+  border-radius: 12px;
   font-size: 13px;
+  transition: all 0.2s ease;
+}
+.news-item:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 4%, var(--color-bg));
+  transform: translateX(2px);
 }
 .news-icon { font-size: 16px; flex-shrink: 0; }
 .news-text { color: var(--color-text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -478,11 +510,12 @@ onUnmounted(() => {
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 8px;
-  border: 2px solid var(--color-primary);
+  border: 2px solid color-mix(in srgb, var(--color-primary) 70%, transparent);
   background: var(--color-bg-card);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent), 0 6px 16px rgba(0,0,0,0.12);
 }
 .leader-emoji { font-size: 26px; }
 .leader-name { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -519,7 +552,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--medal, #6B7280) 22%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--medal, #6B7280) 12%, transparent), 0 6px 18px color-mix(in srgb, var(--medal, #6B7280) 26%, transparent);
 }
 .top3-emoji { font-size: 34px; }
 .top3-name { font-size: 16px; font-weight: 700; }
@@ -554,12 +587,13 @@ onUnmounted(() => {
   height: 54px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--color-border);
+  border: 2px solid color-mix(in srgb, var(--color-primary) 35%, var(--color-border));
   background: var(--color-bg);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 7%, transparent);
 }
 .top4-emoji { font-size: 22px; }
 .top4-info { min-width: 0; }

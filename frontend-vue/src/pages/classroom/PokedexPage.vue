@@ -111,7 +111,7 @@ onUnmounted(() => clearInterval(timer))
         <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
           <!-- 头部：程序化宠物艺术，随阶段 tab 切换展示不同进化形态 -->
           <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
-            <div style="width:100px;height:100px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--tint-2);border:2px solid var(--tint-3);box-shadow:0 4px 16px rgba(0,0,0,0.2);">
+            <div class="detail-orb">
               <PetSprite :species-id="selectedSpecies.speciesId" :level="stageLevel(detailStage)" :animate="true" />
             </div>
             <div>
@@ -183,19 +183,15 @@ onUnmounted(() => clearInterval(timer))
           {{ series.species.length }}种宠物 · 点击物种查看详细进化信息
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;">
-          <div v-for="sp in series.species" :key="sp.id" @click="openDetail(sp.id, sp.name)"
-            style="background:var(--tint-1);border-radius:12px;padding:14px 12px;text-align:center;border:1px solid var(--tint-2);transition:0.2s;cursor:pointer;">
-            <div style="width:84px;height:84px;border-radius:50%;overflow:hidden;margin:0 auto 6px;background:var(--tint-2);border:1px solid var(--tint-3);display:flex;align-items:center;justify-content:center;">
+          <div v-for="sp in series.species" :key="sp.id" @click="openDetail(sp.id, sp.name)" class="species-card">
+            <div class="species-orb">
               <PetSprite :species-id="sp.id" :level="6" />
             </div>
-            <div style="font-weight:600;font-size:16px;">{{ sp.name }}</div>
-            <div style="font-size:12px;color:var(--md-text-secondary);margin-top:4px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">
-              {{ sp.levels[0]?.description || '' }}
-            </div>
-            <div style="display:flex;justify-content:center;gap:2px;margin-top:8px;">
+            <div class="species-card-name">{{ sp.name }}</div>
+            <div class="species-card-desc">{{ sp.levels[0]?.description || '' }}</div>
+            <div class="species-card-dots">
               <span v-for="lvl in 12" :key="lvl"
                 :style="{
-                  display:'inline-block', width:'8px', height:'8px', borderRadius:'50%',
                   background: lvl === 12 ? '#f472b6' : (lvl <= 3 ? 'rgba(252,211,77,0.3)' : 'var(--tint-4)'),
                   boxShadow: lvl === 12 ? '0 0 8px rgba(244,114,182,0.3)' : 'none',
                 }"></span>
@@ -224,4 +220,64 @@ onUnmounted(() => clearInterval(timer))
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* ===== 详情弹窗宠物星环 ===== */
+.detail-orb {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--tint-2);
+  border: 2px solid color-mix(in srgb, var(--md-primary) 40%, var(--tint-3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-primary) 9%, transparent), 0 8px 22px rgba(0,0,0,0.2);
+}
+
+/* ===== 物种卡片（现代化打磨） ===== */
+.species-card {
+  background: var(--tint-1);
+  border-radius: 14px;
+  padding: 16px 12px 14px;
+  text-align: center;
+  border: 1px solid var(--tint-2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.species-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--md-primary) 45%, var(--tint-3));
+  box-shadow: 0 10px 24px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.06);
+}
+.species-orb {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 8px;
+  background: var(--tint-2);
+  border: 2px solid color-mix(in srgb, var(--md-primary) 35%, var(--tint-3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-primary) 8%, transparent), 0 6px 16px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease;
+}
+.species-card:hover .species-orb { transform: scale(1.05); }
+.species-card-name { font-weight: 700; font-size: 16px; color: var(--color-text); }
+.species-card-desc {
+  font-size: 12px;
+  color: var(--md-text-secondary);
+  margin-top: 4px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.species-card-dots { display: flex; justify-content: center; gap: 2px; margin-top: 8px; }
+.species-card-dots span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
 </style>

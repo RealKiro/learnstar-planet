@@ -204,8 +204,7 @@ const expPercent = computed(() => {
     <div class="card-bottom">
       <div class="card-pet-meta">
         <div class="meta-line">
-          <span class="lv">Lv.{{ lv }}</span>
-          <span class="sep">·</span>
+          <span class="lv-pill">Lv.{{ lv }}</span>
           <span class="stage">{{ stageLabelOf(lv) }}</span>
           <span class="exp-text">{{ expText }}</span>
         </div>
@@ -242,61 +241,94 @@ const expPercent = computed(() => {
 </template>
 
 <style scoped>
-/* ===== 卡片容器（两端共用 · 5:5 分栏） ===== */
+/* ===== 星空徽章卡片（现代化视觉） ===== */
 .student-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-card);
-  border: 1.5px solid var(--color-border);
-  border-radius: 14px;
+  background:
+    radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--card-color, #6B7280) 9%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--color-bg-card), var(--color-bg));
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
   overflow: hidden;
-  transition: all 0.2s ease;
-  min-height: 170px;
-  max-height: 210px;
+  transition: all 0.25s ease;
+  min-height: 174px;
+  aspect-ratio: 4 / 3;
+}
+/* 顶部阶段色光带 */
+.student-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--card-color, #6B7280), var(--color-secondary, #F59E0B));
+  opacity: 0.85;
+  z-index: 2;
+}
+/* 星点纹理 */
+.student-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(var(--color-text-secondary) 0.8px, transparent 0.8px);
+  background-size: 16px 16px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
 }
 .student-card:hover {
-  background: var(--color-bg);
-  border-color: var(--color-text-secondary);
-  transform: translateY(-1px);
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--card-color, #6B7280) 45%, var(--color-border));
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
 }
 .card--selected {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 1.5px var(--color-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 45%, transparent), 0 8px 24px rgba(0,0,0,0.1);
 }
+.student-card > * { position: relative; z-index: 1; }
 
 /* ===== 上部：左宠物 + 右信息 ===== */
-.card-top {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-}
+.card-top { display: flex; flex: 1; min-height: 0; }
 .card-left {
   flex: 1 1 50%;
   width: 50%;
-  background: radial-gradient(ellipse at center, var(--color-bg-card), var(--color-bg));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 8px 6px;
-  position: relative;
-  gap: 4px;
+  gap: 5px;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--card-color, #6B7280) 10%, transparent), transparent 70%);
 }
+/* 宠物星环 */
 .card-pet {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 94px;
+  height: 94px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, var(--color-bg-card), var(--color-bg));
+  background: radial-gradient(circle at 32% 28%, var(--color-bg-card), var(--color-bg));
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--card-color, #6B7280) 22%, transparent),
+    0 6px 18px rgba(0,0,0,0.22);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   overflow: hidden;
 }
+.card-pet::before {
+  content: '';
+  position: absolute; inset: -6px; border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--card-color, #6B7280), transparent 40%, var(--card-color, #6B7280) 70%, transparent);
+  opacity: 0.28;
+  animation: spinRing 12s linear infinite;
+  z-index: 0;
+}
+.card-pet > * { position: relative; z-index: 1; }
 .card-pet:hover { transform: scale(1.05); }
+@keyframes spinRing { to { transform: rotate(360deg); } }
 .pet-emoji { font-size: 42px; line-height: 1; }
 .card-pet-name {
   font-size: 11px;
@@ -306,13 +338,13 @@ const expPercent = computed(() => {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* 宠物图(AI/hand SVG <img>)强制锁定圆形容器尺寸，防止占满页面 */
+/* 宠物图(AI/hand SVG <img>)强制锁定圆形容器尺寸 */
 .student-card :deep(.pet-sprite),
 .student-card :deep(.pet-img) {
-  width: 96px;
-  height: 96px;
-  max-width: 96px;
-  max-height: 96px;
+  width: 94px;
+  height: 94px;
+  max-width: 94px;
+  max-height: 94px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -325,17 +357,12 @@ const expPercent = computed(() => {
   flex-direction: column;
   justify-content: center;
   gap: 7px;
-  padding: 10px 12px 8px;
+  padding: 12px 14px 10px;
   min-width: 0;
 }
-.card-name-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
+.card-name-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .card-name {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-text);
   flex: 1;
@@ -343,6 +370,7 @@ const expPercent = computed(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 .card-checkbox {
   width: 18px;
@@ -356,16 +384,15 @@ const expPercent = computed(() => {
   cursor: pointer;
   transition: all 0.15s ease;
   flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .card-checkbox:hover { border-color: var(--color-primary); }
-.card-checkbox.picked { background: var(--color-primary); border-color: var(--color-primary); }
-
-.card-id-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.card-checkbox.picked {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-color: transparent;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
 }
+.card-id-row { display: flex; align-items: center; gap: 5px; }
 .card-id-icon { font-size: 11px; }
 .card-id {
   font-size: 11px;
@@ -377,14 +404,9 @@ const expPercent = computed(() => {
   letter-spacing: 0.3px;
 }
 .card-id--none { opacity: 0.5; }
-
-.card-mid-row {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
+.card-mid-row { display: flex; align-items: baseline; gap: 8px; }
 .card-score {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--color-text);
   white-space: nowrap;
@@ -407,91 +429,80 @@ const expPercent = computed(() => {
   text-overflow: ellipsis;
 }
 
-/* ===== 底部：宠物等级/进度 + 加减分（同层对齐） ===== */
+/* ===== 底部：等级/进度 + 加减分 ===== */
 .card-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 6px 12px 7px;
-  border-top: 1px solid var(--color-border);
-  background: var(--color-bg);
+  padding: 7px 14px 8px;
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
 }
-.card-pet-meta {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.meta-line {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
+.card-pet-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.meta-line { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--color-text-secondary); min-width: 0; }
+.lv-pill {
+  flex-shrink: 0;
   font-size: 10px;
-  color: var(--color-text-secondary);
-  min-width: 0;
+  font-weight: 800;
+  color: var(--card-color, #6B7280);
+  background: color-mix(in srgb, var(--card-color, #6B7280) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--card-color, #6B7280) 28%, transparent);
+  padding: 1px 8px;
+  border-radius: 10px;
 }
-.meta-line .lv { color: var(--color-primary); font-weight: 700; }
-.meta-line .sep { color: var(--color-border); }
-.meta-line .stage { font-weight: 600; }
+.meta-line .stage { font-weight: 600; color: var(--color-text); }
 .meta-line .exp-text {
   margin-left: auto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--color-text-secondary);
   opacity: 0.8;
 }
 .mini-progress {
-  height: 4px;
+  height: 5px;
   width: 100%;
   background: var(--color-border);
-  border-radius: 2px;
+  border-radius: 3px;
   overflow: hidden;
 }
 .mini-fill {
   height: 100%;
-  background: var(--gradient-primary);
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  border-radius: 3px;
   transition: width 0.4s ease;
 }
 
-.card-ops {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
+.card-ops { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .card-ops button {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-card);
   font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: inherit;
+  color: var(--color-text-secondary);
 }
-.btn-minus { background: rgba(239,68,68,0.1); color: #F87171; }
-.btn-minus:hover { background: rgba(239,68,68,0.25); }
-.btn-plus { background: rgba(79,70,229,0.12); color: var(--color-primary); }
-.btn-plus:hover { background: rgba(79,70,229,0.28); }
-.card-ops button:hover { transform: scale(1.08); }
+.btn-minus:hover { background: rgba(239,68,68,0.1); color: #EF4444; border-color: rgba(239,68,68,0.3); transform: translateY(-1px); }
+.btn-plus:hover { background: rgba(16,185,129,0.1); color: #10B981; border-color: rgba(16,185,129,0.3); transform: translateY(-1px); }
 .step-num {
   font-size: 13px;
   font-weight: 700;
   color: var(--color-text);
-  min-width: 22px;
+  min-width: 24px;
   text-align: center;
   user-select: none;
 }
 .step-editable { cursor: pointer; }
 .step-input {
-  width: 40px;
+  width: 42px;
   text-align: center;
   background: rgba(167,139,250,0.15);
   border: 1px solid rgba(167,139,250,0.3);
@@ -505,27 +516,17 @@ const expPercent = computed(() => {
 
 /* ===== 加分闪光反馈 ===== */
 @keyframes flash {
-  0% { background: rgba(124,58,237,0.15); }
+  0% { background: rgba(124,58,237,0.14); }
   100% { background: transparent; }
 }
-.student-card.flash {
-  animation: flash 0.5s ease;
-}
-
-/* ===== 阶段光晕 ===== */
-.stage-egg .card-pet { box-shadow: 0 0 10px rgba(148,163,184,0.18); }
-.stage-baby .card-pet { box-shadow: 0 0 12px rgba(16,185,129,0.18); }
-.stage-growing .card-pet { box-shadow: 0 0 14px rgba(59,130,246,0.22); }
-.stage-mature .card-pet { box-shadow: 0 0 18px rgba(139,92,246,0.26); }
-.stage-legendary .card-pet { box-shadow: 0 0 24px rgba(245,158,11,0.30); }
-.stage-transcendent .card-pet { box-shadow: 0 0 28px rgba(216,180,254,0.34), 0 0 46px rgba(255,255,255,0.06); }
+.student-card.flash { animation: flash 0.5s ease; }
 
 @media (max-width: 576px) {
-  .card-pet { width: 76px; height: 76px; }
+  .card-pet { width: 82px; height: 82px; }
   .student-card :deep(.pet-sprite),
   .student-card :deep(.pet-img) {
-    width: 76px; height: 76px;
-    max-width: 76px; max-height: 76px;
+    width: 82px; height: 82px;
+    max-width: 82px; max-height: 82px;
   }
 }
 </style>
