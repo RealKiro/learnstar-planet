@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="黑小虎·五阶·黑小虎·狂·魔教之巅黑风狂啸">
+  <defs>
+    <!-- 背景：魔教之巅暗云 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E3A52"/>
+      <stop offset="52%" stop-color="#2E2A42"/>
+      <stop offset="100%" stop-color="#1E1A32"/>
+    </linearGradient>
+    <!-- 狂风暴 -->
+    <radialGradient id="storm" cx="50%" cy="44%" r="54%">
+      <stop offset="0%" stop-color="#6E6A8E" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6E6A8E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 黑风猎猎 -->
+    <radialGradient id="dark" cx="26%" cy="50%" r="38%">
+      <stop offset="0%" stop-color="#5E5A7E" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#5E5A7E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 虎目狂热 -->
+    <radialGradient id="eye" cx="50%" cy="40%" r="30%">
+      <stop offset="0%" stop-color="#E8623A" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#E8623A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 墨黑 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A4E58"/>
+      <stop offset="100%" stop-color="#242630"/>
+    </linearGradient>
+    <!-- 暗色劲装 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5E5A6E"/>
+      <stop offset="100%" stop-color="#3E3A4E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#C8A888"/>
+      <stop offset="100%" stop-color="#AE8A70"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 狂风暴 -->
+  <circle cx="100" cy="88" r="82" fill="url(#storm)">
+    <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 黑风 -->
+  <circle cx="52" cy="96" r="56" fill="url(#dark)">
+    <animate attributeName="opacity" values="0.7;0.42;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 虎目狂热 -->
+  <circle cx="100" cy="80" r="46" fill="url(#eye)">
+    <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 暗云 -->
+  <g opacity="0.6" fill="#4E4A62">
+    <path d="M 20 56 Q 40 48 60 54 Q 80 48 100 54"/>
+    <path d="M 100 54 Q 120 48 140 54 Q 160 48 180 54"/>
+  </g>
+  <!-- 狂风暴线 -->
+  <g stroke="#6E6A8E" stroke-width="1.6" opacity="0.6" stroke-linecap="round" fill="none">
+    <path d="M 40 70 Q 56 62 72 68">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 128 60 Q 144 52 160 58">
+      <animate attributeName="opacity" values="0.5;0.18;0.5" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#1E1E32" opacity="0.95"/>
+  <path d="M 0 150 L 200 150" stroke="#3E3E52" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 墨黑小虎（7头身，狂性尽显，黑风猎猎） -->
+  <!-- 腿 -->
+  <path d="M 74 136 L 70 158 L 76 158 L 80 138 Z" fill="#1E2028"/>
+  <path d="M 92 136 L 100 160 L 94 160 L 88 138 Z" fill="#1E2028"/>
+  <!-- 身体 -->
+  <path d="M 72 98 Q 68 118 76 136 Q 86 142 94 136 Q 100 118 96 98 Q 84 92 72 98 Z" fill="url(#fur)" stroke="#1E2028" stroke-width="1"/>
+  <!-- 暗色劲装 -->
+  <path d="M 76 100 Q 84 94 94 100 L 92 112 Q 84 118 78 112 Z" fill="url(#armor)" stroke="#2E2A3E" stroke-width="0.8"/>
+  <!-- 黑风猎猎 -->
+  <g stroke="#6E6A8E" stroke-width="1.4" opacity="0.7" stroke-linecap="round" fill="none">
+    <path d="M 70 108 Q 58 114 52 122">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 黑尾（甩动） -->
+  <path d="M 98 128 Q 110 120 118 110" stroke="#242630" stroke-width="3" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 98 128;14 98 128;0 98 128" dur="1.8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（虎脸，圆眼狂热，王纹扭曲） -->
+  <ellipse cx="86" cy="92" rx="11.5" ry="10.5" fill="url(#fur)" stroke="#1E2028" stroke-width="1"/>
+  <!-- 虎耳 -->
+  <path d="M 76 84 Q 71 70 78 68 Q 83 71 80 84 Z" fill="#4A4E58" stroke="#1E2028" stroke-width="0.8"/>
+  <path d="M 96 84 Q 101 70 94 68 Q 89 71 92 84 Z" fill="#4A4E58" stroke="#1E2028" stroke-width="0.8"/>
+  <circle cx="78" cy="72" r="2.4" fill="#E8623A" opacity="0.9"/>
+  <circle cx="94" cy="72" r="2.4" fill="#E8623A" opacity="0.9"/>
+  <!-- 王纹扭曲 -->
+  <path d="M 86 79 L 81 74 M 86 79 L 91 74 M 86 79 L 88 73" stroke="#FFE066" stroke-width="1.3" stroke-linecap="round" opacity="0.9"/>
+  <!-- 白面斑 -->
+  <ellipse cx="86" cy="96" rx="6.5" ry="4.8" fill="#C8A888"/>
+  <!-- 圆眼狂热（红瞳） -->
+  <path d="M 76 89 L 84 92 L 76 95 Z" fill="#FFF3C4"/>
+  <path d="M 96 89 L 88 92 L 96 95 Z" fill="#FFF3C4"/>
+  <ellipse cx="80" cy="92" rx="2" ry="2.6" fill="#E8623A"/>
+  <ellipse cx="92" cy="92" rx="2" ry="2.6" fill="#E8623A"/>
+  <circle cx="80" cy="92" r="0.9" fill="#1E1008"/>
+  <circle cx="92" cy="92" r="0.9" fill="#1E1008"/>
+  <!-- 虎鼻 -->
+  <ellipse cx="86" cy="95" rx="2.4" ry="1.7" fill="#3A2E26"/>
+  <!-- 狂性呲牙 -->
+  <path d="M 80 99 Q 86 102 92 99" fill="none" stroke="#5E4A3E" stroke-width="1" stroke-linecap="round"/>
+  <!-- 虎须 -->
+  <path d="M 76 94 L 70 93 M 76 96 L 70 97 M 96 94 L 102 93 M 96 96 L 102 97" stroke="#D8C8B0" stroke-width="0.8" stroke-linecap="round"/>
+
+  <!-- 前爪（扬起，狂啸） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-5 78 132;6 78 132;-5 78 132" dur="1.6s" repeatCount="indefinite"/>
+    <path d="M 78 130 C 72 136 70 142 72 148" fill="none" stroke="#4A4E58" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="72" cy="150" r="3.4" fill="#C8A888"/>
+    <!-- 爪刃 -->
+    <path d="M 69 150 L 68 153 M 72 151 L 72 154 M 75 150 L 76 153" stroke="#D8D0C8" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+  <!-- 后爪 -->
+  <path d="M 94 126 C 100 130 104 136 106 142" fill="none" stroke="#4A4E58" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="107" cy="144" r="3.2" fill="#C8A888"/>
+
+  <!-- 狂啸音波 -->
+  <path d="M 66 80 Q 56 78 52 70 M 106 80 Q 116 78 120 70" stroke="#E8623A" stroke-width="1.8" opacity="0.7" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.7;0.25;0.7" dur="1.8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 狂风暴星尘 -->
+  <g fill="#E8623A">
+    <circle cx="44" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

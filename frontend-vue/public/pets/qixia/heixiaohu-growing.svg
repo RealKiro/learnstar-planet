@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="黑小虎·三阶·少年黑虎·魔教高地望村庄灯火">
+  <defs>
+    <!-- 背景：魔教高地夜 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E4A62"/>
+      <stop offset="52%" stop-color="#2E3A52"/>
+      <stop offset="100%" stop-color="#1E2A42"/>
+    </linearGradient>
+    <!-- 村庄暖灯 -->
+    <radialGradient id="warm" cx="80%" cy="58%" r="34%">
+      <stop offset="0%" stop-color="#FFE6A0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFE6A0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 月光 -->
+    <radialGradient id="moon" cx="30%" cy="26%" r="28%">
+      <stop offset="0%" stop-color="#E8F0FA" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#E8F0FA" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 墨黑 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A4E58"/>
+      <stop offset="100%" stop-color="#242630"/>
+    </linearGradient>
+    <!-- 暗色劲装 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5E5A6E"/>
+      <stop offset="100%" stop-color="#3E3A4E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#C8A888"/>
+      <stop offset="100%" stop-color="#AE8A70"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 月光 -->
+  <circle cx="60" cy="52" r="40" fill="url(#moon)">
+    <animate attributeName="opacity" values="0.7;0.5;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="60" cy="52" r="8" fill="#E8F0FA" opacity="0.9"/>
+  <!-- 村庄暖灯 -->
+  <circle cx="160" cy="116" r="46" fill="url(#warm)">
+    <animate attributeName="opacity" values="0.85;0.55;0.85" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 村庄（山下，灯火） -->
+  <g opacity="0.85">
+    <path d="M 148 128 L 148 114 Q 148 110 154 110 L 178 110 Q 184 110 184 116 L 184 128 Z" fill="#8E6A4E" stroke="#6E4A3E" stroke-width="0.8"/>
+    <path d="M 150 114 L 182 114" stroke="#A88A68" stroke-width="1"/>
+    <!-- 灯火 -->
+    <path d="M 156 126 Q 154 122 156 119 Q 158 122 157 126 Z" fill="#FFE6A0" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.6;0.9" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 168 126 Q 166 122 168 119 Q 170 122 169 126 Z" fill="#FFE6A0" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.55;0.85" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 146 110 Q 144 102 146 98 Q 148 100 147 110 Z" fill="#F0A04E" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 高地 -->
+  <path d="M 40 152 Q 70 138 100 144 Q 130 150 150 152 L 150 200 L 40 200 Z" fill="#2E3A52" opacity="0.85"/>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#1E2A3E" opacity="0.9"/>
+  <path d="M 0 150 L 200 150" stroke="#3E4A5E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 墨黑小虎（6头身，暗色劲装，望灯火） -->
+  <!-- 腿 -->
+  <path d="M 72 134 L 68 156 L 74 156 L 78 136 Z" fill="#1E2028"/>
+  <path d="M 88 134 L 96 158 L 90 158 L 84 136 Z" fill="#1E2028"/>
+  <!-- 身体 -->
+  <path d="M 70 98 Q 66 118 74 134 Q 84 140 92 134 Q 98 118 94 98 Q 82 92 70 98 Z" fill="url(#fur)" stroke="#1E2028" stroke-width="1"/>
+  <!-- 暗色劲装 -->
+  <path d="M 74 100 Q 82 94 92 100 L 90 112 Q 82 118 76 112 Z" fill="url(#armor)" stroke="#2E2A3E" stroke-width="0.8"/>
+  <!-- 黑风剑（腰间） -->
+  <line x1="88" y1="112" x2="96" y2="132" stroke="#5E6A8E" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- 黑尾 -->
+  <path d="M 96 126 Q 106 120 112 112" stroke="#242630" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <animateTransform attributeName="transform" type="rotate" values="0 96 126;10 96 126;0 96 126" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 头（虎脸，圆眼疑惑，望向灯火） -->
+  <ellipse cx="82" cy="92" rx="11.5" ry="10.5" fill="url(#fur)" stroke="#1E2028" stroke-width="1"/>
+  <!-- 虎耳 -->
+  <path d="M 72 84 Q 67 70 74 68 Q 79 71 76 84 Z" fill="#4A4E58" stroke="#1E2028" stroke-width="0.8"/>
+  <path d="M 92 84 Q 97 70 90 68 Q 85 71 88 84 Z" fill="#4A4E58" stroke="#1E2028" stroke-width="0.8"/>
+  <circle cx="74" cy="72" r="2.3" fill="#FFE066" opacity="0.8"/>
+  <circle cx="90" cy="72" r="2.3" fill="#FFE066" opacity="0.8"/>
+  <!-- 王纹 -->
+  <path d="M 82 79 L 78 75 M 82 79 L 86 75 M 82 79 L 82 73" stroke="#FFE066" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <!-- 白面斑 -->
+  <ellipse cx="82" cy="96" rx="6.5" ry="4.8" fill="#C8A888"/>
+  <!-- 圆眼疑惑（望向灯火方向，微侧） -->
+  <circle cx="77" cy="90" r="2.8" fill="#FFF3C4"/>
+  <circle cx="88" cy="90" r="2.8" fill="#FFF3C4"/>
+  <ellipse cx="77" cy="90" rx="1.8" ry="2.4" fill="#E8A024"/>
+  <ellipse cx="88" cy="90" rx="1.8" ry="2.4" fill="#E8A024"/>
+  <circle cx="77" cy="90" r="0.8" fill="#1E1008"/>
+  <circle cx="88" cy="90" r="0.8" fill="#1E1008"/>
+  <!-- 灯火映在眼底 -->
+  <circle cx="78" cy="89.6" r="0.6" fill="#FFE6A0"/>
+  <circle cx="89" cy="89.6" r="0.6" fill="#FFE6A0"/>
+  <!-- 虎鼻 -->
+  <ellipse cx="82" cy="95" rx="2.4" ry="1.7" fill="#3A2E26"/>
+  <!-- 疑惑微张 -->
+  <path d="M 77 99 Q 82 101.2 87 99" fill="none" stroke="#5E4A3E" stroke-width="1" stroke-linecap="round"/>
+  <!-- 虎须 -->
+  <path d="M 72 94 L 66 93 M 72 96 L 66 97 M 92 94 L 98 93 M 92 96 L 98 97" stroke="#D8C8B0" stroke-width="0.8" stroke-linecap="round"/>
+
+  <!-- 前爪（落高地边缘） -->
+  <path d="M 74 130 C 68 136 66 142 68 146" fill="none" stroke="#4A4E58" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="68" cy="148" r="3.4" fill="#C8A888"/>
+  <!-- 后爪 -->
+  <path d="M 90 126 C 96 130 100 136 102 142" fill="none" stroke="#4A4E58" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="103" cy="144" r="3.2" fill="#C8A888"/>
+
+  <!-- 冷暖星尘 -->
+  <g fill="#FFE6A0">
+    <circle cx="140" cy="92">
+      <animate attributeName="cy" values="92;84;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

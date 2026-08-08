@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="黑小虎·六阶·呼唤本心·落败望手少年柔软">
+  <defs>
+    <!-- 背景：落败之地暮色渐暖 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E5A4E"/>
+      <stop offset="52%" stop-color="#5E4A3E"/>
+      <stop offset="100%" stop-color="#4E3A2E"/>
+    </linearGradient>
+    <!-- 暮色暖 -->
+    <radialGradient id="warm" cx="40%" cy="34%" r="46%">
+      <stop offset="0%" stop-color="#F0A04E" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#F0A04E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 一缕光 -->
+    <radialGradient id="light" cx="64%" cy="52%" r="30%">
+      <stop offset="0%" stop-color="#FFE6A0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFE6A0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 墨黑 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A4E58"/>
+      <stop offset="100%" stop-color="#242630"/>
+    </linearGradient>
+    <!-- 暗色劲装破损 -->
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5E5A6E"/>
+      <stop offset="100%" stop-color="#3E3A4E"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#C8A888"/>
+      <stop offset="100%" stop-color="#AE8A70"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 暮色暖 -->
+  <circle cx="80" cy="70" r="76" fill="url(#warm)">
+    <animate attributeName="opacity" values="0.7;0.45;0.7" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 一缕光 -->
+  <circle cx="128" cy="104" r="46" fill="url(#light)">
+    <animate attributeName="opacity" values="0.6;0.35;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 虹猫伸出的手（右下） -->
+  <g opacity="0.8">
+    <path d="M 132 116 C 142 110 150 104 154 96" fill="none" stroke="#D8403A" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="155" cy="94" r="3.4" fill="#D0B090"/>
+    <!-- 掌心微光 -->
+    <circle cx="154" cy="96" r="8" fill="url(#light)">
+      <animate attributeName="r" values="8;11;8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 残剑（落败，地上） -->
+  <path d="M 120 146 L 148 154 L 146 156 L 118 148 Z" fill="#8E96A6" opacity="0.6"/>
+  <path d="M 120 146 Q 116 142 118 138" stroke="#FFE066" stroke-width="1" opacity="0.4" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 地面 -->
+  <path d="M 0 150 L 200 150 L 200 200 L 0 200 Z" fill="#3E2E26" opacity="0.9"/>
+  <path d="M 0 150 L 200 150" stroke="#5E4A3E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 墨黑小虎（7头身，伤痕，狂性散尽，少年眉眼） -->
+  <!-- 腿 -->
+  <path d="M 70 136 L 66 158 L 72 158 L 76 138 Z" fill="#1E2028"/>
+  <path d="M 88 136 L 96 160 L 90 160 L 84 138 Z" fill="#1E2028"/>
+  <!-- 身体 -->
+  <path d="M 68 98 Q 64 118 72 136 Q 82 142 90 136 Q 96 118 92 98 Q 80 92 68 98 Z" fill="url(#fur)" stroke="#1E2028" stroke-width="1"/>
+  <!-- 暗甲破损 -->
+  <path d="M 72 100 Q 80 94 90 100 L 88 112 Q 80 118 74 112 Z" fill="url(#armor)" stroke="#2E2A3E" stroke-width="0.8"/>
+  <path d="M 76 104 Q 78 108 75 112" stroke="#C85A3E" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  <!-- 黑尾（低垂） -->
+  <path d="M 92 130 Q 100 126 102 120" stroke="#242630" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+
+  <!-- 头（虎脸，圆眼含泪，少年柔软） -->
+  <ellipse cx="80" cy="92" rx="11.5" ry="10.5" fill="url(#fur)" stroke="#1E2028" stroke-width="1"/>
+  <!-- 虎耳（微垂） -->
+  <path d="M 70 84 Q 66 72 72 70 Q 77 73 74 84 Z" fill="#4A4E58" stroke="#1E2028" stroke-width="0.8"/>
+  <path d="M 90 84 Q 94 72 88 70 Q 83 73 86 84 Z" fill="#4A4E58" stroke="#1E2028" stroke-width="0.8"/>
+  <circle cx="72" cy="73" r="2.2" fill="#FFE066" opacity="0.7"/>
+  <circle cx="88" cy="73" r="2.2" fill="#FFE066" opacity="0.7"/>
+  <!-- 王纹（淡） -->
+  <path d="M 80 79 L 76 75 M 80 79 L 84 75 M 80 79 L 80 73" stroke="#FFE066" stroke-width="0.9" stroke-linecap="round" opacity="0.6"/>
+  <!-- 白面斑 -->
+  <ellipse cx="80" cy="96" rx="6.5" ry="4.8" fill="#C8A888"/>
+  <!-- 圆眼含泪（望向伸出的手，暖光映眼底） -->
+  <path d="M 71 89 Q 75 91 79 89 Q 75 93 71 89 Z" fill="#FFF3C4"/>
+  <path d="M 89 89 Q 85 91 81 89 Q 85 93 89 89 Z" fill="#FFF3C4"/>
+  <ellipse cx="75" cy="90" rx="1.8" ry="2.3" fill="#E8A024"/>
+  <ellipse cx="85" cy="90" rx="1.8" ry="2.3" fill="#E8A024"/>
+  <circle cx="75" cy="90" r="0.8" fill="#1E1008"/>
+  <circle cx="85" cy="90" r="0.8" fill="#1E1008"/>
+  <circle cx="77" cy="89.4" r="0.7" fill="#FFE6A0"/>
+  <circle cx="87" cy="89.4" r="0.7" fill="#FFE6A0"/>
+  <!-- 泪光 -->
+  <path d="M 72 92 Q 71 94 72 96" stroke="#C8E8F8" stroke-width="1" stroke-linecap="round" opacity="0.7">
+    <animate attributeName="cy" values="92;97;92" dur="2.8s" repeatCount="indefinite"/>
+  </path>
+  <!-- 虎鼻 -->
+  <ellipse cx="80" cy="95" rx="2.4" ry="1.7" fill="#3A2E26"/>
+  <!-- 少年柔软（含泪微笑） -->
+  <path d="M 75 99 Q 80 101.4 85 99" fill="none" stroke="#5E4A3E" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 前爪（缓缓伸出，想去握住那只手） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;2 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <path d="M 72 130 C 66 136 64 142 66 146" fill="none" stroke="#4A4E58" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="66" cy="148" r="3.4" fill="#C8A888"/>
+  </g>
+  <!-- 后爪 -->
+  <path d="M 88 126 C 94 130 98 136 100 142" fill="none" stroke="#4A4E58" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="101" cy="144" r="3.2" fill="#C8A888"/>
+
+  <!-- 暮色暖星尘 -->
+  <g fill="#FFE6A0">
+    <circle cx="44" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="80">
+      <animate attributeName="cy" values="80;72;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.12;0.4" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
