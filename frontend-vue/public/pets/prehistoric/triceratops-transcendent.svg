@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="三角龙·六阶·三角传说·暮色头碰小三角龙传角为护群语">
+  <defs>
+    <!-- 背景：草原暮霞 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C088"/>
+      <stop offset="52%" stop-color="#DCAC74"/>
+      <stop offset="100%" stop-color="#94B080"/>
+    </linearGradient>
+    <!-- 暮霞金 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="54%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 传说余晖 -->
+    <radialGradient id="halo" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#F8D890" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F8D890" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 老三角龙皮（泛岁月光） -->
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#B8BCA4"/>
+      <stop offset="100%" stop-color="#9EA488"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="52" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- 传说余晖 -->
+  <circle cx="100" cy="108" r="60" fill="url(#halo)">
+    <animate attributeName="opacity" values="0.35;0.22;0.35" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 草原 -->
+  <g fill="#6E9E78" opacity="0.4">
+    <path d="M 0 132 Q 50 122 110 130 Q 160 134 200 126 L 200 200 L 0 200 Z"/>
+  </g>
+  <path d="M 0 148 L 200 148 L 200 200 L 0 200 Z" fill="#7E9E5E" opacity="0.85"/>
+  <path d="M 0 148 L 200 148" stroke="#9EBE7E" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 练石的小三角龙（左下） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 身 -->
+    <ellipse cx="60" cy="138" rx="10" ry="7.5" fill="url(#skin)" stroke="#949884" stroke-width="0.8"/>
+    <ellipse cx="58" cy="142" rx="6" ry="4" fill="#E4E0D0" opacity="0.7"/>
+    <!-- 腿 -->
+    <path d="M 54 143 L 52 149 M 67 143 L 69 149" stroke="#989C88" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 70 141 Q 76 139 78 144" stroke="url(#skin)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- 小三角龙头（角芽，练） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="60" cy="126" rx="8.5" ry="7.5" fill="url(#skin)" stroke="#949884" stroke-width="0.8"/>
+    <circle cx="56.5" cy="124.5" r="2" fill="#24180E"/>
+    <circle cx="57" cy="124" r="0.65" fill="#FFF"/>
+    <circle cx="64.5" cy="124.5" r="2" fill="#24180E"/>
+    <circle cx="65" cy="124" r="0.65" fill="#FFF"/>
+    <path d="M 57 129 L 63 129 L 60 131 Z" fill="#8E927E"/>
+    <path d="M 57 121 L 55 117" stroke="#E8E0CC" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 60 120 L 60 116" stroke="#E8E0CC" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 63 121 L 65 117" stroke="#E8E0CC" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 老三角龙（头碰小角，传护群） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <!-- 身体 -->
+    <ellipse cx="116" cy="130" rx="18" ry="12" fill="url(#skin)" stroke="#949884" stroke-width="1.1"/>
+    <ellipse cx="112" cy="135" rx="10" ry="6.5" fill="#E4E0D0" opacity="0.7"/>
+    <!-- 腿 -->
+    <path d="M 106 139 L 103 149 M 128 139 L 131 149" stroke="#989C88" stroke-width="3.2" stroke-linecap="round"/>
+    <!-- 尾 -->
+    <path d="M 134 134 Q 142 130 146 124" stroke="url(#skin)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 老三角龙头（垂，头碰小角，温和） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <ellipse cx="116" cy="112" rx="11.5" ry="10" fill="url(#skin)" stroke="#949884" stroke-width="0.9"/>
+    <!-- 眼（温和） -->
+    <path d="M 108 110 Q 110 108.6 112 110 M 121 110 Q 123 108.6 125 110" stroke="#24180E" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <circle cx="110" cy="111" r="2.2" fill="#24180E"/>
+    <circle cx="110.6" cy="110.4" r="0.7" fill="#FFF"/>
+    <circle cx="123" cy="111" r="2.2" fill="#24180E"/>
+    <circle cx="123.6" cy="110.4" r="0.7" fill="#FFF"/>
+    <path d="M 112 115 L 120 115 L 116 117.5 Z" fill="#8E927E"/>
+    <!-- 三根角（如古盾，垂碰小角） -->
+    <path d="M 110 106 L 106 99" stroke="#E0D8C0" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 116 105 L 116 98" stroke="#E0D8C0" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 122 106 L 126 99" stroke="#E0D8C0" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 颈甲 -->
+    <path d="M 103 106 Q 98 114 101 122" stroke="#989C88" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <path d="M 129 106 Q 134 114 131 122" stroke="#989C88" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <!-- 传心微光（头碰小角） -->
+    <circle cx="88" cy="108" r="7" fill="#FFF0D0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 暮霞星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="34" cy="106">
+      <animate attributeName="cy" values="106;96;106" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="168" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
