@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="狮鹫·三阶·练翼苦修·盘旋群山翼展如云狮爪对岩练握稳">
+  <defs>
+    <!-- 背景：高山云海 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0DCE0"/>
+      <stop offset="52%" stop-color="#B0C0C4"/>
+      <stop offset="100%" stop-color="#92A8AC"/>
+    </linearGradient>
+    <!-- 晨光 -->
+    <radialGradient id="glow" cx="48%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F4F8F4" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F4F8F4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 少年狮鹫毛 -->
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8C090"/>
+      <stop offset="100%" stop-color="#BEA678"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="92" cy="50" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.55;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 云海 -->
+  <g fill="#F4F8F4" opacity="0.85">
+    <path d="M 0 132 Q 50 124 110 130 Q 160 134 200 128 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 群山峰（下） -->
+  <g fill="#A0ACB0" opacity="0.5">
+    <path d="M 0 150 L 0 176 Q 40 168 80 174 Q 120 180 160 172 Q 180 168 200 174 L 200 200 L 0 200 Z"/>
+  </g>
+  <!-- 岩（右，练握） -->
+  <path d="M 148 130 Q 160 124 170 128 L 166 142 Q 156 138 148 140 Z" fill="#B0B8B4"/>
+
+  <!-- 风痕 -->
+  <g stroke="#E4ECE8" stroke-width="1.2" stroke-linecap="round" opacity="0.5" fill="none">
+    <path d="M 20 70 Q 60 64 100 70">
+      <animateTransform attributeName="transform" type="translate" values="0 0;6 0;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 少年狮鹫（盘旋群山） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 鹰翼（展） -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-8 96 100;8 96 100;-8 96 100" dur="2s" repeatCount="indefinite"/>
+      <path d="M 88 104 L 52 90 L 60 102 L 40 94 L 56 106 Z" fill="url(#fur)" stroke="#9E8256" stroke-width="0.9"/>
+      <path d="M 88 104 L 124 90 L 116 102 L 136 94 L 120 106 Z" fill="url(#fur)" stroke="#9E8256" stroke-width="0.9"/>
+    </g>
+    <!-- 狮身 -->
+    <ellipse cx="92" cy="110" rx="8" ry="6" fill="url(#fur)" stroke="#9E8256" stroke-width="0.8"/>
+    <!-- 狮尾 -->
+    <path d="M 100 112 L 110 114 L 112 118" stroke="#C8A878" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 少年狮鹫头（鹰眼锐，俯瞰） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <ellipse cx="92" cy="98" rx="8" ry="7" fill="url(#fur)" stroke="#9E8256" stroke-width="0.8"/>
+    <!-- 眼（锐） -->
+    <circle cx="89" cy="96.5" r="2" fill="#D89020"/>
+    <circle cx="89.5" cy="96.1" r="0.65" fill="#FFF"/>
+    <circle cx="95.5" cy="96.5" r="2" fill="#D89020"/>
+    <circle cx="96" cy="96.1" r="0.65" fill="#FFF"/>
+    <!-- 喙 -->
+    <path d="M 91 101 L 89 103.4 L 93 102.8 Z" fill="#C8B058"/>
+    <!-- 耳羽 -->
+    <path d="M 86 93 Q 85 90 87 89" stroke="#D8C090" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M 98 93 Q 99 90 97 89" stroke="#D8C090" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- 俯瞰群山的专注 -->
+    <circle cx="100" cy="90" r="2" fill="#F4F8F4" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 练握的狮爪（右伸向岩） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 108 104 Q 120 112 130 120" stroke="#C8A878" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="0 108 104;8 108 104;0 108 104" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 130 120 L 134 118 L 134 124 L 130 124 Z" fill="#C8A878"/>
+    <!-- 抓握的光 -->
+    <circle cx="132" cy="124" r="4" fill="#F4F8F4" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.14;0.3" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 晨光星尘 -->
+  <g fill="#F4F8F4">
+    <circle cx="40" cy="100">
+      <animate attributeName="cy" values="100;90;100" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="162" cy="82">
+      <animate attributeName="cy" values="82;72;82" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
