@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="射手座·艾俄洛斯·一阶·仁心少年·夜望射手座星">
+  <defs>
+    <!-- 背景：圣域射手宫星空 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E4E7E"/>
+      <stop offset="52%" stop-color="#2E3E66"/>
+      <stop offset="100%" stop-color="#1E2E4E"/>
+    </linearGradient>
+    <!-- 星月光 -->
+    <radialGradient id="moon" cx="76%" cy="26%" r="30%">
+      <stop offset="0%" stop-color="#E8F0FA" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#E8F0FA" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 射手金 -->
+    <radialGradient id="gold" cx="50%" cy="42%" r="50%">
+      <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFF3C4" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 青铜学徒服 -->
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8EA0B0"/>
+      <stop offset="100%" stop-color="#5E7484"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#F0E0CC"/>
+      <stop offset="100%" stop-color="#DCC8A8"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <!-- 星空 -->
+  <g fill="#E8F0FA">
+    <circle cx="30" cy="40" r="1.3"/><circle cx="160" cy="30" r="1.2"/>
+    <circle cx="180" cy="70" r="1"/>
+    <circle cx="50" cy="20" r="0.9"/>
+  </g>
+  <!-- 月 -->
+  <circle cx="152" cy="48" r="40" fill="url(#moon)">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="3.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="152" cy="48" r="10" fill="#E8F0FA" opacity="0.9"/>
+
+  <!-- 射手座星（少年仰望） -->
+  <g>
+    <!-- 射手座箭形星连线 -->
+    <g fill="#FFF3C4">
+      <circle cx="60" cy="40" r="1.8"/>
+      <circle cx="74" cy="32" r="1.4"/>
+      <circle cx="90" cy="36" r="1.6"/>
+      <circle cx="84" cy="50" r="1.3"/>
+    </g>
+    <path d="M 60 40 L 74 32 L 90 36 L 84 50" stroke="#FFF3C4" stroke-width="0.8" opacity="0.7"/>
+    <path d="M 84 50 L 108 70" stroke="#FFF3C4" stroke-width="0.8" opacity="0.6"/>
+    <!-- 星辉微晕 -->
+    <circle cx="84" cy="40" r="20" fill="url(#gold)">
+      <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 金色宫阙 -->
+  <g opacity="0.4">
+    <path d="M 20 20 L 72 20 L 62 34 Q 40 42 28 38 Z" fill="#3E4E7E"/>
+    <path d="M 20 20 L 72 20" stroke="#5E6E8E" stroke-width="1.2"/>
+  </g>
+
+  <!-- 地面 -->
+  <path d="M 0 152 L 200 152 L 200 200 L 0 200 Z" fill="#22304A" opacity="0.8"/>
+  <path d="M 0 152 L 200 152" stroke="#3A4A62" stroke-width="1.4" opacity="0.6"/>
+
+  <!-- 青铜学徒少年（5头身，抬头望星，温厚） -->
+  <!-- 腿 -->
+  <path d="M 88 136 L 84 158 L 90 158 L 94 138 Z" fill="#5E7484"/>
+  <path d="M 104 136 L 112 160 L 106 160 L 100 138 Z" fill="#5E7484"/>
+  <!-- 青铜学徒服 -->
+  <path d="M 88 102 Q 84 118 90 136 Q 100 142 108 136 Q 114 118 110 102 Q 100 96 88 102 Z" fill="url(#robe)" stroke="#4E5E6E" stroke-width="1"/>
+  <!-- 腰带 -->
+  <path d="M 88 118 L 110 118" stroke="#A8B8C8" stroke-width="1.6"/>
+
+  <!-- 头（少年面容，抬头，眉目温厚，眼含仁光） -->
+  <circle cx="99" cy="92" r="10" fill="url(#skin)" stroke="#D0BCA0" stroke-width="0.8"/>
+  <!-- 短发 -->
+  <path d="M 90 86 Q 94 82 99 82 Q 104 82 108 86 Q 104 83 99 83 Q 94 83 90 86 Z" fill="#2E2620"/>
+  <!-- 眉目温厚 -->
+  <path d="M 91 87 Q 95 85.5 98 86 M 100 86 Q 103 85.5 107 87" stroke="#1E1008" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  <!-- 眼含仁光 -->
+  <ellipse cx="95" cy="90" rx="2.3" ry="2.1" fill="#1E1008"/>
+  <ellipse cx="103" cy="90" rx="2.3" ry="2.1" fill="#1E1008"/>
+  <circle cx="96" cy="89.2" r="0.7" fill="#FFF3C4"/>
+  <circle cx="104" cy="89.2" r="0.7" fill="#FFF3C4"/>
+  <!-- 鼻梁 -->
+  <path d="M 99 92.5 L 99 95" stroke="#C8B098" stroke-width="1" stroke-linecap="round"/>
+  <!-- 温和 -->
+  <path d="M 94 98.5 Q 99 100.6 104 98.5" fill="none" stroke="#A89070" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- 左臂（让出好东西的手势，垂放） -->
+  <path d="M 90 106 C 84 110 82 114 84 120" fill="none" stroke="#7E8E9E" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="84" cy="122" r="2.8" fill="#DCC8A8"/>
+
+  <!-- 右手（握拳立志） -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-4 106 106;3 106 106;-4 106 106" dur="2.4s" repeatCount="indefinite"/>
+    <path d="M 106 106 C 112 108 116 110 118 116" fill="none" stroke="#7E8E9E" stroke-width="3.8" stroke-linecap="round"/>
+    <circle cx="120" cy="118" r="3.2" fill="#DCC8A8"/>
+    <path d="M 117 116 Q 121 114 123 118 L 121 120 Q 117 120 117 116 Z" fill="#DCC8A8"/>
+  </g>
+
+  <!-- 仁心微光（心口） -->
+  <circle cx="99" cy="110" r="6" fill="#FFF3C4" opacity="0.35">
+    <animate attributeName="opacity" values="0.35;0.2;0.35" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 星尘 -->
+  <g fill="#FFF3C4">
+    <circle cx="44" cy="104">
+      <animate attributeName="cy" values="104;94;104" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
