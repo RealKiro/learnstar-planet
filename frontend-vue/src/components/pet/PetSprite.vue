@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, useId } from 'vue'
 import { computePetArt, CONSTELLATION_LINES } from '@/utils/petArtParts'
-import { getPetImageUrl } from '@/utils/petImage'
+import { getPetImageUrl, PET_IMAGE_MODE } from '@/utils/petImage'
+import { getSpeciesEmoji } from '@/utils/petData'
 import type { BodyType, PetArtRender } from '@/utils/petArtParts'
 
 const props = withDefaults(defineProps<{
@@ -209,8 +210,18 @@ function fxShape(size: number): string {
 </script>
 
 <template>
+  <!-- emoji 模式（PET_IMAGE_MODE='emoji'）：直接显示物种 emoji，供与程序化 sprite 对比 -->
+  <svg
+    v-if="PET_IMAGE_MODE === 'emoji'"
+    viewBox="0 0 200 200"
+    class="pet-sprite"
+    role="img"
+    :aria-label="`宠物 Lv.${level}`"
+  >
+    <text x="100" y="118" text-anchor="middle" font-size="150" style="user-select:none;">{{ getSpeciesEmoji(speciesId) }}</text>
+  </svg>
   <img
-    v-if="imgUrl"
+    v-else-if="imgUrl"
     :src="imgUrl"
     :alt="`宠物 Lv.${level}`"
     class="pet-sprite pet-img"

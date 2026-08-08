@@ -9,6 +9,14 @@
 // 并在下方返回 `${import.meta.env.BASE_URL}pets/{seriesId}/{speciesId}-{stage}.webp|.svg`。
 
 /**
+ * 宠物图渲染模式（2026-08-09 用户提出 A/B 对比用）：
+ * - 'sprite'：程序化 PetSprite 矢量艺术（默认）
+ * - 'emoji' ：直接显示物种 emoji（若 sprite 效果不如 emoji 则切换此值）
+ * 改此值即全局生效（卡片/图鉴/详情/花园全部）。
+ */
+export const PET_IMAGE_MODE: 'sprite' | 'emoji' = 'sprite'
+
+/**
  * 返回宠物图片 URL；当前恒为 null（停用手绘/AI 图，统一走程序化 SVG）。
  */
 export function getPetImageUrl(_speciesId: string, _stage: string): null {
