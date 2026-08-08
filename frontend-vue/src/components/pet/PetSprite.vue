@@ -1745,6 +1745,19 @@ function fxShape(size: number): string {
         <template>
           <circle cx="100" cy="104" r="40" :fill="`url(#glow-${uid})`" class="spirit-glow" />
           <circle cx="100" cy="104" r="30" :fill="art.main" opacity="0.9" :stroke="art.accent" stroke-width="2" class="spirit-core" />
+          <!-- 十二星座专属徽记（不同剪影，一脉相承星灵体） -->
+          <g v-if="art.variant === 'aries'"><path d="M94 84 Q86 56 66 50 Q88 62 98 82 Z" fill="#FDE68A" :stroke="art.dark" stroke-width="1.1"/><path d="M106 84 Q112 56 134 50 Q112 62 102 82 Z" fill="#FDE68A" :stroke="art.dark" stroke-width="1.1"/><path d="M96 122 Q100 118 104 122" :stroke="art.dark" stroke-width="1.4" fill="none"/></g>
+          <g v-else-if="art.variant === 'taurus'"><path d="M88 82 Q70 54 42 50 Q66 60 84 88 Z" fill="#FCA5A5" :stroke="art.dark" stroke-width="1.2"/><path d="M112 82 Q130 54 158 50 Q134 60 116 88 Z" fill="#FCA5A5" :stroke="art.dark" stroke-width="1.2"/><path d="M84 120 Q100 116 116 120" :stroke="art.dark" stroke-width="1.4" fill="none"/></g>
+          <g v-else-if="art.variant === 'gemini'"><circle cx="60" cy="98" r="17" :fill="art.accent" opacity="0.85" :stroke="art.dark" stroke-width="1.4"/><circle cx="140" cy="98" r="17" :fill="art.accent" opacity="0.85" :stroke="art.dark" stroke-width="1.4"/><circle cx="64" cy="96" r="2.6" :fill="art.dark"/><circle cx="136" cy="96" r="2.6" :fill="art.dark"/><path d="M66 104 L134 104" :stroke="art.dark" stroke-width="1" opacity="0.4"/></g>
+          <g v-else-if="art.variant === 'cancer'"><path d="M52 90 Q32 82 40 66 Q54 72 64 82 Z" fill="#FCA5A5" :stroke="art.dark" stroke-width="1.2"/><path d="M148 90 Q168 82 160 66 Q146 72 136 82 Z" fill="#FCA5A5" :stroke="art.dark" stroke-width="1.2"/><path d="M40 66 L32 56 M42 62 L32 54" :stroke="art.dark" stroke-width="1.6" stroke-linecap="round"/><path d="M160 66 L168 56 M158 62 L168 54" :stroke="art.dark" stroke-width="1.6" stroke-linecap="round"/></g>
+          <g v-else-if="art.variant === 'leo'"><circle cx="100" cy="106" r="39" fill="none" stroke="#F59E0B" stroke-width="3" opacity="0.5"/><path d="M100 64 L104 52 L96 52 Z" fill="#F59E0B"/><path d="M82 70 L72 60 L80 74 Z" fill="#F59E0B"/><path d="M118 70 L128 60 L120 74 Z" fill="#F59E0B"/><path d="M70 92 L58 88 L74 98 Z" fill="#F59E0B"/><path d="M130 92 L142 88 L126 98 Z" fill="#F59E0B"/></g>
+          <g v-else-if="art.variant === 'virgo'"><path d="M76 122 Q86 112 100 120 Q114 112 124 122 Q114 138 100 142 Q86 138 76 122 Z" :fill="art.accent" opacity="0.85" :stroke="art.dark" stroke-width="1.2"/><path d="M88 120 Q100 112 112 120" :stroke="art.dark" stroke-width="1" opacity="0.5"/></g>
+          <g v-else-if="art.variant === 'libra'"><path d="M100 70 L100 56" :stroke="art.dark" stroke-width="1.6"/><path d="M56 62 L144 62" :stroke="art.dark" stroke-width="1.6"/><path d="M56 62 L50 80 Q60 86 62 80 Z" fill="#FDE68A" :stroke="art.dark" stroke-width="1.2"/><path d="M144 62 L150 80 Q140 86 138 80 Z" fill="#FDE68A" :stroke="art.dark" stroke-width="1.2"/></g>
+          <g v-else-if="art.variant === 'scorpio'"><path d="M106 78 Q140 60 150 38 Q152 50 140 64 Q126 74 108 78 Z" fill="#FCA5A5" :stroke="art.dark" stroke-width="1.2"/><path d="M150 38 L158 30" :stroke="art.dark" stroke-width="2.4" stroke-linecap="round"/></g>
+          <g v-else-if="art.variant === 'sagittarius'"><path d="M138 68 Q152 96 140 124" fill="none" :stroke="art.dark" stroke-width="2" stroke-linecap="round"/><path d="M138 68 L152 96 L140 124" stroke="#FDE68A" stroke-width="1.4" fill="none"/><line x1="152" y1="96" x2="166" y2="92" :stroke="art.dark" stroke-width="1.6" stroke-linecap="round"/></g>
+          <g v-else-if="art.variant === 'capricorn'"><path d="M94 84 Q84 58 68 52 Q88 66 98 82 Z" fill="#BFDBFE" :stroke="art.dark" stroke-width="1.2"/><path d="M106 84 Q116 58 132 52 Q112 66 102 82 Z" fill="#BFDBFE" :stroke="art.dark" stroke-width="1.2"/><path d="M100 124 Q86 134 94 148 Q106 152 116 140" :fill="art.accent" opacity="0.85" :stroke="art.dark" stroke-width="1.2"/></g>
+          <g v-else-if="art.variant === 'aquarius'"><path d="M84 62 L84 44 Q100 38 116 44 L116 62 Z" :fill="art.accent" opacity="0.85" :stroke="art.dark" stroke-width="1.3"/><path d="M100 62 L100 74" :stroke="art.dark" stroke-width="1.6"/><path d="M100 78 Q96 84 100 90 Q104 96 100 102" stroke="#60A5FA" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.85"/></g>
+          <g v-else-if="art.variant === 'pisces'"><path d="M66 72 Q52 90 68 106 Q82 98 72 84 Q60 86 66 72 Z" :fill="art.accent" opacity="0.85" :stroke="art.dark" stroke-width="1.2"/><path d="M134 72 Q148 90 132 106 Q118 98 128 84 Q140 86 134 72 Z" :fill="art.light" opacity="0.9" :stroke="art.dark" stroke-width="1.2"/><path d="M62 72 L50 66 M62 74 L48 74" :stroke="art.dark" stroke-width="1.2" stroke-linecap="round"/><path d="M138 72 L150 66 M138 74 L152 74" :stroke="art.dark" stroke-width="1.2" stroke-linecap="round"/></g>
           <path v-if="constellationPoly" :d="constellationPoly" :stroke="art.accent" stroke-width="1.6" fill="none" stroke-linecap="round" class="constellation" />
           <circle v-for="(p, i) in constellationPts" :key="i" :cx="p[0] + 38" :cy="p[1] + 34" r="3.2" :fill="art.light" :stroke="art.accent" stroke-width="1" />
           <circle cx="94" cy="104" r="5" :fill="art.dark" />
@@ -1818,47 +1831,75 @@ function fxShape(size: number): string {
           <path d="M92 92 L108 92 M90 102 L110 102" :stroke="art.accent" stroke-width="1.2" opacity="0.6"/>
         </template>
 
-        <!-- 默认椭圆体 + 物种专属细节 -->
+        <!-- 粽子·三角锥（叶裹粽形，系绳收口） -->
+        <template v-else-if="art.variant === 'zongzi'">
+          <path d="M100 66 L142 108 Q130 130 100 130 Q70 130 58 108 Z" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M58 108 Q80 118 100 110 Q120 118 142 108" :stroke="art.dark" stroke-width="1.3" fill="none" opacity="0.5"/>
+          <path d="M100 66 L100 130" :stroke="art.dark" stroke-width="1.5" opacity="0.5"/>
+          <path d="M100 130 L96 138 M100 130 L104 138" :stroke="art.dark" stroke-width="1.2" opacity="0.45"/>
+          <path d="M76 92 L124 114 M124 92 L76 114" :stroke="art.dark" stroke-width="1" opacity="0.3"/>
+        </template>
+
+        <!-- 汤圆·圆球碗中（热气袅袅） -->
+        <template v-else-if="art.variant === 'tangyuan'">
+          <ellipse cx="100" cy="110" rx="30" ry="27" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1.6"/>
+          <ellipse cx="100" cy="117" rx="20" ry="13" :fill="art.light" opacity="0.85"/>
+          <path d="M62 120 Q100 146 138 120 L131 132 Q100 142 69 132 Z" :fill="art.accent" opacity="0.9" :stroke="art.dark" stroke-width="1.4"/>
+          <path d="M84 72 Q88 64 84 56" :stroke="art.light" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+          <path d="M116 72 Q120 64 116 56" :stroke="art.light" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+        </template>
+
+        <!-- 月饼·圆饼凸纹 -->
+        <template v-else-if="art.variant === 'mooncake'">
+          <ellipse cx="100" cy="110" rx="40" ry="31" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1.6"/>
+          <ellipse cx="100" cy="110" rx="32" ry="24" fill="none" :stroke="art.accent" stroke-width="1.5" opacity="0.85"/>
+          <path d="M100 94 L105 106 L117 106 L107 115 L111 127 L100 119 L89 127 L93 115 L83 106 L95 106 Z" :fill="art.dark" opacity="0.3"/>
+        </template>
+
+        <!-- 青团·青绿团子顶叶 -->
+        <template v-else-if="art.variant === 'qingtuan'">
+          <ellipse cx="100" cy="114" rx="29" ry="25" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1.6"/>
+          <ellipse cx="100" cy="120" rx="17" ry="11" :fill="art.light" opacity="0.8"/>
+          <path d="M100 90 Q91 80 100 70 Q109 80 100 90 Z" :fill="art.accent" :stroke="art.dark" stroke-width="1.1" opacity="0.95"/>
+          <path d="M100 88 L100 73" :stroke="art.dark" stroke-width="0.9" opacity="0.5"/>
+        </template>
+
+        <!-- 年糕·白米方砖 -->
+        <template v-else-if="art.variant === 'niangao'">
+          <rect x="66" y="90" width="68" height="42" rx="9" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1.5"/>
+          <rect x="72" y="108" width="56" height="20" rx="5" :fill="art.light" :stroke="art.dark" stroke-width="1.2"/>
+          <path d="M76 99 L124 99" :stroke="art.dark" stroke-width="1" opacity="0.3"/>
+        </template>
+
+        <!-- 糖葫芦·竹签红果串 -->
+        <template v-else-if="art.variant === 'tanghulu'">
+          <line x1="100" y1="48" x2="100" y2="142" stroke="#92400E" stroke-width="3"/>
+          <circle cx="100" cy="64" r="12" fill="#DC2626" :stroke="art.dark" stroke-width="1.2"/>
+          <circle cx="100" cy="94" r="12" fill="#DC2626" :stroke="art.dark" stroke-width="1.2"/>
+          <circle cx="100" cy="122" r="13" fill="#DC2626" :stroke="art.dark" stroke-width="1.2"/>
+          <circle cx="96" cy="60" r="2.6" fill="#FECACA" opacity="0.9"/>
+          <circle cx="96" cy="90" r="2.6" fill="#FECACA" opacity="0.9"/>
+          <circle cx="96" cy="118" r="2.8" fill="#FECACA" opacity="0.9"/>
+        </template>
+
+        <!-- 桂花糕·黄顶方块 -->
+        <template v-else-if="art.variant === 'osmanthus_cake'">
+          <rect x="68" y="92" width="64" height="38" rx="8" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1.5"/>
+          <rect x="72" y="96" width="56" height="10" rx="4" fill="#FDE047" opacity="0.9"/>
+          <circle v-for="n in 5" :key="n" :cx="80 + n * 10" cy="101" r="2.2" fill="#F59E0B"/>
+        </template>
+
+        <!-- 馄饨·云吞小兜 -->
+        <template v-else-if="art.variant === 'wonton'">
+          <path d="M62 92 Q100 72 138 92 L128 120 Q100 138 72 120 Z" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1.6"/>
+          <path d="M62 92 Q100 104 138 92" :stroke="art.dark" stroke-width="1.3" fill="none" opacity="0.6"/>
+          <path d="M76 108 Q100 116 124 108" :stroke="art.dark" stroke-width="1.1" fill="none" opacity="0.4"/>
+        </template>
+
+        <!-- 默认椭圆体（兜底） -->
         <template v-else>
           <ellipse cx="100" cy="112" rx="34" ry="30" :fill="`url(#body-grad-${uid})`" :stroke="art.dark" stroke-width="1.6" />
           <ellipse cx="100" cy="120" rx="22" ry="16" :fill="art.light" opacity="0.8" />
-          <!-- 节日美食专属细节 -->
-          <template v-if="speciesId === 'zongzi'">
-            <path d="M76 100 L100 72 L124 100 L100 144 Z" fill="#16A34A" opacity="0.45" />
-            <line x1="100" y1="72" x2="100" y2="144" stroke="#15803D" stroke-width="1.6" opacity="0.6" />
-            <path d="M76 100 L124 100" stroke="#15803D" stroke-width="1.4" opacity="0.5" />
-          </template>
-          <template v-else-if="speciesId === 'tanghulu'">
-            <line x1="100" y1="48" x2="100" y2="94" stroke="#92400E" stroke-width="2.6" />
-            <circle cx="100" cy="58" r="8.5" fill="#DC2626" />
-            <circle cx="100" cy="76" r="8.5" fill="#DC2626" />
-            <circle cx="100" cy="94" r="8.5" fill="#DC2626" />
-            <circle cx="97.5" cy="55" r="2.4" fill="#FECACA" opacity="0.9" />
-          </template>
-          <template v-else-if="speciesId === 'mooncake'">
-            <path d="M78 96 Q100 82 122 96 Q122 128 100 136 Q78 128 78 96 Z" fill="none" :stroke="art.dark" stroke-width="1.2" opacity="0.45" />
-            <circle cx="100" cy="112" r="7" fill="none" :stroke="art.dark" stroke-width="1.2" opacity="0.5" />
-            <path d="M100 92 L104 104 L116 104 L106 112 L110 124 L100 116 L90 124 L94 112 L84 104 L96 104 Z" :fill="art.dark" opacity="0.4" />
-          </template>
-          <template v-else-if="speciesId === 'tangyuan'">
-            <path d="M90 74 Q94 68 98 74 Q102 68 106 74 Q110 68 114 74" stroke="#E2E8F0" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.85" />
-          </template>
-          <template v-else-if="speciesId === 'niangao'">
-            <line x1="78" y1="106" x2="122" y2="106" stroke="#CBD5E1" stroke-width="1.4" opacity="0.6" />
-            <line x1="80" y1="118" x2="120" y2="118" stroke="#CBD5E1" stroke-width="1.4" opacity="0.5" />
-            <line x1="80" y1="130" x2="120" y2="130" stroke="#CBD5E1" stroke-width="1.2" opacity="0.4" />
-          </template>
-          <template v-else-if="speciesId === 'qingtuan'">
-            <path d="M100 76 Q90 66 84 72 Q90 80 100 76 Z" fill="#15803D" opacity="0.95" />
-            <path d="M84 72 Q80 78 86 82" fill="none" stroke="#166534" stroke-width="1.2" opacity="0.6" />
-          </template>
-          <template v-else-if="speciesId === 'wonton'">
-            <path d="M88 100 Q100 112 112 100" :stroke="art.dark" stroke-width="1.4" fill="none" opacity="0.4" />
-            <path d="M92 118 Q100 126 108 118" :stroke="art.dark" stroke-width="1.2" fill="none" opacity="0.35" />
-          </template>
-          <template v-else-if="speciesId === 'osmanthus_cake'">
-            <circle v-for="n in 4" :key="n" :cx="84 + n * 10" cy="90" r="2.6" fill="#FDE047" />
-          </template>
         </template>
         <g v-if="art.parts.crown" class="crown">
           <circle cx="100" cy="80" r="6" :fill="art.accent" />
