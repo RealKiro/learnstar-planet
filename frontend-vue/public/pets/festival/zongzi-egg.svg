@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="粽子·一阶·糯叶初裹·端午灶台叶尖探脑晃红绳看小孩">
+  <defs>
+    <!-- 背景：端午灶台 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8C8A0"/>
+      <stop offset="52%" stop-color="#D0A878"/>
+      <stop offset="100%" stop-color="#B08E6E"/>
+    </linearGradient>
+    <!-- 灶暖 -->
+    <radialGradient id="glow" cx="50%" cy="26%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 粽叶绿 -->
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6EA878"/>
+      <stop offset="100%" stop-color="#4E8858"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 灶台 -->
+  <path d="M 0 140 L 200 140 L 200 200 L 0 200 Z" fill="#9E8268" opacity="0.9"/>
+  <path d="M 0 140 L 200 140" stroke="#8E7260" stroke-width="2"/>
+
+  <!-- 散落的粽叶（背景） -->
+  <g fill="#6EA878" opacity="0.5">
+    <path d="M 40 132 Q 60 124 80 130 Q 60 138 40 136 Z"/>
+    <path d="M 128 130 Q 148 122 168 128 Q 148 136 128 134 Z"/>
+  </g>
+
+  <!-- 眼巴巴的小孩（右） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="152" cy="120" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="152" cy="133" rx="5.5" ry="8" fill="#C8A878" stroke="#B0905E" stroke-width="0.8"/>
+    <path d="M 148 127 Q 142 123 138 121" stroke="#E8D0B4" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+    <circle cx="149" cy="118.5" r="1.3" fill="#24180E"/>
+    <circle cx="149.4" cy="118.1" r="0.45" fill="#FFF"/>
+  </g>
+
+  <!-- 小粽子（叶尖探脑，晃红绳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 三角叶裹身 -->
+    <path d="M 100 78 L 128 138 Q 128 146 100 146 Q 72 146 72 138 Z" fill="url(#leaf)" stroke="#3E6E46" stroke-width="1"/>
+    <!-- 叶纹 -->
+    <path d="M 84 100 Q 88 118 84 140" stroke="#3E6E46" stroke-width="0.9" fill="none" opacity="0.7"/>
+    <path d="M 116 100 Q 112 118 116 140" stroke="#3E6E46" stroke-width="0.9" fill="none" opacity="0.7"/>
+    <!-- 红绳（系腰，晃晃） -->
+    <path d="M 80 128 Q 100 132 120 128" stroke="#D84048" stroke-width="2" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="-4 100 130;4 100 130;-4 100 130" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 红绳垂尾（晃） -->
+    <path d="M 120 128 Q 124 134 122 140" stroke="#D84048" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <animateTransform attributeName="transform" type="rotate" values="-6 120 128;6 120 128;-6 120 128" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- 糯米面（探脑，脸） -->
+    <ellipse cx="100" cy="116" rx="15" ry="12" fill="#F4F0E4" stroke="#D8D0C0" stroke-width="0.8"/>
+    <!-- 眼（在叶间，亮） -->
+    <circle cx="94" cy="114" r="2" fill="#2E2A24"/>
+    <circle cx="94.5" cy="113.5" r="0.65" fill="#FFF"/>
+    <circle cx="106" cy="114" r="2" fill="#2E2A24"/>
+    <circle cx="106.5" cy="113.5" r="0.65" fill="#FFF"/>
+    <!-- 嘴（笑） -->
+    <path d="M 96 119 Q 100 121.4 104 119" fill="none" stroke="#B08A6A" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 叶尖（头，如角） -->
+    <path d="M 100 78 L 96 66 L 104 66 Z" fill="url(#leaf)" stroke="#3E6E46" stroke-width="0.9"/>
+  </g>
+
+  <!-- 米香蒸汽 -->
+  <g stroke="#F4F0E4" stroke-width="1.2" stroke-linecap="round" opacity="0.6">
+    <path d="M 60 108 Q 58 100 62 94">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 140 106 Q 142 98 138 92">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="50" cy="90">
+      <animate attributeName="cy" values="90;80;90" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="80">
+      <animate attributeName="cy" values="80;70;80" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

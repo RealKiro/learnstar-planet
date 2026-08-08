@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="粽子·四阶·解香初成·游子归家解绳香漫夹一筷是家的味道">
+  <defs>
+    <!-- 背景：端午饭桌 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0BC90"/>
+      <stop offset="52%" stop-color="#C49E74"/>
+      <stop offset="100%" stop-color="#A88662"/>
+    </linearGradient>
+    <!-- 灯暖 -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#FFF0D0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF0D0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 粽叶（热） -->
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#74AC7E"/>
+      <stop offset="100%" stop-color="#528C5E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <circle cx="100" cy="46" r="80" fill="url(#glow)">
+    <animate attributeName="opacity" values="0.9;0.62;0.9" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 饭桌 -->
+  <path d="M 0 146 L 200 146 L 200 200 L 0 200 Z" fill="#8E7260" opacity="0.9"/>
+  <path d="M 0 146 L 200 146" stroke="#7A6250" stroke-width="2"/>
+
+  <!-- 游子（右，夹粽入口，眼湿） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -0.8;0 0" dur="2.8s" repeatCount="indefinite"/>
+    <circle cx="156" cy="112" r="5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="156" cy="128" rx="6.5" ry="10" fill="#A8886E" stroke="#8E6E50" stroke-width="0.8"/>
+    <!-- 夹筷的手 -->
+    <path d="M 150 120 L 136 126" stroke="#E8D0B4" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M 138 124 L 130 128" stroke="#8E6E50" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- 眼（湿） -->
+    <circle cx="153" cy="110.5" r="1.5" fill="#24180E"/>
+    <circle cx="153.4" cy="110.1" r="0.5" fill="#FFF"/>
+    <circle cx="160" cy="110.5" r="1.5" fill="#24180E"/>
+    <path d="M 154 111 Q 156 113 158 111" fill="none" stroke="#B08A6A" stroke-width="0.6" stroke-linecap="round"/>
+    <circle cx="160.5" cy="109.5" r="0.9" fill="#A8D4E8" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 捧起粽子的小孩（左，解红绳） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1;0 0" dur="2.6s" repeatCount="indefinite"/>
+    <circle cx="66" cy="122" r="4.5" fill="#E8D0B4" stroke="#D0B89A" stroke-width="0.7"/>
+    <ellipse cx="66" cy="135" rx="5.5" ry="8" fill="#C8A878" stroke="#B0905E" stroke-width="0.8"/>
+    <!-- 捧粽的手 -->
+    <path d="M 72 128 Q 78 126 82 128" stroke="#E8D0B4" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 解开的粽子（中，热，香漫） -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.4;0 0" dur="2.4s" repeatCount="indefinite"/>
+    <!-- 三角身（热，微开） -->
+    <path d="M 100 84 L 130 144 Q 130 152 100 152 Q 70 152 70 144 Z" fill="url(#leaf)" stroke="#3E6E46" stroke-width="1"/>
+    <!-- 半开的叶（露出糯） -->
+    <path d="M 74 130 Q 66 138 62 148" stroke="#4E8858" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.7"/>
+    <!-- 糯米面（热，晶亮） -->
+    <ellipse cx="100" cy="122" rx="16" ry="12.5" fill="#F8F4E8" stroke="#D8D0C0" stroke-width="0.8"/>
+    <!-- 眼（含温） -->
+    <circle cx="94" cy="120" r="2" fill="#2E2A24"/>
+    <circle cx="94.5" cy="119.5" r="0.65" fill="#FFF"/>
+    <circle cx="106" cy="120" r="2" fill="#2E2A24"/>
+    <circle cx="106.5" cy="119.5" r="0.65" fill="#FFF"/>
+    <!-- 嘴（笑） -->
+    <path d="M 95 125 Q 100 127.4 105 125" fill="none" stroke="#B08A6A" stroke-width="0.8" stroke-linecap="round"/>
+    <!-- 红绳（已解，垂） -->
+    <path d="M 100 130 Q 96 138 100 144" stroke="#D84048" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <!-- 叶尖 -->
+    <path d="M 100 84 L 96 72 L 104 72 Z" fill="url(#leaf)" stroke="#3E6E46" stroke-width="0.9"/>
+  </g>
+
+  <!-- 香气漫开 -->
+  <g stroke="#FFF4E0" stroke-linecap="round" fill="none">
+    <path d="M 88 100 Q 84 88 88 78" stroke-width="1.4" opacity="0.7">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 114 98 Q 118 86 114 76" stroke-width="1.4" opacity="0.7">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- 热气 -->
+  <g fill="#F8F4E8" opacity="0.7">
+    <circle cx="84" cy="88" r="1.4">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="118" cy="84" r="1.2">
+      <animate attributeName="opacity" values="0.6;0.25;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 星尘 -->
+  <g fill="#FFF0D0">
+    <circle cx="46" cy="92">
+      <animate attributeName="cy" values="92;82;92" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="84">
+      <animate attributeName="cy" values="84;74;84" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.12;0.5" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
