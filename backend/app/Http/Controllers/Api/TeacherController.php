@@ -494,6 +494,7 @@ class TeacherController extends Controller
         $classIds = $this->teacherClassIds($teacher);
         $students = $request->input('students', []);
         $imported = 0;
+        $skipped = [];
 
         foreach ($students as $data) {
             if (empty($data['name']) || empty($data['class_name'])) {
@@ -505,11 +506,40 @@ class TeacherController extends Controller
             if (!$classRoom) {
                 continue;
             }
+            $name = trim((string) $data['name']);
+            $studentNo = trim((string) ($data['student_no'] ?? ''));
+
+            // 查重：同班同学号/同班同名已存在则跳过（重复导入不再重复建人）
+            $dupQuery = Student::where('class_id', $classRoom->id);
+            $dup = $studentNo !== ''
+                ? $dupQuery->where('student_no', $studentNo)->exists()
+                : $dupQuery->where('name', $name)->exists();
+            if ($dup) {
+                $skipped[] = $name . ($studentNo !== '' ? "（学号 {$studentNo}）" : '') . '：' . $classRoom->name . ' 已存在';
+                continue;
+            }
+            // 跨班冲突防护：同学号已在同校其他班级 → 疑似转班，跳过并提示
+            if ($studentNo !== '') {
+                $crossDup = Student::with('classRoom:id,name')
+                    ->where('student_no', $studentNo)
+                    ->where('class_id', '!=', $classRoom->id)
+                    ->where('status', 'active')
+                    ->whereHas('classRoom', function ($q) use ($classRoom) {
+                        $q->where('school_id', $classRoom->school_id);
+                    })
+                    ->first();
+                if ($crossDup) {
+                    $skipped[] = $name . "（学号 {$studentNo}）：已存在于 "
+                        . ($crossDup->classRoom?->name ?? '其他班级')
+                        . '，如为转班请联系管理员使用批量转班';
+                    continue;
+                }
+            }
             Student::create([
                 'class_id' => $classRoom->id,
-                'name' => $data['name'],
+                'name' => $name,
                 'gender' => $data['gender'] ?? '未知',
-                'student_no' => $data['student_no'] ?? null,
+                'student_no' => $studentNo !== '' ? $studentNo : null,
                 'total_score' => 0,
                 'status' => 'active',
             ]);
@@ -517,8 +547,8 @@ class TeacherController extends Controller
         }
 
         return response()->json([
-            'message' => "成功导入 {$imported} 名学生",
-            'data' => ['imported_count' => $imported],
+            'message' => "成功导入 {$imported} 名学生" . (count($skipped) > 0 ? "，跳过 " . count($skipped) . " 条重复/冲突记录" : ''),
+            'data' => ['imported_count' => $imported, 'skipped' => $skipped],
         ]);
     }
 

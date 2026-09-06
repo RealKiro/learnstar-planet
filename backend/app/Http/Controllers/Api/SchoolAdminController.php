@@ -897,6 +897,7 @@ class SchoolAdminController extends Controller
             ->all();
         $created = [];
         $errors = [];
+        $warnings = [];
         foreach ($request->input('students') as $idx => $row) {
             $className = trim($row['class_name']);
             if (!isset($classes[$className])) {
@@ -921,6 +922,35 @@ class SchoolAdminController extends Controller
                     $errors[] = '第 ' . ($idx + 1) . ' 行：学号「' . $studentNo . '」在班级「' . $className . '」已存在，已跳过';
                     continue;
                 }
+                // 跨班冲突防护：同学号已在其他班级 → 疑似转班/名单更新，跳过并指路批量转班
+                $crossDup = Student::with('classRoom:id,name')
+                    ->where('student_no', $studentNo)
+                    ->where('class_id', '!=', $classes[$className])
+                    ->where('status', 'active')
+                    ->whereHas('classRoom', function ($q) use ($school) {
+                        $q->where('school_id', $school->id);
+                    })
+                    ->first();
+                if ($crossDup) {
+                    $errors[] = '第 ' . ($idx + 1) . ' 行：学号「' . $studentNo . '」已存在于「'
+                        . ($crossDup->classRoom?->name ?? '其他班级')
+                        . '」。若为同一学生转班，请使用学生管理的批量转班功能，不要在两个班重复创建';
+                    continue;
+                }
+            }
+            // 同名提醒（不阻塞）：本校其他班级已有同名学生，可能是转班也可能是同名不同人，交由管理员判断
+            $sameNameElsewhere = Student::with('classRoom:id,name')
+                ->where('name', trim($row['name']))
+                ->where('class_id', '!=', $classes[$className])
+                ->where('status', 'active')
+                ->whereHas('classRoom', function ($q) use ($school) {
+                    $q->where('school_id', $school->id);
+                })
+                ->first();
+            if ($sameNameElsewhere) {
+                $warnings[] = '第 ' . ($idx + 1) . ' 行：新导入的「' . trim($row['name']) . '」与「'
+                    . ($sameNameElsewhere->classRoom?->name ?? '其他班级')
+                    . '」现有学生同名。若为同一学生（转班），请删除本条并用批量转班；若为同名不同人，可忽略本提醒';
             }
             $student = Student::create([
                 'class_id' => $classes[$className],
@@ -937,13 +967,18 @@ class SchoolAdminController extends Controller
             return response()->json([
                 'message' => '部分导入失败',
                 'errors' => $errors,
+                'warnings' => $warnings,
                 'data' => ['created' => $created, 'created_count' => count($created)],
             ], 422);
         }
 
         return response()->json([
             'message' => '导入完成',
-            'data' => ['created_count' => count($created), 'created' => $created],
+            'data' => [
+                'created_count' => count($created),
+                'created' => $created,
+                'warnings' => $warnings,
+            ],
         ]);
     }
 
@@ -1252,7 +1287,9 @@ class SchoolAdminController extends Controller
                 'upgraded_classes' => $upgraded,
                 'archived_classes' => $archivedClasses,
                 'graduated_students' => $graduatedStudents,
-                'note' => '六年级学生已标记为毕业。请创建新一年级班级并导入新生名单。',
+                'note' => '六年级学生已标记为毕业。请创建新一年级班级并导入新生名单。'
+                    . '注意：企业微信/钉钉/飞书侧的部门与名单不会自动同步——请先在第三方平台完成升班调整，'
+                    . '再回来导入通讯录并核对班级映射；导入时同学号跨班会被拦截并提示，避免转班学生重复创建。',
             ],
         ]);
     }

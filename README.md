@@ -56,146 +56,197 @@
 
 ## 🚀 Quick Start
 
+**三步部署，新手照抄即可。** 只需要一台能装 Docker 的电脑（Windows / macOS / Linux 均可），**不需要**单独安装 PHP、MySQL、Redis、Nginx。
+
+**第 0 步：安装 Docker**
+
+下载安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)（Linux 服务器装 Docker Engine），装完后打开终端（Windows 用 PowerShell），输入：
+
+```bash
+docker --version
+```
+
+能打印出版本号（如 `Docker version 27.x`）就说明装好了。
+
+**第 1 步：下载代码**
+
 ```bash
 git clone https://github.com/RealKiro/learnstar-planet.git
 cd learnstar-planet
+```
+
+> 不会用 git？打开 GitHub 仓库页面 → 绿色 `Code` 按钮 → `Download ZIP`，解压后进入目录一样可以用。
+
+**第 2 步：生成配置文件**
+
+```bash
 cp .env.example .env
+```
+
+> Windows PowerShell 请用：`copy .env.example .env`
+>
+> **默认配置 = 内置 SQLite 数据库，什么都不用装、什么都不用改**，直接进第 3 步。全校规模（>500 学生）再按下文 [数据库切换](#-deployment) 升级 MySQL。
+
+**第 3 步：启动**
+
+```bash
 docker-compose up -d
 ```
 
-默认**内置 SQLite**（文件数据库），仅启动 app 一个容器，无需数据库/Redis 服务，体积小、省内存。
+首次启动会从 GitHub 拉取镜像并自动建表、创建默认学校和管理员账号，大约 1~3 分钟。
 
-> 需要完整栈（内置 MariaDB 10 + Redis 8）时：修改 `.env` 为 MySQL 配置后执行 `docker-compose --profile full-stack up -d`。
-> 使用外置数据库/Redis：改 `.env` 的 `DB_HOST`/`REDIS_HOST` 后 `docker-compose up -d app --no-deps`。
+**✅ 验证部署成功（逐项核对）：**
 
-启动后：
-- **教室互动**：浏览器打开 `http://<服务器IP>:8080`，输入班级码即可进入
-- **管理后台**：`http://<服务器IP>:8080/login`，使用管理员或教师账号登录
+```bash
+docker-compose ps
+```
 
-> 整个系统部署在学校局域网即可运行，无需互联网连接。手机连同一 WiFi 也可访问。
+- `learnstar-app` 状态为 `Up (healthy)` 即为成功
+- 浏览器打开 `http://localhost:8080` → 能看到「学趣星球」首页
+- 用默认管理员登录：**账号 `admin`，密码 `admin123456`**（来自 `.env` 的 `ADMIN_USERNAME` / `ADMIN_PASSWORD`，⚠️ 上线前务必修改，改完 `docker-compose up -d` 重启生效）
+- 在管理后台「班级列表」创建班级后，系统会自动生成 4 位班级码，学生在首页输入班级码即可进入教室端
+
+**日常运维三件套：**
+
+```bash
+docker-compose stop      # 停止（数据不会丢）
+docker-compose start     # 再次启动
+docker-compose pull && docker-compose up -d   # 升级到最新版
+```
+
+> 所有数据都存在 Docker 数据卷里，停止、重启、升级容器都不会丢数据。
 
 ## 📋 Requirements
 
 | 部署方式 | 前置依赖 |
 |---------|---------|
-| Docker | Docker Engine + Docker Compose |
-| SQLite 部署 | PHP 8.5 + Composer + Node.js 22 |
-| LAMP 部署 | Nginx + PHP 8.5-FPM + MySQL |
+| Docker（推荐） | Docker Engine / Docker Desktop，仅此而已 |
+| 裸机 SQLite | PHP 8.5 + Composer + Node.js 22（不推荐新手） |
+| 裸机 LAMP | Nginx + PHP 8.5-FPM + MySQL（不推荐新手） |
 
-最低硬件：1 核 CPU、512MB 内存、5GB 磁盘（办公室淘汰 PC 即可）。
+最低硬件：1 核 CPU、512MB 内存、5GB 磁盘（办公室淘汰 PC 即可）。全校规模建议 2 核 4GB。
 
 ## 🛠 Deployment
 
-### Docker（推荐）
+### 方案一：SQLite（默认 · 零依赖 · 推荐起步）
+
+就是 [Quick Start](#-quick-start三步部署新手照抄即可) 的方式：不装数据库、不装 Redis，数据保存在 Docker 数据卷里的一个 SQLite 文件（容器内路径 `storage/database.sqlite`）。
+
+- 适合：单机、500 学生以内的学校
+- 备份数据（先停应用再拷贝，避免拷贝到写一半的文件）：
 
 ```bash
-git clone https://github.com/RealKiro/learnstar-planet.git
-cd learnstar-planet
-cp .env.example .env
-docker-compose up -d
+docker-compose stop app
+docker cp learnstar-app:/var/www/html/storage/database.sqlite ./backup-$(date +%F).sqlite
+docker-compose start app
 ```
 
-内置 MariaDB 10（`mariadb:10`）+ Redis 8（`redis:alpine`），开箱即用。如需使用外部数据库/Redis，修改 `.env` 中 `DB_HOST`/`REDIS_HOST` 后执行 `docker-compose up -d app --no-deps`。
+### 方案二：内置 MySQL + Redis（full-stack · 全校规模）
 
-### SQLite（零依赖部署）
+适合学生多、并发高的学校。自带 MariaDB + Redis 容器，不需要外购数据库服务。
 
-<details>
-<summary>无需 Docker、无需 MySQL、无需 Redis，适合 <500 学生</summary>
+1. 编辑 `.env`：**注释掉**「一、SQLite」段的 10 行配置，**取消注释**「二、MySQL/MariaDB」内置段的 12 行（`.env.example` 里有分段标注，两段只能有一段生效）
 
-```bash
-cd backend
-composer install --no-dev --optimize-autoloader
-cp .env.example .env
-```
+   ```env
+   # DB_CONNECTION=sqlite          ← 行首加 # 注释掉
+   # CACHE_DRIVER=file
+   # ...(SQLite 段全部注释)
 
-编辑 `.env`：
+   DB_CONNECTION=mysql             ← MySQL 段去掉行首 #
+   DB_HOST=mysql
+   DB_DATABASE=learnstar
+   DB_USERNAME=learnstar
+   DB_PASSWORD=learnstar_password  ← 建议改成自己的强密码
+   CACHE_DRIVER=redis
+   REDIS_HOST=redis
+   ```
 
-```env
-DB_CONNECTION=sqlite
-CACHE_DRIVER=file
-SESSION_DRIVER=file
-QUEUE_CONNECTION=database
-BROADCAST_DRIVER=null
-REDIS_HOST=
-```
+2. 启动（注意多了 `--profile full-stack`）：
 
-```bash
-touch storage/database.sqlite
-php artisan key:generate
-php artisan migrate
-php artisan db:seed --class=AdminUserSeeder
+   ```bash
+   docker-compose --profile full-stack up -d
+   ```
 
-cd ../frontend-vue
-npm install && npm run build
-cp -r dist/* ../backend/public/
+3. 验证：`docker-compose ps` 应看到 **3 个容器**（app / mariadb / redis）都是 `Up`；首次启动 app 会自动建表
 
-cd ../backend
-php artisan serve --host=0.0.0.0 --port=8080
-```
+> MariaDB 数据存在 `mysql-data` 数据卷；`MYSQL_ROOT_PASSWORD` 是 root 密码（仅维护用），也建议修改。
 
-</details>
+### 方案三：外置数据库 / Redis（已有机房服务器）
 
-### 数据库方案选型
+学校已有 MySQL/MariaDB/PostgreSQL 服务器时使用：
 
-| | SQLite | MySQL + Redis |
+1. 在外部数据库上**手动创建**一个空库（如 `learnstar`）和账号
+2. `.env` 中把 `DB_HOST` 改为外部库 IP，`DB_CONNECTION`/`DB_PORT`/`DB_DATABASE`/`DB_USERNAME`/`DB_PASSWORD` 按实际填写；缓存可继续用 `file`，或填外部 Redis 的 `REDIS_HOST`
+3. 只启动应用容器（跳过内置数据库）：
+
+   ```bash
+   docker-compose up -d app --no-deps
+   ```
+
+### 数据库切换与数据迁移（重要，先看再切）
+
+- **切换 = 改 `.env` + 重启**：首次以新数据库启动时会自动建表，无需手工执行 SQL
+- ⚠️ **原数据库里的数据不会自动搬家**。SQLite → MySQL 切换后是全新的空库，需要重新导入教师/学生（Excel 或第三方通讯录导入均可）；积分历史、宠物等级等运行数据无法自动迁移
+- **选型建议**：预计一个班试用 → SQLite；打算全校推广 → 一开始就用方案二，避免后期迁移
+
+| | SQLite（默认） | 内置 MySQL + Redis |
 |---|---|---|
-| 安装 | 无需安装 | 需单独安装 |
+| 额外容器 | 无 | mariadb + redis |
 | 推荐规模 | < 500 学生 | 无限制 |
-| 排行榜 | SQL 查询 | Redis ZSET 毫秒级 |
-| 实时广播 | 不支持 | 支持 |
-| 适用场景 | 单间教室 / 单个年级 | 全校规模 |
-
-> 先用 SQLite 跑起来，后续改两行配置即可切换到 MySQL，代码无需改动。
-
-<details>
-<summary>LAMP 部署方式</summary>
-
-```bash
-cd backend
-composer install --no-dev --optimize-autoloader
-cp .env.example .env
-# 编辑 .env 配置数据库连接
-php artisan key:generate
-php artisan migrate
-php artisan db:seed --class=AdminUserSeeder
-
-cd ../frontend-vue
-npm install && npm run build
-# 将 dist/ 部署至 Nginx 根目录或 backend/public/
-```
-
-Nginx 参考配置：
-
-```nginx
-server {
-    listen 80;
-    server_name your-domain.local;
-    root /var/www/learnstar-planet/backend/public;
-    index index.php;
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.5-fpm.sock;
-        include fastcgi_params;
-    }
-}
-```
-
-</details>
+| 排行榜性能 | SQL 查询 | Redis ZSET 毫秒级 |
+| 实时广播 | 轮询 | SSE 实时推送 |
 
 ## ⚙️ Configuration
 
-### 核心环境变量（`.env`）
+`.env` 逐项白话说明。改完任何配置，执行 `docker-compose up -d` 重建容器后生效（数据不丢）。**不要改的**：`GITHUB_USERNAME`（除非你 fork 后自行构建镜像，改成你的 GitHub 用户名并小写）。
 
-| 变量 | 默认值 | 说明 |
-|------|--------|------|
-| `DB_CONNECTION` | `mysql` | 数据库类型：`mysql` / `pgsql` / `sqlite` |
-| `CACHE_DRIVER` | `redis` | 缓存驱动：`redis` / `file` |
-| `QUEUE_CONNECTION` | `redis` | 队列驱动：`redis` / `database` |
-| `AI_PROVIDER` | — | AI 服务商：`deepseek` / `openai` / `qwen` / `moonshot` |
-| `AI_API_KEY` | — | AI API Key |
-| `APP_URL` | `http://localhost` | 系统访问地址，用于生成链接 |
+### 基础配置
+
+| 变量 | 默认值 | 白话说明 |
+|------|--------|---------|
+| `APP_PORT` | `8080` | 浏览器访问的端口。被占用就改成 `8081` 等 |
+| `APP_URL` | `http://localhost` | **填别人浏览器里实际访问的地址**（不带端口）。本机试玩用默认；局域网访问改成 `http://你的电脑IP`，手机连同一 WiFi 才能打开 |
+| `APP_DEBUG` | `false` | 报错时显示详细信息，仅供排障，平时保持 false |
+
+### 管理员账号（首次启动自动创建）
+
+| 变量 | 默认值 | 白话说明 |
+|------|--------|---------|
+| `ADMIN_USERNAME` | `admin` | 管理员登录账号 |
+| `ADMIN_PASSWORD` | `admin123456` | ⚠️ **务必修改**。且每次重启容器都会以此值为准同步密码（忘了密码 = 改这里重启） |
+| `ADMIN_NAME` / `ADMIN_SCHOOL_NAME` | 见 .env | 显示用的姓名 / 校名 |
+
+### 数据库与缓存（三选一，详见上方 Deployment）
+
+| 变量 | SQLite 模式 | MySQL 模式 | 白话说明 |
+|------|------------|-----------|---------|
+| `DB_CONNECTION` | `sqlite` | `mysql` | 数据库类型 |
+| `DB_HOST` | 留空 | `mysql`（内置）或外部 IP | 数据库在哪 |
+| `DB_DATABASE` 等 | 留空 | 见 .env.example | 库名 / 账号 / 密码 |
+| `CACHE_DRIVER` / `SESSION_DRIVER` | `file` | `redis` | 缓存与会话存哪 |
+| `QUEUE_CONNECTION` | `database` | `redis` | 后台任务队列 |
+| `REDIS_HOST` | 留空 | `redis`（内置）或外部 IP | 有 Redis 排行榜才走毫秒级 |
+
+### AI 助教（可选，不配不影响任何核心功能）
+
+| 变量 | 白话说明 |
+|------|---------|
+| `AI_PROVIDER` / `AI_API_KEY` / `AI_MODEL` | 供应商（deepseek/openai/qwen/moonshot 等）+ 密钥 + 模型，在管理后台「AI 中心」也可视化配置（推荐） |
+
+### 第三方平台对接（可选）
+
+企业微信扫码登录 / 通讯录导入：填 `WECHAT_WORK_CORPID` / `WECHAT_WORK_AGENTID` / `WECHAT_WORK_SECRET`（在企业微信管理后台创建自建应用获取）；钉钉/飞书在后端 `config/dingtalk.php`、`config/feishu.php` 填凭证。详细步骤见下文 [第三方登录与配置指引](#-第三方登录与配置指引)。
+
+### 常见问题排查（新手向）
+
+| 现象 | 原因与解法 |
+|------|-----------|
+| `up` 时报端口被占用 | `APP_PORT` 改成 `8081` 等未占用端口，`APP_URL` 同步改，重启 |
+| 容器一直 `restarting` 或 `unhealthy` | `docker-compose logs app` 看最后 50 行日志；多为 `.env` 数据库段改错（两段同时生效或格式错误） |
+| 镜像拉取超时（国内网络） | 给 Docker 配置镜像加速器；或 fork 仓库用 Actions 自行构建，`GITHUB_USERNAME` 改成你的用户名（小写） |
+| 手机打不开系统 | `APP_URL` 改成部署电脑的局域网 IP（如 `http://192.168.1.100`），防火墙放行 `APP_PORT` |
+| 忘记管理员密码 | 改 `.env` 的 `ADMIN_PASSWORD` → `docker-compose up -d` 重启即同步 |
+| 想彻底重置 | `docker-compose down -v`（⚠️ **删除全部数据**，包括学生积分），再 `up -d` 从零开始 |
 
 ## 🏗 Tech Stack
 
@@ -221,8 +272,6 @@ learnstar-planet/
 ├── mcp-server/            # MCP 机器人服务
 └── docker-compose.yml     # Docker 编排
 ```
-
-## 🧪 安全调试模式
 
 ## ❓ FAQ
 
@@ -294,6 +343,19 @@ learnstar-planet/
 - 登录页平台列表来自接口 `GET /api/v1/auth/third-party/options`（返回管理员勾选的平台 + 品牌图标）
 - 学校配置存储在 `schools.settings.enabled_third_party_platforms`（JSON 数组）
 - 扫码回调按学校配置的平台分发（`App\Services\ThirdParty\ThirdPartyManager`），多校部署时通过 OAuth `state` 参数区分学校
+
+### 五、数据同步与冲突处理（升班 / 名单更新必读）
+
+系统以**本地数据库为准**，第三方平台（企业微信/钉钉/飞书）是数据来源之一。平台侧的调整不会自动写入本地，按以下规则协同：
+
+| 场景 | 系统的处理 |
+|------|-----------|
+| 通讯录重复导入 | 教师按手机号/实名账号自动跳过已有账号，**不会**生成"张老师_2"这类冗余账号；学生按"同班同名"跳过 |
+| 学生转班（平台名单已调整） | Excel/通讯录导入时，**同学号已在其他班级会被拦截**并提示用「批量转班」处理；跨班同名会给出提醒供管理员判断（同名不同人可直接忽略） |
+| 教师未导入过、直接扫码登录 | 系统按手机号 → 实名用户名匹配本地已有账号并自动绑定，**不会**重复建号 |
+| 学年升班 | 在本系统「学年升级」执行（六年级毕业、班级整体升级）；**第三方平台的部门/名单需要平台管理员同步调整**，之后再回来导入通讯录并核对班级映射 |
+
+> 推荐顺序：每个学年开始时，先在第三方平台完成升班与名单调整 → 本系统执行「学年升级」→ 建新一年级班级 → 通讯录导入新生（同学号冲突会被自动拦截）。
 
 ## 🤝 Contributing
 

@@ -292,6 +292,48 @@ class AuthService
             return ['status' => 'error', 'message' => '系统尚未初始化，请先联系管理员'];
         }
 
+        // 无绑定时先匹配本地已有账号（通讯录导入等场景），避免同一教师被重复建号：
+        // 手机号精确匹配优先；其次实名用户名（通讯录导入默认 username=姓名）。
+        $existing = null;
+        if ($phone !== '') {
+            $existing = User::where('school_id', $school->id)
+                ->where('role', 'teacher')
+                ->where('phone', $phone)
+                ->first();
+        }
+        if (!$existing && $name !== '') {
+            $existing = User::where('school_id', $school->id)
+                ->where('role', 'teacher')
+                ->where('username', $name)
+                ->first();
+        }
+        if ($existing) {
+            // 复用已有账号：补建绑定；本地缺失的手机号/头像顺手同步
+            $sync = [];
+            if ($existing->phone === null && $phone !== '') {
+                $sync['phone'] = $phone;
+            }
+            if (($existing->avatar_path === null || $existing->avatar_path === '') && $avatar !== '') {
+                $sync['avatar_path'] = $avatar;
+            }
+            if ($sync !== []) {
+                $existing->update($sync);
+            }
+            ThirdPartyBinding::create([
+                'user_id' => $existing->id,
+                'platform' => $platform,
+                'platform_id' => $platformId,
+                'platform_nick' => $name,
+                'platform_avatar' => $avatar,
+                'verified_at' => now(),
+            ]);
+            $token = $existing->createToken('third-party-login')->plainTextToken;
+            $existing->last_login_at = now();
+            $existing->save();
+
+            return ['status' => 'logged_in', 'token' => $token, 'user' => $existing];
+        }
+
         $displayName = $name ?: $platformId;
         $username = $this->uniqueUsername($displayName, $school);
         $nickname = $this->uniqueNickname($displayName, $school);
