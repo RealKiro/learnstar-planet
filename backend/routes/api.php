@@ -119,6 +119,7 @@ Route::prefix('v1')->group(function () {
             Route::post('toggle', [SchoolAdminController::class, 'toggleAi']);
             Route::get('usage', [SchoolAdminController::class, 'getAiUsage']);
             Route::post('fetch-models', [SchoolAdminController::class, 'fetchAiModels']);
+            Route::post('test', [SchoolAdminController::class, 'testAiProvider']);
         });
         Route::get('wechat-work/contacts', [SchoolAdminController::class, 'wechatWorkContacts']);
         Route::post('wechat-work/import', [SchoolAdminController::class, 'importWechatWorkUsers']);

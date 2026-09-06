@@ -1,11 +1,21 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { apiGet, apiPost, apiPut } from '@/utils/api'
+import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 
-interface ProviderConfig { id: string; label: string; api_key: string; api_base: string; model: string; is_active: boolean; _expanded?: boolean; billing_enabled?: boolean; tokens_used?: number; total_calls?: number; estimated_cost?: number; input_price_per_m?: number; output_price_per_m?: number; currency?: string; balance?: number; _official_models?: string[]; _fetching?: boolean; _fetch_msg?: string }
+interface ProviderConfig {
+  id: string; label: string; api_key: string; api_base: string; model: string
+  is_active: boolean; billing_enabled?: boolean
+  input_price_per_m?: number; output_price_per_m?: number; currency?: string
+  tokens_used?: number; total_calls?: number; estimated_cost?: number
+  // 本地 UI 状态（_ 前缀，不参与后端校验语义）
+  _expanded?: boolean; _official_models?: string[]; _fetching?: boolean; _fetch_msg?: string
+  _testing?: boolean; _test_ok?: boolean; _test_msg?: string; _show_key?: boolean
+}
 interface AiSettings { enabled: boolean; max_tokens: number; tokens_used: number; tokens_limit: number; providers: ProviderConfig[] }
 interface DailyUsage { date: string; tokens: number; count: number }
 interface ConversationLog { id: number; student_name: string; provider?: string; question: string; answer: string; tokens_used: number; cost?: number; currency?: string; created_at: string }
-interface ProviderUsage { tokens: number; total_calls: number; estimated_cost: number; cost_per_token: number; currency: string }
+interface ProviderUsage { tokens: number; total_calls: number; estimated_cost: number; cost_per_token?: number; currency: string }
 interface AiUsage { enabled: boolean; tokens_used: number; tokens_limit: number; estimated_cost?: number; total_conversations: number; daily_usage: DailyUsage[]; by_provider?: Record<string, ProviderUsage>; recent_logs: ConversationLog[] }
 
 const loading = ref(true)
@@ -16,46 +26,8 @@ const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const toggleStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const activeTab = ref<'providers' | 'mcp' | 'usage' | 'logs'>('providers')
 const logSearch = ref('')
-const filteredLogs = computed(() => {
-  if (!usage.value?.recent_logs) return []
-  if (!logSearch.value) return usage.value.recent_logs
-  const q = logSearch.value.toLowerCase()
-  return usage.value.recent_logs.filter(log =>
-    (log.student_name || '').toLowerCase().includes(q)
-  )
-})
-const usageCurrency = computed(() => {
-  const bp = usage.value?.by_provider || {}
-  const keys = Object.keys(bp)
-  return keys.length ? (bp[keys[0]]?.currency === 'USD' ? '$' : '¥') : '¥'
-})
-// 该供应商可选的模型：优先官方拉取结果，否则用预设列表
-function modelOptionsFor(p: ProviderConfig): string[] {
-  const official = p._official_models
-  if (official && official.length) return official
-  return getProviderMeta(p.id)?.models || []
-}
-// 从官方 API 拉取模型列表（CC Switch 风格，避免模型过时）
-async function fetchModels(p: ProviderConfig) {
-  if (p._fetching) return
-  p._fetching = true
-  p._fetch_msg = ''
-  try {
-    const res = await fetch('/api/v1/admin/ai/fetch-models', {
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ provider_id: p.id }),
-    })
-    const data = await res.json()
-    if (!res.ok) { p._fetch_msg = data?.message || '获取失败'; return }
-    const official = (data.data?.models || []) as string[]
-    p._official_models = official
-    p._fetch_msg = official.length ? `已获取 ${official.length} 个官方模型` : '该供应商未返回模型'
-  } catch { p._fetch_msg = '获取失败' }
-  finally { p._fetching = false }
-}
 
-// ===== 供应商元数据（含计费信息） =====
+// ===== 供应商元数据（品牌色 / 预设模型 / 参考定价 / 官网） =====
 interface PricingInfo { input: string; output: string; unit: string; url: string }
 interface ProviderMeta { id: string; label: string; group: string; color: string; models: string[]; pricing: PricingInfo; site: string }
 
@@ -152,108 +124,118 @@ const groupedProviders = computed(() => {
   return groups
 })
 
+function getProviderMeta(id: string) { return providerMeta.find(m => m.id === id) }
+
+// ===== 派生集合 =====
+const isMcp = (p: ProviderConfig) => p.id.startsWith('mcp_') || p.id === 'mcp'
+const standardProviders = computed(() => settings.value?.providers?.filter(p => !isMcp(p)) || [])
+const mcpConfigs = computed(() => settings.value?.providers?.filter(isMcp) || [])
+
 const newProvider = ref({ id: '', label: '', api_key: '', api_base: '', model: '', is_active: false })
 
-// MCP 配置
-const mcpConfigs = computed({
-  get: () => settings.value?.providers?.filter(p => p.id === 'mcp') || [],
-  set: (val: ProviderConfig[]) => {
-    if (!settings.value) return
-    settings.value.providers = [...(settings.value.providers?.filter(p => p.id !== 'mcp') || []), ...val]
-  }
-})
+// MCP 新增表单
 const newMcp = ref({ name: '', api_key: '', api_base: '', model: 'mcp-default', is_active: false })
 const showAddMcp = ref(false)
-
-const mcpErrors = reactive<Record<string, string>>({})
-function mcpVld(): boolean {
-  if (!newMcp.value.name.trim()) { mcpErrors.name = '请输入 MCP 连接名称'; return false }
-  if (!newMcp.value.api_base.trim()) { mcpErrors.api_base = '请输入 API 地址'; return false }
-  return true
-}
+const mcpErrors = ref<Record<string, string>>({})
 function addMcp() {
-  Object.keys(mcpErrors).forEach(k => delete mcpErrors[k])
-  if (!mcpVld()) return
-  if (!settings.value) return
-  if (!settings.value.providers) settings.value.providers = []
+  const errors: Record<string, string> = {}
+  if (!newMcp.value.name.trim()) errors.name = '请输入 MCP 连接名称'
+  if (!newMcp.value.api_base.trim()) errors.api_base = '请输入 API 地址'
+  mcpErrors.value = errors
+  if (Object.keys(errors).length || !settings.value) return
   settings.value.providers.push({
     id: 'mcp_' + Date.now(), label: newMcp.value.name,
     api_key: newMcp.value.api_key, api_base: newMcp.value.api_base,
     model: newMcp.value.model, is_active: newMcp.value.is_active,
+    _expanded: true,
   })
   showAddMcp.value = false
   newMcp.value = { name: '', api_key: '', api_base: '', model: 'mcp-default', is_active: false }
 }
 
-function removeMcp(idx: number) {
-  if (!settings.value?.providers) return
-  const mcpIds = settings.value.providers.filter(p => p.id.startsWith('mcp_') || p.id === 'mcp').map(p => p.id)
-  const actualIdx = settings.value.providers.findIndex(p => p.id === mcpIds[idx])
-  if (actualIdx >= 0) settings.value.providers.splice(actualIdx, 1)
+// ===== 展示辅助 =====
+function maskKey(key: string): string {
+  if (!key) return '未配置 Key'
+  if (key.length <= 8) return '••••'
+  return key.slice(0, 3) + '••••••' + key.slice(-4)
 }
+function modelOptionsFor(p: ProviderConfig): string[] {
+  const official = p._official_models
+  if (official && official.length) return official
+  return getProviderMeta(p.id)?.models || []
+}
+function currencySymbol(c?: string) { return c === 'USD' ? '$' : '¥' }
 
-// Standard providers (non-MCP)
-const standardProviders = computed({
-  get: () => settings.value?.providers?.filter(p => !p.id.startsWith('mcp_') && p.id !== 'mcp') || [],
-  set: (val: ProviderConfig[]) => {
-    if (!settings.value) return
-    const mcps = settings.value.providers?.filter(p => p.id.startsWith('mcp_') || p.id === 'mcp') || []
-    settings.value.providers = [...val, ...mcps]
-  }
-})
-
+// ===== 数据加载 =====
 async function loadData() {
   loading.value = true
   loadError.value = ''
   try {
     const [sRes, uRes] = await Promise.all([
-      fetch('/api/v1/admin/ai/settings', { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } }).then(r => r.json()),
-      fetch('/api/v1/admin/ai/usage', { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } }).then(r => r.json()),
+      apiGet<{ data: AiSettings | null }>('/api/v1/admin/ai/settings', { skipToast: true }),
+      apiGet<{ data: AiUsage }>('/api/v1/admin/ai/usage', { skipToast: true }),
     ])
     settings.value = sRes.data || null
     usage.value = uRes.data || null
-  } catch { loadError.value = '加载失败，请稍后重试' }
-  finally { loading.value = false }
+    markSaved()
+  } catch (e: any) {
+    loadError.value = e?.response?.data?.message || '加载失败，请稍后重试'
+  } finally { loading.value = false }
 }
+
+// ===== 未保存更改检测（不含 _ 前缀 UI 状态） =====
+const savedSnapshot = ref('')
+function coreSettings() {
+  if (!settings.value) return null
+  return {
+    enabled: settings.value.enabled,
+    max_tokens: settings.value.max_tokens,
+    tokens_limit: settings.value.tokens_limit,
+    providers: (settings.value.providers || []).map(p => ({
+      id: p.id, label: p.label, api_key: p.api_key, api_base: p.api_base, model: p.model,
+      is_active: !!p.is_active, billing_enabled: !!p.billing_enabled,
+      input_price_per_m: p.input_price_per_m ?? 0, output_price_per_m: p.output_price_per_m ?? 0,
+      currency: p.currency ?? 'CNY',
+    })),
+  }
+}
+function markSaved() { savedSnapshot.value = JSON.stringify(coreSettings()) }
+const hasUnsaved = computed(() => settings.value !== null && JSON.stringify(coreSettings()) !== savedSnapshot.value)
 
 async function saveSettings() {
   if (!settings.value) return
   saveStatus.value = 'loading'
   try {
-    const res = await fetch('/api/v1/admin/ai/settings', {
-      method: 'PUT', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
-      body: JSON.stringify(settings.value),
-    })
-    await res.json()
-    if (!res.ok) { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000); return }
+    await apiPut('/api/v1/admin/ai/settings', settings.value, { skipToast: true })
     saveStatus.value = 'success'
-    loadData()
+    markSaved()
     setTimeout(() => { saveStatus.value = 'idle' }, 1500)
-  } catch { saveStatus.value = 'error'; setTimeout(() => { saveStatus.value = 'idle' }, 3000) }
+  } catch {
+    // 保存失败仅按钮态提示，避免与内联提示重复弹 toast
+    saveStatus.value = 'error'
+    setTimeout(() => { saveStatus.value = 'idle' }, 3000)
+  }
 }
 
 async function toggleAi(val: boolean) {
   if (!settings.value) return
   toggleStatus.value = 'loading'
   try {
-    const res = await fetch('/api/v1/admin/ai/toggle', {
-      method: 'POST', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ enabled: val }),
-    })
-    await res.json()
-    if (!res.ok) { toggleStatus.value = 'error'; setTimeout(() => { toggleStatus.value = 'idle' }, 3000); return }
+    await apiPost('/api/v1/admin/ai/toggle', { enabled: val }, { skipToast: true })
     toggleStatus.value = 'success'
     settings.value.enabled = val
+    markSaved()
     setTimeout(() => { toggleStatus.value = 'idle' }, 1500)
-  } catch { toggleStatus.value = 'error'; setTimeout(() => { toggleStatus.value = 'idle' }, 3000) }
+  } catch {
+    toggleStatus.value = 'error'
+    setTimeout(() => { toggleStatus.value = 'idle' }, 3000)
+  }
 }
 
+// ===== 供应商增删 =====
 function addProviderToSettings() {
-  if (!newProvider.value.id) return
   const meta = providerMeta.find(m => m.id === newProvider.value.id)
-  if (!meta) return
-  if (!settings.value) return
-  if (!settings.value.providers) settings.value.providers = []
+  if (!meta || !settings.value) { newProvider.value.id = ''; return }
   if (settings.value.providers.some(p => p.id === meta.id)) { newProvider.value.id = ''; return }
   const parsePrice = (s: string) => { const m = s?.match(/([\d.]+)/); return m ? parseFloat(m[1]) : 0 }
   const priceCurrency = (s: string) => s?.includes('¥') ? 'CNY' : s?.includes('$') ? 'USD' : 'CNY'
@@ -268,307 +250,622 @@ function addProviderToSettings() {
   newProvider.value.id = ''
 }
 
-function removeProvider(idx: number) {
-  if (!settings.value?.providers) return
-  const std = standardProviders.value
-  const actualIdx = settings.value.providers.findIndex(p => p.id === std[idx]?.id)
-  if (actualIdx >= 0) settings.value.providers.splice(actualIdx, 1)
+async function removeProvider(id: string) {
+  if (!settings.value) return
+  const meta = getProviderMeta(id)
+  const ok = await openConfirm({
+    title: `移除 ${meta?.label || id}？`,
+    message: '将删除该供应商的本地配置（API Key、模型、计费参数）。保存后生效。',
+    danger: true, confirmText: '移除',
+  })
+  if (!ok) return
+  settings.value.providers = settings.value.providers.filter(p => p.id !== id)
 }
 
-function getProviderMeta(id: string) { return providerMeta.find(m => m.id === id) }
+async function removeMcp(id: string) {
+  if (!settings.value) return
+  const target = settings.value.providers.find(p => p.id === id)
+  const ok = await openConfirm({
+    title: `移除 ${target?.label || 'MCP 接口'}？`,
+    message: '将删除该 MCP 连接配置。保存后生效。',
+    danger: true, confirmText: '移除',
+  })
+  if (!ok) return
+  settings.value.providers = settings.value.providers.filter(p => p.id !== id)
+}
+
+// ===== 从官方 API 拉取模型列表（CC Switch 风格） =====
+async function fetchModels(p: ProviderConfig) {
+  if (p._fetching) return
+  p._fetching = true
+  p._fetch_msg = ''
+  try {
+    const res = await apiPost<{ data?: { models?: string[] }; message?: string }>(
+      '/api/v1/admin/ai/fetch-models', { provider_id: p.id }, { skipToast: true })
+    const official = res.data?.models || []
+    p._official_models = official
+    p._fetch_msg = official.length ? `已获取 ${official.length} 个官方模型` : '该供应商未返回模型'
+  } catch (e: any) {
+    p._fetch_msg = e?.response?.data?.message || '获取失败'
+  } finally { p._fetching = false }
+}
+
+// ===== 连通性测试（New API 渠道测试模式） =====
+async function testProvider(p: ProviderConfig) {
+  if (p._testing) return
+  if (!p.api_key) { p._test_ok = false; p._test_msg = '请先填写 API Key 并保存'; return }
+  p._testing = true
+  p._test_msg = ''
+  try {
+    const res = await apiPost<{ data?: { success?: boolean; latency_ms?: number; error?: string }; message?: string }>(
+      '/api/v1/admin/ai/test', { provider_id: p.id }, { skipToast: true })
+    const d = res.data
+    p._test_ok = !!d?.success
+    p._test_msg = d?.success ? `连通正常 · ${d.latency_ms}ms` : (d?.error || '连接失败')
+  } catch (e: any) {
+    p._test_ok = false
+    p._test_msg = e?.response?.data?.message || '测试失败'
+  } finally { p._testing = false }
+}
+
+// ===== 统计 =====
+const usageCurrency = computed(() => {
+  const bp = usage.value?.by_provider || {}
+  const keys = Object.keys(bp)
+  return keys.length ? currencySymbol(bp[keys[0]]?.currency) : '¥'
+})
+// 修复：daily_usage 按日期升序，[0] 是最早一天；取本地今天的日期匹配
+const todayTokens = computed(() => {
+  const arr = usage.value?.daily_usage || []
+  if (!arr.length) return 0
+  const d = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const today = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+  return arr.find(x => x.date === today)?.tokens ?? arr[arr.length - 1]?.tokens ?? 0
+})
+const usagePercent = computed(() => {
+  const limit = usage.value?.tokens_limit || 0
+  if (!limit) return 0
+  return Math.min(100, Math.round((usage.value?.tokens_used || 0) / limit * 100))
+})
+const maxDailyTokens = computed(() => Math.max(...(usage.value?.daily_usage || []).map(x => x.tokens || 0), 1))
+const maxDailyCount = computed(() => Math.max(...(usage.value?.daily_usage || []).map(x => x.count || 0), 1))
+
+const filteredLogs = computed(() => {
+  if (!usage.value?.recent_logs) return []
+  if (!logSearch.value) return usage.value.recent_logs
+  const q = logSearch.value.toLowerCase()
+  return usage.value.recent_logs.filter(log => (log.student_name || '').toLowerCase().includes(q))
+})
 
 onMounted(loadData)
 </script>
 
 <template>
-  <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <div><p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">系统配置</p><h2 style="font-size:24px;font-weight:700;">🤖 AI 中心</h2></div>
-    </div>
-
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
-    <div v-else-if="loadError" style="text-align:center;padding:40px;color:var(--color-text-secondary);">
-      <div style="font-size:36px;margin-bottom:8px;">⚠️</div>
-      <div style="font-size:13px;color: var(--color-danger-text);margin-bottom:16px;">{{ loadError }}</div>
-      <button class="btn btn-primary btn-sm" @click="loadData">🔄 重试</button>
-    </div>
-    <template v-else>
-      <!-- 顶部统计卡片 -->
-      <div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
-        <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
-          <div style="font-size:11px;color:var(--color-text-secondary);">总用量</div>
-          <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ (usage?.tokens_used || 0).toLocaleString() }}</div>
-          <div style="font-size:11px;color:var(--color-text-secondary);">Token</div>
-        </div>
-        <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
-          <div style="font-size:11px;color:var(--color-text-secondary);">今日用量</div>
-          <div style="font-size:22px;font-weight:700;color:#10b981;">+{{ (usage?.daily_usage?.[0]?.tokens || 0).toLocaleString() }}</div>
-          <div style="font-size:11px;color:var(--color-text-secondary);">Token</div>
-        </div>
-        <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
-          <div style="font-size:11px;color:var(--color-text-secondary);">AI 状态</div>
-          <div style="font-size:22px;font-weight:700;color:settings?.enabled ? '#10b981' : '#f87171';">
-            {{ settings?.enabled ? '🟢 运行中' : '🔴 已停用' }}
-          </div>
-          <div style="font-size:11px;color:var(--color-text-secondary);">总开关</div>
-        </div>
-        <div style="padding:14px 16px;background:var(--color-bg);border-radius:10px;border:1px solid var(--color-border);">
-          <div style="font-size:11px;color:var(--color-text-secondary);">预估费用</div>
-          <div style="font-size:22px;font-weight:700;color:#f59e0b;">{{ usageCurrency }}{{ (usage?.estimated_cost || 0).toFixed(2) }}</div>
-          <div style="font-size:11px;color:var(--color-text-secondary);">本地估算</div>
-        </div>
+  <div class="ai-center">
+    <!-- 页头 -->
+    <div class="page-head">
+      <div>
+        <p class="page-crumb">系统配置</p>
+        <h2 class="page-title">AI 中心</h2>
       </div>
-
-      <!-- 开关 + 限额 -->
-      <div class="card" style="max-width:720px;padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:14px;font-weight:600;">AI 总开关</span>
-          <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;">
-            <input type="checkbox" :checked="settings?.enabled" @change="toggleAi(($event.target as HTMLInputElement).checked)" style="opacity:0;width:0;height:0;">
-            <span :style="{ position:'absolute',inset:0,background:settings?.enabled ? '#7c3aed' : '#ccc',borderRadius:'12px' }">
-              <span :style="{ position:'absolute',top:'2px',left:settings?.enabled ? '22px' : '2px',width:'20px',height:'20px',borderRadius:'50%',background:'#fff',boxShadow:'0 1px 3px rgba(0,0,0,0.2)' }"></span>
-            </span>
-          </label>
-          <span v-if="toggleStatus !== 'idle'" :style="{ fontSize: '11px', color: toggleStatus === 'loading' ? '#f59e0b' : toggleStatus === 'success' ? '#10b981' : '#ef4444' }">
-            {{ toggleStatus === 'loading' ? '切换中...' : toggleStatus === 'success' ? '已切换 ✓' : '操作失败 ✗' }}
-          </span>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);">
-          <span>限额</span>
-          <input v-model.number="settings!.tokens_limit" type="number" min="0" style="width:80px;padding:4px 8px;border:1px solid var(--color-border);border-radius:6px;font-size:12px;background:var(--color-bg-card);color:var(--color-text);">
-          <span>Token</span>
-          <span style="color:var(--color-text);font-weight:600;">已用 {{ (usage?.tokens_used || 0).toLocaleString() }}</span>
-        </div>
-        <button class="btn btn-sm" :style="{ background: saveStatus === 'loading' ? '#f59e0b' : saveStatus === 'success' ? '#10b981' : saveStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent' }" :disabled="saveStatus !== 'idle'" @click="saveSettings">
+      <div class="page-actions">
+        <span v-if="hasUnsaved && saveStatus === 'idle'" class="unsaved-hint">● 有未保存的更改</span>
+        <button class="btn btn-sm" :class="{
+          'btn-state-loading': saveStatus === 'loading',
+          'btn-state-success': saveStatus === 'success',
+          'btn-state-error': saveStatus === 'error',
+          'btn-solid': saveStatus === 'idle',
+        }" :disabled="saveStatus !== 'idle'" @click="saveSettings">
           <template v-if="saveStatus === 'loading'">保存中...</template>
           <template v-else-if="saveStatus === 'success'">已保存 ✓</template>
           <template v-else-if="saveStatus === 'error'">保存失败 ✗</template>
-          <template v-else>💾 保存</template>
+          <template v-else>💾 保存配置</template>
         </button>
+      </div>
+    </div>
+
+    <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <div class="error-state__msg">{{ loadError }}</div>
+      <button class="btn btn-primary btn-sm" @click="loadData">🔄 重试</button>
+    </div>
+
+    <template v-else-if="settings">
+      <!-- 概览统计 -->
+      <div class="stats-grid">
+        <div class="stat-card stat-card--primary">
+          <span class="stat-card__icon">🪙</span>
+          <div class="stat-card__value">{{ (usage?.tokens_used || 0).toLocaleString() }}</div>
+          <div class="stat-card__label">总用量（Token）</div>
+        </div>
+        <div class="stat-card stat-card--accent">
+          <span class="stat-card__icon">📈</span>
+          <div class="stat-card__value">+{{ todayTokens.toLocaleString() }}</div>
+          <div class="stat-card__label">最近一日用量</div>
+        </div>
+        <div class="stat-card stat-card--info">
+          <span class="stat-card__icon">{{ settings.enabled ? '🟢' : '🔴' }}</span>
+          <div class="stat-card__value" :style="{ fontSize: '22px', paddingTop: '6px' }">
+            {{ settings.enabled ? '运行中' : '已停用' }}
+          </div>
+          <div class="stat-card__label">AI 服务状态</div>
+        </div>
+        <div class="stat-card stat-card--secondary">
+          <span class="stat-card__icon">💰</span>
+          <div class="stat-card__value">{{ usageCurrency }}{{ (usage?.estimated_cost || 0).toFixed(2) }}</div>
+          <div class="stat-card__label">预估费用（本地估算）</div>
+        </div>
+      </div>
+
+      <!-- 总开关 + 限额 -->
+      <div class="card control-card">
+        <div class="control-switch">
+          <span class="control-label">AI 总开关</span>
+          <button type="button" class="switch" :class="{ 'switch--on': settings.enabled }"
+            :disabled="toggleStatus === 'loading'" role="switch" :aria-checked="settings.enabled"
+            @click="toggleAi(!settings.enabled)">
+            <span class="switch__thumb"></span>
+          </button>
+          <span v-if="toggleStatus !== 'idle'" class="switch-state" :class="'switch-state--' + toggleStatus">
+            {{ toggleStatus === 'loading' ? '切换中...' : toggleStatus === 'success' ? '已切换 ✓' : '操作失败 ✗' }}
+          </span>
+        </div>
+        <div class="control-limit">
+          <span class="control-label">Token 限额</span>
+          <input v-model.number="settings.tokens_limit" type="number" min="0" class="limit-input">
+          <span class="limit-used">
+            已用 {{ (usage?.tokens_used || 0).toLocaleString() }}
+            <span v-if="usagePercent > 0" class="limit-percent" :class="{ 'limit-percent--high': usagePercent >= 90 }">{{ usagePercent }}%</span>
+          </span>
+        </div>
+        <div v-if="usagePercent > 0" class="limit-bar">
+          <div class="limit-bar__fill" :class="{ 'limit-bar__fill--high': usagePercent >= 90 }" :style="{ width: usagePercent + '%' }"></div>
+        </div>
       </div>
 
       <!-- 标签导航 -->
-      <div class="tab-bar" style="max-width:720px;">
-        <button :class="['tab-btn', { active: activeTab === 'providers' }]" @click="activeTab = 'providers'">🔌 AI 供应商</button>
-        <button :class="['tab-btn', { active: activeTab === 'mcp' }]" @click="activeTab = 'mcp'">🔗 MCP 自定义接口</button>
-        <button :class="['tab-btn', { active: activeTab === 'usage' }]" @click="activeTab = 'usage'">📊 用量</button>
-        <button :class="['tab-btn', { active: activeTab === 'logs' }]" @click="activeTab = 'logs'">📋 记录</button>
+      <div class="tab-bar">
+        <button :class="['tab-btn', { active: activeTab === 'providers' }]" @click="activeTab = 'providers'">
+          🔌 供应商 <span class="tab-count">{{ standardProviders.length }}</span>
+        </button>
+        <button :class="['tab-btn', { active: activeTab === 'mcp' }]" @click="activeTab = 'mcp'">
+          🔗 MCP 接口 <span class="tab-count">{{ mcpConfigs.length }}</span>
+        </button>
+        <button :class="['tab-btn', { active: activeTab === 'usage' }]" @click="activeTab = 'usage'">📊 用量统计</button>
+        <button :class="['tab-btn', { active: activeTab === 'logs' }]" @click="activeTab = 'logs'">📋 对话记录</button>
       </div>
 
-      <!-- ===== AI 供应商 ===== -->
-      <div v-if="activeTab === 'providers'" style="max-width:720px;">
-        <!-- 下拉选择器 -->
-        <div class="card" style="padding:16px;margin-bottom:12px;">
-          <div style="display:flex;gap:12px;align-items:center;">
-            <div class="form-group" style="flex:1;">
-              <label>添加供应商</label>
-              <select v-model="newProvider.id" class="form-input" @change="addProviderToSettings">
-                <option value="">— 从列表中选择 —</option>
-                <optgroup v-for="(group, gName) in groupedProviders" :key="gName" :label="gName">
-                  <option v-for="p in group" :key="p.id" :value="p.id" :disabled="standardProviders.some(s => s.id === p.id)">
-                    {{ p.label }} {{ standardProviders.some(s => s.id === p.id) ? '✓' : '' }}
-                  </option>
-                </optgroup>
-              </select>
-            </div>
-            <div style="font-size:11px;color:var(--color-text-secondary);padding-top:14px;">已配置 {{ standardProviders.length }} 个</div>
+      <!-- ===== 供应商 ===== -->
+      <div v-if="activeTab === 'providers'">
+        <div class="card add-card">
+          <div class="form-group add-form">
+            <label>添加供应商</label>
+            <select v-model="newProvider.id" class="form-input" @change="addProviderToSettings">
+              <option value="">— 从 27 家供应商中选择 —</option>
+              <optgroup v-for="(group, gName) in groupedProviders" :key="gName" :label="gName">
+                <option v-for="p in group" :key="p.id" :value="p.id" :disabled="standardProviders.some(s => s.id === p.id)">
+                  {{ p.label }}{{ standardProviders.some(s => s.id === p.id) ? ' ✓ 已添加' : '' }}
+                </option>
+              </optgroup>
+            </select>
           </div>
         </div>
 
-        <!-- 已配置的供应商 -->
-        <div v-if="!standardProviders.length" style="text-align:center;padding:16px;">
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:480px;margin:0 auto;">
-            <div style="padding:14px 10px;background:var(--color-bg);border-radius:10px;border:1px dashed var(--color-border);text-align:center;">
-              <div style="font-size:20px;margin-bottom:4px;">🌐</div>
-              <div style="font-size:11px;font-weight:600;color:var(--color-text);">国际供应商</div>
-              <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">OpenAI · Claude · Gemini</div>
+        <div v-if="!standardProviders.length" class="empty-state">
+          <div class="quick-grid">
+            <div class="quick-card">
+              <div class="quick-card__icon">🌐</div>
+              <div class="quick-card__title">国际供应商</div>
+              <div class="quick-card__sub">OpenAI · Claude · Gemini</div>
             </div>
-            <div style="padding:14px 10px;background:var(--color-bg);border-radius:10px;border:1px dashed var(--color-border);text-align:center;">
-              <div style="font-size:20px;margin-bottom:4px;">🇨🇳</div>
-              <div style="font-size:11px;font-weight:600;color:var(--color-text);">国内供应商</div>
-              <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">DeepSeek · 千问 · Kimi</div>
+            <div class="quick-card">
+              <div class="quick-card__icon">🇨🇳</div>
+              <div class="quick-card__title">国内供应商</div>
+              <div class="quick-card__sub">DeepSeek · 千问 · Kimi · GLM</div>
             </div>
-            <div style="padding:14px 10px;background:var(--color-bg);border-radius:10px;border:1px dashed var(--color-border);text-align:center;">
-              <div style="font-size:20px;margin-bottom:4px;">🔗</div>
-              <div style="font-size:11px;font-weight:600;color:var(--color-text);">自定义接口</div>
-              <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">MCP · Ollama · vLLM</div>
+            <div class="quick-card">
+              <div class="quick-card__icon">🔗</div>
+              <div class="quick-card__title">自定义接口</div>
+              <div class="quick-card__sub">MCP · Ollama · vLLM</div>
             </div>
           </div>
-          <p style="font-size:11px;color:var(--color-text-secondary);margin-top:10px;">💡 从上方下拉框选择供应商开始配置</p>
+          <p class="empty-hint">💡 从上方下拉框选择供应商开始配置</p>
         </div>
-        <div v-for="(p, i) in standardProviders" :key="p.id" style="margin-bottom:8px;border:1px solid var(--tint-3);border-radius:10px;overflow:hidden;background:var(--color-bg-card);">
-          <!-- 供应商头部（可点击折叠） -->
-          <div @click="p._expanded = !p._expanded" :style="{ background: (getProviderMeta(p.id)?.color || '#7c3aed') + '0a', padding:'10px 14px', display:'flex', alignItems:'center', gap:'10px', cursor:'pointer', borderBottom: p._expanded ? '1px solid var(--color-border)' : 'none' }">
-            <span :style="{ width:'10px',height:'10px',borderRadius:'50%',background:p.is_active ? '#10B981' : '#ccc',flexShrink:0 }"></span>
-            <span style="font-weight:600;font-size:14px;flex:1;">{{ getProviderMeta(p.id)?.label || p.label }}</span>
-            <span v-if="p.tokens_used !== undefined" style="font-size:11px;color:var(--color-text-secondary);">📊 {{ (p.tokens_used||0).toLocaleString() }}</span>
-            <span v-if="getProviderMeta(p.id)?.pricing" style="font-size:11px;color:var(--color-text-secondary);">💰 {{ getProviderMeta(p.id)!.pricing.input }}</span>
-            <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--color-text-secondary);cursor:pointer;" @click.stop>
-              <input type="checkbox" v-model="p.billing_enabled" style="accent-color:#7c3aed;"> 计费
-            </label>
-            <span :style="{ padding:'2px 10px',borderRadius:'12px',fontSize:'10px',fontWeight:600, background:p.is_active ? '#10B98120' : '#ccc20', color:p.is_active ? '#10B981' : 'var(--color-text-secondary)' }">
-              {{ p.is_active ? '启用' : '禁用' }}
-            </span>
-            <button :style="{ padding:'3px 8px',borderRadius:'6px',fontSize:'10px',cursor:'pointer',border:'1px solid', borderColor: p.is_active ? '#10B981' : 'var(--color-border)', background:p.is_active ? '#10B981' : 'transparent', color:p.is_active ? '#fff' : 'var(--color-text-secondary)', fontFamily:'inherit' }" @click.stop="p.is_active = !p.is_active">{{ p.is_active ? '已启用' : '已禁用' }}</button>
-            <button style="padding:3px 8px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);fontFamily:'inherit';" @click.stop="removeProvider(i)">✕</button>
-            <span style="font-size:12px;color:var(--color-text-secondary);">{{ p._expanded ? '▲' : '▼' }}</span>
-          </div>
-          <!-- 配置详情（折叠） -->
-          <div v-if="p._expanded" style="padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API Key</label><input v-model="p.api_key" type="password" class="form-input" placeholder="sk-..." style="font-size:11px;padding:5px 8px;"></div>
-            <div>
-              <label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">模型</label>
-              <div style="display:flex;gap:6px;align-items:center;">
-                <input v-model="p.model" :list="'model-list-' + p.id" class="form-input" placeholder="选择或输入" style="font-size:11px;padding:5px 8px;flex:1;min-width:0;">
-                <button type="button" :disabled="p._fetching" @click="fetchModels(p)" style="flex-shrink:0;padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--tint-3);background:var(--tint-1);color:var(--color-text-secondary);font-family:inherit;">{{ p._fetching ? '拉取中' : '🔄 官方模型' }}</button>
-              </div>
-              <div v-if="p._fetch_msg" style="font-size:10px;color:var(--color-text-secondary);margin-top:2px;">{{ p._fetch_msg }}</div>
-              <datalist :id="'model-list-' + p.id">
-                <option v-for="m in modelOptionsFor(p)" :key="m" :value="m"></option>
-              </datalist>
+
+        <div v-for="p in standardProviders" :key="p.id" class="provider-card" :class="{ 'provider-card--active': p.is_active }">
+          <!-- 卡片头 -->
+          <div class="pc-head" @click="p._expanded = !p._expanded">
+            <span class="pc-dot" :style="{ background: getProviderMeta(p.id)?.color || 'var(--color-primary)' }"></span>
+            <div class="pc-name-wrap">
+              <span class="pc-name">{{ getProviderMeta(p.id)?.label || p.label }}</span>
+              <span v-if="p.model" class="pc-chip">{{ p.model }}</span>
             </div>
-            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">API 地址</label><input v-model="p.api_base" class="form-input" placeholder="默认官方地址" style="font-size:11px;padding:5px 8px;"></div>
+            <span class="pc-key" :class="{ 'pc-key--missing': !p.api_key }">{{ maskKey(p.api_key) }}</span>
+
+            <span v-if="p._test_msg" class="pc-test" :class="p._test_ok ? 'pc-test--ok' : 'pc-test--fail'">{{ p._test_msg }}</span>
+            <span v-if="p.tokens_used !== undefined" class="pc-meta">{{ (p.tokens_used || 0).toLocaleString() }} tk · {{ currencySymbol(p.currency) }}{{ (p.estimated_cost || 0).toFixed(3) }}</span>
+
+            <div class="pc-actions" @click.stop>
+              <button class="mini-btn" :disabled="p._testing" @click="testProvider(p)">
+                {{ p._testing ? '测试中...' : '⚡ 测试' }}
+              </button>
+              <label class="billing-check" title="启用 Token 计费">
+                <input v-model="p.billing_enabled" type="checkbox"> 计费
+              </label>
+              <button class="mini-btn state-btn" :class="p.is_active ? 'state-btn--on' : 'state-btn--off'" @click="p.is_active = !p.is_active">
+                {{ p.is_active ? '● 启用中' : '○ 已停用' }}
+              </button>
+              <button class="mini-btn mini-btn--danger" @click="removeProvider(p.id)">✕</button>
+              <span class="pc-arrow">{{ p._expanded ? '▲' : '▼' }}</span>
+            </div>
           </div>
-          <div v-if="p._expanded && p.billing_enabled" style="padding:0 14px 10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;border-top:1px solid var(--color-border);">
-            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">输入单价（每M tokens）</label><input v-model.number="p.input_price_per_m" type="number" min="0" step="0.0001" class="form-input" style="font-size:11px;padding:5px 8px;"></div>
-            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">输出单价（每M tokens）</label><input v-model.number="p.output_price_per_m" type="number" min="0" step="0.0001" class="form-input" style="font-size:11px;padding:5px 8px;"></div>
-            <div><label style="display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:2px;">币种</label><select v-model="p.currency" class="form-input" style="font-size:11px;padding:5px 8px;"><option value="CNY">¥ CNY</option><option value="USD">$ USD</option></select></div>
-          </div>
-          <div v-if="p.tokens_used !== undefined" style="padding:5px 14px;background:var(--color-bg);font-size:10px;color:var(--color-text-secondary);border-top:1px solid var(--color-border);">
-            📊 已用 {{ (p.tokens_used||0).toLocaleString() }} tokens · {{ p.total_calls||0 }} 次调用 · 预估 {{ p.currency === 'USD' ? '$' : '¥' }}{{ (p.estimated_cost||0).toFixed(4) }}
+
+          <!-- 展开配置 -->
+          <div v-if="p._expanded" class="pc-body">
+            <div class="pc-grid">
+              <div class="pc-field">
+                <label>API Key</label>
+                <div class="key-row">
+                  <input v-model="p.api_key" :type="p._show_key ? 'text' : 'password'" class="form-input" placeholder="sk-..." autocomplete="off">
+                  <button class="mini-btn" @click.prevent="p._show_key = !p._show_key">{{ p._show_key ? '隐藏' : '显示' }}</button>
+                </div>
+              </div>
+              <div class="pc-field">
+                <label>模型</label>
+                <div class="key-row">
+                  <input v-model="p.model" :list="'model-list-' + p.id" class="form-input" placeholder="选择或输入模型名">
+                  <button class="mini-btn" :disabled="p._fetching" title="从官方 API 拉取可用模型" @click="fetchModels(p)">
+                    {{ p._fetching ? '拉取中' : '🔄 官方模型' }}
+                  </button>
+                </div>
+                <div v-if="p._fetch_msg" class="field-hint">{{ p._fetch_msg }}</div>
+                <datalist :id="'model-list-' + p.id">
+                  <option v-for="m in modelOptionsFor(p)" :key="m" :value="m"></option>
+                </datalist>
+              </div>
+              <div class="pc-field">
+                <label>API 地址 <span class="label-optional">留空用官方默认</span></label>
+                <input v-model="p.api_base" class="form-input" placeholder="https://api.example.com/v1">
+              </div>
+            </div>
+            <div v-if="p.billing_enabled" class="pc-billing">
+              <div class="pc-field">
+                <label>输入单价（每 M tokens）</label>
+                <input v-model.number="p.input_price_per_m" type="number" min="0" step="0.0001" class="form-input">
+              </div>
+              <div class="pc-field">
+                <label>输出单价（每 M tokens）</label>
+                <input v-model.number="p.output_price_per_m" type="number" min="0" step="0.0001" class="form-input">
+              </div>
+              <div class="pc-field">
+                <label>币种</label>
+                <select v-model="p.currency" class="form-input">
+                  <option value="CNY">¥ CNY</option>
+                  <option value="USD">$ USD</option>
+                </select>
+              </div>
+              <div v-if="getProviderMeta(p.id)?.pricing" class="pc-field pc-field--hint">
+                <label>官方参考价</label>
+                <span class="field-hint">
+                  输入 {{ getProviderMeta(p.id)!.pricing.input }} / 输出 {{ getProviderMeta(p.id)!.pricing.output }} {{ getProviderMeta(p.id)!.pricing.unit }}
+                  · <a :href="getProviderMeta(p.id)!.pricing.url" target="_blank" rel="noopener">定价页 ↗</a>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- ===== MCP 自定义接口 ===== -->
-      <div v-if="activeTab === 'mcp'" style="max-width:720px;">
-        <div class="card" style="padding:20px;margin-bottom:12px;">
-          <div style="font-size:14px;font-weight:600;margin-bottom:4px;">🔗 MCP 通用接口</div>
-          <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px;">
-            MCP（Model Context Protocol）通用接口可以连接任意兼容 OpenAI 格式的 API 服务，如自建 vLLM、AstrBot 机器人、本地大模型等。
+      <div v-if="activeTab === 'mcp'">
+        <div class="card intro-card">
+          <div class="intro-title">🔗 MCP 通用接口</div>
+          <p class="intro-text">
+            连接任意 OpenAI 兼容的 API 服务：自建 vLLM、本地大模型、聚合网关等。填写 OpenAI 格式的 Base URL 即可，格式如 <code>http://主机:端口/v1</code>。
           </p>
-          <div v-if="showAddMcp" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;background:var(--color-bg);border-radius:8px;margin-bottom:12px;">
-            <div class="form-group"><label>名称（如：我的AstrBot）</label><input v-model="newMcp.name" class="form-input" :style="{ borderColor: mcpErrors.name ? '#f87171' : '' }" placeholder="自定义名称"></div>
-            <div v-if="mcpErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ mcpErrors.name }}</div>
-            <div class="form-group"><label>模型</label><select v-model="newMcp.model" class="form-input" :style="{ borderColor: mcpErrors.api_base ? '#f87171' : '' }"><option value="mcp-default">默认</option><option value="gpt-3.5-turbo">GPT-3.5</option><option value="gpt-4o">GPT-4o</option><option value="deepseek-chat">DeepSeek</option><option value="qwen-max">通义千问</option></select></div>
-            <div v-if="mcpErrors.api_base" style="color:#f87171;font-size:11px;margin-top:2px;">{{ mcpErrors.api_base }}</div>
-            <div class="form-group"><label>API 地址 *</label><input v-model="newMcp.api_base" class="form-input" placeholder="http://你的服务器:8000/v1"></div>
-            <div class="form-group"><label>API Key（可选）</label><input v-model="newMcp.api_key" class="form-input" placeholder="如有需要"></div>
-            <div style="display:flex;gap:8px;align-items:end;">
-              <button class="btn btn-primary btn-sm" @click="addMcp">确认添加</button>
-              <button class="btn btn-outline btn-sm" @click="showAddMcp = false; newMcp = { name: '', api_key: '', api_base: '', model: 'mcp-default', is_active: false }">取消</button>
+          <button v-if="!showAddMcp" class="btn btn-primary btn-sm" @click="showAddMcp = true">➕ 添加 MCP 接口</button>
+          <div v-else class="mcp-form">
+            <div class="mcp-form__grid">
+              <div class="pc-field">
+                <label>名称</label>
+                <input v-model="newMcp.name" class="form-input" :class="{ 'input-error': mcpErrors.name }" placeholder="如：本地 vLLM">
+                <div v-if="mcpErrors.name" class="field-hint field-hint--error">{{ mcpErrors.name }}</div>
+              </div>
+              <div class="pc-field">
+                <label>API 地址 <span class="label-required">*</span></label>
+                <input v-model="newMcp.api_base" class="form-input" :class="{ 'input-error': mcpErrors.api_base }" placeholder="http://你的服务器:8000/v1">
+                <div v-if="mcpErrors.api_base" class="field-hint field-hint--error">{{ mcpErrors.api_base }}</div>
+              </div>
+              <div class="pc-field">
+                <label>API Key（可选）</label>
+                <input v-model="newMcp.api_key" type="password" class="form-input" placeholder="如服务需要鉴权">
+              </div>
+              <div class="pc-field">
+                <label>模型</label>
+                <input v-model="newMcp.model" class="form-input" placeholder="mcp-default">
+              </div>
+            </div>
+            <div class="mcp-form__actions">
+              <button class="btn btn-solid btn-sm" @click="addMcp">确认添加</button>
+              <button class="btn btn-ghost btn-sm" @click="showAddMcp = false; mcpErrors = {}">取消</button>
             </div>
           </div>
-          <button v-else class="btn btn-outline btn-sm" @click="showAddMcp = true">➕ 添加 MCP 接口</button>
         </div>
 
-        <div v-if="!mcpConfigs.length" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">暂无 MCP 接口配置</div>
-        <div v-for="(mcp, idx) in mcpConfigs" :key="mcp.id" class="provider-card">
-          <div class="pc-left" style="borderLeftColor:#7c3aed;">
-            <div class="pc-header"><strong>{{ mcp.label }}</strong><span :class="['pc-badge', mcp.is_active ? 'on' : 'off']">{{ mcp.is_active ? '启用' : '禁用' }}</span></div>
-            <div style="font-size:11px;color:var(--color-text-secondary);">{{ mcp.api_base }}</div>
-          </div>
-          <div class="pc-right">
-            <div style="display:flex;gap:6px;align-items:end;">
-              <div class="form-group" style="flex:1;"><label>API Key</label><input v-model="mcp.api_key" type="password" class="form-input" placeholder="可选"></div>
-              <button :style="{ padding:'6px 10px',borderRadius:'6px',fontSize:'11px',cursor:'pointer',border:'1px solid var(--color-border)',background:mcp.is_active ? '#10B981' : 'var(--color-bg-card)',color:mcp.is_active ? '#fff' : 'var(--color-text-secondary)' }" @click="mcp.is_active = !mcp.is_active">{{ mcp.is_active ? '启用' : '禁用' }}</button>
-              <button style="padding:6px 10px;borderRadius:6px;fontSize:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);" @click="removeMcp(idx)">移除</button>
+        <div v-if="!mcpConfigs.length" class="empty-state">暂无 MCP 接口配置</div>
+        <div v-for="mcp in mcpConfigs" :key="mcp.id" class="provider-card" :class="{ 'provider-card--active': mcp.is_active }">
+          <div class="pc-head" @click="mcp._expanded = !mcp._expanded">
+            <span class="pc-dot" style="background: var(--color-primary);"></span>
+            <div class="pc-name-wrap">
+              <span class="pc-name">{{ mcp.label }}</span>
+              <span v-if="mcp.model" class="pc-chip">{{ mcp.model }}</span>
+            </div>
+            <span class="pc-key pc-key--wide">{{ mcp.api_base || '未配置地址' }}</span>
+            <div class="pc-actions" @click.stop>
+              <button class="mini-btn state-btn" :class="mcp.is_active ? 'state-btn--on' : 'state-btn--off'" @click="mcp.is_active = !mcp.is_active">
+                {{ mcp.is_active ? '● 启用中' : '○ 已停用' }}
+              </button>
+              <button class="mini-btn mini-btn--danger" @click="removeMcp(mcp.id)">✕</button>
+              <span class="pc-arrow">{{ mcp._expanded ? '▲' : '▼' }}</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- ===== Token 用量 ===== -->
-      <div v-if="activeTab === 'usage' && usage" class="card" style="max-width:720px;padding:20px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
-          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;">
-            <div style="font-size:11px;color:var(--color-text-secondary);">已用 Token</div>
-            <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ (usage.tokens_used || 0).toLocaleString() }}</div>
-          </div>
-          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;">
-            <div style="font-size:11px;color:var(--color-text-secondary);">限额</div>
-            <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ (usage.tokens_limit || 0).toLocaleString() }}</div>
-          </div>
-          <div style="padding:12px;background:var(--color-bg);border-radius:8px;text-align:center;">
-            <div style="font-size:11px;color:var(--color-text-secondary);">对话次数</div>
-            <div style="font-size:22px;font-weight:700;color:var(--color-text);">{{ usage.total_conversations || 0 }}</div>
-          </div>
-        </div>
-
-        <!-- 按供应商统计 -->
-        <div style="margin-bottom:16px;">
-          <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;">各供应商用量明细</div>
-          <div style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
-            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 12px;background:var(--color-bg);font-size:11px;font-weight:600;color:var(--color-text-secondary);border-bottom:1px solid var(--color-border);">
-              <span>供应商</span><span style="text-align:right;">Token</span><span style="text-align:right;">调用</span><span style="text-align:right;">预估费用</span>
-            </div>
-            <div v-for="(val, key) in usage.by_provider || {}" :key="key" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:8px 12px;border-bottom:1px solid var(--color-border);font-size:12px;">
-              <span style="font-weight:500;">{{ key }}</span>
-              <span style="text-align:right;color:var(--color-primary);font-weight:600;">{{ (val.tokens||0).toLocaleString() }}</span>
-              <span style="text-align:right;color:var(--color-text-secondary);">{{ val.total_calls||0 }}</span>
-              <span style="text-align:right;font-weight:600;">{{ val.currency === 'USD' ? '$' : '¥' }}{{ (val.estimated_cost||0).toFixed(4) }}</span>
-            </div>
-            <div v-if="!Object.keys(usage.by_provider||{}).length" style="padding:8px 12px;font-size:12px;color:var(--color-text-secondary);text-align:center;">暂无数据</div>
-          </div>
-        </div>
-
-        <div style="font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:8px 12px;border-radius:6px;margin-bottom:16px;">
-          📊 Token 用量来自每次 AI 对话的 API 响应累加。预估费用基于供应商公开定价 × 实际 Token 数计算，仅供参考。实际费用以供应商账单为准。
-        </div>
-
-        <div v-if="usage.daily_usage?.length">
-          <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:8px;">📊 近 7 日趋势</div>
-          <div style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
-            <div v-for="d in usage.daily_usage" :key="d.date" style="display:flex;align-items:center;gap:8px;padding:6px 12px;border-bottom:1px solid var(--color-border);font-size:11px;">
-              <span style="width:48px;flex-shrink:0;color:var(--color-text);">{{ d.date?.slice(5) || d.date }}</span>
-              <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
-                <div style="display:flex;align-items:center;gap:4px;">
-                  <div :style="{ width: Math.min((d.tokens||0) / Math.max(...usage.daily_usage.map(x=>x.tokens||0)) * 100, 100) + '%', height:'12px', background:'linear-gradient(90deg,#7c3aed,#a78bfa)', borderRadius:'4px', minWidth:'4px' }"></div>
-                  <span style="color:var(--color-primary);font-weight:600;white-space:nowrap;">{{ (d.tokens||0).toLocaleString() }}</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:4px;">
-                  <div :style="{ width: Math.min((d.count||0) / Math.max(...usage.daily_usage.map(x=>x.count||0)) * 100, 100) + '%', height:'8px', background:'#f59e0b', borderRadius:'4px', minWidth:'4px' }"></div>
-                  <span style="color:var(--color-text-secondary);white-space:nowrap;">{{ d.count||0 }} 次</span>
-                </div>
+          <div v-if="mcp._expanded" class="pc-body">
+            <div class="pc-grid">
+              <div class="pc-field">
+                <label>API Key（可选）</label>
+                <input v-model="mcp.api_key" type="password" class="form-input" placeholder="如服务需要鉴权">
+              </div>
+              <div class="pc-field">
+                <label>API 地址</label>
+                <input v-model="mcp.api_base" class="form-input" placeholder="http://主机:端口/v1">
+              </div>
+              <div class="pc-field">
+                <label>模型</label>
+                <input v-model="mcp.model" class="form-input">
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ===== 对话记录 ===== -->
-      <div v-if="activeTab === 'logs' && usage" class="card" style="max-width:720px;padding:20px;">
-        <!-- 筛选 -->
-        <div v-if="usage.recent_logs?.length" style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
-          <input v-model="logSearch" class="form-input" placeholder="🔍 搜索学生姓名..." style="max-width:220px;font-size:12px;padding:6px 10px;">
-          <span style="font-size:11px;color:var(--color-text-secondary);">共 {{ usage.recent_logs.length }} 条</span>
-        </div>
-        <div v-if="filteredLogs.length" style="border:1px solid var(--color-border);border-radius:8px;overflow:hidden;">
-          <div v-for="log in filteredLogs" :key="log.id" style="padding:10px 14px;border-bottom:1px solid var(--color-border);font-size:12px;">
-            <div style="display:flex;gap:8px;margin-bottom:2px;flex-wrap:wrap;"><span style="font-weight:600;flex:1;">{{ log.student_name || '匿名' }}</span><span v-if="log.provider" style="color:var(--color-text-secondary);font-size:11px;">{{ log.provider }}</span><span style="color:var(--color-primary);font-size:11px;">{{ log.tokens_used }} tokens</span><span v-if="log.cost" style="color:#f59e0b;font-size:11px;">{{ log.cost }} {{ log.currency }}</span><span style="color:var(--color-text-secondary);font-size:11px;">{{ log.created_at }}</span></div>
-            <div style="color:var(--color-text);"><strong>问：</strong>{{ log.question }}</div>
-            <div style="color:var(--color-text-secondary);"><strong>答：</strong>{{ log.answer?.substring(0,200) }}{{ log.answer?.length > 200 ? '...' : '' }}</div>
+      <!-- ===== 用量统计 ===== -->
+      <div v-if="activeTab === 'usage'" class="card usage-card">
+        <div class="usage-trio">
+          <div class="usage-box">
+            <div class="usage-box__label">已用 Token</div>
+            <div class="usage-box__value">{{ (usage?.tokens_used || 0).toLocaleString() }}</div>
+          </div>
+          <div class="usage-box">
+            <div class="usage-box__label">限额</div>
+            <div class="usage-box__value">{{ (usage?.tokens_limit || 0).toLocaleString() }}</div>
+          </div>
+          <div class="usage-box">
+            <div class="usage-box__label">对话次数</div>
+            <div class="usage-box__value">{{ usage?.total_conversations || 0 }}</div>
           </div>
         </div>
-        <div v-else style="padding:24px;text-align:center;font-size:13px;color:var(--color-text-secondary);">{{ usage.recent_logs?.length ? '无匹配记录' : '暂无对话记录' }}</div>
+
+        <div class="section-title">各供应商用量明细</div>
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr><th>供应商</th><th style="text-align:right;">Token</th><th style="text-align:right;">调用</th><th style="text-align:right;">预估费用</th></tr>
+            </thead>
+            <tbody>
+              <tr v-for="(val, key) in usage?.by_provider || {}" :key="key">
+                <td class="cell-strong">{{ key }}</td>
+                <td class="cell-num cell-primary">{{ (val.tokens || 0).toLocaleString() }}</td>
+                <td class="cell-num">{{ val.total_calls || 0 }}</td>
+                <td class="cell-num cell-strong">{{ currencySymbol(val.currency) }}{{ (val.estimated_cost || 0).toFixed(4) }}</td>
+              </tr>
+              <tr v-if="!Object.keys(usage?.by_provider || {}).length">
+                <td colspan="4" class="cell-empty">暂无数据</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="usage-note">
+          📊 Token 用量来自每次 AI 对话的 API 响应累加；预估费用基于供应商公开定价 × 实际 Token 数计算，仅供参考，实际以供应商账单为准。
+        </div>
+
+        <template v-if="usage?.daily_usage?.length">
+          <div class="section-title">近 {{ usage.daily_usage.length }} 日趋势</div>
+          <div class="trend-list">
+            <div v-for="d in usage.daily_usage" :key="d.date" class="trend-row">
+              <span class="trend-date">{{ d.date?.slice(5) || d.date }}</span>
+              <div class="trend-bars">
+                <div class="trend-bar-row">
+                  <div class="trend-bar trend-bar--tokens" :style="{ width: Math.max(Math.min((d.tokens || 0) / maxDailyTokens * 100, 100), 1) + '%' }"></div>
+                  <span class="trend-num trend-num--tokens">{{ (d.tokens || 0).toLocaleString() }}</span>
+                </div>
+                <div class="trend-bar-row">
+                  <div class="trend-bar trend-bar--calls" :style="{ width: Math.max(Math.min((d.count || 0) / maxDailyCount * 100, 100), 1) + '%' }"></div>
+                  <span class="trend-num">{{ d.count || 0 }} 次</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- ===== 对话记录 ===== -->
+      <div v-if="activeTab === 'logs'" class="card logs-card">
+        <div v-if="usage?.recent_logs?.length" class="logs-filter">
+          <input v-model="logSearch" class="form-input" placeholder="🔍 搜索学生姓名...">
+          <span class="logs-count">共 {{ usage.recent_logs.length }} 条</span>
+        </div>
+        <div v-if="filteredLogs.length" class="logs-list">
+          <div v-for="log in filteredLogs" :key="log.id" class="log-item">
+            <div class="log-head">
+              <span class="log-student">{{ log.student_name || '匿名' }}</span>
+              <span v-if="log.provider" class="log-provider">{{ log.provider }}</span>
+              <span class="log-tokens">{{ log.tokens_used }} tk</span>
+              <span v-if="log.cost" class="log-cost">{{ log.cost }} {{ log.currency }}</span>
+              <span class="log-time">{{ log.created_at }}</span>
+            </div>
+            <div class="log-q"><strong>问：</strong>{{ log.question }}</div>
+            <div class="log-a"><strong>答：</strong>{{ log.answer?.substring(0, 200) }}{{ (log.answer?.length || 0) > 200 ? '...' : '' }}</div>
+          </div>
+        </div>
+        <div v-else class="empty-state">{{ usage?.recent_logs?.length ? '无匹配记录' : '暂无对话记录' }}</div>
       </div>
     </template>
   </div>
 </template>
 
 <style scoped>
-.tab-bar { display:flex; gap:4px; margin-bottom:16px; background:var(--color-bg); border-radius:12px; padding:4px; }
-.tab-btn { flex:1; padding:8px 10px; border:none; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer; background:transparent; color:var(--color-text-secondary); transition:all 0.2s; white-space:nowrap; }
-.tab-btn:hover { background:rgba(124,58,237,0.06); color:var(--color-text); }
-.tab-btn.active { background:#7c3aed; color:#fff; box-shadow:0 2px 8px rgba(124,58,237,0.25); }
-.form-group { margin-bottom:0; }
-.form-group label { display:block; font-size:10px; font-weight:600; color:var(--color-text-secondary); margin-bottom:1px; }
-.form-input { color:var(--color-text); width:100%; padding:5px 8px; border:1px solid var(--color-border); border-radius:6px; font-size:12px; outline:none; box-sizing:border-box; background:var(--color-bg-card); }
-.form-input:focus { border-color:#7c3aed; }
-.btn { padding:6px 14px; border-radius:8px; font-size:12px; font-weight:500; cursor:pointer; border:1px solid transparent; transition:all 0.15s; font-family:inherit; }
-.btn-sm { padding:4px 10px; font-size:11px; }
-.btn-primary { background:#7c3aed; color:white; border-color:#7c3aed; }
-.btn-primary:hover { background:#6d28d9; }
-.btn-primary:disabled { opacity:0.5; cursor:not-allowed; }
-.btn-outline { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
+/* ===== 页面骨架（Linux.do / AstrBot 式清爽布局） ===== */
+.ai-center { max-width: 880px; }
+.page-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+.page-crumb { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 2px; }
+.page-title { font-size: 24px; font-weight: 700; }
+.page-actions { display: flex; align-items: center; gap: 10px; }
+.unsaved-hint { font-size: 12px; color: var(--color-warning-text); }
+
+/* ===== 控制卡（总开关 + 限额） ===== */
+.control-card { padding: 16px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px 24px; flex-wrap: wrap; }
+.control-switch { display: flex; align-items: center; gap: 10px; }
+.control-label { font-size: 13px; font-weight: 600; color: var(--color-text); }
+.switch { position: relative; width: 44px; height: 24px; border-radius: 12px; border: none; cursor: pointer; background: var(--tint-4); transition: background 0.2s; padding: 0; }
+.switch--on { background: var(--color-primary); }
+.switch:disabled { opacity: 0.6; cursor: wait; }
+.switch__thumb { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); transition: transform 0.2s var(--ease-smooth); }
+.switch--on .switch__thumb { transform: translateX(20px); }
+.switch-state { font-size: 12px; }
+.switch-state--loading { color: var(--color-warning-text); }
+.switch-state--success { color: var(--color-success-text); }
+.switch-state--error { color: var(--color-danger-text); }
+.control-limit { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--color-text-secondary); flex: 1; min-width: 220px; }
+.limit-input { width: 96px; padding: 5px 10px; border: 1px solid var(--tint-3); border-radius: 8px; font-size: 12px; background: var(--tint-1); color: var(--color-text); }
+.limit-used { color: var(--color-text-secondary); }
+.limit-percent { margin-left: 6px; font-weight: 700; color: var(--color-primary); }
+.limit-percent--high { color: var(--color-danger-text); }
+.limit-bar { width: 100%; height: 6px; background: var(--tint-2); border-radius: 3px; overflow: hidden; }
+.limit-bar__fill { height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light)); border-radius: 3px; transition: width 0.4s; }
+.limit-bar__fill--high { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+
+/* ===== 标签导航 ===== */
+.tab-bar { display: flex; gap: 4px; margin-bottom: 16px; background: var(--tint-1); border: 1px solid var(--tint-2); border-radius: 12px; padding: 4px; }
+.tab-btn { flex: 1; padding: 8px 10px; border: none; border-radius: 9px; font-size: 12px; font-weight: 600; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all 0.2s; white-space: nowrap; font-family: inherit; }
+.tab-btn:hover { color: var(--color-text); background: var(--tint-2); }
+.tab-btn.active { background: var(--color-primary); color: #fff; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25); }
+.tab-count { opacity: 0.7; font-weight: 500; margin-left: 2px; }
+
+/* ===== 添加行 ===== */
+.add-card { padding: 14px 20px; margin-bottom: 12px; }
+.add-card:hover { box-shadow: none; }
+.add-form { margin-bottom: 0; }
+
+/* ===== 空态引导 ===== */
+.quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 540px; margin: 0 auto; }
+.quick-card { padding: 16px 10px; background: var(--tint-1); border-radius: 12px; border: 1px dashed var(--tint-3); text-align: center; }
+.quick-card__icon { font-size: 22px; margin-bottom: 6px; }
+.quick-card__title { font-size: 12px; font-weight: 600; color: var(--color-text); }
+.quick-card__sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.empty-hint { font-size: 12px; color: var(--color-text-secondary); margin-top: 12px; }
+
+/* ===== 供应商卡片（CC Switch 风格） ===== */
+.provider-card { border: 1px solid var(--tint-3); border-radius: 14px; overflow: hidden; background: var(--color-bg-card); margin-bottom: 10px; transition: border-color 0.2s, box-shadow 0.2s; }
+.provider-card:hover { border-color: var(--tint-4); }
+.provider-card--active { border-color: rgba(16, 185, 129, 0.45); box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2); }
+.pc-head { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; flex-wrap: wrap; }
+.pc-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px var(--tint-1); }
+.pc-name-wrap { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1 1 180px; }
+.pc-name { font-weight: 600; font-size: 14px; white-space: nowrap; }
+.pc-chip { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: var(--tint-2); color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+.pc-key { font-size: 11px; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: nowrap; }
+.pc-key--missing { color: var(--color-warning-text); }
+.pc-key--wide { max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.pc-test { font-size: 11px; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
+.pc-test--ok { background: rgba(16, 185, 129, 0.1); color: var(--color-success-text); }
+.pc-test--fail { background: rgba(239, 68, 68, 0.1); color: var(--color-danger-text); }
+.pc-meta { font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; }
+.pc-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.pc-arrow { font-size: 11px; color: var(--color-text-secondary); }
+
+.mini-btn { padding: 4px 10px; border-radius: 7px; font-size: 11px; cursor: pointer; border: 1px solid var(--tint-3); background: var(--color-bg-card); color: var(--color-text-secondary); font-family: inherit; transition: all 0.15s; white-space: nowrap; }
+.mini-btn:hover:not(:disabled) { border-color: var(--tint-4); color: var(--color-text); }
+.mini-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.mini-btn--danger:hover { border-color: rgba(239, 68, 68, 0.4); color: var(--color-danger-text); background: rgba(239, 68, 68, 0.06); }
+.state-btn--on { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.35); color: var(--color-success-text); font-weight: 600; }
+.state-btn--off { background: transparent; }
+.billing-check { display: flex; align-items: center; gap: 3px; font-size: 11px; color: var(--color-text-secondary); cursor: pointer; user-select: none; }
+.billing-check input { accent-color: var(--color-primary); }
+
+/* ===== 展开配置区 ===== */
+.pc-body { padding: 4px 16px 14px; border-top: 1px solid var(--tint-2); }
+.pc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 10px; }
+.pc-billing { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-top: 10px; margin-top: 10px; border-top: 1px dashed var(--tint-2); }
+.pc-field label { display: block; font-size: 11px; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 4px; }
+.label-optional { font-weight: 400; opacity: 0.75; }
+.label-required { color: var(--color-danger-text); }
+.pc-field--hint { display: flex; flex-direction: column; justify-content: end; padding-bottom: 6px; }
+.pc-field .form-input { padding: 7px 10px; font-size: 12px; }
+.key-row { display: flex; gap: 6px; align-items: center; }
+.key-row .form-input { flex: 1; min-width: 0; }
+.key-row .mini-btn { flex-shrink: 0; }
+.field-hint { font-size: 10px; color: var(--color-text-secondary); margin-top: 3px; }
+.field-hint--error { color: var(--color-danger-text); }
+.input-error { border-color: rgba(239, 68, 68, 0.5) !important; }
+
+/* ===== MCP ===== */
+.intro-card { padding: 18px 20px; margin-bottom: 12px; }
+.intro-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.intro-text { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 12px; line-height: 1.7; }
+.intro-text code { background: var(--tint-2); padding: 1px 6px; border-radius: 5px; font-size: 11px; }
+.mcp-form { padding: 14px; background: var(--tint-1); border-radius: 10px; }
+.mcp-form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.mcp-form__actions { display: flex; gap: 8px; }
+
+/* ===== 用量统计 ===== */
+.usage-card { padding: 20px; }
+.usage-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+.usage-box { padding: 14px; background: var(--tint-1); border-radius: 10px; text-align: center; }
+.usage-box__label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.usage-box__value { font-size: 22px; font-weight: 700; }
+.section-title { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); margin: 4px 0 8px; }
+.cell-strong { font-weight: 600; }
+.cell-num { text-align: right; font-variant-numeric: tabular-nums; }
+.cell-primary { color: var(--color-primary); font-weight: 600; }
+.cell-empty { text-align: center; color: var(--color-text-secondary); }
+.usage-note { font-size: 11px; color: var(--color-text-secondary); background: var(--tint-1); padding: 8px 12px; border-radius: 8px; margin: 14px 0; line-height: 1.7; }
+.trend-list { border: 1px solid var(--tint-2); border-radius: 10px; overflow: hidden; }
+.trend-row { display: flex; align-items: center; gap: 10px; padding: 7px 14px; border-bottom: 1px solid var(--tint-2); font-size: 11px; }
+.trend-row:last-child { border-bottom: none; }
+.trend-date { width: 44px; flex-shrink: 0; color: var(--color-text); font-variant-numeric: tabular-nums; }
+.trend-bars { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.trend-bar-row { display: flex; align-items: center; gap: 6px; }
+.trend-bar { height: 10px; border-radius: 4px; min-width: 3px; transition: width 0.4s; }
+.trend-bar--tokens { background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light)); }
+.trend-bar--calls { height: 7px; background: var(--md-gold, #d97706); opacity: 0.7; }
+.trend-num { color: var(--color-text-secondary); white-space: nowrap; }
+.trend-num--tokens { color: var(--color-primary); font-weight: 600; }
+
+/* ===== 对话记录 ===== */
+.logs-card { padding: 18px 20px; }
+.logs-filter { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; }
+.logs-filter .form-input { max-width: 240px; padding: 7px 12px; font-size: 12px; }
+.logs-count { font-size: 11px; color: var(--color-text-secondary); }
+.logs-list { border: 1px solid var(--tint-2); border-radius: 10px; overflow: hidden; }
+.log-item { padding: 10px 14px; border-bottom: 1px solid var(--tint-2); font-size: 12px; }
+.log-item:last-child { border-bottom: none; }
+.log-head { display: flex; gap: 8px; margin-bottom: 3px; flex-wrap: wrap; align-items: baseline; }
+.log-student { font-weight: 600; flex: 1; }
+.log-provider, .log-tokens, .log-cost, .log-time { font-size: 11px; color: var(--color-text-secondary); }
+.log-tokens { color: var(--color-primary); }
+.log-cost { color: var(--md-gold, #d97706); }
+.log-q { color: var(--color-text); line-height: 1.6; }
+.log-a { color: var(--color-text-secondary); line-height: 1.6; }
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  .pc-grid, .pc-billing { grid-template-columns: 1fr; }
+  .mcp-form__grid { grid-template-columns: 1fr; }
+  .usage-trio { grid-template-columns: 1fr; }
+  .quick-grid { grid-template-columns: 1fr; }
+  .pc-key, .pc-meta { display: none; }
+}
 </style>

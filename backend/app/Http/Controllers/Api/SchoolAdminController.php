@@ -2238,6 +2238,67 @@ class SchoolAdminController extends Controller
     }
 
     /**
+     * 供应商连通性测试（New API 渠道测试模式）：向该供应商发一条最小对话，返回延迟与结果。
+     * 不写库、不计费，仅供管理员在保存配置前验证 Key / 模型 / 地址是否可用。
+     */
+    public function testAiProvider(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $providerId = (string) $request->input('provider_id', '');
+
+        if ($providerId === '') {
+            return response()->json(['message' => '缺少供应商'], 422);
+        }
+
+        $settings = \App\Models\AiSetting::where('school_id', $school->id)->first();
+        $provider = null;
+        foreach ($settings->providers ?? [] as $p) {
+            if (($p['id'] ?? '') === $providerId) {
+                $provider = $p;
+                break;
+            }
+        }
+        if (!$provider || empty($provider['api_key'])) {
+            return response()->json(['message' => '该供应商未配置 API Key，请先填写并保存'], 422);
+        }
+        if (empty($provider['model'])) {
+            return response()->json(['message' => '该供应商未配置模型，请先填写并保存'], 422);
+        }
+
+        $startedAt = microtime(true);
+        $latencyMs = 0;
+        try {
+            $result = app(\App\Services\AiService::class)->chat(
+                $providerId,
+                $provider['api_key'],
+                (string) $provider['model'],
+                '你好',
+                $provider['api_base'] ?? null,
+                16,
+            );
+            $latencyMs = (int) ((microtime(true) - $startedAt) * 1000);
+        } catch (\Throwable $e) {
+            return response()->json(['data' => [
+                'success' => false,
+                'latency_ms' => (int) ((microtime(true) - $startedAt) * 1000),
+                'error' => $e->getMessage(),
+            ]]);
+        }
+
+        $answer = trim((string) ($result['answer'] ?? ''));
+        // callXxx 系列在 HTTP 失败时返回固定兜底文案，据此判定失败
+        $failedPhrases = ['AI 服务暂时不可用', 'AI 服务不可用', '抱歉，无法回答'];
+        $success = $answer !== '' && !in_array($answer, $failedPhrases, true);
+
+        return response()->json(['data' => [
+            'success' => $success,
+            'latency_ms' => $latencyMs,
+            'reply' => mb_substr($answer, 0, 50),
+            'error' => $success ? null : '供应商返回异常，请检查 API Key / 模型 / 地址',
+        ]]);
+    }
+
+    /**
      * 拉取企业微信通讯录（部门 + 成员），供前端预览导入
      */
     public function wechatWorkContacts(Request $request): JsonResponse
