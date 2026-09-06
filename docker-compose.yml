@@ -1,20 +1,20 @@
 # 学趣星球 - Docker Compose 部署配置
 #
-# 三种部署方式：
+# 两种部署方式：
 #
 #   方式一（默认）：SQLite 零依赖
 #     docker-compose up -d
 #     → 只启动 app 一个容器，数据库为内置 SQLite 文件，无需任何数据库服务
+#     → 适合 < 500 学生，Docker 体积最小
 #
-#   方式二：内置 MariaDB + Redis（full-stack 模式，全校规模）
-#     .env 中注释掉 SQLite 段、启用 MySQL 段（DB_HOST=mysql），然后：
-#     docker-compose --profile full-stack up -d
-#     → 启动 app + mariadb + redis 三个容器
+#   方式二：外置数据库（MySQL / MariaDB / PostgreSQL，全校规模）
+#     1. 在你的数据库服务器上创建空库（如 learnstar）和账号
+#     2. .env 中注释掉 SQLite 段、启用外置 MySQL/PG 段（DB_HOST 填服务器地址）
+#     3. docker-compose up -d app --no-deps
+#     → 只启动 app，连接你自己的数据库（Redis 同理可选外置）
 #
-#   方式三：外置数据库/Redis（已有服务器）
-#     1. 在 .env 中修改 DB_HOST / REDIS_HOST 指向外部服务器
-#     2. docker-compose up -d app --no-deps
-#     → 只启动 app，跳过内置 mariadb/redis
+# 设计说明：本项目刻意不内置 MySQL/Redis 容器，以减小默认部署体积；
+#           需要全校规模时请使用你已有的数据库服务器（外置）。
 #
 # 端口说明：
 #   容器内 PHP 内置服务器固定监听 8080，不可改
@@ -39,7 +39,7 @@ services:
       - APP_URL=${APP_URL:-http://localhost}
       - APP_PORT=${APP_PORT:-8080}
 
-      # 数据库配置（默认内置 SQLite；改 DB_CONNECTION=mysql + DB_HOST 可切换到 MariaDB/MySQL 或外部数据库）
+      # 数据库配置（默认内置 SQLite；外置 MySQL/PG 时按 .env 填 DB_HOST 等）
       - DB_CONNECTION=${DB_CONNECTION:-sqlite}
       - DB_HOST=${DB_HOST:-}
       - DB_PORT=${DB_PORT:-3306}
@@ -47,7 +47,7 @@ services:
       - DB_USERNAME=${DB_USERNAME:-}
       - DB_PASSWORD=${DB_PASSWORD:-}
 
-      # Redis 配置（默认无 Redis；改 REDIS_HOST 可切换到内置/外部 Redis）
+      # Redis 配置（可选：默认无 Redis，排行榜降级 SQL；外置 Redis 填 REDIS_HOST）
       - REDIS_HOST=${REDIS_HOST:-}
       - REDIS_PORT=${REDIS_PORT:-6379}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-}
@@ -88,7 +88,6 @@ services:
       - app-uploads:/app/storage/app/uploads
       - app-logs:/app/storage/logs
       - app-db:/app/storage/database.sqlite
-    # 内置 SQLite 默认无需数据库/Redis 依赖；full-stack 模式（--profile full-stack）才起 mariadb+redis
     networks:
       - learnstar-net
     healthcheck:
@@ -98,64 +97,11 @@ services:
       retries: 3
       start_period: 40s
 
-  # ===== 内置 MySQL 数据库 =====
-  # 内置 MariaDB（full-stack 模式才启动；默认 SQLite 不需要）
-  # 使用外部数据库时：docker-compose up -d app --no-deps（跳过此服务）
-  mysql:
-    profiles: ["full-stack"]
-    image: mariadb:10
-    container_name: learnstar-mariadb
-    restart: unless-stopped
-    environment:
-      # MySQL root 超管密码（仅用于数据库维护/备份，Laravel 不读取此变量）
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_strong_password}
-      # 首次启动自动创建数据库和业务账号（Laravel 应用使用）
-      MYSQL_DATABASE: ${DB_DATABASE:-learnstar}
-      MYSQL_USER: ${DB_USERNAME:-learnstar}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-learnstar_password}
-    volumes:
-      - mysql-data:/var/lib/mysql
-    ports:
-      # 宿主机端口 : 容器内部端口
-      # 左边：MYSQL_PORT，供 Navicat/DBeaver 等外部工具连接
-      # 右边：固定 3306，Laravel 通过 DB_PORT=3306 在容器内部连接
-      - "${MYSQL_PORT:-3306}:3306"
-    networks:
-      - learnstar-net
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # ===== 内置 Redis 缓存 =====
-  # 内置 Redis（full-stack 模式才启动；默认 SQLite 不需要）
-  # 使用外部 Redis 时：docker-compose up -d app --no-deps（跳过此服务）
-  redis:
-    profiles: ["full-stack"]
-    image: redis:alpine
-    container_name: learnstar-redis
-    restart: unless-stopped
-    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
-    volumes:
-      - redis-data:/data
-    ports:
-      - "${REDIS_PORT:-6379}:6379"
-    networks:
-      - learnstar-net
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
 networks:
   learnstar-net:
     driver: bridge
 
 volumes:
-  mysql-data:
-  redis-data:
   app-uploads:
   app-logs:
   app-db:

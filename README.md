@@ -85,7 +85,7 @@ cp .env.example .env
 
 > Windows PowerShell 请用：`copy .env.example .env`
 >
-> **默认配置 = 内置 SQLite 数据库，什么都不用装、什么都不用改**，直接进第 3 步。全校规模（>500 学生）再按下文 [数据库切换](#-deployment) 升级 MySQL。
+> **默认配置 = 内置 SQLite 数据库，什么都不用装、什么都不用改**，直接进第 3 步。全校规模（>500 学生）再按下文 [数据库切换](#-deployment) 外接你已有的 MySQL/PostgreSQL 服务器。
 
 **第 3 步：启动**
 
@@ -135,11 +135,12 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 - 适合：单机、500 学生以内的学校
 - 备份/恢复方法见下文 [数据备份与恢复](#-数据备份与恢复)
 
-### 方案二：内置 MySQL + Redis（full-stack · 全校规模）
+### 方案二：外置数据库（MySQL / MariaDB / PostgreSQL · 全校规模）
 
-适合学生多、并发高的学校。自带 MariaDB + Redis 容器，不需要外购数据库服务。
+学生多、并发高时，把数据库换成你学校已有的 MySQL/MariaDB/PostgreSQL 服务器（**Docker 刻意不内置数据库容器，以保持默认部署体积最小**）：
 
-1. 编辑 `.env`：**注释掉**「一、SQLite」段的 10 行配置，**取消注释**「二、MySQL/MariaDB」内置段的 12 行（`.env.example` 里有分段标注，两段只能有一段生效）
+1. 在你的数据库服务器上**手动创建**一个空库（如 `learnstar`）和账号
+2. 编辑 `.env`：**注释掉**「一、SQLite」段的 10 行配置，**取消注释**「二、外置 MySQL/MariaDB」段（`.env.example` 里有分段标注，两段只能有一段生效）
 
    ```env
    # DB_CONNECTION=sqlite          ← 行首加 # 注释掉
@@ -147,35 +148,21 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
    # ...(SQLite 段全部注释)
 
    DB_CONNECTION=mysql             ← MySQL 段去掉行首 #
-   DB_HOST=mysql
+   DB_HOST=192.168.1.50            ← 你的数据库服务器地址
    DB_DATABASE=learnstar
    DB_USERNAME=learnstar
-   DB_PASSWORD=learnstar_password  ← 建议改成自己的强密码
-   CACHE_DRIVER=redis
-   REDIS_HOST=redis
+   DB_PASSWORD=你的数据库密码
    ```
 
-2. 启动（注意多了 `--profile full-stack`）：
-
-   ```bash
-   docker-compose --profile full-stack up -d
-   ```
-
-3. 验证：`docker-compose ps` 应看到 **3 个容器**（app / mariadb / redis）都是 `Up`；首次启动 app 会自动建表
-
-> MariaDB 数据存在 `mysql-data` 数据卷；`MYSQL_ROOT_PASSWORD` 是 root 密码（仅维护用），也建议修改。
-
-### 方案三：外置数据库 / Redis（已有机房服务器）
-
-学校已有 MySQL/MariaDB/PostgreSQL 服务器时使用：
-
-1. 在外部数据库上**手动创建**一个空库（如 `learnstar`）和账号
-2. `.env` 中把 `DB_HOST` 改为外部库 IP，`DB_CONNECTION`/`DB_PORT`/`DB_DATABASE`/`DB_USERNAME`/`DB_PASSWORD` 按实际填写；缓存可继续用 `file`，或填外部 Redis 的 `REDIS_HOST`
-3. 只启动应用容器（跳过内置数据库）：
+3. 只启动应用容器（连接外部数据库）：
 
    ```bash
    docker-compose up -d app --no-deps
    ```
+
+4. 验证：`docker-compose ps` 中 app 为 `Up (healthy)`，首次启动会自动在空库里建表
+
+> 缓存可选外置 Redis（`.env` 填 `REDIS_HOST` 并把 `CACHE_DRIVER` 等改为 `redis`），排行榜走毫秒级排序；没有 Redis 就保持 `file`，功能完全可用。
 
 ### 数据库切换与数据迁移（重要，先看再切）
 
@@ -183,11 +170,11 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 - ⚠️ **原数据库里的数据不会自动搬家**。SQLite → MySQL 切换后是全新的空库，需要重新导入教师/学生（Excel 或第三方通讯录导入均可）；积分历史、宠物等级等运行数据无法自动迁移
 - **选型建议**：预计一个班试用 → SQLite；打算全校推广 → 一开始就用方案二，避免后期迁移
 
-| | SQLite（默认） | 内置 MySQL + Redis |
+| | SQLite（默认） | 外置 MySQL / PostgreSQL |
 |---|---|---|
-| 额外容器 | 无 | mariadb + redis |
+| 额外容器 | 无 | 无（连你自己的数据库服务器） |
 | 推荐规模 | < 500 学生 | 无限制 |
-| 排行榜性能 | SQL 查询 | Redis ZSET 毫秒级 |
+| 排行榜性能 | SQL 查询 | 可外接 Redis，毫秒级 |
 | 实时广播 | 轮询 | SSE 实时推送 |
 
 ## ⚙️ Configuration
@@ -212,14 +199,14 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 
 ### 数据库与缓存（三选一，详见上方 Deployment）
 
-| 变量 | SQLite 模式 | MySQL 模式 | 白话说明 |
-|------|------------|-----------|---------|
-| `DB_CONNECTION` | `sqlite` | `mysql` | 数据库类型 |
-| `DB_HOST` | 留空 | `mysql`（内置）或外部 IP | 数据库在哪 |
+| 变量 | SQLite 模式 | 外置 MySQL 模式 | 白话说明 |
+|------|------------|---------------|---------|
+| `DB_CONNECTION` | `sqlite` | `mysql` / `pgsql` | 数据库类型 |
+| `DB_HOST` | 留空 | 你的数据库服务器地址 | 数据库在哪 |
 | `DB_DATABASE` 等 | 留空 | 见 .env.example | 库名 / 账号 / 密码 |
-| `CACHE_DRIVER` / `SESSION_DRIVER` | `file` | `redis` | 缓存与会话存哪 |
-| `QUEUE_CONNECTION` | `database` | `redis` | 后台任务队列 |
-| `REDIS_HOST` | 留空 | `redis`（内置）或外部 IP | 有 Redis 排行榜才走毫秒级 |
+| `CACHE_DRIVER` / `SESSION_DRIVER` | `file` | `file`（有外置 Redis 则 `redis`） | 缓存与会话存哪 |
+| `QUEUE_CONNECTION` | `database` | `database`（有外置 Redis 则 `redis`） | 后台任务队列 |
+| `REDIS_HOST` | 留空 | 外部 Redis 地址（可选） | 有 Redis 排行榜才走毫秒级 |
 
 ### AI 助教（可选，不配不影响任何核心功能）
 
@@ -251,7 +238,8 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 | SQLite 数据库（积分/学生/教师/商城全部业务数据） | `/app/storage/database.sqlite` | `app-db` |
 | 上传的附件（Logo 等） | `/app/storage/app/uploads` | `app-uploads` |
 | 运行日志 | `/app/storage/logs` | `app-logs` |
-| MySQL 数据（full-stack 模式） | MariaDB 容器内 | `mysql-data` |
+
+> 外置 MySQL/PostgreSQL 模式下，业务数据在你自己的数据库服务器上，随你的数据库备份策略走。
 
 各数据卷由 Docker 管理，`stop` / `start` / `restart` / `up -d` / 升级镜像都**不会丢数据**。只有 `docker-compose down -v` 会连数据卷一起删除。
 
@@ -278,14 +266,16 @@ docker-compose start app
 
 恢复 = 用备份文件覆盖数据库文件，所有数据回到备份那一刻。
 
-### 备份 / 恢复（MySQL full-stack 模式）
+### 备份 / 恢复（外置 MySQL 模式）
+
+外置模式下业务数据在你自己的 MySQL 服务器上，用标准的 mysqldump 流程（在你的数据库服务器或任何能连上它的机器上执行）：
 
 ```bash
 # 备份
-docker-compose exec mysql mysqldump -u root -p"$MYSQL_ROOT_PASSWORD" learnstar > backup.sql
+mysqldump -h <数据库地址> -u learnstar -p learnstar > backup.sql
 
-# 恢复（清空重建后灌入）
-docker-compose exec -T mysql mysql -u root -p"$MYSQL_ROOT_PASSWORD" learnstar < backup.sql
+# 恢复
+mysql -h <数据库地址> -u learnstar -p learnstar < backup.sql
 ```
 
 `backup.sql` 是纯文本 SQL，请妥善保管（含学生与积分数据）。
@@ -354,7 +344,7 @@ learnstar-planet/
 
 <details>
 <summary>有用户数限制吗？</summary>
-无。MIT 开源协议不限制用户数和班级数。全校使用建议 MySQL + Redis 方案。
+无。MIT 开源协议不限制用户数和班级数。全校使用建议外接你已有的 MySQL 服务器。
 </details>
 
 ## 🔐 第三方登录与配置指引
