@@ -1,0 +1,327 @@
+{
+  "total": 126,
+  "series": [
+    {
+      "id": "myth",
+      "name": "山海经",
+      "count": 18
+    },
+    {
+      "id": "pokemon",
+      "name": "宝可梦",
+      "count": 12
+    },
+    {
+      "id": "national",
+      "name": "国宝",
+      "count": 12
+    },
+    {
+      "id": "digimon",
+      "name": "数码宝贝",
+      "count": 6
+    },
+    {
+      "id": "magic",
+      "name": "魔法奇幻",
+      "count": 12
+    },
+    {
+      "id": "prehistoric",
+      "name": "史前生物",
+      "count": 12
+    },
+    {
+      "id": "constellation",
+      "name": "星座守护",
+      "count": 12
+    },
+    {
+      "id": "festival",
+      "name": "传统节日",
+      "count": 12
+    },
+    {
+      "id": "qixia",
+      "name": "虹猫蓝兔七侠传",
+      "count": 10
+    },
+    {
+      "id": "dongfang",
+      "name": "东方神话",
+      "count": 20
+    }
+  ],
+  "emojiDup": [],
+  "missingStory": [],
+  "storyIssues": [
+    {
+      "id": "eevee",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "eevee",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "riolu",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "riolu",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "riolu",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "ice_fox",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "ice_fox",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "rock_rhino",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "light_deer",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "light_deer",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "dark_panther",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "dark_panther",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "milu_deer",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "siberian_tiger",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "siberian_tiger",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "red_panda",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "red_panda",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "finless_porpoise",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "finless_porpoise",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "mecha_dragon",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "quantum_beast",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "quantum_beast",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "digital_phoenix",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "griffin",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "wand_cat",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "wand_cat",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "alchemy_golem",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "lamp_spirit",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "lamp_spirit",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "zongzi",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "zongzi",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "zongzi",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "tangyuan",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "tangyuan",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "tangyuan",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "mooncake",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "mooncake",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "mooncake",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "qingtuan",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "qingtuan",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "qingtuan",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "chongyang_cake",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "chongyang_cake",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "chongyang_cake",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "niangao",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "niangao",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "niangao",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "laba_porridge",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "laba_porridge",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "laba_porridge",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "spring_pancake",
+      "issue": "幼年视觉规格缺4项(body,face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "spring_pancake",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "spring_pancake",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "tanghulu",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "tanghulu",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "tanghulu",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "osmanthus_cake",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "osmanthus_cake",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "osmanthus_cake",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "wonton",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "wonton",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "wonton",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "festival_lantern",
+      "issue": "幼年视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "festival_lantern",
+      "issue": "成长视觉规格缺3项(face,attireDetail,hairStyle)"
+    },
+    {
+      "id": "festival_lantern",
+      "issue": "成熟视觉规格缺3项(face,attireDetail,hairStyle)"
+    }
+  ],
+  "traitsIssues": [],
+  "profileIssues": [],
+  "levelIssues": [],
+  "stageEmojiDup": {
+    "L1:🥚": 126,
+    "L12:🌟": 14
+  },
+  "traitDupAcrossSpecies": 0
+}
