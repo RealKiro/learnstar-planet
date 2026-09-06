@@ -40,6 +40,22 @@ class TeacherController extends Controller
     public function myClasses(Request $request): JsonResponse
     {
         $teacher = $request->user();
+        // API 机器人账号：返回本校全部启用中的班级（供外部系统枚举可用班级）
+        if ($teacher->isApiBot()) {
+            $assignments = ClassRoom::where('school_id', $teacher->school_id)
+                ->where('status', 'active')
+                ->orderBy('id')
+                ->get(['id', 'name', 'grade'])
+                ->map(fn (ClassRoom $c) => [
+                    'class_id' => $c->id,
+                    'class_name' => $c->name,
+                    'grade' => $c->grade,
+                    'role' => 'api_bot',
+                ]);
+
+            return response()->json(['data' => $assignments]);
+        }
+
         $assignments = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->with('classRoom:id,name,grade')
             ->get()
@@ -58,9 +74,11 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classId = (int) $request->input('class_id');
 
-        $isAssigned = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->where('class_room_id', $classId)
-            ->exists();
+        $isAssigned = $teacher->isApiBot()
+            ? ClassRoom::where('school_id', $teacher->school_id)->where('id', $classId)->where('status', 'active')->exists()
+            : \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+                ->where('class_room_id', $classId)
+                ->exists();
 
         if (!$isAssigned) {
             return response()->json(['message' => '您未被分配到此班级'], 403);
@@ -101,11 +119,13 @@ class TeacherController extends Controller
         $teacher->setSetting('display_mode', $mode);
 
         if ($classId = $request->input('class_id')) {
-            $isAssigned = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-                ->where('class_room_id', $classId)
-                ->exists();
+            $isAssigned = $teacher->isApiBot()
+                ? ClassRoom::where('school_id', $teacher->school_id)->where('id', (int) $classId)->where('status', 'active')->exists()
+                : \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+                    ->where('class_room_id', (int) $classId)
+                    ->exists();
             if ($isAssigned) {
-                $teacher->setSetting('active_class_id', $classId);
+                $teacher->setSetting('active_class_id', (int) $classId);
             }
         }
 
@@ -131,9 +151,11 @@ class TeacherController extends Controller
             return response()->json(['message' => '请先选择班级'], 400);
         }
 
-        $isAssigned = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->where('class_room_id', $classId)
-            ->exists();
+        $isAssigned = $teacher->isApiBot()
+            ? ClassRoom::where('school_id', $teacher->school_id)->where('id', (int) $classId)->where('status', 'active')->exists()
+            : \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
+                ->where('class_room_id', $classId)
+                ->exists();
         if (!$isAssigned) {
             return response()->json(['message' => '您未被分配到此班级'], 403);
         }
@@ -377,8 +399,7 @@ class TeacherController extends Controller
     public function dashboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => [
@@ -456,8 +477,7 @@ class TeacherController extends Controller
     public function listStudents(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $query = Student::whereIn('class_id', $classIds)
             ->with('classRoom:id,name,grade');
@@ -820,6 +840,15 @@ class TeacherController extends Controller
      */
     private function teacherClassIds(\App\Models\User $teacher): \Illuminate\Support\Collection
     {
+        // API 机器人账号：本校全部启用中的班级（含未来新建，无需维护关联表）
+        if ($teacher->isApiBot()) {
+            return ClassRoom::where('school_id', $teacher->school_id)
+                ->where('status', 'active')
+                ->pluck('id')
+                ->merge(ClassRoom::where('teacher_id', $teacher->id)->pluck('id'))
+                ->unique();
+        }
+
         return \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
             ->pluck('class_room_id')
             ->merge(ClassRoom::where('teacher_id', $teacher->id)->pluck('id'))
@@ -1018,8 +1047,7 @@ class TeacherController extends Controller
     public function totalLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => []]);
@@ -1035,8 +1063,7 @@ class TeacherController extends Controller
     public function weeklyLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => []]);
@@ -1052,8 +1079,7 @@ class TeacherController extends Controller
     public function petLevelLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => []]);
@@ -1076,8 +1102,7 @@ class TeacherController extends Controller
     public function pkLeaderboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => []]);
@@ -1137,8 +1162,7 @@ class TeacherController extends Controller
     public function myPkStats(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         if ($classIds->isEmpty()) {
             return response()->json(['data' => [
@@ -1202,8 +1226,7 @@ class TeacherController extends Controller
     public function challengePk(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'target_class_id' => 'required|integer',
@@ -1249,8 +1272,7 @@ class TeacherController extends Controller
     public function classInfo(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         if ($classIds->isEmpty()) {
             return response()->json(['message' => '没有可管理的班级'], 400);
@@ -1281,8 +1303,7 @@ class TeacherController extends Controller
     public function switchSeries(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id');
+        $classIds = $this->teacherClassIds($teacher);
 
         $request->validate([
             'series_id' => 'required|string|max:50',
@@ -2221,7 +2242,7 @@ class TeacherController extends Controller
     private function getAccessibleClassIds($teacher): array
     {
         $ownClassIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id')->toArray();
-        $relatedClassIds = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)->pluck('class_room_id')->toArray();
+        $relatedClassIds = $this->teacherClassIds($teacher)->toArray();
 
         return array_values(array_unique(array_merge($ownClassIds, $relatedClassIds)));
     }

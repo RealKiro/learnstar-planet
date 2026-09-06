@@ -347,6 +347,43 @@ learnstar-planet/
 无。MIT 开源协议不限制用户数和班级数。全校使用建议外接你已有的 MySQL 服务器。
 </details>
 
+## 🤖 机器人账号与 REST API 对接
+
+系统内置一个专用的 **API 机器人教师账号**，供 QQ/微信群机器人、课中工具等外部项目通过 REST API 管理学生积分。该账号**拥有本校全部班级的查询与操作权限**（含未来新建的班级，无需维护关联）。
+
+### 快速开始（三步）
+
+```bash
+# 1. 用机器人账号换取 token（账号密码来自 .env 的 BOT_USERNAME / BOT_PASSWORD）
+TOKEN=$(curl -s -X POST http://<服务器>:8080/api/v1/auth/teacher/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"api-bot","password":"learnstar-bot-2026"}' | jq -r .data.token)
+
+# 2. 查询可用班级（机器人返回本校全部班级）
+curl -H "Authorization: Bearer $TOKEN" http://<服务器>:8080/api/v1/teacher/my-classes
+
+# 3. 给学生加分（student_id 来自 /api/v1/teacher/students?per_page=100）
+curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
+  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d '{"student_id":1,"points":5,"reason":"作业优秀"}'
+```
+
+常用端点：`scores/give`（单发）、`scores/batch-give`（批量）、`scores/give-by-rule/{ruleId}`（按规则）、`scores/history/{studentId}`（历史）、`scores/summary`（汇总）、`my-classes`（班级列表）。完整清单见 [docs/api-reference.md](docs/api-reference.md)。
+
+### 已有的插件化集成
+
+[mcp-server/](mcp-server/) 提供标准 MCP 协议服务器（工具：add_score / batch_add_score / query_score / search_student / get_leaderboard 等），AstrBot、Claude Desktop 等 MCP 宿主配 `LEARNSTAR_API_BASE` + `LEARNSTAR_API_TOKEN` 两个环境变量即可接入——把上面机器人账号的 token 填进去，QQ/微信群即可用自然语言加减分。
+
+### 配置与安全
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `BOT_ENABLED` | `true` | 设为 `false` 并重启，账号会被置为 disabled（接口 401） |
+| `BOT_USERNAME` / `BOT_PASSWORD` | `api-bot` / `learnstar-bot-2026` | ⚠️ 密码以 .env 为唯一真相来源，每次重启同步，**上线前务必修改** |
+| `BOT_NAME` | `API 机器人` | 在教师列表中的显示名 |
+
+安全须知：机器人账号可操作**全部班级**，请只在内网/可信环境使用并修改默认密码；积分记录的审计字段 `given_by` 会归到该账号；账号无法从管理后台删除（如需停用走 `BOT_ENABLED=false`）。若需要权限收窄的独立 API Key，欢迎提 issue 讨论。
+
 ## 🔐 第三方登录与配置指引
 
 学趣星球支持多平台第三方扫码登录。**管理员在后台勾选哪些平台启用**，勾选后登录页才会显示对应平台入口，并自动展示各平台官方品牌图标。

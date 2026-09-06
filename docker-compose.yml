@@ -83,6 +83,12 @@ services:
       - ADMIN_NAME=${ADMIN_NAME:-系统管理员}
       - ADMIN_SCHOOL_NAME=${ADMIN_SCHOOL_NAME:-学趣星球默认学校}
       - ADMIN_SCHOOL_CODE=${ADMIN_SCHOOL_CODE:-learnstar-default}
+
+      # API 机器人账号（外部系统 REST API 对接，拥有全部班级权限）
+      - BOT_ENABLED=${BOT_ENABLED:-true}
+      - BOT_USERNAME=${BOT_USERNAME:-api-bot}
+      - BOT_PASSWORD=${BOT_PASSWORD:-learnstar-bot-2026}
+      - BOT_NAME=${BOT_NAME:-API 机器人}
     volumes:
       # ⚠️ 生产镜像 WORKDIR=/app，应用与 SQLite 均在 /app（勿改成 /var/www/html，镜像内不存在该路径）
       - app-uploads:/app/storage/app/uploads

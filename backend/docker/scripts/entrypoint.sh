@@ -25,7 +25,7 @@ fi
 # 从 Docker 环境变量创建 .env 文件
 if [ ! -f .env ]; then
     echo "📝 从环境变量创建 .env 文件..."
-    env | grep -E "^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|MAIL_|FILESYSTEM_|AI_|WECHAT_|QQ_|RENREN_|ADMIN_|GITHUB_)" > .env
+    env | grep -E "^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|MAIL_|FILESYSTEM_|AI_|WECHAT_|QQ_|RENREN_|ADMIN_|BOT_|GITHUB_)" > .env
 fi
 
 # 自动拼接端口到 APP_URL
@@ -103,6 +103,11 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
     echo "👤 创建默认管理员..."
     php artisan db:seed --class=AdminUserSeeder --force 2>/dev/null || true
     echo "✅ 管理员账号已就绪"
+
+    # 创建 API 机器人账号（供外部系统 REST API 对接，.env 的 BOT_* 可配置/停用）
+    echo "🤖 检查 API 机器人账号..."
+    php artisan db:seed --class=BotTeacherSeeder --force 2>/dev/null || true
+    echo "✅ 机器人账号已就绪"
 
     # 创建存储链接
     echo "🔗 创建存储链接..."

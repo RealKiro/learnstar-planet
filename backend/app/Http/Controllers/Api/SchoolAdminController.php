@@ -578,6 +578,10 @@ class SchoolAdminController extends Controller
         $teacher = User::where('school_id', $school->id)
             ->where('role', 'teacher')
             ->findOrFail($id);
+        // API 机器人账号是外部系统对接的凭证，不允许从界面删除（如需停用改 .env 的 BOT_ENABLED 后重启）
+        if ($teacher->isApiBot()) {
+            return response()->json(['message' => 'API 机器人账号不可删除。如需停用，请在 .env 中设置 BOT_ENABLED=false 后重启'], 403);
+        }
         // 解除该教师的所有班级关联
         ClassRoom::where('teacher_id', $teacher->id)->update(['teacher_id' => null]);
         ClassRoomTeacher::where('user_id', $teacher->id)->delete();

@@ -233,6 +233,15 @@ class User extends Authenticatable
     // ========== Settings helper ==========
 
     /**
+     * 是否为 API 机器人账号（BotTeacherSeeder 创建，settings.is_api_bot 标记）。
+     * 机器人拥有本校全部班级的查询与操作权限，用于外部系统 REST API 对接。
+     */
+    public function isApiBot(): bool
+    {
+        return (bool) $this->getSetting('is_api_bot', false);
+    }
+
+    /**
      * @return mixed
      */
     public function getSetting(string $key, mixed $default = null): mixed
