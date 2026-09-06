@@ -151,7 +151,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   kunpeng: '🐳',          // 鲲鹏（巨鱼化鸟）
   fenghuang: '🌋',        // 凤凰
   qilin: '🦄',            // 麒麟
-  qiongqi: '🐾',          // 穷奇（四翼猛兽）
+  qiongqi: '🐺',          // 穷奇（音如嗥狗）
   bifang: '🐦',           // 毕方（单足火鸟）
   pixiu: '🦁',            // 貔貅
   jingwei: '🕊️',          // 精卫
@@ -180,7 +180,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   tibetan_antelope: '🦬',
   snow_leopard: '🐆',
   milu_deer: '🫎',
-  siberian_tiger: '🐺',
+  siberian_tiger: '🌨️',
   red_panda: '🐿️',
   finless_porpoise: '🐬',
   // ===== 数码/机甲（6） =====
@@ -252,6 +252,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   dada: '🧸',
   heixinhu: '🖤',
   heixiaohu: '🌘',
+  ma_sanniang: '🎭',
   // ===== 东方神话（20） =====
   jiang_ziya: '📜',
   nezha: '🔥',
@@ -264,7 +265,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   daji: '💃',
   shen_gongbao: '🪷',
   sun_wukong: '🐒',
-  lv_dongbin: '🔪',
+  lv_dongbin: '✒️',
   he_xiangu: '🌸',
   zhang_guolao: '🫏',
   tie_guaili: '🩼',
@@ -278,7 +279,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   rock_rhino: '🪨',
   wind_falcon: '🦉',
   light_deer: '🦌',
-  dark_panther: '🐈⬛',
+  dark_panther: '🐾',
   steel_armadillo: '🧱',
 }
 
@@ -487,7 +488,7 @@ export const PET_SERIES: PetSeries[] = [
         id: 'jingwei', name: '精卫', seriesId: 'myth',
         levels: [
           { level: 1, name: '精卫卵', description: '青色卵壳，带点点泪痕', stage: 'egg', requiredScore: 0 },
-          { level: 2, name: '雏鸟', description: '斑驳羽毛，赤足初现', stage: 'egg', requiredScore: 15 },
+          { level: 2, name: '化鸟新生', description: '斑驳羽毛，赤足初现', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '女娃鸟', description: '常衔西山之木石', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '精卫雏形', description: '赤首白喙，啼声哀婉', stage: 'baby', requiredScore: 60 },
           { level: 5, name: '衔木鸟', description: '日衔木石，飞往东海', stage: 'growing', requiredScore: 90 },
@@ -596,7 +597,7 @@ export const PET_SERIES: PetSeries[] = [
         id: 'eevee', name: '伊布', seriesId: 'pokemon',
         levels: [
           { level: 1, name: '伊布蛋', description: '棕色蛋，有狐尾纹', stage: 'egg', requiredScore: 0 },
-          { level: 2, name: '幼狐', description: '棕色小狐，耳大', stage: 'egg', requiredScore: 15 },
+          { level: 2, name: '多变绒崽', description: '棕色小狐，耳大', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '伊布', description: '标准形态，毛色棕褐，尾蓬松', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '活泼伊布', description: '眼神灵动，毛发光泽', stage: 'baby', requiredScore: 60 },
           { level: 5, name: '进化预备', description: '额头出现宝石（颜色不定）', stage: 'growing', requiredScore: 90 },
@@ -656,13 +657,13 @@ export const PET_SERIES: PetSeries[] = [
           { level: 1, name: '粉红团子', description: '粉红色幼崽，闭眼蜷缩', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '黑白初现', description: '黑白毛色开始显现，眼周变黑', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '蹒跚学步', description: '能缓慢爬动，抱住竹子', stage: 'baby', requiredScore: 35 },
-          { level: 4, name: '小熊猫', description: '黑白分明，圆滚滚，行动笨拙', stage: 'baby', requiredScore: 60 },
+          { level: 4, name: '熊猫宝宝', description: '黑白分明，圆滚滚，行动笨拙', stage: 'baby', requiredScore: 60 },
           { level: 5, name: '好奇熊猫', description: '开始站立，东张西望', stage: 'growing', requiredScore: 90 },
           { level: 6, name: '竹林顽童', description: '喜欢打滚，抱着竹子玩耍', stage: 'growing', requiredScore: 125 },
           { level: 7, name: '青涩少年', description: '竹林少年，毛色如洗，双颊泛粉，憨态渐敛', stage: 'mature', requiredScore: 165 },
           { level: 8, name: '竹林卫士', description: '端坐竹林，神情沉稳', stage: 'mature', requiredScore: 210 },
           { level: 9, name: '成年熊猫', description: '憨态可掬，悠然吃竹', stage: 'legendary', requiredScore: 260 },
-          { level: 10, name: '竹林尊者', description: '体型硕大，周身有竹叶飘落', stage: 'legendary', requiredScore: 315 },
+          { level: 10, name: '竹海圣者', description: '体型硕大，周身有竹叶飘落', stage: 'legendary', requiredScore: 315 },
           { level: 11, name: '太极熊猫', description: '黑白形成太极图，气息沉稳', stage: 'transcendent', requiredScore: 375 },
           { level: 12, name: '竹林圣者', description: '全身散发柔和光芒，竹影随行', stage: 'transcendent', requiredScore: 450 },
         ],
@@ -762,7 +763,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'mecha_dragon', name: '亚古兽', seriesId: 'digimon',
         levels: [
-          { level: 1, name: '数码蛋', description: '从数码世界降下的蛋，表面有数码纹路', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '勇气数码蛋', description: '从数码世界降下的蛋，表面有数码纹路', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '黑球兽', description: '幼年期I，滚动的黑色小球', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '滚球兽', description: '幼年期II，橙色的圆滚小恐龙', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '亚古兽', description: '成长期！橙色小恐龙，喷出小型火焰', stage: 'baby', requiredScore: 60 },
@@ -779,7 +780,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'cyber_cat', name: '迪路兽', seriesId: 'digimon',
         levels: [
-          { level: 1, name: '数码蛋', description: '圣洁的数码蛋，隐隐发光', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '光明数码蛋', description: '圣洁的数码蛋，隐隐发光', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '咪罗兽', description: '幼年期I，蜷缩的小毛球', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '咪罗兽·成长', description: '幼年期II，长出短毛', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '迪路兽', description: '成长期！白色圣猫，戴着神圣之环', stage: 'baby', requiredScore: 60 },
@@ -796,7 +797,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'space_mecha', name: '巴达兽', seriesId: 'digimon',
         levels: [
-          { level: 1, name: '数码蛋', description: '轻盈的数码蛋，会漂浮', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '希望数码蛋', description: '轻盈的数码蛋，会漂浮', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '浮球兽', description: '幼年期I，漂浮的气泡', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '浮球兽·成长', description: '幼年期II，开始晃动', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '巴达兽', description: '成长期！奶油色的小翅膀天使，会飞', stage: 'baby', requiredScore: 60 },
@@ -813,7 +814,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'quantum_beast', name: '加布兽', seriesId: 'digimon',
         levels: [
-          { level: 1, name: '数码蛋', description: '静谧的数码蛋，带冰晶纹', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '友情数码蛋', description: '静谧的数码蛋，带冰晶纹', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '独角兽', description: '幼年期I，蓝色的冰球', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '独角兽·成长', description: '幼年期II，长出小角', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '加布兽', description: '成长期！身披加鲁鲁兽毛皮的小狼', stage: 'baby', requiredScore: 60 },
@@ -830,7 +831,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'digital_phoenix', name: '比丘兽', seriesId: 'digimon',
         levels: [
-          { level: 1, name: '数码蛋', description: '粉色的数码蛋，羽纹浮现', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '爱心数码蛋', description: '粉色的数码蛋，羽纹浮现', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '皮皮兽', description: '幼年期I，粉色的绒球', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '皮皮兽·成长', description: '幼年期II，长出绒毛', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '比丘兽', description: '成长期！粉色小鸟，头顶凤冠', stage: 'baby', requiredScore: 60 },
@@ -847,7 +848,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'mecha_shark', name: '哥玛兽', seriesId: 'digimon',
         levels: [
-          { level: 1, name: '数码蛋', description: '海蓝的数码蛋，波浪纹', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '诚实数码蛋', description: '海蓝的数码蛋，波浪纹', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '噗噗兽', description: '幼年期I，透明水泡', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '噗噗兽·成长', description: '幼年期II，甩动小尾', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '哥玛兽', description: '成长期！白色海狮，圆滚滚会卖萌', stage: 'baby', requiredScore: 60 },
@@ -1036,7 +1037,7 @@ export const PET_SERIES: PetSeries[] = [
           { level: 3, name: '象牙变长', description: '牙突出', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '猛犸象', description: '标准，长毛', stage: 'baby', requiredScore: 60 },
           { level: 5, name: '冰原猛犸', description: '耐寒，身有冰晶', stage: 'growing', requiredScore: 90 },
-          { level: 6, name: '巨猛犸', description: '体型巨大', stage: 'growing', requiredScore: 125 },
+          { level: 6, name: '巨猛犸', description: '体躯庞大', stage: 'growing', requiredScore: 125 },
           { level: 7, name: '象牙王', description: '牙如玉', stage: 'mature', requiredScore: 165 },
           { level: 8, name: '古猛犸', description: '身披厚毛', stage: 'mature', requiredScore: 210 },
           { level: 9, name: '冰川之主', description: '行走于冰', stage: 'legendary', requiredScore: 260 },
@@ -1070,7 +1071,7 @@ export const PET_SERIES: PetSeries[] = [
           { level: 3, name: '鳞甲变厚', description: '能潜水', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '沧龙', description: '标准，长尾', stage: 'baby', requiredScore: 60 },
           { level: 5, name: '海中霸主', description: '速度极快', stage: 'growing', requiredScore: 90 },
-          { level: 6, name: '巨沧', description: '体型巨大', stage: 'growing', requiredScore: 125 },
+          { level: 6, name: '巨沧', description: '庞然巨物', stage: 'growing', requiredScore: 125 },
           { level: 7, name: '王沧', description: '头有冠', stage: 'mature', requiredScore: 165 },
           { level: 8, name: '深海沧龙', description: '适应深水', stage: 'mature', requiredScore: 210 },
           { level: 9, name: '古沧', description: '身带化石纹', stage: 'legendary', requiredScore: 260 },
@@ -1106,7 +1107,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'taurus', name: '金牛座·阿鲁迪巴', seriesId: 'constellation',
         levels: [
-          { level: 1, name: '星辉之种', description: '一粒闪耀的星辉，孕育着金牛的轮廓', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '金牛星种', description: '一粒闪耀的星辉，孕育着金牛的轮廓', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '幼角初露', description: '星尘凝成小牛，额间两枚金色角芽悄然萌发', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '蛮力渐长', description: '小牛力气惊人，轻易顶开巨石，憨态可掬', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '金牛修行', description: '日复一日打磨角与身躯，豪爽开朗而可靠', stage: 'baby', requiredScore: 60 },
@@ -1157,7 +1158,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'leo', name: '狮子座·艾奥里亚', seriesId: 'constellation',
         levels: [
-          { level: 1, name: '星辉之种', description: '一粒炽热的星辉，孕育着雄狮的轮廓', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '狮子星种', description: '一粒炽热的星辉，孕育着雄狮的轮廓', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '狮心初燃', description: '星尘凝成幼狮，鬃毛间有火花跳动', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '热血修行', description: '日夜修炼拳速，热血沸腾，渴望变强', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '正义之心', description: '胸中燃起正义之火，绝不向邪恶低头', stage: 'baby', requiredScore: 60 },
@@ -1208,7 +1209,7 @@ export const PET_SERIES: PetSeries[] = [
       {
         id: 'scorpio', name: '天蝎座·米罗', seriesId: 'constellation',
         levels: [
-          { level: 1, name: '星辉之种', description: '一粒星辉如蝎尾针尖，泛着深红光芒', stage: 'egg', requiredScore: 0 },
+          { level: 1, name: '天蝎星种', description: '一粒星辉如蝎尾针尖，泛着深红光芒', stage: 'egg', requiredScore: 0 },
           { level: 2, name: '蝎针初成', description: '星尘凝成小蝎，尾针鲜红欲滴', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '忠义修行', description: '以忠诚为道修行，身手敏捷如电', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '正义之针', description: '深信以毒针制裁罪恶，针尖必中要害', stage: 'baby', requiredScore: 60 },

@@ -23,7 +23,7 @@ export function stageKeyOf(level: number): PetStage {
 const STAGE_EXTRA: Record<string, { legendary?: string; transcendent?: string }> = {
   // ===== 山海经（18） =====
   zhulong:       { legendary: '🐲', transcendent: '☀️' },
-  yinglong:      { legendary: '🐲', transcendent: '🌧️' },
+  yinglong:      { legendary: '🕊️', transcendent: '🌧️' },
   nine_tail_fox: { legendary: '🦊', transcendent: '👑' },
   kunpeng:       { legendary: '🐋', transcendent: '🕊️' },
   fenghuang:     { legendary: '🔥', transcendent: '🌟' },
@@ -63,7 +63,7 @@ const STAGE_EXTRA: Record<string, { legendary?: string; transcendent?: string }>
   tibetan_antelope: { legendary: '🏔️', transcendent: '🏃' },
   snow_leopard:  { legendary: '🌨️', transcendent: '🐆' },
   milu_deer:     { legendary: '🫎', transcendent: '🎋' },
-  siberian_tiger: { legendary: '🐯', transcendent: '🌙' },
+  siberian_tiger: { legendary: '🌬️', transcendent: '🌙' },
   red_panda:     { legendary: '🍁', transcendent: '🧣' },
   finless_porpoise: { legendary: '🐬', transcendent: '🫧' },
   // ===== 数码宝贝（6） =====
@@ -140,7 +140,7 @@ const STAGE_EXTRA: Record<string, { legendary?: string; transcendent?: string }>
   sun_wukong:    { legendary: '🐵', transcendent: '👑' },
   nezha:         { legendary: '🔥', transcendent: '💥' },
   lei_zhenzi:    { legendary: '⚡', transcendent: '🌩️' },
-  yang_jian:     { legendary: '🗡️', transcendent: '🌟' },
+  yang_jian:     { legendary: '🔱', transcendent: '🌟' },
   taishang_laojun: { legendary: '☯️', transcendent: '🌌' },
   zhong_kui:     { legendary: '👺', transcendent: '🔥' },
   jiang_ziya:    { legendary: '🎣', transcendent: '🏳️' },
