@@ -101,6 +101,26 @@ body {
   color: var(--md-text);
   line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ===== 全局质感（Linux.do 式细节） ===== */
+/* 细滚动条（双主题） */
+* { scrollbar-width: thin; scrollbar-color: var(--tint-4) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--tint-4); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-secondary); }
+
+/* 文本选区 */
+::selection { background: rgba(124, 58, 237, 0.22); }
+
+/* 键盘焦点环（鼠标点击不显示，Tab 导航清晰可见） */
+:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 a { color: var(--md-primary); text-decoration: none; }
@@ -113,11 +133,11 @@ a:hover { color: var(--md-primary-light); }
   padding: 24px;
   border: 1px solid var(--tint-2);
   backdrop-filter: blur(8px);
-  transition: 0.25s;
+  transition: border-color 0.25s var(--ease-smooth), box-shadow 0.25s var(--ease-smooth);
 }
 .card:hover {
-  background: var(--tint-2);
-  box-shadow: var(--md-elevation);
+  border-color: var(--tint-3);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ===== 按钮 ===== */
@@ -132,9 +152,11 @@ a:hover { color: var(--md-primary-light); }
   font-weight: 600;
   cursor: pointer;
   border: none;
-  transition: 0.2s;
+  transition: all 0.2s var(--ease-smooth);
   font-family: inherit;
 }
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn:disabled { cursor: not-allowed; opacity: 0.6; }
 .btn-primary {
   background: rgba(124, 58, 237, 0.12);
   border: 1px solid rgba(124, 58, 237, 0.25);
@@ -306,10 +328,11 @@ a:hover { color: var(--md-primary-light); }
 .data-table table { width: 100%; border-collapse: collapse; }
 .data-table th {
   padding: 12px 16px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--color-text-secondary);
   text-align: left;
+  letter-spacing: 0.05em;
   background: var(--tint-1);
   border-bottom: 1px solid var(--tint-2);
 }

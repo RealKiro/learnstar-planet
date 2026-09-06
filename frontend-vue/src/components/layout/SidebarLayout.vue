@@ -37,14 +37,18 @@ function navigate(name: string) {
 
       <div class="nav-list">
         <template v-for="section in props.navItems" :key="section.section">
-          <button
-            v-for="item in section.items"
-            :key="item.page"
-            :class="['nav-item', { active: activeNav === item.page }]"
-            @click="navigate(item.page)"
-          >
-            <span class="icon">{{ item.icon }}</span> {{ item.label }}
-          </button>
+          <!-- 分组标题（AstrBot 式小节标签）；空分组不渲染 -->
+          <template v-if="section.items.length">
+            <div class="nav-section">{{ section.section }}</div>
+            <button
+              v-for="item in section.items"
+              :key="item.page"
+              :class="['nav-item', { active: activeNav === item.page }]"
+              @click="navigate(item.page)"
+            >
+              <span class="icon">{{ item.icon }}</span> {{ item.label }}
+            </button>
+          </template>
         </template>
       </div>
 
@@ -84,7 +88,7 @@ function navigate(name: string) {
   width: var(--md-sidebar-width);
   background: var(--md-surface-2);
   border-right: 1px solid var(--tint-2);
-  padding: 24px 16px 20px;
+  padding: 24px 14px 20px;
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -93,7 +97,6 @@ function navigate(name: string) {
   overflow-y: auto;
   flex-shrink: 0;
   backdrop-filter: blur(12px);
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
   z-index: 10;
 }
 
@@ -158,26 +161,40 @@ function navigate(name: string) {
 .nav-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
   flex: 1;
 }
+
+/* 分组标题（AstrBot 式小节标签） */
+.nav-section {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  opacity: 0.75;
+  padding: 14px 12px 5px;
+  user-select: none;
+}
+.nav-section:first-child { padding-top: 4px; }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
-  border-radius: var(--md-radius);
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.18s var(--ease-smooth), color 0.18s var(--ease-smooth);
   color: var(--md-text-secondary);
   border: none;
   background: transparent;
   width: 100%;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   font-family: inherit;
   text-align: left;
+  position: relative;
 }
 
 .nav-item:hover {
@@ -186,15 +203,29 @@ function navigate(name: string) {
 }
 
 .nav-item.active {
-  background: rgba(167, 139, 250, 0.15);
+  background: var(--tint-2);
   color: var(--color-primary);
-  box-shadow: inset 3px 0 0 var(--md-primary);
+  font-weight: 600;
+}
+
+/* 激活态左侧指示条（Linux.do 当前项式样） */
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--md-primary);
 }
 
 .nav-item .icon {
-  font-size: 22px;
-  width: 28px;
+  font-size: 18px;
+  width: 24px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 /* 系列选择器区 */
@@ -224,7 +255,7 @@ function navigate(name: string) {
     padding: 12px 16px;
     border-right: none;
     border-bottom: 1px solid var(--tint-2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   }
   .logo {
     margin-bottom: 0;
@@ -238,11 +269,15 @@ function navigate(name: string) {
     gap: 4px;
     flex: 2;
     justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
   }
+  .nav-section { display: none; }
   .nav-item {
     padding: 8px 12px;
     font-size: 14px;
   }
+  .nav-item.active::before { display: none; }
   .nav-item .icon {
     font-size: 18px;
     width: 24px;
