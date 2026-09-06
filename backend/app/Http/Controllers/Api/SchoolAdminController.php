@@ -933,7 +933,7 @@ class SchoolAdminController extends Controller
                     ->first();
                 if ($crossDup) {
                     $errors[] = '第 ' . ($idx + 1) . ' 行：学号「' . $studentNo . '」已存在于「'
-                        . ($crossDup->classRoom?->name ?? '其他班级')
+                        . ($crossDup->classRoom->name ?? '其他班级')
                         . '」。若为同一学生转班，请使用学生管理的批量转班功能，不要在两个班重复创建';
                     continue;
                 }
@@ -949,7 +949,7 @@ class SchoolAdminController extends Controller
                 ->first();
             if ($sameNameElsewhere) {
                 $warnings[] = '第 ' . ($idx + 1) . ' 行：新导入的「' . trim($row['name']) . '」与「'
-                    . ($sameNameElsewhere->classRoom?->name ?? '其他班级')
+                    . ($sameNameElsewhere->classRoom->name ?? '其他班级')
                     . '」现有学生同名。若为同一学生（转班），请删除本条并用批量转班；若为同名不同人，可忽略本提醒';
             }
             $student = Student::create([

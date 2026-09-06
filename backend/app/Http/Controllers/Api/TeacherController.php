@@ -530,7 +530,7 @@ class TeacherController extends Controller
                     ->first();
                 if ($crossDup) {
                     $skipped[] = $name . "（学号 {$studentNo}）：已存在于 "
-                        . ($crossDup->classRoom?->name ?? '其他班级')
+                        . ($crossDup->classRoom->name ?? '其他班级')
                         . '，如为转班请联系管理员使用批量转班';
                     continue;
                 }
