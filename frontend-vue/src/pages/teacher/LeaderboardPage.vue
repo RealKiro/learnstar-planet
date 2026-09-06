@@ -100,7 +100,8 @@ function generateDemoData(type: LbType): LeaderboardEntry[] {
 
 function formatScore(score: number | string): string {
   if (typeof score === 'string') return score
-  return score.toLocaleString()
+  // 后端字段缺失时兜底为 0，避免渲染崩溃冻结整页
+  return (score ?? 0).toLocaleString()
 }
 
 async function switchTab(type: LbType) {

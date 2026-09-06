@@ -448,9 +448,15 @@ onMounted(async () => {
         apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules', { skipToast: true }),
         apiGet<ApiResponse<{ total: number; today: number; this_week: number }>>('/api/v1/teacher/scores/summary', { skipToast: true }),
       ])
-      students.value = sRes.data || []
+      // 字段级兜底：total_score 缺失会让卡片网格渲染崩溃
+      students.value = (sRes.data || []).map(s => ({ ...s, total_score: (s as { total_score?: number }).total_score ?? 0 }))
       rules.value = rRes.data || []
-      scoreSummary.value = sumRes.data || { total: 0, today: 0, this_week: 0 }
+      // 字段级兜底：单个字段缺失不能让整页渲染崩溃（模板里直接 toLocaleString）
+      scoreSummary.value = {
+        total: sumRes.data?.total ?? 0,
+        today: sumRes.data?.today ?? 0,
+        this_week: sumRes.data?.this_week ?? 0,
+      }
       loadError.value = ''
     } catch {
       loadError.value = '数据加载失败，已显示演示数据'

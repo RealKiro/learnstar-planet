@@ -24,12 +24,13 @@ const inputForm = ref({ exam_name: '', subject: '', grades: [] as { student_id: 
 const inputStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const exportStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
+// 单条成绩 total 缺失时不显示 NaN，按 0 计
 const avgScore = computed(() => {
   if (!grades.value.length) return 0
-  return Math.round(grades.value.reduce((a, g) => a + g.total, 0) / grades.value.length * 10) / 10
+  return Math.round(grades.value.reduce((a, g) => a + (Number(g.total) || 0), 0) / grades.value.length * 10) / 10
 })
-const maxScore = computed(() => grades.value.length ? Math.max(...grades.value.map(g => g.total)) : 0)
-const minScore = computed(() => grades.value.length ? Math.min(...grades.value.map(g => g.total)) : 0)
+const maxScore = computed(() => grades.value.length ? Math.max(...grades.value.map(g => Number(g.total) || 0)) : 0)
+const minScore = computed(() => grades.value.length ? Math.min(...grades.value.map(g => Number(g.total) || 0)) : 0)
 const passRate = computed(() => {
   if (!grades.value.length) return 0
   const pass = grades.value.filter(g => g.average >= 60).length

@@ -95,7 +95,7 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 
       <div style="display:flex;gap:8px;margin-bottom:16px;">
         <button v-for="t in ([['banner','📌 顶部横幅'],['popup','💬 弹窗提示'],['fullscreen','🖥️ 全屏展示']] as const)" :key="t[0]" :class="['bc-type-btn', bcType === t[0] ? 'active' : '']" @click="bcType = t[0]">
-          :class="['"'"'bc-type-btn'"'"', bcType === t[0] ? '"'"'active'"'"' : '"'"''"'"']"
+          {{ t[1] }}
         </button>
       </div>
 

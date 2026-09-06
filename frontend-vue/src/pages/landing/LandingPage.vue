@@ -60,7 +60,7 @@ onUnmounted(() => clearInterval(slideTimer))
 
     <!-- 顶部导航 -->
     <header class="topbar">
-      <div class="topbar-brand">🌌 学趣星球</div>
+      <div class="topbar-brand"><span class="topbar-brand-icon">🌌</span><span class="topbar-brand-text">学趣星球</span></div>
       <div class="topbar-links">
         <button class="topbar-btn" @click="goLogin">👨‍🏫 教师</button>
         <button class="topbar-btn" @click="goLogin">⚙️ 管理</button>
@@ -134,7 +134,10 @@ onUnmounted(() => clearInterval(slideTimer))
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 32px; max-width: 1100px; margin: 0 auto; width: 100%; box-sizing: border-box;
 }
-.topbar-brand { font-size: 20px; font-weight: 700; background: linear-gradient(135deg,#5E5CE6,#FF375F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+/* emoji 不能参与 text-fill 渐变裁剪（Windows 下渲染为方块），只对文字部分裁剪 */
+.topbar-brand { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; }
+.topbar-brand-icon { font-size: 22px; line-height: 1; }
+.topbar-brand-text { background: linear-gradient(135deg,#5E5CE6,#FF375F); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .topbar-links { display: flex; align-items: center; gap: 8px; }
 .topbar-btn {
   padding: 6px 14px; border: 1px solid #E5E5EA; border-radius: 9999px;

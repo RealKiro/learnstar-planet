@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
-import type { ApiResponse, Student } from '@/types'
+import type { ApiResponse } from '@/types'
 
 // ===== 类型 =====
 interface ClassPKData {
@@ -35,15 +35,15 @@ const pkStatus = ref<'idle' | 'success' | 'error'>('idle')
 const challengeTarget = computed(() => classes.value.find(c => !c.isOwn) || null)
 const challengeDone = computed(() => pkStatus.value === 'success')
 
-async function startPk() {
-  const target = challengeTarget.value
-  if (!target || pkBusy.value || pkStatus.value === 'success') return
+async function startPk(target?: ClassPKData) {
+  const t = target ?? challengeTarget.value
+  if (!t || pkBusy.value || pkStatus.value === 'success') return
   pkBusy.value = true
   pkError.value = ''
   try {
-    const res = await apiPost<{ message: string }>('/api/v1/teacher/pk/challenge', { target_class_id: target.class_id })
+    const res = await apiPost<{ message: string }>('/api/v1/teacher/pk/challenge', { target_class_id: t.class_id })
     pkStatus.value = 'success'
-    pkMsg.value = res.message || `🚀 已向 ${target.name} 发起挑战！`
+    pkMsg.value = res.message || `🚀 已向 ${t.name} 发起挑战！`
     setTimeout(() => { pkStatus.value = 'idle'; pkMsg.value = '' }, 3000)
   } catch (e: any) {
     pkStatus.value = 'error'
@@ -54,7 +54,6 @@ async function startPk() {
 }
 
 // ===== 数据 =====
-const students = ref<Student[]>([])
 const classes = ref<ClassPKData[]>([])
 const overview = ref<PKOverview>({
   totalScore: 0, avgLevel: 0, peakCount: 0, weekGrowth: 0, rank: 0,
@@ -84,11 +83,7 @@ function getRankMedal(idx: number): string {
 
 onMounted(async () => {
   try {
-    const [sRes, pkRes] = await Promise.all([
-      apiGet<ApiResponse<Student[]>>('/api/v1/teacher/students?per_page=100'),
-      apiGet<ApiResponse<ClassPKData[]>>('/api/v1/teacher/pk/leaderboard'),
-    ])
-    students.value = sRes.data || []
+    const pkRes = await apiGet<ApiResponse<ClassPKData[]>>('/api/v1/teacher/pk/leaderboard')
     classes.value = pkRes.data || []
     // 本班统计从排行榜推导（真实数据，非假数据）
     const own = classes.value.find(c => c.isOwn)
@@ -174,7 +169,8 @@ onMounted(async () => {
             v-if="!cls.isOwn"
             class="pk-btn"
             :class="{ 'pk-btn--done': pkStatus === 'success' }"
-            @click="startPk()"
+            :disabled="pkBusy"
+            @click="startPk(cls)"
           >
             {{ pkStatus === 'success' ? '已挑战 ✓' : '⚔️ PK' }}
           </button>
