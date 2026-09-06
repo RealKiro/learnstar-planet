@@ -146,7 +146,7 @@ learnstar-planet/
 
 ---
 
-## API 架构（214 个端点）
+## API 架构（220 个端点）
 
 ### `/api/v1/auth/*` — 认证
 - POST teacher/login, admin/login, teacher/login/{platform}
@@ -257,6 +257,10 @@ npm run dev         # 开发服务器 http://localhost:5173
 npm run typecheck   # TypeScript 类型检查
 npm run build       # 生产构建
 npm run build:deploy # 输出到 ../backend/public/
+
+# 宠物数据审计（改动 petData/petLifeStories/petTraits/stageEmoji 后必须跑）
+node scripts/analyze-pets.mjs   # 数据完整性审计 → ../docs/pet-audit-report.json
+node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-fit-review.txt
 \`\`\`
 
 ---
@@ -323,3 +327,23 @@ npm run build:deploy # 输出到 ../backend/public/
     | 广播/事件 | `ShouldBroadcastNow` + Redis 广播，L12 兼容 |
 
     **结论**：升级已完成，composer 解析 / PHPStan（Level 5）/ 测试全部跑通；bootstrap 阶段 `env()` 可用（.env 已先加载），仅需避免控制器/服务在 config:cache 之后调用 `env()`。
+
+12. **部署持久化与轻量化（2026-09）**:
+    - 默认部署 = 仅 app 单容器 + 内置 SQLite；**MySQL / PostgreSQL / Redis 一律外置**（compose 不内置数据库容器，减小体积）
+    - 数据卷挂载路径是 **`/app/storage/*`**（数据库 `/app/storage/database.sqlite`）——生产镜像 WORKDIR 是 `/app`，**勿改成 `/var/www/html`**（镜像内不存在该路径，挂错 = 数据从未持久化，历史上踩过）
+    - APP_KEY 持久化到数据卷（`storage/app/uploads/.app_key`），容器重建不再全员登出
+    - 旧版（2026-09 前）部署的数据存在容器层，升级前需 `docker cp` 抢救一次（README 备份章节有流程）
+13. **API 机器人账号（外部系统对接，2026-09）**:
+    - `BotTeacherSeeder` 随启动默认创建 `api-bot`（`BOT_USERNAME`/`BOT_PASSWORD`/`BOT_NAME` 可配，密码以 .env 为唯一真相来源每次启动同步；`BOT_ENABLED=false` 停用）
+    - `User.isApiBot()`（settings.is_api_bot 标记）→ `TeacherController::teacherClassIds` 放行**本校全部班级**（新建班级自动纳入）；机器人账号不可从后台删除
+    - 用途：外部系统 `POST /auth/teacher/login` 换 token 后调用 `/api/v1/teacher/*`；MCP 服务器（mcp-server/）复用同一凭证
+14. **导入与第三方数据冲突防护（2026-09）**:
+    - 通讯录/Excel 导入：教师按手机号/实名用户名去重（不再生成"张老师_2"）；学生同班同名跳过、**跨班同学号拦截**并提示走批量转班；学生创建包 DB 事务
+    - 第三方扫码登录：按手机号 → 实名用户名匹配本地已有账号并自动绑定（不重复建号）
+    - 升班顺序：平台先调名单 → 本系统学年升级 → 建新班 → 通讯录导入
+15. **宠物数据体系（126 物种 × 6 阶段，2026-09 全量审计）**:
+    - 数据层：petData(+Extended) 物种与 12 级、petLifeStories 六阶人生叙事（含 poem/line/视觉规格）、petProfiles 九维档案、petTraits 六阶特质、stageEmoji 阶段 emoji（STAGE_EXTRA 全量 126 物种专属）
+    - **唯一性约定**：基础 emoji 物种间唯一；传说/道果阶段 emoji 全量专属（卵生统一 🥚、星座系道果统一 🌟 神圣衣、"七剑合璧"合体技除外）；特质与等级名称跨物种不重复
+    - **审计工具**：`frontend-vue/scripts/analyze-pets.mjs`（数据完整性，报告 → docs/pet-audit-report.json）、`scripts/audit-cards.mjs`（角色卡唯一性 + 契合度核对表 card-fit-review.txt）。新增/修改宠物数据后必须跑这两个脚本
+    - 遗留：65 阶视觉规格字段缺失（节日系列为主），明细在 docs/pet-audit-report.json，待批量补全
+16. **产品命名（2026-09）**: 中文名 **学宠星球**，英文 **LearnStar Planet**。仓库/镜像/环境变量等标识符保留 `learnstar-planet`（改名只涉及展示文本）
