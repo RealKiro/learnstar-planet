@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { apiPost } from '@/utils/api'
+import { useToastStore } from '@/stores/toast'
 import ModalGlass from '@/components/common/ModalGlass.vue'
+
+const toast = useToastStore()
 
 const props = defineProps<{
   visible: boolean
@@ -44,6 +47,8 @@ async function uploadImport(isDry: boolean) {
     if (isDry && res.preview) {
       importPreview.value = res.preview
     } else {
+      // 实际导入：结果摘要用 toast 告知（成功静默关闭会让用户不知道导入了多少）
+      toast.show(res.message || `导入成功（${res.total ?? 0} 条）`, 'success')
       emit('update:visible', false)
       emit('imported')
     }

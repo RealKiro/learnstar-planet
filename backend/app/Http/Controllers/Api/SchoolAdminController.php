@@ -2336,44 +2336,118 @@ class SchoolAdminController extends Controller
             return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
         }
 
-        $createdTeachers = 0;
-        $teachers = $request->input('teachers', []);
-        if (!empty($teachers)) {
+        $skippedTeachers = [];
+        $skippedStudents = [];
+
+        // ---- 教师：归一化手机号 + 查重，重复导入不再生成 _2/_3 冗余账号 ----
+        $teachers = array_map(static function (array $t): array {
             // 通讯录用 mobile 字段，createTeacherAccounts 存 phone —— 统一映射，避免手机号丢失
-            $teachers = array_map(function (array $t): array {
-                $t['phone'] = $t['phone'] ?? $t['mobile'] ?? null;
-                unset($t['mobile']);
+            $phone = preg_replace('/[\s\-]/', '', (string) ($t['phone'] ?? $t['mobile'] ?? ''));
+            unset($t['mobile']);
+            $t['phone'] = $phone !== '' ? $phone : null;
 
-                return $t;
-            }, $teachers);
-            $result = $this->authService->createTeacherAccounts($school, $teachers);
-            $createdTeachers = count($result);
-        }
+            return $t;
+        }, (array) $request->input('teachers', []));
 
-        $createdStudents = 0;
-        $students = $request->input('students', []);
-        foreach ($students as $s) {
-            // 查重：同班级同名已存在则跳过（避免重复导入重复创建学生）
-            $name = trim($s['name']);
-            $dup = \App\Models\Student::where('class_id', (int) $s['class_id'])
-                ->where('name', $name)
-                ->exists();
-            if ($dup) {
+        // 请求内去重：同手机号（或无手机号时同名）只保留第一条
+        $seenPhone = [];
+        $seenName = [];
+        $unique = [];
+        foreach ($teachers as $t) {
+            $phone = (string) ($t['phone'] ?? '');
+            $name = (string) $t['name'];
+            if ($phone !== '') {
+                if (isset($seenPhone[$phone])) {
+                    continue;
+                }
+                $seenPhone[$phone] = true;
+            } elseif (isset($seenName[$name])) {
                 continue;
             }
-            $student = \App\Models\Student::create([
-                'class_id' => (int) $s['class_id'],
-                'name' => $name,
-                'gender' => $s['gender'] ?? null,
-                'status' => 'active',
-            ]);
-            $this->assignDefaultPet($student);
-            $createdStudents++;
+            $seenName[$name] = true;
+            $unique[] = $t;
+        }
+        $teachers = $unique;
+
+        // 库内查重：手机号已存在，或默认实名用户名（= 姓名）已存在 → 跳过
+        if (!empty($teachers)) {
+            $phoneList = array_values(array_filter(array_map(
+                static fn (array $t): string => (string) ($t['phone'] ?? ''),
+                $teachers
+            )));
+            $existingPhones = $phoneList !== []
+                ? User::where('school_id', $school->id)->whereIn('phone', $phoneList)->pluck('phone')->all()
+                : [];
+            $existingUsernames = User::where('school_id', $school->id)
+                ->whereIn('username', array_map(static fn (array $t): string => (string) $t['name'], $teachers))
+                ->pluck('username')->all();
+
+            $kept = [];
+            foreach ($teachers as $t) {
+                $phone = (string) ($t['phone'] ?? '');
+                $name = (string) $t['name'];
+                if ($phone !== '' && in_array($phone, array_map('strval', $existingPhones), true)) {
+                    $skippedTeachers[] = ['name' => $name, 'reason' => '手机号已存在'];
+                    continue;
+                }
+                if (in_array($name, array_map('strval', $existingUsernames), true)) {
+                    $skippedTeachers[] = ['name' => $name, 'reason' => '同名账号已存在'];
+                    continue;
+                }
+                $kept[] = $t;
+            }
+            $teachers = $kept;
+        }
+
+        $teacherAccounts = [];
+        $createdTeachers = 0;
+        if (!empty($teachers)) {
+            $result = $this->authService->createTeacherAccounts($school, $teachers);
+            $createdTeachers = count($result);
+            // 初始密码仅创建时可见（AuthService 约定），随导入结果返回供管理员抄送
+            $teacherAccounts = array_map(static fn (array $a): array => [
+                'name' => $a['name'],
+                'username' => $a['username'],
+                'initial_password' => $a['initial_password'],
+            ], $result);
+        }
+
+        // ---- 学生：事务内创建，单条失败整体回滚；同班同名跳过 ----
+        $createdStudents = 0;
+        $students = (array) $request->input('students', []);
+        if (!empty($students)) {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($students, &$createdStudents, &$skippedStudents): void {
+                foreach ($students as $s) {
+                    $name = trim((string) $s['name']);
+                    $classId = (int) $s['class_id'];
+                    $dup = \App\Models\Student::where('class_id', $classId)->where('name', $name)->exists();
+                    if ($dup) {
+                        $skippedStudents[] = ['name' => $name, 'reason' => '该班级已有同名学生'];
+                        continue;
+                    }
+                    $student = \App\Models\Student::create([
+                        'class_id' => $classId,
+                        'name' => $name,
+                        'gender' => $s['gender'] ?? null,
+                        'status' => 'active',
+                    ]);
+                    $this->assignDefaultPet($student);
+                    $createdStudents++;
+                }
+            });
         }
 
         return response()->json([
-            'message' => "已导入 {$createdTeachers} 名教师、{$createdStudents} 名学生",
-            'data' => ['created_teachers' => $createdTeachers, 'created_students' => $createdStudents],
+            'message' => "已导入 {$createdTeachers} 名教师、{$createdStudents} 名学生"
+                . (count($skippedTeachers) > 0 ? "，跳过已存在教师 " . count($skippedTeachers) . ' 名' : '')
+                . (count($skippedStudents) > 0 ? "，跳过同名学生 " . count($skippedStudents) . ' 名' : ''),
+            'data' => [
+                'created_teachers' => $createdTeachers,
+                'created_students' => $createdStudents,
+                'skipped_teachers' => $skippedTeachers,
+                'skipped_students' => $skippedStudents,
+                'teacher_accounts' => $teacherAccounts,
+            ],
         ]);
     }
 
@@ -2390,6 +2464,9 @@ class SchoolAdminController extends Controller
         } catch (\Throwable $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }
+
+        // 附带平台标识，前端可显示"当前来源：企业微信/钉钉/飞书"
+        $contacts['platform'] = $provider->key();
 
         return response()->json(['data' => $contacts]);
     }

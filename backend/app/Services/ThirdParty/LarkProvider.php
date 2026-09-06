@@ -52,6 +52,14 @@ class LarkProvider implements ThirdPartyProvider
             throw new \RuntimeException('飞书未配置或获取 tenant_access_token 失败');
         }
         $departments = $this->allDepartments($token);
+        // 飞书成员上只带 department_ids，前端按"部门名"匹配班级 —— 这里翻译成名称
+        $deptNameById = [];
+        foreach ($departments as $d) {
+            $did = (string) ($d['department_id'] ?? '');
+            if ($did !== '' && isset($d['name'])) {
+                $deptNameById[$did] = (string) $d['name'];
+            }
+        }
         $members = [];
         $seen = [];
         foreach ($departments as $d) {
@@ -65,13 +73,20 @@ class LarkProvider implements ThirdPartyProvider
                     continue;
                 }
                 $seen[$uid] = true;
+                $deptNames = [];
+                foreach ((array) ($u['department_ids'] ?? []) as $did) {
+                    $nm = $deptNameById[(string) $did] ?? '';
+                    if ($nm !== '' && !in_array($nm, $deptNames, true)) {
+                        $deptNames[] = $nm;
+                    }
+                }
                 $members[] = [
                     'userid' => $uid,
                     'name' => (string) ($u['name'] ?? ''),
                     'mobile' => (string) ($u['mobile'] ?? ''),
                     'email' => (string) ($u['email'] ?? ''),
                     'position' => (string) ($u['job_title'] ?? ''),
-                    'department_names' => $u['department_ids'] ?? [],
+                    'department_names' => $deptNames,
                 ];
             }
         }
