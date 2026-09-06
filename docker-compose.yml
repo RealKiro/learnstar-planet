@@ -1,18 +1,23 @@
 # 学趣星球 - Docker Compose 部署配置
 #
-# 两种部署方式，无需 --profile 参数：
+# 三种部署方式：
 #
-#   方式一（默认）：内置 MySQL + Redis
+#   方式一（默认）：SQLite 零依赖
 #     docker-compose up -d
-#     → 启动 app + mysql + redis，开箱即用
+#     → 只启动 app 一个容器，数据库为内置 SQLite 文件，无需任何数据库服务
 #
-#   方式二：外置数据库（已有 MySQL/MariaDB/PostgreSQL/SQLite）
-#     1. 在 .env 中修改 DB_HOST 指向外部数据库
+#   方式二：内置 MariaDB + Redis（full-stack 模式，全校规模）
+#     .env 中注释掉 SQLite 段、启用 MySQL 段（DB_HOST=mysql），然后：
+#     docker-compose --profile full-stack up -d
+#     → 启动 app + mariadb + redis 三个容器
+#
+#   方式三：外置数据库/Redis（已有服务器）
+#     1. 在 .env 中修改 DB_HOST / REDIS_HOST 指向外部服务器
 #     2. docker-compose up -d app --no-deps
-#     → 只启动 app，跳过内置 mysql/redis
+#     → 只启动 app，跳过内置 mariadb/redis
 #
 # 端口说明：
-#   容器内部 Nginx 固定监听 8080，不可改
+#   容器内 PHP 内置服务器固定监听 8080，不可改
 #   APP_PORT 是宿主机访问端口，可自由修改
 #   APP_URL 是 Laravel 生成绝对 URL 用的，填用户浏览器看到的地址
 
