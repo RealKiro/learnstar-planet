@@ -31,7 +31,7 @@ function navigate(name: string) {
     <nav class="sidebar">
       <div class="logo">
         <div class="brand">
-          <span>🌌</span> 学趣星球
+          <span>🌌</span> 学宠星球
         </div>
       </div>
 

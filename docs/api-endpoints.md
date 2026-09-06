@@ -1,4 +1,4 @@
-# 学趣星球 API 端点映射
+# 学宠星球 API 端点映射
 
 > 基于 `功能分类与版面设计.txt` 整理的前后端联调对照表
 > 前端服务层：`frontend-vue/src/services/api.ts`

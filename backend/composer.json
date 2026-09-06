@@ -1,7 +1,7 @@
 {
     "name": "learnstar/planet",
     "type": "project",
-    "description": "学趣星球 - 全免费班级管理神器，积分激励 × 宠物进化 × 课堂工具 × 学业评价",
+    "description": "学宠星球 - 全免费班级管理神器，积分激励 × 宠物进化 × 课堂工具 × 学业评价",
     "keywords": ["education", "classroom", "score", "management", "gamification", "free"],
     "license": "MIT",
     "require": {

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LearnStar Planet MCP Server — 学趣星球 AI 机器人集成服务器
+LearnStar Planet MCP Server — 学宠星球 AI 机器人集成服务器
 
 标准 MCP (Model Context Protocol) 服务器，供 AstrBot / Claude Desktop / Continue 等
 AI 框架调用。
@@ -46,7 +46,7 @@ QQ/微信 接入路径：
     → NapCatQQ/Lagrange（协议端，将手机消息转发为 HTTP）
     → AstrBot（消息处理框架）
     → MCP Client Plugin（工具调用）
-    → 本 MCP Server（学趣星球 API 封装）
+    → 本 MCP Server（学宠星球 API 封装）
     → LearnStar Laravel Backend（数据库操作）
 """
 

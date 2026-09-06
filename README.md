@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker" alt="Docker">
 </p>
 
-<h1 align="center">学趣星球 / LearnStar Planet</h1>
+<h1 align="center">学宠星球 / LearnStar Planet</h1>
 
 <p align="center">
   开源、自托管的班级管理与学生激励系统。<br>
@@ -15,46 +15,71 @@
 </p>
 
 <p align="center">
-  <a href="#-features">Features</a> •
-  <a href="#-quick-start">Quick Start</a> •
-  <a href="#-deployment">Deployment</a> •
-  <a href="#-configuration">Configuration</a> •
-  <a href="#-third-party-login">第三方登录</a> •
-  <a href="#-tech-stack">Tech Stack</a> •
-  <a href="#-faq">FAQ</a>
+  <a href="#-功能特性">功能特性</a> •
+  <a href="#-快速开始">快速开始</a> •
+  <a href="#-部署指南">部署指南</a> •
+  <a href="#%EF%B8%8F-配置说明">配置说明</a> •
+  <a href="#-数据备份与恢复">备份恢复</a> •
+  <a href="#-集成与对接">集成对接</a> •
+  <a href="#-faq">FAQ</a> •
+  <a href="#-技术架构">技术架构</a>
 </p>
 
 ---
 
-## 📦 Features
+## ✨ 功能特性
 
-- **积分评价系统** — 自定义加分/扣分规则，支持单人操作、批量操作、全班一键执行，每次变动实时推送至教室大屏
-- **宠物进化系统** — 125 种宠物、10 大系列（山海经 / 宝可梦 / 国宝守护 / 数码宝贝 / 魔法奇幻 / 史前生物 / 星座守护 / 传统节日 / 虹猫蓝兔七侠传 / 东方神话）、12 级进化路线，积分即经验值，自动累计升级，每级独立名称、专属诗文与进化台词；每只宠物以**程序化 SVG 艺术**呈现（每物种每阶段独立剪影与进化特效，可一键切换 emoji 展示，角色档案支撑未来 AI 生图）
-- **教室实时广播** — 横幅、弹窗、全屏三种模式，教师操作后 <200ms 到达教室大屏，支持多班级同时发送
-- **跨班 PK 战场** — 同年级各班自动排行（总积分 / 平均等级 / 巅峰人数 / 周增长），支持发起班级挑战
-- **积分商城** — 教师自定义奖品，学生自助兑换，完整的审核/发货/拒绝流程，支持多币种
-- **排行榜单** — 总积分榜、周增长榜、宠物等级榜，Redis ZSET 毫秒级排序，无 Redis 自动降级 MySQL
-- **智能考勤** — 一键发起点名，出勤 / 迟到 / 请假 / 缺席自动汇总
-- **在线成绩管理** — 按考试和科目录入成绩，统计平均分 / 最高分 / 最低分 / 分数段分布
-- **数据报表** — 积分趋势（近 4 周）、宠物等级分布、学生进步追踪、分年级/班级统计
-- **实时通知** — 班级通知发布后实时推送到各班级
-- **学年升级** — 预览升级明细 → 事务性执行，自动处理毕业与班级迭代
-- **学生/教师管理** — Excel 批量导入、批量转班/删除、智能去重账号创建
-- **多数据库支持** — SQLite / MySQL / PostgreSQL / MariaDB 任选，从小规模起步可无缝升级
-- **AI 中心** — 管理后台统一配置 AI，支持 30+ 供应商（OpenAI / Claude / Gemini / DeepSeek / 通义千问 / Kimi / 豆包 / MiniMax / 百川 / GLM / 星火等），MCP 通用接口可对接任意 OpenAI 兼容服务，班级码大屏可开启 AI 对话
-- **消息中心** — 实时广播 + 班级通知合并为统一入口
-- **第三方平台登录** — 支持企业微信 / 钉钉 / 飞书 / 微信 / QQ / 人人通空间，管理员在后台勾选启用，登录页自动展示带官方品牌图标的平台入口；企业微信/钉钉/飞书支持扫码免注册自动建号
-- **第三方账号绑定** — 教师可在账号设置中绑定/解绑第三方平台，绑定后扫码一键登录
-- **通讯录批量导入** — 从企业微信/钉钉/飞书拉取通讯录，一键导入教师与学生账号
-- **系统诊断与修复** — 一键检查数据库结构缺失并自动修复
-- **教师端侧边栏重组** — 按课堂教学 / 成长激励 / 数据中心 / 沟通协作 / 系统管理分组
-- **班级切换器** — 多班教师可在侧边栏一键切换当前班级，所有数据联动
-- **Excel 导出** — 积分报表、宠物报表、考勤报表一键导出 .xlsx
-- **微信小程序** — 教师端看板、积分管理、宠物图鉴、排行榜单
-- **MCP 机器人协议** — 标准 MCP 服务器，对接 QQ/微信群聊机器人实现自然语言查分、排行榜
-- **三端口架构** — 管理员端 / 教师端 / 教室端（班级码进入，以班级为单元）
+### 🎯 课堂管理
 
-## 🚀 Quick Start
+| 功能 | 说明 |
+|------|------|
+| **积分评价系统** | 自定义加分/扣分规则，支持单人操作、批量操作、全班一键执行，每次变动实时推送至教室大屏 |
+| **教室实时广播** | 横幅、弹窗、全屏三种模式，教师操作后 <200ms 到达教室大屏，支持多班级同时发送 |
+| **智能考勤** | 一键发起点名，出勤 / 迟到 / 请假 / 缺席自动汇总 |
+| **在线成绩管理** | 按考试和科目录入成绩，统计平均分 / 最高分 / 最低分 / 分数段分布 |
+| **消息中心** | 实时广播 + 班级通知合并为统一入口 |
+| **班级切换器** | 多班教师可在侧边栏一键切换当前班级，所有数据联动 |
+
+### 🌱 成长激励
+
+| 功能 | 说明 |
+|------|------|
+| **宠物进化系统** | 125 种宠物、10 大系列（山海经 / 宝可梦 / 国宝守护 / 数码宝贝 / 魔法奇幻 / 史前生物 / 星座守护 / 传统节日 / 虹猫蓝兔七侠传 / 东方神话）、12 级进化路线，积分即经验值；每只宠物以程序化 SVG 艺术呈现（可一键切换 emoji 展示），角色档案支撑未来 AI 生图 |
+| **跨班 PK 战场** | 同年级各班自动排行（总积分 / 平均等级 / 巅峰人数 / 周增长），支持发起班级挑战 |
+| **积分商城** | 教师自定义奖品，学生自助兑换，完整的审核/发货/拒绝流程，支持多币种 |
+| **排行榜单** | 总积分榜、周增长榜、宠物等级榜，Redis ZSET 毫秒级排序，无 Redis 自动降级 SQL |
+| **学年升级** | 预览升级明细 → 事务性执行，自动处理毕业与班级迭代 |
+
+### 📊 数据与运营
+
+| 功能 | 说明 |
+|------|------|
+| **数据报表** | 积分趋势（近 4 周）、宠物等级分布、学生进步追踪、分年级/班级统计 |
+| **学生 / 教师管理** | Excel 批量导入、批量转班/删除、智能去重账号创建 |
+| **Excel 导出** | 积分报表、宠物报表、考勤报表一键导出 .xlsx |
+| **系统诊断与修复** | 一键检查数据库结构缺失并自动修复 |
+| **多数据库支持** | SQLite / MySQL / PostgreSQL / MariaDB 任选，从小规模起步可无缝升级 |
+
+### 🤖 AI 能力
+
+| 功能 | 说明 |
+|------|------|
+| **AI 中心** | 管理后台统一配置 AI，支持 30+ 供应商（OpenAI / Claude / Gemini / DeepSeek / 通义千问 / Kimi / 豆包 / MiniMax / 百川 / GLM / 星火等） |
+| **AI 助教** | 班级码大屏可开启 AI 对话，学生直接向 AI 提问 |
+| **MCP 通用接口** | 可对接任意 OpenAI 兼容服务（自建 vLLM、本地大模型等） |
+
+### 🔌 平台与集成
+
+| 功能 | 说明 |
+|------|------|
+| **三端架构** | 管理员端 / 教师端 / 教室端（班级码进入，以班级为单元），学生无需账号 |
+| **REST API 机器人账号** | 内置机器人教师账号（全部班级权限），供外部系统调用积分管理能力 |
+| **MCP 机器人协议** | 标准 MCP 服务器，对接 QQ/微信群聊机器人实现自然语言加减分、查分、排行榜 |
+| **第三方平台登录** | 企业微信 / 钉钉 / 飞书 / 微信 / QQ / 人人通空间，扫码免注册自动建号，详见 [集成与对接](#-集成与对接) |
+| **通讯录批量导入** | 从企业微信/钉钉/飞书拉取通讯录，一键导入教师与学生账号 |
+| **微信小程序** | 教师端看板、积分管理、宠物图鉴、排行榜单 |
+
+## 🚀 快速开始
 
 **三步部署，新手照抄即可。** 只需要一台能装 Docker 的电脑（Windows / macOS / Linux 均可），**不需要**单独安装 PHP、MySQL、Redis、Nginx。
 
@@ -85,7 +110,7 @@ cp .env.example .env
 
 > Windows PowerShell 请用：`copy .env.example .env`
 >
-> **默认配置 = 内置 SQLite 数据库，什么都不用装、什么都不用改**，直接进第 3 步。全校规模（>500 学生）再按下文 [数据库切换](#-deployment) 外接你已有的 MySQL/PostgreSQL 服务器。
+> **默认配置 = 内置 SQLite 数据库，什么都不用装、什么都不用改**，直接进第 3 步。全校规模（>500 学生）再按下文 [部署指南](#-部署指南) 外接你已有的 MySQL/PostgreSQL 服务器。
 
 **第 3 步：启动**
 
@@ -102,7 +127,7 @@ docker-compose ps
 ```
 
 - `learnstar-app` 状态为 `Up (healthy)` 即为成功
-- 浏览器打开 `http://localhost:8080` → 能看到「学趣星球」首页
+- 浏览器打开 `http://localhost:8080` → 能看到「学宠星球」首页
 - 用默认管理员登录：**账号 `admin`，密码 `admin123456`**（来自 `.env` 的 `ADMIN_USERNAME` / `ADMIN_PASSWORD`，⚠️ 上线前务必修改，改完 `docker-compose up -d` 重启生效）
 - 在管理后台「班级列表」创建班级后，系统会自动生成 4 位班级码，学生在首页输入班级码即可进入教室端
 
@@ -116,21 +141,15 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 
 > 所有数据都存在 Docker 数据卷里，停止、重启、升级容器都不会丢数据。
 
-## 📋 Requirements
+### 硬件要求
 
-| 部署方式 | 前置依赖 |
-|---------|---------|
-| Docker（推荐） | Docker Engine / Docker Desktop，仅此而已 |
-| 裸机 SQLite | PHP 8.5 + Composer + Node.js 22（不推荐新手） |
-| 裸机 LAMP | Nginx + PHP 8.5-FPM + MySQL（不推荐新手） |
+最低 1 核 CPU、512MB 内存、5GB 磁盘（办公室淘汰 PC 即可）。全校规模建议 2 核 4GB。
 
-最低硬件：1 核 CPU、512MB 内存、5GB 磁盘（办公室淘汰 PC 即可）。全校规模建议 2 核 4GB。
-
-## 🛠 Deployment
+## 📦 部署指南
 
 ### 方案一：SQLite（默认 · 零依赖 · 推荐起步）
 
-就是 [Quick Start](#-quick-start三步部署新手照抄即可) 的方式：不装数据库、不装 Redis，数据保存在 Docker 数据卷里的一个 SQLite 文件（容器内路径 `storage/database.sqlite`）。
+就是 [快速开始](#-快速开始) 的方式：不装数据库、不装 Redis，数据保存在 Docker 数据卷里的一个 SQLite 文件（容器内路径 `storage/database.sqlite`）。
 
 - 适合：单机、500 学生以内的学校
 - 备份/恢复方法见下文 [数据备份与恢复](#-数据备份与恢复)
@@ -177,7 +196,7 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 | 排行榜性能 | SQL 查询 | 可外接 Redis，毫秒级 |
 | 实时广播 | 轮询 | SSE 实时推送 |
 
-## ⚙️ Configuration
+## ⚙️ 配置说明
 
 `.env` 逐项白话说明。改完任何配置，执行 `docker-compose up -d` 重建容器后生效（数据不丢）。**不要改的**：`GITHUB_USERNAME`（除非你 fork 后自行构建镜像，改成你的 GitHub 用户名并小写）。
 
@@ -197,7 +216,7 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 | `ADMIN_PASSWORD` | `admin123456` | ⚠️ **务必修改**。且每次重启容器都会以此值为准同步密码（忘了密码 = 改这里重启） |
 | `ADMIN_NAME` / `ADMIN_SCHOOL_NAME` | 见 .env | 显示用的姓名 / 校名 |
 
-### 数据库与缓存（三选一，详见上方 Deployment）
+### 数据库与缓存（二选一，详见上方部署指南）
 
 | 变量 | SQLite 模式 | 外置 MySQL 模式 | 白话说明 |
 |------|------------|---------------|---------|
@@ -216,7 +235,7 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 
 ### 第三方平台对接（可选）
 
-企业微信扫码登录 / 通讯录导入：填 `WECHAT_WORK_CORPID` / `WECHAT_WORK_AGENTID` / `WECHAT_WORK_SECRET`（在企业微信管理后台创建自建应用获取）；钉钉/飞书在后端 `config/dingtalk.php`、`config/feishu.php` 填凭证。详细步骤见下文 [第三方登录与配置指引](#-第三方登录与配置指引)。
+企业微信扫码登录 / 通讯录导入：填 `WECHAT_WORK_CORPID` / `WECHAT_WORK_AGENTID` / `WECHAT_WORK_SECRET`（在企业微信管理后台创建自建应用获取）；钉钉/飞书在后端 `config/dingtalk.php`、`config/feishu.php` 填凭证。详细步骤见 [集成与对接](#-集成与对接)。
 
 ### 常见问题排查（新手向）
 
@@ -290,30 +309,98 @@ docker cp learnstar-app:/app/storage/database.sqlite ./backup-before-upgrade.sql
 
 然后正常 `git pull && docker-compose pull && docker-compose up -d`（会重建容器），最后用上面的「恢复」命令把数据灌回去。**只需做这一次**，之后的升级都安全了。
 
-## 🏗 Tech Stack
+## 🔌 集成与对接
 
-| 层级 | 技术 |
-|------|------|
-| 后端 | Laravel 12（PHP 8.5） |
-| 数据库 | SQLite / MySQL / MariaDB / PostgreSQL |
-| 缓存与队列 | Redis 8（可降级 file / database） |
-| 前端 | Vue 3 + TypeScript + Tailwind CSS |
-| 实时推送 | SSE 协议（后端实现，前端 EventSource 优先 / 轮询降级） |
-| 小程序 | 微信原生（教师端 / 教室端） |
-| 机器人 | MCP 协议 Python 服务器 |
-| 部署 | Docker 多阶段构建 + Compose 编排 / 裸 PHP 环境 |
+本项目的三类对外能力都在这一章：REST API 机器人账号（通用对接）、MCP 服务器（AI 机器人插件）、第三方平台登录与同步（企业微信/钉钉/飞书）。
 
-## 🗂 Project Structure
+### 一、REST API 机器人账号（外部系统对接）
 
+系统内置一个专用的 **API 机器人教师账号**，供 QQ/微信群机器人、课中工具等外部项目通过 REST API 管理学生积分。该账号**拥有本校全部班级的查询与操作权限**（含未来新建的班级，无需维护关联）。
+
+快速开始（三步）：
+
+```bash
+# 1. 用机器人账号换取 token（账号密码来自 .env 的 BOT_USERNAME / BOT_PASSWORD）
+TOKEN=$(curl -s -X POST http://<服务器>:8080/api/v1/auth/teacher/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"api-bot","password":"learnstar-bot-2026"}' | jq -r .data.token)
+
+# 2. 查询可用班级（机器人返回本校全部班级）
+curl -H "Authorization: Bearer $TOKEN" http://<服务器>:8080/api/v1/teacher/my-classes
+
+# 3. 给学生加分（student_id 来自 /api/v1/teacher/students?per_page=100）
+curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
+  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d '{"student_id":1,"points":5,"reason":"作业优秀"}'
 ```
-learnstar-planet/
-├── frontend-vue/          # Vue 3 SPA（管理员端 / 教师端 / 教室端）
-├── backend/               # Laravel 12 API（24 模型，214 端点）
-├── mini-program/          # 微信小程序（10 页面，教师端）
-├── pwa/                   # PWA 离线配置
-├── mcp-server/            # MCP 机器人服务
-└── docker-compose.yml     # Docker 编排
-```
+
+常用端点：`scores/give`（单发）、`scores/batch-give`（批量）、`scores/give-by-rule/{ruleId}`（按规则）、`scores/history/{studentId}`（历史）、`scores/summary`（汇总）、`my-classes`（班级列表）。完整清单见 [docs/api-reference.md](docs/api-reference.md)。
+
+配置与安全：
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `BOT_ENABLED` | `true` | 设为 `false` 并重启，账号会被置为 disabled（接口 401） |
+| `BOT_USERNAME` / `BOT_PASSWORD` | `api-bot` / `learnstar-bot-2026` | ⚠️ 密码以 .env 为唯一真相来源，每次重启同步，**上线前务必修改** |
+| `BOT_NAME` | `API 机器人` | 在教师列表中的显示名 |
+
+安全须知：机器人账号可操作**全部班级**，请只在内网/可信环境使用并修改默认密码；积分记录的审计字段 `given_by` 会归到该账号；账号无法从管理后台删除（如需停用走 `BOT_ENABLED=false`）。
+
+### 二、MCP 服务器（AI 机器人插件）
+
+[mcp-server/](mcp-server/) 提供标准 MCP 协议服务器（工具：add_score / batch_add_score / query_score / search_student / get_leaderboard / get_dashboard / send_notice），AstrBot、Claude Desktop 等 MCP 宿主配 `LEARNSTAR_API_BASE` + `LEARNSTAR_API_TOKEN` 两个环境变量即可接入——把上面机器人账号的 token 填进去，QQ/微信群即可用自然语言加减分。部署详见 [mcp-server/README.md](mcp-server/README.md)。
+
+### 三、第三方平台登录与通讯录同步
+
+学宠星球支持多平台第三方扫码登录。**管理员在后台勾选哪些平台启用**，勾选后登录页才会显示对应平台入口，并自动展示各平台官方品牌图标。
+
+**1. 后台启用第三方平台**
+
+1. 管理员登录 → **学校设置** → 「第三方登录平台」
+2. 勾选要启用的平台（可多选）：**企业微信 / 钉钉 / 飞书 / 人人通空间 / 微信 / QQ**
+3. 保存后，登录页教师端自动显示勾选的平台入口
+
+> 未勾选任何平台时，默认启用 **企业微信 / 微信 / QQ**。
+> 勾选平台的展示与登录无需额外配置；但**扫码登录真正可用**需在对应平台开放平台注册应用并配置凭证（见下表）。
+
+**2. 各平台配置凭证**
+
+| 平台 | 是否需要凭证 | 凭证位置 | 支持能力 |
+|------|:-----------:|----------|----------|
+| **企业微信** | ✅ | `.env`：`WECHAT_WORK_CORPID` / `WECHAT_WORK_AGENTID` / `WECHAT_WORK_SECRET` | 扫码免注册登录 + 通讯录导入 + 请假同步 + 消息推送 |
+| **钉钉** | ✅ | `backend/config/dingtalk.php`：`app_key` / `app_secret` | 扫码登录 + 通讯录导入 |
+| **飞书** | ✅ | `backend/config/feishu.php`：`app_id` / `app_secret` | 扫码登录 + 通讯录导入 |
+| **微信** | ⚠️ | 需前端接入微信开放平台 JSAPI 取 openid | 当前仅展示入口，扫码流程待接入 |
+| **QQ** | ⚠️ | 需前端接入 QQ 互联取 openid | 当前仅展示入口，扫码流程待接入 |
+| **人人通空间** | ⚠️ | 需对接区域人人通开放平台 | 当前仅展示入口，扫码流程待接入 |
+
+**3. 教师绑定与免注册登录**
+
+- **企业微信 / 钉钉 / 飞书**：教师扫码后，若系统已有绑定账号则直接登录；否则**按手机号/实名用户名匹配本地已有账号并自动绑定**（不会重复建号）；确无匹配时自动创建教师账号（实名用户名 + 默认密码 `ls123456`）
+- **账号设置 → 第三方账号绑定**：教师可查看/解绑已绑定的第三方平台，或扫码绑定新平台
+
+**4. 通讯录批量导入**
+
+管理员 → 教师管理 → **🏢 第三方导入**：从学校配置的第三方平台（企业微信/钉钉/飞书）拉取通讯录，勾选成员后批量创建教师与学生账号。教师按手机号/实名账号自动去重（不会生成"张老师_2"冗余账号）；学生按部门名自动匹配班级（支持"六年级1班 ↔ 六年级（1）班"模糊匹配），可搜索、批量设置班级，导入完成后展示新增/跳过明细与新教师初始密码。
+
+**5. 数据同步与冲突处理（升班 / 名单更新必读）**
+
+系统以**本地数据库为准**，第三方平台（企业微信/钉钉/飞书）是数据来源之一。平台侧的调整不会自动写入本地，按以下规则协同：
+
+| 场景 | 系统的处理 |
+|------|-----------|
+| 通讯录重复导入 | 教师按手机号/实名账号自动跳过已有账号，**不会**生成"张老师_2"这类冗余账号；学生按"同班同名"跳过 |
+| 学生转班（平台名单已调整） | Excel/通讯录导入时，**同学号已在其他班级会被拦截**并提示用「批量转班」处理；跨班同名会给出提醒供管理员判断（同名不同人可直接忽略） |
+| 教师未导入过、直接扫码登录 | 系统按手机号 → 实名用户名匹配本地已有账号并自动绑定，**不会**重复建号 |
+| 学年升班 | 在本系统「学年升级」执行（六年级毕业、班级整体升级）；**第三方平台的部门/名单需要平台管理员同步调整**，之后再回来导入通讯录并核对班级映射 |
+
+> 推荐顺序：每个学年开始时，先在第三方平台完成升班与名单调整 → 本系统执行「学年升级」→ 建新一年级班级 → 通讯录导入新生（同学号冲突会被自动拦截）。
+
+**6. 工作原理（可选了解）**
+
+- 登录页平台列表来自接口 `GET /api/v1/auth/third-party/options`（返回管理员勾选的平台 + 品牌图标）
+- 学校配置存储在 `schools.settings.enabled_third_party_platforms`（JSON 数组）
+- 扫码回调按学校配置的平台分发（`App\Services\ThirdParty\ThirdPartyManager`），多校部署时通过 OAuth `state` 参数区分学校
 
 ## ❓ FAQ
 
@@ -334,7 +421,7 @@ learnstar-planet/
 
 <details>
 <summary>AI 助教怎么用？</summary>
-在 `.env` 中配置 `AI_PROVIDER` 和 `AI_API_KEY`，支持 DeepSeek / OpenAI / 通义千问 / Moonshot。不配置不影响其他功能。
+在管理后台「AI 中心」可视化配置，或 `.env` 配置 `AI_PROVIDER` 和 `AI_API_KEY`，支持 DeepSeek / OpenAI / 通义千问 / Moonshot 等 30+ 供应商。不配置不影响其他功能。
 </details>
 
 <details>
@@ -347,96 +434,35 @@ learnstar-planet/
 无。MIT 开源协议不限制用户数和班级数。全校使用建议外接你已有的 MySQL 服务器。
 </details>
 
-## 🤖 机器人账号与 REST API 对接
+<details>
+<summary>别的系统/机器人能对接积分管理吗？</summary>
+能。系统内置拥有全部班级权限的 API 机器人账号，通过 REST API 即可加减分/查分/排行；也提供标准 MCP 服务器对接 AstrBot、Claude Desktop 等宿主。见 <a href="#-集成与对接">集成与对接</a>。
+</details>
 
-系统内置一个专用的 **API 机器人教师账号**，供 QQ/微信群机器人、课中工具等外部项目通过 REST API 管理学生积分。该账号**拥有本校全部班级的查询与操作权限**（含未来新建的班级，无需维护关联）。
+## 🏗 技术架构
 
-### 快速开始（三步）
+| 层级 | 技术 |
+|------|------|
+| 后端 | Laravel 12（PHP 8.5） |
+| 数据库 | SQLite / MySQL / MariaDB / PostgreSQL |
+| 缓存与队列 | Redis 8（可降级 file / database） |
+| 前端 | Vue 3 + TypeScript + Tailwind CSS |
+| 实时推送 | SSE 协议（后端实现，前端 EventSource 优先 / 轮询降级） |
+| 小程序 | 微信原生（教师端 / 教室端） |
+| 机器人 | MCP 协议 Python 服务器 |
+| 部署 | Docker 多阶段构建 + Compose 编排 / 裸 PHP 环境 |
 
-```bash
-# 1. 用机器人账号换取 token（账号密码来自 .env 的 BOT_USERNAME / BOT_PASSWORD）
-TOKEN=$(curl -s -X POST http://<服务器>:8080/api/v1/auth/teacher/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"api-bot","password":"learnstar-bot-2026"}' | jq -r .data.token)
-
-# 2. 查询可用班级（机器人返回本校全部班级）
-curl -H "Authorization: Bearer $TOKEN" http://<服务器>:8080/api/v1/teacher/my-classes
-
-# 3. 给学生加分（student_id 来自 /api/v1/teacher/students?per_page=100）
-curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
-  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
-  -d '{"student_id":1,"points":5,"reason":"作业优秀"}'
+```
+learnstar-planet/
+├── frontend-vue/          # Vue 3 SPA（管理员端 / 教师端 / 教室端）
+├── backend/               # Laravel 12 API（24 模型，220 端点）
+├── mini-program/          # 微信小程序（10 页面，教师端）
+├── pwa/                   # PWA 离线配置
+├── mcp-server/            # MCP 机器人服务
+└── docker-compose.yml     # Docker 编排（默认仅 app 单容器）
 ```
 
-常用端点：`scores/give`（单发）、`scores/batch-give`（批量）、`scores/give-by-rule/{ruleId}`（按规则）、`scores/history/{studentId}`（历史）、`scores/summary`（汇总）、`my-classes`（班级列表）。完整清单见 [docs/api-reference.md](docs/api-reference.md)。
-
-### 已有的插件化集成
-
-[mcp-server/](mcp-server/) 提供标准 MCP 协议服务器（工具：add_score / batch_add_score / query_score / search_student / get_leaderboard 等），AstrBot、Claude Desktop 等 MCP 宿主配 `LEARNSTAR_API_BASE` + `LEARNSTAR_API_TOKEN` 两个环境变量即可接入——把上面机器人账号的 token 填进去，QQ/微信群即可用自然语言加减分。
-
-### 配置与安全
-
-| 变量 | 默认值 | 说明 |
-|------|--------|------|
-| `BOT_ENABLED` | `true` | 设为 `false` 并重启，账号会被置为 disabled（接口 401） |
-| `BOT_USERNAME` / `BOT_PASSWORD` | `api-bot` / `learnstar-bot-2026` | ⚠️ 密码以 .env 为唯一真相来源，每次重启同步，**上线前务必修改** |
-| `BOT_NAME` | `API 机器人` | 在教师列表中的显示名 |
-
-安全须知：机器人账号可操作**全部班级**，请只在内网/可信环境使用并修改默认密码；积分记录的审计字段 `given_by` 会归到该账号；账号无法从管理后台删除（如需停用走 `BOT_ENABLED=false`）。若需要权限收窄的独立 API Key，欢迎提 issue 讨论。
-
-## 🔐 第三方登录与配置指引
-
-学趣星球支持多平台第三方扫码登录。**管理员在后台勾选哪些平台启用**，勾选后登录页才会显示对应平台入口，并自动展示各平台官方品牌图标。
-
-### 一、后台启用第三方平台
-
-1. 管理员登录 → **学校设置** → 「第三方登录平台」
-2. 勾选要启用的平台（可多选）：**企业微信 / 钉钉 / 飞书 / 人人通空间 / 微信 / QQ**
-3. 保存后，登录页教师端自动显示勾选的平台入口
-
-> 未勾选任何平台时，默认启用 **企业微信 / 微信 / QQ**。
-> 勾选平台的展示与登录无需额外配置；但**扫码登录真正可用**需在对应平台开放平台注册应用并配置凭证（见下表）。
-
-### 二、各平台配置凭证
-
-| 平台 | 是否需要凭证 | 凭证位置 | 支持能力 |
-|------|:-----------:|----------|----------|
-| **企业微信** | ✅ | `.env`：`WECHAT_WORK_CORPID` / `WECHAT_WORK_AGENTID` / `WECHAT_WORK_SECRET` | 扫码免注册登录 + 通讯录导入 + 请假同步 + 消息推送 |
-| **钉钉** | ✅ | `backend/config/dingtalk.php`：`app_key` / `app_secret` | 扫码登录 + 通讯录导入 |
-| **飞书** | ✅ | `backend/config/feishu.php`：`app_id` / `app_secret` | 扫码登录 + 通讯录导入 |
-| **微信** | ⚠️ | 需前端接入微信开放平台 JSAPI 取 openid | 当前仅展示入口，扫码流程待接入 |
-| **QQ** | ⚠️ | 需前端接入 QQ 互联取 openid | 当前仅展示入口，扫码流程待接入 |
-| **人人通空间** | ⚠️ | 需对接区域人人通开放平台 | 当前仅展示入口，扫码流程待接入 |
-
-### 三、教师绑定与免注册登录
-
-- **企业微信 / 钉钉 / 飞书**：教师扫码后，若系统已有绑定账号则直接登录；否则**根据平台通讯录自动创建教师账号**（实名用户名 + 默认密码 `ls123456`）并自动绑定，无需管理员手动分配
-- **账号设置 → 第三方账号绑定**：教师可查看/解绑已绑定的第三方平台，或扫码绑定新平台
-
-### 四、通讯录批量导入
-
-管理员 → 教师管理 → **🏢 第三方导入**：从学校配置的第三方平台（企业微信/钉钉/飞书）拉取通讯录，勾选成员后批量创建教师与学生账号。教师默认以姓名作为登录账号（实名），学生需选择目标班级（可按部门名自动匹配）。
-
-### 五、工作原理（可选了解）
-
-- 登录页平台列表来自接口 `GET /api/v1/auth/third-party/options`（返回管理员勾选的平台 + 品牌图标）
-- 学校配置存储在 `schools.settings.enabled_third_party_platforms`（JSON 数组）
-- 扫码回调按学校配置的平台分发（`App\Services\ThirdParty\ThirdPartyManager`），多校部署时通过 OAuth `state` 参数区分学校
-
-### 五、数据同步与冲突处理（升班 / 名单更新必读）
-
-系统以**本地数据库为准**，第三方平台（企业微信/钉钉/飞书）是数据来源之一。平台侧的调整不会自动写入本地，按以下规则协同：
-
-| 场景 | 系统的处理 |
-|------|-----------|
-| 通讯录重复导入 | 教师按手机号/实名账号自动跳过已有账号，**不会**生成"张老师_2"这类冗余账号；学生按"同班同名"跳过 |
-| 学生转班（平台名单已调整） | Excel/通讯录导入时，**同学号已在其他班级会被拦截**并提示用「批量转班」处理；跨班同名会给出提醒供管理员判断（同名不同人可直接忽略） |
-| 教师未导入过、直接扫码登录 | 系统按手机号 → 实名用户名匹配本地已有账号并自动绑定，**不会**重复建号 |
-| 学年升班 | 在本系统「学年升级」执行（六年级毕业、班级整体升级）；**第三方平台的部门/名单需要平台管理员同步调整**，之后再回来导入通讯录并核对班级映射 |
-
-> 推荐顺序：每个学年开始时，先在第三方平台完成升班与名单调整 → 本系统执行「学年升级」→ 建新一年级班级 → 通讯录导入新生（同学号冲突会被自动拦截）。
-
-## 🤝 Contributing
+## 🤝 参与贡献
 
 1. Fork 本仓库
 2. 创建特性分支：`git checkout -b feature/my-feature`

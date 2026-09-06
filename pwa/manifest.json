@@ -1,6 +1,6 @@
 {
-  "name": "学趣星球",
-  "short_name": "学趣星球",
+  "name": "学宠星球",
+  "short_name": "学宠星球",
   "description": "开源班级管理与学生激励系统 | 积分评价 · 宠物进化 · 课堂互动",
   "start_url": "/?source=pwa",
   "display": "standalone",

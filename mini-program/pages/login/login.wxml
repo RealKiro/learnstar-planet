@@ -2,7 +2,7 @@
   <!-- 品牌 -->
   <view class="brand-area">
     <text class="brand-emoji">🌌</text>
-    <text class="brand-name">学趣星球</text>
+    <text class="brand-name">学宠星球</text>
   </view>
 
   <!-- 登录类型Tab -->

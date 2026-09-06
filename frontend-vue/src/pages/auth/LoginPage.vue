@@ -286,7 +286,7 @@ function goToSlide(i: number) {
       <div class="login-card">
         <div class="login-card-header">
           <span class="login-card-icon">🌌</span>
-          <h1 class="login-card-title">学趣星球</h1>
+          <h1 class="login-card-title">学宠星球</h1>
         </div>
         <div v-if="sessionExpired" class="session-expired-banner">⏰ 登录已过期，请重新登录</div>
         <div class="login-tabs">

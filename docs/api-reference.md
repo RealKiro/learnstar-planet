@@ -1,4 +1,4 @@
-# 学趣星球 (LearnStar Planet) API 接口文档
+# 学宠星球 (LearnStar Planet) API 接口文档
 
 > 版本：v1 | 协议：RESTful | 格式：JSON
 > 适用于第三方应用接入、小程序、移动端、AI 机器人等

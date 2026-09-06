@@ -1,4 +1,4 @@
-# 学趣星球 (LearnStar Planet) — Web 前端
+# 学宠星球 (LearnStar Planet) — Web 前端
 
 Vue 3 + Vite + TypeScript 构建的模块化 SPA，替代原有的单文件 `index.html`。
 

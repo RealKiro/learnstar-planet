@@ -1,5 +1,5 @@
 // ============================================================
-// 学趣星球 - PWA Service Worker
+// 学宠星球 - PWA Service Worker
 // 支持 Windows/Mac/Android 离线安装
 // ============================================================
 
@@ -62,7 +62,7 @@ self.addEventListener('fetch', (event) => {
 // 推送通知
 self.addEventListener('push', (event) => {
   const data = event.data ? event.data.json() : {};
-  const title = data.title || '学趣星球通知';
+  const title = data.title || '学宠星球通知';
   const options = {
     body: data.body || '你有新的通知消息',
     icon: '/icons/icon-192x192.png',

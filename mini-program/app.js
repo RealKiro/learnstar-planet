@@ -1,4 +1,4 @@
-// 学趣星球 - 微信小程序 App
+// 学宠星球 - 微信小程序 App
 App({
   globalData: {
     apiBase: 'https://your-domain.com/api',

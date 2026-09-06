@@ -1,4 +1,4 @@
-# 学趣星球 - Docker Compose 部署配置
+# 学宠星球 - Docker Compose 部署配置
 #
 # 两种部署方式：
 #
@@ -33,7 +33,7 @@ services:
       - "${APP_PORT:-8080}:8080"
     environment:
       # 基础配置
-      - APP_NAME=${APP_NAME:-学趣星球}
+      - APP_NAME=${APP_NAME:-学宠星球}
       - APP_ENV=${APP_ENV:-production}
       - APP_DEBUG=${APP_DEBUG:-false}
       - APP_URL=${APP_URL:-http://localhost}
@@ -81,7 +81,7 @@ services:
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123456}
       - ADMIN_NAME=${ADMIN_NAME:-系统管理员}
-      - ADMIN_SCHOOL_NAME=${ADMIN_SCHOOL_NAME:-学趣星球默认学校}
+      - ADMIN_SCHOOL_NAME=${ADMIN_SCHOOL_NAME:-学宠星球默认学校}
       - ADMIN_SCHOOL_CODE=${ADMIN_SCHOOL_CODE:-learnstar-default}
 
       # API 机器人账号（外部系统 REST API 对接，拥有全部班级权限）

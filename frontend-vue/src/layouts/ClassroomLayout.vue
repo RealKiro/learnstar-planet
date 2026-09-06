@@ -169,7 +169,7 @@ onUnmounted(() => {
         <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:520px;width:100%;padding:36px 32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
           <div v-if="!voteDone">
             <div style="font-size:48px;margin-bottom:12px;">🎉</div>
-            <h2 style="font-size:24px;font-weight:700;margin-bottom:8px;">欢迎来到学趣星球！</h2>
+            <h2 style="font-size:24px;font-weight:700;margin-bottom:8px;">欢迎来到学宠星球！</h2>
             <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:20px;">
               请全班投票选择你们喜欢的宠物类别<br>
               <span style="font-size:12px;opacity:0.7;">选定后每人可免费选择一只心仪的宠物</span>
@@ -265,7 +265,7 @@ onUnmounted(() => {
 
     <nav class="sidebar">
       <div class="logo">
-        <div class="brand"><span>🌌</span> 学趣星球</div>
+        <div class="brand"><span>🌌</span> 学宠星球</div>
       </div>
 
       <div class="class-badge" v-if="classInfo">

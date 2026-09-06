@@ -1,12 +1,12 @@
 #!/bin/sh
 # ============================================================
-# 学趣星球 - Docker 入口脚本
+# 学宠星球 - Docker 入口脚本
 # 初始化 Laravel 应用、运行迁移、启动 PHP 内置服务器
 # ============================================================
 
 set -e
 
-echo "🚀 学趣星球 - 启动初始化..."
+echo "🚀 学宠星球 - 启动初始化..."
 
 # 确保存储目录存在
 mkdir -p storage/app/public \
@@ -122,7 +122,7 @@ php artisan route:cache 2>/dev/null || true
 php artisan view:cache 2>/dev/null || true
 echo "✅ 缓存重建完成"
 
-echo "🎉 学趣星球初始化完成！"
+echo "🎉 学宠星球初始化完成！"
 
 # 如果使用 Redis 队列，启动后台 queue worker
 if [ "${QUEUE_CONNECTION:-redis}" = "redis" ] || [ "${QUEUE_CONNECTION:-redis}" = "database" ]; then

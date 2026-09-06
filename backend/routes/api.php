@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\WechatWorkWebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
-| API v1 — 学趣星球
+| API v1 — 学宠星球
 | 规范：/api/v1/{role}/{resource}[/{id}][/{action}]
 */
 Route::prefix('v1')->group(function () {
