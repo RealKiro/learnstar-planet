@@ -133,13 +133,7 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 就是 [Quick Start](#-quick-start三步部署新手照抄即可) 的方式：不装数据库、不装 Redis，数据保存在 Docker 数据卷里的一个 SQLite 文件（容器内路径 `storage/database.sqlite`）。
 
 - 适合：单机、500 学生以内的学校
-- 备份数据（先停应用再拷贝，避免拷贝到写一半的文件）：
-
-```bash
-docker-compose stop app
-docker cp learnstar-app:/var/www/html/storage/database.sqlite ./backup-$(date +%F).sqlite
-docker-compose start app
-```
+- 备份/恢复方法见下文 [数据备份与恢复](#-数据备份与恢复)
 
 ### 方案二：内置 MySQL + Redis（full-stack · 全校规模）
 
@@ -247,6 +241,64 @@ docker-compose start app
 | 手机打不开系统 | `APP_URL` 改成部署电脑的局域网 IP（如 `http://192.168.1.100`），防火墙放行 `APP_PORT` |
 | 忘记管理员密码 | 改 `.env` 的 `ADMIN_PASSWORD` → `docker-compose up -d` 重启即同步 |
 | 想彻底重置 | `docker-compose down -v`（⚠️ **删除全部数据**，包括学生积分），再 `up -d` 从零开始 |
+
+## 💾 数据备份与恢复
+
+### 数据都存在哪里？
+
+| 数据 | 位置（容器内） | Docker 数据卷 |
+|------|--------------|--------------|
+| SQLite 数据库（积分/学生/教师/商城全部业务数据） | `/app/storage/database.sqlite` | `app-db` |
+| 上传的附件（Logo 等） | `/app/storage/app/uploads` | `app-uploads` |
+| 运行日志 | `/app/storage/logs` | `app-logs` |
+| MySQL 数据（full-stack 模式） | MariaDB 容器内 | `mysql-data` |
+
+各数据卷由 Docker 管理，`stop` / `start` / `restart` / `up -d` / 升级镜像都**不会丢数据**。只有 `docker-compose down -v` 会连数据卷一起删除。
+
+### 备份（SQLite 模式）
+
+先停应用再拷贝，避免拷到写一半的文件：
+
+```bash
+docker-compose stop app
+docker cp learnstar-app:/app/storage/database.sqlite ./backup.sqlite
+docker-compose start app
+```
+
+> Windows PowerShell 把 `./backup.sqlite` 换成 `.\backup.sqlite` 即可。
+> 建议每周备份一次，重大操作（升班、批量导入）前手动备份一次。
+
+### 恢复（SQLite 模式）
+
+```bash
+docker-compose stop app
+docker cp ./backup.sqlite learnstar-app:/app/storage/database.sqlite
+docker-compose start app
+```
+
+恢复 = 用备份文件覆盖数据库文件，所有数据回到备份那一刻。
+
+### 备份 / 恢复（MySQL full-stack 模式）
+
+```bash
+# 备份
+docker-compose exec mysql mysqldump -u root -p"$MYSQL_ROOT_PASSWORD" learnstar > backup.sql
+
+# 恢复（清空重建后灌入）
+docker-compose exec -T mysql mysql -u root -p"$MYSQL_ROOT_PASSWORD" learnstar < backup.sql
+```
+
+`backup.sql` 是纯文本 SQL，请妥善保管（含学生与积分数据）。
+
+### ⚠️ 旧版本升级注意（2026-09 之前部署的）
+
+早期版本的 docker-compose 把数据卷挂错了路径，**数据库实际存在容器内部，`down` 或升级镜像会丢数据**。升级到本版本前，先从旧容器把数据库抢救出来：
+
+```bash
+docker cp learnstar-app:/app/storage/database.sqlite ./backup-before-upgrade.sqlite
+```
+
+然后正常 `git pull && docker-compose pull && docker-compose up -d`（会重建容器），最后用上面的「恢复」命令把数据灌回去。**只需做这一次**，之后的升级都安全了。
 
 ## 🏗 Tech Stack
 

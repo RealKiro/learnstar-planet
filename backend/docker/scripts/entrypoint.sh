@@ -62,18 +62,31 @@ done
 if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
     echo "✅ 数据库连接成功"
 
-    # 生成应用密钥
+    # 生成应用密钥（持久化到数据卷：容器重建后 APP_KEY 保持不变，用户登录态不失效）
     if ! grep -q "^APP_KEY=base64:" .env 2>/dev/null; then
-        echo "🔑 生成应用密钥..."
-        NEW_KEY=$(php -r "echo 'base64:' . base64_encode(random_bytes(32));" 2>/dev/null)
-        if [ -z "$NEW_KEY" ]; then
-            NEW_KEY=$(php artisan key:generate --show 2>/dev/null)
+        echo "🔑 检查应用密钥..."
+        KEYFILE="storage/app/uploads/.app_key"
+        NEW_KEY=""
+        if [ -f "$KEYFILE" ] && [ -s "$KEYFILE" ]; then
+            # 从数据卷恢复上次生成的密钥
+            NEW_KEY=$(cat "$KEYFILE")
+            echo "  从数据卷恢复 APP_KEY"
+        else
+            NEW_KEY=$(php -r "echo 'base64:' . base64_encode(random_bytes(32));" 2>/dev/null)
+            if [ -z "$NEW_KEY" ]; then
+                NEW_KEY=$(php artisan key:generate --show 2>/dev/null)
+            fi
+            if [ -n "$NEW_KEY" ]; then
+                echo "$NEW_KEY" > "$KEYFILE"
+                chmod 600 "$KEYFILE"
+                echo "  已生成并保存 APP_KEY"
+            fi
         fi
         if [ -n "$NEW_KEY" ]; then
             sed -i "/^APP_KEY=/d" .env
             echo "APP_KEY=$NEW_KEY" >> .env
             export APP_KEY="$NEW_KEY"
-            echo "✅ 密钥已生成"
+            echo "✅ 密钥已就绪"
         else
             echo "⚠️  密钥生成失败，请手动设置 APP_KEY"
         fi

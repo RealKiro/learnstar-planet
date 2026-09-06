@@ -79,9 +79,10 @@ services:
       - ADMIN_SCHOOL_NAME=${ADMIN_SCHOOL_NAME:-学趣星球默认学校}
       - ADMIN_SCHOOL_CODE=${ADMIN_SCHOOL_CODE:-learnstar-default}
     volumes:
-      - app-uploads:/var/www/html/storage/app/uploads
-      - app-logs:/var/www/html/storage/logs
-      - app-db:/var/www/html/storage/database.sqlite
+      # ⚠️ 生产镜像 WORKDIR=/app，应用与 SQLite 均在 /app（勿改成 /var/www/html，镜像内不存在该路径）
+      - app-uploads:/app/storage/app/uploads
+      - app-logs:/app/storage/logs
+      - app-db:/app/storage/database.sqlite
     # 内置 SQLite 默认无需数据库/Redis 依赖；full-stack 模式（--profile full-stack）才起 mariadb+redis
     networks:
       - learnstar-net
