@@ -138,14 +138,14 @@ onUnmounted(() => clearInterval(slideTimer))
             <button class="panel-alt-btn" @click="goLogin">⚙️ 管理员登录</button>
           </div>
 
-          <p class="panel-footnote">班级码由班主任统一分配</p>
+          <p class="panel-footnote">班级码由管理员统一分配</p>
         </div>
       </section>
     </main>
 
     <!-- 页脚 -->
     <footer class="footer">
-      <span>© 2024 学宠星球 · LearnStar Planet</span>
+      <span>© 2026 学宠星球 · LearnStar Planet</span>
       <a href="https://github.com/RealKiro/learnstar-planet" target="_blank">GitHub</a>
       <span class="footer-sep">·</span>
       <span>MIT License</span>

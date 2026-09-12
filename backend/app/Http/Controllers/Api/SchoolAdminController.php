@@ -722,6 +722,18 @@ class SchoolAdminController extends Controller
         if (ClassRoom::where('school_id', $school->id)->where('name', $name)->where('status', 'active')->exists()) {
             return response()->json(['message' => '班级「' . $name . '」已存在'], 409);
         }
+        // 编码上限守卫：同年级班级数达到 10 个后，「前缀+年级+班号」无法编码
+        $grade = (string) $request->input('grade', '');
+        $gradeCount = ClassRoom::where('school_id', $school->id)
+            ->where('grade', $grade)
+            ->where('status', 'active')
+            ->count();
+        if ($gradeCount >= 10) {
+            return response()->json([
+                'message' => '「' . $grade . '」已有 ' . $gradeCount . ' 个班级，超出「前缀+年级+班号」的编码范围。如有此需求请到 GitHub Issues 向开发者反馈',
+                'data' => ['issues_url' => 'https://github.com/RealKiro/learnstar-planet/issues'],
+            ], 422);
+        }
         $class = ClassRoom::create([
             'school_id' => $school->id,
             'name' => $request->input('name'),
@@ -1716,6 +1728,42 @@ class SchoolAdminController extends Controller
             'class_name' => $classRoom->name,
             'updated_at' => $classRoom->display_code_updated_at?->toIso8601String(),
         ]]);
+    }
+
+    /**
+     * 批量重置本校全部班级码（自定义统一字母前缀，如 LS / BJ / LE）。
+     * 前缀持久化到学校设置，后续新建班级沿用同一前缀。
+     */
+    public function resetDisplayCodes(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $validator = Validator::make($request->all(), [
+            'prefix' => 'nullable|string|regex:/^[A-Za-z]{2,4}$/',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => '字母前缀需为 2-4 个英文字母（如 LS / BJ / LE）'], 422);
+        }
+
+        $prefix = strtoupper((string) $request->input('prefix', \App\Services\DisplayCodeService::DEFAULT_PREFIX));
+
+        // 前缀持久化到学校设置：新建班级的班级码沿用同一前缀
+        $settings = $school->settings ?? [];
+        $settings['display_code_prefix'] = $prefix;
+        $school->settings = $settings;
+        $school->save();
+
+        $result = \App\Services\DisplayCodeService::regenerateAll($school->id, $prefix);
+
+        return response()->json([
+            'message' => sprintf(
+                '班级码已批量重置（前缀 %s）：成功 %d，跳过 %d，冲突 %d。旧班级码已失效，请通知各班更新大屏登录码。',
+                $prefix,
+                $result['regenerated'],
+                $result['skipped'],
+                count($result['conflicts']),
+            ),
+            'data' => $result,
+        ]);
     }
 
     /**

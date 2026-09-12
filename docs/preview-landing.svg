@@ -113,9 +113,9 @@
     <rect x="974" y="448" width="158" height="40" rx="10" fill="#F5F5F7" stroke="#E5E5EA"/>
     <text x="1053" y="473" font-size="13" fill="#6E6E73" text-anchor="middle">⚙️ 管理员登录</text>
 
-    <text x="968" y="530" font-size="12" fill="#AEAEB2" text-anchor="middle">班级码由班主任统一分配</text>
+    <text x="968" y="530" font-size="12" fill="#AEAEB2" text-anchor="middle">班级码由管理员统一分配</text>
   </g>
 
   <!-- 页脚 -->
-  <text x="640" y="694" font-size="12" fill="#AEAEB2" text-anchor="middle">© 2024 学宠星球 · LearnStar Planet　·　GitHub　·　MIT License　·　局域网离线可用</text>
+  <text x="640" y="694" font-size="12" fill="#AEAEB2" text-anchor="middle">© 2026 学宠星球 · LearnStar Planet　·　GitHub　·　MIT License　·　局域网离线可用</text>
 </svg>

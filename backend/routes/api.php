@@ -89,6 +89,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('{id}/remove-teacher', [SchoolAdminController::class, 'removeClassTeacher']);
             Route::get('{classId}/display-code', [SchoolAdminController::class, 'getDisplayCode']);
             Route::post('{classId}/display-code/refresh', [SchoolAdminController::class, 'refreshDisplayCode']);
+            Route::post('reset-display-codes', [SchoolAdminController::class, 'resetDisplayCodes']);
         });
         Route::prefix('students')->group(function () {
             Route::get('/', [SchoolAdminController::class, 'listStudents']);

@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\ClassRoom;
+use App\Models\School;
 use Illuminate\Support\Facades\Cache;
 
 /**
  * 班级码生成服务。
- * 规则（用户确认）：`LS` + 年级数字 + 班号数字，不补零。
+ * 规则（用户确认）：`前缀` + 年级数字 + 班号数字，不补零。
+ * 前缀默认 `LS`，可在学校设置 display_code_prefix 自定义（2-4 个英文字母，本校统一，如 BJ / LE）。
  * 例：一年级1班 → LS11，二年级3班 → LS23。
- * 确定性、不随机、无需刷新。
+ * 确定性、不随机、无需刷新。同年级班号 1-9，超过 10 个班无法编码（前端引导向开发者反馈）。
  */
 final class DisplayCodeService
 {
+    public const DEFAULT_PREFIX = 'LS';
     private const GRADE_MAP = [
         '一年级' => '1', '二年级' => '2', '三年级' => '3',
         '四年级' => '4', '五年级' => '5', '六年级' => '6',
@@ -77,10 +80,21 @@ final class DisplayCodeService
     }
 
     /**
-     * 生成班级码（LS + 年级 + 班号，如 LS11）。
-     * 年级无法解析返回 ''；班号无法解析时用同年级序号兜底。
+     * 学校自定义前缀（settings.display_code_prefix），非法/未配置回退默认 LS。
      */
-    public static function generate(ClassRoom $room): string
+    public static function schoolPrefix(int $schoolId): string
+    {
+        $school = School::find($schoolId);
+        $prefix = strtoupper((string) ($school?->settings['display_code_prefix'] ?? ''));
+
+        return preg_match('/^[A-Z]{2,4}$/', $prefix) === 1 ? $prefix : self::DEFAULT_PREFIX;
+    }
+
+    /**
+     * 生成班级码（前缀 + 年级 + 班号，如 LS11）。
+     * 年级无法解析、班号超限（>9，含兜底序号）返回 '' —— 同年级超过 10 个班无法编码。
+     */
+    public static function generate(ClassRoom $room, ?string $prefix = null): string
     {
         $grade = self::gradeDigit($room->grade);
         if ($grade === '') {
@@ -91,8 +105,13 @@ final class DisplayCodeService
         if ($class === '') {
             $class = self::fallbackClassNo($room);
         }
+        if (!ctype_digit($class) || (int) $class > 9) {
+            return '';
+        }
 
-        return 'LS' . $grade . $class;
+        $prefix = $prefix ?? self::schoolPrefix((int) $room->school_id);
+
+        return $prefix . $grade . $class;
     }
 
     /**
@@ -127,15 +146,21 @@ final class DisplayCodeService
 
     /**
      * 批量重生成所有班级码（确定性：同一班级每次结果一致）。
-     * 旧码缓存映射一并清理，新码写入缓存。
+     * 旧码缓存映射一并清理，新码写入缓存。支持自定义统一前缀（管理员批量重置）。
      *
      * @return array{regenerated: int, skipped: int, conflicts: array<int, string>}
      */
-    public static function regenerateAll(?int $schoolId = null): array
+    public static function regenerateAll(?int $schoolId = null, ?string $prefix = null): array
     {
         $query = ClassRoom::query();
         if ($schoolId !== null) {
             $query->where('school_id', $schoolId);
+        }
+        if ($prefix === null || $prefix === '') {
+            $prefix = $schoolId !== null ? self::schoolPrefix($schoolId) : self::DEFAULT_PREFIX;
+        }
+        if (preg_match('/^[A-Z]{2,4}$/', $prefix) !== 1) {
+            $prefix = self::DEFAULT_PREFIX;
         }
 
         $regenerated = 0;
@@ -155,8 +180,13 @@ final class DisplayCodeService
             if ($classDigit === '') {
                 $classDigit = self::fallbackClassNo($room);
             }
+            // 班号超限（同年级 >10 个班）无法编码，跳过并计数
+            if (!ctype_digit($classDigit) || (int) $classDigit > 9) {
+                $skipped++;
+                continue;
+            }
 
-            $code = 'LS' . $gradeDigit . $classDigit;
+            $code = $prefix . $gradeDigit . $classDigit;
 
             // 校内重复码检测（数据异常：同年级同班号存在多条）
             $schoolUsed = $used[$room->school_id] ?? [];

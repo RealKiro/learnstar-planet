@@ -32,6 +32,17 @@ const batchGrade = ref('一年级')
 const batchCount = ref(3)
 const batchYear = ref(new Date().getFullYear())
 
+// 班级数超限反馈弹窗（LS+年级+班号 编码上限：同年级 10 个班）
+const ISSUES_URL = 'https://github.com/RealKiro/learnstar-planet/issues'
+const showFeedbackModal = ref(false)
+const feedbackMessage = ref('')
+
+// 批量重置班级码（管理员自定义统一字母前缀）
+const showResetCodeModal = ref(false)
+const resetPrefix = ref('LS')
+const resetStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const resetResult = ref('')
+
 // 单个创建班级
 const newClassName = ref('')
 const newClassGrade = ref('一年级')
@@ -186,6 +197,13 @@ async function submitBatchClass() {
     batchError.value = '班级数量需在 1-20 之间'
     return
   }
+  // 编码上限预检：同年级班级数将超过 10 个时，LS+年级+班号 无法编码
+  const existing = classes.value.filter(c => c.grade === batchGrade.value).length
+  if (existing + batchCount.value > 10) {
+    feedbackMessage.value = `「${batchGrade.value}」已有 ${existing} 个班级，本次再添加 ${batchCount.value} 个将超过 10 个。班级码格式为「前缀 + 年级 + 班号」两位数字（如 LS11），同年级超过 10 个班无法编码。如有此需求请向开发者反馈`
+    showFeedbackModal.value = true
+    return
+  }
   batchStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/classes/batch-create', {
@@ -214,6 +232,13 @@ async function submitSingleClass() {
     singleClassError.value = '班级「' + fullName + '」已存在'
     return
   }
+  // 编码上限预检：同年级班级数达到 10 个后无法再编码
+  const existing = classes.value.filter(c => c.grade === newClassGrade.value).length
+  if (existing >= 10) {
+    feedbackMessage.value = `「${newClassGrade.value}」已有 ${existing} 个班级，再添加将超过 10 个。班级码格式为「前缀 + 年级 + 班号」两位数字（如 LS11），同年级超过 10 个班无法编码。如有此需求请向开发者反馈`
+    showFeedbackModal.value = true
+    return
+  }
   createStatus.value = 'loading'
   try {
     await apiPost('/api/v1/admin/classes', {
@@ -229,6 +254,28 @@ async function submitSingleClass() {
   } catch {
     createStatus.value = 'error'
     setTimeout(() => { createStatus.value = 'idle' }, 3000)
+  }
+}
+
+// 批量重置班级码：按统一字母前缀重生成全部班级码（默认 LS）
+async function submitResetCodes() {
+  const prefix = resetPrefix.value.trim().toUpperCase()
+  if (!/^[A-Z]{2,4}$/.test(prefix)) {
+    resetResult.value = '字母前缀需为 2-4 个英文字母（如 LS / BJ / LE）'
+    return
+  }
+  resetStatus.value = 'loading'
+  resetResult.value = ''
+  try {
+    const res = await apiPost<{ message: string; data: { regenerated: number; skipped: number; conflicts: Record<string, string> } }>(
+      '/api/v1/admin/classes/reset-display-codes', { prefix }, { skipToast: true })
+    const d = res.data
+    resetResult.value = res.message || `已重置 ${d?.regenerated ?? 0} 个班级码`
+    resetStatus.value = 'success'
+    await reloadClasses()
+  } catch (e: any) {
+    resetStatus.value = 'error'
+    resetResult.value = e?.response?.data?.message || '重置失败，请稍后重试'
   }
 }
 
@@ -340,6 +387,7 @@ async function submitAssignTeacher() {
       </div>
       <div class="header-actions">
         <button class="btn btn-sm btn-ghost-card" @click="openImportModal()">📥 导入学生</button>
+        <button class="btn btn-sm btn-ghost-card" @click="showResetCodeModal = true">🔑 批量重置班级码</button>
         <button class="btn btn-sm btn-primary" @click="showBatchClassModal = true">+ 批量添加班级</button>
         <button class="btn btn-sm btn-ghost-card" @click="showSingleClassModal = true">+ 添加班级</button>
       </div>
@@ -458,6 +506,38 @@ async function submitAssignTeacher() {
         <div v-if="batchError" class="error-banner">{{ batchError }}</div>
         <button class="btn btn-sm btn-ghost-card" @click="showBatchClassModal = false">取消</button>
         <button class="btn btn-sm" :class="batchStatus === 'loading' ? 'btn-state-loading' : batchStatus === 'success' ? 'btn-state-success' : batchStatus === 'error' ? 'btn-state-error' : 'btn-solid'" :disabled="batchStatus === 'loading'" @click="submitBatchClass">{{ batchStatus === 'loading' ? '创建中...' : batchStatus === 'success' ? '已创建 ✓' : batchStatus === 'error' ? '创建失败' : '创建' }}</button>
+      </div>
+    </ModalGlass>
+
+    <!-- 班级数超限反馈弹窗（跳转开发者 Issues） -->
+    <ModalGlass :visible="showFeedbackModal" @update:visible="showFeedbackModal = $event">
+      <div class="modal-header">
+        <h3 class="modal-title">⚠️ 班级数超出编码范围</h3>
+        <button class="modal-close" @click="showFeedbackModal = false">×</button>
+      </div>
+      <p class="feedback-text">{{ feedbackMessage }}</p>
+      <p class="feedback-text">如确有此需求，请前往 GitHub Issues 向开发者反馈，我们会评估扩展编码方案：</p>
+      <div class="modal-actions">
+        <button class="btn btn-sm btn-ghost-card" @click="showFeedbackModal = false">我知道了</button>
+        <a class="btn btn-sm btn-solid feedback-link" :href="ISSUES_URL" target="_blank" rel="noopener">前往 GitHub Issues 反馈 ↗</a>
+      </div>
+    </ModalGlass>
+
+    <!-- 批量重置班级码弹窗 -->
+    <ModalGlass :visible="showResetCodeModal" @update:visible="showResetCodeModal = $event">
+      <div class="modal-header">
+        <h3 class="modal-title">🔑 批量重置班级码</h3>
+        <button class="modal-close" @click="showResetCodeModal = false">×</button>
+      </div>
+      <div class="form-group">
+        <label>字母前缀（本校统一）</label>
+        <input v-model="resetPrefix" class="form-input" placeholder="如：LS / BJ / LE" maxlength="4" style="text-transform:uppercase">
+        <p class="modal-hint">新班级码 = 前缀 + 年级 + 班号（如 LS11）。全部班级使用<b>同一个前缀</b>，不能一个班 LS 一个班 BJ。旧班级码将立即失效。</p>
+      </div>
+      <div class="modal-actions">
+        <div v-if="resetResult" class="error-banner">{{ resetResult }}</div>
+        <button class="btn btn-sm btn-ghost-card" @click="showResetCodeModal = false">取消</button>
+        <button class="btn btn-sm" :class="resetStatus === 'loading' ? 'btn-state-loading' : resetStatus === 'success' ? 'btn-state-success' : resetStatus === 'error' ? 'btn-state-error' : 'btn-solid'" :disabled="resetStatus === 'loading'" @click="submitResetCodes">{{ resetStatus === 'loading' ? '重置中...' : resetStatus === 'success' ? '已重置 ✓' : resetStatus === 'error' ? '重置失败' : '确认重置' }}</button>
       </div>
     </ModalGlass>
 
@@ -730,4 +810,6 @@ async function submitAssignTeacher() {
 }
 .btn-block { width: 100%; }
 .textarea-monospace { width: 100%; min-height: 160px; font-family: monospace; }
+.feedback-text { font-size: 13px; color: var(--color-text); line-height: 1.7; margin-bottom: 10px; }
+.feedback-link { text-decoration: none; }
 </style>
