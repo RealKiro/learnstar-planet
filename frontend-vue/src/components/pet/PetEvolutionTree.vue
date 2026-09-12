@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { getSpeciesById, getLevelRequiredScore } from '@/utils/petData'
+import { getSpeciesById, getLevelRequiredScore, getSeriesBySpeciesId } from '@/utils/petData'
+import { getStageLabelMap } from '@/utils/seriesStages'
 
 const props = defineProps<{
   speciesId: string
@@ -15,14 +16,7 @@ const emit = defineEmits<{
 const species = computed(() => getSpeciesById(props.speciesId))
 const levels = computed(() => species.value?.levels || [])
 
-const stageLabels: Record<string, string> = {
-  egg: '破卵',
-  baby: '幼年',
-  growing: '成长期',
-  mature: '成熟期',
-  legendary: '传说级',
-  transcendent: '道果级',
-}
+const stageLabels = computed(() => getStageLabelMap(getSeriesBySpeciesId(props.speciesId)?.id))
 
 function isUnlocked(level: number): boolean {
   return level <= props.currentLevel

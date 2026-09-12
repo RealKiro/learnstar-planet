@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { getSpeciesById, getLevelRequiredScore, getLevelStage, getSeriesBySpeciesId, getSpeciesEmoji, SERIES_SCENES } from '@/utils/petData'
+import { getStageLabel } from '@/utils/seriesStages'
 import { getStagePersonality, getStageAbility } from '@/utils/petTraits'
 import { getPoems, getEvoLines, stageIndexForLevel, poemToLines } from '@/utils/petHandbookData'
 import { getPetProfile } from '@/utils/petProfiles'
@@ -56,6 +57,8 @@ function getRequiredForNext(level: number): number {
 // ===== 角色档案：按预览阶段显示九维（未写阶段时回退全局）；进化台词 / 专属诗文按阶段 =====
 const profile = computed(() => getPetProfile(props.speciesId, getLevelStage(previewLevel.value)))
 const stageIdx = computed(() => stageIndexForLevel(previewLevel.value))
+// 分系列阶段称谓（数码兽=究极体 / 圣斗士=神圣衣 / 食物=世代传承……）
+const previewStageLabel = computed(() => getStageLabel(getLevelStage(previewLevel.value), getSeriesBySpeciesId(props.speciesId)?.id))
 const evoLine = computed(() => {
   const lines = getEvoLines(species.value?.name || '')
   return lines[stageIdx.value] || lines[lines.length - 1] || ''
@@ -137,7 +140,7 @@ const poemLines = computed(() => poemToLines(poem.value))
             <div class="stat-item">
               <span class="stat-label">阶段</span>
               <span class="stat-value stage-badge" :class="'stage--' + (levels.find(l => l.level === previewLevel)?.stage || 'egg')">
-                {{ { egg: '新生', baby: '幼年', growing: '成长期', mature: '成熟期', legendary: '传说级', transcendent: '道果' }[(levels.find(l => l.level === previewLevel)?.stage || 'egg')] }}
+                {{ previewStageLabel }}
               </span>
             </div>
           </div>

@@ -11,6 +11,7 @@ import {
 } from '@/utils/petData'
 import { getStagePersonality, getStageAbility } from '@/utils/petTraits'
 import { getPoems, getEvoLines, stageIndexForLevel, poemToLines } from '@/utils/petHandbookData'
+import { getStageLabelMap } from '@/utils/seriesStages'
 import { useThemeStore } from '@/stores/theme'
 import PetSprite from './PetSprite.vue'
 
@@ -41,7 +42,7 @@ const stageIdx = computed(() => stageIndexForLevel(props.level))
 const currentStage = computed(() => getLevelDataStage(props.speciesId, props.level))
 const currentLevelName = computed(() => getPetLevelName(props.speciesId, props.level) || species.value?.name || '')
 const currentLevelDescription = computed(() => getPetLevelDescription(props.speciesId, props.level) || '')
-const stageLabel = computed(() => STAGE_LABEL[currentStage.value] || '')
+const stageLabel = computed(() => STAGE_LABEL.value[currentStage.value] || '')
 
 const evoLine = computed(() => {
   const lines = getEvoLines(species.value?.name || '')
@@ -92,9 +93,7 @@ function getLevelDataStage(speciesId: string, level: number): string {
   return getSpeciesById(speciesId)?.levels.find(l => l.level === level)?.stage || 'egg'
 }
 
-const STAGE_LABEL: Record<string, string> = {
-  egg: '新生', baby: '幼年', growing: '成长期', mature: '成熟期', legendary: '传说级', transcendent: '道果',
-}
+const STAGE_LABEL = computed(() => getStageLabelMap(series.value?.id))
 </script>
 
 <template>
