@@ -55,7 +55,7 @@ function composeNarrative(st, spName) {
     sent(`${st.age}，${spName}——${st.name}，${st.keyword}`),
     sent(st.character),
     sent(st.action),
-    st.interaction ? sent('※ ' + st.interaction) : '',
+    st.interaction ? sent(st.interaction) : '',
     st.technique ? sent('所习：' + st.technique) : '',
     sent('心境：' + st.mood),
   ]
@@ -94,7 +94,6 @@ function buildCard(sp) {
     L.push(``)
     L.push(`**剧情正文**：${composeNarrative(st, sp.name)}`)
     L.push(``)
-    L.push(`**互动 / 冲突**：${st.interaction || '（待撰写——本阶段与其他角色的互动/冲突剧情）'}`)
     L.push(``)
     if (st.line) L.push(`**台词**：「${st.line}」`)
     if (st.poem) L.push(`**诗文**：${st.poem}`)
