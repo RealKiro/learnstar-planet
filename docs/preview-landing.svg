@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',system-ui,sans-serif">
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5E5CE6"/><stop offset="1" stop-color="#FF375F"/>
+    </linearGradient>
+    <linearGradient id="highlight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5E5CE6"/><stop offset="0.55" stop-color="#FF375F"/><stop offset="1" stop-color="#FF9F0A"/>
+    </linearGradient>
+    <linearGradient id="btn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5E5CE6"/><stop offset="1" stop-color="#818CF8"/>
+    </linearGradient>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EEF2FF"/><stop offset="1" stop-color="#FDF2F8"/>
+    </linearGradient>
+    <linearGradient id="topbar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5E5CE6"/><stop offset="0.5" stop-color="#FF375F"/><stop offset="1" stop-color="#FF9F0A"/>
+    </linearGradient>
+    <filter id="blur60" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="60"/></filter>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#1D1D1F" flood-opacity="0.07"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1280" height="720" fill="#FBFBFD"/>
+  <circle cx="1160" cy="-60" r="230" fill="#C7D2FE" opacity="0.28" filter="url(#blur60)"/>
+  <circle cx="30" cy="680" r="170" fill="#A7F3D0" opacity="0.26" filter="url(#blur60)"/>
+  <g fill="#6366F1" opacity="0.45">
+    <circle cx="210" cy="130" r="1.6"/><circle cx="560" cy="90" r="1.1"/><circle cx="720" cy="180" r="1.3"/>
+    <circle cx="420" cy="620" r="1.2"/><circle cx="980" cy="640" r="1.4"/><circle cx="1180" cy="420" r="1.1"/>
+  </g>
+  <g fill="#F59E0B" opacity="0.5">
+    <circle cx="330" cy="70" r="1.4"/><circle cx="640" cy="660" r="1.3"/><circle cx="1100" cy="120" r="1.2"/>
+  </g>
+
+  <!-- 顶栏 -->
+  <g>
+    <rect x="36" y="22" width="40" height="40" rx="11" fill="url(#tile)" stroke="#E0E7FF"/>
+    <text x="56" y="49" font-size="20" text-anchor="middle">🌌</text>
+    <text x="88" y="49" font-size="20" font-weight="700" fill="url(#brand)">学宠星球</text>
+    <rect x="1064" y="26" width="72" height="30" rx="15" fill="#FFFFFF" stroke="#E5E5EA"/>
+    <text x="1100" y="46" font-size="13" fill="#6E6E73" text-anchor="middle">👨‍🏫 教师</text>
+    <rect x="1144" y="26" width="72" height="30" rx="15" fill="#FFFFFF" stroke="#E5E5EA"/>
+    <text x="1180" y="46" font-size="13" fill="#6E6E73" text-anchor="middle">⚙️ 管理</text>
+    <circle cx="1236" cy="41" r="13" fill="#F5F5F7"/>
+    <text x="1236" y="46" font-size="12" fill="#6E6E73" text-anchor="middle">⌥</text>
+  </g>
+
+  <!-- 左侧 Hero -->
+  <g>
+    <rect x="64" y="108" width="86" height="26" rx="13" fill="#FFFFFF" stroke="#E5E5EA"/>
+    <circle cx="78" cy="121" r="3.5" fill="#10B981"/>
+    <text x="88" y="125" font-size="12" font-weight="600" fill="#6E6E73">MIT 开源</text>
+    <rect x="158" y="108" width="92" height="26" rx="13" fill="#FFFFFF" stroke="#E5E5EA"/>
+    <text x="204" y="125" font-size="12" font-weight="600" fill="#6E6E73" text-anchor="middle">✨ 完全免费</text>
+    <rect x="258" y="108" width="104" height="26" rx="13" fill="#FFFFFF" stroke="#E5E5EA"/>
+    <text x="310" y="125" font-size="12" font-weight="600" fill="#6E6E73" text-anchor="middle">🏠 离线自托管</text>
+
+    <rect x="64" y="158" width="84" height="84" rx="20" fill="url(#tile)" stroke="#E0E7FF"/>
+    <text x="106" y="214" font-size="42" text-anchor="middle">🌌</text>
+
+    <text x="64" y="308" font-size="42" font-weight="900" fill="#1D1D1F" letter-spacing="-1">让每个孩子的努力</text>
+    <text x="64" y="358" font-size="42" font-weight="900" fill="url(#highlight)" letter-spacing="-1">都被看见</text>
+    <text x="64" y="398" font-size="16" fill="#86868B">积分激励 · 宠物养成 · AI 助教 · 多端同步</text>
+
+    <rect x="64" y="428" width="32" height="8" rx="4" fill="url(#btn)"/>
+    <circle cx="110" cy="432" r="4" fill="#D2D2D7"/><circle cx="128" cy="432" r="4" fill="#D2D2D7"/><circle cx="146" cy="432" r="4" fill="#D2D2D7"/>
+  </g>
+
+  <!-- 功能矩阵 2×2 -->
+  <g>
+    <rect x="64" y="470" width="232" height="62" rx="14" fill="#FFFFFF" fill-opacity="0.75" stroke="#EEEEF2"/>
+    <text x="82" y="508" font-size="22" text-anchor="middle">⭐</text>
+    <text x="106" y="496" font-size="13" font-weight="700" fill="#1D1D1F">积分激励</text>
+    <text x="106" y="514" font-size="11" fill="#86868B">自定义规则，实时到大屏</text>
+
+    <rect x="312" y="470" width="232" height="62" rx="14" fill="#FFFFFF" fill-opacity="0.75" stroke="#EEEEF2"/>
+    <text x="330" y="508" font-size="22" text-anchor="middle">🐣</text>
+    <text x="354" y="496" font-size="13" font-weight="700" fill="#1D1D1F">宠物养成</text>
+    <text x="354" y="514" font-size="11" fill="#86868B">125 种宠物，12 级进化</text>
+
+    <rect x="64" y="544" width="232" height="62" rx="14" fill="#FFFFFF" fill-opacity="0.75" stroke="#EEEEF2"/>
+    <text x="82" y="582" font-size="22" text-anchor="middle">🤖</text>
+    <text x="106" y="570" font-size="13" font-weight="700" fill="#1D1D1F">AI 助教</text>
+    <text x="106" y="588" font-size="11" fill="#86868B">30+ 供应商，开箱即用</text>
+
+    <rect x="312" y="544" width="232" height="62" rx="14" fill="#FFFFFF" fill-opacity="0.75" stroke="#EEEEF2"/>
+    <text x="330" y="582" font-size="22" text-anchor="middle">📊</text>
+    <text x="354" y="570" font-size="13" font-weight="700" fill="#1D1D1F">数据报表</text>
+    <text x="354" y="588" font-size="11" fill="#86868B">趋势 / 分布 / 一键导出</text>
+  </g>
+
+  <!-- 右侧班级码卡片 -->
+  <g>
+    <rect x="780" y="96" width="376" height="524" rx="22" fill="#FFFFFF" stroke="#F0F0F3" filter="url(#cardShadow)"/>
+    <rect x="781" y="97" width="374" height="5" rx="2.5" fill="url(#topbar)"/>
+    <rect x="934" y="126" width="68" height="68" rx="18" fill="url(#tile)" stroke="#E0E7FF"/>
+    <text x="968" y="172" font-size="32" text-anchor="middle">🐾</text>
+    <text x="968" y="236" font-size="22" font-weight="800" fill="#1D1D1F" text-anchor="middle">进入我的班级</text>
+    <text x="968" y="260" font-size="13" fill="#86868B" text-anchor="middle">输入班主任发的班级码，无需注册</text>
+
+    <rect x="804" y="284" width="328" height="48" rx="12" fill="#F5F5F7" stroke="#E5E5EA"/>
+    <text x="968" y="314" font-size="15" fill="#AEAEB2" text-anchor="middle">输入班级码（如 LS11）</text>
+    <rect x="804" y="346" width="328" height="48" rx="12" fill="url(#btn)"/>
+    <text x="968" y="376" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">🚀 进入班级</text>
+
+    <line x1="828" y1="428" x2="918" y2="428" stroke="#E5E5EA"/>
+    <text x="968" y="432" font-size="12" fill="#AEAEB2" text-anchor="middle">或使用账号登录</text>
+    <line x1="1018" y1="428" x2="1108" y2="428" stroke="#E5E5EA"/>
+
+    <rect x="804" y="448" width="158" height="40" rx="10" fill="#F5F5F7" stroke="#E5E5EA"/>
+    <text x="883" y="473" font-size="13" fill="#6E6E73" text-anchor="middle">👨‍🏫 教师登录</text>
+    <rect x="974" y="448" width="158" height="40" rx="10" fill="#F5F5F7" stroke="#E5E5EA"/>
+    <text x="1053" y="473" font-size="13" fill="#6E6E73" text-anchor="middle">⚙️ 管理员登录</text>
+
+    <text x="968" y="530" font-size="12" fill="#AEAEB2" text-anchor="middle">班级码由班主任统一分配</text>
+  </g>
+
+  <!-- 页脚 -->
+  <text x="640" y="694" font-size="12" fill="#AEAEB2" text-anchor="middle">© 2024 学宠星球 · LearnStar Planet　·　GitHub　·　MIT License　·　局域网离线可用</text>
+</svg>

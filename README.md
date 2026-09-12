@@ -15,6 +15,10 @@
 </p>
 
 <p align="center">
+  <img src="docs/preview-landing.svg" alt="学宠星球 · LearnStar Planet 首页预览" width="880">
+</p>
+
+<p align="center">
   <b>📖 文档地图</b><br><br>
   <b>🚀 上手</b>（第一次用，从这里开始）<br>
   <a href="#2-快速开始">2. 快速开始</a> • <a href="#3-部署指南">3. 部署指南</a> • <a href="#4-配置说明">4. 配置说明</a> • <a href="#5-数据备份与恢复">5. 数据备份与恢复</a><br><br>
