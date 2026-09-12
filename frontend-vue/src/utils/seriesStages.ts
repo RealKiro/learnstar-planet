@@ -43,3 +43,21 @@ export function getStageLabelMap(seriesId?: string): Record<string, string> {
 export function getStageLabel(stageKey: PetStageKey | string, seriesId?: string): string {
   return getStageLabelMap(seriesId)[stageKey as PetStageKey] ?? GENERIC_STAGE_LABELS[stageKey as PetStageKey] ?? stageKey
 }
+
+// ===== 系列 → 画风绑定（AI 生图用；同系列所有阶段严格同一画风，保证角色一致性） =====
+export const SERIES_ART_STYLE: Record<string, string> = {
+  myth: 'inkcn',         // 山海经 → 中国风水墨（上古神话）
+  dongfang: 'inkcn',     // 东方神话 → 中国风水墨（封神仙侠）
+  pokemon: 'anime',      // 宝可梦 → 动漫（日系赛璐璐）
+  digimon: 'anime',      // 数码宝贝 → 动漫（数码进化）
+  qixia: 'anime',        // 虹猫蓝兔 → 动漫（2D 国漫武侠）
+  national: 'cartoon',   // 国宝 → 卡通（皮克斯萌化）
+  magic: 'cg3d',         // 魔法奇幻 → 3D 渲染 CG（史诗奇幻）
+  prehistoric: 'cg3d',   // 史前生物 → 3D 渲染 CG（纪录片复原）
+  constellation: 'figure', // 星座守护 → 手办（圣衣金属质感）
+  festival: 'watercolor',  // 传统节日 → 水彩（民俗喜庆柔和）
+}
+
+export function getSeriesArtStyle(seriesId?: string): string {
+  return (seriesId && SERIES_ART_STYLE[seriesId]) || 'anime'
+}

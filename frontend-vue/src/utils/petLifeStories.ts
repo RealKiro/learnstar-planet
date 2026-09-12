@@ -46,6 +46,11 @@ export interface LifeStageStory {
   weaponAction?: string
   /** 功法手段/法力表现：能力显化的视觉效果 */
   powerEffect?: string
+  /** ===== 剧情推演与 AI 生图（2026-09 新增）===== */
+  /** 本阶段与其他角色的互动/冲突（可以是本项目角色，也可以是原著/IP 中的角色）——用于推动剧情推演，如"与哪吒斗法于陈塘关外" */
+  interaction?: string
+  /** 本阶段形态的 AI 生图提示词（人工精写时填写；未填写由 utils/stageAiPrompt.ts 的 composeStageAiPrompt 按统一约束自动组装） */
+  aiPrompt?: string
 }
 
 /** 角色人生档案（六阶） */
