@@ -28,4 +28,9 @@ class TimetableEntry extends Model
     {
         return $this->belongsTo(Subject::class, 'subject_id');
     }
+
+    public function classRoom(): BelongsTo
+    {
+        return $this->belongsTo(ClassRoom::class, 'class_id');
+    }
 }

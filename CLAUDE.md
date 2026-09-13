@@ -82,14 +82,14 @@ learnstar-planet/
 │   ├── Dockerfile                  # 生产环境多阶段构建（Node + PHP + Nginx）
 │   ├── Dockerfile.dev              # 开发环境构建
 │   ├── app/
-│   │   ├── Models/                 # 28 个 Eloquent 模型
+│   │   ├── Models/                 # 29 个 Eloquent 模型
 │   │   ├── Http/Controllers/Api/  # 6 个 API 控制器
 │   │   ├── Services/              # 28 个服务与辅助类（含 AiBilling / ThirdParty 子目录）
 │   │   ├── Http/Requests/         # Form Request 验证类
 │   │   ├── Http/Resources/        # JsonResource 响应类
 │   │   └── Livewire/              # ⚠️ 遗留死代码（无路由可达，待清理，见「前端」小节）
-│   ├── database/migrations/       # 32 个迁移（含 2026_08_05 计费/班级码/汇率）
-│   └── routes/api.php             # 约 200 条路由定义（get 85 / post 82 / put 19 / delete 11 / match 3）
+│   ├── database/migrations/       # 36 个迁移（含 2026_08_05 计费/班级码/汇率）
+│   └── routes/api.php             # 约 204 条路由定义（get 87 / post 84 / put 22 / delete 11）
 │
 ├── mini-program/                   # 微信小程序
 │   └── pages/                     # 10 个页面
@@ -135,6 +135,8 @@ learnstar-planet/
 | `class_periods` | 节次作息（学校级）|
 | `timetable_entries` | 排课格子（班级 × 星期 × 节次 × 单双周）|
 | `timetable_change_requests` | 课表修改申请（教师提交 → 管理员审核后生效）|
+| `timetable_teacher_assignments` | 任课表（班级 × 科目 → 教师，全校智能排课依据）|
+| `timetable_teacher_unavailabilities` | 教师不可用时段（排课视为占用；排课撞上会在冲突检查中提示）|
 | `homework_collections` | 作业布置 |
 | `homework_submissions` | 作业提交 |
 | `question_banks` | 题库 |

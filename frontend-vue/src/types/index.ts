@@ -244,6 +244,45 @@ export interface TimetableChangeRequest {
   reviewer_name?: string | null
 }
 
+// 教师个人跨班课表（按教师姓名聚合全校排课）
+export interface TimetableTeacherScheduleEntry {
+  class_id: number
+  class_name: string | null
+  weekday: number
+  period_index: number
+  week_type: TimetableWeekType
+  subject_name: string
+  room: string | null
+}
+
+export interface TimetableTeacherSchedule {
+  teacher_name: string
+  subjects: TimetableSubject[]
+  periods: TimetablePeriod[]
+  entries: TimetableTeacherScheduleEntry[]
+}
+
+// 教师不可用时段
+export interface TimetableUnavailability {
+  teacher_name: string
+  weekday: number
+  period_index: number
+}
+
+// 编辑中排课的冲突明细（教师冲突 / 不可用冲突）
+export interface TimetableConflict {
+  type: 'teacher' | 'unavailable'
+  teacher_name: string
+  weekday: number
+  period_index: number
+  week_type: TimetableWeekType
+  subject_name: string
+  other_class_id: number | null
+  other_class_name: string | null
+  other_subject_name: string | null
+  message: string
+}
+
 // API 通用响应
 export interface ApiResponse<T> {
   data: T

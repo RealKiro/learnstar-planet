@@ -5,6 +5,7 @@ import type {
   ApiResponse, ClassRoom, AdminTimetableData, TimetableSubject, TimetablePeriod, TimetableEntry,
   TimetableWeekType, TimetableTeacherAssignment, TimetableGenerateRules, TimetableSubjectRule,
   TimetableGenerateResult, TimetableSchoolGenerateResult, TimetableImportSummary,
+  TimetableConflict, TimetableUnavailability,
 } from '@/types'
 
 // ===== 班级选择 =====
@@ -105,6 +106,7 @@ onMounted(async () => {
 async function loadTimetable() {
   if (!currentClassId.value) return
   loadError.value = ''
+  conflicts.value = []
   try {
     const res = await apiGet<ApiResponse<AdminTimetableData>>(`/api/v1/admin/classes/${currentClassId.value}/timetable`)
     subjects.value = res.data?.subjects || []
@@ -112,6 +114,7 @@ async function loadTimetable() {
     entries.value = res.data?.entries || []
     const aRes = await apiGet<ApiResponse<TimetableTeacherAssignment[]>>(`/api/v1/admin/classes/${currentClassId.value}/teacher-assignments`)
     assignments.value = aRes.data || []
+    scheduleConflictCheck()
   } catch {
     loadError.value = '课表加载失败，请刷新重试'
   }
@@ -164,10 +167,148 @@ function confirmAddEntry() {
   addTeacher.value = ''
   addRoom.value = ''
   cellError.value = ''
+  scheduleConflictCheck()
 }
 
 function removeEntry(target: TimetableEntry) {
   entries.value = entries.value.filter(e => e !== target)
+  scheduleConflictCheck()
+}
+
+// ===== 拖拽调课 =====
+const dragEntry = ref<TimetableEntry | null>(null)
+
+function onDragStart(e: DragEvent, entry: TimetableEntry) {
+  dragEntry.value = entry
+  if (e.dataTransfer) {
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('text/plain', 'timetable-entry')
+  }
+}
+
+function onDragEnd() {
+  dragEntry.value = null
+}
+
+/** 拖到目标格：同周次有课则互换位置，否则移动过去 */
+function onDropToCell(weekday: number, periodIndex: number) {
+  const from = dragEntry.value
+  dragEntry.value = null
+  if (!from) return
+  if (from.weekday === weekday && from.period_index === periodIndex) return
+
+  const target = entries.value.find(
+    e => e !== from && e.weekday === weekday && e.period_index === periodIndex && e.week_type === from.week_type,
+  )
+  const srcWeekday = from.weekday
+  const srcPeriod = from.period_index
+
+  from.weekday = weekday
+  from.period_index = periodIndex
+
+  if (target) {
+    target.weekday = srcWeekday
+    target.period_index = srcPeriod
+  }
+  scheduleConflictCheck()
+}
+
+// ===== 冲突实时检查（编辑后自动触发，防抖 600ms） =====
+const conflicts = ref<TimetableConflict[]>([])
+const conflictLoading = ref(false)
+let conflictTimer: number | null = null
+
+function scheduleConflictCheck() {
+  if (conflictTimer) window.clearTimeout(conflictTimer)
+  conflictTimer = window.setTimeout(runConflictCheck, 600)
+}
+
+async function runConflictCheck() {
+  if (!currentClassId.value) return
+  conflictLoading.value = true
+  try {
+    const res = await apiPost<ApiResponse<TimetableConflict[]>>('/api/v1/admin/timetable/check-conflicts', {
+      class_id: currentClassId.value,
+      entries: entries.value,
+    })
+    conflicts.value = res.data || []
+  } catch {
+    // 检查失败不打扰编辑，下次操作再试
+  } finally {
+    conflictLoading.value = false
+  }
+}
+
+// ===== 教师不可用时段 =====
+const showUnavailModal = ref(false)
+const unavailTeacher = ref('')
+const unavailTeachers = ref<string[]>([])
+const unavailAll = ref<TimetableUnavailability[]>([])
+const unavailCells = ref<Set<string>>(new Set())
+const unavailStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+function unavailKey(d: number, p: number) {
+  return d + '|' + p
+}
+
+async function openUnavailModal() {
+  showUnavailModal.value = true
+  unavailStatus.value = 'idle'
+  try {
+    const res = await apiGet<ApiResponse<TimetableUnavailability[]>>('/api/v1/admin/timetable/unavailabilities')
+    unavailAll.value = res.data || []
+  } catch {
+    unavailAll.value = []
+  }
+
+  // 教师名单 = 已有不可用记录 + 当前班任课教师
+  const names = new Set<string>(unavailAll.value.map(u => u.teacher_name))
+  assignments.value.forEach(a => {
+    const t = a.teacher_name.trim()
+    if (t) names.add(t)
+  })
+  unavailTeachers.value = [...names].sort()
+
+  if (!unavailTeacher.value || !unavailTeachers.value.includes(unavailTeacher.value)) {
+    unavailTeacher.value = unavailTeachers.value[0] || ''
+  }
+  syncUnavailCells()
+}
+
+function syncUnavailCells() {
+  const t = unavailTeacher.value
+  unavailCells.value = new Set(
+    unavailAll.value.filter(u => u.teacher_name === t).map(u => unavailKey(u.weekday, u.period_index)),
+  )
+}
+
+function toggleUnavailCell(d: number, p: number) {
+  const next = new Set(unavailCells.value)
+  const key = unavailKey(d, p)
+  if (next.has(key)) next.delete(key)
+  else next.add(key)
+  unavailCells.value = next
+}
+
+async function saveUnavail() {
+  if (!unavailTeacher.value.trim()) return
+  unavailStatus.value = 'loading'
+  try {
+    const cells = [...unavailCells.value].map(k => {
+      const [w, p] = k.split('|')
+      return { weekday: Number(w), period_index: Number(p) }
+    })
+    await apiPost('/api/v1/admin/timetable/unavailabilities', {
+      teacher_name: unavailTeacher.value.trim(),
+      cells,
+    })
+    unavailStatus.value = 'success'
+    setTimeout(() => { unavailStatus.value = 'idle' }, 1500)
+    await runConflictCheck()
+  } catch {
+    unavailStatus.value = 'error'
+    setTimeout(() => { unavailStatus.value = 'idle' }, 3000)
+  }
 }
 
 // ===== 科目管理 =====
@@ -364,6 +505,7 @@ async function submitImport(dryRun: boolean) {
           <option v-for="c in classes" :key="c.id" :value="c.id">{{ [c.grade, c.name].filter(Boolean).join(' ') }}</option>
         </select>
         <button class="btn btn-sm btn-ghost" @click="openGenModal">⚙️ 自动排课</button>
+        <button class="btn btn-sm btn-ghost" @click="openUnavailModal">🚫 教师不可用</button>
         <button class="btn btn-sm btn-primary" :class="{ 'btn-state-loading': saveStatus === 'loading', 'btn-state-success': saveStatus === 'success', 'btn-state-error': saveStatus === 'error' }" :disabled="saveStatus === 'loading'" @click="saveTimetable">
           {{ { idle: '保存课表', loading: '保存中...', success: '已保存 ✓', error: '保存失败' }[saveStatus] }}
         </button>
@@ -427,7 +569,15 @@ async function submitImport(dryRun: boolean) {
           </label>
         </div>
         <div v-if="periods.length === 0" class="empty-state">先在上方添加节次，再进行排课</div>
-        <div v-else class="table-scroll">
+        <template v-else>
+          <div v-if="conflictLoading || conflicts.length > 0" :class="['conflict-banner', { 'conflict-banner--busy': conflictLoading }]">
+            <template v-if="conflicts.length > 0">
+              <div class="conflict-title">⚠️ 检测到 {{ conflicts.length }} 处冲突（保存前请先处理）</div>
+              <div v-for="(c, i) in conflicts" :key="i" class="conflict-item">{{ c.message }}</div>
+            </template>
+            <span v-else class="conflict-title conflict-title--checking">冲突检查中...</span>
+          </div>
+          <div class="table-scroll">
           <table class="grid-table">
             <thead>
               <tr>
@@ -441,8 +591,24 @@ async function submitImport(dryRun: boolean) {
                   <div class="fw-600">第{{ p.period_index }}节</div>
                   <div class="time-hint">{{ p.start_time }}–{{ p.end_time }}</div>
                 </td>
-                <td v-for="d in visibleWeekdays" :key="d" class="slot-cell" @click="openCell(d, p.period_index)">
-                  <div v-for="e in entriesAt(d, p.period_index)" :key="e.week_type" class="slot-entry" :style="subjectColor(e.subject_name) ? { borderColor: subjectColor(e.subject_name) || undefined } : {}">
+                <td
+                  v-for="d in visibleWeekdays"
+                  :key="d"
+                  class="slot-cell"
+                  @click="openCell(d, p.period_index)"
+                  @dragover.prevent
+                  @drop.prevent="onDropToCell(d, p.period_index)"
+                >
+                  <div
+                    v-for="e in entriesAt(d, p.period_index)"
+                    :key="e.week_type"
+                    class="slot-entry"
+                    :class="{ 'slot-entry--dragging': dragEntry === e }"
+                    draggable="true"
+                    :style="subjectColor(e.subject_name) ? { borderColor: subjectColor(e.subject_name) || undefined } : {}"
+                    @dragstart="onDragStart($event, e)"
+                    @dragend="onDragEnd"
+                  >
                     <span class="slot-subject">{{ e.subject_name }}</span>
                     <span v-if="e.week_type !== 'all'" class="slot-week">{{ WEEK_TYPE_LABELS[e.week_type] }}</span>
                     <span v-if="e.teacher_name || e.room" class="slot-meta">{{ [e.teacher_name, e.room].filter(Boolean).join(' · ') }}</span>
@@ -452,8 +618,9 @@ async function submitImport(dryRun: boolean) {
               </tr>
             </tbody>
           </table>
-        </div>
-        <p class="muted-tip">点击格子添加 / 删除课程；同一节可为单周 / 双周排不同科目。保存后即时生效，并可导出 CSES 供 ClassIsland 同步。</p>
+          </div>
+        </template>
+        <p class="muted-tip">点击格子添加 / 删除课程；拖动课程块到其他格子可移动 / 互换位置（同周次互换，否则直接移动）；同一节可为单周 / 双周排不同科目。冲突（教师跨班撞课、教师不可用时段）会自动标出。保存后即时生效。</p>
       </div>
 
       <div class="card">
@@ -619,6 +786,59 @@ async function submitImport(dryRun: boolean) {
         </div>
       </div>
     </div>
+
+    <!-- 教师不可用时段模态 -->
+    <div v-if="showUnavailModal" class="modal-overlay" @click.self="showUnavailModal = false">
+      <div class="modal-card modal-card--wide">
+        <div class="modal-header">
+          <h3>教师不可用时段</h3>
+          <button class="modal-close" @click="showUnavailModal = false">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="muted-tip" style="margin: 0 0 12px">标记后：全校智能排课会把该教师视为已占用，不会把其课排进这些格子；冲突检查也会提示排进不可用时段的课程。</p>
+          <div v-if="unavailTeachers.length === 0" class="text-muted-13" style="margin-bottom: 12px">暂无教师名单——请先在「任课设置」中填写教师，或先保存过不可用记录。</div>
+          <div v-else class="unavail-teacher-row">
+            <label class="form-label">教师</label>
+            <select v-model="unavailTeacher" class="form-select" @change="syncUnavailCells">
+              <option v-for="t in unavailTeachers" :key="t" :value="t">{{ t }}</option>
+            </select>
+            <span class="text-muted-13">已标记 {{ unavailCells.size }} 格</span>
+          </div>
+          <div v-if="unavailTeachers.length > 0" class="table-scroll">
+            <table class="grid-table unavail-grid">
+              <thead>
+                <tr>
+                  <th class="corner-th">节次</th>
+                  <th v-for="(label, i) in WEEKDAY_LABELS" :key="i">{{ label }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="p in periods" :key="p.period_index">
+                  <td class="period-cell"><div class="fw-600">第{{ p.period_index }}节</div></td>
+                  <td
+                    v-for="di in 7"
+                    :key="di"
+                    :class="['slot-cell', 'slot-cell--toggle', { 'slot-cell--blocked': unavailCells.has(unavailKey(di, p.period_index)) }]"
+                    @click="toggleUnavailCell(di, p.period_index)"
+                  >
+                    <span class="unavail-mark">{{ unavailCells.has(unavailKey(di, p.period_index)) ? '🚫' : '' }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span class="text-muted-13">点击格子切换标记，保存后立即影响自动排课与冲突检查</span>
+          <div class="head-actions">
+            <button class="btn btn-sm btn-ghost" @click="showUnavailModal = false">取消</button>
+            <button class="btn btn-sm btn-primary" :class="{ 'btn-state-loading': unavailStatus === 'loading', 'btn-state-success': unavailStatus === 'success', 'btn-state-error': unavailStatus === 'error' }" :disabled="unavailStatus === 'loading' || !unavailTeacher" @click="saveUnavail">
+              {{ { idle: '保存', loading: '保存中...', success: '已保存 ✓', error: '保存失败' }[unavailStatus] }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -696,4 +916,18 @@ async function submitImport(dryRun: boolean) {
 .num-input { width: 72px; padding: 5px 8px }
 .num-select { width: 92px; padding: 5px 8px }
 .field-error { color: #ef4444; font-size: 12px; margin-top: 6px }
+.slot-entry--dragging { opacity: .45; border-style: dashed }
+.slot-cell--toggle { cursor: pointer; text-align: center; min-height: 44px; height: 44px }
+.slot-cell--toggle:hover { background: var(--color-border, #ececf1) }
+.slot-cell--blocked { background: #fee2e2 }
+.slot-cell--blocked:hover { background: #fecaca }
+.unavail-mark { font-size: 16px }
+.unavail-teacher-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px }
+.unavail-teacher-row .form-select { width: 180px }
+.unavail-grid { margin-bottom: 4px }
+.conflict-banner { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 10px 14px; margin-bottom: 10px; font-size: 13px }
+.conflict-banner--busy { border-color: #fde68a; background: #fffbeb }
+.conflict-title { font-weight: 600; color: #991b1b; margin-bottom: 4px }
+.conflict-title--checking { color: #92400e; font-weight: 500 }
+.conflict-item { color: #b91c1c; padding: 2px 0; border-top: 1px dashed #fecaca }
 </style>

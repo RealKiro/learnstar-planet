@@ -436,6 +436,7 @@ GET /teacher/scores/history?student_id=1&page=1
 | `/teacher/timetable` | GET | 课表初始化数据（科目 + 节次 + 该班排课） |
 | `/teacher/timetable` | POST | 提交课表修改申请（不直接生效，待管理员审核） |
 | `/teacher/timetable/changes` | GET | 本班修改申请历史（含状态与驳回原因） |
+| `/teacher/timetable/my-schedule` | GET | 我的课表（按教师姓名聚合全校各班排课，跨班周视图） |
 | `/teacher/timetable/export-cses` | GET | 导出 CSES YAML 文件，可直接在 ClassIsland「从 CSES 导入」 |
 | `/admin/timetable/changes` | GET | 全校课表修改申请列表（可按 `?status=` 过滤） |
 | `/admin/timetable/changes/{id}/approve` | POST | 通过申请并应用课表（同班其余待审申请自动作废） |
@@ -444,7 +445,10 @@ GET /teacher/scores/history?student_id=1&page=1
 | `/admin/classes/{classId}/teacher-assignments` | GET/POST | 任课设置读取 / 整体保存（班级 × 科目 → 教师） |
 | `/admin/timetable/import-csv` | POST | CSV 批量导入全校课表（`dry_run=true` 只预览；按班级整体覆盖） |
 | `/admin/timetable/generate` | POST | 单班规则自动排课（每周节数 / 连堂 / 每日上限 / 限上下午 / 禁排节次；只计算不落库） |
-| `/admin/timetable/generate-school` | POST | 全校智能排课（依据任课表，教师冲突硬约束；`commit=true` 落库） |
+| `/admin/timetable/generate-school` | POST | 全校智能排课（依据任课表，教师冲突与不可用时段为硬约束；`commit=true` 落库） |
+| `/admin/timetable/unavailabilities` | GET | 全校教师不可用时段列表 |
+| `/admin/timetable/unavailabilities` | POST | 整体保存某教师的不可用时段（replace 语义；影响自动排课与冲突检查） |
+| `/admin/timetable/check-conflicts` | POST | 冲突检查：某班编辑中的排课 vs 其他班排课（教师冲突，周次重叠判定）与不可用时段 |
 | `/display/timetable` | GET | 大屏课表（只读，班级码 Token，返回今日星期 + 节次 + 排课） |
 | `/display/export-cses` | GET | 大屏免登录导出 CSES（教室机课表软件可直接拉取） |
 
@@ -742,6 +746,7 @@ const token = res.data.data.token
 
 | 日期 | 版本 | 变更内容 |
 |------|------|---------|
+| 2026-09-13 | v1.5 | 课表增强：教师跨班「我的课表」（my-schedule）、教师不可用时段（unavailabilities GET/POST，接入全校排课与冲突检查）、编辑中排课冲突检查（check-conflicts）；管理员课表中心（直接编辑 / CSV 批量导入 / 规则自动排课 / 全校智能排课） |
 | 2026-09-13 | v1.3 | 新增课表接口（timetable show / 修改申请审核流 / export-cses，支持导出 CSES 对接 ClassIsLand；新增大屏只读课表与免登录 CSES 导出）；下线成绩管理接口（grades） |
 | 2026-07-19 | v1.2 | 新增 PK 战场、班级码登录、系列切换接口；重构路由结构 |
 | 2026-07-13 | v1.0 | 初始版本 |

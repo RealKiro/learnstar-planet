@@ -10,6 +10,7 @@ use App\Models\Subject;
 use App\Models\TimetableChangeRequest;
 use App\Models\TimetableEntry;
 use App\Models\TimetableTeacherAssignment;
+use App\Models\TimetableTeacherUnavailability;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -900,9 +901,15 @@ class TimetableService
             return ['success' => false, 'warnings' => array_merge($warnings, ['任课表中的科目与规则配置无交集，请核对科目名称']), 'classes' => []];
         }
 
+        // 教师不可用时段（学校级）：排课时视为该教师已被占用
+        $unavailMap = [];
+        foreach (TimetableTeacherUnavailability::where('school_id', $schoolId)->get() as $u) {
+            $unavailMap[(string) $u->teacher_name][(int) $u->weekday][(int) $u->period_index] = true;
+        }
+
         // 多轮重试：每次尝试全校统一放置，教师冲突为硬约束
         for ($attempt = 0; $attempt < 80; $attempt++) {
-            $teacherBusy = [];
+            $teacherBusy = $unavailMap;
             $results = []; // classId => entries
             $ok = true;
 
@@ -973,6 +980,216 @@ class TimetableService
         }
 
         return ['success' => false, 'warnings' => array_merge($warnings, ['尝试多次均无法排出满足全部规则的全校课表（教师冲突难以避免），请减少节数、放宽连堂或调整任课']), 'classes' => []];
+    }
+
+    // ============================================================
+    // 教师视角：我的课表（跨班聚合）/ 不可用时段 / 冲突检查
+    // ============================================================
+
+    /**
+     * 某教师的周课表（全校各班聚合，按排课里的教师姓名匹配）。
+     *
+     * @return array{subjects: array<int, array<string, mixed>>, periods: array<int, mixed>, entries: array<int, array<string, mixed>>}
+     */
+    public function forTeacher(int $schoolId, string $teacherName): array
+    {
+        $subjects = Subject::where('school_id', $schoolId)
+            ->orderBy('sort_order')->orderBy('id')
+            ->get(['name', 'simplified_name', 'color']);
+        $nameById = Subject::where('school_id', $schoolId)->pluck('name', 'id');
+
+        $classNames = ClassRoom::where('school_id', $schoolId)->pluck('name', 'id');
+
+        $entries = TimetableEntry::whereHas('classRoom', fn ($q) => $q->where('school_id', $schoolId))
+            ->where('teacher_name', $teacherName)
+            ->orderBy('weekday')->orderBy('period_index')
+            ->get(['class_id', 'weekday', 'period_index', 'week_type', 'subject_id', 'room'])
+            ->map(fn (TimetableEntry $e) => [
+                'class_id' => (int) $e->class_id,
+                'class_name' => $classNames[(int) $e->class_id] ?? null,
+                'weekday' => (int) $e->weekday,
+                'period_index' => (int) $e->period_index,
+                'week_type' => (string) ($e->week_type ?: 'all'),
+                'subject_name' => $e->subject_id ? ($nameById[$e->subject_id] ?? null) : null,
+                'room' => $e->room,
+            ])
+            ->filter(fn (array $e) => $e['subject_name'] !== null)
+            ->values();
+
+        return [
+            'teacher_name' => $teacherName,
+            'subjects' => $subjects->values(),
+            'periods' => ClassPeriod::where('school_id', $schoolId)
+                ->orderBy('period_index')
+                ->get(['period_index', 'name', 'start_time', 'end_time'])
+                ->values(),
+            'entries' => $entries,
+        ];
+    }
+
+    /** 全校教师不可用时段（平铺列表） */
+    public function listUnavailabilities(int $schoolId): array
+    {
+        return TimetableTeacherUnavailability::where('school_id', $schoolId)
+            ->orderBy('teacher_name')->orderBy('weekday')->orderBy('period_index')
+            ->get(['teacher_name', 'weekday', 'period_index'])
+            ->map(fn (TimetableTeacherUnavailability $u) => [
+                'teacher_name' => (string) $u->teacher_name,
+                'weekday' => (int) $u->weekday,
+                'period_index' => (int) $u->period_index,
+            ])
+            ->values()
+            ->all();
+    }
+
+    /** 整体保存某教师的不可用时段（replace 语义，cells = [{weekday, period_index}]） */
+    public function saveUnavailabilities(int $schoolId, string $teacherName, array $cells): void
+    {
+        DB::transaction(function () use ($schoolId, $teacherName, $cells): void {
+            TimetableTeacherUnavailability::where('school_id', $schoolId)
+                ->where('teacher_name', $teacherName)
+                ->delete();
+
+            foreach (array_values($cells) as $c) {
+                $weekday = (int) ($c['weekday'] ?? 0);
+                $periodIndex = (int) ($c['period_index'] ?? 0);
+                if ($weekday < 1 || $weekday > 7 || $periodIndex < 1) {
+                    continue;
+                }
+
+                TimetableTeacherUnavailability::create([
+                    'school_id' => $schoolId,
+                    'teacher_name' => $teacherName,
+                    'weekday' => $weekday,
+                    'period_index' => $periodIndex,
+                ]);
+            }
+        });
+    }
+
+    /**
+     * 冲突检查：给定某班当前编辑中的排课，检查
+     * ① 教师冲突——同一教师在其他班级同一时段（周次重叠）已有课；
+     * ② 不可用冲突——教师被标记了不可用时段。
+     * 返回冲突明细列表（空数组 = 无冲突）。
+     *
+     * @param  array<int, array<string, mixed>>  $entries
+     * @return array<int, array<string, mixed>>
+     */
+    public function checkConflicts(int $schoolId, int $classId, array $entries): array
+    {
+        $teachers = array_values(array_unique(array_filter(
+            array_map(fn ($e) => trim((string) ($e['teacher_name'] ?? '')), $entries),
+            fn (string $t) => $t !== '',
+        )));
+        if ($teachers === []) {
+            return [];
+        }
+
+        // 其他班级相关教师的全部排课
+        $others = TimetableEntry::whereHas('classRoom', fn ($q) => $q->where('school_id', $schoolId))
+            ->where('class_id', '!=', $classId)
+            ->whereIn('teacher_name', $teachers)
+            ->get(['class_id', 'weekday', 'period_index', 'week_type', 'teacher_name']);
+
+        $classNames = ClassRoom::where('school_id', $schoolId)->pluck('name', 'id');
+        $nameById = Subject::where('school_id', $schoolId)->pluck('name', 'id');
+
+        // 不可用时段
+        $unavail = [];
+        foreach (TimetableTeacherUnavailability::where('school_id', $schoolId)->whereIn('teacher_name', $teachers)->get() as $u) {
+            $unavail[(string) $u->teacher_name][(int) $u->weekday][(int) $u->period_index] = true;
+        }
+
+        $conflicts = [];
+        $seen = [];
+
+        foreach ($entries as $e) {
+            $teacher = trim((string) ($e['teacher_name'] ?? ''));
+            $weekday = (int) ($e['weekday'] ?? 0);
+            $periodIndex = (int) ($e['period_index'] ?? 0);
+            $weekType = (string) ($e['week_type'] ?? 'all');
+            $subjectName = (string) ($e['subject_name'] ?? '');
+
+            if ($teacher === '' || $weekday < 1 || $weekday > 7 || $periodIndex < 1) {
+                continue;
+            }
+
+            // ① 与其他班的教师冲突（周次重叠才算：all 与任何都重叠；odd/even 仅同类重叠）
+            foreach ($others as $o) {
+                if ((string) $o->teacher_name !== $teacher
+                    || (int) $o->weekday !== $weekday
+                    || (int) $o->period_index !== $periodIndex
+                    || !$this->weekTypeOverlaps($weekType, (string) ($o->week_type ?: 'all'))) {
+                    continue;
+                }
+
+                $key = $teacher . '|' . $weekday . '|' . $periodIndex . '|' . $weekType . '|' . $o->class_id;
+                if (isset($seen[$key])) {
+                    continue;
+                }
+                $seen[$key] = true;
+
+                $conflicts[] = [
+                    'type' => 'teacher',
+                    'teacher_name' => $teacher,
+                    'weekday' => $weekday,
+                    'period_index' => $periodIndex,
+                    'week_type' => $weekType,
+                    'subject_name' => $subjectName,
+                    'other_class_id' => (int) $o->class_id,
+                    'other_class_name' => $classNames[(int) $o->class_id] ?? null,
+                    'other_subject_name' => $o->subject_id ? ($nameById[$o->subject_id] ?? null) : null,
+                    'message' => sprintf(
+                        '%s%s第%d节「%s」与 %s「%s」冲突（同一教师）',
+                        self::WEEKDAY_LABELS[$weekday] ?? "第{$weekday}天",
+                        $weekType === 'all' ? '' : ($weekType === 'odd' ? '单周' : '双周'),
+                        $periodIndex,
+                        $subjectName ?: '课程',
+                        $classNames[(int) $o->class_id] ?? '其他班级',
+                        $o->subject_id ? ($nameById[$o->subject_id] ?? '') : '',
+                    ),
+                ];
+            }
+
+            // ② 教师不可用时段
+            if (isset($unavail[$teacher][$weekday][$periodIndex])) {
+                $key = 'u|' . $teacher . '|' . $weekday . '|' . $periodIndex . '|' . $weekType;
+                if (!isset($seen[$key])) {
+                    $seen[$key] = true;
+                    $conflicts[] = [
+                        'type' => 'unavailable',
+                        'teacher_name' => $teacher,
+                        'weekday' => $weekday,
+                        'period_index' => $periodIndex,
+                        'week_type' => $weekType,
+                        'subject_name' => $subjectName,
+                        'other_class_id' => null,
+                        'other_class_name' => null,
+                        'other_subject_name' => null,
+                        'message' => sprintf(
+                            '%s 第%d节「%s」：教师 %s 此时段已被标记为不可用',
+                            self::WEEKDAY_LABELS[$weekday] ?? "第{$weekday}天",
+                            $periodIndex,
+                            $subjectName ?: '课程',
+                            $teacher,
+                        ),
+                    ];
+                }
+            }
+        }
+
+        return $conflicts;
+    }
+
+    /** 周次是否重叠：all 与任何都重叠；odd/even 仅同类重叠 */
+    private function weekTypeOverlaps(string $a, string $b): bool
+    {
+        if ($a === 'all' || $b === 'all') {
+            return true;
+        }
+
+        return $a === $b;
     }
 
     /**

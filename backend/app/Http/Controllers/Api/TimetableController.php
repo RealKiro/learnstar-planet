@@ -78,6 +78,16 @@ class TimetableController extends Controller
         return response()->json(['data' => $this->timetableService->listChangesForClass($classId)]);
     }
 
+    /** 我的课表：按教师姓名全校聚合（跨班周课表） */
+    public function mySchedule(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+
+        return response()->json([
+            'data' => $this->timetableService->forTeacher((int) $teacher->school_id, (string) $teacher->name),
+        ]);
+    }
+
     // ============================================================
     // 管理员审批（/api/v1/admin/timetable/*，role:school_admin）
     // ============================================================
@@ -205,9 +215,66 @@ class TimetableController extends Controller
         return response()->json(['data' => $result]);
     }
 
-    /** 某班任课列表（subject_name => teacher_name） */
-    public function listAssignments(Request $request, int $classId): JsonResponse
+    // ============================================================
+    // 教师不可用时段 / 冲突检查（/api/v1/admin/timetable/*，role:school_admin）
+    // ============================================================
+
+    /** 全校教师不可用时段列表 */
+    public function adminUnavailabilities(Request $request): JsonResponse
     {
+        return response()->json([
+            'data' => $this->timetableService->listUnavailabilities((int) $request->user()->school_id),
+        ]);
+    }
+
+    /** 整体保存某教师的不可用时段（replace 语义） */
+    public function saveUnavailabilities(Request $request): JsonResponse
+    {
+        $request->validate([
+            'teacher_name' => 'required|string|max:50',
+            'cells' => 'present|array',
+            'cells.*.weekday' => 'required|integer|between:1,7',
+            'cells.*.period_index' => 'required|integer|between:1,30',
+        ]);
+
+        $this->timetableService->saveUnavailabilities(
+            (int) $request->user()->school_id,
+            trim((string) $request->input('teacher_name')),
+            $request->input('cells', []),
+        );
+
+        return response()->json(['message' => '不可用时段已保存']);
+    }
+
+    /** 冲突检查：某班编辑中的排课 vs 其他班级排课（教师冲突）与不可用时段 */
+    public function checkConflicts(Request $request): JsonResponse
+    {
+        $request->validate([
+            'class_id' => 'required|integer',
+            'entries' => 'present|array',
+            'entries.*.weekday' => 'nullable|integer|between:1,7',
+            'entries.*.period_index' => 'nullable|integer|between:1,30',
+            'entries.*.subject_name' => 'nullable|string|max:50',
+            'entries.*.week_type' => 'nullable|string|in:all,odd,even',
+            'entries.*.teacher_name' => 'nullable|string|max:50',
+        ]);
+
+        $class = $this->resolveAdminClass($request, (int) $request->input('class_id'));
+        if (!$class) {
+            return response()->json(['message' => '班级不存在'], 404);
+        }
+
+        return response()->json([
+            'data' => $this->timetableService->checkConflicts(
+                (int) $request->user()->school_id,
+                (int) $class->id,
+                $request->input('entries', []),
+            ),
+        ]);
+    }
+
+    /** 某班任课列表（subject_name => teacher_name） */
+    public function listAssignments(Request $request, int $classId): JsonResponse    {
         if (!$this->resolveAdminClass($request, $classId)) {
             return response()->json(['message' => '班级不存在'], 404);
         }

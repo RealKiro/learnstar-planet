@@ -143,6 +143,10 @@ Route::prefix('v1')->group(function () {
         Route::post('timetable/import-csv', [TimetableController::class, 'adminImportCsv']);
         Route::post('timetable/generate', [TimetableController::class, 'generate']);
         Route::post('timetable/generate-school', [TimetableController::class, 'generateSchool']);
+        // 教师不可用时段（排课时视为占用）与编辑中排课的冲突检查
+        Route::get('timetable/unavailabilities', [TimetableController::class, 'adminUnavailabilities']);
+        Route::post('timetable/unavailabilities', [TimetableController::class, 'saveUnavailabilities']);
+        Route::post('timetable/check-conflicts', [TimetableController::class, 'checkConflicts']);
     });
 
     // ===== 3. 教师端 =====
@@ -250,11 +254,12 @@ Route::prefix('v1')->group(function () {
             Route::get('summary', [TeacherController::class, 'attendanceSummary']);
         });
 
-        // 课表：读取 / 提交修改申请（经管理员审核后生效）/ 申请历史 / 导出 CSES（ClassIsland「从 CSES 导入」）
+        // 课表：读取 / 提交修改申请（经管理员审核后生效）/ 申请历史 / 我的跨班课表 / 导出 CSES（ClassIsland「从 CSES 导入」）
         Route::prefix('timetable')->group(function () {
             Route::get('/', [TimetableController::class, 'show']);
             Route::post('/', [TimetableController::class, 'save']);
             Route::get('changes', [TimetableController::class, 'myChanges']);
+            Route::get('my-schedule', [TimetableController::class, 'mySchedule']);
             Route::get('export-cses', [TimetableController::class, 'exportCses']);
         });
 
