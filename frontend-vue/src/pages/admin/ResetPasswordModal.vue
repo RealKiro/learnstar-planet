@@ -90,7 +90,7 @@ async function submitResetPwd() {
 
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
-    <div style="max-width:420px;width:100%;padding:4px 0;">
+    <div class="rpm-wrap">
       <div class="modal-header">
         <h3 class="card-title">
           &#128273; 密码管理 — {{ teacher?.name }}
@@ -99,18 +99,16 @@ async function submitResetPwd() {
       </div>
 
       <div
-        v-if="currentPwd"
-        style="margin-bottom:12px;padding:10px 12px;background:var(--color-bg);border-radius:8px;border:1px solid var(--color-border);"
+        v-if="currentPwd" class="rpm-target-box"
       >
-        <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">当前密码</div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <code style="font-size:14px;font-weight:700;color:var(--color-text);flex:1;font-family:monospace;">
+        <div class="rpm-label-11">当前密码</div>
+        <div class="rpm-row-8">
+          <code class="rpm-pwd-text">
             {{ showResetPwd ? currentPwd : '••••••••' }}
           </code>
           <button
             type="button"
-            class="pwd-toggle-btn"
-            style="flex-shrink:0;padding:4px 12px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;color:var(--color-text);font-family:inherit;"
+            class="pwd-toggle-btn rpm-copy-btn"
             @click="showResetPwd = !showResetPwd"
           >
             {{ showResetPwd ? '🙈 隐藏' : '👁️ 显示' }}
@@ -120,7 +118,7 @@ async function submitResetPwd() {
 
       <div class="form-group">
         <label>新密码</label>
-        <div class="flex-row" style="gap:6px;">
+        <div class="flex-row rpm-gap-6">
           <input
             v-model="resetPwdValue"
             :type="showResetPwd ? 'text' : 'password'"
@@ -130,8 +128,7 @@ async function submitResetPwd() {
           >
           <button
             type="button"
-            class="pwd-toggle-btn"
-            style="flex-shrink:0;width:38px;padding:6px 0;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:16px;color:var(--color-text);font-family:inherit;"
+            class="pwd-toggle-btn rpm-icon-btn"
             @click="showResetPwd = !showResetPwd"
             :title="showResetPwd ? '隐藏密码' : '显示密码'"
           >
@@ -140,22 +137,22 @@ async function submitResetPwd() {
         </div>
       </div>
 
-      <div class="flex-row" style="margin-bottom:12px;">
+      <div class="flex-row rpm-mb-12">
         <button
           type="button"
-          class="flex-1" style="padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);font-family:inherit;"
+          class="flex-1 rpm-gen-btn"
           @click="resetPwdValue = ''"
         >
           &#128260; 重置为空
         </button>
       </div>
 
-      <div v-if="resetPwdError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ resetPwdError }}</div>
+      <div v-if="resetPwdError" class="rpm-error">{{ resetPwdError }}</div>
 
-      <div class="flex-row" style="gap:12px;">
+      <div class="flex-row rpm-gap-12">
         <button
           @click="closeModal"
-          class="flex-1" style="padding:8px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
+          class="flex-1 rpm-btn-outline"
         >
           取消
         </button>
@@ -212,4 +209,18 @@ async function submitResetPwd() {
   background: rgba(124, 58, 237, 0.1);
   color: var(--color-accent);
 }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.rpm-wrap { max-width:420px;width:100%;padding:4px 0; }
+.rpm-target-box { margin-bottom:12px;padding:10px 12px;background:var(--color-bg);border-radius:8px;border:1px solid var(--color-border); }
+.rpm-label-11 { font-size:11px;color:var(--color-text-secondary);margin-bottom:4px; }
+.rpm-row-8 { display:flex;align-items:center;gap:8px; }
+.rpm-pwd-text { font-size:14px;font-weight:700;color:var(--color-text);flex:1;font-family:monospace; }
+.rpm-copy-btn { flex-shrink:0;padding:4px 12px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;color:var(--color-text);font-family:inherit; }
+.rpm-gap-6 { gap:6px; }
+.rpm-icon-btn { flex-shrink:0;width:38px;padding:6px 0;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:16px;color:var(--color-text);font-family:inherit; }
+.rpm-mb-12 { margin-bottom:12px; }
+.rpm-gen-btn { padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);font-family:inherit; }
+.rpm-error { margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
+.rpm-gap-12 { gap:12px; }
+.rpm-btn-outline { padding:8px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
 </style>
