@@ -60,24 +60,24 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
-      <div style="display:flex;align-items:baseline;gap:12px;">
-        <h2 style="font-size:26px;font-weight:700;margin:0;">🏆 年级战场</h2>
-        <span style="font-size:14px;color:var(--md-text-secondary);">同年级大比拼</span>
+    <div class="page-head">
+      <div class="title-row">
+        <h2 class="page-title">🏆 年级战场</h2>
+        <span class="text-muted-14">同年级大比拼</span>
       </div>
-      <div v-if="!loading && !error" style="padding:6px 20px;border-radius:30px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.15);color:#F59E0B;font-size:15px;font-weight:700;">
+      <div v-if="!loading && !error" class="pk-badge">
         {{ rankBadge }} 当前排名: #{{ myRank }}
       </div>
     </div>
 
-    <div v-if="loading" style="text-align:center;padding:60px;color:var(--md-text-secondary);">加载中...</div>
-    <div v-else-if="error" style="text-align:center;padding:60px;color: var(--color-danger-text);">
+    <div v-if="loading" class="empty-60">加载中...</div>
+    <div v-else-if="error" class="empty-60-error">
       <p>{{ error }}</p>
-      <p style="font-size:13px;color:var(--md-text-secondary);margin-top:8px;">请确保班级有同年级的其他班级数据</p>
+      <p class="hint-13-top">请确保班级有同年级的其他班级数据</p>
     </div>
 
     <template v-else-if="classes.length > 0">
-      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
+      <div class="stack-10">
         <div v-for="(cls, idx) in classes" :key="cls.name"
           :style="{
             display:'flex', alignItems:'center', gap:'14px', padding:'14px 20px',
@@ -85,21 +85,21 @@ onUnmounted(() => {
             border: '1px solid ' + (cls.isOwn ? 'rgba(245,158,11,0.2)' : 'var(--tint-2)'),
             borderRadius:'var(--md-radius)', transition:'0.25s',
           }">
-          <div style="font-size:22px;font-weight:800;width:44px;text-align:center;"
-            :style="{ color: idx === 0 ? '#F59E0B' : idx === 1 ? '#94A3B8' : idx === 2 ? '#D97706' : 'var(--color-text-secondary)' }">
+          <div 
+ :style="{ color: idx === 0 ? '#F59E0B' : idx === 1 ? '#94A3B8' : idx === 2 ? '#D97706' : 'var(--color-text-secondary)' }" class="rank">
             {{ getMedal(idx) }}
           </div>
-          <div style="width:130px;flex-shrink:0;">
-            <div style="font-size:16px;font-weight:600;">{{ cls.name }}</div>
-            <span v-if="cls.isOwn" style="font-size:10px;padding:1px 8px;border-radius:4px;background:rgba(245,158,11,0.1);color:#F59E0B;font-weight:600;">本班</span>
+          <div class="team-name">
+            <div class="fw-600-16">{{ cls.name }}</div>
+            <span v-if="cls.isOwn" class="mini-badge">本班</span>
           </div>
-          <div style="flex:1;display:flex;align-items:center;gap:12px;">
-            <div style="flex:1;height:8px;background:var(--tint-3);border-radius:4px;overflow:hidden;">
+          <div class="bar-wrap">
+            <div class="bar-track">
               <div :style="{ width: (cls.totalScore / maxScore) * 100 + '%', height:'100%', background: idx === 0 ? 'linear-gradient(90deg,#f59e0b,#fcd34d)' : 'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'4px', transition:'width 0.8s' }"></div>
             </div>
-            <span style="font-weight:700;font-size:15px;min-width:70px;text-align:right;">{{ cls.totalScore.toLocaleString() }}</span>
+            <span class="bar-value">{{ cls.totalScore.toLocaleString() }}</span>
           </div>
-          <div style="display:flex;gap:14px;font-size:13px;color:var(--md-text-secondary);min-width:160px;justify-content:flex-end;">
+          <div class="bar-meta">
             <span title="人数">👤 {{ cls.studentCount }}</span>
             <span title="平均等级">📈 {{ cls.avgLevel.toFixed(1) }}</span>
             <span title="巅峰人数">⭐ {{ cls.peakCount }}</span>
@@ -107,38 +107,70 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-        <div style="background:var(--tint-1);border-radius:var(--md-radius);padding:20px 24px;border:1px solid var(--tint-2);">
-          <h4 style="font-size:14px;color:var(--md-text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">📊 本班战力分析</h4>
-          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--tint-1);font-size:15px;">
-            <span>总积分</span><span style="font-weight:700;">{{ myScore.toLocaleString() }}</span>
+      <div class="grid-2-20">
+        <div class="panel">
+          <h4 class="panel-label">📊 本班战力分析</h4>
+          <div class="stat-line">
+            <span>总积分</span><span class="fw-700">{{ myScore.toLocaleString() }}</span>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--tint-1);font-size:15px;">
-            <span>当前排名</span><span style="font-weight:700;">#{{ myRank }}</span>
+          <div class="stat-line">
+            <span>当前排名</span><span class="fw-700">#{{ myRank }}</span>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--tint-1);font-size:15px;">
-            <span>与第1名差距</span><span style="font-weight:700;color:#F59E0B;">{{ gapToFirst.toLocaleString() }} 分</span>
+          <div class="stat-line">
+            <span>与第1名差距</span><span class="fw-700-gold">{{ gapToFirst.toLocaleString() }} 分</span>
           </div>
-          <div v-if="classes[1]" style="display:flex;justify-content:space-between;padding:8px 0;font-size:15px;">
+          <div v-if="classes[1]" class="stat-line-plain">
             <span>超越前1名需要</span>
-            <span style="font-weight:700;">{{ (classes[myRank-2]?.totalScore || 0) - myScore > 0 ? ((classes[myRank-2]?.totalScore || 0) - myScore).toLocaleString() + ' 分' : '-' }}</span>
+            <span class="fw-700">{{ (classes[myRank-2]?.totalScore || 0) - myScore > 0 ? ((classes[myRank-2]?.totalScore || 0) - myScore).toLocaleString() + ' 分' : '-' }}</span>
           </div>
         </div>
-        <div style="background:var(--tint-1);border-radius:var(--md-radius);padding:20px 24px;border:1px solid var(--tint-2);">
-          <h4 style="font-size:14px;color:var(--md-text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">⚔️ 挑战建议</h4>
-          <div v-if="gapToFirst > 0" style="font-size:15px;color:var(--md-text-secondary);line-height:1.6;">
-            💪 距离第1名还差 <strong style="color:#F59E0B;font-size:18px;">{{ gapToFirst.toLocaleString() }}</strong> 分！<br>
-            <span style="font-size:13px;opacity:0.7;">继续鼓励学生举手发言和完成作业！</span>
+        <div class="panel">
+          <h4 class="panel-label">⚔️ 挑战建议</h4>
+          <div v-if="gapToFirst > 0" class="text-muted-15">
+            💪 距离第1名还差 <strong class="gold-18">{{ gapToFirst.toLocaleString() }}</strong> 分！<br>
+            <span class="faded-13">继续鼓励学生举手发言和完成作业！</span>
           </div>
-          <div v-else style="font-size:15px;color:#10B981;line-height:1.6;">
+          <div v-else class="text-ok-15">
             🎉 太棒了！本班目前位列年级第 {{ myRank }}！
           </div>
         </div>
       </div>
     </template>
 
-    <div v-else style="text-align:center;padding:60px;color:var(--md-text-secondary);">
+    <div v-else class="empty-60">
       📭 暂无同年级其他班级数据
     </div>
   </div>
 </template>
+
+<style scoped>
+/* ===== 页内布局类（本页专用，替代原内联样式；声明逐字保留以保证渲染等价） ===== */
+.stat-line { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--tint-1); font-size:15px; }
+.fw-700 { font-weight:700; }
+.empty-60 { text-align:center; padding:60px; color:var(--md-text-secondary); }
+.panel { background:var(--tint-1); border-radius:var(--md-radius); padding:20px 24px; border:1px solid var(--tint-2); }
+.panel-label { font-size:14px; color:var(--md-text-secondary); font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:16px; }
+.page-head { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px; }
+.title-row { display:flex; align-items:baseline; gap:12px; }
+.page-title { font-size:26px; font-weight:700; margin:0; }
+.text-muted-14 { font-size:14px; color:var(--md-text-secondary); }
+.pk-badge { padding:6px 20px; border-radius:30px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.15); color:#F59E0B; font-size:15px; font-weight:700; }
+.empty-60-error { text-align:center; padding:60px; color: var(--color-danger-text); }
+.hint-13-top { font-size:13px; color:var(--md-text-secondary); margin-top:8px; }
+.stack-10 { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
+.rank { font-size:22px; font-weight:800; width:44px; text-align:center; }
+.team-name { width:130px; flex-shrink:0; }
+.fw-600-16 { font-size:16px; font-weight:600; }
+.mini-badge { font-size:10px; padding:1px 8px; border-radius:4px; background:rgba(245,158,11,0.1); color:#F59E0B; font-weight:600; }
+.bar-wrap { flex:1; display:flex; align-items:center; gap:12px; }
+.bar-track { flex:1; height:8px; background:var(--tint-3); border-radius:4px; overflow:hidden; }
+.bar-value { font-weight:700; font-size:15px; min-width:70px; text-align:right; }
+.bar-meta { display:flex; gap:14px; font-size:13px; color:var(--md-text-secondary); min-width:160px; justify-content:flex-end; }
+.grid-2-20 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.fw-700-gold { font-weight:700; color:#F59E0B; }
+.stat-line-plain { display:flex; justify-content:space-between; padding:8px 0; font-size:15px; }
+.text-muted-15 { font-size:15px; color:var(--md-text-secondary); line-height:1.6; }
+.gold-18 { color:#F59E0B; font-size:18px; }
+.faded-13 { font-size:13px; opacity:0.7; }
+.text-ok-15 { font-size:15px; color:#10B981; line-height:1.6; }
+</style>
