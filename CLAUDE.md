@@ -19,26 +19,32 @@
 | 框架 | Laravel 12 | PHP 8.5，RESTful API |
 | 认证 | Laravel Sanctum 4 | API Token 认证，按角色隔离 |
 | 权限 | 自定义 RoleMiddleware（users.role 列） | 按角色隔离（school_admin / teacher） |
-| 实时 | Livewire 3 + Flux 2 | 教师仪表盘与积分管理的动态 UI |
+| 实时推送 | SSE（后端实现） | 教室大屏广播 / 积分变动，前端 EventSource 优先、轮询降级 |
 | 缓存 | Redis (Predis 2) | 排行榜用 ZSET，队列用 Horizon 5 |
 | 数据库 | MySQL 8.0+ / MariaDB 10.3+ / PostgreSQL 14+ / SQLite 3.8+ | 四种数据库均支持 |
 | Excel | maatwebsite/excel 3 | Excel 导入导出 |
-| PDF | barryvdh/laravel-dompdf 2 | PDF 报表导出 |
+| PDF | barryvdh/laravel-dompdf ^3.1 | PDF 报表导出 |
 | 图片 | intervention/image 3 | 图片处理 |
 | 日志 | spatie/laravel-activitylog 4 | 活动日志审计 |
-| 队列 | Laravel Horizon 5 | Redis 队列监控 |
+| 队列 | Laravel Horizon 5 | Redis 队列监控。**仅外置 Redis 时可用**；默认部署无 Redis，走 `QUEUE_CONNECTION=database`，不经过 Horizon |
 
 ### 前端
 
 | 端 | 技术 | 说明 |
 |------|------|------|
-| Web | Vue 3 + Vite + TypeScript | `frontend-vue/` 目录，组件化 SPA，需 `npm run build` 构建 |
+| Web | Vue 3 + Vite + TypeScript | `frontend-vue/` 目录，组件化 SPA，需 `npm run build` 构建（**唯一在线前端**） |
 | 小程序 | 微信小程序原生 | `mini-program/` 目录，10 个页面，教师端 |
 | PWA | 原生 Service Worker | `pwa/` 目录，离线缓存、推送通知、后台同步 |
+
+> ⚠️ **Livewire 已退役（勿再新增）**：`backend/app/Livewire/`（2 个组件）与 `backend/resources/views/`
+> 是 Vue 3 重构前的遗留，当前**无任何路由可达**——`routes/web.php` 只提供 `/health`、`/up`、`/debug`
+> 与 SPA 兜底（返回 `public/index.html`），没有一条路由渲染 Blade 视图。且 `layouts/app.blade.php`
+> 引用了从未安装的 FluxUI（`@fluxStyles`），一旦被渲染会直接 500。新功能一律写 Vue。
 
 ### 基础设施
 
 - Docker 多阶段构建（Node 22 构建前端 + PHP 8.5 运行时，`php artisan serve` 直接服务，无 Nginx/FPM/Supervisor）
+- ⚠️ `backend/docker/nginx/`、`backend/docker/supervisor/` 是旧方案遗留，**未被任何 Dockerfile 引用**（生产走 PHP 内置服务器），待清理
 - Docker Compose 编排（默认仅 app 一个容器 + 内置 SQLite；MySQL/PostgreSQL/Redis 均为外置方案，刻意不内置数据库容器以减小体积）
 - GitHub Container Registry (GHCR) 镜像托管
 - CI/CD: GitHub Actions + Gitee Go
@@ -77,15 +83,15 @@ learnstar-planet/
 │   ├── app/
 │   │   ├── Models/                 # 24 个 Eloquent 模型
 │   │   ├── Http/Controllers/Api/  # 6 个 API 控制器
-│   │   ├── Services/              # 22 个业务服务（含 AiBilling / ThirdParty 子目录）
+│   │   ├── Services/              # 23 个服务与辅助类（含 AiBilling / ThirdParty 子目录）
 │   │   ├── Http/Requests/         # Form Request 验证类
 │   │   ├── Http/Resources/        # JsonResource 响应类
-│   │   └── Livewire/              # 2 个 Livewire 组件
+│   │   └── Livewire/              # ⚠️ 遗留死代码（无路由可达，待清理，见「前端」小节）
 │   ├── database/migrations/       # 32 个迁移（含 2026_08_05 计费/班级码/汇率）
-│   └── routes/api.php             # 214 个 API 端点
+│   └── routes/api.php             # 约 188 条路由定义（get 80 / post 77 / put 19 / delete 11 / match 1）
 │
 ├── mini-program/                   # 微信小程序
-│   └── pages/                     # 14 个页面
+│   └── pages/                     # 10 个页面
 │
 ├── pwa/                            # PWA 配置
 │
@@ -146,7 +152,7 @@ learnstar-planet/
 
 ---
 
-## API 架构（220 个端点）
+## API 架构（约 188 条路由定义）
 
 ### `/api/v1/auth/*` — 认证
 - POST teacher/login, admin/login, teacher/login/{platform}
@@ -285,7 +291,7 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
 
 ## 关键设计决策与注意事项
 
-1. **前端已完成 Vue 3 重构**: `frontend-vue/` 采用 Vue 3 + Vite + TypeScript + Pinia + Vue Router
+1. **前端已完成 Vue 3 重构**: `frontend-vue/` 采用 Vue 3 + Vite + TypeScript + Pinia + Vue Router。**原 Livewire + Blade 方案已作废**（见「技术架构 → 前端」告警块）：`backend/app/Livewire/`、`backend/resources/views/`、`backend/docker/nginx/`、`backend/docker/supervisor/` 均为无引用残留，勿在其上开发
 2. **无自注册**: 所有账号由管理员在后台创建分配
 3. **角色严格隔离**: 管理员/教师界面和 API 完全不同；学生无需登录，凭班级码进入教室端（以班级为单元）
 4. **第三方登录仅限教师**: 管理员不支持第三方扫码；后台学校设置可勾选启用平台（企业微信/钉钉/飞书/微信/QQ/人人通空间），登录页按配置动态展示，存储于 `schools.settings.enabled_third_party_platforms`
@@ -347,3 +353,11 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
     - **审计工具**：`frontend-vue/scripts/analyze-pets.mjs`（数据完整性，报告 → docs/pet-audit-report.json）、`scripts/audit-cards.mjs`（角色卡唯一性 + 契合度核对表 card-fit-review.txt）。新增/修改宠物数据后必须跑这两个脚本
     - 遗留：65 阶视觉规格字段缺失（节日系列为主），明细在 docs/pet-audit-report.json，待批量补全
 16. **产品命名（2026-09）**: 中文名 **学宠星球**，英文 **LearnStar Planet**。仓库/镜像/环境变量等标识符保留 `learnstar-planet`（改名只涉及展示文本）
+17. **启动安全自检（2026-09-13）**: `entrypoint.sh` 在初始化完成后检测默认凭据（`ADMIN_PASSWORD=admin123456` / `BOT_ENABLED=true` 且 `BOT_PASSWORD=learnstar-bot-2026`），命中则在启动日志打印 `🔴 安全告警` 横幅并列出修改方法。**刻意不阻断启动**——为保住「三步部署、零配置」体验，只把风险暴露在日志首屏；README 同步新增「🔐 上线前安全检查」章节。默认值本身未改动（改默认值会破坏首次部署即用）
+18. **文档-代码口径对齐（2026-09-13）**: 修正一批「文档描述与代码实际不符」，全部以实测为准：
+    - **Livewire 表述更正**：原文把 `Livewire 3 + Flux 2` 写作实时 UI，实际是 Vue 重构前的遗留，`routes/web.php` 无任何路由渲染 Blade → 无路由可达；`layouts/app.blade.php` 还引用**从未安装**的 FluxUI（`@fluxStyles`），一旦渲染即 500
+    - **规模数字校准**：路由 **约 188 条**（get 80 / post 77 / put 19 / delete 11 / match 1，原写 214/220）；小程序 **10 页**（原写 14）；Services **23 个 PHP 文件**（原写 22）；表 **31 张** ✓、模型 24 ✓、迁移 32 ✓
+    - **依赖版本校准**：`laravel-dompdf ^3.1`（原写 2）；Horizon 标注「仅外置 Redis 可用，默认部署走 database 队列」
+    - **Dockerfile 注释更正**：头部声称 RoadRunner，实际是 `php artisan serve`；`chown /var/www/html` 死路径改为 `/app`（同决策 12 的路径坑）
+    - **待办清单重写**：`docs/待办清单.md` 原把已删除的 756 张手绘 SVG 当待交付物、同一份 17 角色清单重复两遍，已全量重写为「现状快照 + 未完成事项」
+19. **无引用残留清单（2026-09-13 识别，待清理）**: `backend/app/Livewire/`、`backend/resources/views/`、`backend/docker/nginx/`、`backend/docker/supervisor/` 均为 Vue 重构前遗留且无任何引用。删除 Livewire 文件后 `composer.json` 的 `livewire/livewire` 会成为未使用依赖，移除它须**同时 `composer update` 刷新 lock**（勿只手改 composer.json）
