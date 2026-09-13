@@ -8,26 +8,26 @@ use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\Notice;
 use App\Models\Pet;
-use App\Models\PetCollection;
 use App\Models\Score;
 use App\Models\ScoreRule;
 use App\Models\ShopRedemption;
 use App\Models\Student;
-use App\Models\Wallet;
 use App\Services\AttendanceService;
 use App\Services\BroadcastService;
 use App\Services\CurrencyService;
 use App\Services\DisplayEventService;
 use App\Services\LeaderboardService;
 use App\Services\NoticeService;
+use App\Services\PetSeriesService;
+use App\Services\PetService;
 use App\Services\PkService;
 use App\Services\ReportService;
+use App\Services\ScoreRuleService;
 use App\Services\ScoreService;
 use App\Services\ShopService;
 use App\Services\TeacherClassScope;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class TeacherController extends Controller
@@ -42,6 +42,9 @@ class TeacherController extends Controller
         private readonly ShopService $shopService,
         private readonly ReportService $reportService,
         private readonly PkService $pkService,
+        private readonly PetService $petService,
+        private readonly PetSeriesService $petSeriesService,
+        private readonly ScoreRuleService $scoreRuleService,
     ) {
     }
 
@@ -857,35 +860,7 @@ class TeacherController extends Controller
 
     public function listScoreRules(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        // 本班班级规则 + 本校学校级规则（class_id=null 且 school_id=本校），避免跨校泄漏
-        $rules = ScoreRule::where(function ($q) use ($classIds, $teacher) {
-            $q->whereIn('class_id', $classIds)
-              ->orWhere(function ($q2) use ($teacher) {
-                  $q2->whereNull('class_id')->where('school_id', $teacher->school_id);
-              });
-        })->orderBy('sort_order')->get();
-
-        // 无规则时自动创建默认规则（学校级别，同校所有教师共享）
-        if ($rules->isEmpty() && $teacher->school_id) {
-            $defaults = \App\Services\ScoreRuleService::DEFAULT_RULES;
-            // 以 school_id 级别创建，class_id = null，全校共享
-            foreach ($defaults as $i => $d) {
-                ScoreRule::create([
-                    'class_id' => null,
-                    'school_id' => $teacher->school_id,
-                    'name' => $d['name'], 'amount' => $d['amount'],
-                    'category' => $d['category'], 'is_positive' => $d['is_positive'],
-                    'is_active' => true, 'sort_order' => $i,
-                ]);
-            }
-            $rules = ScoreRule::where('school_id', $teacher->school_id)
-                ->whereNull('class_id')->orderBy('sort_order')->get();
-        }
-
-        return response()->json(['data' => $rules]);
+        return response()->json(['data' => $this->scoreRuleService->listForTeacher($request->user())]);
     }
 
     public function createScoreRule(Request $request): JsonResponse
@@ -901,36 +876,25 @@ class TeacherController extends Controller
             'class_id' => 'nullable|integer|in:' . $classIds->join(','),
         ]);
 
-        $rule = ScoreRule::create([
-            'class_id' => $request->input('class_id', $classIds->first()),
-            'name' => $request->input('name'),
-            'amount' => (int) $request->input('amount'),
-            'category' => $request->input('category', 'custom'),
-            'is_positive' => $request->boolean('is_positive', true),
-            'is_active' => true,
-            'sort_order' => 0,
-        ]);
+        $rule = $this->scoreRuleService->createForTeacher($teacher, $request->all([
+            'name', 'amount', 'category', 'is_positive', 'class_id',
+        ]));
 
         return response()->json(['message' => '规则创建成功', 'data' => $rule], 201);
     }
 
     public function updateScoreRule(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $rule = ScoreRule::whereIn('class_id', $classIds)->orWhereNull('class_id')->findOrFail($id);
-
-        $rule->update($request->only(['name', 'amount', 'category', 'is_positive', 'is_active', 'sort_order']));
+        $rule = $this->scoreRuleService->updateForTeacher($request->user(), $id, $request->only([
+            'name', 'amount', 'category', 'is_positive', 'is_active', 'sort_order',
+        ]));
 
         return response()->json(['message' => '规则更新成功', 'data' => $rule]);
     }
 
     public function deleteScoreRule(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $rule = ScoreRule::whereIn('class_id', $classIds)->orWhereNull('class_id')->findOrFail($id);
-        $rule->delete();
+        $this->scoreRuleService->deleteForTeacher($request->user(), $id);
 
         return response()->json(['message' => '规则已删除']);
     }
@@ -941,103 +905,41 @@ class TeacherController extends Controller
 
     public function classPetsOverview(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        $pets = Pet::whereIn('class_id', $classIds)
-            ->with('student:id,name')
-            ->get()
-            /** @phpstan-ignore-next-line argument.unresolvableType */
-            ->map(fn (\App\Models\Pet $p) => [
-                'id' => $p->id,
-                'student_id' => $p->student_id,
-                'student_name' => $p->student?->name,
-                'name' => $p->name,
-                'species' => $p->species ?: 'zhulong',
-                'level' => $p->level,
-                'exp' => $p->exp,
-                'mood' => $p->mood,
-                'stage_name' => $p->currentStage()['name'],
-            ]);
-
-        return response()->json(['data' => $pets]);
+        return response()->json(['data' => $this->petService->classPetsOverview($request->user())]);
     }
 
     public function getPet(Request $request, int $studentId): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-
-        $pet = $student->pet;
-        if (!$pet) {
-            return response()->json(['message' => '该学生还没有宠物'], 404);
+        try {
+            return response()->json(['data' => $this->petService->petFor($request->user(), $studentId)]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
-
-        $stage = $pet->currentStage();
-
-        return response()->json(['data' => [
-            'id' => $pet->id,
-            'name' => $pet->name,
-            'species' => $pet->species ?: 'zhulong',
-            'level' => $pet->level,
-            'exp' => $pet->exp,
-            'mood' => $pet->mood,
-            'emoji' => $stage['emoji'],
-            'stage_name' => $stage['name'],
-            'last_fed_at' => $pet->last_fed_at?->toDateTimeString(),
-        ]]);
     }
 
     public function feedPet(Request $request, int $studentId): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-
-        $pet = $student->pet;
-        if (!$pet) {
-            return response()->json(['message' => '该学生还没有宠物'], 404);
-        }
-
-        $pet->feed();
-        $this->leaderboardService->updatePetLevel($student->class_id, $student->id, $pet->level);
-
-        // 推送给班级大屏
         try {
-            app(DisplayEventService::class)->publish($student->class_id, 'pet_update', [
-                'student_id' => $student->id,
-                'student_name' => $student->name,
-                'type' => 'feed',
-                'mood' => $pet->mood,
-                'level' => $pet->level,
-                'experience' => $pet->experience,
-            ]);
-        } catch (\Throwable $e) {
-            logger()->warning('Display pet event failed: ' . $e->getMessage());
-        }
+            $result = $this->petService->feed($request->user(), $studentId);
 
-        return response()->json(['message' => "已喂养「{$pet->name}」", 'data' => [
-            'mood' => $pet->mood,
-            'level' => $pet->level,
-        ]]);
+            return response()->json(['message' => $result['message'], 'data' => [
+                'mood' => $result['mood'],
+                'level' => $result['level'],
+            ]]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 
     public function renamePet(Request $request, int $studentId): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-
         $request->validate(['name' => 'required|string|max:20']);
-        $pet = $student->pet;
-        if (!$pet) {
-            return response()->json(['message' => '该学生还没有宠物'], 404);
+
+        try {
+            return response()->json(['message' => $this->petService->rename($request->user(), $studentId, (string) $request->input('name'))]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
-
-        $pet->update(['name' => $request->input('name')]);
-
-        return response()->json(['message' => "宠物已更名为「{$pet->name}」"]);
     }
 
     // ============================================================
@@ -1148,30 +1050,11 @@ class TeacherController extends Controller
      */
     public function classInfo(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        if ($classIds->isEmpty()) {
-            return response()->json(['message' => '没有可管理的班级'], 400);
+        try {
+            return response()->json(['data' => $this->petSeriesService->classInfo($request->user())]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
         }
-
-        $classId = $classIds->first();
-        $class = \App\Models\ClassRoom::findOrFail($classId);
-
-        $totalScore = \App\Models\Student::where('class_id', $classId)
-            ->where('status', 'active')
-            ->sum('total_score');
-
-        return response()->json(['data' => [
-            'id' => $class->id,
-            'name' => $class->name,
-            'grade' => $class->grade,
-            'student_count' => \App\Models\Student::where('class_id', $classId)->where('status', 'active')->count(),
-            'total_score' => (int) $totalScore,
-            'class_points' => (int) ($class->settings['class_points'] ?? 0),
-            'settings' => $class->settings,
-            'display_code' => \App\Services\DisplayCodeService::generate($class),
-        ]]);
     }
 
     /**
@@ -1179,9 +1062,6 @@ class TeacherController extends Controller
      */
     public function switchSeries(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
         $request->validate([
             'series_id' => 'required|string|max:50',
         ]);
@@ -1193,32 +1073,19 @@ class TeacherController extends Controller
             return response()->json(['message' => '无效的系列ID，可选值：' . implode(', ', $validSeries)], 422);
         }
 
-        if ($classIds->isEmpty()) {
-            return response()->json(['message' => '没有可管理的班级'], 400);
-        }
-
-        $classId = $classIds->first();
-        $class = \App\Models\ClassRoom::findOrFail($classId);
-        $settings = $class->settings ?? [];
-        $settings['pet_series'] = $seriesId;
-        $class->settings = $settings;
-        $class->save();
-
-        // 发放「免费自选」机会：整班切换后 3 天内每人可免费切换一次当前类别的宠物，过期作废
-        $students = \App\Models\Student::where('class_id', $classId)
-            ->where('status', 'active')
-            ->get();
-        foreach ($students as $student) {
-            Cache::put("pet_free_pick:{$student->id}", 1, now()->addDays(3));
+        try {
+            $data = $this->petSeriesService->switchSeries($request->user(), $seriesId);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
         }
 
         return response()->json([
-            'message' => "已切换系列为「{$seriesId}」，全班 {$students->count()} 人各获一次免费自选该系列宠物的机会",
+            'message' => "已切换系列为「{$seriesId}」，全班 {$data['student_count']} 人各获一次免费自选该系列宠物的机会",
             'data' => [
-                'series_id' => $seriesId,
-                'class_id' => $classId,
-                'free_pick_granted' => true,
-                'granted_students' => $students->count(),
+                'series_id' => $data['series_id'],
+                'class_id' => $data['class_id'],
+                'free_pick_granted' => $data['free_pick_granted'],
+                'granted_students' => $data['granted_students'],
             ],
         ]);
     }
@@ -1229,135 +1096,23 @@ class TeacherController extends Controller
 
     public function switchPet(Request $request, int $studentId): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->getAccessibleClassIds($teacher);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-
         $request->validate([
             'pet_species' => 'required|string|max:50',
             'pet_name' => 'nullable|string|max:20',
         ]);
 
-        $petSpecies = $request->input('pet_species');
-        $petName = $request->input('pet_name', $petSpecies);
-        $now = now();
-
-        $pet = $student->pet;
-
-        // ===== 同物种切换守卫(不扣费、不重置冷却) =====
-        if ($pet && $pet->species === $petSpecies) {
-            return response()->json(['message' => '当前已经是这只宠物啦'], 422);
-        }
-
-        // ===== 类别限制：只能在本班当前类别内更换，不能跨类别领养 =====
-        // 注：旧系列 id(cosmic/cute/all 等)在 speciesPoolForSeries 返回空池 → 视为不限制
-        $classSeries = ClassRoom::find($student->class_id)?->settings['pet_series'] ?? null;
-        $seriesPool = $classSeries ? Pet::speciesPoolForSeries($classSeries) : [];
-        if ($classSeries && !empty($seriesPool) && !in_array($petSpecies, $seriesPool, true)) {
-            return response()->json([
-                'message' => '只能领养当前类别「' . $classSeries . '」的宠物，不能跨类别领养',
-            ], 422);
-        }
-
-        // ===== 免费自选：整班切换后的一次机会（限当前类别，免费） =====
-        $usedFreePick = false;
-        $switchCost = $pet ? Pet::switchCost($pet->level) : 0;
-        if ($pet && Cache::has("pet_free_pick:{$student->id}")) {
-            $usedFreePick = true;
-            $switchCost = 0;
-        }
-
-        // ===== 目标物种收藏进度（切回时恢复） =====
-        $collection = $pet
-            ? PetCollection::where('student_id', $student->id)->where('species', $petSpecies)->first()
-            : null;
-
-        if ($pet) {
-            // 1) 先扣积分（等级越高越贵；免费自选不扣）——积分不足直接拒绝，不留脏数据
-            if (!$usedFreePick) {
-                if ($student->total_score < $switchCost) {
-                    return response()->json(['message' => "积分不足，更换宠物需 {$switchCost} 积分"], 400);
-                }
-                $student->total_score -= $switchCost;
-                $student->save();
-            }
-
-            // 2) 保存当前宠物进度到图鉴（进度全保留）
-            PetCollection::updateOrCreate(
-                ['student_id' => $student->id, 'species' => $pet->species],
-                ['level' => $pet->level, 'experience' => $pet->experience, 'mood' => $pet->mood, 'is_active' => false]
+        try {
+            $result = $this->petService->switchPet(
+                $request->user(),
+                $studentId,
+                (string) $request->input('pet_species'),
+                (string) $request->input('pet_name', $request->input('pet_species')),
             );
-
-            // 3) 恢复目标物种进度（新物种为初始形态；进度全保留）
-            if ($collection) {
-                $pet->species = $petSpecies;
-                $pet->level = $collection->level;
-                $pet->experience = $collection->experience;
-                $pet->mood = $collection->mood;
-            } else {
-                $pet->species = $petSpecies;
-                $pet->level = 1;
-                $pet->experience = 0;
-                $pet->mood = 80;
-            }
-            $pet->name = $petName;
-            $pet->last_switched_at = $now;
-            $pet->save();
-
-            // 4) 目标物种标记激活
-            PetCollection::updateOrCreate(
-                ['student_id' => $student->id, 'species' => $petSpecies],
-                ['level' => $pet->level, 'experience' => $pet->experience, 'mood' => $pet->mood, 'is_active' => true]
-            );
-
-            // 免费自选机会使用即失效
-            if ($usedFreePick) {
-                Cache::forget("pet_free_pick:{$student->id}");
-            }
-
-            return response()->json([
-                'message' => $usedFreePick
-                    ? '✅ 已使用整班切换的免费自选机会！'
-                    : '宠物已更换为「' . $petName . '」（扣除 ' . $switchCost . ' 积分）',
-                'data' => [
-                    'pet_name' => $pet->name,
-                    'pet_species' => $pet->species,
-                    'level' => $pet->level,
-                    'experience' => $pet->experience,
-                    'cost' => $switchCost,
-                    'free_pick_used' => $usedFreePick,
-                ],
-            ]);
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode() ?: 400);
         }
 
-        // 无宠物：创建新宠物并收入图鉴
-        $pet = Pet::create([
-            'student_id' => $student->id,
-            'class_id' => $student->class_id,
-            'name' => $petName,
-            'species' => $petSpecies,
-            'level' => 1,
-            'experience' => 0,
-            'mood' => 80,
-        ]);
-        PetCollection::create([
-            'student_id' => $student->id,
-            'species' => $petSpecies,
-            'level' => 1,
-            'experience' => 0,
-            'mood' => 80,
-            'is_active' => true,
-        ]);
-
-        return response()->json([
-            'message' => '已为您分配宠物「' . $petName . '」',
-            'data' => [
-                'pet_name' => $pet->name,
-                'pet_species' => $pet->species,
-                'level' => $pet->level,
-                'experience' => $pet->experience,
-            ],
-        ]);
+        return response()->json(['message' => $result['message'], 'data' => $result['data']]);
     }
 
     /**
@@ -1365,37 +1120,7 @@ class TeacherController extends Controller
      */
     public function petCollection(Request $request, int $studentId): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-
-        $activePet = $student->pet;
-
-        // 确保当前激活宠物在收藏中
-        if ($activePet && $activePet->species) {
-            PetCollection::firstOrCreate(
-                ['student_id' => $student->id, 'species' => $activePet->species],
-                ['level' => $activePet->level, 'experience' => $activePet->experience, 'mood' => $activePet->mood, 'is_active' => true]
-            );
-        }
-
-        $collections = PetCollection::where('student_id', $student->id)->orderBy('species')->get();
-
-        return response()->json(['data' => [
-            'student_id' => $student->id,
-            'student_name' => $student->name,
-            'total_score' => $student->total_score,
-            'unlock_slots' => PetCollection::unlockSlotsForScore($student->total_score),
-            'class_series' => ClassRoom::find($student->class_id)?->settings['pet_series'] ?? null,
-            'active_species' => $activePet?->species,
-            'collection' => $collections->map(fn (PetCollection $c) => [
-                'species' => $c->species,
-                'level' => $c->level,
-                'experience' => $c->experience,
-                'mood' => $c->mood,
-                'is_active' => $c->is_active,
-            ])->values(),
-        ]]);
+        return response()->json(['data' => $this->petService->collection($request->user(), $studentId)]);
     }
 
     // ============================================================
@@ -1927,29 +1652,8 @@ class TeacherController extends Controller
     public function listExchangeRates(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $schoolId = $teacher->school_id;
 
-        // 首次访问惰性初始化默认汇率，保证积分充值类商品不配汇率也能结算
-        $exists = \App\Models\ExchangeRate::where('school_id', $schoolId)->exists();
-        if (!$exists) {
-            $defaults = [
-                // 2:1 防通胀：2 积分 = 1 币
-                ['name' => '积分 → 科学币', 'from_currency' => 'score', 'to_currency' => 'science', 'rate' => 0.5],
-                ['name' => '积分 → 读书币', 'from_currency' => 'score', 'to_currency' => 'reading', 'rate' => 0.5],
-                ['name' => '积分 → 体育币', 'from_currency' => 'score', 'to_currency' => 'class_point', 'rate' => 0.5],
-            ];
-            foreach ($defaults as $d) {
-                \App\Models\ExchangeRate::firstOrCreate(
-                    ['school_id' => $schoolId, 'from_currency' => $d['from_currency'], 'to_currency' => $d['to_currency']],
-                    ['name' => $d['name'], 'rate' => $d['rate'], 'is_active' => true],
-                );
-            }
-        }
-
-        $rates = \App\Models\ExchangeRate::where('school_id', $schoolId)
-            ->orderBy('from_currency')->orderBy('to_currency')->get();
-
-        return response()->json(['data' => $rates]);
+        return response()->json(['data' => app(CurrencyService::class)->ratesForSchool($teacher->school_id)]);
     }
 
     public function createExchangeRate(Request $request): JsonResponse
@@ -1962,14 +1666,9 @@ class TeacherController extends Controller
             'rate' => 'required|numeric|min:0.01',
         ]);
 
-        $rate = \App\Models\ExchangeRate::create([
-            'school_id' => $teacher->school_id,
-            'name' => $request->input('name'),
-            'from_currency' => $request->input('from_currency'),
-            'to_currency' => $request->input('to_currency'),
-            'rate' => $request->input('rate'),
-            'is_active' => true,
-        ]);
+        $rate = app(CurrencyService::class)->createRate($teacher->school_id, $request->all([
+            'name', 'from_currency', 'to_currency', 'rate',
+        ]));
 
         return response()->json(['message' => '汇率已添加', 'data' => $rate], 201);
     }
@@ -1977,15 +1676,14 @@ class TeacherController extends Controller
     public function updateExchangeRate(Request $request, int $id): JsonResponse
     {
         $teacher = $request->user();
-        $rate = \App\Models\ExchangeRate::where('school_id', $teacher->school_id)->findOrFail($id);
         $request->validate([
             'rate' => 'sometimes|numeric|min:0.01',
             'is_active' => 'sometimes|boolean',
         ]);
 
-        $rate->update($request->only(['rate', 'is_active']));
+        $rate = app(CurrencyService::class)->updateRate($teacher->school_id, $id, $request->only(['rate', 'is_active']));
 
-        return response()->json(['message' => '汇率已更新', 'data' => $rate->fresh()]);
+        return response()->json(['message' => '汇率已更新', 'data' => $rate]);
     }
 
     // ============================================================
@@ -1994,21 +1692,7 @@ class TeacherController extends Controller
 
     public function listWallets(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $students = Student::whereIn('class_id', $classIds)->where('status', 'active')->pluck('id');
-
-        $wallets = Wallet::whereIn('student_id', $students)
-            ->with('student:id,name')
-            ->get()
-            ->map(fn ($w) => [
-                'student_id' => $w->student_id,
-                'student_name' => $w->student?->name,
-                'currency_type' => $w->currency_type,
-                'balance' => (int) $w->balance,
-            ]);
-
-        return response()->json(['data' => $wallets]);
+        return response()->json(['data' => app(CurrencyService::class)->walletsFor($request->user())]);
     }
 
     /**
@@ -2016,27 +1700,7 @@ class TeacherController extends Controller
      */
     public function exchangeLogs(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        $logs = \App\Models\ExchangeLog::with('student:id,name,student_no')
-            ->whereIn('student_id', Student::whereIn('class_id', $classIds)->select('id'))
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-
-        return response()->json([
-            'data' => collect($logs->items())->map(static function (\App\Models\ExchangeLog $log): array {
-                return array_merge($log->toArray(), [
-                    'student_name' => $log->student->name ?? '已删除学生',
-                    'student_no' => $log->student->student_no ?? '',
-                ]);
-            }),
-            'meta' => [
-                'current_page' => $logs->currentPage(),
-                'last_page' => $logs->lastPage(),
-                'total' => $logs->total(),
-            ],
-        ]);
+        return response()->json(app(CurrencyService::class)->logsFor($request->user()));
     }
 
     /**

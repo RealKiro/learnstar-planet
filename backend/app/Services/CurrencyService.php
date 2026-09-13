@@ -9,11 +9,17 @@ use App\Models\ExchangeRate;
 use App\Models\Score;
 use App\Models\ScoreLog;
 use App\Models\Student;
+use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Support\Facades\DB;
 
 class CurrencyService
 {
+    public function __construct(
+        private readonly TeacherClassScope $scope,
+    ) {
+    }
+
     /**
      * 积分 → 币种兑换（扣减学生 total_score，增加钱包余额，扣减宠物经验）
      *
@@ -210,5 +216,111 @@ class CurrencyService
                 'operated_by' => null,
             ]);
         });
+    }
+
+    // ============================================================
+    // 教师端：汇率配置与钱包/兑换记录查询
+    // ============================================================
+
+    /** 默认汇率（2:1 防通胀：2 积分 = 1 币），首次访问惰性播种 */
+    private const DEFAULT_RATES = [
+        ['name' => '积分 → 科学币', 'from_currency' => 'score', 'to_currency' => 'science', 'rate' => 0.5],
+        ['name' => '积分 → 读书币', 'from_currency' => 'score', 'to_currency' => 'reading', 'rate' => 0.5],
+        ['name' => '积分 → 体育币', 'from_currency' => 'score', 'to_currency' => 'class_point', 'rate' => 0.5],
+    ];
+
+    /**
+     * 学校汇率列表；首次访问（为空）惰性初始化默认汇率，保证积分充值类商品不配汇率也能结算。
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, ExchangeRate>
+     */
+    public function ratesForSchool(int $schoolId): \Illuminate\Database\Eloquent\Collection
+    {
+        $exists = ExchangeRate::where('school_id', $schoolId)->exists();
+        if (!$exists) {
+            foreach (self::DEFAULT_RATES as $d) {
+                ExchangeRate::firstOrCreate(
+                    ['school_id' => $schoolId, 'from_currency' => $d['from_currency'], 'to_currency' => $d['to_currency']],
+                    ['name' => $d['name'], 'rate' => $d['rate'], 'is_active' => true],
+                );
+            }
+        }
+
+        return ExchangeRate::where('school_id', $schoolId)
+            ->orderBy('from_currency')->orderBy('to_currency')->get();
+    }
+
+    /**
+     * 新增学校级汇率。
+     */
+    public function createRate(int $schoolId, array $attributes): ExchangeRate
+    {
+        return ExchangeRate::create([
+            'school_id' => $schoolId,
+            'name' => $attributes['name'],
+            'from_currency' => $attributes['from_currency'],
+            'to_currency' => $attributes['to_currency'],
+            'rate' => $attributes['rate'],
+            'is_active' => true,
+        ]);
+    }
+
+    /**
+     * 更新学校级汇率。
+     */
+    public function updateRate(int $schoolId, int $id, array $attributes): ExchangeRate
+    {
+        $rate = ExchangeRate::where('school_id', $schoolId)->findOrFail($id);
+        $rate->update($attributes);
+
+        return $rate->fresh();
+    }
+
+    /**
+     * 教师所带班级学生的全部钱包。
+     */
+    public function walletsFor(User $teacher): \Illuminate\Support\Collection
+    {
+        $classIds = $this->scope->ids($teacher);
+        $students = Student::whereIn('class_id', $classIds)->where('status', 'active')->pluck('id');
+
+        return Wallet::whereIn('student_id', $students)
+            ->with('student:id,name')
+            ->get()
+            ->map(fn ($w) => [
+                'student_id' => $w->student_id,
+                'student_name' => $w->student?->name,
+                'currency_type' => $w->currency_type,
+                'balance' => (int) $w->balance,
+            ]);
+    }
+
+    /**
+     * 兑换记录（仅教师所带班级学生，分页）。
+     *
+     * @return array{data: \Illuminate\Support\Collection, meta: array{current_page: int, last_page: int, total: int}}
+     */
+    public function logsFor(User $teacher): array
+    {
+        $classIds = $this->scope->ids($teacher);
+
+        $logs = ExchangeLog::with('student:id,name,student_no')
+            ->whereIn('student_id', Student::whereIn('class_id', $classIds)->select('id'))
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return [
+            'data' => collect($logs->items())->map(static function (ExchangeLog $log): array {
+                return array_merge($log->toArray(), [
+                    'student_name' => $log->student->name ?? '已删除学生',
+                    'student_no' => $log->student->student_no ?? '',
+                ]);
+            }),
+            'meta' => [
+                'current_page' => $logs->currentPage(),
+                'last_page' => $logs->lastPage(),
+                'total' => $logs->total(),
+            ],
+        ];
     }
 }

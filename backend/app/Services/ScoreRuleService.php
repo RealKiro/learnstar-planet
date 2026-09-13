@@ -5,10 +5,16 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\ScoreRule;
+use App\Models\User;
 
 // 积分规则共享服务：默认规则模板统一（教师端/教室端同源），教室端据此连通后台规则
 class ScoreRuleService
 {
+    public function __construct(
+        private readonly TeacherClassScope $scope,
+    ) {
+    }
+
     /**
      * 默认积分规则（school 级创建，class_id=null，全校共享）
      * 教师端 listScoreRules 与教室端 display scoreRules 复用此模板，保证两端原因一致。
@@ -89,5 +95,83 @@ class ScoreRuleService
         }
 
         return $rules;
+    }
+
+    /**
+     * 教师端规则列表：本班班级规则 + 本校学校级规则（class_id=null 且 school_id=本校），避免跨校泄漏。
+     * 无规则时自动创建学校级默认规则（同校所有教师共享）。
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, ScoreRule>
+     */
+    public function listForTeacher(User $teacher): \Illuminate\Database\Eloquent\Collection
+    {
+        $classIds = $this->scope->ids($teacher);
+
+        $rules = ScoreRule::where(function ($q) use ($classIds, $teacher) {
+            $q->whereIn('class_id', $classIds)
+              ->orWhere(function ($q2) use ($teacher) {
+                  $q2->whereNull('class_id')->where('school_id', $teacher->school_id);
+              });
+        })->orderBy('sort_order')->get();
+
+        if ($rules->isEmpty() && $teacher->school_id) {
+            foreach (self::DEFAULT_RULES as $i => $d) {
+                ScoreRule::create([
+                    'class_id' => null,
+                    'school_id' => $teacher->school_id,
+                    'name' => $d['name'], 'amount' => $d['amount'],
+                    'category' => $d['category'], 'is_positive' => $d['is_positive'],
+                    'is_active' => true, 'sort_order' => $i,
+                ]);
+            }
+            $rules = ScoreRule::where('school_id', $teacher->school_id)
+                ->whereNull('class_id')->orderBy('sort_order')->get();
+        }
+
+        return $rules;
+    }
+
+    /**
+     * 教师端创建规则（默认落到教师首个可管理班级）。
+     */
+    public function createForTeacher(User $teacher, array $attributes): ScoreRule
+    {
+        $classIds = $this->scope->ids($teacher);
+
+        return ScoreRule::create([
+            'class_id' => $attributes['class_id'] ?? $classIds->first(),
+            'name' => $attributes['name'],
+            'amount' => (int) $attributes['amount'],
+            'category' => $attributes['category'] ?? 'custom',
+            'is_positive' => (bool) ($attributes['is_positive'] ?? true),
+            'is_active' => true,
+            'sort_order' => 0,
+        ]);
+    }
+
+    /**
+     * 教师端更新规则。
+     *
+     * ⚠️ 行为保持原样：`orWhereNull('class_id')` 未限定 school_id，学校级规则跨校可见可改，
+     * 属历史行为，收口需另立批次（会影响多校场景）。
+     */
+    public function updateForTeacher(User $teacher, int $id, array $attributes): ScoreRule
+    {
+        $classIds = $this->scope->ids($teacher);
+        $rule = ScoreRule::whereIn('class_id', $classIds)->orWhereNull('class_id')->findOrFail($id);
+
+        $rule->update($attributes);
+
+        return $rule;
+    }
+
+    /**
+     * 教师端删除规则（可见范围同 updateForTeacher 的历史行为）。
+     */
+    public function deleteForTeacher(User $teacher, int $id): void
+    {
+        $classIds = $this->scope->ids($teacher);
+        $rule = ScoreRule::whereIn('class_id', $classIds)->orWhereNull('class_id')->findOrFail($id);
+        $rule->delete();
     }
 }
