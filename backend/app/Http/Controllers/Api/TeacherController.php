@@ -11,7 +11,6 @@ use App\Models\Pet;
 use App\Models\PetCollection;
 use App\Models\Score;
 use App\Models\ScoreRule;
-use App\Models\ShopItem;
 use App\Models\ShopRedemption;
 use App\Models\Student;
 use App\Models\Wallet;
@@ -21,7 +20,10 @@ use App\Services\CurrencyService;
 use App\Services\DisplayEventService;
 use App\Services\LeaderboardService;
 use App\Services\NoticeService;
+use App\Services\PkService;
+use App\Services\ReportService;
 use App\Services\ScoreService;
+use App\Services\ShopService;
 use App\Services\TeacherClassScope;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,6 +39,9 @@ class TeacherController extends Controller
         private readonly NoticeService $noticeService,
         private readonly BroadcastService $broadcastService,
         private readonly AttendanceService $attendanceService,
+        private readonly ShopService $shopService,
+        private readonly ReportService $reportService,
+        private readonly PkService $pkService,
     ) {
     }
 
@@ -1096,59 +1101,7 @@ class TeacherController extends Controller
      */
     public function pkLeaderboard(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        if ($classIds->isEmpty()) {
-            return response()->json(['data' => []]);
-        }
-
-        // 获取当前教师的班级
-        $myClass = \App\Models\ClassRoom::find($classIds->first());
-        if (!$myClass) {
-            return response()->json(['data' => []]);
-        }
-
-        // 查找同年级的所有班级
-        $gradeClasses = \App\Models\ClassRoom::where('grade', $myClass->grade)
-            ->where('status', 'active')
-            ->get();
-
-        // 获取所有班级的学生数据和宠物数据
-        $pkData = $gradeClasses->map(function ($class) use ($myClass) {
-            $students = \App\Models\Student::where('class_id', $class->id)
-                ->where('status', 'active')
-                ->with('pet')
-                ->get();
-
-            $totalScore = $students->sum('total_score');
-            $count = $students->count();
-            $avgLevel = $count > 0 ? $students->avg(function ($s) {
-                return $s->pet ? $s->pet->level : 0;
-            }) : 0;
-            $peakCount = $students->filter(function ($s) {
-                return $s->pet && $s->pet->level >= 8;
-            })->count();
-
-            // 本周增长
-            $weekStart = now()->startOfWeek();
-            $weeklyScore = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
-                ->where('created_at', '>=', $weekStart)
-                ->sum('amount');
-
-            return [
-                'class_id' => $class->id,
-                'name' => $class->name,
-                'totalScore' => (int) $totalScore,
-                'studentCount' => $count,
-                'avgLevel' => round($avgLevel, 1),
-                'peakCount' => $peakCount,
-                'weekGrowth' => (int) $weeklyScore,
-                'isOwn' => $class->id === $myClass->id,
-            ];
-        })->sortByDesc('totalScore')->values();
-
-        return response()->json(['data' => $pkData]);
+        return response()->json(['data' => $this->pkService->leaderboard($request->user())]);
     }
 
     /**
@@ -1156,63 +1109,7 @@ class TeacherController extends Controller
      */
     public function myPkStats(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        if ($classIds->isEmpty()) {
-            return response()->json(['data' => [
-                'totalScore' => 0, 'avgLevel' => 0, 'peakCount' => 0, 'weekGrowth' => 0, 'rank' => 0,
-            ]]);
-        }
-
-        $classId = $classIds->first();
-        $students = \App\Models\Student::where('class_id', $classId)
-            ->where('status', 'active')
-            ->with('pet')
-            ->get();
-
-        $totalScore = $students->sum('total_score');
-        $count = $students->count();
-        $avgLevel = $count > 0 ? $students->avg(function ($s) {
-            return $s->pet ? $s->pet->level : 0;
-        }) : 0;
-        $peakCount = $students->filter(function ($s) {
-            return $s->pet && $s->pet->level >= 8;
-        })->count();
-
-        $weekStart = now()->startOfWeek();
-        $weeklyScore = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
-            ->where('created_at', '>=', $weekStart)
-            ->sum('amount');
-
-        // 计算排名（同年级内）
-        $myClass = \App\Models\ClassRoom::find($classId);
-        $rank = 0;
-        if ($myClass) {
-            $allClasses = \App\Models\ClassRoom::where('grade', $myClass->grade)
-                ->where('status', 'active')
-                ->get();
-
-            $classScores = [];
-            foreach ($allClasses as $c) {
-                $cStudents = \App\Models\Student::where('class_id', $c->id)
-                    ->where('status', 'active')->get();
-                $classScores[$c->id] = $cStudents->sum('total_score');
-            }
-            arsort($classScores);
-            $rank = array_search($classId, array_keys($classScores), true);
-            if ($rank !== false) {
-                $rank++;
-            }
-        }
-
-        return response()->json(['data' => [
-            'totalScore' => (int) $totalScore,
-            'avgLevel' => round($avgLevel, 1),
-            'peakCount' => $peakCount,
-            'weekGrowth' => (int) $weeklyScore,
-            'rank' => $rank,
-        ]]);
+        return response()->json(['data' => $this->pkService->myStats($request->user())]);
     }
 
     /**
@@ -1220,8 +1117,7 @@ class TeacherController extends Controller
      */
     public function challengePk(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
+        $classIds = $this->teacherClassIds($request->user());
 
         $request->validate([
             'target_class_id' => 'required|integer',
@@ -1239,25 +1135,11 @@ class TeacherController extends Controller
             return response()->json(['message' => '目标班级不存在'], 404);
         }
 
-        // 记录挑战到缓存（7天有效期）
-        $challengeKey = 'pk_challenge:' . $myClassId . ':' . $targetClassId;
-        $challengerClass = \App\Models\ClassRoom::find($myClassId);
-        \Illuminate\Support\Facades\Cache::put($challengeKey, [
-            'challenger_class_id' => $myClassId,
-            'target_class_id' => $targetClassId,
-            'challenger_name' => ($challengerClass ? $challengerClass->name : '未知'),
-            'target_name' => $targetClass->name,
-            'challenged_at' => now()->toDateTimeString(),
-            'expires_at' => now()->addDays(7)->toDateTimeString(),
-            'status' => 'active',
-        ], now()->addDays(7));
+        $data = $this->pkService->challenge($myClassId, $targetClass);
 
         return response()->json([
             'message' => '🚀 挑战已发起！',
-            'data' => [
-                'target_class' => $targetClass->name,
-                'expires_at' => now()->addDays(7)->toDateTimeString(),
-            ],
+            'data' => $data,
         ]);
     }
 
@@ -1522,78 +1404,13 @@ class TeacherController extends Controller
 
     public function listShopItems(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        // 查询学校级别 + 班级级别的商品
-        $query = ShopItem::where(function ($q) use ($teacher, $classIds) {
-            $q->where('school_id', $teacher->school_id)->whereNull('class_id')
-              ->orWhereIn('class_id', $classIds);
-        });
-
-        if ($currency = $request->input('currency_type')) {
-            $query->byCurrency($currency);
-        }
-
-        $items = $query->orderBy('category')->orderBy('cost_score')->get();
-
-        // 首次访问自动创建学校级别默认商品
-        if ($items->isEmpty() && $teacher->school_id) {
-            $defaults = [
-                // 积分充值类（按 2:1 汇率）
-                ['name' => '班级积分 +10', 'description' => '兑换 10 班级积分', 'category' => 'points', 'cost_score' => 20, 'currency_type' => 'class_point'],
-                ['name' => '科学币 +5', 'description' => '兑换 5 科学币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'science'],
-                ['name' => '读书币 +5', 'description' => '兑换 5 读书币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'reading'],
-                ['name' => '体育币 +5', 'description' => '兑换 5 体育币', 'category' => 'points', 'cost_score' => 10, 'currency_type' => 'class_point'],
-                // 小商品 ≈100（日最高 20 分 × 5 天 = 一周可攒）
-                ['name' => '铅笔', 'description' => '标准 HB 铅笔一支', 'category' => 'stationery', 'cost_score' => 100, 'currency_type' => 'score'],
-                ['name' => '橡皮擦', 'description' => '4B 橡皮擦一块', 'category' => 'stationery', 'cost_score' => 100, 'currency_type' => 'score'],
-                ['name' => '草稿纸', 'description' => 'A4 草稿纸 10 张', 'category' => 'stationery', 'cost_score' => 100, 'currency_type' => 'score'],
-                ['name' => '免罚站一次', 'description' => '免除一次罚站', 'category' => 'privilege', 'cost_score' => 100, 'currency_type' => 'score'],
-                ['name' => '免罚跑步一次', 'description' => '免除一次罚跑步', 'category' => 'privilege', 'cost_score' => 100, 'currency_type' => 'score'],
-                // 中商品 120~150
-                ['name' => '便利贴', 'description' => '彩色便利贴一本', 'category' => 'stationery', 'cost_score' => 120, 'currency_type' => 'score'],
-                ['name' => '黑色圆珠笔', 'description' => '0.5mm 黑色圆珠笔一支', 'category' => 'stationery', 'cost_score' => 150, 'currency_type' => 'score'],
-                ['name' => '蓝色圆珠笔', 'description' => '0.5mm 蓝色圆珠笔一支', 'category' => 'stationery', 'cost_score' => 150, 'currency_type' => 'score'],
-                ['name' => '红色圆珠笔', 'description' => '红色批改用笔一支', 'category' => 'stationery', 'cost_score' => 150, 'currency_type' => 'score'],
-                ['name' => '香蕉', 'description' => '新鲜香蕉一根 🍌（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 150, 'currency_type' => 'score'],
-                ['name' => '免做卫生一次', 'description' => '免除一次值日卫生', 'category' => 'privilege', 'cost_score' => 150, 'currency_type' => 'score'],
-                // 大商品 ≈200（两周可攒）
-                ['name' => '练习本', 'description' => '方格练习本一本', 'category' => 'stationery', 'cost_score' => 180, 'currency_type' => 'score'],
-                ['name' => '苹果', 'description' => '新鲜苹果一个 🍎（请勿乱扔果皮）', 'category' => 'food', 'cost_score' => 180, 'currency_type' => 'score'],
-                ['name' => '饮料', 'description' => '矿泉水/饮料一瓶 🧃', 'category' => 'food', 'cost_score' => 200, 'currency_type' => 'score'],
-                ['name' => '牛奶', 'description' => '纯牛奶一盒 🥛', 'category' => 'food', 'cost_score' => 200, 'currency_type' => 'score'],
-                ['name' => '集体观影', 'description' => '全班集体观影一次', 'category' => 'activity', 'cost_score' => 200, 'currency_type' => 'score'],
-                ['name' => '免作业一次', 'description' => '免交一次作业', 'category' => 'privilege', 'cost_score' => 200, 'currency_type' => 'score'],
-                ['name' => '3D打印作品', 'description' => '3D 打印小作品一件', 'category' => 'physical', 'cost_score' => 200, 'currency_type' => 'score'],
-            ];
-
-            foreach ($defaults as $d) {
-                ShopItem::create([
-                    'class_id' => null,
-                    'school_id' => $teacher->school_id,
-                    'name' => $d['name'],
-                    'description' => $d['description'],
-                    'category' => $d['category'],
-                    'cost_score' => $d['cost_score'],
-                    'currency_type' => $d['currency_type'],
-                    'stock' => 0,
-                    'is_active' => true,
-                ]);
-            }
-
-            $items = ShopItem::where('school_id', $teacher->school_id)->whereNull('class_id')
-                ->orderBy('category')->orderBy('cost_score')->get();
-        }
+        $items = $this->shopService->itemsFor($request->user(), $request->input('currency_type'));
 
         return response()->json(['data' => $items]);
     }
 
     public function createShopItem(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
         $request->validate([
             'name' => 'required|string|max:100',
             'description' => 'nullable|string',
@@ -1605,33 +1422,18 @@ class TeacherController extends Controller
             'image_path' => 'nullable|string|max:255',
         ]);
 
-        $item = ShopItem::create([
-            'class_id' => null,
-            'school_id' => $teacher->school_id,
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'category' => $request->input('category', 'physical'),
-            'cost_score' => (int) $request->input('cost_score'),
-            'currency_type' => $request->input('currency_type', 'score'),
-            'event_tag' => $request->input('event_tag'),
-            'stock' => (int) $request->input('stock', 0),
-            'image_path' => $request->input('image_path'),
-            'is_active' => true,
-        ]);
+        $item = $this->shopService->createItem($request->user(), $request->all([
+            'name', 'description', 'category', 'cost_score',
+            'currency_type', 'event_tag', 'stock', 'image_path',
+        ]));
 
         return response()->json(['message' => '商品已添加', 'data' => $item], 201);
     }
 
     public function updateShopItem(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $item = ShopItem::where(function ($q) use ($teacher, $classIds) {
-            $q->where('school_id', $teacher->school_id)->whereNull('class_id')
-                ->orWhereIn('class_id', $classIds);
-        })->findOrFail($id);
-
-        $item->update($request->only([
+        $item = $this->shopService->findItem($request->user(), $id);
+        $item = $this->shopService->updateItem($item, $request->only([
             'name',
             'description',
             'category',
@@ -1648,26 +1450,15 @@ class TeacherController extends Controller
 
     public function deleteShopItem(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $item = ShopItem::where(function ($q) use ($teacher, $classIds) {
-            $q->where('school_id', $teacher->school_id)->whereNull('class_id')
-                ->orWhereIn('class_id', $classIds);
-        })->findOrFail($id);
-        $item->delete();
+        $item = $this->shopService->findItem($request->user(), $id);
+        $this->shopService->deleteItem($item);
 
         return response()->json(['message' => '商品已删除']);
     }
 
     public function listRedemptions(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        $redemptions = ShopRedemption::whereIn('class_id', $classIds)
-            ->with(['student:id,name', 'shopItem:id,name,cost_score,currency_type,event_tag,category'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
+        $redemptions = $this->shopService->paginateRedemptions($request->user());
 
         return response()->json([
             'data' => $redemptions->items(),
@@ -1684,93 +1475,36 @@ class TeacherController extends Controller
      */
     public function createRedemption(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
         $request->validate([
             'student_id' => 'required|integer',
             'shop_item_id' => 'required|integer',
         ]);
 
-        $item = ShopItem::where(function ($q) use ($teacher, $classIds) {
-            $q->where('school_id', $teacher->school_id)->whereNull('class_id')
-                ->orWhereIn('class_id', $classIds);
-        })->findOrFail($request->input('shop_item_id'));
+        $item = $this->shopService->findItem($request->user(), (int) $request->input('shop_item_id'));
 
         if (!$item->is_active) {
             return response()->json(['message' => '该商品已下架'], 422);
         }
 
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($request->input('student_id'));
-
-        // class_id 存学生所在班级：学校级商品（class_id=null）的兑换单也能被该班教师看到/审批
-        $redemption = ShopRedemption::create([
-            'student_id' => $student->id,
-            'shop_item_id' => $item->id,
-            'class_id' => $student->class_id,
-            'cost' => $item->cost_score,
-            'status' => 'pending',
-        ]);
+        $redemption = $this->shopService->createRedemption(
+            $request->user(),
+            (int) $request->input('student_id'),
+            $item
+        );
 
         return response()->json(['message' => '兑换请求已创建', 'data' => $redemption], 201);
     }
 
     public function approveRedemption(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $redemption = ShopRedemption::with(['student.pet', 'shopItem'])
-            ->whereIn('class_id', $classIds)->findOrFail($id);
-
-        if ($redemption->status !== 'pending') {
-            return response()->json(['message' => '该兑换已处理'], 400);
-        }
-
-        /** @var Student $student */
-        $student = $redemption->student;
-        $item = $redemption->shopItem;
-        $itemName = $item->name ?? '未知物品';
-        $cost = $redemption->cost;
-        $currency = $item->currency_type ?? 'score';
-
         try {
-            // 根据商品类型选择结算方式
-            if ($item && $item->category === 'points' && in_array($currency, ['science', 'reading', 'class_point'], true)) {
-                // 积分充值类（如"科学币+5"）：扣积分 + 扣宠物经验 → 按汇率发放钱包币
-                app(CurrencyService::class)->exchange($student->id, $currency, $cost, $teacher->id);
-            } elseif ($currency === 'score') {
-                // 积分兑换：扣积分 + 扣宠物经验
-                $this->scoreService->spendScore($student, $cost, '兑换：' . $itemName, $teacher->id);
-            } else {
-                // 钱包币兑换：只扣钱包余额
-                app(CurrencyService::class)->spend($student->id, $currency, $cost, '兑换：' . $itemName);
-            }
-
-            $redemption->update([
-                'status' => 'approved',
-                'approved_by' => $teacher->id,
-                'approved_at' => now(),
-            ]);
-
-            // P4: 特权奖励自动发班级通知
-            if ($item && $item->category === 'privilege') {
-                Notice::create([
-                    'class_id' => $student->class_id,
-                    'school_id' => $teacher->school_id,
-                    'title' => '特权奖励：' . $itemName,
-                    'content' => $student->name . ' 使用 ' . $cost . ' ' . ($currency === 'score' ? '积分' : (Wallet::currencies()[$currency] ?? $currency)) . ' 兑换了「' . $itemName . '」',
-                    'type' => 'event',
-                    'published_by' => $teacher->id,
-                    'is_published' => true,
-                    'published_at' => now(),
-                ]);
-            }
+            $result = $this->shopService->approveRedemption($request->user(), $id);
 
             return response()->json([
-                'message' => '已批准兑换，扣除 ' . $cost . ' ' . ($currency === 'score' ? '积分' : (Wallet::currencies()[$currency] ?? $currency)),
+                'message' => $result['message'],
                 'data' => [
-                    'remaining_score' => $student->fresh()->total_score,
-                    'pet_level' => $student->pet?->fresh()->level,
+                    'remaining_score' => $result['remaining_score'],
+                    'pet_level' => $result['pet_level'],
                 ],
             ]);
         } catch (\DomainException $e) {
@@ -1780,20 +1514,14 @@ class TeacherController extends Controller
 
     public function rejectRedemption(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $redemption = \App\Models\ShopRedemption::whereIn('class_id', $classIds)->findOrFail($id);
-        $redemption->update(['status' => 'rejected']);
+        $this->shopService->rejectRedemption($request->user(), $id);
 
         return response()->json(['message' => '已拒绝兑换']);
     }
 
     public function deliverRedemption(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $redemption = \App\Models\ShopRedemption::whereIn('class_id', $classIds)->findOrFail($id);
-        $redemption->update(['status' => 'delivered']);
+        $this->shopService->deliverRedemption($request->user(), $id);
 
         return response()->json(['message' => '已标记为已发放']);
     }
@@ -1871,129 +1599,39 @@ class TeacherController extends Controller
 
     public function scoreTrend(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
         $days = max(1, min((int) $request->input('days', 7), 365));
-        $start = now()->startOfDay()->subDays($days - 1);
 
-        $rows = Score::whereIn('class_id', $classIds)
-            ->where('created_at', '>=', $start)
-            ->get(['amount', 'created_at'])
-            ->groupBy(fn ($s) => $s->created_at->format('Y-m-d'));
-
-        $labels = [];
-        $positive = [];
-        $negative = [];
-        for ($d = 0; $d < $days; $d++) {
-            $date = $start->copy()->addDays($d);
-            $key = $date->format('Y-m-d');
-            $dayRows = $rows->get($key, collect());
-            $labels[] = $date->format('m/d');
-            $positive[] = (int) $dayRows->where('amount', '>', 0)->sum('amount');
-            $negative[] = (int) abs($dayRows->where('amount', '<', 0)->sum('amount'));
-        }
-
-        return response()->json([
-            'data' => [
-                'labels' => $labels,
-                'datasets' => [
-                    ['label' => '得分', 'data' => $positive],
-                    ['label' => '扣分', 'data' => $negative],
-                ],
-            ],
-        ]);
+        return response()->json(['data' => $this->reportService->scoreTrend($request->user(), $days)]);
     }
 
     public function petDistribution(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        $pets = Pet::whereIn('class_id', $classIds)->get();
-        $distribution = $pets->groupBy('level')
-            ->map(fn ($group, $level) => [
-                'level' => (int) $level,
-                'count' => $group->count(),
-                'stage_name' => $group->first()->currentStage()['name'],
-            ])
-            ->sortKeys()
-            ->values();
-
-        return response()->json(['data' => $distribution]);
+        return response()->json(['data' => $this->reportService->petDistribution($request->user())]);
     }
 
     public function studentProgress(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $studentId = $request->input('student_id');
+        $studentId = $request->input('student_id') ? (int) $request->input('student_id') : null;
 
-        if ($studentId) {
-            $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-            $history = Score::where('student_id', $student->id)
-                ->orderBy('created_at', 'desc')->take(50)->get();
-            return response()->json(['data' => [
-                'student' => ['id' => $student->id, 'name' => $student->name, 'total_score' => $student->total_score],
-                'history' => $history,
-            ]]);
-        }
-
-        // 无 student_id 时返回班级所有学生进度列表
-        $students = Student::whereIn('class_id', $classIds)->where('status', 'active')->get();
-        $progress = $students->map(function ($student) {
-            $scores = Score::where('student_id', $student->id)
-                ->orderBy('created_at', 'desc')->take(10)->pluck('amount');
-            $change = $scores->take(5)->sum() - $scores->slice(5)->sum();
-            return [
-                'student_id' => $student->id,
-                'student_name' => $student->name,
-                'scores' => $scores->values()->toArray(),
-                'trend' => $change > 5 ? 'up' : ($change < -5 ? 'down' : 'stable'),
-                'change' => $change,
-            ];
-        });
-        return response()->json(['data' => $progress]);
+        return response()->json(['data' => $this->reportService->studentProgress($request->user(), $studentId)]);
     }
 
     public function exportReport(Request $request, string $type)
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
+        $classIds = $this->teacherClassIds($request->user());
         $classId = (int) $request->input('class_id', $classIds->first() ?? 0);
 
         if (!in_array($classId, $classIds->toArray())) {
             return response()->json(['message' => '无权限'], 403);
         }
 
-        $class = ClassRoom::find($classId);
-        $className = optional($class)->name ?? '未知班级';
-        $fileName = $className . '-' . now()->format('Ymd-His');
+        $download = $this->reportService->export($type, $classId, $request->input('date'));
 
-        switch ($type) {
-            case 'scores':
-                return \Maatwebsite\Excel\Facades\Excel::download(
-                    new \App\Exports\ScoresExport($classId, $className),
-                    $fileName . '-积分报表.xlsx'
-                );
-
-            case 'pets':
-                return \Maatwebsite\Excel\Facades\Excel::download(
-                    new \App\Exports\PetsExport($classId, $className),
-                    $fileName . '-宠物报表.xlsx'
-                );
-
-            case 'attendance':
-                $date = $request->input('date');
-
-                return \Maatwebsite\Excel\Facades\Excel::download(
-                    new \App\Exports\AttendanceExport($classId, $className, $date),
-                    $fileName . '-考勤报表.xlsx'
-                );
-
-            default:
-                return response()->json(['message' => "导出类型 {$type} 不支持，可选: scores, pets, attendance"]);
+        if ($download === null) {
+            return response()->json(['message' => "导出类型 {$type} 不支持，可选: scores, pets, attendance"]);
         }
+
+        return $download;
     }
 
     // ============================================================
