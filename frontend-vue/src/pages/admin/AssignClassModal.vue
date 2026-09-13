@@ -154,7 +154,7 @@ function closeModal() {
 
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
-    <div style="max-width:620px;width:100%;">
+    <div class="asm-wrap">
       <div class="modal-header">
         <h2 class="card-title">
           &#127979; 分配班级 — {{ teacher?.name }}
@@ -162,12 +162,12 @@ function closeModal() {
         <button @click="closeModal" class="icon-close">&#10005;</button>
       </div>
 
-      <div v-if="teacher?.subject" style="margin-bottom:12px;padding:8px 12px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;font-size:12px;color:var(--color-primary);">
-        &#128214; 主教科目：<strong>{{ teacher.subject }}</strong><span style="color:var(--color-text-secondary);margin-left:6px;">（班级任教科目可不相同，兼任时会标注）</span>
+      <div v-if="teacher?.subject" class="asm-info">
+        &#128214; 主教科目：<strong>{{ teacher.subject }}</strong><span class="asm-muted-ml-6">（班级任教科目可不相同，兼任时会标注）</span>
       </div>
 
       <!-- 选择器 -->
-      <div class="flex-row assign-row" style="align-items:flex-end;margin-bottom:12px;flex-wrap:wrap;">
+      <div class="flex-row assign-row asm-row-end">
         <div class="assign-col form-group">
           <label>年级</label>
           <select v-model="assignGradeFilter" class="form-input">
@@ -205,43 +205,39 @@ function closeModal() {
           &#10133; 添加
         </button>
       </div>
-      <div v-if="assignError" style="margin:-6px 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ assignError }}</div>
+      <div v-if="assignError" class="asm-error">{{ assignError }}</div>
 
       <!-- 已分配列表 -->
-      <div style="margin-bottom:12px;">
-        <div class="modal-section-title" style="font-size:13px;">
+      <div class="asm-mb-12">
+        <div class="modal-section-title asm-13">
           &#128203; 已分配（{{ assignList.length }}）
         </div>
         <div
-          v-if="assignList.length === 0"
-          style="padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);background:var(--color-bg);border-radius:8px;"
-        >
+          v-if="assignList.length === 0" class="asm-empty"
+>
           暂未分配班级
         </div>
         <div
           v-for="(a, i) in assignList"
-          :key="i"
-          style="display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;background:var(--color-bg);border-radius:8px;font-size:13px;"
-        >
-          <span style="flex:1;font-weight:500;color:var(--color-text);">{{ a.class_name || classById(a.class_id!)?.name || '#' + a.class_id }}</span>
-          <span v-if="a.role === 'subject_teacher'" style="color:var(--color-text-secondary);font-size:12px;">{{ a.subject === teacher?.subject ? '主教·' + a.subject : '兼任·' + a.subject }}</span>
-          <span v-else style="color:var(--color-text-secondary);font-size:12px;">
+          :key="i" class="asm-item"
+>
+          <span class="asm-item-name">{{ a.class_name || classById(a.class_id!)?.name || '#' + a.class_id }}</span>
+          <span v-if="a.role === 'subject_teacher'" class="asm-muted-12">{{ a.subject === teacher?.subject ? '主教·' + a.subject : '兼任·' + a.subject }}</span>
+          <span v-else class="asm-muted-12">
             {{ classRoleLabel[a.role as ClassRole] || a.role }} · {{ a.subject === teacher?.subject ? '主教·' + a.subject : (a.subject || '默认科目') }}
           </span>
           <button
-            @click="removeAssignRow(i)"
-            style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:2px;font-size:16px;"
-          >
+            @click="removeAssignRow(i)" class="asm-remove"
+>
             &#10005;
           </button>
         </div>
       </div>
 
-      <div class="modal-footer" style="justify-content:flex-end;">
+      <div class="modal-footer asm-footer-end">
         <button
-          @click="closeModal"
-          style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
-        >
+          @click="closeModal" class="asm-btn-outline"
+>
           取消
         </button>
         <button
@@ -330,4 +326,19 @@ function closeModal() {
 .modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
 .flex-row { display:flex; gap:8px; }
 .flex-1 { flex:1; }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.asm-muted-12 { color:var(--color-text-secondary);font-size:12px; }
+.asm-wrap { max-width:620px;width:100%; }
+.asm-info { margin-bottom:12px;padding:8px 12px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;font-size:12px;color:var(--color-primary); }
+.asm-muted-ml-6 { color:var(--color-text-secondary);margin-left:6px; }
+.asm-row-end { align-items:flex-end;margin-bottom:12px;flex-wrap:wrap; }
+.asm-error { margin:-6px 0 10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
+.asm-mb-12 { margin-bottom:12px; }
+.asm-13 { font-size:13px; }
+.asm-empty { padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);background:var(--color-bg);border-radius:8px; }
+.asm-item { display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;background:var(--color-bg);border-radius:8px;font-size:13px; }
+.asm-item-name { flex:1;font-weight:500;color:var(--color-text); }
+.asm-remove { background:none;border:none;color:var(--color-danger);cursor:pointer;padding:2px;font-size:16px; }
+.asm-footer-end { justify-content:flex-end; }
+.asm-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
 </style>
