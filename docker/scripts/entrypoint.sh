@@ -25,7 +25,7 @@ fi
 # 从 Docker 环境变量创建 .env 文件
 if [ ! -f .env ]; then
     echo "📝 从环境变量创建 .env 文件..."
-    env | grep -E "^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|MAIL_|FILESYSTEM_|AI_|WECHAT_|QQ_|RENREN_|ADMIN_|BOT_|GITHUB_)" > .env
+    env | grep -E "^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|BROADCAST_|MAIL_|FILESYSTEM_|AI_|WECHAT_|QQ_|RENREN_|ADMIN_|BOT_|GITHUB_)" > .env
 fi
 
 # 自动拼接端口到 APP_URL

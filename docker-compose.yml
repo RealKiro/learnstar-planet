@@ -56,7 +56,7 @@ services:
       - CACHE_DRIVER=${CACHE_DRIVER:-file}
       - SESSION_DRIVER=${SESSION_DRIVER:-file}
       - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
-      - BROADCAST_DRIVER=${BROADCAST_DRIVER:-null}
+      - BROADCAST_CONNECTION=${BROADCAST_CONNECTION:-null}
 
       # AI 功能配置（可选）
       - AI_PROVIDER=${AI_PROVIDER:-}
