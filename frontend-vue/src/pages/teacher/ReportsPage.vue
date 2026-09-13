@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { apiGet } from '@/utils/api'
-import { getStageEmoji } from '@/utils/constants'
+import { getLevelStage } from '@/utils/petData'
 import type { ApiResponse } from '@/types'
 import axios from 'axios'
 
 interface ScoreTrend { labels: string[]; datasets: { label: string; data: number[] }[] }
-interface PetDist { stage_name: string; count: number; percentage: number }
+interface PetDist { level: number; count: number; stage_name: string }
 interface StudentProgress { student_id: number; student_name: string; scores: number[]; trend: 'up'|'down'|'stable'; change: number }
 
 interface ClassOption { class_id: number; class_name: string }
@@ -19,6 +19,21 @@ const petDist = ref<PetDist[]>([])
 const studentProgress = ref<StudentProgress[]>([])
 const myClasses = ref<ClassOption[]>([])
 const selectedClassId = ref<number | null>(null)
+
+/** 6 大阶段兜底 emoji（口径与后端 Pet::currentStageEmoji() 保持一致） */
+const STAGE_EMOJI: Record<string, string> = {
+  egg: '🥚', baby: '🐣', growing: '🌱', mature: '🌿', legendary: '🌟', transcendent: '👑',
+}
+
+/** 后端 pet-distribution 仅返回 level/count/stage_name，占比与阶段表情在前端补全 */
+const petDistRows = computed(() => {
+  const total = petDist.value.reduce((sum, x) => sum + (x.count || 0), 0) || 1
+  return petDist.value.map(p => ({
+    ...p,
+    percentage: Math.round(((p.count || 0) / total) * 100),
+    emoji: STAGE_EMOJI[getLevelStage(p.level)] ?? '🥚',
+  }))
+})
 
 // 趋势日期范围（近 7/30/90/180 日）
 const trendDays = ref(7)
@@ -105,11 +120,6 @@ async function loadAll() {
 }
 
 onMounted(loadAll)
-
-function stageLevel(name: string): number {
-  const idx = ['星尘','月芽','灵苗','青藤','慧树','蝶灵','鹰慧','狮睿','灵角','星耀','银河'].indexOf(name)
-  return idx >= 0 ? idx : 0
-}
 </script>
 
 <template>
@@ -192,9 +202,9 @@ function stageLevel(name: string): number {
           暂无宠物数据
         </div>
         <div v-else class="dist-list">
-          <div v-for="pet in petDist" :key="pet.stage_name" class="dist-row">
-            <span class="dist-emoji">{{ getStageEmoji(stageLevel(pet.stage_name)) }}</span>
-            <span class="dist-name">{{ pet.stage_name }}</span>
+          <div v-for="pet in petDistRows" :key="pet.level" class="dist-row">
+            <span class="dist-emoji">{{ pet.emoji }}</span>
+            <span class="dist-name">Lv.{{ pet.level }} · {{ pet.stage_name }}</span>
             <div class="dist-track">
               <div class="dist-fill"
                 :style="{ width: `${pet.percentage}%`, minWidth: pet.count > 0 ? '32px' : '0' }"
