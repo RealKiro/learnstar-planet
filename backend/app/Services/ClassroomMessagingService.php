@@ -95,7 +95,7 @@ class ClassroomMessagingService
         // Pet overview for all students
         $pets = $students->map(function (Student $s): array {
             $pet = $s->pet;
-            $stage = $pet ? $pet->currentStage() : ['emoji' => '\ud83e\udd14', 'name' => '未孵化', 'title' => ''];
+            $stage = $pet ? $pet->currentStage() : ['emoji' => '🤔', 'name' => '未孵化', 'title' => ''];
 
             return [
                 'student_id' => $s->id,
@@ -222,7 +222,7 @@ class ClassroomMessagingService
         $notice = Notice::create([
             'class_id' => $classId,
             'school_id' => $teacher->school_id,
-            'title' => $input['title'] ?? ($type === 'urgent' ? '\u7d27\u6025\u901a\u77e5' : '\u901a\u77e5'),
+            'title' => $input['title'] ?? ($type === 'urgent' ? '紧急通知' : '通知'),
             'content' => $content,
             'type' => $type,
             'published_by' => $teacher->id,
@@ -258,7 +258,7 @@ class ClassroomMessagingService
     public function poll(User $teacher, mixed $classId, mixed $since): array
     {
         if (!$classId) {
-            throw new \DomainException('\u8bf7\u5148\u9009\u62e9\u73ed\u7ea7', 400);
+            throw new \DomainException('请先选择班级', 400);
         }
 
         $sinceTime = $since ? Carbon::parse($since) : now()->subMinutes(5);
