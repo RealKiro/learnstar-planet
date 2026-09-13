@@ -112,4 +112,15 @@ function goToFeature(offset: number) {
 .sd { width: 5px; height: 5px; border-radius: 50%; border: none; background: #d2d2d7; cursor: pointer; padding: 0; transition: all .3s }
 .sd.active { background: #5e5ce6; transform: scale(1.4) }
 @media (max-width: 768px) { .panel { padding: 80px 24px 32px } .title { font-size: 28px } .icon { font-size: 36px } }
+
+/* ===== Dark 模式覆盖层（html.dark 前缀；浅色模式零改动）===== */
+html.dark .badge { background: #1C1C1E; border-color: rgba(255,255,255,0.12); color: #A1A1A6; }
+html.dark .title { color: #F5F5F7; }
+html.dark .desc { color: #98989D; }
+html.dark .dot { background: #48484A; }
+html.dark .strip-label { color: #6E6E73; }
+html.dark .strip-item { background: #1C1C1E; border-color: rgba(255,255,255,0.10); }
+html.dark .strip-item:hover { border-color: #48484A; }
+html.dark .strip-name { color: #98989D; }
+html.dark .sd { background: #48484A; }
 </style>

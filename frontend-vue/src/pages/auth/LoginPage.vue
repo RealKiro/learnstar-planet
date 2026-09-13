@@ -630,4 +630,31 @@ function goToSlide(i: number) {
 .lgp-muted-12 { font-size:12px;color:#6E6E73;padding:8px 0; }
 .lgp-muted-12-tight { font-size:12px;color:#6E6E73;margin:-8px 0 0; }
 .lgp-error-inline { color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px; }
+
+/* ===== Dark 模式覆盖层（html.dark 前缀；浅色模式零改动）===== */
+html.dark .login-page { background: #000000; color: #F5F5F7; }
+html.dark .topnav-link { color: #6E6E73; }
+html.dark .topnav-link:hover { color: #A1A1A6; }
+html.dark .intro { background: #0E0E10; }
+html.dark .intro-badge { background: #1C1C1E; border-color: rgba(255,255,255,0.12); color: #A1A1A6; }
+html.dark .intro-title { color: #F5F5F7; }
+html.dark .intro-desc { color: #98989D; }
+html.dark .intro-dot { background: #48484A; }
+html.dark .intro-footer-link { color: #98989D; }
+html.dark .intro-footer-link:hover { color: #F5F5F7; }
+html.dark .intro-footer-sep { color: #6E6E73; }
+html.dark .login-panel { background: #1C1C1E; border-left-color: rgba(255,255,255,0.10); }
+html.dark .login-card-title { color: #F5F5F7; }
+html.dark .login-tabs { background: #2C2C2E; border-color: rgba(255,255,255,0.12); }
+html.dark .login-tab { color: #98989D; }
+html.dark .form-group label { color: #A1A1A6; }
+html.dark .form-input { background: #2C2C2E; border-color: rgba(255,255,255,0.12); color: #F5F5F7; }
+html.dark .form-input:focus { background: #1C1C1E; }
+html.dark .form-input::placeholder { color: #6E6E73; }
+html.dark .login-social-label { color: #6E6E73; }
+html.dark .login-social-line { background: rgba(255,255,255,0.12); }
+html.dark .login-social-btn { background: #2C2C2E; border-color: rgba(255,255,255,0.12); color: #A1A1A6; }
+html.dark .login-social-btn:hover { background: #1C1C1E; border-color: #48484A; color: #F5F5F7; }
+html.dark .lgp-muted-12 { color: #A1A1A6; }
+html.dark .lgp-muted-12-tight { color: #A1A1A6; }
 </style>

@@ -339,4 +339,33 @@ onUnmounted(() => clearInterval(slideTimer))
   .panel { box-shadow: none; border-color: transparent; }
   .footer { flex-wrap: wrap; gap: 6px; }
 }
+
+/* ===== Dark 模式覆盖层（html.dark 前缀；浅色模式零改动）===== */
+html.dark .home { background: #000000; color: #F5F5F7; }
+html.dark .topbar-btn { background: #1C1C1E; border-color: rgba(255,255,255,0.12); color: #A1A1A6; }
+html.dark .topbar-btn:hover { background: #2C2C2E; color: #F5F5F7; }
+html.dark .topbar-link { color: #6E6E73; }
+html.dark .topbar-link:hover { color: #A1A1A6; }
+html.dark .badge { background: #1C1C1E; border-color: rgba(255,255,255,0.12); color: #A1A1A6; }
+html.dark .dot { background: #48484A; }
+html.dark .slide-icon { background: linear-gradient(135deg, rgba(99,102,241,0.16), rgba(244,114,182,0.15)); border-color: rgba(129,140,248,0.4); }
+html.dark .slide-desc { color: #98989D; }
+html.dark .feature-card { background: rgba(28,28,30,0.72); border-color: rgba(255,255,255,0.10); }
+html.dark .feature-card:hover { border-color: rgba(129,140,248,0.55); }
+html.dark .feature-card__title { color: #F5F5F7; }
+html.dark .feature-card__desc { color: #98989D; }
+html.dark .panel { background: #1C1C1E; border-color: #2C2C2E; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+html.dark .panel-icon { background: linear-gradient(135deg, rgba(99,102,241,0.16), rgba(244,114,182,0.15)); border-color: rgba(129,140,248,0.4); }
+html.dark .panel-desc { color: #98989D; }
+html.dark .panel-input { background: #2C2C2E; border-color: rgba(255,255,255,0.12); color: #F5F5F7; }
+html.dark .panel-input:focus { background: #1C1C1E; }
+html.dark .panel-input::placeholder { color: #6E6E73; }
+html.dark .panel-divider { color: #6E6E73; }
+html.dark .panel-divider::before, html.dark .panel-divider::after { background: rgba(255,255,255,0.12); }
+html.dark .panel-alt-btn { background: #2C2C2E; border-color: rgba(255,255,255,0.12); color: #A1A1A6; }
+html.dark .panel-alt-btn:hover { background: #1C1C1E; border-color: rgba(129,140,248,0.55); }
+html.dark .panel-footnote { color: #6E6E73; }
+html.dark .footer { color: #6E6E73; }
+html.dark .footer a { color: #98989D; }
+html.dark .footer a:hover { color: #F5F5F7; }
 </style>
