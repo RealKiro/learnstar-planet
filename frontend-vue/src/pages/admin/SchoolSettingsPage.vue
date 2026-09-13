@@ -200,7 +200,7 @@ async function uploadLogo(e: Event) {
       </div>
     </div>
 
-    <div class="tab-bar" style="max-width:640px;">
+    <div class="tab-bar tabs-narrow">
       <button :class="['tab-btn', { active: activeTab === 'school' }]" @click="activeTab = 'school'">🏫 学校信息</button>
       <button :class="['tab-btn', { active: activeTab === 'diagnose' }]" @click="activeTab = 'diagnose'">🔍 系统诊断</button>
       <button :class="['tab-btn', { active: activeTab === 'status' }]" @click="activeTab = 'status'">📊 系统状态</button>
@@ -210,53 +210,53 @@ async function uploadLogo(e: Event) {
     <!-- 学校信息 -->
     <div v-if="activeTab === 'school'">
       <div v-if="loading" class="loading-spinner">加载中...</div>
-      <div v-else class="card" style="max-width:640px;padding:32px;">
-        <div style="display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
+      <div v-else class="card card-form-lg">
+        <div class="info-row">
           <div class="info-block"><div class="info-label">学校编码</div><div class="mono">{{ schoolCode || '-' }}</div></div>
           <div class="info-block"><div class="info-label">状态</div><span class="badge-active">{{ schoolStatus === 'active' ? '正常运行' : (schoolStatus || '正常') }}</span></div>
         </div>
         <!-- LOGO -->
         <div class="form-group">
           <label>学校 LOGO</label>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div v-if="logoPath" style="width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--color-border);">
-              <img :src="logoPath" style="width:100%;height:100%;object-fit:cover;">
+          <div class="logo-row">
+            <div v-if="logoPath" class="logo-box">
+              <img :src="logoPath" class="logo-img">
             </div>
             <label class="btn btn-sm btn-outline" :style="{ background: uploadLogoStatus === 'loading' ? '#f59e0b' : uploadLogoStatus === 'success' ? '#10b981' : uploadLogoStatus === 'error' ? '#ef4444' : '', color: uploadLogoStatus !== 'idle' ? '#fff' : '', border: uploadLogoStatus !== 'idle' ? '1px solid transparent' : '', cursor: 'pointer' }">
               <template v-if="uploadLogoStatus === 'loading'">上传中...</template>
               <template v-else-if="uploadLogoStatus === 'success'">已上传 ✓</template>
               <template v-else-if="uploadLogoStatus === 'error'">上传失败 ✗</template>
               <template v-else>📷 上传 LOGO</template>
-              <input type="file" accept="image/*" style="display:none;" @change="uploadLogo">
+              <input type="file" accept="image/*" class="file-hidden" @change="uploadLogo">
             </label>
           </div>
         </div>
-        <div class="form-group"><label>学校名称 <span class="req-star">*</span></label><input v-model="form.name" class="form-input" placeholder="请输入学校名称" :style="{ borderColor: schoolErrors.name ? '#f87171' : '' }" @blur="vldSch('name')" @input="clsErr('name')"><div v-if="schoolErrors.name" class="field-error">{{ schoolErrors.name }}</div></div>
+        <div class="form-group"><label>学校名称 <span class="req-star">*</span></label><input v-model="form.name" class="form-input" :class="{ 'input-invalid': schoolErrors.name }" placeholder="请输入学校名称" @blur="vldSch('name')" @input="clsErr('name')"><div v-if="schoolErrors.name" class="field-error">{{ schoolErrors.name }}</div></div>
         <div class="form-group"><label>学校地址</label><input v-model="form.address" class="form-input" placeholder="请输入学校地址"></div>
-        <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678" :style="{ borderColor: schoolErrors.contact_phone ? '#f87171' : '' }" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" class="field-error">{{ schoolErrors.contact_phone }}</div></div>
-        <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn" :style="{ borderColor: schoolErrors.contact_email ? '#f87171' : '' }" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" class="field-error">{{ schoolErrors.contact_email }}</div></div>
+        <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" :class="{ 'input-invalid': schoolErrors.contact_phone }" placeholder="如：021-12345678" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" class="field-error">{{ schoolErrors.contact_phone }}</div></div>
+        <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" :class="{ 'input-invalid': schoolErrors.contact_email }" placeholder="如：admin@school.edu.cn" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" class="field-error">{{ schoolErrors.contact_email }}</div></div>
         <div class="form-group">
           <label>第三方登录平台（勾选的平台才会在登录页显示）</label>
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px;">
+          <div class="platform-grid">
             <label
               v-for="opt in thirdPartyPlatformOptions"
               :key="opt.key"
-              style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;cursor:pointer;font-size:13px;user-select:none;"
-              :style="{ background: form.third_party_platforms.includes(opt.key) ? 'rgba(124,58,237,0.08)' : 'var(--color-bg-card)', borderColor: form.third_party_platforms.includes(opt.key) ? 'rgba(124,58,237,0.4)' : 'var(--color-border)' }"
+              class="platform-opt"
+              :class="{ 'is-on': form.third_party_platforms.includes(opt.key) }"
             >
               <input
                 type="checkbox"
                 :value="opt.key"
                 v-model="form.third_party_platforms"
-                style="accent-color:#7c3aed;width:15px;height:15px;flex-shrink:0;"
+                class="platform-check"
               >
-              <span style="flex-shrink:0;display:flex;"><PlatformIcon :platform="opt.key" :size="20" /></span>
+              <span class="platform-icon"><PlatformIcon :platform="opt.key" :size="20" /></span>
               <span>{{ opt.label }}</span>
             </label>
           </div>
-          <p style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">未勾选任何平台时，登录页默认显示企业微信/微信/QQ。通讯录导入需配置对应平台的应用凭证。</p>
+          <p class="hint-11">未勾选任何平台时，登录页默认显示企业微信/微信/QQ。通讯录导入需配置对应平台的应用凭证。</p>
         </div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px;">
+        <div class="form-actions">
           <button class="btn btn-sm" :style="{ background: restoreStatus === 'loading' ? '#f59e0b' : restoreStatus === 'success' ? '#10b981' : restoreStatus === 'error' ? '#ef4444' : 'var(--color-bg-card)', color: restoreStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: restoreStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" :disabled="restoreStatus === 'loading'" @click="reload">
             <template v-if="restoreStatus === 'loading'">恢复中...</template>
             <template v-else-if="restoreStatus === 'success'">已恢复 ✓</template>
@@ -274,9 +274,9 @@ async function uploadLogo(e: Event) {
     </div>
 
     <!-- 系统诊断 -->
-    <div v-if="activeTab === 'diagnose'" class="card" style="max-width:640px;padding:24px;">
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">检查数据库表结构完整性</p>
-      <div style="display:flex;gap:12px;margin-bottom:16px;">
+    <div v-if="activeTab === 'diagnose'" class="card card-form">
+      <p class="card-subtitle">检查数据库表结构完整性</p>
+      <div class="btn-row">
         <button class="btn btn-outline" :style="{ background: diagnoseStatus === 'loading' ? '#f59e0b' : diagnoseStatus === 'success' ? '#10b981' : diagnoseStatus === 'error' ? '#ef4444' : '', color: diagnoseStatus !== 'idle' ? '#fff' : '', border: diagnoseStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="diagnoseStatus !== 'idle'" @click="diagnose">
           <template v-if="diagnoseStatus === 'loading'">诊断中...</template>
           <template v-else-if="diagnoseStatus === 'success'">诊断完成 ✓</template>
@@ -291,30 +291,30 @@ async function uploadLogo(e: Event) {
         </button>
       </div>
       <div v-if="diagResult">
-        <div v-for="(r, i) in diagResult" :key="i" style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-bottom:1px solid var(--color-border);font-size:13px;">
-          <span v-if="r.status === 'ok'" style="color:#10B981;">✅</span>
-          <span v-else-if="r.status === 'fixable'" style="color:#F59E0B;">⚠️</span>
-          <span v-else style="color:#EF4444;">❌</span>
+        <div v-for="(r, i) in diagResult" :key="i" class="diag-row">
+          <span v-if="r.status === 'ok'" class="c-ok">✅</span>
+          <span v-else-if="r.status === 'fixable'" class="c-warn">⚠️</span>
+          <span v-else class="c-err">❌</span>
           <span class="flex-1">{{ r.item }}</span>
           <span :style="{ color: r.status === 'ok' ? '#10B981' : r.status === 'fixable' ? '#F59E0B' : '#EF4444', fontWeight:600 }">{{ r.status === 'ok' ? '正常' : (r.detail || '缺失') }}</span>
         </div>
-        <div v-if="repairDone" style="padding:8px 12px;font-size:13px;color:#10B981;font-weight:500;">✅ 修复已完成</div>
+        <div v-if="repairDone" class="repair-done">✅ 修复已完成</div>
       </div>
-      <div v-else-if="diagnoseStatus === 'idle'" style="padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);">点击「开始诊断」检查系统状态</div>
+      <div v-else-if="diagnoseStatus === 'idle'" class="diag-empty">点击「开始诊断」检查系统状态</div>
     </div>
 
     <!-- 系统状态 -->
-    <div v-if="activeTab === 'status'" class="card" style="max-width:640px;padding:24px;">
-      <div v-if="statusLoading" style="text-align:center;padding:24px;">加载中...</div>
+    <div v-if="activeTab === 'status'" class="card card-form">
+      <div v-if="statusLoading" class="status-loading">加载中...</div>
       <div v-else-if="sysStatus">
-        <div style="margin-bottom:20px;">
-          <div style="font-size:13px;font-weight:600;color:var(--color-text-secondary);margin-bottom:8px;">版本信息</div>
+        <div class="version-block">
+          <div class="sub-title-sm">版本信息</div>
           <div class="version-grid">
             <div v-for="(val, key) in sysStatus.version" :key="key" class="version-item"><span class="version-key">{{ key }}</span><span class="version-val">{{ val }}</span></div>
           </div>
         </div>
         <div>
-          <div style="font-size:13px;font-weight:600;color:var(--color-text-secondary);margin-bottom:8px;">迁移记录（{{ sysStatus.migration_count }} 条）</div>
+          <div class="sub-title-sm">迁移记录（{{ sysStatus.migration_count }} 条）</div>
           <div v-if="sysStatus.migrations.length" class="mig-list">
             <div v-for="(m, i) in sysStatus.migrations" :key="i" class="mig-row"><span class="mig-batch">#{{ m.batch }}</span><span class="mig-name">{{ m.migration }}</span></div>
           </div>
@@ -323,16 +323,16 @@ async function uploadLogo(e: Event) {
     </div>
 
     <!-- 实时日志 -->
-    <div v-if="activeTab === 'logs'" class="card" style="max-width:100%;padding:20px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
-        <h3 style="font-size:15px;font-weight:700;margin:0;">📋 实时日志</h3>
-        <select v-model.number="logLines" style="padding:4px 8px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-size:12px;">
+    <div v-if="activeTab === 'logs'" class="card card-wide">
+      <div class="log-toolbar">
+        <h3 class="log-title">📋 实时日志</h3>
+        <select v-model.number="logLines" class="log-select">
           <option :value="50">50 行</option>
           <option :value="200">200 行</option>
           <option :value="500">500 行</option>
           <option :value="1000">1000 行</option>
         </select>
-        <select v-model="logLevel" @change="loadLogs" style="padding:4px 8px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-size:12px;">
+        <select v-model="logLevel" @change="loadLogs" class="log-select">
           <option value="">全部等级</option>
           <option value="ERROR">ERROR</option>
           <option value="WARNING">WARNING</option>
@@ -340,17 +340,17 @@ async function uploadLogo(e: Event) {
           <option value="DEBUG">DEBUG</option>
           <option value="CRITICAL">CRITICAL</option>
         </select>
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="loadLogs" :disabled="logRefreshing">{{ logRefreshing ? '加载中...' : '🔄 刷新' }}</button>
-        <button class="btn btn-sm" style="background:#7c3aed;color:#fff;border:none;" @click="startLogPolling">▶ 自动刷新</button>
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="stopLogPolling">⏹ 停止</button>
-        <span style="font-size:12px;color:var(--color-text-secondary);">{{ logTotal }} 条</span>
+        <button class="btn btn-sm btn-card" @click="loadLogs" :disabled="logRefreshing">{{ logRefreshing ? '加载中...' : '🔄 刷新' }}</button>
+        <button class="btn btn-sm btn-purple" @click="startLogPolling">▶ 自动刷新</button>
+        <button class="btn btn-sm btn-card" @click="stopLogPolling">⏹ 停止</button>
+        <span class="log-count">{{ logTotal }} 条</span>
       </div>
-      <div v-if="logError" style="color:#EF4444;font-size:13px;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:8px;">{{ logError }}</div>
-      <div style="background:#0d1117;border-radius:10px;max-height:60vh;overflow:auto;padding:8px 0;">
-        <div v-if="!logEntries.length" style="padding:16px;text-align:center;color:#8b949e;font-size:13px;">暂无日志</div>
-        <div v-for="(entry, i) in logEntries" :key="i" style="display:flex;align-items:flex-start;gap:8px;padding:2px 16px;font-family:monospace;font-size:12px;line-height:1.6;white-space:pre-wrap;word-break:break-all;">
-          <span style="flex-shrink:0;width:60px;font-weight:600;color:levelColors[entry.level] || '#8b949e';">{{ entry.level }}</span>
-          <span style="color:#e6edf3;">{{ entry.line }}</span>
+      <div v-if="logError" class="log-error">{{ logError }}</div>
+      <div class="log-view">
+        <div v-if="!logEntries.length" class="log-empty">暂无日志</div>
+        <div v-for="(entry, i) in logEntries" :key="i" class="log-line">
+          <span class="log-level">{{ entry.level }}</span>
+          <span class="log-text">{{ entry.line }}</span>
         </div>
       </div>
     </div>
@@ -386,4 +386,46 @@ async function uploadLogo(e: Event) {
 .btn-primary:hover { background:#6d28d9; }
 .btn-outline { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
 .btn-danger { background:var(--color-bg-card); color:#EF4444; border:1px solid rgba(239,68,68,0.2); }
+
+/* ===== 页内布局类（本页专用，替代原内联样式；声明逐字保留以保证渲染等价） ===== */
+.tabs-narrow { max-width:640px; }
+.card-form-lg { max-width:640px; padding:32px; }
+.card-form { max-width:640px; padding:24px; }
+.card-wide { max-width:100%; padding:20px; }
+.info-row { display:flex; gap:16px; margin-bottom:24px; flex-wrap:wrap; }
+.logo-row { display:flex; align-items:center; gap:12px; }
+.logo-box { width:64px; height:64px; border-radius:8px; overflow:hidden; border:1px solid var(--color-border); }
+.logo-img { width:100%; height:100%; object-fit:cover; }
+.file-hidden { display:none; }
+.form-input.input-invalid { border-color:#f87171; }
+.platform-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:6px; }
+.platform-opt { display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--color-border); border-radius:8px; cursor:pointer; font-size:13px; user-select:none; }
+.platform-opt.is-on { background:rgba(124,58,237,0.08); border-color:rgba(124,58,237,0.4); }
+.platform-check { accent-color:#7c3aed; width:15px; height:15px; flex-shrink:0; }
+.platform-icon { flex-shrink:0; display:flex; }
+.hint-11 { font-size:11px; color:var(--color-text-secondary); margin-top:2px; }
+.form-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:24px; }
+.card-subtitle { font-size:13px; color:var(--color-text-secondary); margin-bottom:16px; }
+.btn-row { display:flex; gap:12px; margin-bottom:16px; }
+.diag-row { display:flex; align-items:center; gap:10px; padding:6px 10px; border-bottom:1px solid var(--color-border); font-size:13px; }
+.c-ok { color:#10B981; }
+.c-warn { color:#F59E0B; }
+.c-err { color:#EF4444; }
+.repair-done { padding:8px 12px; font-size:13px; color:#10B981; font-weight:500; }
+.diag-empty { padding:12px; text-align:center; font-size:13px; color:var(--color-text-secondary); }
+.status-loading { text-align:center; padding:24px; }
+.version-block { margin-bottom:20px; }
+.sub-title-sm { font-size:13px; font-weight:600; color:var(--color-text-secondary); margin-bottom:8px; }
+.log-toolbar { display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+.log-title { font-size:15px; font-weight:700; margin:0; }
+.log-select { padding:4px 8px; border-radius:6px; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-size:12px; }
+.btn-card { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
+.btn-purple { background:#7c3aed; color:#fff; border:none; }
+.log-count { font-size:12px; color:var(--color-text-secondary); }
+.log-error { color:#EF4444; font-size:13px; padding:8px; background:rgba(239,68,68,0.06); border-radius:6px; margin-bottom:8px; }
+.log-view { background:#0d1117; border-radius:10px; max-height:60vh; overflow:auto; padding:8px 0; }
+.log-empty { padding:16px; text-align:center; color:#8b949e; font-size:13px; }
+.log-line { display:flex; align-items:flex-start; gap:8px; padding:2px 16px; font-family:monospace; font-size:12px; line-height:1.6; white-space:pre-wrap; word-break:break-all; }
+.log-level { flex-shrink:0; width:60px; font-weight:600; }
+.log-text { color:#e6edf3; }
 </style>
