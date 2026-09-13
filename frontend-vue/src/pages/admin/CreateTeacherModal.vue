@@ -349,7 +349,7 @@ async function doSubmit(force: boolean) {
 .modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
 .flex-row { display:flex; gap:8px; }
 .flex-1 { flex:1; }
-.form-input option { color:#1E293B; background:#fff; }
+.form-input option { color:var(--color-text); background:var(--color-bg-card); }
 /* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
 .mb-0 { margin-bottom:0; }
 .tag-10-muted { font-size:10px;color:var(--color-text-secondary); }

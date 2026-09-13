@@ -194,8 +194,8 @@ async function submitEdit() {
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
 }
 .form-input option {
-  color: #1E293B;
-  background: #fff;
+  color: var(--color-text);
+  background: var(--color-bg-card);
 }
 /* Modal utility classes */
 .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--color-border); flex-shrink:0; }
