@@ -163,7 +163,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./backend/Dockerfile
+          file: ./docker/Dockerfile
           push: true
           tags: |
             gitee.com/${{ github.repository }}/backend:latest

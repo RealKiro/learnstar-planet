@@ -536,7 +536,8 @@ learnstar-planet/
 ├── mini-program/          # 微信小程序（10 页面，教师端）
 ├── pwa/                   # PWA 离线配置
 ├── mcp-server/            # MCP 机器人服务
-└── docker-compose.yml     # Docker 编排（默认仅 app 单容器）
+├── docker/                # Docker 构建文件（Dockerfile / Dockerfile.dev / entrypoint.sh）
+└── docker-compose.yml     # Docker 编排（默认仅 app 单容器，留在根目录：.env 按约定与 compose 同目录解析）
 ```
 
 ## 🤝 参与贡献

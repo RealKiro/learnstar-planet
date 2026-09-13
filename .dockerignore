@@ -11,6 +11,20 @@ backend/vendor/
 frontend-vue/node_modules/
 node_modules/
 
+# ========== Backend dev-only (tests / tooling / runtime, 镜像内不需要) ==========
+# 原 backend/.dockerignore（context=backend 时才生效）已并入此处：
+# 本项目所有构建上下文都是仓库根，仅此文件生效
+backend/tests/
+backend/storage/
+backend/bootstrap/cache/
+backend/phpunit.xml
+backend/phpunit.xml.dist
+backend/phpstan.neon
+backend/.php-cs-fixer.php
+backend/.php-cs-fixer-cache
+backend/infection.json
+backend/infection.json.dist
+
 # ========== IDE & OS ==========
 .idea/
 .vscode/

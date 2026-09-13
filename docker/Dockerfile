@@ -2,6 +2,7 @@
 # Stage 1: Build Vue frontend (Node)
 # Stage 2: PHP runtime (php artisan serve — no Nginx, no FPM, no Supervisor)
 #
+# Location: docker/Dockerfile (all Docker build files live in docker/)
 # Build context = learnstar-planet/ (repository root)
 
 # ============================================================
@@ -83,7 +84,7 @@ RUN mkdir -p storage/app/public \
     && chmod 666 storage/database.sqlite
 
 # Copy entrypoint script
-COPY backend/docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Health check

@@ -66,4 +66,4 @@ src/
 Vue 构建产物需部署到后端 `public/` 目录，由 Nginx 统一 serve（SPA 模式 `try_files $uri /index.html`）。两种方式：
 
 1. **本地构建**：`npm run build:deploy` 直接输出到 `../backend/public/`
-2. **Docker 部署**：`backend/Dockerfile` 已包含 Node 阶段自动构建前端并复制产物
+2. **Docker 部署**：`docker/Dockerfile` 已包含 Node 阶段自动构建前端并复制产物

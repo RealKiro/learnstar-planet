@@ -45,7 +45,7 @@
 ### 基础设施
 
 - Docker 多阶段构建（Node 22 构建前端 + PHP 8.5 运行时，`php artisan serve` 直接服务，无 Nginx/FPM/Supervisor）
-- ⚠️ `backend/docker/nginx/`、`backend/docker/supervisor/` 是旧方案遗留，**未被任何 Dockerfile 引用**（生产走 PHP 内置服务器），待清理
+- ~~backend/docker/nginx/、backend/docker/supervisor/~~ 已删除（P0，2026-09-13）；Docker 构建文件统一在 `docker/`（Dockerfile / Dockerfile.dev / entrypoint.sh）
 - Docker Compose 编排（默认仅 app 一个容器 + 内置 SQLite；MySQL/PostgreSQL/Redis 均为外置方案，刻意不内置数据库容器以减小体积）
 - GitHub Container Registry (GHCR) 镜像托管
 - CI/CD: GitHub Actions + Gitee Go
@@ -298,7 +298,7 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
 
 ## 关键设计决策与注意事项
 
-1. **前端已完成 Vue 3 重构**: `frontend-vue/` 采用 Vue 3 + Vite + TypeScript + Pinia + Vue Router。**原 Livewire + Blade 方案已作废**（见「技术架构 → 前端」告警块）：`backend/app/Livewire/`、`backend/resources/views/`、`backend/docker/nginx/`、`backend/docker/supervisor/` 均为无引用残留，勿在其上开发
+1. **前端已完成 Vue 3 重构**: `frontend-vue/` 采用 Vue 3 + Vite + TypeScript + Pinia + Vue Router。**原 Livewire + Blade 方案已作废**（见「技术架构 → 前端」告警块）：`backend/app/Livewire/`、`backend/resources/views/`、`backend/docker/nginx/`、`backend/docker/supervisor/` 已全部删除；Docker 构建文件统一在 `docker/`
 2. **无自注册**: 所有账号由管理员在后台创建分配
 3. **角色严格隔离**: 管理员/教师界面和 API 完全不同；学生无需登录，凭班级码进入教室端（以班级为单元）
 4. **第三方登录仅限教师**: 管理员不支持第三方扫码；后台学校设置可勾选启用平台（企业微信/钉钉/飞书/微信/QQ/人人通空间），登录页按配置动态展示，存储于 `schools.settings.enabled_third_party_platforms`
