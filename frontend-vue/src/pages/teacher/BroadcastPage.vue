@@ -85,55 +85,54 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
     <div class="page-head">
       <h2 class="page-title">📡 实时广播</h2>
       <span class="text-muted-13">
-        🖥️ 教室桌面端：<strong style="color:var(--color-accent);">已连接</strong>
+        🖥️ 教室桌面端：<strong class="bc-accent-text">已连接</strong>
       </span>
     </div>
 
     <!-- 发送区 -->
-    <div class="card" style="margin-bottom:24px;">
+    <div class="card bc-card-mb">
       <h3 class="section-title">发送广播</h3>
 
-      <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <div class="bc-type-row">
         <button v-for="t in ([['banner','📌 顶部横幅'],['popup','💬 弹窗提示'],['fullscreen','🖥️ 全屏展示']] as const)" :key="t[0]" :class="['bc-type-btn', bcType === t[0] ? 'active' : '']" @click="bcType = t[0]">
           {{ t[1] }}
         </button>
       </div>
 
       <div class="form-group">
-        <textarea v-model="bcContent" class="form-input" style="min-height:80px;resize:vertical;"
+        <textarea v-model="bcContent" class="form-input bc-textarea"
           placeholder="输入要发送到教室的内容..."></textarea>
       </div>
 
       <!-- 目标班级选择 -->
-      <div style="margin-bottom:16px;" v-if="myClasses.length > 0">
-        <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--color-text-secondary);">
+      <div class="bc-mb-16" v-if="myClasses.length > 0">
+        <div class="bc-field-label">
           发送至班级（{{ selectedClassIds.length }}/{{ myClasses.length }}）
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--color-border);"
-            :style="selectAll ? { border:'1px solid var(--color-accent)', background:'rgba(79,70,229,0.08)' } : {}">
-            <input type="checkbox" :checked="selectAll" @change="toggleAll" style="accent-color:var(--color-accent);">
+        <div class="bc-chip-wrap">
+          <label
+            :style="selectAll ? { border:'1px solid var(--color-accent)', background:'rgba(79,70,229,0.08)' } : {}" class="bc-class-chip">
+            <input type="checkbox" :checked="selectAll" @change="toggleAll" class="bc-accent">
             全部班级
           </label>
           <label v-for="c in myClasses" :key="c.class_id"
-            style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--color-border);"
-            :style="selectedClassIds.includes(c.class_id) ? { border:'1px solid var(--color-accent)', background:'rgba(79,70,229,0.08)' } : {}">
+            :style="selectedClassIds.includes(c.class_id) ? { border:'1px solid var(--color-accent)', background:'rgba(79,70,229,0.08)' } : {}" class="bc-class-chip">
             <input type="checkbox" :value="c.class_id" v-model="selectedClassIds"
-              style="accent-color:var(--color-accent);" @change="selectAll = false">
+              @change="selectAll = false" class="bc-accent">
             {{ c.class_name }}
           </label>
         </div>
       </div>
 
-      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px;cursor:pointer;">
+      <div class="bc-options-row">
+        <label class="bc-check-row">
           <input v-model="bcVoice" type="checkbox"> 🔊 语音播报
         </label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px;cursor:pointer;">
+        <label class="bc-check-row">
           <input v-model="bcLoop" type="checkbox"> 🔁 循环播放
         </label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px;">
-          ⏱️ <select v-model.number="bcDuration" class="form-select" style="width:auto;padding:4px 8px;">
+        <label class="bc-inline-row">
+          ⏱️ <select v-model.number="bcDuration" class="form-select bc-duration-select">
             <option :value="5">5秒</option>
             <option :value="10">10秒</option>
             <option :value="30">30秒</option>
@@ -142,18 +141,17 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
         </label>
       </div>
 
-      <div v-if="bcError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ bcError }}</div>
-      <button class="btn" style="width:auto;color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[sendStatus] }" :disabled="sendStatus === 'loading'" @click="sendBroadcast">
+      <div v-if="bcError" class="bc-error">{{ bcError }}</div>
+      <button class="btn bc-send-btn" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[sendStatus] }" :disabled="sendStatus === 'loading'" @click="sendBroadcast">
         {{ { idle: '📡 发送至 ' + selectedClassIds.length + ' 个班级', loading: '发送中...', success: '已发送 ✓', error: '发送失败' }[sendStatus] }}
       </button>
     </div>
 
     <!-- 快捷模板 -->
-    <div class="card" style="margin-bottom:24px;">
+    <div class="card bc-card-mb">
       <h3 class="section-title">快捷模板</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
-        <div v-for="t in templates" :key="t.label" class="card"
-          style="padding:12px 16px;cursor:pointer;font-size:13px;text-align:center;"
+      <div class="bc-tpl-grid">
+        <div v-for="t in templates" :key="t.label" class="card bc-tpl-card"
           @click="useTemplate(t.text)">
           {{ t.label }}
         </div>
@@ -162,18 +160,18 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 
     <!-- 广播记录 -->
     <div class="data-table">
-      <div class="data-table__header"><h3 style="font-size:16px;font-weight:600;">广播记录</h3></div>
+      <div class="data-table__header"><h3 class="bc-table-title">广播记录</h3></div>
       <table>
         <thead><tr><th>内容</th><th>类型</th><th>语音</th><th>时间</th></tr></thead>
         <tbody>
           <tr v-if="broadcasts.length === 0">
-            <td colspan="4" style="text-align:center;color:var(--color-text-secondary);padding:24px;">暂无广播记录</td>
+            <td colspan="4" class="bc-empty-cell">暂无广播记录</td>
           </tr>
           <tr v-for="b in broadcasts" :key="b.id">
             <td>{{ b.content }}</td>
             <td>{{ typeLabels[b.type] || b.type }}</td>
             <td>{{ b.voice ? '🔊' : '🔇' }}</td>
-            <td style="color:var(--color-text-secondary);">{{ new Date(b.created_at).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) }}</td>
+            <td class="bc-secondary">{{ new Date(b.created_at).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) }}</td>
           </tr>
         </tbody>
       </table>
@@ -186,4 +184,25 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 .bc-type-btn { flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:13px;cursor:pointer;font-weight:500;font-family:inherit; }
 .bc-type-btn:hover { border-color:var(--color-accent); }
 .bc-type-btn.active { border:2px solid var(--color-accent);background:rgba(79,70,229,0.1);color:var(--color-accent); }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.bc-card-mb { margin-bottom:24px; }
+.bc-class-chip { display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--color-border); }
+.bc-accent { accent-color:var(--color-accent); }
+.bc-check-row { display:flex;align-items:center;gap:4px;font-size:14px;cursor:pointer; }
+.bc-accent-text { color:var(--color-accent); }
+.bc-type-row { display:flex;gap:8px;margin-bottom:16px; }
+.bc-textarea { min-height:80px;resize:vertical; }
+.bc-mb-16 { margin-bottom:16px; }
+.bc-field-label { font-size:13px;font-weight:600;margin-bottom:8px;color:var(--color-text-secondary); }
+.bc-chip-wrap { display:flex;flex-wrap:wrap;gap:8px; }
+.bc-options-row { display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:16px; }
+.bc-inline-row { display:flex;align-items:center;gap:4px;font-size:14px; }
+.bc-duration-select { width:auto;padding:4px 8px; }
+.bc-error { margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
+.bc-send-btn { width:auto;color:#fff;border:none; }
+.bc-tpl-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px; }
+.bc-tpl-card { padding:12px 16px;cursor:pointer;font-size:13px;text-align:center; }
+.bc-table-title { font-size:16px;font-weight:600; }
+.bc-empty-cell { text-align:center;color:var(--color-text-secondary);padding:24px; }
+.bc-secondary { color:var(--color-text-secondary); }
 </style>
