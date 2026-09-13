@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import api, { apiGet, apiPost } from '@/utils/api'
 import type {
   ApiResponse, TimetableData, TimetableSubject, TimetablePeriod, TimetableEntry, TimetableWeekType,
-  TimetableChangeRequest, TimetableTeacherSchedule,
+  TimetableChangeRequest,
 } from '@/types'
 
 const loading = ref(true)
@@ -12,11 +12,6 @@ const subjects = ref<TimetableSubject[]>([])
 const periods = ref<TimetablePeriod[]>([])
 const entries = ref<TimetableEntry[]>([])
 const changes = ref<TimetableChangeRequest[]>([])
-
-// 视图切换：班级课表（可编辑） / 我的课表（跨班聚合，只读）
-const viewMode = ref<'class' | 'mine'>('class')
-const mySchedule = ref<TimetableTeacherSchedule | null>(null)
-const myScheduleLoading = ref(false)
 
 const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const saveMessage = ref('')
@@ -79,29 +74,6 @@ async function loadData() {
 
 function entriesAt(weekday: number, periodIndex: number): TimetableEntry[] {
   return entries.value.filter(e => e.weekday === weekday && e.period_index === periodIndex)
-}
-
-async function switchView(mode: 'class' | 'mine') {
-  viewMode.value = mode
-  if (mode === 'mine' && !mySchedule.value) {
-    myScheduleLoading.value = true
-    try {
-      const res = await apiGet<ApiResponse<TimetableTeacherSchedule>>('/api/v1/teacher/timetable/my-schedule')
-      mySchedule.value = res.data || null
-    } catch {
-      mySchedule.value = null
-    } finally {
-      myScheduleLoading.value = false
-    }
-  }
-}
-
-function myEntriesAt(weekday: number, periodIndex: number) {
-  return mySchedule.value?.entries.filter(e => e.weekday === weekday && e.period_index === periodIndex) || []
-}
-
-function mySubjectColor(name: string): string | null {
-  return mySchedule.value?.subjects.find(s => s.name === name)?.color || null
 }
 
 function subjectColor(name: string): string | null {
@@ -235,26 +207,22 @@ async function exportCses() {
     <div class="page-head">
       <h2 class="page-title">课表管理</h2>
       <div class="head-actions">
-        <div class="view-tabs">
-          <button :class="['view-tab', { active: viewMode === 'class' }]" @click="switchView('class')">班级课表</button>
-          <button :class="['view-tab', { active: viewMode === 'mine' }]" @click="switchView('mine')">我的课表</button>
-        </div>
-        <button v-if="viewMode === 'class'" class="btn btn-sm btn-ghost" :disabled="exportStatus === 'loading'" @click="exportCses">
+        <router-link :to="{ name: 'teacher-my-timetable' }" class="btn btn-sm btn-ghost">📆 我的课表</router-link>
+        <button class="btn btn-sm btn-ghost" :disabled="exportStatus === 'loading'" @click="exportCses">
           {{ exportStatus === 'loading' ? '导出中...' : exportStatus === 'error' ? '导出失败' : '导出 CSES (ClassIsland)' }}
         </button>
-        <button v-if="viewMode === 'class'" class="btn btn-sm btn-primary" :class="{ 'btn-state-loading': saveStatus === 'loading', 'btn-state-success': saveStatus === 'success', 'btn-state-error': saveStatus === 'error' }" :disabled="saveStatus === 'loading'" @click="saveTimetable">
+        <button class="btn btn-sm btn-primary" :class="{ 'btn-state-loading': saveStatus === 'loading', 'btn-state-success': saveStatus === 'success', 'btn-state-error': saveStatus === 'error' }" :disabled="saveStatus === 'loading'" @click="saveTimetable">
           {{ { idle: '提交审核', loading: '提交中...', success: '已提交 ✓', error: '提交失败' }[saveStatus] }}
         </button>
       </div>
     </div>
-    <div v-if="viewMode === 'class' && saveMessage" class="save-tip">{{ saveMessage }}</div>
-    <div v-else-if="viewMode === 'class' && pendingCount > 0" class="save-tip save-tip--pending">有 {{ pendingCount }} 条修改申请待管理员审核，审核通过前课表保持现状</div>
+    <div v-if="saveMessage" class="save-tip">{{ saveMessage }}</div>
+    <div v-else-if="pendingCount > 0" class="save-tip save-tip--pending">有 {{ pendingCount }} 条修改申请待管理员审核，审核通过前课表保持现状</div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
     <div v-else-if="loadError" class="error-banner">{{ loadError }}</div>
 
     <template v-else>
-      <template v-if="viewMode === 'class'">
       <div class="config-grid">
         <div class="card">
           <div class="card-head">
@@ -346,47 +314,6 @@ async function exportCses() {
             <span v-if="c.review_note" class="change-note" :title="c.review_note">{{ c.review_note }}</span>
           </div>
         </div>
-      </div>
-      </template>
-
-      <!-- 我的课表：按教师姓名聚合全校排课（跨班，只读） -->
-      <div v-else class="card">
-        <div class="card-head">
-          <h3 class="card-title">我的课表<span v-if="mySchedule" class="text-muted-13">（{{ mySchedule.teacher_name }} · {{ mySchedule.entries.length }} 节）</span></h3>
-          <label class="weekend-toggle">
-            <input v-model="showWeekend" type="checkbox" />
-            显示周末
-          </label>
-        </div>
-        <div v-if="myScheduleLoading" class="empty-state">加载中...</div>
-        <div v-else-if="!mySchedule || mySchedule.entries.length === 0" class="empty-state">暂未找到您的排课记录（按教师姓名匹配各班排课，可让管理员核对任课设置与排课中的教师姓名）</div>
-        <div v-else class="table-scroll">
-          <table class="grid-table">
-            <thead>
-              <tr>
-                <th class="corner-th">节次</th>
-                <th v-for="d in visibleWeekdays" :key="d">{{ WEEKDAY_LABELS[d - 1] }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="p in mySchedule.periods" :key="p.period_index">
-                <td class="period-cell">
-                  <div class="fw-600">第{{ p.period_index }}节</div>
-                  <div class="time-hint">{{ p.start_time }}–{{ p.end_time }}</div>
-                </td>
-                <td v-for="d in visibleWeekdays" :key="d" class="slot-cell slot-cell--readonly">
-                  <div v-for="e in myEntriesAt(d, p.period_index)" :key="e.week_type + e.class_id" class="slot-entry" :style="mySubjectColor(e.subject_name) ? { borderColor: mySubjectColor(e.subject_name) || undefined } : {}">
-                    <span class="slot-subject">{{ e.subject_name }}</span>
-                    <span class="slot-class">{{ e.class_name }}</span>
-                    <span v-if="e.week_type !== 'all'" class="slot-week">{{ WEEK_TYPE_LABELS[e.week_type] }}</span>
-                    <span v-if="e.room" class="slot-meta">{{ e.room }}</span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="muted-tip">按教师姓名聚合您在全校各班的排课；同一时段如出现多班即为冲突，请联系管理员调整。</p>
       </div>
     </template>
 
@@ -509,9 +436,4 @@ async function exportCses() {
 .status-badge.approved { background: #d1fae5; color: #065f46 }
 .status-badge.rejected { background: #fee2e2; color: #991b1b }
 .change-note { color: var(--color-text-secondary, #86868b); max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
-.view-tabs { display: inline-flex; background: var(--color-bg, #f7f7f9); border-radius: 9999px; padding: 2px }
-.view-tab { border: none; background: none; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 9999px; cursor: pointer; color: var(--color-text-secondary, #86868b) }
-.view-tab.active { background: #fff; color: var(--color-text); box-shadow: 0 1px 4px rgba(0,0,0,.1) }
-.slot-cell--readonly { cursor: default }
-.slot-class { font-size: 10px; font-weight: 600; color: #007aff }
 </style>

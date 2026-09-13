@@ -227,6 +227,7 @@ export interface TimetableImportSummary {
   errors: string[]
   dry_run: boolean
   imported: boolean
+  subjects_auto_colored?: number
 }
 
 // 课表修改申请（教师提交 → 管理员审核）

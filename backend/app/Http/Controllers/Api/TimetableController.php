@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\TimetableExport;
+use App\Exports\TimetableSchoolExport;
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\User;
@@ -11,6 +13,8 @@ use App\Services\TeacherClassScope;
 use App\Services\TimetableService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -160,6 +164,40 @@ class TimetableController extends Controller
         $this->timetableService->adminSave((int) $class->id, (int) $request->user()->school_id, $this->validatedPayload($request));
 
         return response()->json(['message' => '课表已保存并即时生效']);
+    }
+
+    /** 导出某班课表 Excel（.xlsx，节次 × 星期网格） */
+    public function adminExportClassExcel(Request $request, int $classId): BinaryFileResponse
+    {
+        $class = $this->resolveAdminClass($request, $classId);
+
+        if (!$class) {
+            abort(404, '班级不存在');
+        }
+
+        $grid = $this->timetableService->excelGrid((int) $class->id, (int) $request->user()->school_id);
+
+        return Excel::download(new TimetableExport($grid['class_name'], $grid['rows']), $grid['class_name'] . '-课表.xlsx');
+    }
+
+    /** 导出全校课表 Excel（每班一个工作表） */
+    public function adminExportSchoolExcel(Request $request): BinaryFileResponse|JsonResponse
+    {
+        $schoolId = (int) $request->user()->school_id;
+        $classes = ClassRoom::where('school_id', $schoolId)->orderBy('grade')->orderBy('name')->get(['id', 'name']);
+
+        if ($classes->isEmpty()) {
+            return response()->json(['message' => '暂无班级可导出'], 404);
+        }
+
+        TimetableExport::$usedTitles = [];
+        $sheets = [];
+        foreach ($classes as $class) {
+            $grid = $this->timetableService->excelGrid((int) $class->id, $schoolId);
+            $sheets[] = new TimetableExport($grid['class_name'], $grid['rows']);
+        }
+
+        return Excel::download(new TimetableSchoolExport($sheets), '全校课表.xlsx');
     }
 
     /** 校验班级属于管理员所在学校（防越权） */

@@ -47,6 +47,7 @@ const router = createRouter({
         { path: 'broadcast', name: 'teacher-broadcast', component: () => import('@/pages/teacher/BroadcastPage.vue') },
         { path: 'attendance', name: 'teacher-attendance', component: () => import('@/pages/teacher/AttendancePage.vue') },
         { path: 'timetable', name: 'teacher-timetable', component: () => import('@/pages/teacher/TimetablePage.vue') },
+        { path: 'my-timetable', name: 'teacher-my-timetable', component: () => import('@/pages/teacher/MyTimetablePage.vue') },
         { path: 'ai', name: 'teacher-ai', component: () => import('@/pages/teacher/AIPage.vue') },
         { path: 'notices', name: 'teacher-notices', component: () => import('@/pages/teacher/NoticesPage.vue') },
         { path: 'reports', name: 'teacher-reports', component: () => import('@/pages/teacher/ReportsPage.vue') },

@@ -94,6 +94,7 @@ Route::prefix('v1')->group(function () {
             // 课表：管理员直接读取 / 编辑某班课表（即时生效，不走审核流）+ 任课设置
             Route::get('{classId}/timetable', [TimetableController::class, 'adminShow']);
             Route::match(['put', 'post'], '{classId}/timetable', [TimetableController::class, 'adminSave']);
+            Route::get('{classId}/timetable/export-excel', [TimetableController::class, 'adminExportClassExcel']);
             Route::get('{classId}/teacher-assignments', [TimetableController::class, 'listAssignments']);
             Route::match(['put', 'post'], '{classId}/teacher-assignments', [TimetableController::class, 'saveAssignments']);
         });
@@ -141,6 +142,7 @@ Route::prefix('v1')->group(function () {
         });
         // 课表批量导入（CSV，dry_run 预览）与规则自动排课（单班计算 / 全校智能排课）
         Route::post('timetable/import-csv', [TimetableController::class, 'adminImportCsv']);
+        Route::get('timetable/export-excel', [TimetableController::class, 'adminExportSchoolExcel']);
         Route::post('timetable/generate', [TimetableController::class, 'generate']);
         Route::post('timetable/generate-school', [TimetableController::class, 'generateSchool']);
         // 教师不可用时段（排课时视为占用）与编辑中排课的冲突检查

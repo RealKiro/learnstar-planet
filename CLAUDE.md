@@ -89,7 +89,7 @@ learnstar-planet/
 │   │   ├── Http/Resources/        # JsonResource 响应类
 │   │   └── Livewire/              # ⚠️ 遗留死代码（无路由可达，待清理，见「前端」小节）
 │   ├── database/migrations/       # 36 个迁移（含 2026_08_05 计费/班级码/汇率）
-│   └── routes/api.php             # 约 204 条路由定义（get 87 / post 84 / put 22 / delete 11）
+│   └── routes/api.php             # 约 206 条路由定义（get 89 / post 87 / put 22 / delete 11）
 │
 ├── mini-program/                   # 微信小程序
 │   └── pages/                     # 10 个页面

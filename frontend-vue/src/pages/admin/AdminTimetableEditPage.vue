@@ -87,6 +87,32 @@ const importSummary = ref<TimetableImportSummary | null>(null)
 const importLoading = ref(false)
 const importError = ref('')
 
+// ===== Excel 导出 =====
+const excelExporting = ref(false)
+const excelExportError = ref('')
+
+async function exportExcel(schoolWide: boolean) {
+  excelExporting.value = true
+  excelExportError.value = ''
+  try {
+    const requestUrl = schoolWide
+      ? '/api/v1/admin/timetable/export-excel'
+      : `/api/v1/admin/classes/${currentClassId.value}/timetable/export-excel`
+    const res = await api.get<Blob>(requestUrl, { responseType: 'blob' })
+    const objectUrl = URL.createObjectURL(res.data)
+    const link = document.createElement('a')
+    link.href = objectUrl
+    link.download = schoolWide ? '全校课表.xlsx' : `${currentClass.value?.name || '班级'}-课表.xlsx`
+    link.click()
+    URL.revokeObjectURL(objectUrl)
+  } catch {
+    excelExportError.value = '导出失败，请重试'
+    setTimeout(() => { excelExportError.value = '' }, 3000)
+  } finally {
+    excelExporting.value = false
+  }
+}
+
 onMounted(async () => {
   loading.value = true
   try {
@@ -506,6 +532,8 @@ async function submitImport(dryRun: boolean) {
         </select>
         <button class="btn btn-sm btn-ghost" @click="openGenModal">⚙️ 自动排课</button>
         <button class="btn btn-sm btn-ghost" @click="openUnavailModal">🚫 教师不可用</button>
+        <button class="btn btn-sm btn-ghost" :disabled="excelExporting" @click="exportExcel(false)">{{ excelExporting ? '导出中...' : '📊 导出本班 Excel' }}</button>
+        <button class="btn btn-sm btn-ghost" :disabled="excelExporting" @click="exportExcel(true)">📊 导出全校 Excel</button>
         <button class="btn btn-sm btn-primary" :class="{ 'btn-state-loading': saveStatus === 'loading', 'btn-state-success': saveStatus === 'success', 'btn-state-error': saveStatus === 'error' }" :disabled="saveStatus === 'loading'" @click="saveTimetable">
           {{ { idle: '保存课表', loading: '保存中...', success: '已保存 ✓', error: '保存失败' }[saveStatus] }}
         </button>
@@ -513,6 +541,7 @@ async function submitImport(dryRun: boolean) {
     </div>
     <div v-if="saveMessage" class="save-tip">{{ saveMessage }}</div>
     <div v-else-if="saveStatus === 'idle'" class="save-tip save-tip--pending">管理员修改保存后即时生效；教师提交的修改仍需在此审核。自动排课见「自动排课」按钮与下方批量导入。</div>
+    <div v-if="excelExportError" class="field-error">{{ excelExportError }}</div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
     <div v-else-if="loadError" class="error-banner">{{ loadError }}</div>
@@ -662,7 +691,7 @@ async function submitImport(dryRun: boolean) {
         </div>
         <div v-if="importError" class="field-error">{{ importError }}</div>
         <div v-if="importSummary" class="import-summary">
-          <div class="text-muted-13">共 {{ importSummary.total_rows }} 行 · 覆盖 {{ importSummary.classes.filter(c => c.found).length }} 个班级 · {{ importSummary.period_count }} 个节次{{ importSummary.imported ? ' · 已导入' : ' · 预览（未落库）' }}</div>
+          <div class="text-muted-13">共 {{ importSummary.total_rows }} 行 · 覆盖 {{ importSummary.classes.filter(c => c.found).length }} 个班级 · {{ importSummary.period_count }} 个节次{{ importSummary.subjects_auto_colored ? ` · 自动配色 ${importSummary.subjects_auto_colored} 个新科目` : '' }}{{ importSummary.imported ? ' · 已导入' : ' · 预览（未落库）' }}</div>
           <div v-for="(c, i) in importSummary.classes" :key="i" class="import-class-row">
             <span>{{ c.grade }} {{ c.name }}</span>
             <span :class="c.found ? 'fw-600' : 'text-muted-13'">{{ c.found ? `${c.entry_count} 节` : '班级不存在，跳过' }}</span>

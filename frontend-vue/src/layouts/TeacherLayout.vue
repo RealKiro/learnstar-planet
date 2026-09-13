@@ -38,6 +38,7 @@ const FULL_NAV = [
     { page: 'teacher-scores', label: '课堂评价', icon: '✏️' },
     { page: 'teacher-rules', label: '积分规则', icon: '📋' },
     { page: 'teacher-timetable', label: '课表管理', icon: '🗓️' },
+    { page: 'teacher-my-timetable', label: '我的课表', icon: '📆' },
   ]},
   { section: '成长激励', items: [
     { page: 'teacher-leaderboard', label: '排行榜单', icon: '🏆' },

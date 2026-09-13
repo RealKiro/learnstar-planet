@@ -443,7 +443,9 @@ GET /teacher/scores/history?student_id=1&page=1
 | `/admin/timetable/changes/{id}/reject` | POST | 驳回申请（`note` 为驳回原因） |
 | `/admin/classes/{classId}/timetable` | GET/POST | 管理员直接读取 / 保存某班课表（即时生效，不走审核；保存后该班待审申请自动作废） |
 | `/admin/classes/{classId}/teacher-assignments` | GET/POST | 任课设置读取 / 整体保存（班级 × 科目 → 教师） |
-| `/admin/timetable/import-csv` | POST | CSV 批量导入全校课表（`dry_run=true` 只预览；按班级整体覆盖） |
+| `/admin/timetable/import-csv` | POST | CSV 批量导入全校课表（`dry_run=true` 只预览；按班级整体覆盖；新科目无颜色时按色板自动配色，同名科目全校同色） |
+| `/admin/classes/{classId}/timetable/export-excel` | GET | 导出某班课表 Excel（.xlsx，节次 × 星期网格） |
+| `/admin/timetable/export-excel` | GET | 导出全校课表 Excel（每班一个工作表） |
 | `/admin/timetable/generate` | POST | 单班规则自动排课（每周节数 / 连堂 / 每日上限 / 限上下午 / 禁排节次；只计算不落库） |
 | `/admin/timetable/generate-school` | POST | 全校智能排课（依据任课表，教师冲突与不可用时段为硬约束；`commit=true` 落库） |
 | `/admin/timetable/unavailabilities` | GET | 全校教师不可用时段列表 |
@@ -746,6 +748,7 @@ const token = res.data.data.token
 
 | 日期 | 版本 | 变更内容 |
 |------|------|---------|
+| 2026-09-13 | v1.6 | 课表收尾：排课结果导出 Excel（单班 / 全校多工作表）、科目自动配色（CSV 导入与保存时保留已有颜色，新科目按色板稳定分配）；「我的课表」独立页（teacher/my-timetable） |
 | 2026-09-13 | v1.5 | 课表增强：教师跨班「我的课表」（my-schedule）、教师不可用时段（unavailabilities GET/POST，接入全校排课与冲突检查）、编辑中排课冲突检查（check-conflicts）；管理员课表中心（直接编辑 / CSV 批量导入 / 规则自动排课 / 全校智能排课） |
 | 2026-09-13 | v1.3 | 新增课表接口（timetable show / 修改申请审核流 / export-cses，支持导出 CSES 对接 ClassIsLand；新增大屏只读课表与免登录 CSES 导出）；下线成绩管理接口（grades） |
 | 2026-07-19 | v1.2 | 新增 PK 战场、班级码登录、系列切换接口；重构路由结构 |

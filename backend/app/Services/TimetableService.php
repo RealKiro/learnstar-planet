@@ -31,59 +31,50 @@ class TimetableService
 
     private const WEEK_TYPES = ['all', 'odd', 'even'];
 
-    /** 初始化数据：科目名列表 + 节次 + 该班排课（排课以科目名返回） */
-    public function bootstrap(int $classId, int $schoolId): array
+    /** 科目默认色板：新科目无颜色时按名称稳定分配（同名科目全校颜色一致） */
+    private const SUBJECT_PALETTE = [
+        '#5B8FF9', '#5AD8A6', '#F6BD16', '#E8684A', '#6DC8EC',
+        '#9270CA', '#FF9D4D', '#269A99', '#FF99C3', '#A0D911',
+        '#722ED1', '#13C2C2', '#FA8C16', '#EB2F96', '#52C41A',
+    ];
+
+    /** 按科目名从色板稳定取色（同名同色，跨班级 / 跨导入一致） */
+    public function paletteColor(string $name): string
     {
-        $subjects = Subject::where('school_id', $schoolId)
-            ->orderBy('sort_order')->orderBy('id')
-            ->get(['id', 'name', 'simplified_name', 'color']);
-
-        $nameById = $subjects->pluck('name', 'id');
-
-        $entries = TimetableEntry::where('class_id', $classId)
-            ->orderBy('weekday')->orderBy('period_index')
-            ->get(['weekday', 'period_index', 'week_type', 'subject_id', 'teacher_name', 'room'])
-            ->map(fn (TimetableEntry $e) => [
-                'weekday' => (int) $e->weekday,
-                'period_index' => (int) $e->period_index,
-                'week_type' => (string) ($e->week_type ?: 'all'),
-                'subject_name' => $e->subject_id ? ($nameById[$e->subject_id] ?? null) : null,
-                'teacher_name' => $e->teacher_name,
-                'room' => $e->room,
-            ])
-            ->values();
-
-        return [
-            'subjects' => $subjects->map(fn (Subject $s) => [
-                'name' => $s->name,
-                'simplified_name' => $s->simplified_name,
-                'color' => $s->color,
-            ])->values(),
-            'periods' => ClassPeriod::where('school_id', $schoolId)
-                ->orderBy('period_index')
-                ->get(['period_index', 'name', 'start_time', 'end_time']),
-            'entries' => $entries,
-        ];
+        return self::SUBJECT_PALETTE[abs(crc32($name)) % count(self::SUBJECT_PALETTE)];
     }
 
     /**
      * 整体保存：科目 upsert → 节次 upsert → 该班排课先清后插。
      *
+     * 科目若未传 color / simplified_name（如 CSV 导入、教师端保存），保留库中已有值；
+     * 两者皆无时按色板自动配色。返回本次自动配色的科目数。
+     *
      * @param  array{subjects?: array<int, array<string, mixed>>, periods?: array<int, array<string, mixed>>, entries?: array<int, array<string, mixed>>}  $payload
      */
-    public function save(int $classId, int $schoolId, array $payload): void
+    public function save(int $classId, int $schoolId, array $payload): int
     {
-        DB::transaction(function () use ($classId, $schoolId, $payload): void {
+        $autoColored = 0;
+
+        DB::transaction(function () use ($classId, $schoolId, $payload, &$autoColored): void {
             foreach (array_values($payload['subjects'] ?? []) as $i => $s) {
                 $name = trim((string) ($s['name'] ?? ''));
                 if ($name === '') {
                     continue;
                 }
+                $existing = Subject::where('school_id', $schoolId)->where('name', $name)->first(['simplified_name', 'color']);
+                $prevColor = $existing !== null ? $existing->color : null;
+                $prevSimplified = $existing !== null ? $existing->simplified_name : null;
+                $color = $s['color'] ?? $prevColor;
+                if ($color === null || $color === '') {
+                    $color = $this->paletteColor($name);
+                    $autoColored++;
+                }
                 Subject::updateOrCreate(
                     ['school_id' => $schoolId, 'name' => $name],
                     [
-                        'simplified_name' => $s['simplified_name'] ?? null,
-                        'color' => $s['color'] ?? null,
+                        'simplified_name' => $s['simplified_name'] ?? $prevSimplified,
+                        'color' => $color,
                         'sort_order' => $i,
                     ],
                 );
@@ -131,6 +122,45 @@ class TimetableService
                 ]);
             }
         });
+
+        return $autoColored;
+    }
+
+    /**
+     * 初始化数据：科目名列表 + 节次 + 该班排课（排课以科目名返回）
+     */
+    public function bootstrap(int $classId, int $schoolId): array
+    {
+        $subjects = Subject::where('school_id', $schoolId)
+            ->orderBy('sort_order')->orderBy('id')
+            ->get(['id', 'name', 'simplified_name', 'color']);
+
+        $nameById = $subjects->pluck('name', 'id');
+
+        $entries = TimetableEntry::where('class_id', $classId)
+            ->orderBy('weekday')->orderBy('period_index')
+            ->get(['weekday', 'period_index', 'week_type', 'subject_id', 'teacher_name', 'room'])
+            ->map(fn (TimetableEntry $e) => [
+                'weekday' => (int) $e->weekday,
+                'period_index' => (int) $e->period_index,
+                'week_type' => (string) ($e->week_type ?: 'all'),
+                'subject_name' => $e->subject_id ? ($nameById[$e->subject_id] ?? null) : null,
+                'teacher_name' => $e->teacher_name,
+                'room' => $e->room,
+            ])
+            ->values();
+
+        return [
+            'subjects' => $subjects->map(fn (Subject $s) => [
+                'name' => $s->name,
+                'simplified_name' => $s->simplified_name,
+                'color' => $s->color,
+            ])->values(),
+            'periods' => ClassPeriod::where('school_id', $schoolId)
+                ->orderBy('period_index')
+                ->get(['period_index', 'name', 'start_time', 'end_time']),
+            'entries' => $entries,
+        ];
     }
 
     /**
@@ -448,10 +478,11 @@ class TimetableService
         }
 
         $importable = array_values(array_filter($classes, fn ($c) => $c['class_id'] !== null));
+        $autoColored = 0;
 
-        DB::transaction(function () use ($importable, $periods, $schoolId): void {
+        DB::transaction(function () use ($importable, $periods, $schoolId, &$autoColored): void {
             foreach ($importable as $c) {
-                $this->save((int) $c['class_id'], $schoolId, [
+                $autoColored += $this->save((int) $c['class_id'], $schoolId, [
                     'subjects' => array_map(fn (string $n) => ['name' => $n], array_values(array_unique($c['subjects']))),
                     'periods' => collect($periods)
                         ->map(fn (array $p, int $idx) => ['period_index' => $idx, 'start_time' => $p['start_time'], 'end_time' => $p['end_time']])
@@ -471,6 +502,7 @@ class TimetableService
         });
 
         $summary['imported'] = true;
+        $summary['subjects_auto_colored'] = $autoColored;
 
         return $summary;
     }
@@ -1278,5 +1310,71 @@ class TimetableService
     private function yamlString(string $value): string
     {
         return '"' . str_replace(['\\', '"'], ['\\\\', '\\"'], $value) . '"';
+    }
+
+    // ============================================================
+    // Excel 导出（排课结果 → xlsx，节次 × 星期网格）
+    // ============================================================
+
+    /**
+     * 某班课表的 Excel 网格数据：标题行 + 表头（节次 / 时间 / 星期）+ 每节一行。
+     *
+     * 上课日列数取「排课中出现的最大星期」与 5 的较大者。
+     *
+     * @return array{class_name: string, rows: array<int, array<int, string>>}
+     */
+    public function excelGrid(int $classId, int $schoolId): array
+    {
+        $className = (string) (ClassRoom::where('id', $classId)->value('name') ?: '班级');
+        $nameById = Subject::where('school_id', $schoolId)->pluck('name', 'id');
+
+        // 单元格：weekday => period_index => 文本（多行，单双周多条并存）
+        $cells = [];
+        $maxDay = 5;
+        foreach (TimetableEntry::where('class_id', $classId)
+            ->orderBy('weekday')->orderBy('period_index')
+            ->get(['weekday', 'period_index', 'week_type', 'subject_id', 'teacher_name', 'room']) as $e) {
+            if (!$e->subject_id) {
+                continue;
+            }
+            $subject = (string) ($nameById[$e->subject_id] ?? '');
+            if ($subject === '') {
+                continue;
+            }
+            $weekday = (int) $e->weekday;
+            $periodIndex = (int) $e->period_index;
+            $maxDay = max($maxDay, $weekday);
+
+            $week = (string) ($e->week_type ?: 'all');
+            $lines = [$subject . ($week === 'all' ? '' : ($week === 'odd' ? '（单周）' : '（双周）'))];
+            $meta = implode(' · ', array_filter([(string) ($e->teacher_name ?? ''), (string) ($e->room ?? '')]));
+            if ($meta !== '') {
+                $lines[] = $meta;
+            }
+            $cells[$weekday][$periodIndex][] = implode("\n", $lines);
+        }
+
+        $periods = ClassPeriod::where('school_id', $schoolId)
+            ->orderBy('period_index')
+            ->get(['period_index', 'start_time', 'end_time']);
+
+        $rows = [];
+        $rows[] = [$className . ' 课表'];
+        $rows[] = [];
+        $header = ['节次', '时间'];
+        for ($d = 1; $d <= $maxDay; $d++) {
+            $header[] = self::WEEKDAY_LABELS[$d];
+        }
+        $rows[] = $header;
+
+        foreach ($periods as $p) {
+            $row = ['第' . $p->period_index . '节', $p->start_time . '-' . $p->end_time];
+            for ($d = 1; $d <= $maxDay; $d++) {
+                $row[] = implode("\n", $cells[$d][(int) $p->period_index] ?? []);
+            }
+            $rows[] = $row;
+        }
+
+        return ['class_name' => $className, 'rows' => $rows];
     }
 }
