@@ -92,14 +92,14 @@ async function submitEdit() {
 
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
-    <div style="max-width:520px;width:100%;">
+    <div class="etm-wrap">
       <div class="modal-header">
         <h3 class="card-title">
           &#9999;&#65039; 编辑教师信息 — {{ teacher?.name }}
         </h3>
         <button @click="closeModal" class="icon-close">&#10005;</button>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="etm-grid-2">
         <div class="form-group">
           <label>姓名 <span class="req-star">*</span></label>
           <input v-model="editForm.name" class="form-input" placeholder="教师姓名">
@@ -120,18 +120,16 @@ async function submitEdit() {
         </div>
         <div class="form-group">
           <label>个人角色</label>
-          <div class="flex-row" style="margin-top:4px;">
+          <div class="flex-row etm-mt-4">
             <label
               v-for="opt in personalRoleOptions"
               :key="opt.v || '__none'"
-              style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;padding:4px 10px;border-radius:6px;border:1px solid var(--color-border);user-select:none;"
-              :style="editForm.personalRole === opt.v ? { background: opt.bg, color: '#fff' } : { background: 'var(--color-bg-card)', color: 'var(--color-text)' }"
+              :style="editForm.personalRole === opt.v ? { background: opt.bg, color: '#fff' } : { background: 'var(--color-bg-card)', color: 'var(--color-text)' }" class="etm-chip"
             >
               <input
                 type="radio"
                 :value="opt.v"
-                v-model="editForm.personalRole"
-                style="opacity:0;position:absolute;width:0;height:0;pointer-events:none;"
+                v-model="editForm.personalRole" class="etm-hidden-input"
               >
               {{ opt.l }}
             </label>
@@ -146,11 +144,10 @@ async function submitEdit() {
           <input v-model="editForm.email" class="form-input" placeholder="邮箱地址">
         </div>
       </div>
-      <div v-if="editError" style="margin-top:16px;margin-bottom:-12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ editError }}</div>
-      <div class="modal-footer" style="justify-content:flex-end;margin-top:20px;">
+      <div v-if="editError" class="etm-error">{{ editError }}</div>
+      <div class="modal-footer etm-footer-end">
         <button
-          @click="closeModal"
-          style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
+          @click="closeModal" class="etm-btn-outline"
         >
           取消
         </button>
@@ -206,4 +203,13 @@ async function submitEdit() {
 .modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
 .flex-row { display:flex; gap:8px; }
 .flex-1 { flex:1; }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.etm-wrap { max-width:520px;width:100%; }
+.etm-grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+.etm-mt-4 { margin-top:4px; }
+.etm-chip { display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;padding:4px 10px;border-radius:6px;border:1px solid var(--color-border);user-select:none; }
+.etm-hidden-input { opacity:0;position:absolute;width:0;height:0;pointer-events:none; }
+.etm-error { margin-top:16px;margin-bottom:-12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
+.etm-footer-end { justify-content:flex-end;margin-top:20px; }
+.etm-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
 </style>

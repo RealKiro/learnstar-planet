@@ -88,12 +88,12 @@ function onTabChange(tab: typeof activeTab.value) {
     </div>
 
     <div v-if="activeTab === 'diagnose'" class="tab-content">
-      <div class="card" style="max-width:640px;padding:32px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">🔍 系统诊断</h3>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">
+      <div class="card dbg-card">
+        <h3 class="dbg-title">🔍 系统诊断</h3>
+        <p class="dbg-desc">
           检查数据库表结构完整性，检测到缺失字段可一键修复
         </p>
-        <div style="display:flex;gap:12px;margin-bottom:16px;">
+        <div class="dbg-row">
           <button class="btn btn-outline" :style="{ background: diagnoseStatus === 'loading' ? '#f59e0b' : diagnoseStatus === 'success' ? '#10b981' : diagnoseStatus === 'error' ? '#ef4444' : '', color: diagnoseStatus !== 'idle' ? '#fff' : '', border: diagnoseStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="diagnoseStatus !== 'idle'" @click="diagnose">
             <template v-if="diagnoseStatus === 'loading'">诊断中...</template>
             <template v-else-if="diagnoseStatus === 'success'">诊断完成 ✓</template>
@@ -128,11 +128,11 @@ function onTabChange(tab: typeof activeTab.value) {
 
     <!-- ===== 系统状态 ===== -->
     <div v-if="activeTab === 'status'" class="tab-content">
-      <div class="card" style="max-width:640px;padding:32px;">
+      <div class="card dbg-card">
         <h3 class="section-title">📊 系统状态</h3>
         <div v-if="statusLoading" class="loading">加载中...</div>
         <div v-else-if="sysStatus">
-          <div style="margin-bottom:24px;">
+          <div class="dbg-mb-24">
             <h4 class="section-title">版本信息</h4>
             <div class="status-grid">
               <div v-for="(val, key) in sysStatus.version" :key="key" class="status-item">
@@ -149,7 +149,7 @@ function onTabChange(tab: typeof activeTab.value) {
                 <span class="mig-name">{{ m.migration }}</span>
               </div>
             </div>
-            <div v-else style="padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary);">
+            <div v-else class="dbg-empty">
               暂无迁移记录
             </div>
           </div>
@@ -204,4 +204,11 @@ function onTabChange(tab: typeof activeTab.value) {
 .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-outline { background: var(--color-bg-card); color: var(--color-text); border: 1px solid var(--color-border); }
 .btn-outline:hover { background: var(--tint-3); }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.dbg-card { max-width:640px;padding:32px; }
+.dbg-title { font-size:16px;font-weight:600;margin-bottom:4px; }
+.dbg-desc { font-size:13px;color:var(--color-text-secondary);margin-bottom:16px; }
+.dbg-row { display:flex;gap:12px;margin-bottom:16px; }
+.dbg-mb-24 { margin-bottom:24px; }
+.dbg-empty { padding:12px;text-align:center;font-size:13px;color:var(--color-text-secondary); }
 </style>

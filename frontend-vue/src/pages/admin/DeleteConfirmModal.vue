@@ -65,31 +65,29 @@ async function confirmDelete() {
 
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
-    <div style="max-width:400px;width:100%;padding:4px 0;">
-      <div class="modal-header" style="margin-bottom:12px;">
+    <div class="del-wrap">
+      <div class="modal-header del-mb-12">
         <h3 class="card-title">&#9888;&#65039; 确认删除</h3>
         <button @click="closeModal" class="icon-close">&#10005;</button>
       </div>
-      <div style="text-align:center;padding:8px 0;">
-        <div style="font-size:40px;margin-bottom:8px;">&#128465;&#65039;</div>
-        <p style="font-size:15px;font-weight:600;color:var(--color-text);margin-bottom:8px;">
+      <div class="del-center">
+        <div class="del-emoji">&#128465;&#65039;</div>
+        <p class="del-title">
           确定要删除教师「{{ teacher?.name }}」吗？
         </p>
-        <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px;">
+        <p class="del-desc">
           此操作将永久删除该教师账号及其所有班级任教分配，且不可恢复。
         </p>
         <div
-          v-if="teacher && teacher.assignments && teacher.assignments.some(a => a.role === 'head_teacher')"
-          style="font-size:12px;color:#dc2626;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:12px;"
+          v-if="teacher && teacher.assignments && teacher.assignments.some(a => a.role === 'head_teacher')" class="del-warn"
         >
           &#9888;&#65039; 该教师是部分班级的班主任，删除后这些班级将无班主任。
         </div>
       </div>
-      <div v-if="deleteError" style="margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ deleteError }}</div>
-      <div class="modal-footer" style="justify-content:flex-end;">
+      <div v-if="deleteError" class="del-error">{{ deleteError }}</div>
+      <div class="modal-footer del-footer-end">
         <button
-          @click="closeModal"
-          style="padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
+          @click="closeModal" class="del-btn-outline"
         >
           取消
         </button>
@@ -131,4 +129,15 @@ async function confirmDelete() {
 .modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
 .flex-row { display:flex; gap:8px; }
 .flex-1 { flex:1; }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.del-wrap { max-width:400px;width:100%;padding:4px 0; }
+.del-mb-12 { margin-bottom:12px; }
+.del-center { text-align:center;padding:8px 0; }
+.del-emoji { font-size:40px;margin-bottom:8px; }
+.del-title { font-size:15px;font-weight:600;color:var(--color-text);margin-bottom:8px; }
+.del-desc { font-size:12px;color:var(--color-text-secondary);margin-bottom:12px; }
+.del-warn { font-size:12px;color:#dc2626;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:12px; }
+.del-error { margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
+.del-footer-end { justify-content:flex-end; }
+.del-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
 </style>

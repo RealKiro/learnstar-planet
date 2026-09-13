@@ -308,23 +308,23 @@ function goToSlide(i: number) {
             <input ref="teacherPwdRef" v-model="teacherPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleTeacherLogin">
             <div v-if="loginErrors.teacherPassword" class="field-error">{{ loginErrors.teacherPassword }}</div>
           </div>
-          <button class="login-submit" :disabled="loginStatus === 'loading'" @click="handleTeacherLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#5E5CE6' }">
+          <button class="login-submit lgp-btn-solid" :disabled="loginStatus === 'loading'" @click="handleTeacherLogin" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#5E5CE6' }">
             <span v-if="loginStatus === 'idle'">🚀 登录</span>
             <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
             <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
             <span v-else>❌ 登录失败</span>
           </button>
-          <div v-if="teacherLoginError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#dc2626;font-size:12px;">{{ teacherLoginError }}</div>
+          <div v-if="teacherLoginError" class="lgp-error">{{ teacherLoginError }}</div>
           <div class="login-social">
             <div class="login-social-label"><span class="login-social-line"></span> 扫码登录 <span class="login-social-line"></span></div>
-            <div v-if="platforms.length === 0" style="font-size:12px;color:#6E6E73;padding:8px 0;">暂无可用的扫码登录方式</div>
+            <div v-if="platforms.length === 0" class="lgp-muted-12">暂无可用的扫码登录方式</div>
             <div v-else class="login-social-grid">
               <button v-for="p in platforms" :key="p.key" class="login-social-btn" @click="handleThirdPartyLogin(p.key)">
                 <span class="login-social-icon"><PlatformIcon :platform="p.key" :size="24" /></span>
                 {{ p.label }}
               </button>
             </div>
-            <div v-if="thirdPartyError" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#dc2626;font-size:12px;">{{ thirdPartyError }}</div>
+            <div v-if="thirdPartyError" class="lgp-error">{{ thirdPartyError }}</div>
           </div>
         </div>
 
@@ -339,7 +339,7 @@ function goToSlide(i: number) {
             <div v-if="loginErrors.adminPassword" class="field-error">{{ loginErrors.adminPassword }}</div>
             <input ref="adminPwdRef" v-model="adminPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleAdminLogin">
           </div>
-          <button class="login-submit login-submit--amber" :disabled="loginStatus === 'loading'" @click="handleAdminLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#d97706' }">
+          <button class="login-submit login-submit--amber lgp-btn-solid" :disabled="loginStatus === 'loading'" @click="handleAdminLogin" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#d97706' }">
             <span v-if="loginStatus === 'idle'">🚀 登录</span>
             <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
             <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
@@ -360,9 +360,9 @@ function goToSlide(i: number) {
               <input :value="classCode" class="form-input" placeholder="输入班级码（如 LS11）" maxlength="8" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @input="onClassCodeInput" @blur="validateLoginField('classCode', classCode)" @keydown.enter="handleClassLogin">
               <div v-if="loginErrors.classCode" class="field-error">{{ loginErrors.classCode }}</div>
             </div>
-            <p class="input-hint" style="font-size:12px;color:#6E6E73;margin:-8px 0 0;">如 LS11（一年级1班）</p>
-            <div v-if="classCodeError" class="error-msg" style="color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px;">{{ classCodeError }}</div>
-            <button class="login-submit login-submit--purple" :disabled="loginStatus === 'loading' || classCode.length < 3" @click="handleClassLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+            <p class="input-hint lgp-muted-12-tight">如 LS11（一年级1班）</p>
+            <div v-if="classCodeError" class="error-msg lgp-error-inline">{{ classCodeError }}</div>
+            <button class="login-submit login-submit--purple lgp-btn-solid" :disabled="loginStatus === 'loading' || classCode.length < 3" @click="handleClassLogin" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
               <span v-if="loginStatus === 'idle'">🚀 进入班级</span>
               <span v-else-if="loginStatus === 'loading'">⏳ 验证中...</span>
               <span v-else-if="loginStatus === 'success'">✅ 欢迎进入</span>
@@ -624,4 +624,10 @@ function goToSlide(i: number) {
   .intro { display: none !important; }
   .login-panel { flex: 1; }
 }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价；本页已有 login-/intro- 前缀，故用 lgp- 避免冲突） ===== */
+.lgp-btn-solid { transition:all 0.3s ease;border:none;color:#fff; }
+.lgp-error { margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#dc2626;font-size:12px; }
+.lgp-muted-12 { font-size:12px;color:#6E6E73;padding:8px 0; }
+.lgp-muted-12-tight { font-size:12px;color:#6E6E73;margin:-8px 0 0; }
+.lgp-error-inline { color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px; }
 </style>
