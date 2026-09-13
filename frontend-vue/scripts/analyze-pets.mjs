@@ -91,6 +91,19 @@ for (const id of speciesIds) {
 }
 report.interactionCoverage = { covered: interactionCovered, total: interactionTotal }
 
+// 互动叙事模板化检测：道果阶段以「把X传给/留给/教给」收尾视为套模板
+let formulaicFinale = 0
+const formulaicIds = []
+for (const id of speciesIds) {
+  const st = PET_LIFE_STORIES[id]
+  const last = st?.stages?.[5]?.interaction
+  if (last && /^(它|他|她)(把|教|受封.*留)/.test(last) && /(传给|留给|教给|教他们|教幼|教人|教孩子|教采药)/.test(last)) {
+    formulaicFinale++
+    formulaicIds.push(id)
+  }
+}
+report.formulaicFinale = { count: formulaicFinale, ids: formulaicIds }
+
 // 特质：数组长度 + 跨物种重复
 const traitDup = {}
 for (const id of speciesIds) {
@@ -136,6 +149,7 @@ console.log('诗词缺失/过短:', report.storyIssues.filter(i => i.issue.inclu
 console.log('台词缺失:', report.storyIssues.filter(i => i.issue.includes('台词')).length)
 console.log('品性缺失:', report.storyIssues.filter(i => i.issue.includes('品性')).length)
 console.log('剧情互动覆盖:', report.interactionCoverage.covered + '/' + report.interactionCoverage.total)
+console.log('道果收官模板化:', report.formulaicFinale.count, report.formulaicFinale.ids.join(','))
 console.log('视觉规格缺≥3项:', report.storyIssues.filter(i => i.issue.includes('视觉规格')).length)
 console.log('特质缺失/不足:', report.traitsIssues.length, JSON.stringify(report.traitsIssues.slice(0, 10)))
 console.log('跨物种重复特质组:', report.traitDupAcrossSpecies)
