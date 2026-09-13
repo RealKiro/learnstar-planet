@@ -181,6 +181,21 @@ export interface TimetableData {
   entries: TimetableEntry[]
 }
 
+// 课表修改申请（教师提交 → 管理员审核）
+export interface TimetableChangeRequest {
+  id: number
+  class_id: number
+  class_name?: string | null
+  grade?: string | null
+  entry_count: number
+  status: 'pending' | 'approved' | 'rejected'
+  review_note?: string | null
+  created_at?: string | null
+  reviewed_at?: string | null
+  requester_name?: string | null
+  reviewer_name?: string | null
+}
+
 // API 通用响应
 export interface ApiResponse<T> {
   data: T

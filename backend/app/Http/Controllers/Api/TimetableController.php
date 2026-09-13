@@ -45,7 +45,7 @@ class TimetableController extends Controller
         ]);
     }
 
-    /** 整体保存课表（科目 + 节次 + 排课） */
+    /** 教师提交课表修改申请（不直接生效，待学校管理员审核） */
     public function save(Request $request): JsonResponse
     {
         $teacher = $request->user();
@@ -55,6 +55,70 @@ class TimetableController extends Controller
             return response()->json(['message' => '当前账号没有可管理的班级'], 400);
         }
 
+        $payload = $this->validatedPayload($request);
+
+        $requestModel = $this->timetableService->submitChange($classId, (int) $teacher->school_id, (int) $teacher->id, $payload);
+
+        return response()->json([
+            'message' => '修改申请已提交，待管理员审核',
+            'data' => ['request_id' => $requestModel->id],
+        ], 201);
+    }
+
+    /** 我的班级申请历史 */
+    public function myChanges(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+        $classId = $this->resolveClassId($request, $teacher);
+
+        if (!$classId) {
+            return response()->json(['message' => '当前账号没有可管理的班级'], 400);
+        }
+
+        return response()->json(['data' => $this->timetableService->listChangesForClass($classId)]);
+    }
+
+    // ============================================================
+    // 管理员审批（/api/v1/admin/timetable/*，role:school_admin）
+    // ============================================================
+
+    /** 全校申请列表（可按 status 过滤） */
+    public function adminChanges(Request $request): JsonResponse
+    {
+        $status = $request->query('status');
+
+        return response()->json([
+            'data' => $this->timetableService->listChangesForSchool((int) $request->user()->school_id, $status),
+        ]);
+    }
+
+    /** 通过申请并应用 */
+    public function approve(Request $request, int $id): JsonResponse
+    {
+        $request->validate(['note' => 'nullable|string|max:200']);
+
+        $ok = $this->timetableService->approveChange($id, (int) $request->user()->id, $request->input('note'));
+
+        return $ok
+            ? response()->json(['message' => '已通过并应用课表'])
+            : response()->json(['message' => '申请不存在或已处理'], 409);
+    }
+
+    /** 驳回申请 */
+    public function reject(Request $request, int $id): JsonResponse
+    {
+        $request->validate(['note' => 'nullable|string|max:200']);
+
+        $ok = $this->timetableService->rejectChange($id, (int) $request->user()->id, $request->input('note'));
+
+        return $ok
+            ? response()->json(['message' => '已驳回'])
+            : response()->json(['message' => '申请不存在或已处理'], 409);
+    }
+
+    /** 提取并校验课表快照 payload */
+    private function validatedPayload(Request $request): array
+    {
         $request->validate([
             'subjects' => 'nullable|array',
             'subjects.*.name' => 'required_with:subjects|string|max:50',
@@ -69,13 +133,11 @@ class TimetableController extends Controller
             'entries.*.week_type' => 'nullable|string|in:all,odd,even',
         ]);
 
-        $this->timetableService->save($classId, (int) $teacher->school_id, [
+        return [
             'subjects' => $request->input('subjects', []),
             'periods' => $request->input('periods', []),
             'entries' => $request->input('entries', []),
-        ]);
-
-        return response()->json(['message' => '课表已保存']);
+        ];
     }
 
     /** 导出 CSES（.yaml），可直接在 ClassIsland「从 CSES 导入」 */

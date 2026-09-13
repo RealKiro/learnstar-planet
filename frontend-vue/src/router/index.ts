@@ -64,6 +64,7 @@ const router = createRouter({
         { path: 'classes', name: 'admin-classes', component: () => import('@/pages/admin/ClassesPage.vue') },
         { path: 'students', name: 'admin-students', component: () => import('@/pages/admin/StudentsPage.vue') },
         { path: 'score-rules', name: 'admin-score-rules', component: () => import('@/pages/admin/AdminScoreRulesPage.vue') },
+        { path: 'timetable-approvals', name: 'admin-timetable-approvals', component: () => import('@/pages/admin/TimetableApprovalsPage.vue') },
         { path: 'shop-items', name: 'admin-shop', component: () => import('@/pages/admin/AdminShopPage.vue') },
         { path: 'upgrade', name: 'admin-upgrade', component: () => import('@/pages/admin/GradeUpgradePage.vue') },
         { path: 'reports', name: 'admin-reports', component: () => import('@/pages/admin/ReportsPage.vue') },
@@ -88,6 +89,7 @@ const router = createRouter({
       children: [
         { path: '', redirect: { name: 'classroom-overview' } },
         { path: 'overview', name: 'classroom-overview', component: () => import('@/pages/teacher/DashboardPage.vue') },
+        { path: 'timetable', name: 'classroom-timetable', component: () => import('@/pages/classroom/ClassroomTimetablePage.vue') },
         { path: 'leaderboard', name: 'classroom-leaderboard', component: () => import('@/pages/teacher/LeaderboardPage.vue') },
         { path: 'scores', name: 'classroom-scores', component: () => import('@/pages/teacher/ScoresPage.vue') },
         { path: 'pk', name: 'classroom-pk', component: () => import('@/pages/classroom/PKPage.vue') },

@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\ClassPeriod;
 use App\Models\Subject;
+use App\Models\TimetableChangeRequest;
 use App\Models\TimetableEntry;
 use Illuminate\Support\Facades\DB;
 
@@ -127,6 +128,155 @@ class TimetableService
                 ]);
             }
         });
+    }
+
+    /** 大屏只读数据：节次 + 该班排课（科目名形式）+ 科目配色。week_type 原样返回，单双周归属由展示层标注 */
+    public function forDisplay(int $classId, int $schoolId): array
+    {
+        $subjects = Subject::where('school_id', $schoolId)
+            ->orderBy('sort_order')->orderBy('id')
+            ->get(['name', 'simplified_name', 'color']);
+
+        $nameById = Subject::where('school_id', $schoolId)->pluck('name', 'id');
+
+        $entries = TimetableEntry::where('class_id', $classId)
+            ->orderBy('weekday')->orderBy('period_index')
+            ->get(['weekday', 'period_index', 'week_type', 'subject_id', 'teacher_name', 'room'])
+            ->map(fn (TimetableEntry $e) => [
+                'weekday' => (int) $e->weekday,
+                'period_index' => (int) $e->period_index,
+                'week_type' => (string) ($e->week_type ?: 'all'),
+                'subject_name' => $e->subject_id ? ($nameById[$e->subject_id] ?? null) : null,
+                'teacher_name' => $e->teacher_name,
+                'room' => $e->room,
+            ])
+            ->filter(fn (array $e) => $e['subject_name'] !== null)
+            ->values();
+
+        return [
+            'subjects' => $subjects->values(),
+            'periods' => ClassPeriod::where('school_id', $schoolId)
+                ->orderBy('period_index')
+                ->get(['period_index', 'name', 'start_time', 'end_time'])
+                ->values(),
+            'entries' => $entries,
+        ];
+    }
+
+    /**
+     * 提交课表修改申请（不直接生效，待管理员审核）。
+     *
+     * @param  array{subjects?: array<int, array<string, mixed>>, periods?: array<int, array<string, mixed>>, entries?: array<int, array<string, mixed>>}  $payload
+     */
+    public function submitChange(int $classId, int $schoolId, int $teacherId, array $payload): TimetableChangeRequest
+    {
+        $entryCount = count(array_values($payload['entries'] ?? []));
+
+        return TimetableChangeRequest::create([
+            'school_id' => $schoolId,
+            'class_id' => $classId,
+            'requested_by' => $teacherId,
+            'payload' => $payload,
+            'entry_count' => $entryCount,
+            'status' => TimetableChangeRequest::STATUS_PENDING,
+        ]);
+    }
+
+    /** 审核通过并应用申请的课表快照（幂等：仅 pending 可通过） */
+    public function approveChange(int $requestId, int $reviewerId, ?string $note = null): bool
+    {
+        return DB::transaction(function () use ($requestId, $reviewerId, $note): bool {
+            $request = TimetableChangeRequest::whereKey($requestId)->lockForUpdate()->first();
+
+            if (!$request || $request->status !== TimetableChangeRequest::STATUS_PENDING) {
+                return false;
+            }
+
+            // 应用快照（save 内部也是事务，嵌套事务由 Laravel savepoint 保证）
+            $this->save((int) $request->class_id, (int) $request->school_id, $request->payload ?? []);
+
+            $request->update([
+                'status' => TimetableChangeRequest::STATUS_APPROVED,
+                'reviewed_by' => $reviewerId,
+                'review_note' => $note,
+                'reviewed_at' => now(),
+            ]);
+
+            // 该班其余 pending 申请自动作废（课表已被本次覆盖）
+            TimetableChangeRequest::where('class_id', $request->class_id)
+                ->where('status', TimetableChangeRequest::STATUS_PENDING)
+                ->update(['status' => TimetableChangeRequest::STATUS_REJECTED, 'review_note' => '已由更新的申请取代', 'reviewed_at' => now()]);
+
+            return true;
+        });
+    }
+
+    /** 驳回申请（幂等：仅 pending 可驳回） */
+    public function rejectChange(int $requestId, int $reviewerId, ?string $note = null): bool
+    {
+        $request = TimetableChangeRequest::find($requestId);
+
+        if (!$request || $request->status !== TimetableChangeRequest::STATUS_PENDING) {
+            return false;
+        }
+
+        $request->update([
+            'status' => TimetableChangeRequest::STATUS_REJECTED,
+            'reviewed_by' => $reviewerId,
+            'review_note' => $note,
+            'reviewed_at' => now(),
+        ]);
+
+        return true;
+    }
+
+    /** 某班申请历史（最新在前） */
+    public function listChangesForClass(int $classId): array
+    {
+        return TimetableChangeRequest::where('class_id', $classId)
+            ->with(['requester:id,name', 'reviewer:id,name'])
+            ->orderByDesc('id')
+            ->limit(20)
+            ->get()
+            ->map(fn (TimetableChangeRequest $r) => [
+                'id' => $r->id,
+                'class_id' => (int) $r->class_id,
+                'entry_count' => (int) $r->entry_count,
+                'status' => (string) $r->status,
+                'review_note' => $r->review_note,
+                'created_at' => $r->created_at?->toIso8601String(),
+                'reviewed_at' => $r->reviewed_at?->toIso8601String(),
+                'requester_name' => $r->requester?->name,
+                'reviewer_name' => $r->reviewer?->name,
+            ])
+            ->values()
+            ->all();
+    }
+
+    /** 管理员待办列表（全部状态，可按状态过滤，最新在前） */
+    public function listChangesForSchool(int $schoolId, ?string $status = null): array
+    {
+        return TimetableChangeRequest::where('school_id', $schoolId)
+            ->when($status !== null && $status !== '', fn ($q) => $q->where('status', $status))
+            ->with(['requester:id,name', 'reviewer:id,name', 'classRoom:id,name,grade'])
+            ->orderByDesc('id')
+            ->limit(100)
+            ->get()
+            ->map(fn (TimetableChangeRequest $r) => [
+                'id' => $r->id,
+                'class_id' => (int) $r->class_id,
+                'class_name' => $r->classRoom?->name,
+                'grade' => $r->classRoom?->grade,
+                'entry_count' => (int) $r->entry_count,
+                'status' => (string) $r->status,
+                'review_note' => $r->review_note,
+                'created_at' => $r->created_at?->toIso8601String(),
+                'reviewed_at' => $r->reviewed_at?->toIso8601String(),
+                'requester_name' => $r->requester?->name,
+                'reviewer_name' => $r->reviewer?->name,
+            ])
+            ->values()
+            ->all();
     }
 
     /**

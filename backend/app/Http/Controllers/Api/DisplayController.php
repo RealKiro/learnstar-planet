@@ -20,6 +20,7 @@ use App\Models\User;
 use App\Services\DisplayEventService;
 use App\Services\ScoreRuleService;
 use App\Services\ScoreService;
+use App\Services\TimetableService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -52,6 +53,7 @@ class DisplayController extends Controller
     public function __construct(
         private readonly DisplayEventService $eventService,
         private readonly ScoreService $scoreService,
+        private readonly TimetableService $timetableService,
     ) {
     }
 
@@ -210,6 +212,53 @@ class DisplayController extends Controller
     // ============================================================
     // 显示端 API — 初始全量数据
     // ============================================================
+
+    /**
+     * 大屏课表（只读）：节次 + 该班排课 + 科目配色
+     */
+    public function timetable(Request $request): JsonResponse
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token 无效或已过期'], 401);
+        }
+
+        $classRoom = ClassRoom::find((int) $classInfo['class_id']);
+        if (!$classRoom) {
+            return response()->json(['message' => '班级不存在'], 404);
+        }
+
+        return response()->json(['data' => [
+            'today_weekday' => (int) now()->dayOfWeekIso,
+            'class_name' => $classRoom->name,
+            ...$this->timetableService->forDisplay((int) $classRoom->id, (int) $classRoom->school_id),
+        ]]);
+    }
+
+    /**
+     * 大屏免登录导出 CSES（教室机上的 ClassIsLand 等课表软件可直接拉取）
+     */
+    public function exportCses(Request $request): \Symfony\Component\HttpFoundation\Response
+    {
+        $classInfo = $this->validateToken($request);
+        if (!$classInfo) {
+            return response()->json(['message' => 'Token 无效或已过期'], 401);
+        }
+
+        $classRoom = ClassRoom::find((int) $classInfo['class_id']);
+        if (!$classRoom) {
+            return response()->json(['message' => '班级不存在'], 404);
+        }
+
+        $yaml = $this->timetableService->toCses((int) $classRoom->id, (int) $classRoom->school_id);
+        $fileName = $classRoom->name . '-课表.cses.yaml';
+
+        return response($yaml, 200, [
+            'Content-Type' => 'application/x-yaml; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . rawurlencode($fileName) . '"',
+            'Cache-Control' => 'no-store',
+        ]);
+    }
 
     /**
      * 获取大屏初始全量数据（连接 SSE 前先调用一次）

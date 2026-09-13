@@ -434,8 +434,14 @@ GET /teacher/scores/history?student_id=1&page=1
 | 端点 | 方法 | 说明 |
 |------|------|------|
 | `/teacher/timetable` | GET | 课表初始化数据（科目 + 节次 + 该班排课） |
-| `/teacher/timetable` | POST | 整体保存课表（科目 / 节次 / 排课，按科目名交互） |
+| `/teacher/timetable` | POST | 提交课表修改申请（不直接生效，待管理员审核） |
+| `/teacher/timetable/changes` | GET | 本班修改申请历史（含状态与驳回原因） |
 | `/teacher/timetable/export-cses` | GET | 导出 CSES YAML 文件，可直接在 ClassIsland「从 CSES 导入」 |
+| `/admin/timetable/changes` | GET | 全校课表修改申请列表（可按 `?status=` 过滤） |
+| `/admin/timetable/changes/{id}/approve` | POST | 通过申请并应用课表（同班其余待审申请自动作废） |
+| `/admin/timetable/changes/{id}/reject` | POST | 驳回申请（`note` 为驳回原因） |
+| `/display/timetable` | GET | 大屏课表（只读，班级码 Token，返回今日星期 + 节次 + 排课） |
+| `/display/export-cses` | GET | 大屏免登录导出 CSES（教室机课表软件可直接拉取） |
 
 **作业：**
 | 端点 | 方法 | 说明 |
@@ -731,7 +737,7 @@ const token = res.data.data.token
 
 | 日期 | 版本 | 变更内容 |
 |------|------|---------|
-| 2026-09-13 | v1.3 | 新增课表接口（timetable show / save / export-cses，支持导出 CSES 对接 ClassIsland）；下线成绩管理接口（grades） |
+| 2026-09-13 | v1.3 | 新增课表接口（timetable show / 修改申请审核流 / export-cses，支持导出 CSES 对接 ClassIsLand；新增大屏只读课表与免登录 CSES 导出）；下线成绩管理接口（grades） |
 | 2026-07-19 | v1.2 | 新增 PK 战场、班级码登录、系列切换接口；重构路由结构 |
 | 2026-07-13 | v1.0 | 初始版本 |
 

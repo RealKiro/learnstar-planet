@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import api, { apiGet, apiPost } from '@/utils/api'
 import type {
   ApiResponse, TimetableData, TimetableSubject, TimetablePeriod, TimetableEntry, TimetableWeekType,
+  TimetableChangeRequest,
 } from '@/types'
 
 const loading = ref(true)
@@ -10,9 +11,13 @@ const loadError = ref('')
 const subjects = ref<TimetableSubject[]>([])
 const periods = ref<TimetablePeriod[]>([])
 const entries = ref<TimetableEntry[]>([])
+const changes = ref<TimetableChangeRequest[]>([])
 
 const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const saveMessage = ref('')
 const exportStatus = ref<'idle' | 'loading' | 'error'>('idle')
+
+const pendingCount = computed(() => changes.value.filter(c => c.status === 'pending').length)
 
 const WEEKDAY_LABELS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 const WEEK_TYPE_LABELS: Record<TimetableWeekType, string> = { all: '每周', odd: '单周', even: '双周' }
@@ -58,6 +63,8 @@ async function loadData() {
     subjects.value = res.data?.subjects || []
     periods.value = res.data?.periods || []
     entries.value = res.data?.entries || []
+    const chRes = await apiGet<ApiResponse<TimetableChangeRequest[]>>('/api/v1/teacher/timetable/changes')
+    changes.value = chRes.data || []
   } catch {
     loadError.value = '课表加载失败，请刷新重试'
   } finally {
@@ -108,6 +115,12 @@ function removeEntry(target: TimetableEntry) {
   entries.value = entries.value.filter(e => e !== target)
 }
 
+function formatTime(iso?: string | null): string {
+  if (!iso) return '-'
+  const d = new Date(iso)
+  return isNaN(d.getTime()) ? '-' : d.toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
+
 // ===== 科目管理 =====
 function addSubject() {
   const name = newSubjectName.value.trim()
@@ -151,17 +164,19 @@ function fillDefaultPeriods() {
   periods.value.sort((a, b) => a.period_index - b.period_index)
 }
 
-// ===== 保存 / 导出 =====
+// ===== 提交审核 / 导出 =====
 async function saveTimetable() {
   saveStatus.value = 'loading'
+  saveMessage.value = ''
   try {
-    await apiPost<{ message: string }>('/api/v1/teacher/timetable', {
+    const res = await apiPost<{ message: string }>('/api/v1/teacher/timetable', {
       subjects: subjects.value,
       periods: periods.value,
       entries: entries.value,
     })
     saveStatus.value = 'success'
-    setTimeout(() => { saveStatus.value = 'idle' }, 1500)
+    saveMessage.value = res.message || '修改申请已提交，待管理员审核'
+    setTimeout(() => { saveStatus.value = 'idle'; saveMessage.value = '' }, 2500)
     await loadData()
   } catch {
     saveStatus.value = 'error'
@@ -196,10 +211,12 @@ async function exportCses() {
           {{ exportStatus === 'loading' ? '导出中...' : exportStatus === 'error' ? '导出失败' : '导出 CSES (ClassIsland)' }}
         </button>
         <button class="btn btn-sm btn-primary" :class="{ 'btn-state-loading': saveStatus === 'loading', 'btn-state-success': saveStatus === 'success', 'btn-state-error': saveStatus === 'error' }" :disabled="saveStatus === 'loading'" @click="saveTimetable">
-          {{ { idle: '保存课表', loading: '保存中...', success: '已保存 ✓', error: '保存失败' }[saveStatus] }}
+          {{ { idle: '提交审核', loading: '提交中...', success: '已提交 ✓', error: '提交失败' }[saveStatus] }}
         </button>
       </div>
     </div>
+    <div v-if="saveMessage" class="save-tip">{{ saveMessage }}</div>
+    <div v-else-if="pendingCount > 0" class="save-tip save-tip--pending">有 {{ pendingCount }} 条修改申请待管理员审核，审核通过前课表保持现状</div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
     <div v-else-if="loadError" class="error-banner">{{ loadError }}</div>
@@ -282,7 +299,20 @@ async function exportCses() {
             </tbody>
           </table>
         </div>
-        <p class="muted-tip">点击格子添加课程；同一节可为单周 / 双周排不同科目。保存后可导出 CSES 文件，在 ClassIsland 中「从 CSES 导入」即可同步课表。</p>
+        <p class="muted-tip">点击格子添加课程；同一节可为单周 / 双周排不同科目。保存需提交审核，管理员通过后课表才会更新。导出的 CSES 文件可在 ClassIsland 中「从 CSES 导入」同步课表。</p>
+      </div>
+
+      <div v-if="changes.length > 0" class="card">
+        <div class="card-head"><h3 class="card-title">修改申请记录</h3></div>
+        <div class="change-list">
+          <div v-for="c in changes" :key="c.id" class="change-row">
+            <span :class="['status-badge', c.status]">{{ { pending: '待审核', approved: '已通过', rejected: '已驳回' }[c.status] }}</span>
+            <span class="text-muted-13">{{ c.entry_count }} 节排课</span>
+            <span class="text-muted-13">{{ formatTime(c.created_at) }} 提交</span>
+            <span v-if="c.status !== 'pending' && c.reviewer_name" class="text-muted-13">{{ c.reviewer_name }} 审核</span>
+            <span v-if="c.review_note" class="change-note" :title="c.review_note">{{ c.review_note }}</span>
+          </div>
+        </div>
       </div>
     </template>
 
@@ -395,4 +425,14 @@ async function exportCses() {
 .add-entry-form .btn { align-self: flex-start }
 .req-star-red { color: #ef4444 }
 .fw-600 { font-weight: 600 }
+.save-tip { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: 13px; border-radius: 10px; padding: 8px 14px; margin-bottom: 12px }
+.save-tip--pending { background: var(--color-bg, #f7f7f9); border-color: var(--color-border, #e5e5ea); color: var(--color-text-secondary, #86868b) }
+.change-list { display: flex; flex-direction: column; gap: 6px }
+.change-row { display: flex; align-items: center; gap: 12px; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed var(--color-border, #f0f0f3); flex-wrap: wrap }
+.change-row:last-child { border-bottom: none }
+.status-badge { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 9999px }
+.status-badge.pending { background: #fef3c7; color: #92400e }
+.status-badge.approved { background: #d1fae5; color: #065f46 }
+.status-badge.rejected { background: #fee2e2; color: #991b1b }
+.change-note { color: var(--color-text-secondary, #86868b); max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 </style>

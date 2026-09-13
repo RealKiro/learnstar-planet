@@ -127,6 +127,13 @@ Route::prefix('v1')->group(function () {
         Route::post('wechat-work/import', [SchoolAdminController::class, 'importWechatWorkUsers']);
         Route::get('third-party/contacts', [SchoolAdminController::class, 'thirdPartyContacts']);
         Route::post('third-party/import', [SchoolAdminController::class, 'importThirdPartyUsers']);
+
+        // 课表修改审批（教师提交的申请在此通过 / 驳回）
+        Route::prefix('timetable/changes')->group(function () {
+            Route::get('/', [TimetableController::class, 'adminChanges']);
+            Route::post('{id}/approve', [TimetableController::class, 'approve']);
+            Route::post('{id}/reject', [TimetableController::class, 'reject']);
+        });
     });
 
     // ===== 3. 教师端 =====
@@ -234,10 +241,11 @@ Route::prefix('v1')->group(function () {
             Route::get('summary', [TeacherController::class, 'attendanceSummary']);
         });
 
-        // 课表：读取 / 保存 / 导出 CSES（可直接在 ClassIsland「从 CSES 导入」）
+        // 课表：读取 / 提交修改申请（经管理员审核后生效）/ 申请历史 / 导出 CSES（ClassIsland「从 CSES 导入」）
         Route::prefix('timetable')->group(function () {
             Route::get('/', [TimetableController::class, 'show']);
             Route::post('/', [TimetableController::class, 'save']);
+            Route::get('changes', [TimetableController::class, 'myChanges']);
             Route::get('export-cses', [TimetableController::class, 'exportCses']);
         });
 
@@ -269,6 +277,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('display')->group(function () {
         Route::post('login', [DisplayController::class, 'login'])->middleware('throttle:10,1');
         Route::get('initial-data', [DisplayController::class, 'initialData']);
+        Route::get('timetable', [DisplayController::class, 'timetable']);
+        Route::get('export-cses', [DisplayController::class, 'exportCses']);
         Route::get('sse', [DisplayController::class, 'sse']);
         Route::get('poll', [DisplayController::class, 'poll']);
         Route::post('quick-score', [DisplayController::class, 'quickScore']);
