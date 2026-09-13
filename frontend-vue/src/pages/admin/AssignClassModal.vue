@@ -156,10 +156,10 @@ function closeModal() {
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:620px;width:100%;">
       <div class="modal-header">
-        <h2 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">
+        <h2 class="card-title">
           &#127979; 分配班级 — {{ teacher?.name }}
         </h2>
-        <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
+        <button @click="closeModal" class="icon-close">&#10005;</button>
       </div>
 
       <div v-if="teacher?.subject" style="margin-bottom:12px;padding:8px 12px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;font-size:12px;color:var(--color-primary);">

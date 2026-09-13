@@ -8,10 +8,10 @@ const activeTab = ref<'broadcast' | 'notice'>('broadcast')
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-head">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">消息中心</p>
-        <h2 style="font-size:24px;font-weight:700;">📢 消息中心</h2>
+        <p class="page-eyebrow">消息中心</p>
+        <h2 class="page-title">📢 消息中心</h2>
       </div>
     </div>
 

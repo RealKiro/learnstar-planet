@@ -27,15 +27,15 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-head">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">数据报表</p>
-        <h2 style="font-size:24px;font-weight:700;">学校报表</h2>
+        <p class="page-eyebrow">数据报表</p>
+        <h2 class="page-title">学校报表</h2>
       </div>
-      <span v-if="overview?.month_label" style="font-size:13px;color:var(--color-text-secondary);">{{ overview.month_label }} · 数据快照</span>
+      <span v-if="overview?.month_label" class="text-muted-13">{{ overview.month_label }} · 数据快照</span>
     </div>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="empty-state">加载中...</div>
 
     <template v-else-if="overview">
       <!-- 顶部统计卡片 -->
@@ -63,7 +63,7 @@ onMounted(async () => {
       </div>
 
       <div v-if="overview.score_trend_percent !== undefined" class="card" style="margin-top:16px;padding:12px 20px;display:flex;align-items:center;gap:8px;">
-        <span style="font-size:13px;color:var(--color-text-secondary);">积分环比：</span>
+        <span class="text-muted-13">积分环比：</span>
         <span :style="{ fontSize:'13px', fontWeight:600, color: overview.score_trend_percent >= 0 ? '#10B981' : '#EF4444' }">
           {{ overview.score_trend_percent >= 0 ? '▲' : '▼' }} {{ Math.abs(overview.score_trend_percent) }}%
         </span>
@@ -71,8 +71,8 @@ onMounted(async () => {
 
       <!-- 按年级汇总 -->
       <div class="card" style="margin-top:24px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">按年级汇总</h3>
-        <div v-if="byGrade.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">暂无数据</div>
+        <h3 class="section-title">按年级汇总</h3>
+        <div v-if="byGrade.length === 0" class="muted-center">暂无数据</div>
         <template v-else>
           <div style="margin-bottom:20px;">
             <div v-for="g in byGrade" :key="g.grade" style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
@@ -102,8 +102,8 @@ onMounted(async () => {
 
       <!-- 按班级明细 -->
       <div class="card" style="margin-top:24px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">按班级明细</h3>
-        <div v-if="byClass.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">暂无数据</div>
+        <h3 class="section-title">按班级明细</h3>
+        <div v-if="byClass.length === 0" class="muted-center">暂无数据</div>
         <div v-else class="data-table">
           <table>
             <thead><tr><th>班级</th><th>年级</th><th>班主任</th><th>学生数</th><th>平均分</th><th>总积分</th></tr></thead>
@@ -122,8 +122,8 @@ onMounted(async () => {
       </div>
     </template>
 
-    <div v-else class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">📊</div>
+    <div v-else class="card empty-state">
+      <div class="empty-state__icon">📊</div>
       <p>暂无报表数据</p>
     </div>
   </div>

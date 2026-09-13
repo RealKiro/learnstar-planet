@@ -92,8 +92,8 @@ async function confirmAbsent() {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <h2 style="font-size:24px;font-weight:700;">智能考勤</h2>
+    <div class="page-head">
+      <h2 class="page-title">智能考勤</h2>
       <button class="btn btn-sm" style="color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[startStatus] }" :disabled="startStatus === 'loading' || attendanceStarted" @click="startAttendance">
         {{ attendanceStarted ? '已开始点名' : ({ idle: '开始点名', loading: '开始中...', success: '已开始 ✓', error: '失败' }[startStatus]) }}
       </button>
@@ -106,7 +106,7 @@ async function confirmAbsent() {
       <div class="stat-card" style="border-color:rgba(239,68,68,.3);"><span class="stat-card__icon">缺</span><div class="stat-card__value">{{ summary.absent }}</div><div class="stat-card__label">缺勤</div></div>
     </div>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="empty-state">加载中...</div>
 
     <div v-else>
       <div v-if="absentWithoutLeave > 0" style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
@@ -114,11 +114,11 @@ async function confirmAbsent() {
       </div>
 
       <div class="data-table">
-        <div class="data-table__header"><h3 style="font-size:16px;font-weight:600;">今日考勤</h3><span style="font-size:13px;color:var(--color-text-secondary);">出勤率 {{ summary.rate }}%</span></div>
+        <div class="data-table__header"><h3 style="font-size:16px;font-weight:600;">今日考勤</h3><span class="text-muted-13">出勤率 {{ summary.rate }}%</span></div>
         <table>
           <thead><tr><th>姓名</th><th>学号</th><th>状态</th><th>来源</th><th>备注</th><th>签到</th><th>操作</th></tr></thead>
           <tbody>
-            <tr v-if="records.length === 0"><td colspan="7" style="text-align:center;padding:48px;color:var(--color-text-secondary);"><div style="font-size:32px;margin-bottom:8px;">考勤</div>点击开始点名创建考勤记录</td></tr>
+            <tr v-if="records.length === 0"><td colspan="7" class="empty-state"><div style="font-size:32px;margin-bottom:8px;">考勤</div>点击开始点名创建考勤记录</td></tr>
             <tr v-for="r in records" :key="r.student_id">
               <td style="font-weight:600;">{{ r.student_name }}</td>
               <td style="color:var(--color-text-secondary);">{{ r.student_no || '-' }}</td>

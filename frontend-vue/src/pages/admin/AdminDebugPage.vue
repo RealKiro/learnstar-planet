@@ -68,10 +68,10 @@ function onTabChange(tab: typeof activeTab.value) {
 
 <template>
   <div class="debug-page">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-head">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">调试工具</p>
-        <h2 style="font-size:24px;font-weight:700;">🔧 高级调试</h2>
+        <p class="page-eyebrow">调试工具</p>
+        <h2 class="page-title">🔧 高级调试</h2>
       </div>
     </div>
 
@@ -129,7 +129,7 @@ function onTabChange(tab: typeof activeTab.value) {
     <!-- ===== 系统状态 ===== -->
     <div v-if="activeTab === 'status'" class="tab-content">
       <div class="card" style="max-width:640px;padding:32px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">📊 系统状态</h3>
+        <h3 class="section-title">📊 系统状态</h3>
         <div v-if="statusLoading" class="loading">加载中...</div>
         <div v-else-if="sysStatus">
           <div style="margin-bottom:24px;">

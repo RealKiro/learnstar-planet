@@ -82,16 +82,16 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <h2 style="font-size:24px;font-weight:700;">📡 实时广播</h2>
-      <span style="font-size:13px;color:var(--color-text-secondary);">
+    <div class="page-head">
+      <h2 class="page-title">📡 实时广播</h2>
+      <span class="text-muted-13">
         🖥️ 教室桌面端：<strong style="color:var(--color-accent);">已连接</strong>
       </span>
     </div>
 
     <!-- 发送区 -->
     <div class="card" style="margin-bottom:24px;">
-      <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">发送广播</h3>
+      <h3 class="section-title">发送广播</h3>
 
       <div style="display:flex;gap:8px;margin-bottom:16px;">
         <button v-for="t in ([['banner','📌 顶部横幅'],['popup','💬 弹窗提示'],['fullscreen','🖥️ 全屏展示']] as const)" :key="t[0]" :class="['bc-type-btn', bcType === t[0] ? 'active' : '']" @click="bcType = t[0]">
@@ -150,7 +150,7 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 
     <!-- 快捷模板 -->
     <div class="card" style="margin-bottom:24px;">
-      <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">快捷模板</h3>
+      <h3 class="section-title">快捷模板</h3>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
         <div v-for="t in templates" :key="t.label" class="card"
           style="padding:12px 16px;cursor:pointer;font-size:13px;text-align:center;"

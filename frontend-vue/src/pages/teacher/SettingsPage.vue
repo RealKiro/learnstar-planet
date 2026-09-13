@@ -110,8 +110,8 @@ async function changePassword() {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <h2 style="font-size:24px;font-weight:700;">账号设置</h2>
+    <div class="page-head">
+      <h2 class="page-title">账号设置</h2>
     </div>
 
     <div class="card" style="margin-bottom:24px;">
@@ -131,27 +131,27 @@ async function changePassword() {
         style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
         <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
-            <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">🔑 修改密码</h3>
-            <button @click="showPwdModal = false" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">✕</button>
+            <h3 class="card-title">🔑 修改密码</h3>
+            <button @click="showPwdModal = false" class="icon-close">✕</button>
           </div>
           <div class="form-group" style="margin-bottom:12px;">
             <label>当前密码</label>
             <input v-model="pwdForm.current_password" type="password" class="form-input" placeholder="输入当前密码" :style="{ borderColor: pwdErrors.current_password ? '#f87171' : '' }" @blur="pwdVld('current_password')" @input="pwdClr('current_password')">
-            <div v-if="pwdErrors.current_password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ pwdErrors.current_password }}</div>
+            <div v-if="pwdErrors.current_password" class="field-error">{{ pwdErrors.current_password }}</div>
           </div>
           <div class="form-group" style="margin-bottom:12px;">
             <label>新密码</label>
             <input v-model="pwdForm.new_password" type="password" class="form-input" placeholder="至少 6 位" :style="{ borderColor: pwdErrors.new_password ? '#f87171' : '' }" @blur="pwdVld('new_password')" @input="pwdClr('new_password')">
-            <div v-if="pwdErrors.new_password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ pwdErrors.new_password }}</div>
+            <div v-if="pwdErrors.new_password" class="field-error">{{ pwdErrors.new_password }}</div>
           </div>
           <div class="form-group" style="margin-bottom:20px;">
             <label>确认新密码</label>
             <input v-model="pwdForm.confirm_password" type="password" class="form-input" placeholder="再次输入新密码" :style="{ borderColor: pwdErrors.confirm_password ? '#f87171' : '' }" @blur="pwdVld('confirm_password')" @input="pwdClr('confirm_password')">
-            <div v-if="pwdErrors.confirm_password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ pwdErrors.confirm_password }}</div>
+            <div v-if="pwdErrors.confirm_password" class="field-error">{{ pwdErrors.confirm_password }}</div>
           </div>
           <div style="display:flex;gap:12px;">
             <button class="btn" style="flex:1;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);" @click="showPwdModal = false">取消</button>
-            <button class="btn btn-primary" style="flex:1;" :style="{ background: pwdStatus === 'loading' ? '#f59e0b' : pwdStatus === 'success' ? '#10b981' : pwdStatus === 'error' ? '#ef4444' : '' }" :disabled="pwdStatus === 'loading'" @click="changePassword">
+            <button class="btn btn-primary flex-1" :style="{ background: pwdStatus === 'loading' ? '#f59e0b' : pwdStatus === 'success' ? '#10b981' : pwdStatus === 'error' ? '#ef4444' : '' }" :disabled="pwdStatus === 'loading'" @click="changePassword">
               <template v-if="pwdStatus === 'loading'">修改中...</template>
               <template v-else-if="pwdStatus === 'success'">修改成功 ✓</template>
               <template v-else-if="pwdStatus === 'error'">修改失败 ✗</template>
@@ -169,7 +169,7 @@ async function changePassword() {
         <div v-for="b in bindings" :key="b.platform"
           style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:var(--radius-md);border:1px solid var(--color-border);">
           <span style="flex-shrink:0;display:flex;"><PlatformIcon :platform="b.platform" :size="32" /></span>
-          <div style="flex:1;">
+          <div class="flex-1">
             <div style="font-weight:500;">{{ b.label || platformLabel(b.platform) }}</div>
             <div style="font-size:12px;" :style="{ color: b.bound ? 'var(--color-accent)' : 'var(--color-text-secondary)' }">
               {{ b.bound ? '✅ 已绑定' : '未绑定' }}

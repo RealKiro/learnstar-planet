@@ -94,14 +94,14 @@ async function submitEdit() {
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:520px;width:100%;">
       <div class="modal-header">
-        <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">
+        <h3 class="card-title">
           &#9999;&#65039; 编辑教师信息 — {{ teacher?.name }}
         </h3>
-        <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
+        <button @click="closeModal" class="icon-close">&#10005;</button>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="form-group">
-          <label>姓名 <span style="color:#f87171;">*</span></label>
+          <label>姓名 <span class="req-star">*</span></label>
           <input v-model="editForm.name" class="form-input" placeholder="教师姓名">
         </div>
         <div class="form-group">

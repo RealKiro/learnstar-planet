@@ -50,8 +50,8 @@ async function executeUpgrade() {
   <div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">学年管理</p>
-        <h2 style="font-size:24px;font-weight:700;">年级升级</h2>
+        <p class="page-eyebrow">学年管理</p>
+        <h2 class="page-title">年级升级</h2>
       </div>
       <div style="display:flex;gap:8px;">
         <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="loadPreview" :disabled="loading">
@@ -82,14 +82,14 @@ async function executeUpgrade() {
     </div>
 
     <!-- 未预览 -->
-    <div v-if="!hasPreviewed && !loading" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">📊</div>
+    <div v-if="!hasPreviewed && !loading" class="card empty-state">
+      <div class="empty-state__icon">📊</div>
       <p style="margin-bottom:16px;">点击下方按钮预览年级升级方案</p>
       <button class="btn btn-primary" @click="loadPreview">🔍 查看升级预览</button>
     </div>
 
     <!-- 加载中 -->
-    <div v-else-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-else-if="loading" class="empty-state">加载中...</div>
 
     <!-- 预览数据 -->
     <template v-else-if="preview">
@@ -123,8 +123,8 @@ async function executeUpgrade() {
 
       <!-- 待升级班级 -->
       <div class="card" style="margin-bottom:24px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">⬆️ 待升级班级（{{ preview.upgrade_classes.length }}）</h3>
-        <div v-if="preview.upgrade_classes.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">无待升级班级</div>
+        <h3 class="section-title">⬆️ 待升级班级（{{ preview.upgrade_classes.length }}）</h3>
+        <div v-if="preview.upgrade_classes.length === 0" class="muted-center">无待升级班级</div>
         <div v-else class="data-table">
           <table>
             <thead><tr><th>当前班级</th><th>当前年级</th><th>→</th><th>升级后名称</th><th>升级后年级</th><th>学生数</th></tr></thead>
@@ -144,8 +144,8 @@ async function executeUpgrade() {
 
       <!-- 待毕业班级 -->
       <div class="card">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">🎓 待毕业班级（{{ preview.graduate_classes.length }}）</h3>
-        <div v-if="preview.graduate_classes.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">无待毕业班级</div>
+        <h3 class="section-title">🎓 待毕业班级（{{ preview.graduate_classes.length }}）</h3>
+        <div v-if="preview.graduate_classes.length === 0" class="muted-center">无待毕业班级</div>
         <div v-else class="data-table">
           <table>
             <thead><tr><th>班级名称</th><th>学生数</th></tr></thead>
@@ -161,8 +161,8 @@ async function executeUpgrade() {
     </template>
 
     <!-- 预览为空 -->
-    <div v-else class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">📭</div>
+    <div v-else class="card empty-state">
+      <div class="empty-state__icon">📭</div>
       <p>暂无升级预览数据</p>
     </div>
   </div>

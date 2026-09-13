@@ -92,10 +92,10 @@ async function submitResetPwd() {
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:420px;width:100%;padding:4px 0;">
       <div class="modal-header">
-        <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">
+        <h3 class="card-title">
           &#128273; 密码管理 — {{ teacher?.name }}
         </h3>
-        <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
+        <button @click="closeModal" class="icon-close">&#10005;</button>
       </div>
 
       <div

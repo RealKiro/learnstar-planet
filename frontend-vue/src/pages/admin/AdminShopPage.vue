@@ -186,10 +186,10 @@ async function handleDelete(item: ShopItemExt) {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-head">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">全校共享</p>
-        <h2 style="font-size:24px;font-weight:700;">积分商品</h2>
+        <p class="page-eyebrow">全校共享</p>
+        <h2 class="page-title">积分商品</h2>
       </div>
       <button class="btn btn-sm btn-primary" @click="openAdd">+ 添加商品</button>
     </div>
@@ -222,10 +222,10 @@ async function handleDelete(item: ShopItemExt) {
         @click="filterCategory = c.key">{{ c.label }}</button>
     </div>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="empty-state">加载中...</div>
 
-    <div v-else-if="filteredItems.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">🛍️</div>
+    <div v-else-if="filteredItems.length === 0" class="card empty-state">
+      <div class="empty-state__icon">🛍️</div>
       <p style="margin-bottom:16px;">暂无全校商品，点击「添加商品」创建</p>
     </div>
 
@@ -269,12 +269,12 @@ async function handleDelete(item: ShopItemExt) {
         <div class="form-group">
           <label>商品名称</label>
           <input v-model="form.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')">
-          <div v-if="itemErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.name }}</div>
+          <div v-if="itemErrors.name" class="field-error">{{ itemErrors.name }}</div>
         </div>
         <div class="form-group">
           <label>所需积分</label>
           <input v-model.number="form.cost_score" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost_score ? '#f87171' : '' }" @blur="iVld('cost_score')" @input="iClr('cost_score')">
-          <div v-if="itemErrors.cost_score" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.cost_score }}</div>
+          <div v-if="itemErrors.cost_score" class="field-error">{{ itemErrors.cost_score }}</div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div class="form-group">

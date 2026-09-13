@@ -154,8 +154,8 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <h2 style="font-size:24px;font-weight:700;">积分商城</h2>
+    <div class="page-head">
+      <h2 class="page-title">积分商城</h2>
       <div style="display:flex;gap:8px;">
         <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showAddForm = !showAddForm">
           {{ showAddForm ? '取消' : '添加奖品' }}
@@ -169,7 +169,7 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
         <span style="font-size:28px;">🌟</span>
         <div>
           <div style="font-weight:600;font-size:14px;color:var(--color-primary);">宠物成长与积分联动</div>
-          <div style="font-size:13px;color:var(--color-text-secondary);">
+          <div class="text-muted-13">
             班主任和科任老师增减积分时，学生宠物的成长值同步变化。积分越高，宠物成长越快，逐步进化为更高级形态。
           </div>
         </div>
@@ -187,10 +187,10 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
     </div>
 
     <div v-if="showAddForm" class="card" style="margin-bottom:24px;">
-      <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">添加新奖品</h3>
+      <h3 class="section-title">添加新奖品</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div class="form-group"><label>商品名称 <span style="color:#f87171;">*</span></label><input v-model="newItem.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')"><div v-if="itemErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.name }}</div></div>
-        <div class="form-group"><label>所需积分 <span style="color:#f87171;">*</span></label><input v-model.number="newItem.cost_score" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost_score ? '#f87171' : '' }" @blur="iVld('cost_score')" @input="iClr('cost_score')"><div v-if="itemErrors.cost_score" style="color:#f87171;font-size:11px;margin-top:2px;">{{ itemErrors.cost_score }}</div></div>
+        <div class="form-group"><label>商品名称 <span class="req-star">*</span></label><input v-model="newItem.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')"><div v-if="itemErrors.name" class="field-error">{{ itemErrors.name }}</div></div>
+        <div class="form-group"><label>所需积分 <span class="req-star">*</span></label><input v-model.number="newItem.cost_score" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost_score ? '#f87171' : '' }" @blur="iVld('cost_score')" @input="iClr('cost_score')"><div v-if="itemErrors.cost_score" class="field-error">{{ itemErrors.cost_score }}</div></div>
         <div class="form-group"><label>库存（0=无限）</label><input v-model.number="newItem.stock" type="number" min="0" class="form-input"></div>
         <div class="form-group">
           <label>类别</label>
@@ -226,10 +226,10 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
       </button>
     </div>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="empty-state">加载中...</div>
 
-    <div v-else-if="filteredItems.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">🛍️</div>
+    <div v-else-if="filteredItems.length === 0" class="card empty-state">
+      <div class="empty-state__icon">🛍️</div>
       <p>{{ filterCategory ? '该类别暂无商品' : '暂无商品，点击「添加奖品」开始' }}</p>
     </div>
 

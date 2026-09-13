@@ -301,12 +301,12 @@ function goToSlide(i: number) {
           <div class="form-group">
             <label>账号</label>
             <input v-model="teacherUsername" class="form-input" :style="{ borderColor: loginErrors.teacherUsername ? '#f87171' : '' }" @blur="validateLoginField('teacherUsername', teacherUsername)" @input="clearLoginErr('teacherUsername')" placeholder="教师账号" @keydown.enter="focusTeacherPwd">
-            <div v-if="loginErrors.teacherUsername" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.teacherUsername }}</div>
+            <div v-if="loginErrors.teacherUsername" class="field-error">{{ loginErrors.teacherUsername }}</div>
           </div>
           <div class="form-group">
             <label>密码</label>
             <input ref="teacherPwdRef" v-model="teacherPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleTeacherLogin">
-            <div v-if="loginErrors.teacherPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.teacherPassword }}</div>
+            <div v-if="loginErrors.teacherPassword" class="field-error">{{ loginErrors.teacherPassword }}</div>
           </div>
           <button class="login-submit" :disabled="loginStatus === 'loading'" @click="handleTeacherLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#5E5CE6' }">
             <span v-if="loginStatus === 'idle'">🚀 登录</span>
@@ -332,11 +332,11 @@ function goToSlide(i: number) {
           <div class="form-group">
             <label>账号</label>
             <input v-model="adminUsername" class="form-input" :style="{ borderColor: loginErrors.adminUsername ? '#f87171' : '' }" @blur="validateLoginField('adminUsername', adminUsername)" @input="clearLoginErr('adminUsername')" placeholder="管理员账号" @keydown.enter="focusAdminPwd">
-            <div v-if="loginErrors.adminUsername" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.adminUsername }}</div>
+            <div v-if="loginErrors.adminUsername" class="field-error">{{ loginErrors.adminUsername }}</div>
           </div>
           <div class="form-group">
             <label>密码</label>
-            <div v-if="loginErrors.adminPassword" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.adminPassword }}</div>
+            <div v-if="loginErrors.adminPassword" class="field-error">{{ loginErrors.adminPassword }}</div>
             <input ref="adminPwdRef" v-model="adminPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleAdminLogin">
           </div>
           <button class="login-submit login-submit--amber" :disabled="loginStatus === 'loading'" @click="handleAdminLogin" style="transition:all 0.3s ease;border:none;color:#fff;" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#d97706' }">
@@ -358,7 +358,7 @@ function goToSlide(i: number) {
           <template v-else>
             <div class="form-group">
               <input :value="classCode" class="form-input" placeholder="输入班级码（如 LS11）" maxlength="8" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @input="onClassCodeInput" @blur="validateLoginField('classCode', classCode)" @keydown.enter="handleClassLogin">
-              <div v-if="loginErrors.classCode" style="color:#f87171;font-size:11px;margin-top:2px;">{{ loginErrors.classCode }}</div>
+              <div v-if="loginErrors.classCode" class="field-error">{{ loginErrors.classCode }}</div>
             </div>
             <p class="input-hint" style="font-size:12px;color:#6E6E73;margin:-8px 0 0;">如 LS11（一年级1班）</p>
             <div v-if="classCodeError" class="error-msg" style="color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px;">{{ classCodeError }}</div>

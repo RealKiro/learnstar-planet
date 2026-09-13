@@ -747,8 +747,8 @@ onMounted(async () => {
       <h3 style="font-size:16px;font-weight:600;">📋 最近积分记录</h3>
       <button class="btn btn-sm" :disabled="historyLoading" @click="loadRecentScores">🔄 刷新</button>
     </div>
-    <div v-if="historyLoading" style="text-align:center;padding:24px;color:var(--color-text-secondary);">加载中...</div>
-    <div v-else-if="recentScores.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);">暂无记录</div>
+    <div v-if="historyLoading" class="muted-center">加载中...</div>
+    <div v-else-if="recentScores.length === 0" class="muted-center">暂无记录</div>
     <div v-else class="data-table">
       <table>
         <thead><tr><th>学生</th><th>分值</th><th>原因</th><th>时间</th><th>操作</th></tr></thead>

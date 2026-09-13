@@ -253,7 +253,7 @@ onUnmounted(() => {
         style="position:fixed;top:60px;right:20px;z-index:900;max-width:380px;background:var(--md-surface-2);border:1px solid var(--tint-3);border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
         <div style="display:flex;align-items:flex-start;gap:12px;">
           <span style="font-size:24px;">📋</span>
-          <div style="flex:1;">
+          <div class="flex-1">
             <div style="font-size:14px;font-weight:700;color:var(--color-text);margin-bottom:4px;">{{ currentNotice.title }}</div>
             <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.5;">{{ currentNotice.content }}</div>
           </div>

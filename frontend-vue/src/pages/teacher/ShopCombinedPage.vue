@@ -85,10 +85,10 @@ function onActiveTabChange(tab: typeof activeTab.value) {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-head">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">班级经济</p>
-        <h2 style="font-size:24px;font-weight:700;">🛍️ 积分商城</h2>
+        <p class="page-eyebrow">班级经济</p>
+        <h2 class="page-title">🛍️ 积分商城</h2>
       </div>
     </div>
 
@@ -127,7 +127,7 @@ function onActiveTabChange(tab: typeof activeTab.value) {
         </button>
       </div>
 
-      <div v-if="ratesLoading" style="text-align:center;padding:24px;color:var(--color-text-secondary);">加载中...</div>
+      <div v-if="ratesLoading" class="muted-center">加载中...</div>
       <div v-else-if="rates.length === 0" class="card" style="max-width:640px;padding:24px;text-align:center;color:var(--color-text-secondary);font-size:13px;">暂无汇率规则</div>
       <div v-else class="card" style="max-width:640px;padding:24px;">
         <div v-for="r in rates" :key="r.id" style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--color-border);font-size:13px;">

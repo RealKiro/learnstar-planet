@@ -67,8 +67,8 @@ async function confirmDelete() {
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div style="max-width:400px;width:100%;padding:4px 0;">
       <div class="modal-header" style="margin-bottom:12px;">
-        <h3 style="font-size:16px;font-weight:700;color:var(--color-text);margin:0;">&#9888;&#65039; 确认删除</h3>
-        <button @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;">&#10005;</button>
+        <h3 class="card-title">&#9888;&#65039; 确认删除</h3>
+        <button @click="closeModal" class="icon-close">&#10005;</button>
       </div>
       <div style="text-align:center;padding:8px 0;">
         <div style="font-size:40px;margin-bottom:8px;">&#128465;&#65039;</div>

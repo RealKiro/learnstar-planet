@@ -193,10 +193,10 @@ async function uploadLogo(e: Event) {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-head">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">系统配置</p>
-        <h2 style="font-size:24px;font-weight:700;">系统信息</h2>
+        <p class="page-eyebrow">系统配置</p>
+        <h2 class="page-title">系统信息</h2>
       </div>
     </div>
 
@@ -231,10 +231,10 @@ async function uploadLogo(e: Event) {
             </label>
           </div>
         </div>
-        <div class="form-group"><label>学校名称 <span style="color:#f87171;">*</span></label><input v-model="form.name" class="form-input" placeholder="请输入学校名称" :style="{ borderColor: schoolErrors.name ? '#f87171' : '' }" @blur="vldSch('name')" @input="clsErr('name')"><div v-if="schoolErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.name }}</div></div>
+        <div class="form-group"><label>学校名称 <span class="req-star">*</span></label><input v-model="form.name" class="form-input" placeholder="请输入学校名称" :style="{ borderColor: schoolErrors.name ? '#f87171' : '' }" @blur="vldSch('name')" @input="clsErr('name')"><div v-if="schoolErrors.name" class="field-error">{{ schoolErrors.name }}</div></div>
         <div class="form-group"><label>学校地址</label><input v-model="form.address" class="form-input" placeholder="请输入学校地址"></div>
-        <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678" :style="{ borderColor: schoolErrors.contact_phone ? '#f87171' : '' }" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_phone }}</div></div>
-        <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn" :style="{ borderColor: schoolErrors.contact_email ? '#f87171' : '' }" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" style="color:#f87171;font-size:11px;margin-top:2px;">{{ schoolErrors.contact_email }}</div></div>
+        <div class="form-group"><label>联系电话</label><input v-model="form.contact_phone" class="form-input" placeholder="如：021-12345678" :style="{ borderColor: schoolErrors.contact_phone ? '#f87171' : '' }" @blur="vldSch('contact_phone')" @input="clsErr('contact_phone')"><div v-if="schoolErrors.contact_phone" class="field-error">{{ schoolErrors.contact_phone }}</div></div>
+        <div class="form-group"><label>联系邮箱</label><input v-model="form.contact_email" type="email" class="form-input" placeholder="如：admin@school.edu.cn" :style="{ borderColor: schoolErrors.contact_email ? '#f87171' : '' }" @blur="vldSch('contact_email')" @input="clsErr('contact_email')"><div v-if="schoolErrors.contact_email" class="field-error">{{ schoolErrors.contact_email }}</div></div>
         <div class="form-group">
           <label>第三方登录平台（勾选的平台才会在登录页显示）</label>
           <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px;">
@@ -295,7 +295,7 @@ async function uploadLogo(e: Event) {
           <span v-if="r.status === 'ok'" style="color:#10B981;">✅</span>
           <span v-else-if="r.status === 'fixable'" style="color:#F59E0B;">⚠️</span>
           <span v-else style="color:#EF4444;">❌</span>
-          <span style="flex:1;">{{ r.item }}</span>
+          <span class="flex-1">{{ r.item }}</span>
           <span :style="{ color: r.status === 'ok' ? '#10B981' : r.status === 'fixable' ? '#F59E0B' : '#EF4444', fontWeight:600 }">{{ r.status === 'ok' ? '正常' : (r.detail || '缺失') }}</span>
         </div>
         <div v-if="repairDone" style="padding:8px 12px;font-size:13px;color:#10B981;font-weight:500;">✅ 修复已完成</div>

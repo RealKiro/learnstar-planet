@@ -125,28 +125,28 @@ async function handleDelete(rule: ScoreRule) {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-head">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">全校共享</p>
-        <h2 style="font-size:24px;font-weight:700;">积分规则</h2>
+        <p class="page-eyebrow">全校共享</p>
+        <h2 class="page-title">积分规则</h2>
       </div>
       <button class="btn btn-sm btn-primary" @click="openAdd">+ 添加规则</button>
     </div>
     <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;">💡 全校教师共享这些规则，新增/修改后教师端即时可见。</p>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="empty-state">加载中...</div>
 
-    <div v-else-if="rules.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">📋</div>
+    <div v-else-if="rules.length === 0" class="card empty-state">
+      <div class="empty-state__icon">📋</div>
       <p style="margin-bottom:16px;">暂无全校积分规则，点击「添加规则」创建</p>
     </div>
 
     <div v-else style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
       <!-- 加分规则 -->
       <div class="card">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">加分规则 <span style="color:var(--color-accent);font-size:13px;">({{ positiveRules.length }})</span></h3>
-        <div v-if="positiveRules.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">暂无加分规则</div>
-        <div v-else style="display:flex;flex-direction:column;gap:8px;">
+        <h3 class="section-title">加分规则 <span style="color:var(--color-accent);font-size:13px;">({{ positiveRules.length }})</span></h3>
+        <div v-if="positiveRules.length === 0" class="muted-center-sm">暂无加分规则</div>
+        <div v-else class="stack-8">
           <div v-for="rule in positiveRules" :key="rule.id" class="card"
             style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(16,185,129,0.3);">
             <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
@@ -172,9 +172,9 @@ async function handleDelete(rule: ScoreRule) {
 
       <!-- 扣分规则 -->
       <div class="card">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">扣分规则 <span style="color:var(--color-danger);font-size:13px;">({{ negativeRules.length }})</span></h3>
-        <div v-if="negativeRules.length === 0" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">暂无扣分规则</div>
-        <div v-else style="display:flex;flex-direction:column;gap:8px;">
+        <h3 class="section-title">扣分规则 <span style="color:var(--color-danger);font-size:13px;">({{ negativeRules.length }})</span></h3>
+        <div v-if="negativeRules.length === 0" class="muted-center-sm">暂无扣分规则</div>
+        <div v-else class="stack-8">
           <div v-for="rule in negativeRules" :key="rule.id" class="card"
             style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(239,68,68,0.3);">
             <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
@@ -206,12 +206,12 @@ async function handleDelete(rule: ScoreRule) {
         <div class="form-group">
           <label>规则名称</label>
           <input v-model="form.name" class="form-input" placeholder="如：举手发言" :style="{ borderColor: ruleErrors.name ? '#f87171' : '' }" @blur="rVld('name')" @input="rClr('name')" @keydown.enter="handleSubmit">
-          <div v-if="ruleErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ ruleErrors.name }}</div>
+          <div v-if="ruleErrors.name" class="field-error">{{ ruleErrors.name }}</div>
         </div>
         <div class="form-group">
           <label>分值</label>
           <input v-model.number="form.amount" type="number" min="1" class="form-input" placeholder="如：5" :style="{ borderColor: ruleErrors.amount ? '#f87171' : '' }" @blur="rVld('amount')" @input="rClr('amount')">
-          <div v-if="ruleErrors.amount" style="color:#f87171;font-size:11px;margin-top:2px;">{{ ruleErrors.amount }}</div>
+          <div v-if="ruleErrors.amount" class="field-error">{{ ruleErrors.amount }}</div>
         </div>
         <div class="form-group">
           <label>分类</label>

@@ -101,8 +101,8 @@ async function submitGrades() {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <h2 style="font-size:24px;font-weight:700;">📊 成绩管理</h2>
+    <div class="page-head">
+      <h2 class="page-title">📊 成绩管理</h2>
       <div style="display:flex;gap:8px;align-items:center;">
         <select v-model="selectedExam" @change="loadGrades" class="form-select" style="width:auto;">
           <option value="">全部考试</option>
@@ -135,8 +135,8 @@ async function submitGrades() {
             <input v-model="inputForm.subject" class="form-input" placeholder="如：语文">
           </div>
           <div style="display:flex;gap:12px;margin-top:20px;">
-            <button class="btn" style="flex:1;" @click="showInputModal = false">取消</button>
-            <button class="btn btn-primary" style="flex:1;" :disabled="inputStatus !== 'idle'"
+            <button class="btn flex-1" @click="showInputModal = false">取消</button>
+            <button class="btn btn-primary flex-1" :disabled="inputStatus !== 'idle'"
               :style="{ background: inputStatus === 'loading' ? '#f59e0b' : inputStatus === 'success' ? '#10b981' : inputStatus === 'error' ? '#ef4444' : '#7c3aed' }"
               @click="submitGrades">
               <template v-if="inputStatus === 'idle'">提交</template>
@@ -149,29 +149,29 @@ async function submitGrades() {
       </div>
     </Teleport>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="empty-state">加载中...</div>
 
-    <div v-else-if="grades.length === 0" class="card" style="text-align:center;padding:48px;color:var(--color-text-secondary);">
-      <div style="font-size:48px;margin-bottom:8px;">📊</div>
+    <div v-else-if="grades.length === 0" class="card empty-state">
+      <div class="empty-state__icon">📊</div>
       <p style="margin-bottom:8px;">暂无成绩数据</p>
       <p style="font-size:13px;">点击「录入成绩」添加考试数据</p>
     </div>
 
     <template v-else>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
-        <div class="card" style="text-align:center;padding:20px;">
+        <div class="card center-pad-20">
           <div style="font-size:28px;font-weight:700;color:var(--color-primary);">{{ avgScore }}</div>
           <div style="font-size:13px;color:#64748B;">班级平均分</div>
         </div>
-        <div class="card" style="text-align:center;padding:20px;">
+        <div class="card center-pad-20">
           <div style="font-size:28px;font-weight:700;color:var(--color-accent);">{{ maxScore }}</div>
           <div style="font-size:13px;color:#64748B;">最高分</div>
         </div>
-        <div class="card" style="text-align:center;padding:20px;">
+        <div class="card center-pad-20">
           <div style="font-size:28px;font-weight:700;color:var(--color-danger);">{{ minScore }}</div>
           <div style="font-size:13px;color:#64748B;">最低分</div>
         </div>
-        <div class="card" style="text-align:center;padding:20px;">
+        <div class="card center-pad-20">
           <div style="font-size:28px;font-weight:700;color:var(--color-secondary);">{{ passRate }}%</div>
           <div style="font-size:13px;color:#64748B;">及格率</div>
         </div>

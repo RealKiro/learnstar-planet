@@ -43,15 +43,15 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+    <div class="page-head">
       <div>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">欢迎回来</p>
-        <h2 style="font-size:24px;font-weight:700;">全校看板</h2>
+        <p class="page-eyebrow">欢迎回来</p>
+        <h2 class="page-title">全校看板</h2>
       </div>
-      <span style="font-size:13px;color:var(--color-text-secondary);">{{ schoolName || '学校' }} · 今日数据概览</span>
+      <span class="text-muted-13">{{ schoolName || '学校' }} · 今日数据概览</span>
     </div>
 
-    <div v-if="loading" style="text-align:center;padding:48px;color:var(--color-text-secondary);">加载中...</div>
+    <div v-if="loading" class="empty-state">加载中...</div>
 
     <template v-if="overview">
       <div class="stats-grid">
@@ -79,7 +79,7 @@ onMounted(async () => {
 
       <!-- 按年级分布 -->
       <div class="card" style="margin-top:24px;">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">按年级分布</h3>
+        <h3 class="section-title">按年级分布</h3>
         <div class="data-table">
           <table>
             <thead><tr><th style="width:60px;">年级</th><th style="width:60px;">班级数</th><th style="width:60px;">学生数</th></tr></thead>

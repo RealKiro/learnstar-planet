@@ -195,6 +195,30 @@ a:hover { color: var(--md-primary-light); }
 .empty-state { text-align: center; padding: 48px; color: var(--color-text-secondary); }
 .empty-state__icon { font-size: 48px; margin-bottom: 8px; }
 
+/* ===== 页头 / 标题（跨页统一，替代重复内联样式） ===== */
+.page-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.page-title { font-size: 24px; font-weight: 700; }
+.page-eyebrow { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.section-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+.card-title { font-size: 16px; font-weight: 700; color: var(--color-text); margin: 0; }
+
+/* ===== 表单字段校验错误（跨页统一，与 .error-banner 配套） ===== */
+.field-error { color: #f87171; font-size: 11px; margin-top: 2px; }
+.req-star { color: #f87171; }
+
+/* ===== 图标关闭按钮（跨页统一） ===== */
+.icon-close { background: none; border: none; color: var(--color-text-secondary); font-size: 20px; cursor: pointer; padding: 0; line-height: 1; }
+
+/* ===== 居中提示文本（跨页统一） ===== */
+.muted-center { text-align: center; padding: 24px; color: var(--color-text-secondary); }
+.muted-center-sm { text-align: center; padding: 24px; color: var(--color-text-secondary); font-size: 13px; }
+.center-pad-20 { text-align: center; padding: 20px; }
+.text-muted-13 { font-size: 13px; color: var(--color-text-secondary); }
+
+/* ===== 布局工具类（跨页统一，原散落于各页 scoped 重复定义） ===== */
+.flex-1 { flex: 1; }
+.stack-8 { display: flex; flex-direction: column; gap: 8px; }
+
 /* ===== 弹窗脚手架（跨页统一，配合 ModalGlass 使用） ===== */
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .modal-title { font-size: 18px; font-weight: 700; }

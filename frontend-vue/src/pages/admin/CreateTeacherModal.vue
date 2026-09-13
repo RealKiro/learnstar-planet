@@ -238,7 +238,7 @@ async function doSubmit(force: boolean) {
             <div class="flex-1 form-group">
               <label>姓名 <span style="color:var(--color-danger);">*</span></label>
               <input v-model="createForm.name" placeholder="姓名" class="form-input" :style="{ borderColor: createErrors.name ? '#f87171' : '' }" @blur="validateField('name', createForm.name)" @input="clearError('name')" />
-              <div v-if="createErrors.name" style="color:#f87171;font-size:11px;margin-top:2px;">{{ createErrors.name }}</div>
+              <div v-if="createErrors.name" class="field-error">{{ createErrors.name }}</div>
             </div>
             <div class="flex-1 form-group">
               <label>年级团队</label>
@@ -273,7 +273,7 @@ async function doSubmit(force: boolean) {
           <div class="form-group">
             <label>初始密码</label>
             <input v-model="createForm.password" placeholder="留空默认 ls123456" class="form-input" :style="{ borderColor: createErrors.password ? '#f87171' : '' }" @blur="validateField('password', createForm.password)" @input="clearError('password')" />
-            <div v-if="createErrors.password" style="color:#f87171;font-size:11px;margin-top:2px;">{{ createErrors.password }}</div>
+            <div v-if="createErrors.password" class="field-error">{{ createErrors.password }}</div>
           </div>
         </div>
         <div>
