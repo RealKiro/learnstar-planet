@@ -59,12 +59,15 @@
   "profileIssues": [],
   "levelIssues": [],
   "stageEmojiDup": {
-    "L1:🥚": 126,
-    "L12:🌟": 14
+    "L1:🥚": 126
   },
   "interactionCoverage": {
     "covered": 342,
     "total": 756
+  },
+  "formulaicFinale": {
+    "count": 0,
+    "ids": []
   },
   "traitDupAcrossSpecies": 0
 }

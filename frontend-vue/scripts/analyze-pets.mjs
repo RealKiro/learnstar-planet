@@ -12,12 +12,12 @@ const repoRoot = path.resolve(frontendDir, '..')
 const utilsDir = path.join(frontendDir, 'src/utils')
 const docsDir = path.resolve(repoRoot, 'docs')
 const tmpDir = path.resolve(repoRoot, '..', '.pet-audit-tmp')
-fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ type: 'commonjs' }))
 
 // 1. 转译 TS → CJS
 const FILES = ['petDataExtended', 'petData', 'petLifeStories', 'petProfiles', 'petTraits', 'stageEmoji']
 fs.rmSync(tmpDir, { recursive: true, force: true })
 fs.mkdirSync(path.join(tmpDir, 'utils'), { recursive: true })
+fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ type: 'commonjs' }))
 for (const name of FILES) {
   const src = fs.readFileSync(path.join(utilsDir, `${name}.ts`), 'utf8')
   const js = ts.transpileModule(src, {
@@ -63,8 +63,14 @@ if (typeof stageEmojiMod.getStageEmoji === 'function') {
       ;(stageSeen[key] = stageSeen[key] || []).push(id)
     }
   }
+  // 系列统一 emoji 豁免：SERIES_UNIFIED_EMOJI 声明的（系列, emoji）组合属设计意图
+  const unified = stageEmojiMod.SERIES_UNIFIED_EMOJI || {}
+  const seriesOfId = {}
+  for (const s of PET_SERIES) for (const sp of s.species) seriesOfId[sp.id] = s.id
   for (const [key, ids] of Object.entries(stageSeen)) {
-    if (ids.length > 3) report.stageEmojiDup[key] = ids.length // 同阶段同 emoji 的物种数（>3 视为雷同）
+    const emoji = key.split(':')[1]
+    const kept = ids.filter(id => unified[seriesOfId[id]] !== emoji)
+    if (kept.length > 3) report.stageEmojiDup[key] = kept.length // 剔除声明豁免后仍 >3 视为雷同
   }
 }
 

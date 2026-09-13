@@ -105,6 +105,14 @@ async function loadLogs() {
 }
 function startLogPolling() { stopLogPolling(); logTimer = setInterval(loadLogs, 5000) }
 function stopLogPolling() { if (logTimer) { clearInterval(logTimer); logTimer = null } }
+/** 日志级别 → 着色分组（ERROR/CRITICAL/ALERT/EMERGENCY 归为 error，WARN* 归为 warn） */
+function logLevelClass(level: string): string {
+  const lv = (level || '').toUpperCase()
+  if (lv.includes('ERROR') || lv.includes('CRITICAL') || lv.includes('ALERT') || lv.includes('EMERGENCY')) return 'error'
+  if (lv.includes('WARN')) return 'warn'
+  if (lv.includes('DEBUG')) return 'debug'
+  return 'info'
+}
 onUnmounted(stopLogPolling)
 
 onMounted(async () => {
@@ -349,7 +357,7 @@ async function uploadLogo(e: Event) {
       <div class="log-view">
         <div v-if="!logEntries.length" class="log-empty">暂无日志</div>
         <div v-for="(entry, i) in logEntries" :key="i" class="log-line">
-          <span class="log-level">{{ entry.level }}</span>
+          <span class="log-level" :class="'log-level--' + logLevelClass(entry.level)">{{ entry.level }}</span>
           <span class="log-text">{{ entry.line }}</span>
         </div>
       </div>
@@ -427,5 +435,9 @@ async function uploadLogo(e: Event) {
 .log-empty { padding:16px; text-align:center; color:#8b949e; font-size:13px; }
 .log-line { display:flex; align-items:flex-start; gap:8px; padding:2px 16px; font-family:monospace; font-size:12px; line-height:1.6; white-space:pre-wrap; word-break:break-all; }
 .log-level { flex-shrink:0; width:60px; font-weight:600; }
+.log-level--error { color:#f87171; }
+.log-level--warn { color:#F59E0B; }
+.log-level--info { color:#60A5FA; }
+.log-level--debug { color:#94A3B8; }
 .log-text { color:#e6edf3; }
 </style>

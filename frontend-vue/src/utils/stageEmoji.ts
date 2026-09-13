@@ -154,6 +154,14 @@ const STAGE_EXTRA: Record<string, { legendary?: string; transcendent?: string }>
   cao_guojiu:    { legendary: '🎴', transcendent: '🤍' },
 }
 
+/** 系列统一道果 emoji（显式声明的系列设计）：
+ *  这些系列的道果阶段共用同一 emoji 属设计意图而非撞车，
+ *  analyze-pets.mjs 的「同阶段雷同 emoji」检测据此豁免。
+ *  key 为系列 id，value 为该系列道果统一 emoji。 */
+export const SERIES_UNIFIED_EMOJI: Record<string, string> = {
+  constellation: '🌟', // 星座守护：12 星座道果皆化为本命星光
+}
+
 /** 成长阶段 Emoji：蛋 → 幼年/成长/成熟(基础) → 传说(威能) → 道果(终极) */
 export function getStageEmoji(speciesId: string, level: number): string {
   const stage = stageKeyOf(level)

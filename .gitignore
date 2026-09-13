@@ -105,3 +105,9 @@ overview.md
 # 角色卡是 generate-cards.mjs 的生成物（唯一真相源在 frontend-vue/src/utils/），
 # 不再 git 跟踪；需要时运行：cd frontend-vue && node scripts/generate-cards.mjs
 docs/角色卡/
+
+# 宠物同族导出物（与角色卡同源，均可由脚本/数据再生成），不再 git 跟踪：
+# - CSV/md 提示词导出：cd frontend-vue && node scripts/generate-pet-prompts-v2.js
+docs/宠物AI生图提示词.md
+frontend-vue/pet-prompts.csv
+docs/角色档案·非人物视觉规格速查.md
