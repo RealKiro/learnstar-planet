@@ -38,8 +38,9 @@
 
 > ⚠️ **Livewire 已退役（勿再新增）**：`backend/app/Livewire/`（2 个组件）与 `backend/resources/views/`
 > 是 Vue 3 重构前的遗留，当前**无任何路由可达**——`routes/web.php` 只提供 `/health`、`/up`、`/debug`
-> 与 SPA 兜底（返回 `public/index.html`），没有一条路由渲染 Blade 视图。且 `layouts/app.blade.php`
-> 引用了从未安装的 FluxUI（`@fluxStyles`），一旦被渲染会直接 500。新功能一律写 Vue。
+> 与 SPA 兜底（返回 `public/index.html`），没有一条路由渲染 Blade 视图。二者已随 P0-1 于 2026-09-13 删除。
+> 其 `layouts/app.blade.php` 曾用 `@fluxStyles` 注入 FluxUI——`livewire/flux:^2.0` **确实**装在 `require-dev`
+> 并已安装（`backend/vendor/livewire/flux`）。⚠️ 早前文档写「从未安装的 FluxUI」有误，2026-09-13 已更正。新功能一律写 Vue。
 
 ### 基础设施
 
@@ -355,9 +356,10 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
 16. **产品命名（2026-09）**: 中文名 **学宠星球**，英文 **LearnStar Planet**。仓库/镜像/环境变量等标识符保留 `learnstar-planet`（改名只涉及展示文本）
 17. **启动安全自检（2026-09-13）**: `entrypoint.sh` 在初始化完成后检测默认凭据（`ADMIN_PASSWORD=admin123456` / `BOT_ENABLED=true` 且 `BOT_PASSWORD=learnstar-bot-2026`），命中则在启动日志打印 `🔴 安全告警` 横幅并列出修改方法。**刻意不阻断启动**——为保住「三步部署、零配置」体验，只把风险暴露在日志首屏；README 同步新增「🔐 上线前安全检查」章节。默认值本身未改动（改默认值会破坏首次部署即用）
 18. **文档-代码口径对齐（2026-09-13）**: 修正一批「文档描述与代码实际不符」，全部以实测为准：
-    - **Livewire 表述更正**：原文把 `Livewire 3 + Flux 2` 写作实时 UI，实际是 Vue 重构前的遗留，`routes/web.php` 无任何路由渲染 Blade → 无路由可达；`layouts/app.blade.php` 还引用**从未安装**的 FluxUI（`@fluxStyles`），一旦渲染即 500
+    - **Livewire 表述更正**：原文把 `Livewire 3 + Flux 2` 写作实时 UI，实际是 Vue 重构前的遗留，`routes/web.php` 无任何路由渲染 Blade → 无路由可达；`layouts/app.blade.php` 的 `@fluxStyles` 指向 `livewire/flux`。⚠️ **二次更正（2026-09-13）**：该包**并非「从未安装」**——它确实在 `backend/composer.json` 的 `require-dev`（`livewire/flux:^2.0`）且已装于 `backend/vendor/livewire/flux`；真正的风险只是该 Blade 无路由渲染、从未触发。相关组件与视图已随 P0-1 删除
     - **规模数字校准**：路由 **约 188 条**（get 80 / post 77 / put 19 / delete 11 / match 1，原写 214/220）；小程序 **10 页**（原写 14）；Services **23 个 PHP 文件**（原写 22）；表 **31 张** ✓、模型 24 ✓、迁移 32 ✓
     - **依赖版本校准**：`laravel-dompdf ^3.1`（原写 2）；Horizon 标注「仅外置 Redis 可用，默认部署走 database 队列」
     - **Dockerfile 注释更正**：头部声称 RoadRunner，实际是 `php artisan serve`；`chown /var/www/html` 死路径改为 `/app`（同决策 12 的路径坑）
     - **待办清单重写**：`docs/待办清单.md` 原把已删除的 756 张手绘 SVG 当待交付物、同一份 17 角色清单重复两遍，已全量重写为「现状快照 + 未完成事项」
-19. **无引用残留清单（2026-09-13 识别，待清理）**: `backend/app/Livewire/`、`backend/resources/views/`、`backend/docker/nginx/`、`backend/docker/supervisor/` 均为 Vue 重构前遗留且无任何引用。删除 Livewire 文件后 `composer.json` 的 `livewire/livewire` 会成为未使用依赖，移除它须**同时 `composer update` 刷新 lock**（勿只手改 composer.json）
+19. **无引用残留清单（2026-09-13 识别 → P0-1 已清理）**: `backend/app/Livewire/`、`backend/resources/views/`（含 `layouts/app.blade.php`）、`backend/docker/nginx/`、`backend/docker/supervisor/` 均为 Vue 重构前遗留且无任何引用，**已于 2026-09-13 的 P0-1 全部删除**（7 个跟踪文件）。遗留待办：`composer.json` 的 `livewire/livewire`、`livewire/flux` 随之成为未使用依赖，移除须**同时 `composer update`**（勿只手改 composer.json）。⚠️ 本仓库**未提交 `composer.lock`**，`composer install` 会退化为 `update` 并可能版本漂移——是否引入 lock 属待定决策
+20. **前端内联样式收口（P1，2026-09-13）**: 全站静态内联 `style=` 从 **661 处降至 348 处**，6 个重灾区页面（`admin/SchoolSettingsPage`、`admin/AdminShopPage`、`admin/AdminScoreRulesPage`、`teacher/ShopPage`、`teacher/GradesPage`、`classroom/PKPage`）**已清零**（仅余动态 `:style` 状态绑定，属有意保留）。做法：`assets/style.css` 新增跨页语义工具类（`page-head`/`page-title`/`page-eyebrow`/`section-title`/`card-title`/`field-error`/`req-star`/`icon-close`/`muted-center(-sm)`/`center-pad-20`/`text-muted-13`/`flex-1`/`stack-8`），各页残留内联样式抽为**页内 `<style scoped>` 语义类**（声明逐字保留以保证渲染等价）。⚠️ `classroom/PKPage`、`teacher/GradesPage` 原**无 `<style>` 块**，本次为其新建。⚠️ 发现 `SchoolSettingsPage` 日志级别 `levelColors` 变量从未定义（原静态 `style` 被 CSS 解析器整条丢弃，级别着色从未生效），本次仅等价移除，真修需补颜色表。⚠️ 若干页存在硬编码色（`#f87171`/`#64748B`/`#10B981` 等）未随主题翻转，暗色模式适配列为后续
