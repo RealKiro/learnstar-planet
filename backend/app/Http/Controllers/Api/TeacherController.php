@@ -12,6 +12,7 @@ use App\Models\Score;
 use App\Models\ScoreRule;
 use App\Models\ShopRedemption;
 use App\Models\Student;
+use App\Services\AiAssistantService;
 use App\Services\AttendanceService;
 use App\Services\BroadcastService;
 use App\Services\CurrencyService;
@@ -45,6 +46,7 @@ class TeacherController extends Controller
         private readonly PetService $petService,
         private readonly PetSeriesService $petSeriesService,
         private readonly ScoreRuleService $scoreRuleService,
+        private readonly AiAssistantService $aiAssistantService,
     ) {
     }
 
@@ -659,19 +661,7 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
 
-        $total = Score::whereIn('class_id', $classIds)->sum('amount');
-        $today = Score::whereIn('class_id', $classIds)
-            ->whereDate('created_at', today())
-            ->sum('amount');
-        $week = Score::whereIn('class_id', $classIds)
-            ->where('created_at', '>=', now()->startOfWeek())
-            ->sum('amount');
-
-        return response()->json(['data' => [
-            'total' => (int) $total,
-            'today' => (int) $today,
-            'this_week' => (int) $week,
-        ]]);
+        return response()->json(['data' => $this->scoreService->summaryFor($classIds)]);
     }
 
     public function giveScore(Request $request): JsonResponse
@@ -812,20 +802,7 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
 
-        $recent = Score::whereIn('class_id', $classIds)
-            ->with('student:id,name')
-            ->orderBy('created_at', 'desc')
-            ->limit(20)
-            ->get()
-            ->map(fn ($s) => [
-                'id' => $s->id,
-                'student_name' => $s->student?->name,
-                'amount' => $s->amount,
-                'reason' => $s->reason,
-                'created_at' => $s->created_at?->toDateTimeString(),
-            ]);
-
-        return response()->json(['data' => $recent]);
+        return response()->json(['data' => $this->scoreService->recentFor($classIds)]);
     }
 
     // ============================================================
@@ -1482,21 +1459,8 @@ class TeacherController extends Controller
     public function aiConfig(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $setting = \App\Models\AiSetting::where('school_id', $teacher->school_id)->first();
 
-        $enabled = false;
-        if ($setting && $setting->enabled) {
-            $providers = $setting->providers ?: [];
-            // 任一启用的供应商配了 api_key 即视为已配置
-            $hasProviderKey = collect($providers)->contains(
-                fn ($p) => !empty($p['is_active']) && !empty($p['api_key'])
-            );
-            // 兼容旧字段（单 provider + api_key）
-            $hasLegacyKey = !empty($setting->provider) && !empty($setting->api_key);
-            $enabled = $hasProviderKey || $hasLegacyKey;
-        }
-
-        return response()->json(['data' => ['enabled' => $enabled]]);
+        return response()->json(['data' => $this->aiAssistantService->configFor($teacher)]);
     }
 
     public function aiChat(Request $request): JsonResponse
@@ -1504,92 +1468,7 @@ class TeacherController extends Controller
         $request->validate(['message' => 'required|string|max:2000']);
 
         $teacher = $request->user();
-        $settings = \App\Models\AiSetting::where('school_id', $teacher->school_id)->first();
-        if (!$settings || !$settings->enabled) {
-            return response()->json(['data' => ['reply' => 'AI 功能未启用，请联系管理员配置']]);
-        }
-
-        // 从多供应商配置中查找启用的供应商，兼容旧版单供应商配置
-        $activeProvider = null;
-        foreach ($settings->providers ?: [] as $p) {
-            if (!empty($p['is_active']) && !empty($p['api_key'])) {
-                $activeProvider = $p;
-                break;
-            }
-        }
-        if (!$activeProvider && !empty($settings->api_key)) {
-            $activeProvider = [
-                'id' => $settings->provider ?: 'openai',
-                'api_key' => $settings->api_key,
-                'api_base' => $settings->api_base,
-                'model' => $settings->model ?: 'gpt-3.5-turbo',
-            ];
-        }
-        if (!$activeProvider) {
-            return response()->json(['data' => ['reply' => '请先在 AI 中心配置并启用一个供应商']]);
-        }
-
-        $classId = $teacher->getSetting('active_class_id') ?: null;
-
-        $conversation = \App\Models\AiConversation::create([
-            'school_id' => $teacher->school_id,
-            'class_id' => $classId,
-            'student_name' => '教师',
-            'provider' => $activeProvider['id'],
-            'question' => $request->input('message'),
-            'status' => 'pending',
-        ]);
-
-        try {
-            $ai = new \App\Services\AiService();
-            $result = $ai->chat(
-                provider: $activeProvider['id'],
-                apiKey: $activeProvider['api_key'],
-                model: $activeProvider['model'] ?: 'gpt-3.5-turbo',
-                question: $request->input('message'),
-                apiBase: $activeProvider['api_base'] ?? null,
-                maxTokens: $settings->max_tokens,
-            );
-            $reply = $result['answer'];
-            $promptTokens = $result['prompt_tokens'] ?? 0;
-            $completionTokens = $result['completion_tokens'] ?? 0;
-            $tokensUsed = $result['tokens_used'] ?? ($promptTokens + $completionTokens);
-        } catch (\Throwable $e) {
-            $reply = 'AI 服务暂时不可用';
-            $tokensUsed = 0;
-            $promptTokens = 0;
-            $completionTokens = 0;
-        }
-
-        // 本地精确计费：按供应商单价计算本次费用
-        $cost = app(\App\Services\AiBilling\AiBillingService::class)->recordUsage($activeProvider, $promptTokens, $completionTokens);
-        $currency = $activeProvider['currency'] ?? 'CNY';
-
-        $conversation->update([
-            'answer' => $reply,
-            'tokens_used' => $tokensUsed,
-            'prompt_tokens' => $promptTokens,
-            'completion_tokens' => $completionTokens,
-            'cost' => $cost,
-            'currency' => $currency,
-            'status' => 'completed',
-        ]);
-
-        if ($tokensUsed > 0) {
-            $settings->increment('tokens_used', $tokensUsed);
-            $providers = $settings->providers ?: [];
-            foreach ($providers as &$p) {
-                if (($p['id'] ?? '') === ($activeProvider['id'] ?? '')) {
-                    $p['tokens_used'] = ($p['tokens_used'] ?? 0) + $tokensUsed;
-                    $p['total_calls'] = ($p['total_calls'] ?? 0) + 1;
-                    $p['estimated_cost'] = ($p['estimated_cost'] ?? 0) + $cost;
-                    $p['currency'] = $currency;
-                    break;
-                }
-            }
-            $settings->providers = $providers;
-            $settings->save();
-        }
+        $reply = $this->aiAssistantService->chat($teacher, (string) $request->input('message'));
 
         return response()->json(['data' => ['reply' => $reply]]);
     }
@@ -1600,36 +1479,8 @@ class TeacherController extends Controller
     public function getAiUsage(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $settings = \App\Models\AiSetting::where('school_id', $teacher->school_id)->first();
 
-        $active = null;
-        if ($settings) {
-            foreach ($settings->providers ?: [] as $p) {
-                if (!empty($p['is_active']) && !empty($p['api_key'])) {
-                    $active = $p;
-                    break;
-                }
-            }
-            if (!$active && !empty($settings->api_key)) {
-                $active = ['id' => $settings->provider ?: 'openai', 'model' => $settings->model];
-            }
-        }
-
-        $estimatedCost = 0.0;
-        $currency = 'CNY';
-        foreach ($settings->providers ?? [] as $p) {
-            $estimatedCost += (float) ($p['estimated_cost'] ?? 0);
-            $currency = (string) ($p['currency'] ?? $currency);
-        }
-
-        return response()->json(['data' => [
-            'configured' => $settings !== null && $settings->enabled && $active !== null,
-            'provider' => $active['id'] ?? ($settings->provider ?? null),
-            'model' => $active['model'] ?? ($settings->model ?? null),
-            'tokens_used' => $settings ? (int) $settings->tokens_used : 0,
-            'estimated_cost' => $estimatedCost,
-            'currency' => $currency,
-        ]]);
+        return response()->json(['data' => $this->aiAssistantService->usageFor($teacher)]);
     }
 
     /**
@@ -1637,12 +1488,7 @@ class TeacherController extends Controller
      */
     public function getAiCommands(Request $request): JsonResponse
     {
-        return response()->json(['data' => [
-            ['label' => '📝 本周教学总结', 'prompt' => '请帮我写一份本周教学总结，包含本周教学目标、课堂情况、学生表现和下周教学计划。'],
-            ['label' => '🏅 积分规则建议', 'prompt' => '请根据班级日常情况，生成一套适合小学生的积分奖励规则建议。'],
-            ['label' => '🎯 班会活动方案', 'prompt' => '请设计一个有趣的小学生班会活动方案，包含活动目标、流程和所需材料。'],
-            ['label' => '📋 出练习题', 'prompt' => '请出一组适合本年级学生的练习题，包含题目和参考答案。'],
-        ]]);
+        return response()->json(['data' => $this->aiAssistantService->commands()]);
     }
 
     // ============================================================

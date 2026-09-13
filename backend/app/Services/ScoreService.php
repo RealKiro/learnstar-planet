@@ -252,4 +252,51 @@ class ScoreService
                 ->get(),
         ];
     }
+
+    // ========== 教师端多班级查询侧（只读） ==========
+
+    /**
+     * 多班级积分汇总（累计/今日/本周）。
+     *
+     * @param \Illuminate\Support\Collection<int, int> $classIds
+     * @return array{total: int, today: int, this_week: int}
+     */
+    public function summaryFor(\Illuminate\Support\Collection $classIds): array
+    {
+        $total = Score::whereIn('class_id', $classIds)->sum('amount');
+        $today = Score::whereIn('class_id', $classIds)
+            ->whereDate('created_at', today())
+            ->sum('amount');
+        $week = Score::whereIn('class_id', $classIds)
+            ->where('created_at', '>=', now()->startOfWeek())
+            ->sum('amount');
+
+        return [
+            'total' => (int) $total,
+            'today' => (int) $today,
+            'this_week' => (int) $week,
+        ];
+    }
+
+    /**
+     * 多班级最近积分记录（课堂评价右侧"最近记录"）。
+     *
+     * @param \Illuminate\Support\Collection<int, int> $classIds
+     * @return \Illuminate\Support\Collection<int, mixed>
+     */
+    public function recentFor(\Illuminate\Support\Collection $classIds): \Illuminate\Support\Collection
+    {
+        return Score::whereIn('class_id', $classIds)
+            ->with('student:id,name')
+            ->orderBy('created_at', 'desc')
+            ->limit(20)
+            ->get()
+            ->map(fn ($s) => [
+                'id' => $s->id,
+                'student_name' => $s->student?->name,
+                'amount' => $s->amount,
+                'reason' => $s->reason,
+                'created_at' => $s->created_at?->toDateTimeString(),
+            ]);
+    }
 }
