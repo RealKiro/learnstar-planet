@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\ClassRoom;
-use App\Models\Notice;
 use App\Models\Pet;
 use App\Models\Score;
 use App\Models\ScoreRule;
-use App\Models\ShopRedemption;
 use App\Models\Student;
 use App\Services\AiAssistantService;
 use App\Services\AttendanceService;
 use App\Services\BroadcastService;
+use App\Services\ClassroomMessagingService;
 use App\Services\CurrencyService;
-use App\Services\DisplayEventService;
+use App\Services\DashboardService;
 use App\Services\LeaderboardService;
 use App\Services\NoticeService;
 use App\Services\PetSeriesService;
@@ -26,6 +24,7 @@ use App\Services\ReportService;
 use App\Services\ScoreRuleService;
 use App\Services\ScoreService;
 use App\Services\ShopService;
+use App\Services\StudentService;
 use App\Services\TeacherClassScope;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -47,6 +46,9 @@ class TeacherController extends Controller
         private readonly PetSeriesService $petSeriesService,
         private readonly ScoreRuleService $scoreRuleService,
         private readonly AiAssistantService $aiAssistantService,
+        private readonly ClassroomMessagingService $messagingService,
+        private readonly DashboardService $dashboardService,
+        private readonly StudentService $studentService,
     ) {
     }
 
@@ -57,33 +59,8 @@ class TeacherController extends Controller
     public function myClasses(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        // API 机器人账号：返回本校全部启用中的班级（供外部系统枚举可用班级）
-        if ($teacher->isApiBot()) {
-            $assignments = ClassRoom::where('school_id', $teacher->school_id)
-                ->where('status', 'active')
-                ->orderBy('id')
-                ->get(['id', 'name', 'grade'])
-                ->map(fn (ClassRoom $c) => [
-                    'class_id' => $c->id,
-                    'class_name' => $c->name,
-                    'grade' => $c->grade,
-                    'role' => 'api_bot',
-                ]);
 
-            return response()->json(['data' => $assignments]);
-        }
-
-        $assignments = \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->with('classRoom:id,name,grade')
-            ->get()
-            ->map(fn ($a) => [
-                'class_id' => $a->class_room_id,
-                'class_name' => $a->classRoom?->name,
-                'grade' => $a->classRoom?->grade,
-                'role' => $a->role,
-            ]);
-
-        return response()->json(['data' => $assignments]);
+        return response()->json(['data' => $this->dashboardService->classesFor($teacher)]);
     }
 
     public function switchClass(Request $request): JsonResponse
@@ -91,18 +68,9 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classId = (int) $request->input('class_id');
 
-        $isAssigned = $teacher->isApiBot()
-            ? ClassRoom::where('school_id', $teacher->school_id)->where('id', $classId)->where('status', 'active')->exists()
-            : \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-                ->where('class_room_id', $classId)
-                ->exists();
-
-        if (!$isAssigned) {
+        if (!$this->dashboardService->switchTo($teacher, $classId)) {
             return response()->json(['message' => '您未被分配到此班级'], 403);
         }
-
-        // 存储当前班级到用户设置，后续所有 API 都使用此班级
-        $teacher->setSetting('active_class_id', $classId);
 
         return response()->json(['message' => '已切换', 'data' => ['active_class_id' => $classId]]);
     }
@@ -114,13 +82,8 @@ class TeacherController extends Controller
     public function getMode(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $mode = $teacher->getSetting('display_mode', 'classroom_display');
-        $activeClassId = $teacher->getSetting('active_class_id', null);
 
-        return response()->json(['data' => [
-            'mode' => $mode,
-            'active_class_id' => $activeClassId,
-        ]]);
+        return response()->json(['data' => $this->messagingService->getMode($teacher)]);
     }
 
     public function setMode(Request $request): JsonResponse
@@ -132,27 +95,13 @@ class TeacherController extends Controller
             'password' => 'required_unless:mode,classroom_display|string|nullable',
         ]);
 
-        $mode = $request->input('mode');
-        $teacher->setSetting('display_mode', $mode);
+        $result = $this->messagingService->setMode(
+            $teacher,
+            (string) $request->input('mode'),
+            $request->input('class_id'),
+        );
 
-        if ($classId = $request->input('class_id')) {
-            $isAssigned = $teacher->isApiBot()
-                ? ClassRoom::where('school_id', $teacher->school_id)->where('id', (int) $classId)->where('status', 'active')->exists()
-                : \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-                    ->where('class_room_id', (int) $classId)
-                    ->exists();
-            if ($isAssigned) {
-                $teacher->setSetting('active_class_id', (int) $classId);
-            }
-        }
-
-        return response()->json([
-            'message' => '已切换为' . ($mode === 'classroom_display' ? '班级大屏' : '教师管理') . '模式',
-            'data' => [
-                'mode' => $mode,
-                'active_class_id' => $teacher->getSetting('active_class_id'),
-            ],
-        ]);
+        return response()->json($result);
     }
 
     // ============================================================
@@ -162,104 +111,17 @@ class TeacherController extends Controller
     public function classroomDisplay(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classId = $request->input('class_id', $teacher->getSetting('active_class_id'));
 
-        if (!$classId) {
-            return response()->json(['message' => '请先选择班级'], 400);
+        try {
+            $data = $this->messagingService->display(
+                $teacher,
+                $request->input('class_id', $teacher->getSetting('active_class_id')),
+            );
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
 
-        $isAssigned = $teacher->isApiBot()
-            ? ClassRoom::where('school_id', $teacher->school_id)->where('id', (int) $classId)->where('status', 'active')->exists()
-            : \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-                ->where('class_room_id', $classId)
-                ->exists();
-        if (!$isAssigned) {
-            return response()->json(['message' => '您未被分配到此班级'], 403);
-        }
-
-        // Load class room with active students
-        $classRoom = ClassRoom::findOrFail($classId);
-
-        /** @var \Illuminate\Database\Eloquent\Collection<int, Student> $students */
-        $students = Student::where('class_id', $classId)
-            ->where('status', 'active')
-            ->with('pet')
-            ->orderByRaw('CAST(student_no AS UNSIGNED) ASC, id ASC')
-            ->get();
-
-        // Pet overview for all students
-        $pets = $students->map(function (Student $s): array {
-            $pet = $s->pet;
-            $stage = $pet ? $pet->currentStage() : ['emoji' => '\ud83e\udd14', 'name' => '未孵化', 'title' => ''];
-
-            return [
-                'student_id' => $s->id,
-                'student_name' => $s->name,
-                'total_score' => $s->total_score,
-                'has_pet' => $pet !== null,
-                'pet_name' => $pet?->name,
-                'pet_species' => $pet?->species,
-                'level' => $pet->level ?? 0,
-                'experience' => $pet->experience ?? 0,
-                'mood' => $pet->mood ?? 0,
-                'emoji' => $stage['emoji'],
-                'stage_name' => $stage['name'],
-            ];
-        })->values();
-
-        // Active broadcasts for this class (not expired)
-        $broadcasts = \App\Models\Broadcast::where('class_id', $classId)
-            ->whereIn('status', ['pending', 'sent'])
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get()
-            ->map(fn ($b) => [
-                'id' => $b->id,
-                'content' => $b->content,
-                'type' => $b->type,
-                'display_seconds' => $b->display_seconds,
-                'voice_enabled' => $b->voice_enabled,
-                'created_at' => $b->created_at?->diffForHumans(),
-            ]);
-
-        // Recent notices (last 7 days, published)
-        $notices = Notice::where('class_id', $classId)
-            ->where('is_published', true)
-            ->where('published_at', '>=', now()->subDays(7))
-            ->orderBy('published_at', 'desc')
-            ->take(3)
-            ->get()
-            ->map(fn ($n) => [
-                'id' => $n->id,
-                'title' => $n->title,
-                'content' => $n->content,
-                'type' => $n->type,
-                'published_at' => $n->published_at?->diffForHumans(),
-            ]);
-
-        // Recent scores feed
-        $recentScores = Score::where('class_id', $classId)
-            ->where('created_at', '>=', now()->subHours(4))
-            ->with('student:id,name')
-            ->orderBy('created_at', 'desc')
-            ->take(20)
-            ->get()
-            ->map(fn (Score $s) => [
-                'student_name' => $s->student?->name,
-                'amount' => $s->amount,
-                'reason' => $s->reason,
-                'time' => $s->created_at?->diffForHumans(),
-            ]);
-
-        return response()->json(['data' => [
-            'class_name' => $classRoom->name,
-            'grade' => $classRoom->grade,
-            'student_count' => $students->count(),
-            'pets' => $pets,
-            'broadcasts' => $broadcasts,
-            'notices' => $notices,
-            'recent_scores' => $recentScores,
-        ]]);
+        return response()->json(['data' => $data]);
     }
 
     // ============================================================
@@ -277,6 +139,7 @@ class TeacherController extends Controller
         $classIds = $this->getAccessibleClassIds($teacher);
         $classId = (int) $request->input('class_id', $classIds[0] ?? 0);
 
+        // 权限预检先于参数校验（保持历史响应顺序：越权 403 优先于 422）
         if (!in_array($classId, $classIds)) {
             return response()->json(['message' => '无权限'], 403);
         }
@@ -290,72 +153,24 @@ class TeacherController extends Controller
             'voice' => 'nullable|boolean',
         ]);
 
-        $type = $request->input('type');
-        $content = $request->input('content');
-
-        // Broadcast types: banner, popup, fullscreen
-        if (in_array($type, ['banner', 'popup', 'fullscreen'])) {
-            $broadcast = \App\Models\Broadcast::create([
-                'school_id' => $teacher->school_id,
-                'class_id' => $classId,
-                'teacher_id' => $teacher->id,
-                'content' => $content,
-                'type' => $type,
-                'voice_enabled' => $request->boolean('voice', true),
-                'display_seconds' => (int) $request->input('display_seconds', 10),
-                'status' => 'sent',
-                'sent_at' => now(),
-            ]);
-
-            // 推送给班级大屏
-            try {
-                app(DisplayEventService::class)->publish($classId, 'broadcast', [
-                    'id' => $broadcast->id,
-                    'type' => $broadcast->type,
-                    'content' => $broadcast->content,
-                    'display_seconds' => $broadcast->display_seconds,
-                    'voice_enabled' => $broadcast->voice_enabled,
-                    'created_at' => $broadcast->created_at?->toIso8601String(),
-                ]);
-            } catch (\Throwable $e) {
-                logger()->warning('Display broadcast publish failed: ' . $e->getMessage());
-            }
-
-            return response()->json([
-                'message' => '广播已发送',
-                'data' => ['id' => $broadcast->id, 'type' => 'broadcast'],
-            ]);
-        }
-
-        // Notice types: info, homework, event, urgent
-        $notice = Notice::create([
-            'class_id' => $classId,
-            'school_id' => $teacher->school_id,
-            'title' => $request->input('title', $type === 'urgent' ? '\u7d27\u6025\u901a\u77e5' : '\u901a\u77e5'),
-            'content' => $content,
-            'type' => $type,
-            'published_by' => $teacher->id,
-            'is_published' => true,
-            'published_at' => now(),
-        ]);
-
-        // 推送给班级大屏
         try {
-            app(DisplayEventService::class)->publish($classId, 'notice', [
-                'id' => $notice->id,
-                'title' => $notice->title,
-                'content' => $notice->content,
-                'type' => $notice->type,
-                'published_at' => $notice->published_at?->toIso8601String(),
-            ]);
-        } catch (\Throwable $e) {
-            logger()->warning('Display notice publish failed: ' . $e->getMessage());
+            $result = $this->messagingService->send(
+                $teacher,
+                $classIds,
+                $classId,
+                (string) $request->input('type'),
+                [
+                    'content' => (string) $request->input('content'),
+                    'title' => $request->input('title'),
+                    'display_seconds' => $request->input('display_seconds', 10),
+                    'voice' => $request->boolean('voice', true),
+                ],
+            );
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
 
-        return response()->json([
-            'message' => '通知已发布',
-            'data' => ['id' => $notice->id, 'type' => 'notice'],
-        ]);
+        return response()->json($result);
     }
 
     /**
@@ -364,49 +179,18 @@ class TeacherController extends Controller
     public function pollClassroomMessages(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classId = $request->input('class_id', $teacher->getSetting('active_class_id'));
 
-        if (!$classId) {
-            return response()->json(['message' => '\u8bf7\u5148\u9009\u62e9\u73ed\u7ea7'], 400);
+        try {
+            $data = $this->messagingService->poll(
+                $teacher,
+                $request->input('class_id', $teacher->getSetting('active_class_id')),
+                $request->input('since'),
+            );
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
 
-        $since = $request->input('since');
-        $sinceTime = $since ? \Carbon\Carbon::parse($since) : now()->subMinutes(5);
-
-        $broadcasts = \App\Models\Broadcast::where('class_id', $classId)
-            ->where('created_at', '>=', $sinceTime)
-            ->whereIn('status', ['sent'])
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get()
-            ->map(fn ($b) => [
-                'id' => $b->id,
-                'content' => $b->content,
-                'type' => $b->type,
-                'display_seconds' => $b->display_seconds,
-                'voice_enabled' => $b->voice_enabled,
-                'created_at' => $b->created_at?->toIso8601String(),
-            ]);
-
-        $notices = Notice::where('class_id', $classId)
-            ->where('is_published', true)
-            ->where('published_at', '>=', $sinceTime)
-            ->orderBy('published_at', 'desc')
-            ->take(3)
-            ->get()
-            ->map(fn ($n) => [
-                'id' => $n->id,
-                'title' => $n->title,
-                'content' => $n->content,
-                'type' => $n->type,
-                'published_at' => $n->published_at?->toIso8601String(),
-            ]);
-
-        return response()->json(['data' => [
-            'broadcasts' => $broadcasts,
-            'notices' => $notices,
-            'polled_at' => now()->toIso8601String(),
-        ]]);
+        return response()->json(['data' => $data]);
     }
 
     // ============================================================
@@ -416,75 +200,8 @@ class TeacherController extends Controller
     public function dashboard(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
 
-        if ($classIds->isEmpty()) {
-            return response()->json(['data' => [
-                'class_name' => '', 'grade' => '', 'student_count' => 0,
-                'total_score' => 0, 'avg_pet_level' => 0, 'peak_count' => 0, 'weekly_score' => 0,
-                'pending_redemptions' => 0, 'star_student' => null, 'top5' => [], 'recent_news' => [],
-            ]]);
-        }
-
-        // 教师当前激活班级（未设置时取第一个）
-        $activeClassId = $teacher->getSetting('active_class_id') ?: $classIds->first();
-        $class = \App\Models\ClassRoom::find($activeClassId) ?? \App\Models\ClassRoom::find($classIds->first());
-        if (!$class) {
-            return response()->json(['data' => [
-                'class_name' => '', 'grade' => '', 'student_count' => 0,
-                'total_score' => 0, 'avg_pet_level' => 0, 'peak_count' => 0, 'weekly_score' => 0,
-                'pending_redemptions' => 0, 'star_student' => null, 'top5' => [], 'recent_news' => [],
-            ]]);
-        }
-
-        $pendingRedemptions = \App\Models\ShopRedemption::whereIn('class_id', $classIds)
-            ->where('status', 'pending')
-            ->count();
-
-        $students = Student::where('class_id', $class->id)->where('status', 'active')->with('pet')->get();
-        $totalScore = $students->sum('total_score');
-        $count = $students->count();
-        $avgLevel = $count > 0 ? round($students->avg(fn ($s) => $s->pet->level ?? 0), 1) : 0;
-        $peakCount = $students->filter(fn ($s) => $s->pet && $s->pet->level >= 10)->count();
-        $sorted = $students->sortByDesc('total_score')->values();
-        $top5 = $sorted->take(5)->map(fn ($s) => [
-            'name' => $s->name,
-            'student_no' => $s->student_no,
-            'score' => $s->total_score,
-            'pet_name' => $s->pet->name ?? '',
-            'pet_species' => $s->pet->species ?? '',
-            'pet_level' => $s->pet->level ?? 0,
-        ]);
-        $starStudent = $sorted->first();
-        $recentNews = \App\Models\Score::whereIn('student_id', $students->pluck('id'))
-            ->with('student:id,name')->orderBy('created_at', 'desc')->take(20)->get()
-            ->map(fn ($s) => [
-                'icon' => $s->amount > 0 ? '🎉' : '📝',
-                'text' => ($s->student->name ?? '同学') . ' ' . ($s->amount > 0 ? '+' . $s->amount : $s->amount) . '分 — ' . ($s->reason ?? ''),
-            ])
-            ->unique('text')->take(5)->values();
-
-        return response()->json(['data' => [
-            'class_name' => $class->name,
-            'grade' => $class->grade,
-            'student_count' => $count,
-            'total_score' => (int) $totalScore,
-            'avg_pet_level' => $avgLevel,
-            'peak_count' => $peakCount,
-            'weekly_score' => (int) \App\Models\Score::whereIn('student_id', $students->pluck('id'))
-                ->where('created_at', '>=', now()->startOfWeek())->sum('amount'),
-            'pending_redemptions' => $pendingRedemptions,
-            'star_student' => $starStudent ? [
-                'name' => $starStudent->name,
-                'student_no' => $starStudent->student_no,
-                'pet_name' => $starStudent->pet->name ?? '',
-                'pet_species' => $starStudent->pet->species ?? '',
-                'pet_level' => $starStudent->pet->level ?? 0,
-                'score' => $starStudent->total_score,
-            ] : null,
-            'top5' => $top5,
-            'recent_news' => $recentNews,
-        ]]);
+        return response()->json(['data' => $this->dashboardService->forTeacher($teacher, $this->teacherClassIds($teacher))]);
     }
 
     // ============================================================
@@ -496,18 +213,7 @@ class TeacherController extends Controller
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
 
-        $query = Student::whereIn('class_id', $classIds)
-            ->with('classRoom:id,name,grade');
-
-        if ($request->has('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('student_no', 'like', "%{$search}%");
-            });
-        }
-
-        $students = $query->with('pet')->orderBy('name')->paginate(50);
+        $students = $this->studentService->list($classIds, $request->input('search'));
 
         return response()->json([
             // 附加宠物字段（保留原始字段，兼容所有调用方）
@@ -529,63 +235,12 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
-        $students = $request->input('students', []);
-        $imported = 0;
-        $skipped = [];
 
-        foreach ($students as $data) {
-            if (empty($data['name']) || empty($data['class_name'])) {
-                continue;
-            }
-            $classRoom = ClassRoom::whereIn('id', $classIds)
-                ->where('name', $data['class_name'])
-                ->first();
-            if (!$classRoom) {
-                continue;
-            }
-            $name = trim((string) $data['name']);
-            $studentNo = trim((string) ($data['student_no'] ?? ''));
-
-            // 查重：同班同学号/同班同名已存在则跳过（重复导入不再重复建人）
-            $dupQuery = Student::where('class_id', $classRoom->id);
-            $dup = $studentNo !== ''
-                ? $dupQuery->where('student_no', $studentNo)->exists()
-                : $dupQuery->where('name', $name)->exists();
-            if ($dup) {
-                $skipped[] = $name . ($studentNo !== '' ? "（学号 {$studentNo}）" : '') . '：' . $classRoom->name . ' 已存在';
-                continue;
-            }
-            // 跨班冲突防护：同学号已在同校其他班级 → 疑似转班，跳过并提示
-            if ($studentNo !== '') {
-                $crossDup = Student::with('classRoom:id,name')
-                    ->where('student_no', $studentNo)
-                    ->where('class_id', '!=', $classRoom->id)
-                    ->where('status', 'active')
-                    ->whereHas('classRoom', function ($q) use ($classRoom) {
-                        $q->where('school_id', $classRoom->school_id);
-                    })
-                    ->first();
-                if ($crossDup) {
-                    $skipped[] = $name . "（学号 {$studentNo}）：已存在于 "
-                        . ($crossDup->classRoom->name ?? '其他班级')
-                        . '，如为转班请联系管理员使用批量转班';
-                    continue;
-                }
-            }
-            Student::create([
-                'class_id' => $classRoom->id,
-                'name' => $name,
-                'gender' => $data['gender'] ?? '未知',
-                'student_no' => $studentNo !== '' ? $studentNo : null,
-                'total_score' => 0,
-                'status' => 'active',
-            ]);
-            $imported++;
-        }
+        $result = $this->studentService->import($classIds, (array) $request->input('students', []));
 
         return response()->json([
-            'message' => "成功导入 {$imported} 名学生" . (count($skipped) > 0 ? "，跳过 " . count($skipped) . " 条重复/冲突记录" : ''),
-            'data' => ['imported_count' => $imported, 'skipped' => $skipped],
+            'message' => $result['message'],
+            'data' => ['imported_count' => $result['imported_count'], 'skipped' => $result['skipped']],
         ]);
     }
 
@@ -593,9 +248,8 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($id);
 
-        $student->update($request->only(['name', 'gender', 'student_no']));
+        $student = $this->studentService->update($classIds, $id, $request->only(['name', 'gender', 'student_no']));
 
         return response()->json(['message' => '更新成功', 'data' => $student]);
     }
@@ -614,26 +268,11 @@ class TeacherController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => '参数错误', 'errors' => $validator->errors()], 422);
         }
-        $class = ClassRoom::whereIn('id', $classIds)->find($request->input('class_id'));
-        if (!$class) {
+
+        $student = $this->studentService->create($classIds, $request->only(['name', 'class_id', 'gender', 'student_no']));
+        if (!$student) {
             return response()->json(['message' => '只能在自己管理的班级添加学生'], 403);
         }
-        $gender = $request->input('gender');
-        if (in_array($gender, ['男生', '男'], true)) {
-            $gender = '男';
-        } elseif (in_array($gender, ['女生', '女'], true)) {
-            $gender = '女';
-        } else {
-            $gender = '未知';
-        }
-        $student = Student::create([
-            'class_id' => $class->id,
-            'name' => $request->input('name'),
-            'gender' => $gender,
-            'student_no' => $request->input('student_no'),
-            'total_score' => 0,
-            'status' => 'active',
-        ]);
 
         return response()->json([
             'message' => '学生「' . $student->name . '」已添加',
@@ -645,9 +284,8 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($id);
 
-        $student->delete();
+        $student = $this->studentService->delete($classIds, $id);
 
         return response()->json(['message' => '学生「' . $student->name . '」已删除']);
     }
