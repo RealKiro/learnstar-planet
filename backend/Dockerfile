@@ -1,6 +1,6 @@
 # Multi-stage Dockerfile for LearnStar Planet
 # Stage 1: Build Vue frontend (Node)
-# Stage 2: PHP runtime with RoadRunner (no Nginx, no FPM, no Supervisor)
+# Stage 2: PHP runtime (php artisan serve — no Nginx, no FPM, no Supervisor)
 #
 # Build context = learnstar-planet/ (repository root)
 
@@ -18,7 +18,7 @@ COPY frontend-vue/ ./
 RUN npm run build:ci
 
 # ============================================================
-# Stage 2: PHP + RoadRunner production runtime
+# Stage 2: PHP production runtime
 # ============================================================
 FROM php:8.5-cli-alpine AS app
 
@@ -77,7 +77,7 @@ RUN mkdir -p storage/app/public \
     storage/framework/views \
     storage/logs \
     bootstrap/cache \
-    && chown -R www-data:www-data /var/www/html 2>/dev/null || true \
+    && chown -R www-data:www-data /app \
     && chmod -R 755 storage bootstrap/cache public \
     && touch storage/database.sqlite \
     && chmod 666 storage/database.sqlite
