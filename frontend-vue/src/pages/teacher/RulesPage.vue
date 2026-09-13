@@ -132,29 +132,29 @@ async function handleDelete(rule: ScoreRule) {
       <button class="btn btn-sm btn-primary" @click="openAdd">添加规则</button>
     </div>
 
-    <div v-if="loadError" style="margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">⚠️ {{ loadError }}</div>
+    <div v-if="loadError" class="rule-error">⚠️ {{ loadError }}</div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
 
     <div v-else-if="rules.length === 0" class="card empty-state">
       <div class="empty-state__icon">📋</div>
-      <p style="margin-bottom:16px;">暂无积分规则，点击「添加规则」创建</p>
+      <p class="rule-mb-16">暂无积分规则，点击「添加规则」创建</p>
     </div>
 
-    <div v-else style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div v-else class="rule-grid-2">
       <!-- 加分规则 -->
       <div class="card">
-        <h3 class="section-title">加分规则 <span style="color:var(--color-accent);font-size:13px;">({{ positiveRules.length }})</span></h3>
+        <h3 class="section-title">加分规则 <span class="rule-accent-13">({{ positiveRules.length }})</span></h3>
         <div v-if="positiveRules.length === 0" class="muted-center-sm">暂无加分规则</div>
         <div v-else class="stack-8">
-          <div v-for="rule in positiveRules" :key="rule.id" class="card"
-            style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(16,185,129,0.3);">
+          <div v-for="rule in positiveRules" :key="rule.id" class="card rule-card-ok"
+>
             <div>
-              <span style="font-weight:700;color:var(--color-accent);">+{{ Math.abs(rule.amount) }}</span>
-              <span style="margin-left:8px;font-weight:500;">{{ rule.name }}</span>
-              <span style="margin-left:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;">{{ categoryLabels[rule.category] || rule.category }}</span>
+              <span class="rule-fw-accent">+{{ Math.abs(rule.amount) }}</span>
+              <span class="rule-ml-8-fw">{{ rule.name }}</span>
+              <span class="rule-chip">{{ categoryLabels[rule.category] || rule.category }}</span>
             </div>
-            <div style="display:flex;gap:4px;">
+            <div class="rule-row-4">
               <button class="btn btn-sm btn-ghost" @click="openEdit(rule)">编辑</button>
               <button class="btn btn-sm btn-ghost" @click="handleDelete(rule)" :disabled="getDeleteStatus(rule.id) === 'loading'" :style="getDeleteBtnStyle(rule.id)">{{ getDeleteBtnText(rule.id) }}</button>
             </div>
@@ -164,17 +164,17 @@ async function handleDelete(rule: ScoreRule) {
 
       <!-- 扣分规则 -->
       <div class="card">
-        <h3 class="section-title">扣分规则 <span style="color:var(--color-danger);font-size:13px;">({{ negativeRules.length }})</span></h3>
+        <h3 class="section-title">扣分规则 <span class="rule-danger-13">({{ negativeRules.length }})</span></h3>
         <div v-if="negativeRules.length === 0" class="muted-center-sm">暂无扣分规则</div>
         <div v-else class="stack-8">
-          <div v-for="rule in negativeRules" :key="rule.id" class="card"
-            style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(239,68,68,0.3);">
+          <div v-for="rule in negativeRules" :key="rule.id" class="card rule-card-danger"
+>
             <div>
-              <span style="font-weight:700;color:var(--color-danger);">{{ rule.amount }}</span>
-              <span style="margin-left:8px;font-weight:500;">{{ rule.name }}</span>
-              <span style="margin-left:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;">{{ categoryLabels[rule.category] || rule.category }}</span>
+              <span class="rule-fw-danger">{{ rule.amount }}</span>
+              <span class="rule-ml-8-fw">{{ rule.name }}</span>
+              <span class="rule-chip">{{ categoryLabels[rule.category] || rule.category }}</span>
             </div>
-            <div style="display:flex;gap:4px;">
+            <div class="rule-row-4">
               <button class="btn btn-sm btn-ghost" @click="openEdit(rule)">编辑</button>
               <button class="btn btn-sm btn-ghost" @click="handleDelete(rule)" :disabled="getDeleteStatus(rule.id) === 'loading'" :style="getDeleteBtnStyle(rule.id)">{{ getDeleteBtnText(rule.id) }}</button>
             </div>
@@ -184,9 +184,9 @@ async function handleDelete(rule: ScoreRule) {
     </div>
 
     <!-- 添加/编辑弹窗 -->
-    <div v-if="showModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:100;" @click.self="showModal = false">
-      <div class="card" style="width:420px;max-width:90vw;padding:24px;">
-        <h3 style="font-size:18px;font-weight:600;margin-bottom:20px;">{{ editingId ? '编辑规则' : '添加规则' }}</h3>
+    <div v-if="showModal" @click.self="showModal = false" class="rule-mask">
+      <div class="card rule-panel">
+        <h3 class="rule-modal-title">{{ editingId ? '编辑规则' : '添加规则' }}</h3>
         <div class="form-group">
           <label>规则名称</label>
           <input v-model="form.name" class="form-input" placeholder="如：举手发言" :style="{ borderColor: ruleErrors.name ? '#f87171' : '' }" @blur="rVld('name')" @input="rClr('name')" @keydown.enter="handleSubmit">
@@ -210,11 +210,32 @@ async function handleDelete(rule: ScoreRule) {
             <option :value="false">扣分规则</option>
           </select>
         </div>
-        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px;">
+        <div class="rule-modal-actions">
           <button class="btn btn-ghost" @click="showModal = false">取消</button>
-          <button class="btn btn-primary" style="width:auto;" @click="handleSubmit" :disabled="saveStatus === 'loading'" :style="saveBtnStyle">{{ saveBtnText }}</button>
+          <button class="btn btn-primary rule-btn-auto" @click="handleSubmit" :disabled="saveStatus === 'loading'" :style="saveBtnStyle">{{ saveBtnText }}</button>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.rule-ml-8-fw { margin-left:8px;font-weight:500; }
+.rule-chip { margin-left:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px; }
+.rule-row-4 { display:flex;gap:4px; }
+.rule-error { margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
+.rule-mb-16 { margin-bottom:16px; }
+.rule-grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
+.rule-accent-13 { color:var(--color-accent);font-size:13px; }
+.rule-card-ok { padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(16,185,129,0.3); }
+.rule-fw-accent { font-weight:700;color:var(--color-accent); }
+.rule-danger-13 { color:var(--color-danger);font-size:13px; }
+.rule-card-danger { padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(239,68,68,0.3); }
+.rule-fw-danger { font-weight:700;color:var(--color-danger); }
+.rule-mask { position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:100; }
+.rule-panel { width:420px;max-width:90vw;padding:24px; }
+.rule-modal-title { font-size:18px;font-weight:600;margin-bottom:20px; }
+.rule-modal-actions { display:flex;justify-content:flex-end;gap:8px;margin-top:8px; }
+.rule-btn-auto { width:auto; }
+</style>
