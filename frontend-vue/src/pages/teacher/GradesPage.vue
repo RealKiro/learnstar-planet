@@ -103,8 +103,8 @@ async function submitGrades() {
   <div>
     <div class="page-head">
       <h2 class="page-title">📊 成绩管理</h2>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <select v-model="selectedExam" @change="loadGrades" class="form-select" style="width:auto;">
+      <div class="row-center-8">
+        <select v-model="selectedExam" @change="loadGrades" class="form-select w-auto">
           <option value="">全部考试</option>
           <option v-for="e in examOptions" :key="e" :value="e">{{ e }}</option>
         </select>
@@ -121,20 +121,19 @@ async function submitGrades() {
 
     <!-- 录入弹窗 -->
     <Teleport to="body">
-      <div v-if="showInputModal" @click.self="showInputModal = false"
-        style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:var(--color-bg-card);border-radius:16px;padding:24px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">录入成绩</h3>
-          <p style="font-size:13px;color:#64748B;margin-bottom:16px;">成绩导入功能开发中，当前支持通过后端 API 录入。</p>
-          <div class="form-group" style="margin-bottom:12px;">
+      <div v-if="showInputModal" @click.self="showInputModal = false" class="modal-mask">
+        <div class="modal-panel">
+          <h3 class="modal-heading">录入成绩</h3>
+          <p class="modal-sub">成绩导入功能开发中，当前支持通过后端 API 录入。</p>
+          <div class="form-group gap-sm">
             <label>考试名称</label>
             <input v-model="inputForm.exam_name" class="form-input" placeholder="如：期中考试">
           </div>
-          <div class="form-group" style="margin-bottom:12px;">
+          <div class="form-group gap-sm">
             <label>科目</label>
             <input v-model="inputForm.subject" class="form-input" placeholder="如：语文">
           </div>
-          <div style="display:flex;gap:12px;margin-top:20px;">
+          <div class="modal-actions">
             <button class="btn flex-1" @click="showInputModal = false">取消</button>
             <button class="btn btn-primary flex-1" :disabled="inputStatus !== 'idle'"
               :style="{ background: inputStatus === 'loading' ? '#f59e0b' : inputStatus === 'success' ? '#10b981' : inputStatus === 'error' ? '#ef4444' : '#7c3aed' }"
@@ -153,27 +152,27 @@ async function submitGrades() {
 
     <div v-else-if="grades.length === 0" class="card empty-state">
       <div class="empty-state__icon">📊</div>
-      <p style="margin-bottom:8px;">暂无成绩数据</p>
-      <p style="font-size:13px;">点击「录入成绩」添加考试数据</p>
+      <p class="gap-xs">暂无成绩数据</p>
+      <p class="text-13">点击「录入成绩」添加考试数据</p>
     </div>
 
     <template v-else>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+      <div class="stat-grid-4">
         <div class="card center-pad-20">
-          <div style="font-size:28px;font-weight:700;color:var(--color-primary);">{{ avgScore }}</div>
-          <div style="font-size:13px;color:#64748B;">班级平均分</div>
+          <div class="stat-num-primary">{{ avgScore }}</div>
+          <div class="text-slate-13">班级平均分</div>
         </div>
         <div class="card center-pad-20">
-          <div style="font-size:28px;font-weight:700;color:var(--color-accent);">{{ maxScore }}</div>
-          <div style="font-size:13px;color:#64748B;">最高分</div>
+          <div class="stat-num-accent">{{ maxScore }}</div>
+          <div class="text-slate-13">最高分</div>
         </div>
         <div class="card center-pad-20">
-          <div style="font-size:28px;font-weight:700;color:var(--color-danger);">{{ minScore }}</div>
-          <div style="font-size:13px;color:#64748B;">最低分</div>
+          <div class="stat-num-danger">{{ minScore }}</div>
+          <div class="text-slate-13">最低分</div>
         </div>
         <div class="card center-pad-20">
-          <div style="font-size:28px;font-weight:700;color:var(--color-secondary);">{{ passRate }}%</div>
-          <div style="font-size:13px;color:#64748B;">及格率</div>
+          <div class="stat-num-secondary">{{ passRate }}%</div>
+          <div class="text-slate-13">及格率</div>
         </div>
       </div>
 
@@ -182,13 +181,13 @@ async function submitGrades() {
           <thead><tr><th>姓名</th><th>总分</th><th>平均分</th><th>班名次</th></tr></thead>
           <tbody>
             <tr v-for="g in grades" :key="g.student_id">
-              <td style="font-weight:600;">{{ g.student_name }}</td>
-              <td style="font-weight:700;">{{ g.total }}</td>
-              <td style="color:var(--color-text-secondary);">{{ g.average }}</td>
+              <td class="fw-600">{{ g.student_name }}</td>
+              <td class="fw-700">{{ g.total }}</td>
+              <td class="text-muted">{{ g.average }}</td>
               <td :style="{ color: g.rank <= 3 ? '#EAB308' : '', fontWeight: 700 }">{{ g.rank }}</td>
             </tr>
             <tr v-if="grades.length === 0">
-              <td colspan="4" style="text-align:center;padding:24px;color:#64748B;">暂无数据</td>
+              <td colspan="4" class="empty-slate">暂无数据</td>
             </tr>
           </tbody>
         </table>
@@ -196,3 +195,27 @@ async function submitGrades() {
     </template>
   </div>
 </template>
+
+<style scoped>
+/* ===== 页内布局类（本页专用，替代原内联样式；声明逐字保留以保证渲染等价） ===== */
+.text-slate-13 { font-size:13px; color:#64748B; }
+.gap-sm { margin-bottom:12px; }
+.row-center-8 { display:flex; gap:8px; align-items:center; }
+.w-auto { width:auto; }
+.modal-mask { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; padding:20px; }
+.modal-panel { background:var(--color-bg-card); border-radius:16px; padding:24px; max-width:420px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+.modal-heading { font-size:18px; font-weight:700; margin-bottom:16px; }
+.modal-sub { font-size:13px; color:#64748B; margin-bottom:16px; }
+.modal-actions { display:flex; gap:12px; margin-top:20px; }
+.gap-xs { margin-bottom:8px; }
+.text-13 { font-size:13px; }
+.stat-grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+.stat-num-primary { font-size:28px; font-weight:700; color:var(--color-primary); }
+.stat-num-accent { font-size:28px; font-weight:700; color:var(--color-accent); }
+.stat-num-danger { font-size:28px; font-weight:700; color:var(--color-danger); }
+.stat-num-secondary { font-size:28px; font-weight:700; color:var(--color-secondary); }
+.fw-600 { font-weight:600; }
+.fw-700 { font-weight:700; }
+.text-muted { color:var(--color-text-secondary); }
+.empty-slate { text-align:center; padding:24px; color:#64748B; }
+</style>
