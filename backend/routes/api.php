@@ -233,13 +233,6 @@ Route::prefix('v1')->group(function () {
             Route::get('summary', [TeacherController::class, 'attendanceSummary']);
         });
 
-        Route::prefix('grades')->group(function () {
-            Route::get('/', [TeacherController::class, 'listGrades']);
-            Route::post('/', [TeacherController::class, 'inputGrades']);
-            Route::get('stats', [TeacherController::class, 'getGradeStats']);
-            Route::get('distribution', [TeacherController::class, 'getGradeDistribution']);
-        });
-
         Route::prefix('ai')->group(function () {
             Route::get('config', [TeacherController::class, 'aiConfig']);
             Route::post('chat', [TeacherController::class, 'aiChat']);

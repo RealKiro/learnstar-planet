@@ -457,14 +457,6 @@ GET /teacher/scores/history?student_id=1&page=1
 | `/teacher/question-banks/{id}/questions` | POST | 添加题目 |
 | `/teacher/question-banks/{id}/questions` | GET | 获取题目列表 |
 
-**成绩管理：**
-| 端点 | 方法 | 说明 |
-|------|------|------|
-| `/teacher/grades` | GET | 成绩列表 |
-| `/teacher/grades` | POST | 录入成绩 |
-| `/teacher/grades/stats` | GET | 成绩统计 |
-| `/teacher/grades/distribution` | GET | 成绩分布 |
-
 **AI 助教：**
 | 端点 | 方法 | 说明 |
 |------|------|------|

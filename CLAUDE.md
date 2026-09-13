@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-学宠星球是一个开源的班级管理与学生激励系统，定位为商业产品"班宠星球"的免费替代品。教师使用它来管理学生积分、宠物养成、考勤、作业、测验、成绩等日常课堂事务。
+学宠星球是一个开源的班级管理与学生激励系统，定位为商业产品"班宠星球"的免费替代品。教师使用它来管理学生积分、宠物养成、考勤、作业、测验等日常课堂事务。
 
 - **许可证**: MIT
 - **仓库**: https://github.com/RealKiro/learnstar-planet
@@ -89,7 +89,7 @@ learnstar-planet/
 │   │   ├── Http/Resources/        # JsonResource 响应类
 │   │   └── Livewire/              # ⚠️ 遗留死代码（无路由可达，待清理，见「前端」小节）
 │   ├── database/migrations/       # 32 个迁移（含 2026_08_05 计费/班级码/汇率）
-│   └── routes/api.php             # 约 188 条路由定义（get 80 / post 77 / put 19 / delete 11 / match 1）
+│   └── routes/api.php             # 约 184 条路由定义（get 77 / post 76 / put 19 / delete 11 / match 1）
 │
 ├── mini-program/                   # 微信小程序
 │   └── pages/                     # 10 个页面
@@ -137,7 +137,7 @@ learnstar-planet/
 | `questions` | 题目 |
 | `quizzes` | 测验 |
 | `quiz_submissions` | 测验提交 |
-| `grades` | 成绩 |
+| `grades` | 成绩（功能已下线，表暂留未使用）|
 
 ### 增值功能表
 | 表名 | 说明 |
@@ -153,7 +153,7 @@ learnstar-planet/
 
 ---
 
-## API 架构（约 188 条路由定义）
+## API 架构（约 184 条路由定义）
 
 ### `/api/v1/auth/*` — 认证
 - POST teacher/login, admin/login, teacher/login/{platform}

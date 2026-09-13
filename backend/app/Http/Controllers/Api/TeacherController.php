@@ -19,7 +19,6 @@ use App\Services\AttendanceService;
 use App\Services\BroadcastService;
 use App\Services\CurrencyService;
 use App\Services\DisplayEventService;
-use App\Services\GradeService;
 use App\Services\LeaderboardService;
 use App\Services\NoticeService;
 use App\Services\ScoreService;
@@ -38,7 +37,6 @@ class TeacherController extends Controller
         private readonly NoticeService $noticeService,
         private readonly BroadcastService $broadcastService,
         private readonly AttendanceService $attendanceService,
-        private readonly GradeService $gradeService,
     ) {
     }
 
@@ -2112,77 +2110,6 @@ class TeacherController extends Controller
     private function getAccessibleClassIds($teacher): array
     {
         return $this->classScope->accessibleIds($teacher);
-    }
-
-    // ============================================================
-    // Grades
-    // ============================================================
-
-    public function listGrades(Request $request): JsonResponse
-    {
-        $grades = $this->gradeService->paginate(
-            $request->user(),
-            $request->input('exam_name'),
-            $request->input('subject'),
-        );
-
-        return response()->json([
-            'data' => $grades->items(),
-            'meta' => [
-                'current_page' => $grades->currentPage(),
-                'last_page' => $grades->lastPage(),
-                'per_page' => $grades->perPage(),
-                'total' => $grades->total(),
-            ],
-        ]);
-    }
-
-    public function inputGrades(Request $request): JsonResponse
-    {
-        $request->validate([
-            'exam_name' => 'required|string|max:50',
-            'subject' => 'required|string|max:50',
-            'grades' => 'required|array|min:1',
-            'grades.*.student_id' => 'required|integer',
-            'grades.*.score' => 'required|numeric|min:0',
-        ]);
-
-        $count = $this->gradeService->input(
-            $request->user(),
-            $request->input('grades'),
-            $request->input('exam_name'),
-            $request->input('subject'),
-        );
-
-        return response()->json(['message' => "已录入 {$count} 条成绩"]);
-    }
-
-    public function getGradeStats(Request $request): JsonResponse
-    {
-        $request->validate([
-            'exam_name' => 'required|string',
-            'subject' => 'required|string',
-        ]);
-
-        return response()->json(['data' => $this->gradeService->stats(
-            $request->user(),
-            $request->input('exam_name'),
-            $request->input('subject'),
-        )]);
-    }
-
-    public function getGradeDistribution(Request $request): JsonResponse
-    {
-        $request->validate([
-            'exam_name' => 'required|string',
-            'subject' => 'required|string',
-        ]);
-
-        return response()->json(['data' => $this->gradeService->distribution(
-            $request->user(),
-            $request->input('exam_name'),
-            $request->input('subject'),
-        )]);
     }
 
     /**

@@ -45,7 +45,6 @@ const FULL_NAV = [
     { page: 'teacher-attendance', label: '智能考勤', icon: '✅' },
   ]},
   { section: '数据中心', items: [
-    { page: 'teacher-grades', label: '成绩管理', icon: '📊' },
     { page: 'teacher-reports', label: '数据报表', icon: '📈' },
   ]},
   { section: '沟通协作', items: [

@@ -141,15 +141,6 @@ export interface Attendance {
   check_in_time?: string
 }
 
-export interface GradeEntry {
-  student_id: number
-  student_name: string
-  subjects: Record<string, number>
-  total: number
-  average: number
-  rank: number
-}
-
 export interface QuestionBank {
   id: number
   name: string

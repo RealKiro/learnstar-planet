@@ -33,7 +33,7 @@ export const slides: Slide[] = [
   {
     badge: '12 大功能模块',
     title: '覆盖班级管理', highlight: '全场景',
-    desc: '积分规则 · 宠物进化 · 排行榜 · 通知公告\n考勤 · 作业 · 答题 · 成绩 · 商城 · 广播 · AI', icon: '⚡',
+    desc: '积分规则 · 宠物进化 · 排行榜 · 通知公告\n考勤 · 作业 · 答题 · 商城 · 广播 · AI', icon: '⚡',
   },
   {
     badge: '11 阶宠物进化',
@@ -52,9 +52,8 @@ export const features: Feature[] = [
   { icon: '🌟', title: '宠物进化', desc: '11 阶宇宙进化，积分驱动成长' },
   { icon: '🏆', title: '排行竞技', desc: '总积分 / 周进步 / 宠物等级三大排行' },
   { icon: '📢', title: '班级通知', desc: '一键发布，实时推送家长端' },
-  { icon: '📊', title: '成绩管理', desc: '录入分析，班级对比，趋势可视化' },
-  { icon: '🤖', title: 'AI 助教', desc: '班级反馈、学生分析、家校沟通建议' },
   { icon: '✅', title: '智能考勤', desc: '一键签到，到课 / 请假 / 迟到统计' },
+  { icon: '🤖', title: 'AI 助教', desc: '班级反馈、学生分析、家校沟通建议' },
   { icon: '📱', title: '扫码收作业', desc: '生成二维码，学生扫码提交自动汇总' },
   { icon: '🛍️', title: '积分商城', desc: '兑换实物 / 特权，教师审批发放' },
   { icon: '📡', title: '实时广播', desc: '消息直达桌面，文字 / 语音 / 横幅 / 全屏' },
