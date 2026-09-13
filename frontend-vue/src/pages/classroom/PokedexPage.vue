@@ -4,7 +4,7 @@ import { apiPost } from '@/utils/api'
 import { useAppMode } from '@/composables/useAppMode'
 import { getAllSeries, PET_SERIES, getSpeciesById } from '@/utils/petData'
 import { getPoems, getEvoLines, STAGE_NAMES, poemToLines } from '@/utils/petHandbookData'
-import { getPetLifeStory } from '@/utils/petLifeStories'
+import type { PetLifeStory } from '@/utils/petLifeStories'
 import PetSprite from '@/components/pet/PetSprite.vue'
 
 // 教室端/教师端共用图鉴页；教师端无 class_token，隐藏"切换系列"
@@ -44,9 +44,18 @@ const detailEvoLines = computed(() => {
   return getEvoLines(selectedSpecies.value.name)
 })
 
-/** 角色人生档案（故事演义：品性/行为/服饰/功法/台词/诗词/年龄/关键词） */
-const lifeStory = computed(() => selectedSpecies.value ? getPetLifeStory(selectedSpecies.value.speciesId) : null)
+/** 角色生灵档案（故事演义：品性/行为/服饰/功法/台词/诗词/年龄/关键词） */
+/* petLifeStories 体量大（126 物种全量文案），改为打开详情时动态加载，缩小图鉴页首屏 chunk */
+const lifeStory = ref<PetLifeStory | null>(null)
 const lifeStage = computed(() => lifeStory.value?.stages?.[detailStage.value])
+let lifeStoryToken = 0
+async function loadLifeStory(speciesId: string) {
+  const token = ++lifeStoryToken
+  try {
+    const mod = await import('@/utils/petLifeStories')
+    if (token === lifeStoryToken) lifeStory.value = mod.getPetLifeStory(speciesId) ?? null
+  } catch { if (token === lifeStoryToken) lifeStory.value = null }
+}
 
 function goToSlide(idx: number) {
   currentSlide.value = idx
@@ -57,6 +66,8 @@ function goToSlide(idx: number) {
 function openDetail(speciesId: string, name: string) {
   selectedSpecies.value = { seriesId: currentSeries.value, speciesId, name }
   detailStage.value = 0
+  lifeStory.value = null
+  void loadLifeStory(speciesId)
 }
 
 function closeDetail() {
@@ -126,7 +137,7 @@ onUnmounted(() => clearInterval(timer))
             <button @click="closeDetail" class="pkdx-close">✕</button>
           </div>
 
-          <!-- 主题句（人生档案·故事演义） -->
+          <!-- 主题句（生灵档案·故事演义） -->
           <div v-if="lifeStory?.theme" class="life-theme">「{{ lifeStory.theme }}」</div>
 
           <!-- 阶段Tab -->
@@ -142,7 +153,7 @@ onUnmounted(() => clearInterval(timer))
 
           <!-- 阶段详情 -->
           <div class="pkdx-mb-16">
-            <!-- 阶段标题：人生档案阶段名 + 年龄 + 关键词 -->
+            <!-- 阶段标题：生灵档案阶段名 + 年龄 + 关键词 -->
             <div class="life-stage-head">
               <span class="life-stage-name">{{ lifeStage?.name || ((detailStage === 0 ? 1 : detailStage <= 2 ? 2 : detailStage <= 3 ? 8 : detailStage === 4 ? 10 : 12) + ' 阶段') }}</span>
               <template v-if="lifeStage">
@@ -151,7 +162,7 @@ onUnmounted(() => clearInterval(timer))
               </template>
             </div>
 
-            <!-- 有角色人生档案：展示故事演义（品性/行为/服饰/功法/台词/诗文） -->
+            <!-- 有角色生灵档案：展示故事演义（品性/行为/服饰/功法/台词/诗文） -->
             <template v-if="lifeStage">
               <div class="life-block life-char">
                 <div class="life-label">🎭 品性</div>
@@ -317,7 +328,7 @@ onUnmounted(() => clearInterval(timer))
 .species-card-dots { display: flex; justify-content: center; gap: 2px; margin-top: 8px; }
 .species-card-dots span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
 
-/* ===== 详情弹窗·角色人生档案（故事演义） ===== */
+/* ===== 详情弹窗·角色生灵档案（故事演义） ===== */
 .life-theme {
   margin: -6px 0 14px;
   padding: 10px 14px;

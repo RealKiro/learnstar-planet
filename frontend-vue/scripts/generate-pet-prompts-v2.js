@@ -324,7 +324,7 @@ while ((ibm = initBlockRe.exec(initSrc))) {
   initials[ibm[1]] = { cat: get('cat'), elem: get('elem'), name: get('name'), desc: get('desc') }
 }
 
-// petLifeStories.ts —— 六阶段人生档案（有档案的角色 → 提示词走「人生叙事」版，与手绘 SVG / 档案完全对齐）
+// petLifeStories.ts —— 六阶段生灵档案（有档案的角色 → 提示词走「人生叙事」版，与手绘 SVG / 档案完全对齐）
 const lifeSrc = fs.readFileSync(path.join(srcDir, 'petLifeStories.ts'), 'utf8')
 const lifeStories = {}
 {
@@ -365,7 +365,7 @@ function buildPrompt(sp, stage, idx) {
   const color = series.colors[idx]
   const life = lifeStories[sp.id]
 
-  // —— 档案化角色（有六阶段人生档案）→ 人生叙事版提示词，与手绘 SVG / 档案完全对齐 ——
+  // —— 档案化角色（有六阶段生灵档案）→ 人生叙事版提示词，与手绘 SVG / 档案完全对齐 ——
   if (life && life.stages[idx]) {
     const st = life.stages[idx]
     const sceneTone = (st.svg.match(/色调[:：]\s*([^。]+)/) || [])[1] || ''
@@ -450,7 +450,7 @@ lines.push('- **中文主句**（每段首行）：复制给即梦 / 通义万�
 lines.push('- **EN 行**：复制给 Midjourney / DALL·E / Stable Diffusion（英文模型）。')
 lines.push('- **六阶等级制**：灵胎初醒(Lv1) → 凡尘砺心(Lv3) → 道法初成(Lv5) → 大劫淬炼(Lv7) → 封神登天(Lv9) → 道果圆满(Lv11)。')
 lines.push('- **精修四维度**：每阶段含 神态 / 动作 / 衣着 / 梳造 四维描述（重点角色手写，其余按大类基座），见 `frontend-vue/src/utils/petRefine.ts`。')
-lines.push('- **人生档案版**：东方神话 姜子牙 / 杨戬 / 雷震子（有六阶段人生档案）的提示词为「人生叙事」版（品性 / 姿态 / 服饰 / 功法 / 画面 / 台词 / 诗词 / 主题句），源自 `frontend-vue/src/utils/petLifeStories.ts`，与手绘 SVG 完全对齐；其余角色走抽象道行版（petRefine）。')
+lines.push('- **生灵档案版**：东方神话 姜子牙 / 杨戬 / 雷震子（有六阶段生灵档案）的提示词为「人生叙事」版（品性 / 姿态 / 服饰 / 功法 / 画面 / 台词 / 诗词 / 主题句），源自 `frontend-vue/src/utils/petLifeStories.ts`，与手绘 SVG 完全对齐；其余角色走抽象道行版（petRefine）。')
 lines.push('- **画布**：800×1000 竖版，角色主体居中偏下占约 60%，正面 3/4 视角，无文字无水印。')
 lines.push('- **命名规范**：产物存 `frontend-vue/public/pets/{seriesId}/{speciesId}-{stage}.webp`。')
 lines.push('- **版权提醒**：宝可梦 / 数码宝贝 / 星座圣斗士 / 虹猫蓝兔为受保护 IP，本提示词按项目「版权直名、非商用致敬」政策直接使用角色名，请勿用于商用。')
@@ -489,7 +489,7 @@ for (const sid of seriesOrder) {
   for (const sp of list) {
     const baseName = sp.name.split('→')[0]
     const isLife = !!lifeStories[sp.id]
-    lines.push(`#### ${baseName}（\`${sp.id}\`）${isLife ? ' · 人生档案版' : ''}`)
+    lines.push(`#### ${baseName}（\`${sp.id}\`）${isLife ? ' · 生灵档案版' : ''}`)
     lines.push('')
     for (let i = 0; i < 6; i++) {
       const p = buildPrompt(sp, STAGES[i], i)

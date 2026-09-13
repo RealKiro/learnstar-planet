@@ -1242,7 +1242,7 @@ export const PET_SERIES: PetSeries[] = [
           { level: 2, name: '英魂初现', description: '星尘凝成少年射手，目光坚毅如星', stage: 'egg', requiredScore: 15 },
           { level: 3, name: '弓弦初张', description: '苦练箭术，箭意直指星辰', stage: 'baby', requiredScore: 35 },
           { level: 4, name: '仁者之心', description: '心怀慈悲与正义，被推为教皇候选人', stage: 'baby', requiredScore: 60 },
-          { level: 5, name: '闪电拳雏形', description: '拳速若闪电，同时稳稳拉开弓弦', stage: 'growing', requiredScore: 90 },
+          { level: 5, name: '光速拳雏形', description: '拳速若闪电，同时稳稳拉开弓弦', stage: 'growing', requiredScore: 90 },
           { level: 6, name: '原子闪电光速拳', description: '光速拳如原子迸裂，拳影密布苍穹', stage: 'growing', requiredScore: 125 },
           { level: 7, name: '黄金之箭', description: '弯弓搭箭，箭尖汇聚出黄金光芒', stage: 'mature', requiredScore: 165 },
           { level: 8, name: '守护雅典娜', description: '为救雅典娜拼死突围，将婴儿托付他人', stage: 'mature', requiredScore: 210 },

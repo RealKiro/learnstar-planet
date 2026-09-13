@@ -68,8 +68,9 @@ if (typeof stageEmojiMod.getStageEmoji === 'function') {
   }
 }
 
-// 人生档案
+// 生灵档案
 const VISUAL_FIELDS = ['body', 'face', 'attireDetail', 'hairStyle', 'powerEffect', 'actionSeq']
+let interactionCovered = 0, interactionTotal = 0
 for (const id of speciesIds) {
   const st = PET_LIFE_STORIES[id]
   if (!st) { report.missingStory.push(id); continue }
@@ -82,10 +83,13 @@ for (const id of speciesIds) {
     if (!s.poem || s.poem.length < 10) report.storyIssues.push({ id, issue: `${stageName}诗词缺失/过短(${(s.poem || '').length}字)` })
     if (!s.line || s.line.length < 4) report.storyIssues.push({ id, issue: `${stageName}台词缺失` })
     if (!s.character || s.character.length < 4) report.storyIssues.push({ id, issue: `${stageName}品性缺失` })
+    interactionTotal++
+    if (s.interaction && s.interaction.length > 4) interactionCovered++
     const missingVisual = VISUAL_FIELDS.filter(f => !s[f] || String(s[f]).length < 6)
     if (missingVisual.length >= 3) report.storyIssues.push({ id, issue: `${stageName}视觉规格缺${missingVisual.length}项(${missingVisual.join(',')})` })
   })
 }
+report.interactionCoverage = { covered: interactionCovered, total: interactionTotal }
 
 // 特质：数组长度 + 跨物种重复
 const traitDup = {}
@@ -126,11 +130,12 @@ console.log('=== 宠物数据审计 ===')
 console.log('物种总数:', report.total)
 console.log('系列分布:', report.series.map(s => `${s.name}:${s.count}`).join(' / '))
 console.log('基础 emoji 重复对:', report.emojiDup.length, JSON.stringify(report.emojiDup).slice(0, 200))
-console.log('缺人生档案:', report.missingStory.length ? report.missingStory.join(',') : '无')
+console.log('缺生灵档案:', report.missingStory.length ? report.missingStory.join(',') : '无')
 console.log('档案阶段数异常:', report.storyIssues.filter(i => i.issue.startsWith('stages')).length)
 console.log('诗词缺失/过短:', report.storyIssues.filter(i => i.issue.includes('诗词')).length)
 console.log('台词缺失:', report.storyIssues.filter(i => i.issue.includes('台词')).length)
 console.log('品性缺失:', report.storyIssues.filter(i => i.issue.includes('品性')).length)
+console.log('剧情互动覆盖:', report.interactionCoverage.covered + '/' + report.interactionCoverage.total)
 console.log('视觉规格缺≥3项:', report.storyIssues.filter(i => i.issue.includes('视觉规格')).length)
 console.log('特质缺失/不足:', report.traitsIssues.length, JSON.stringify(report.traitsIssues.slice(0, 10)))
 console.log('跨物种重复特质组:', report.traitDupAcrossSpecies)

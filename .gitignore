@@ -101,3 +101,7 @@ learnstar.html
 logs.txt
 overview.md
 .pet-audit-tmp/
+
+# 角色卡是 generate-cards.mjs 的生成物（唯一真相源在 frontend-vue/src/utils/），
+# 不再 git 跟踪；需要时运行：cd frontend-vue && node scripts/generate-cards.mjs
+docs/角色卡/

@@ -109,11 +109,11 @@ function buildCard(sp) {
     L.push(``)
     L.push(`## 3. 九维档案`)
     L.push(``)
-    L.push(`形：${profile.form} ｜ 习性：${profile.habit} ｜ 出身：${profile.origin}`)
-    L.push(`雅号：${profile.epithet} ｜ 动作：${profile.movement} ｜ 象征：${profile.symbol} ｜ 主题：${profile.theme}`)
+    L.push(`形：${profile.form} ｜ 习性：${profile.habit} ｜ 出身：${profile.origin ?? '—'}`)
+    L.push(`雅号：${profile.epithet ?? '—'} ｜ 动作：${profile.movement ?? '—'} ｜ 象征：${profile.symbol ?? '—'} ｜ 主题：${profile.theme ?? '—'}`)
     if (profile.stages) {
       for (const [k, v] of Object.entries(profile.stages)) {
-        L.push(`- **${k}**：${v.form} ｜ ${v.theme}`)
+        L.push(`- **${k}**：${v.form} ｜ ${v.theme ?? '—'}`)
       }
     }
   }
