@@ -82,14 +82,14 @@ learnstar-planet/
 │   ├── Dockerfile                  # 生产环境多阶段构建（Node + PHP + Nginx）
 │   ├── Dockerfile.dev              # 开发环境构建
 │   ├── app/
-│   │   ├── Models/                 # 24 个 Eloquent 模型
+│   │   ├── Models/                 # 26 个 Eloquent 模型
 │   │   ├── Http/Controllers/Api/  # 6 个 API 控制器
-│   │   ├── Services/              # 23 个服务与辅助类（含 AiBilling / ThirdParty 子目录）
+│   │   ├── Services/              # 28 个服务与辅助类（含 AiBilling / ThirdParty 子目录）
 │   │   ├── Http/Requests/         # Form Request 验证类
 │   │   ├── Http/Resources/        # JsonResource 响应类
 │   │   └── Livewire/              # ⚠️ 遗留死代码（无路由可达，待清理，见「前端」小节）
 │   ├── database/migrations/       # 32 个迁移（含 2026_08_05 计费/班级码/汇率）
-│   └── routes/api.php             # 约 184 条路由定义（get 77 / post 76 / put 19 / delete 11 / match 1）
+│   └── routes/api.php             # 约 187 条路由定义（get 79 / post 77 / put 19 / delete 11 / match 1）
 │
 ├── mini-program/                   # 微信小程序
 │   └── pages/                     # 10 个页面
@@ -131,6 +131,9 @@ learnstar-planet/
 |------|------|
 | `broadcasts` | 实时广播（banner/popup/fullscreen）|
 | `attendances` | 考勤（present/late/leave/absent）|
+| `subjects` | 科目（学校级，全校共享）|
+| `class_periods` | 节次作息（学校级）|
+| `timetable_entries` | 排课格子（班级 × 星期 × 节次 × 单双周）|
 | `homework_collections` | 作业布置 |
 | `homework_submissions` | 作业提交 |
 | `question_banks` | 题库 |
@@ -153,7 +156,7 @@ learnstar-planet/
 
 ---
 
-## API 架构（约 184 条路由定义）
+## API 架构（约 187 条路由定义）
 
 ### `/api/v1/auth/*` — 认证
 - POST teacher/login, admin/login, teacher/login/{platform}
@@ -175,7 +178,7 @@ learnstar-planet/
 - shop/ (items CRUD + redemptions)
 - notices/ (CRUD + publish)
 - reports/ (trend, distribution, progress, export)
-- broadcasts/, attendance/, homework/, quizzes/, question-banks/, grades/, ai/
+- broadcasts/, attendance/, timetable/ (show, save, export-cses → ClassIsland 对接), homework/, quizzes/, question-banks/, grades/, ai/
 
 ### `/api/v1/common/*` — 公开
 - pet-types, evolution-stages, score-categories

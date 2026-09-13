@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DisplayController;
 use App\Http\Controllers\Api\SchoolAdminController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\TeacherController;
+use App\Http\Controllers\Api\TimetableController;
 use App\Http\Controllers\Api\WechatWorkWebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -231,6 +232,13 @@ Route::prefix('v1')->group(function () {
             Route::post('{studentId}/mark-leave', [TeacherController::class, 'markManualLeave']);
             Route::post('{studentId}/mark-absent', [TeacherController::class, 'markManualAbsent']);
             Route::get('summary', [TeacherController::class, 'attendanceSummary']);
+        });
+
+        // 课表：读取 / 保存 / 导出 CSES（可直接在 ClassIsland「从 CSES 导入」）
+        Route::prefix('timetable')->group(function () {
+            Route::get('/', [TimetableController::class, 'show']);
+            Route::post('/', [TimetableController::class, 'save']);
+            Route::get('export-cses', [TimetableController::class, 'exportCses']);
         });
 
         Route::prefix('ai')->group(function () {

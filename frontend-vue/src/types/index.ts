@@ -149,6 +149,38 @@ export interface QuestionBank {
   usage_count: number
 }
 
+// 课表（可导出 CSES 供 ClassIsland 导入）
+export interface TimetableSubject {
+  name: string
+  simplified_name?: string | null
+  color?: string | null
+}
+
+export interface TimetablePeriod {
+  period_index: number
+  name?: string
+  start_time: string
+  end_time: string
+}
+
+export type TimetableWeekType = 'all' | 'odd' | 'even'
+
+export interface TimetableEntry {
+  weekday: number
+  period_index: number
+  week_type: TimetableWeekType
+  subject_name: string
+  teacher_name?: string | null
+  room?: string | null
+}
+
+export interface TimetableData {
+  class_id: number
+  subjects: TimetableSubject[]
+  periods: TimetablePeriod[]
+  entries: TimetableEntry[]
+}
+
 // API 通用响应
 export interface ApiResponse<T> {
   data: T

@@ -430,6 +430,13 @@ GET /teacher/scores/history?student_id=1&page=1
 | `/teacher/attendance/{studentId}/mark-absent` | POST | 标记缺勤 |
 | `/teacher/attendance/summary` | GET | 考勤汇总 |
 
+**课表：**
+| 端点 | 方法 | 说明 |
+|------|------|------|
+| `/teacher/timetable` | GET | 课表初始化数据（科目 + 节次 + 该班排课） |
+| `/teacher/timetable` | POST | 整体保存课表（科目 / 节次 / 排课，按科目名交互） |
+| `/teacher/timetable/export-cses` | GET | 导出 CSES YAML 文件，可直接在 ClassIsland「从 CSES 导入」 |
+
 **作业：**
 | 端点 | 方法 | 说明 |
 |------|------|------|
@@ -724,6 +731,7 @@ const token = res.data.data.token
 
 | 日期 | 版本 | 变更内容 |
 |------|------|---------|
+| 2026-09-13 | v1.3 | 新增课表接口（timetable show / save / export-cses，支持导出 CSES 对接 ClassIsland）；下线成绩管理接口（grades） |
 | 2026-07-19 | v1.2 | 新增 PK 战场、班级码登录、系列切换接口；重构路由结构 |
 | 2026-07-13 | v1.0 | 初始版本 |
 
