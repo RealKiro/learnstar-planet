@@ -89,48 +89,48 @@ onUnmounted(() => clearInterval(timer))
 <template>
   <div>
     <!-- 顶栏 -->
-    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
-      <h2 style="font-size:24px;font-weight:700;margin:0;">📚 宠物图鉴</h2>
+    <div class="pkdx-topbar">
+      <h2 class="pkdx-title">📚 宠物图鉴</h2>
       <!-- 切换系列仅教室端可用（教师端无 class_token） -->
-      <div v-if="isClassroomMode" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <label style="font-size:13px;color:var(--md-text-secondary);">🏷️ 系列</label>
-        <select v-model="currentSeries"
-          style="padding:8px 14px;border-radius:var(--md-radius);background:var(--tint-3);border:1px solid var(--tint-3);color:var(--color-text);font-size:14px;font-weight:500;outline:none;cursor:pointer;font-family:inherit;">
-          <option v-for="s in allSeries" :key="s.id" :value="s.id" style="background:#1a1a2e;color:#f1f1f1;">{{ s.emoji }} {{ s.name }}</option>
+      <div v-if="isClassroomMode" class="pkdx-series-row">
+        <label class="pkdx-label-13">🏷️ 系列</label>
+        <select v-model="currentSeries" class="pkdx-series-select"
+>
+          <option v-for="s in allSeries" :key="s.id" :value="s.id" class="pkdx-option-dark">{{ s.emoji }} {{ s.name }}</option>
         </select>
-        <button @click="switchSeries" :disabled="switching"
-          style="padding:8px 18px;border-radius:30px;border:none;background:rgba(167,139,250,0.15);color:var(--md-primary-light);font-size:13px;font-weight:600;cursor:pointer;transition:0.15s;font-family:inherit;">
+        <button @click="switchSeries" :disabled="switching" class="pkdx-switch-btn"
+>
           {{ switching ? '切换中...' : '切换（每人扣20分）' }}
         </button>
       </div>
     </div>
 
     <!-- 切换消息 -->
-    <div v-if="switchMsg" style="margin-bottom:16px;padding:10px 16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);border-radius:var(--md-radius);color: var(--color-success-text);font-size:13px;">{{ switchMsg }}</div>
-    <div v-if="switchError" style="margin-bottom:16px;padding:10px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);border-radius:var(--md-radius);color: var(--color-danger-text);font-size:13px;">{{ switchError }}</div>
+    <div v-if="switchMsg" class="pkdx-msg-ok">{{ switchMsg }}</div>
+    <div v-if="switchError" class="pkdx-msg-err">{{ switchError }}</div>
 
     <!-- 物种大图（点击物种后展示） -->
     <Transition name="fade">
-      <div v-if="selectedSpecies && detailSpecies" @click.self="closeDetail"
-        style="position:fixed;inset:0;z-index:300;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+      <div v-if="selectedSpecies && detailSpecies" @click.self="closeDetail" class="pkdx-mask"
+>
+        <div class="pkdx-panel">
           <!-- 头部：程序化宠物艺术，随阶段 tab 切换展示不同进化形态 -->
-          <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+          <div class="pkdx-head-row">
             <div class="detail-orb">
               <PetSprite :species-id="selectedSpecies.speciesId" :level="stageLevel(detailStage)" :animate="true" />
             </div>
             <div>
-              <div style="font-size:22px;font-weight:700;">{{ selectedSpecies.name }}</div>
-              <div style="font-size:13px;color:var(--md-text-secondary);">{{ selectedSpecies.seriesId }}系列</div>
+              <div class="pkdx-name-22">{{ selectedSpecies.name }}</div>
+              <div class="pkdx-label-13">{{ selectedSpecies.seriesId }}系列</div>
             </div>
-            <button @click="closeDetail" style="margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid var(--tint-4);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer;">✕</button>
+            <button @click="closeDetail" class="pkdx-close">✕</button>
           </div>
 
           <!-- 主题句（人生档案·故事演义） -->
           <div v-if="lifeStory?.theme" class="life-theme">「{{ lifeStory.theme }}」</div>
 
           <!-- 阶段Tab -->
-          <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;">
+          <div class="pkdx-tabs">
             <button v-for="(name, i) in STAGE_NAMES" :key="i" @click="detailStage = i"
               :style="{
                 padding: '6px 14px', borderRadius: '20px', border: '1px solid var(--tint-3)',
@@ -141,7 +141,7 @@ onUnmounted(() => clearInterval(timer))
           </div>
 
           <!-- 阶段详情 -->
-          <div style="margin-bottom:16px;">
+          <div class="pkdx-mb-16">
             <!-- 阶段标题：人生档案阶段名 + 年龄 + 关键词 -->
             <div class="life-stage-head">
               <span class="life-stage-name">{{ lifeStage?.name || ((detailStage === 0 ? 1 : detailStage <= 2 ? 2 : detailStage <= 3 ? 8 : detailStage === 4 ? 10 : 12) + ' 阶段') }}</span>
@@ -196,7 +196,7 @@ onUnmounted(() => clearInterval(timer))
           </div>
 
           <!-- 进化链指示器 -->
-          <div style="display:flex;justify-content:center;gap:4px;margin-top:12px;">
+          <div class="pkdx-evo-dots">
             <span v-for="i in 12" :key="i"
               :style="{
                 width:'12px',height:'12px',borderRadius:'50%',
@@ -208,17 +208,17 @@ onUnmounted(() => clearInterval(timer))
     </Transition>
 
     <!-- 图鉴轮播 -->
-    <div style="position:relative;background:var(--tint-1);border-radius:var(--md-radius);padding:24px;border:1px solid var(--tint-2);overflow:hidden;min-height:400px;">
+    <div class="pkdx-viewport">
       <div v-for="(series, si) in seriesList" :key="series.id"
         :style="{ display: currentSlide === si ? 'block' : 'none', animation: 'fadeIn 0.5s ease' }">
-        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
-          <span style="font-size:48px;">{{ series.emoji }}</span>
-          <span style="font-size:28px;font-weight:700;">{{ series.name }}</span>
+        <div class="pkdx-series-head">
+          <span class="pkdx-emoji-48">{{ series.emoji }}</span>
+          <span class="pkdx-name-28">{{ series.name }}</span>
         </div>
-        <div style="color:var(--md-text-secondary);font-size:14px;margin-bottom:20px;padding:12px 16px;background:var(--tint-1);border-radius:12px;border-left:3px solid var(--md-primary);">
+        <div class="pkdx-series-desc">
           {{ series.species.length }}种宠物 · 点击物种查看详细进化信息
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;">
+        <div class="pkdx-grid">
           <div v-for="sp in series.species" :key="sp.id" @click="openDetail(sp.id, sp.name)" class="species-card">
             <div class="species-orb">
               <PetSprite :species-id="sp.id" :level="6" />
@@ -236,7 +236,7 @@ onUnmounted(() => clearInterval(timer))
         </div>
       </div>
 
-      <div style="display:flex;justify-content:center;gap:8px;margin-top:24px;">
+      <div class="pkdx-pager">
         <button v-for="(_, i) in seriesList" :key="i"
           :style="{
             width: currentSlide === i ? '32px' : '12px', height:'12px',
@@ -386,4 +386,29 @@ onUnmounted(() => clearInterval(timer))
   color: var(--color-text);
 }
 .life-pill.pill-skill { color: var(--color-primary); border-color: rgba(167,139,250,0.3); }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价；本页 style 块未 scoped，故统一 pkdx- 前缀避免全局污染冲突） ===== */
+.pkdx-label-13 { font-size:13px;color:var(--md-text-secondary); }
+.pkdx-topbar { display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px; }
+.pkdx-title { font-size:24px;font-weight:700;margin:0; }
+.pkdx-series-row { display:flex;align-items:center;gap:10px;flex-wrap:wrap; }
+.pkdx-series-select { padding:8px 14px;border-radius:var(--md-radius);background:var(--tint-3);border:1px solid var(--tint-3);color:var(--color-text);font-size:14px;font-weight:500;outline:none;cursor:pointer;font-family:inherit; }
+.pkdx-option-dark { background:#1a1a2e;color:#f1f1f1; }
+.pkdx-switch-btn { padding:8px 18px;border-radius:30px;border:none;background:rgba(167,139,250,0.15);color:var(--md-primary-light);font-size:13px;font-weight:600;cursor:pointer;transition:0.15s;font-family:inherit; }
+.pkdx-msg-ok { margin-bottom:16px;padding:10px 16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);border-radius:var(--md-radius);color: var(--color-success-text);font-size:13px; }
+.pkdx-msg-err { margin-bottom:16px;padding:10px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);border-radius:var(--md-radius);color: var(--color-danger-text);font-size:13px; }
+.pkdx-mask { position:fixed;inset:0;z-index:300;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px; }
+.pkdx-panel { background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+.pkdx-head-row { display:flex;align-items:center;gap:16px;margin-bottom:20px; }
+.pkdx-name-22 { font-size:22px;font-weight:700; }
+.pkdx-close { margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid var(--tint-4);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer; }
+.pkdx-tabs { display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap; }
+.pkdx-mb-16 { margin-bottom:16px; }
+.pkdx-evo-dots { display:flex;justify-content:center;gap:4px;margin-top:12px; }
+.pkdx-viewport { position:relative;background:var(--tint-1);border-radius:var(--md-radius);padding:24px;border:1px solid var(--tint-2);overflow:hidden;min-height:400px; }
+.pkdx-series-head { display:flex;align-items:center;gap:16px;margin-bottom:16px; }
+.pkdx-emoji-48 { font-size:48px; }
+.pkdx-name-28 { font-size:28px;font-weight:700; }
+.pkdx-series-desc { color:var(--md-text-secondary);font-size:14px;margin-bottom:20px;padding:12px 16px;background:var(--tint-1);border-radius:12px;border-left:3px solid var(--md-primary); }
+.pkdx-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px; }
+.pkdx-pager { display:flex;justify-content:center;gap:8px;margin-top:24px; }
 </style>
