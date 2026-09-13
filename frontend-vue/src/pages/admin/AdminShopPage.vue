@@ -193,30 +193,30 @@ async function handleDelete(item: ShopItemExt) {
       </div>
       <button class="btn btn-sm btn-primary" @click="openAdd">+ 添加商品</button>
     </div>
-    <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;">💡 全校教师共享这些商品，学生可在各班级兑换。</p>
+    <p class="page-desc">💡 全校教师共享这些商品，学生可在各班级兑换。</p>
 
     <!-- 积分兑换汇率（全校共享） -->
-    <div class="card" style="padding:16px;margin-bottom:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-        <h3 style="font-size:15px;font-weight:600;margin:0;">💱 积分兑换汇率</h3>
-        <span style="font-size:11px;color:var(--color-text-secondary);">全校共享 · 默认 2:1（2 积分 = 1 币，防通胀）</span>
+    <div class="card panel">
+      <div class="toolbar-row">
+        <h3 class="panel-title">💱 积分兑换汇率</h3>
+        <span class="hint-11">全校共享 · 默认 2:1（2 积分 = 1 币，防通胀）</span>
       </div>
-      <div v-if="ratesLoading" style="font-size:12px;color:var(--color-text-secondary);">加载中...</div>
-      <div v-else style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
-        <div v-for="r in rates" :key="r.id" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--color-bg);border-radius:8px;">
-          <span style="font-size:13px;flex:1;">{{ rateLabel(r.from_currency) }} → {{ rateLabel(r.to_currency) }}</span>
-          <input :value="r.rate" type="number" step="0.1" min="0.1" style="width:64px;padding:4px 8px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text);font-size:13px;" @change="r.rate = ($event.target as HTMLInputElement).value">
-          <button class="btn btn-sm btn-primary" style="white-space:nowrap;" :disabled="rateSaving === String(r.id)" @click="saveRate(r)">
+      <div v-if="ratesLoading" class="text-muted-12">加载中...</div>
+      <div v-else class="grid-260">
+        <div v-for="r in rates" :key="r.id" class="item-row">
+          <span class="item-name">{{ rateLabel(r.from_currency) }} → {{ rateLabel(r.to_currency) }}</span>
+          <input :value="r.rate" type="number" step="0.1" min="0.1" @change="r.rate = ($event.target as HTMLInputElement).value" class="num-input">
+          <button class="btn btn-sm btn-primary nowrap" :disabled="rateSaving === String(r.id)" @click="saveRate(r)">
             {{ rateSaving === String(r.id) ? '保存中' : '保存' }}
           </button>
         </div>
       </div>
-      <div v-if="Object.keys(rateErrors).length" style="margin-top:8px;color:#f87171;font-size:12px;">{{ Object.values(rateErrors)[0] }}</div>
-      <p style="font-size:11px;color:var(--color-text-secondary);margin:10px 0 0;">💡 示例：2 积分 = 1 科学币/体育币/读书币；小商品约 100 积分（一周可攒），大商品约 200 积分（两周可攒）。</p>
+      <div v-if="Object.keys(rateErrors).length" class="inline-error">{{ Object.values(rateErrors)[0] }}</div>
+      <p class="hint-block">💡 示例：2 积分 = 1 科学币/体育币/读书币；小商品约 100 积分（一周可攒），大商品约 200 积分（两周可攒）。</p>
     </div>
 
     <!-- 分类筛选 -->
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    <div class="filter-row">
       <button v-for="c in categories" :key="c.key" class="btn btn-sm"
         :style="{ background: filterCategory === c.key ? '#7c3aed' : 'var(--color-bg-card)', color: filterCategory === c.key ? '#fff' : 'var(--color-text)', border: '1px solid var(--color-border)' }"
         @click="filterCategory = c.key">{{ c.label }}</button>
@@ -226,29 +226,29 @@ async function handleDelete(item: ShopItemExt) {
 
     <div v-else-if="filteredItems.length === 0" class="card empty-state">
       <div class="empty-state__icon">🛍️</div>
-      <p style="margin-bottom:16px;">暂无全校商品，点击「添加商品」创建</p>
+      <p class="section-gap">暂无全校商品，点击「添加商品」创建</p>
     </div>
 
-    <div v-else style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
-      <div v-for="item in filteredItems" :key="item.id" class="card"
-        style="padding:16px;display:flex;flex-direction:column;gap:8px;border-color:var(--tint-3);"
-        :style="{ opacity: item.is_active === false ? 0.6 : 1 }">
-        <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:24px;">{{ { points: '⭐', stationery: '✏️', food: '🍎', privilege: '🎁', activity: '🎪' }[item.category] || '📦' }}</span>
-          <span v-if="item.is_active === false" style="font-size:10px;color:#f59e0b;border:1px solid rgba(245,158,11,0.3);padding:1px 6px;border-radius:4px;">停用</span>
+    <div v-else class="grid-220">
+      <div v-for="item in filteredItems" :key="item.id" class="card card-item"
+ 
+ :style="{ opacity: item.is_active === false ? 0.6 : 1 }">
+        <div class="row-between">
+          <span class="stat-24">{{ { points: '⭐', stationery: '✏️', food: '🍎', privilege: '🎁', activity: '🎪' }[item.category] || '📦' }}</span>
+          <span v-if="item.is_active === false" class="badge-warn">停用</span>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;font-weight:600;font-size:15px;">
+        <div class="price-row">
           {{ item.name }}
-          <span v-if="item.scope === 'class'" style="font-size:10px;color:#38bdf8;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);padding:1px 6px;border-radius:4px;font-weight:500;flex-shrink:0;">{{ item.class_name || '班级' }}</span>
+          <span v-if="item.scope === 'class'" class="badge-info">{{ item.class_name || '班级' }}</span>
         </div>
-        <div v-if="item.description" style="font-size:12px;color:var(--color-text-secondary);line-height:1.5;">{{ item.description }}</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;">
-          <span style="background:var(--color-bg);padding:2px 8px;border-radius:4px;">{{ currencyLabel(item.currency_type || 'score') }}</span>
-          <span style="background:var(--color-bg);padding:2px 8px;border-radius:4px;">库存 {{ item.stock === 0 ? '∞' : item.stock }}</span>
+        <div v-if="item.description" class="desc-12">{{ item.description }}</div>
+        <div class="tag-row">
+          <span class="tag-code">{{ currencyLabel(item.currency_type || 'score') }}</span>
+          <span class="tag-code">库存 {{ item.stock === 0 ? '∞' : item.stock }}</span>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
-          <span style="font-weight:700;color:var(--color-primary);">⭐ {{ item.cost_score }}</span>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
+        <div class="row-between-top">
+          <span class="price-strong">⭐ {{ item.cost_score }}</span>
+          <div class="actions-row">
             <button class="btn btn-sm btn-ghost" @click="toggleItem(item)" :disabled="getToggleStatus(item.id) === 'loading'" :style="{ color: getToggleStatus(item.id) === 'success' ? '#10b981' : getToggleStatus(item.id) === 'error' ? '#ef4444' : getToggleStatus(item.id) === 'loading' ? '#f59e0b' : item.is_active ? 'var(--color-text-secondary)' : '#f59e0b' }">
               <template v-if="getToggleStatus(item.id) === 'loading'">切换中</template>
               <template v-else-if="getToggleStatus(item.id) === 'success'">已切换</template>
@@ -263,9 +263,9 @@ async function handleDelete(item: ShopItemExt) {
     </div>
 
     <!-- 添加/编辑弹窗 -->
-    <div v-if="showModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:100;" @click.self="showModal = false">
-      <div class="card" style="width:480px;max-width:90vw;padding:24px;max-height:85vh;overflow-y:auto;">
-        <h3 style="font-size:18px;font-weight:600;margin-bottom:20px;">{{ editingId ? '编辑商品' : '添加商品' }}</h3>
+    <div v-if="showModal" @click.self="showModal = false" class="modal-mask">
+      <div class="card modal-panel">
+        <h3 class="modal-heading">{{ editingId ? '编辑商品' : '添加商品' }}</h3>
         <div class="form-group">
           <label>商品名称</label>
           <input v-model="form.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')">
@@ -276,7 +276,7 @@ async function handleDelete(item: ShopItemExt) {
           <input v-model.number="form.cost_score" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost_score ? '#f87171' : '' }" @blur="iVld('cost_score')" @input="iClr('cost_score')">
           <div v-if="itemErrors.cost_score" class="field-error">{{ itemErrors.cost_score }}</div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-grid-2">
           <div class="form-group">
             <label>类别</label>
             <select v-model="form.category" class="form-input">
@@ -296,14 +296,14 @@ async function handleDelete(item: ShopItemExt) {
         </div>
         <div class="form-group">
           <label>描述</label>
-          <textarea v-model="form.description" class="form-input" style="min-height:60px;resize:vertical;" placeholder="可选"></textarea>
+          <textarea v-model="form.description" class="form-input textarea-lg" placeholder="可选"></textarea>
         </div>
-        <label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:16px;cursor:pointer;">
-          <input type="checkbox" v-model="form.is_active" style="accent-color:#7c3aed;"> 启用
+        <label class="check-row">
+          <input type="checkbox" v-model="form.is_active" class="accent"> 启用
         </label>
-        <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <div class="modal-actions">
           <button class="btn btn-ghost" @click="showModal = false">取消</button>
-          <button class="btn btn-primary" style="width:auto;" @click="handleSubmit" :disabled="saveStatus === 'loading'" :style="saveBtnStyle">{{ saveBtnText }}</button>
+          <button class="btn btn-primary w-auto" @click="handleSubmit" :disabled="saveStatus === 'loading'" :style="saveBtnStyle">{{ saveBtnText }}</button>
         </div>
       </div>
     </div>
@@ -321,4 +321,42 @@ async function handleDelete(item: ShopItemExt) {
 .btn-ghost { background: transparent; color: var(--color-text-secondary); border: 1px solid var(--color-border); }
 .btn-ghost:hover { background: var(--tint-3); }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
+/* ===== 页内布局类（本页专用，替代原内联样式；声明逐字保留以保证渲染等价） ===== */
+.tag-code { background:var(--color-bg); padding:2px 8px; border-radius:4px; }
+.page-desc { font-size:12px; color:var(--color-text-secondary); margin-bottom:16px; }
+.panel { padding:16px; margin-bottom:16px; }
+.toolbar-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px; }
+.panel-title { font-size:15px; font-weight:600; margin:0; }
+.hint-11 { font-size:11px; color:var(--color-text-secondary); }
+.text-muted-12 { font-size:12px; color:var(--color-text-secondary); }
+.grid-260 { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+.item-row { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--color-bg); border-radius:8px; }
+.item-name { font-size:13px; flex:1; }
+.num-input { width:64px; padding:4px 8px; border-radius:6px; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-size:13px; }
+.nowrap { white-space:nowrap; }
+.inline-error { margin-top:8px; color:#f87171; font-size:12px; }
+.hint-block { font-size:11px; color:var(--color-text-secondary); margin:10px 0 0; }
+.filter-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.section-gap { margin-bottom:16px; }
+.grid-220 { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
+.card-item { padding:16px; display:flex; flex-direction:column; gap:8px; border-color:var(--tint-3); }
+.row-between { display:flex; align-items:center; justify-content:space-between; }
+.stat-24 { font-size:24px; }
+.badge-warn { font-size:10px; color:#f59e0b; border:1px solid rgba(245,158,11,0.3); padding:1px 6px; border-radius:4px; }
+.price-row { display:flex; align-items:center; gap:6px; font-weight:600; font-size:15px; }
+.badge-info { font-size:10px; color:#38bdf8; background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.3); padding:1px 6px; border-radius:4px; font-weight:500; flex-shrink:0; }
+.desc-12 { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+.tag-row { display:flex; gap:6px; flex-wrap:wrap; font-size:11px; }
+.row-between-top { display:flex; align-items:center; justify-content:space-between; margin-top:4px; }
+.price-strong { font-weight:700; color:var(--color-primary); }
+.actions-row { display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; }
+.modal-mask { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:100; }
+.modal-panel { width:480px; max-width:90vw; padding:24px; max-height:85vh; overflow-y:auto; }
+.modal-heading { font-size:18px; font-weight:600; margin-bottom:20px; }
+.form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.textarea-lg { min-height:60px; resize:vertical; }
+.check-row { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:16px; cursor:pointer; }
+.accent { accent-color:#7c3aed; }
+.modal-actions { display:flex; justify-content:flex-end; gap:8px; }
+.w-auto { width:auto; }
 </style>
