@@ -132,31 +132,30 @@ async function handleDelete(rule: ScoreRule) {
       </div>
       <button class="btn btn-sm btn-primary" @click="openAdd">+ 添加规则</button>
     </div>
-    <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;">💡 全校教师共享这些规则，新增/修改后教师端即时可见。</p>
+    <p class="page-desc">💡 全校教师共享这些规则，新增/修改后教师端即时可见。</p>
 
     <div v-if="loading" class="empty-state">加载中...</div>
 
     <div v-else-if="rules.length === 0" class="card empty-state">
       <div class="empty-state__icon">📋</div>
-      <p style="margin-bottom:16px;">暂无全校积分规则，点击「添加规则」创建</p>
+      <p class="section-gap">暂无全校积分规则，点击「添加规则」创建</p>
     </div>
 
-    <div v-else style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div v-else class="grid-2-24">
       <!-- 加分规则 -->
       <div class="card">
-        <h3 class="section-title">加分规则 <span style="color:var(--color-accent);font-size:13px;">({{ positiveRules.length }})</span></h3>
+        <h3 class="section-title">加分规则 <span class="text-accent-13">({{ positiveRules.length }})</span></h3>
         <div v-if="positiveRules.length === 0" class="muted-center-sm">暂无加分规则</div>
         <div v-else class="stack-8">
-          <div v-for="rule in positiveRules" :key="rule.id" class="card"
-            style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(16,185,129,0.3);">
-            <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-              <span style="font-weight:700;color:var(--color-accent);">+{{ Math.abs(rule.amount) }}</span>
-              <span style="font-weight:500;">{{ rule.name }}</span>
-              <span v-if="(rule as any).scope === 'class'" style="font-size:10px;color:#38bdf8;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);padding:1px 6px;border-radius:4px;white-space:nowrap;">{{ (rule as any).class_name || '班级' }}</span>
-              <span style="font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;white-space:nowrap;">{{ categoryLabels[rule.category] || rule.category }}</span>
-              <span v-if="!rule.is_active" style="font-size:10px;color:#f59e0b;border:1px solid rgba(245,158,11,0.3);padding:1px 6px;border-radius:4px;">停用</span>
+          <div v-for="rule in positiveRules" :key="rule.id" class="card notice-ok">
+            <div class="rule-main">
+              <span class="fw-700-accent">+{{ Math.abs(rule.amount) }}</span>
+              <span class="fw-500">{{ rule.name }}</span>
+              <span v-if="(rule as any).scope === 'class'" class="badge-subject">{{ (rule as any).class_name || '班级' }}</span>
+              <span class="badge-meta">{{ categoryLabels[rule.category] || rule.category }}</span>
+              <span v-if="!rule.is_active" class="badge-warn">停用</span>
             </div>
-            <div style="display:flex;gap:4px;flex-shrink:0;">
+            <div class="rule-actions">
               <button class="btn btn-sm btn-ghost" @click="toggleRule(rule)" :disabled="getToggleStatus(rule.id) === 'loading'" :style="{ color: getToggleStatus(rule.id) === 'success' ? '#10b981' : getToggleStatus(rule.id) === 'error' ? '#ef4444' : getToggleStatus(rule.id) === 'loading' ? '#f59e0b' : rule.is_active ? 'var(--color-text-secondary)' : '#f59e0b' }">
                 <template v-if="getToggleStatus(rule.id) === 'loading'">切换中</template>
                 <template v-else-if="getToggleStatus(rule.id) === 'success'">已切换</template>
@@ -172,19 +171,18 @@ async function handleDelete(rule: ScoreRule) {
 
       <!-- 扣分规则 -->
       <div class="card">
-        <h3 class="section-title">扣分规则 <span style="color:var(--color-danger);font-size:13px;">({{ negativeRules.length }})</span></h3>
+        <h3 class="section-title">扣分规则 <span class="text-danger-13">({{ negativeRules.length }})</span></h3>
         <div v-if="negativeRules.length === 0" class="muted-center-sm">暂无扣分规则</div>
         <div v-else class="stack-8">
-          <div v-for="rule in negativeRules" :key="rule.id" class="card"
-            style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(239,68,68,0.3);">
-            <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-              <span style="font-weight:700;color:var(--color-danger);">{{ rule.amount }}</span>
-              <span style="font-weight:500;">{{ rule.name }}</span>
-              <span v-if="(rule as any).scope === 'class'" style="font-size:10px;color:#38bdf8;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);padding:1px 6px;border-radius:4px;white-space:nowrap;">{{ (rule as any).class_name || '班级' }}</span>
-              <span style="font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px;white-space:nowrap;">{{ categoryLabels[rule.category] || rule.category }}</span>
-              <span v-if="!rule.is_active" style="font-size:10px;color:#f59e0b;border:1px solid rgba(245,158,11,0.3);padding:1px 6px;border-radius:4px;">停用</span>
+          <div v-for="rule in negativeRules" :key="rule.id" class="card notice-err">
+            <div class="rule-main">
+              <span class="fw-700-danger">{{ rule.amount }}</span>
+              <span class="fw-500">{{ rule.name }}</span>
+              <span v-if="(rule as any).scope === 'class'" class="badge-subject">{{ (rule as any).class_name || '班级' }}</span>
+              <span class="badge-meta">{{ categoryLabels[rule.category] || rule.category }}</span>
+              <span v-if="!rule.is_active" class="badge-warn">停用</span>
             </div>
-            <div style="display:flex;gap:4px;flex-shrink:0;">
+            <div class="rule-actions">
               <button class="btn btn-sm btn-ghost" @click="toggleRule(rule)" :disabled="getToggleStatus(rule.id) === 'loading'" :style="{ color: getToggleStatus(rule.id) === 'success' ? '#10b981' : getToggleStatus(rule.id) === 'error' ? '#ef4444' : getToggleStatus(rule.id) === 'loading' ? '#f59e0b' : rule.is_active ? 'var(--color-text-secondary)' : '#f59e0b' }">
                 <template v-if="getToggleStatus(rule.id) === 'loading'">切换中</template>
                 <template v-else-if="getToggleStatus(rule.id) === 'success'">已切换</template>
@@ -200,9 +198,9 @@ async function handleDelete(rule: ScoreRule) {
     </div>
 
     <!-- 添加/编辑弹窗 -->
-    <div v-if="showModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:100;" @click.self="showModal = false">
-      <div class="card" style="width:420px;max-width:90vw;padding:24px;">
-        <h3 style="font-size:18px;font-weight:600;margin-bottom:20px;">{{ editingId ? '编辑规则' : '添加规则' }}</h3>
+    <div v-if="showModal" @click.self="showModal = false" class="modal-mask">
+      <div class="card modal-panel">
+        <h3 class="modal-heading">{{ editingId ? '编辑规则' : '添加规则' }}</h3>
         <div class="form-group">
           <label>规则名称</label>
           <input v-model="form.name" class="form-input" placeholder="如：举手发言" :style="{ borderColor: ruleErrors.name ? '#f87171' : '' }" @blur="rVld('name')" @input="rClr('name')" @keydown.enter="handleSubmit">
@@ -226,12 +224,12 @@ async function handleDelete(rule: ScoreRule) {
             <option :value="false">扣分规则</option>
           </select>
         </div>
-        <label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:16px;cursor:pointer;">
-          <input type="checkbox" v-model="form.is_active" style="accent-color:#7c3aed;"> 启用
+        <label class="check-row">
+          <input type="checkbox" v-model="form.is_active" class="accent"> 启用
         </label>
-        <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <div class="modal-actions">
           <button class="btn btn-ghost" @click="showModal = false">取消</button>
-          <button class="btn btn-primary" style="width:auto;" @click="handleSubmit" :disabled="saveStatus === 'loading'" :style="saveBtnStyle">{{ saveBtnText }}</button>
+          <button class="btn btn-primary w-auto" @click="handleSubmit" :disabled="saveStatus === 'loading'" :style="saveBtnStyle">{{ saveBtnText }}</button>
         </div>
       </div>
     </div>
@@ -250,4 +248,27 @@ async function handleDelete(rule: ScoreRule) {
 .btn-ghost { background: transparent; color: var(--color-text-secondary); border: 1px solid var(--color-border); }
 .btn-ghost:hover { background: var(--tint-3); }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
+/* ===== 页内布局类（本页专用，替代原内联样式；声明逐字保留以保证渲染等价） ===== */
+.rule-main { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
+.fw-500 { font-weight:500; }
+.badge-subject { font-size:10px; color:#38bdf8; background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.3); padding:1px 6px; border-radius:4px; white-space:nowrap; }
+.badge-meta { font-size:11px; color:var(--color-text-secondary); background:var(--color-bg); padding:2px 8px; border-radius:4px; white-space:nowrap; }
+.badge-warn { font-size:10px; color:#f59e0b; border:1px solid rgba(245,158,11,0.3); padding:1px 6px; border-radius:4px; }
+.rule-actions { display:flex; gap:4px; flex-shrink:0; }
+.page-desc { font-size:12px; color:var(--color-text-secondary); margin-bottom:16px; }
+.section-gap { margin-bottom:16px; }
+.grid-2-24 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.text-accent-13 { color:var(--color-accent); font-size:13px; }
+.notice-ok { padding:12px 16px; display:flex; align-items:center; justify-content:space-between; border-color:rgba(16,185,129,0.3); }
+.fw-700-accent { font-weight:700; color:var(--color-accent); }
+.text-danger-13 { color:var(--color-danger); font-size:13px; }
+.notice-err { padding:12px 16px; display:flex; align-items:center; justify-content:space-between; border-color:rgba(239,68,68,0.3); }
+.fw-700-danger { font-weight:700; color:var(--color-danger); }
+.modal-mask { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:100; }
+.modal-panel { width:420px; max-width:90vw; padding:24px; }
+.modal-heading { font-size:18px; font-weight:600; margin-bottom:20px; }
+.check-row { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:16px; cursor:pointer; }
+.accent { accent-color:#7c3aed; }
+.modal-actions { display:flex; justify-content:flex-end; gap:8px; }
+.w-auto { width:auto; }
 </style>
