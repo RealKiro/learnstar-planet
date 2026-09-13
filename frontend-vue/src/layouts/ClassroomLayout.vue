@@ -164,17 +164,16 @@ onUnmounted(() => {
   <div class="app-shell">
     <!-- 首次使用投票弹窗 -->
     <Transition name="fade">
-      <div v-if="showVoteModal" @click.self="() => {}"
-        style="position:fixed;inset:0;z-index:999;background:rgba(5,2,20,0.9);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:520px;width:100%;padding:36px 32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+      <div v-if="showVoteModal" @click.self="() => {}" class="vote-mask">
+        <div class="vote-panel">
           <div v-if="!voteDone">
-            <div style="font-size:48px;margin-bottom:12px;">🎉</div>
-            <h2 style="font-size:24px;font-weight:700;margin-bottom:8px;">欢迎来到学宠星球！</h2>
-            <p style="font-size:14px;color:var(--md-text-secondary);margin-bottom:20px;">
+            <div class="vote-emoji">🎉</div>
+            <h2 class="vote-title">欢迎来到学宠星球！</h2>
+            <p class="vote-desc">
               请全班投票选择你们喜欢的宠物类别<br>
-              <span style="font-size:12px;opacity:0.7;">选定后每人可免费选择一只心仪的宠物</span>
+              <span class="vote-hint">选定后每人可免费选择一只心仪的宠物</span>
             </p>
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;max-height:320px;overflow-y:auto;">
+            <div class="vote-grid">
               <button v-for="s in allSeries" :key="s.id" @click="voteSeries = s.id"
                 :style="{
                   padding:'16px 12px', borderRadius:'16px', cursor:'pointer', transition:'0.2s', fontFamily:'inherit',
@@ -182,23 +181,22 @@ onUnmounted(() => {
                   background: voteSeries === s.id ? 'rgba(167,139,250,0.1)' : 'var(--tint-1)',
                   color: voteSeries === s.id ? 'var(--color-primary)' : 'var(--color-text)',
                 }">
-                <div style="font-size:32px;margin-bottom:6px;">{{ s.emoji }}</div>
-                <div style="font-size:14px;font-weight:600;">{{ s.name }}</div>
-                <div style="font-size:11px;color:var(--md-text-secondary);margin-top:2px;">{{ s.species.length }}种宠物</div>
+                <div class="vote-item-emoji">{{ s.emoji }}</div>
+                <div class="vote-item-name">{{ s.name }}</div>
+                <div class="vote-item-meta">{{ s.species.length }}种宠物</div>
               </button>
             </div>
-            <button @click="confirmVote" :disabled="voting"
-              style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;">
+            <button @click="confirmVote" :disabled="voting" class="vote-submit">
               {{ voting ? '投票中...' : '✅ 选择「' + getSeriesName(voteSeries) + '」系列' }}
             </button>
           </div>
           <div v-else>
-            <div style="font-size:64px;margin-bottom:16px;">🎊</div>
-            <h2 style="font-size:22px;font-weight:700;margin-bottom:8px;">选择成功！</h2>
-            <p style="font-size:14px;color:var(--md-text-secondary);">
+            <div class="vote-done-emoji">🎊</div>
+            <h2 class="vote-done-title">选择成功！</h2>
+            <p class="vote-done-desc">
               已选定「{{ getSeriesName(voteSeries) }}」系列
             </p>
-            <p style="font-size:13px;color:var(--md-gold);margin-top:8px;">
+            <p class="vote-done-hint">
               现在去为每位同学免费选择宠物吧！
             </p>
           </div>
@@ -211,12 +209,11 @@ onUnmounted(() => {
     <!-- 全屏广播 -->
     <Transition name="fade">
       <div v-if="currentBroadcast && currentBroadcast.type === 'fullscreen'"
-        @click="dismissBroadcast"
-        style="position:fixed;inset:0;z-index:900;background:rgba(5,2,20,0.92);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:center;padding:40px;cursor:pointer;">
-        <div style="max-width:700px;text-align:center;">
-          <div style="font-size:64px;margin-bottom:20px;">📡</div>
-          <div style="font-size:32px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:12px;">{{ currentBroadcast.content }}</div>
-          <div style="font-size:14px;color:rgba(255,255,255,0.6);">点击任意位置关闭</div>
+        @click="dismissBroadcast" class="bc-full-mask">
+        <div class="bc-full-inner">
+          <div class="bc-full-emoji">📡</div>
+          <div class="bc-full-text">{{ currentBroadcast.content }}</div>
+          <div class="bc-full-hint">点击任意位置关闭</div>
         </div>
       </div>
     </Transition>
@@ -224,13 +221,11 @@ onUnmounted(() => {
     <!-- 弹窗广播 -->
     <Transition name="pop">
       <div v-if="currentBroadcast && currentBroadcast.type === 'popup'"
-        @click.self="dismissBroadcast"
-        style="position:fixed;inset:0;z-index:900;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:var(--md-surface-2);border:1px solid var(--tint-3);border-radius:24px;padding:32px 28px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-          <div style="font-size:40px;margin-bottom:12px;text-align:center;">📢</div>
-          <div style="font-size:20px;font-weight:700;color:var(--color-text);text-align:center;margin-bottom:16px;line-height:1.5;">{{ currentBroadcast.content }}</div>
-          <button @click="dismissBroadcast"
-            style="width:100%;padding:12px;border-radius:14px;border:1px solid var(--tint-3);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer;font-family:inherit;">
+        @click.self="dismissBroadcast" class="bc-pop-mask">
+        <div class="bc-pop-panel">
+          <div class="bc-pop-emoji">📢</div>
+          <div class="bc-pop-text">{{ currentBroadcast.content }}</div>
+          <button @click="dismissBroadcast" class="bc-pop-btn">
             我知道了
           </button>
         </div>
@@ -240,25 +235,22 @@ onUnmounted(() => {
     <!-- 横幅广播 -->
     <Transition name="slide-down">
       <div v-if="currentBroadcast && currentBroadcast.type === 'banner'"
-        @click="dismissBroadcast"
-        style="position:fixed;top:0;left:0;right:0;z-index:900;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));padding:12px 24px;text-align:center;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-        <span style="color:#fff;font-size:16px;font-weight:600;">📢 {{ currentBroadcast.content }}</span>
-        <span style="color:rgba(255,255,255,0.5);font-size:12px;margin-left:12px;">点击关闭</span>
+        @click="dismissBroadcast" class="bc-banner">
+        <span class="bc-banner-text">📢 {{ currentBroadcast.content }}</span>
+        <span class="bc-banner-hint">点击关闭</span>
       </div>
     </Transition>
 
     <!-- 通知提示 -->
     <Transition name="slide-down">
-      <div v-if="currentNotice"
-        style="position:fixed;top:60px;right:20px;z-index:900;max-width:380px;background:var(--md-surface-2);border:1px solid var(--tint-3);border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-        <div style="display:flex;align-items:flex-start;gap:12px;">
-          <span style="font-size:24px;">📋</span>
+      <div v-if="currentNotice" class="notice-toast">
+        <div class="notice-body">
+          <span class="notice-icon">📋</span>
           <div class="flex-1">
-            <div style="font-size:14px;font-weight:700;color:var(--color-text);margin-bottom:4px;">{{ currentNotice.title }}</div>
-            <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.5;">{{ currentNotice.content }}</div>
+            <div class="notice-title">{{ currentNotice.title }}</div>
+            <div class="notice-text">{{ currentNotice.content }}</div>
           </div>
-          <button @click="dismissNotice"
-            style="width:24px;height:24px;border-radius:50%;border:1px solid var(--tint-3);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
+          <button @click="dismissNotice" class="notice-close">✕</button>
         </div>
       </div>
     </Transition>
@@ -346,4 +338,48 @@ onUnmounted(() => {
   .sidebar-footer { display: none; }
   .main-content { padding: 16px; max-width: 100%; }
 }
+/* ===== 覆盖层语义类（P1 内联样式收口；声明逐字保留以保渲染等价） ===== */
+/* 首次使用投票弹窗 */
+.vote-mask { position:fixed;inset:0;z-index:999;background:rgba(5,2,20,0.9);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:20px; }
+.vote-panel { background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:520px;width:100%;padding:36px 32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+.vote-emoji { font-size:48px;margin-bottom:12px; }
+.vote-title { font-size:24px;font-weight:700;margin-bottom:8px; }
+.vote-desc { font-size:14px;color:var(--md-text-secondary);margin-bottom:20px; }
+.vote-hint { font-size:12px;opacity:0.7; }
+.vote-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;max-height:320px;overflow-y:auto; }
+.vote-item-emoji { font-size:32px;margin-bottom:6px; }
+.vote-item-name { font-size:14px;font-weight:600; }
+.vote-item-meta { font-size:11px;color:var(--md-text-secondary);margin-top:2px; }
+.vote-submit { width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit; }
+.vote-done-emoji { font-size:64px;margin-bottom:16px; }
+.vote-done-title { font-size:22px;font-weight:700;margin-bottom:8px; }
+.vote-done-desc { font-size:14px;color:var(--md-text-secondary); }
+.vote-done-hint { font-size:13px;color:var(--md-gold);margin-top:8px; }
+
+/* 全屏广播 */
+.bc-full-mask { position:fixed;inset:0;z-index:900;background:rgba(5,2,20,0.92);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:center;padding:40px;cursor:pointer; }
+.bc-full-inner { max-width:700px;text-align:center; }
+.bc-full-emoji { font-size:64px;margin-bottom:20px; }
+.bc-full-text { font-size:32px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:12px; }
+.bc-full-hint { font-size:14px;color:rgba(255,255,255,0.6); }
+
+/* 弹窗广播 */
+.bc-pop-mask { position:fixed;inset:0;z-index:900;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;padding:20px; }
+.bc-pop-panel { background:var(--md-surface-2);border:1px solid var(--tint-3);border-radius:24px;padding:32px 28px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+.bc-pop-emoji { font-size:40px;margin-bottom:12px;text-align:center; }
+.bc-pop-text { font-size:20px;font-weight:700;color:var(--color-text);text-align:center;margin-bottom:16px;line-height:1.5; }
+.bc-pop-btn { width:100%;padding:12px;border-radius:14px;border:1px solid var(--tint-3);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer;font-family:inherit; }
+
+/* 横幅广播 */
+.bc-banner { position:fixed;top:0;left:0;right:0;z-index:900;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));padding:12px 24px;text-align:center;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+.bc-banner-text { color:#fff;font-size:16px;font-weight:600; }
+.bc-banner-hint { color:rgba(255,255,255,0.5);font-size:12px;margin-left:12px; }
+
+/* 通知 toast */
+.notice-toast { position:fixed;top:60px;right:20px;z-index:900;max-width:380px;background:var(--md-surface-2);border:1px solid var(--tint-3);border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+.notice-body { display:flex;align-items:flex-start;gap:12px; }
+.notice-icon { font-size:24px; }
+.notice-title { font-size:14px;font-weight:700;color:var(--color-text);margin-bottom:4px; }
+.notice-text { font-size:13px;color:var(--color-text-secondary);line-height:1.5; }
+.notice-close { width:24px;height:24px;border-radius:50%;border:1px solid var(--tint-3);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
 </style>
