@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.5",
         "laravel/framework": "^12.0",
-        "livewire/livewire": "^3.0",
         "laravel/sanctum": "^4.0",
         "predis/predis": "^2.0",
         "maatwebsite/excel": "^3.1",
@@ -28,8 +27,7 @@
         "laravel/dusk": "^8.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpstan/phpstan": "^2.0",
-        "larastan/larastan": "^3.0",
-        "livewire/flux": "^2.0"
+        "larastan/larastan": "^3.0"
     },
     "autoload": {
         "psr-4": {

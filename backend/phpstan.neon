@@ -12,7 +12,6 @@ parameters:
 
     # PHPStan stub files (for helper functions not detected automatically)
     stubFiles:
-        - tests/phpstan-stubs/flux.php
         - tests/phpstan-stubs/global-helpers.php
 
     # Scanned files for class discovery
@@ -35,8 +34,6 @@ parameters:
         - '#Call to an undefined method .*#'
         - '#Access to an undefined property .*#'
         - message: '#Call to static method permalink\(\) on an unknown class Overtrue\\Pinyin\\Pinyin\.#'
-          reportUnmatched: false
-        - message: '#Function flux not found\.#'
           reportUnmatched: false
         - message: '#Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection<.*>::map\(\) contains unresolvable type\.#'
           reportUnmatched: false
