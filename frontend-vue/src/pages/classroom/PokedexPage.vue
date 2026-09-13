@@ -263,8 +263,9 @@ onUnmounted(() => clearInterval(timer))
   </div>
 </template>
 
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+<style scoped>
+/* @keyframes fadeIn 由全局 style.css 提供（两处定义逐字一致）：
+   模板内联 :style 的 animation 引用不能进 scoped 块（keyframes 会被编译器改名导致断链），故本页不再重复定义 */
 .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 
@@ -397,7 +398,7 @@ onUnmounted(() => clearInterval(timer))
   color: var(--color-text);
 }
 .life-pill.pill-skill { color: var(--color-primary); border-color: rgba(167,139,250,0.3); }
-/* ===== P1 内联样式收口（声明逐字保留以保渲染等价；本页 style 块未 scoped，故统一 pkdx- 前缀避免全局污染冲突） ===== */
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价；本页 style 块已 scoped 化，pkdx- 前缀保留以防语义混淆） ===== */
 .pkdx-label-13 { font-size:13px;color:var(--md-text-secondary); }
 .pkdx-topbar { display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px; }
 .pkdx-title { font-size:24px;font-weight:700;margin:0; }
