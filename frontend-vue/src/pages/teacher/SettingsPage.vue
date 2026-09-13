@@ -114,43 +114,43 @@ async function changePassword() {
       <h2 class="page-title">账号设置</h2>
     </div>
 
-    <div class="card" style="margin-bottom:24px;">
-      <h3 style="font-size:16px;font-weight:600;margin-bottom:24px;">基本信息</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div class="form-group" style="grid-column:1 / -1;">
+    <div class="card set-mb-24">
+      <h3 class="set-title-16">基本信息</h3>
+      <div class="set-grid-2">
+        <div class="form-group set-col-span">
           <label>账号 / 姓名</label>
-          <input :value="identityText" readonly class="form-input" style="background:var(--color-bg);">
+          <input :value="identityText" readonly class="form-input set-bg-page">
         </div>
       </div>
-      <button class="btn btn-primary" style="margin-top:16px;" @click="openPwdModal">修改密码</button>
+      <button class="btn btn-primary set-mt-16" @click="openPwdModal">修改密码</button>
     </div>
 
     <!-- 修改密码弹窗 -->
     <Teleport to="body">
-      <div v-if="showPwdModal" @click="showPwdModal = false"
-        style="position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px;">
-        <div @click.stop style="background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border);">
+      <div v-if="showPwdModal" @click="showPwdModal = false" class="set-mask"
+>
+        <div @click.stop class="set-panel">
+          <div class="set-panel-head">
             <h3 class="card-title">🔑 修改密码</h3>
             <button @click="showPwdModal = false" class="icon-close">✕</button>
           </div>
-          <div class="form-group" style="margin-bottom:12px;">
+          <div class="form-group set-mb-12">
             <label>当前密码</label>
             <input v-model="pwdForm.current_password" type="password" class="form-input" placeholder="输入当前密码" :style="{ borderColor: pwdErrors.current_password ? '#f87171' : '' }" @blur="pwdVld('current_password')" @input="pwdClr('current_password')">
             <div v-if="pwdErrors.current_password" class="field-error">{{ pwdErrors.current_password }}</div>
           </div>
-          <div class="form-group" style="margin-bottom:12px;">
+          <div class="form-group set-mb-12">
             <label>新密码</label>
             <input v-model="pwdForm.new_password" type="password" class="form-input" placeholder="至少 6 位" :style="{ borderColor: pwdErrors.new_password ? '#f87171' : '' }" @blur="pwdVld('new_password')" @input="pwdClr('new_password')">
             <div v-if="pwdErrors.new_password" class="field-error">{{ pwdErrors.new_password }}</div>
           </div>
-          <div class="form-group" style="margin-bottom:20px;">
+          <div class="form-group set-mb-20">
             <label>确认新密码</label>
             <input v-model="pwdForm.confirm_password" type="password" class="form-input" placeholder="再次输入新密码" :style="{ borderColor: pwdErrors.confirm_password ? '#f87171' : '' }" @blur="pwdVld('confirm_password')" @input="pwdClr('confirm_password')">
             <div v-if="pwdErrors.confirm_password" class="field-error">{{ pwdErrors.confirm_password }}</div>
           </div>
-          <div style="display:flex;gap:12px;">
-            <button class="btn" style="flex:1;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);" @click="showPwdModal = false">取消</button>
+          <div class="set-row-12">
+            <button class="btn set-input-flex" @click="showPwdModal = false">取消</button>
             <button class="btn btn-primary flex-1" :style="{ background: pwdStatus === 'loading' ? '#f59e0b' : pwdStatus === 'success' ? '#10b981' : pwdStatus === 'error' ? '#ef4444' : '' }" :disabled="pwdStatus === 'loading'" @click="changePassword">
               <template v-if="pwdStatus === 'loading'">修改中...</template>
               <template v-else-if="pwdStatus === 'success'">修改成功 ✓</template>
@@ -163,17 +163,17 @@ async function changePassword() {
     </Teleport>
 
     <div class="card">
-      <h3 style="font-size:16px;font-weight:600;margin-bottom:8px;">第三方账号绑定</h3>
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;">绑定后可使用扫码快捷登录</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div v-for="b in bindings" :key="b.platform"
-          style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:var(--radius-md);border:1px solid var(--color-border);">
-          <span style="flex-shrink:0;display:flex;"><PlatformIcon :platform="b.platform" :size="32" /></span>
+      <h3 class="set-subtitle-16">第三方账号绑定</h3>
+      <p class="set-desc-13">绑定后可使用扫码快捷登录</p>
+      <div class="set-grid-2">
+        <div v-for="b in bindings" :key="b.platform" class="set-profile-row"
+>
+          <span class="set-shrink-0"><PlatformIcon :platform="b.platform" :size="32" /></span>
           <div class="flex-1">
-            <div style="font-weight:500;">{{ b.label || platformLabel(b.platform) }}</div>
-            <div style="font-size:12px;" :style="{ color: b.bound ? 'var(--color-accent)' : 'var(--color-text-secondary)' }">
+            <div class="set-fw-500">{{ b.label || platformLabel(b.platform) }}</div>
+            <div :style="{ color: b.bound ? 'var(--color-accent)' : 'var(--color-text-secondary)' }" class="set-text-12">
               {{ b.bound ? '✅ 已绑定' : '未绑定' }}
-              <span v-if="b.bound && b.nick" style="margin-left:4px;">（{{ b.nick }}）</span>
+              <span v-if="b.bound && b.nick" class="set-ml-4">（{{ b.nick }}）</span>
             </div>
           </div>
           <button v-if="b.bound" class="btn btn-sm" :style="{ background: unbindStatus[b.platform] === 'loading' ? '#f59e0b' : unbindStatus[b.platform] === 'success' ? '#10b981' : unbindStatus[b.platform] === 'error' ? '#ef4444' : '', color: unbindStatus[b.platform] && unbindStatus[b.platform] !== 'idle' ? '#fff' : 'var(--color-danger)', border: unbindStatus[b.platform] && unbindStatus[b.platform] !== 'idle' ? '1px solid transparent' : '' }" :disabled="unbindStatus[b.platform] === 'loading'" @click="unbind(b.platform)">
@@ -185,7 +185,32 @@ async function changePassword() {
           <button v-else class="btn btn-sm btn-primary" @click="handleBind(b.platform)">绑定</button>
         </div>
       </div>
-      <div v-if="bindMsg" style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ bindMsg }}</div>
+      <div v-if="bindMsg" class="set-error">{{ bindMsg }}</div>
     </div>
   </div>
 </template>
+
+<style scoped>
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.set-grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+.set-mb-12 { margin-bottom:12px; }
+.set-mb-24 { margin-bottom:24px; }
+.set-title-16 { font-size:16px;font-weight:600;margin-bottom:24px; }
+.set-col-span { grid-column:1 / -1; }
+.set-bg-page { background:var(--color-bg); }
+.set-mt-16 { margin-top:16px; }
+.set-mask { position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:20px; }
+.set-panel { background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12); }
+.set-panel-head { display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--color-border); }
+.set-mb-20 { margin-bottom:20px; }
+.set-row-12 { display:flex;gap:12px; }
+.set-input-flex { flex:1;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
+.set-subtitle-16 { font-size:16px;font-weight:600;margin-bottom:8px; }
+.set-desc-13 { font-size:13px;color:var(--color-text-secondary);margin-bottom:16px; }
+.set-profile-row { display:flex;align-items:center;gap:16px;padding:16px;border-radius:var(--radius-md);border:1px solid var(--color-border); }
+.set-shrink-0 { flex-shrink:0;display:flex; }
+.set-fw-500 { font-weight:500; }
+.set-text-12 { font-size:12px; }
+.set-ml-4 { margin-left:4px; }
+.set-error { margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
+</style>
