@@ -15,14 +15,18 @@ use App\Models\ShopItem;
 use App\Models\ShopRedemption;
 use App\Models\Student;
 use App\Models\Wallet;
+use App\Services\AttendanceService;
+use App\Services\BroadcastService;
 use App\Services\CurrencyService;
 use App\Services\DisplayEventService;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
+use App\Services\GradeService;
 use App\Services\LeaderboardService;
+use App\Services\NoticeService;
 use App\Services\ScoreService;
+use App\Services\TeacherClassScope;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class TeacherController extends Controller
@@ -30,6 +34,11 @@ class TeacherController extends Controller
     public function __construct(
         private readonly ScoreService $scoreService,
         private readonly LeaderboardService $leaderboardService,
+        private readonly TeacherClassScope $classScope,
+        private readonly NoticeService $noticeService,
+        private readonly BroadcastService $broadcastService,
+        private readonly AttendanceService $attendanceService,
+        private readonly GradeService $gradeService,
     ) {
     }
 
@@ -840,19 +849,7 @@ class TeacherController extends Controller
      */
     private function teacherClassIds(\App\Models\User $teacher): \Illuminate\Support\Collection
     {
-        // API 机器人账号：本校全部启用中的班级（含未来新建，无需维护关联表）
-        if ($teacher->isApiBot()) {
-            return ClassRoom::where('school_id', $teacher->school_id)
-                ->where('status', 'active')
-                ->pluck('id')
-                ->merge(ClassRoom::where('teacher_id', $teacher->id)->pluck('id'))
-                ->unique();
-        }
-
-        return \App\Models\ClassRoomTeacher::where('user_id', $teacher->id)
-            ->pluck('class_room_id')
-            ->merge(ClassRoom::where('teacher_id', $teacher->id)->pluck('id'))
-            ->unique();
+        return $this->classScope->ids($teacher);
     }
 
     public function listScoreRules(Request $request): JsonResponse
@@ -1809,12 +1806,7 @@ class TeacherController extends Controller
 
     public function listNotices(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        $notices = \App\Models\Notice::whereIn('class_id', $classIds)
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
+        $notices = $this->noticeService->paginate($request->user());
 
         return response()->json([
             'data' => $notices->items(),
@@ -1828,22 +1820,16 @@ class TeacherController extends Controller
 
     public function createNotice(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
         $request->validate([
             'title' => 'required|string|max:200',
             'content' => 'required|string',
             'type' => 'nullable|string|in:info,homework,event,urgent',
         ]);
 
-        $notice = \App\Models\Notice::create([
-            'class_id' => $classIds->first(),
+        $notice = $this->noticeService->create($request->user(), [
             'title' => $request->input('title'),
             'content' => $request->input('content'),
             'type' => $request->input('type', 'info'),
-            'published_by' => $teacher->id,
-            'is_published' => false,
         ]);
 
         return response()->json(['message' => '通知已创建', 'data' => $notice], 201);
@@ -1851,50 +1837,32 @@ class TeacherController extends Controller
 
     public function updateNotice(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
-
-        $notice->update($request->only(['title', 'content', 'type']));
+        $notice = $this->noticeService->findInScope($request->user(), $id);
+        $this->noticeService->update($notice, $request->only(['title', 'content', 'type']));
 
         return response()->json(['message' => '通知已更新', 'data' => $notice]);
     }
 
     public function publishNotice(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
-
-        $notice->update(['is_published' => true]);
-
-        event(new \App\Events\NoticePublished(
-            $notice->class_id,
-            $notice->id,
-            $notice->title,
-            $notice->type,
-        ));
+        $notice = $this->noticeService->findInScope($request->user(), $id);
+        $this->noticeService->publish($notice);
 
         return response()->json(['message' => '通知已发布']);
     }
 
     public function unpublishNotice(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
-
-        $notice->update(['is_published' => false]);
+        $notice = $this->noticeService->findInScope($request->user(), $id);
+        $this->noticeService->unpublish($notice);
 
         return response()->json(['message' => '通知已撤回']);
     }
 
     public function deleteNotice(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $notice = \App\Models\Notice::whereIn('class_id', $classIds)->findOrFail($id);
-        $notice->delete();
+        $notice = $this->noticeService->findInScope($request->user(), $id);
+        $this->noticeService->delete($notice);
 
         return response()->json(['message' => '通知已删除']);
     }
@@ -2036,19 +2004,11 @@ class TeacherController extends Controller
 
     public function listBroadcasts(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $broadcasts = \App\Models\Broadcast::whereIn('class_id', $classIds)
-            ->orderBy('created_at', 'desc')->take(20)->get();
-
-        return response()->json(['data' => $broadcasts]);
+        return response()->json(['data' => $this->broadcastService->recent($request->user())]);
     }
 
     public function sendBroadcast(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $accessibleClassIds = $this->getAccessibleClassIds($teacher);
-
         $request->validate([
             'content' => 'required|string|max:500',
             'type' => 'nullable|string|in:banner,popup,fullscreen',
@@ -2059,56 +2019,18 @@ class TeacherController extends Controller
             'duration' => 'nullable|integer|min:0|max:300',
         ]);
 
-        // 确定目标班级：未指定则发送给教师所有可访问班级
-        $targetIds = $request->input('class_ids', $accessibleClassIds);
-        $targetIds = array_intersect($targetIds, $accessibleClassIds);
+        $sent = $this->broadcastService->send(
+            $request->user(),
+            $request->input('content'),
+            $request->input('type', 'banner'),
+            $request->boolean('voice', true),
+            $request->boolean('loop', false),
+            (int) $request->input('duration', 10),
+            $request->input('class_ids'),
+        );
 
-        if (empty($targetIds)) {
+        if ($sent === 0) {
             return response()->json(['message' => '没有可发送的班级'], 400);
-        }
-
-        $sent = 0;
-        foreach ($targetIds as $classId) {
-            $broadcast = \App\Models\Broadcast::create([
-                'class_id' => $classId,
-                'content' => $request->input('content'),
-                'type' => $request->input('type', 'banner'),
-                'voice_enabled' => $request->boolean('voice', true),
-                'loop_enabled' => $request->boolean('loop', false),
-                'display_seconds' => (int) $request->input('duration', 10),
-                'status' => 'sent',
-                'sent_at' => now(),
-            ]);
-
-            // 推送事件到班级大屏
-            try {
-                app(DisplayEventService::class)->publish($classId, 'broadcast', [
-                    'id' => $broadcast->id,
-                    'type' => $broadcast->type,
-                    'content' => $broadcast->content,
-                    'display_seconds' => $broadcast->display_seconds,
-                    'voice_enabled' => $broadcast->voice_enabled,
-                    'created_at' => $broadcast->created_at?->toIso8601String(),
-                ]);
-            } catch (\Throwable $e) {
-                logger()->warning('Broadcast event publish failed for class ' . $classId . ': ' . $e->getMessage());
-            }
-
-            // 推送事件到班级大屏
-            try {
-                app(DisplayEventService::class)->publish($classId, 'broadcast', [
-                    'id' => $broadcast->id,
-                    'type' => $broadcast->type,
-                    'content' => $broadcast->content,
-                    'display_seconds' => $broadcast->display_seconds,
-                    'voice_enabled' => $broadcast->voice_enabled ?? false,
-                    'created_at' => $broadcast->created_at?->toIso8601String(),
-                ]);
-            } catch (\Throwable $e) {
-                Log::warning('Broadcast event publish failed: ' . $e->getMessage());
-            }
-
-            $sent++;
         }
 
         return response()->json([
@@ -2119,132 +2041,77 @@ class TeacherController extends Controller
 
     public function getBroadcast(Request $request, int $id): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-        $broadcast = \App\Models\Broadcast::whereIn('class_id', $classIds)->findOrFail($id);
-
-        return response()->json(['data' => $broadcast]);
+        return response()->json(['data' => $this->broadcastService->findInScope($request->user(), $id)]);
     }
 
     public function getTodayAttendance(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->getAccessibleClassIds($teacher);
-
-        $records = \App\Models\Attendance::whereIn('class_id', $classIds)
-            ->whereDate('date', today())
-            ->with(['student:id,name,student_no,class_id', 'leaveRecord:id,sp_no,leave_type,reason'])
-            ->get()
-            ->map(fn (\App\Models\Attendance $a) => [
-                'id' => $a->id,
-                'student_id' => $a->student_id,
-                'student_name' => $a->student?->name,
-                'student_no' => $a->student?->student_no,
-                'status' => $a->status,
-                'source' => $a->source,
-                'remark' => $a->remark,
-                'check_in_time' => $a->sign_in_at?->toDateTimeString(),
-                'leave_record' => $a->leaveRecord ? [
-                    'sp_no' => $a->leaveRecord->sp_no,
-                    'leave_type' => $a->leaveRecord->leave_type,
-                    'reason' => $a->leaveRecord->reason,
-                ] : null,
-            ]);
-
-        return response()->json(['data' => $records]);
+        return response()->json(['data' => $this->attendanceService->today($request->user())]);
     }
 
     public function startAttendance(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->getAccessibleClassIds($teacher);
-        $count = 0;
-        $service = app(\App\Services\WechatWorkAttendanceService::class);
+        $result = $this->attendanceService->start($request->user());
 
-        foreach ($classIds as $classId) {
-            $count += $service->startAttendanceForClass($classId, $teacher->id, today()->toDateString());
+        $msg = "已为 {$result['total']} 名学生创建考勤记录（默认到课）";
+        if ($result['wechat_leave_count'] > 0) {
+            $msg .= "，其中 {$result['wechat_leave_count']} 人已通过企业微信请假";
         }
 
-        $leaveCount = \App\Models\Attendance::whereIn('class_id', $classIds)
-            ->whereDate('date', today())->where('source', 'wechat_work')->count();
-        $msg = "已为 {$count} 名学生创建考勤记录（默认到课）";
-        if ($leaveCount > 0) {
-            $msg .= "，其中 {$leaveCount} 人已通过企业微信请假";
-        }
-
-        return response()->json(['message' => $msg, 'data' => ['total' => $count, 'wechat_leave_count' => $leaveCount]]);
+        return response()->json(['message' => $msg, 'data' => $result]);
     }
 
     public function setAttendance(Request $request, int $studentId): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->getAccessibleClassIds($teacher);
-        $request->validate(['status' => 'required|string|in:present,late,leave,absent', 'remark' => 'nullable|string|max:500']);
-        $status = $request->input('status');
-
-        $record = \App\Models\Attendance::whereIn('class_id', $classIds)
-            ->where('student_id', $studentId)->whereDate('date', today())->firstOrFail();
-        $record->update([
-            'status' => $status,
-            'source' => 'manual',
-            'remark' => $request->input('remark'),
-            'sign_in_at' => $status === 'present' ? now() : $record->sign_in_at,
+        $request->validate([
+            'status' => 'required|string|in:present,late,leave,absent',
+            'remark' => 'nullable|string|max:500',
         ]);
+
+        $record = $this->attendanceService->setStatus(
+            $request->user(),
+            $studentId,
+            $request->input('status'),
+            $request->input('remark'),
+        );
 
         return response()->json(['message' => '考勤状态已更新', 'data' => $record]);
     }
 
     public function markManualLeave(Request $request, int $studentId): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->getAccessibleClassIds($teacher);
         $request->validate(['remark' => 'required|string|max:500']);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-        $service = app(\App\Services\WechatWorkAttendanceService::class);
-        $record = $service->markManualLeave($studentId, $student->class_id, $teacher->id, today()->toDateString(), $request->input('remark'));
+
+        $record = $this->attendanceService->markLeave(
+            $request->user(),
+            $studentId,
+            $request->input('remark'),
+        );
 
         return response()->json(['message' => '已标记为请假', 'data' => ['id' => $record->id, 'status' => $record->status, 'source' => $record->source, 'remark' => $record->remark]]);
     }
 
     public function markManualAbsent(Request $request, int $studentId): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->getAccessibleClassIds($teacher);
         $request->validate(['remark' => 'nullable|string|max:500']);
-        $student = Student::whereIn('class_id', $classIds)->findOrFail($studentId);
-        $service = app(\App\Services\WechatWorkAttendanceService::class);
-        $record = $service->markManualAbsent($studentId, $student->class_id, $teacher->id, today()->toDateString(), $request->input('remark'));
+
+        $record = $this->attendanceService->markAbsent(
+            $request->user(),
+            $studentId,
+            $request->input('remark'),
+        );
 
         return response()->json(['message' => '已标记为缺勤，建议联系家长确认情况', 'data' => ['id' => $record->id, 'status' => $record->status, 'source' => $record->source, 'remark' => $record->remark]]);
     }
 
     public function attendanceSummary(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->getAccessibleClassIds($teacher);
-        $records = \App\Models\Attendance::whereIn('class_id', $classIds)->whereDate('date', today())->get();
-        $present = $records->where('status', 'present')->count();
-        $late = $records->where('status', 'late')->count();
-        $leave = $records->where('status', 'leave')->count();
-        $absent = $records->where('status', 'absent')->count();
-        $total = max($records->count(), 1);
-        $wechatLeave = $records->where('status', 'leave')->where('source', 'wechat_work')->count();
-        $manualLeave = $records->where('status', 'leave')->where('source', 'manual')->count();
-
-        return response()->json(['data' => [
-            'present' => $present, 'late' => $late, 'leave' => $leave, 'absent' => $absent,
-            'rate' => round($present / $total * 100, 1),
-            'wechat_leave_count' => $wechatLeave,
-            'manual_leave_count' => $manualLeave,
-        ]]);
+        return response()->json(['data' => $this->attendanceService->summary($request->user())]);
     }
 
     private function getAccessibleClassIds($teacher): array
     {
-        $ownClassIds = ClassRoom::where('teacher_id', $teacher->id)->pluck('id')->toArray();
-        $relatedClassIds = $this->teacherClassIds($teacher)->toArray();
-
-        return array_values(array_unique(array_merge($ownClassIds, $relatedClassIds)));
+        return $this->classScope->accessibleIds($teacher);
     }
 
     // ============================================================
@@ -2253,19 +2120,11 @@ class TeacherController extends Controller
 
     public function listGrades(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
-        $query = \App\Models\Grade::whereIn('class_id', $classIds)->with('student:id,name');
-
-        if ($examName = $request->input('exam_name')) {
-            $query->where('exam_name', $examName);
-        }
-        if ($subject = $request->input('subject')) {
-            $query->where('subject', $subject);
-        }
-
-        $grades = $query->orderBy('score', 'desc')->paginate(50);
+        $grades = $this->gradeService->paginate(
+            $request->user(),
+            $request->input('exam_name'),
+            $request->input('subject'),
+        );
 
         return response()->json([
             'data' => $grades->items(),
@@ -2280,9 +2139,6 @@ class TeacherController extends Controller
 
     public function inputGrades(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
         $request->validate([
             'exam_name' => 'required|string|max:50',
             'subject' => 'required|string|max:50',
@@ -2291,67 +2147,42 @@ class TeacherController extends Controller
             'grades.*.score' => 'required|numeric|min:0',
         ]);
 
-        $count = 0;
-        foreach ($request->input('grades') as $g) {
-            $student = Student::whereIn('class_id', $classIds)->find($g['student_id']);
-            if (!$student) {
-                continue;
-            }
-
-            \App\Models\Grade::updateOrCreate(
-                [
-                    'class_id' => $student->class_id,
-                    'student_id' => $g['student_id'],
-                    'exam_name' => $request->input('exam_name'),
-                    'subject' => $request->input('subject'),
-                ],
-                [
-                    'teacher_id' => $teacher->id,
-                    'score' => $g['score'],
-                ]
-            );
-            $count++;
-        }
+        $count = $this->gradeService->input(
+            $request->user(),
+            $request->input('grades'),
+            $request->input('exam_name'),
+            $request->input('subject'),
+        );
 
         return response()->json(['message' => "已录入 {$count} 条成绩"]);
     }
 
     public function getGradeStats(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
         $request->validate([
             'exam_name' => 'required|string',
             'subject' => 'required|string',
         ]);
 
-        $stats = \App\Models\Grade::classStats(
-            $classIds->first(),
+        return response()->json(['data' => $this->gradeService->stats(
+            $request->user(),
             $request->input('exam_name'),
             $request->input('subject'),
-        );
-
-        return response()->json(['data' => $stats]);
+        )]);
     }
 
     public function getGradeDistribution(Request $request): JsonResponse
     {
-        $teacher = $request->user();
-        $classIds = $this->teacherClassIds($teacher);
-
         $request->validate([
             'exam_name' => 'required|string',
             'subject' => 'required|string',
         ]);
 
-        $distribution = \App\Models\Grade::scoreDistribution(
-            $classIds->first(),
+        return response()->json(['data' => $this->gradeService->distribution(
+            $request->user(),
             $request->input('exam_name'),
             $request->input('subject'),
-        );
-
-        return response()->json(['data' => $distribution]);
+        )]);
     }
 
     /**
