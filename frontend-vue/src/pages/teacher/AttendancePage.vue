@@ -94,7 +94,7 @@ async function confirmAbsent() {
   <div>
     <div class="page-head">
       <h2 class="page-title">智能考勤</h2>
-      <button class="btn btn-sm" style="color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[startStatus] }" :disabled="startStatus === 'loading' || attendanceStarted" @click="startAttendance">
+      <button class="btn btn-sm btn-white-flat" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[startStatus] }" :disabled="startStatus === 'loading' || attendanceStarted" @click="startAttendance">
         {{ attendanceStarted ? '已开始点名' : ({ idle: '开始点名', loading: '开始中...', success: '已开始 ✓', error: '失败' }[startStatus]) }}
       </button>
     </div>
@@ -102,35 +102,35 @@ async function confirmAbsent() {
     <div class="stats-grid">
       <div class="stat-card stat-card--accent"><span class="stat-card__icon">到</span><div class="stat-card__value">{{ summary.present }}</div><div class="stat-card__label">到课</div></div>
       <div class="stat-card stat-card--secondary"><span class="stat-card__icon">迟</span><div class="stat-card__value">{{ summary.late }}</div><div class="stat-card__label">迟到</div></div>
-      <div class="stat-card stat-card--info"><span class="stat-card__icon">假</span><div class="stat-card__value">{{ summary.leave }}</div><div class="stat-card__label">请假 <span style="font-size:11px;color:#86868b;">(企微{{ summary.wechat_leave_count }})</span></div></div>
-      <div class="stat-card" style="border-color:rgba(239,68,68,.3);"><span class="stat-card__icon">缺</span><div class="stat-card__value">{{ summary.absent }}</div><div class="stat-card__label">缺勤</div></div>
+      <div class="stat-card stat-card--info"><span class="stat-card__icon">假</span><div class="stat-card__value">{{ summary.leave }}</div><div class="stat-card__label">请假 <span class="hint-gray-11">(企微{{ summary.wechat_leave_count }})</span></div></div>
+      <div class="stat-card stat-card-danger"><span class="stat-card__icon">缺</span><div class="stat-card__value">{{ summary.absent }}</div><div class="stat-card__label">缺勤</div></div>
     </div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
 
     <div v-else>
-      <div v-if="absentWithoutLeave > 0" style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
-        <span>!</span><span style="font-size:13px;color:#92400E;">有 {{ absentWithoutLeave }} 名学生未到校且无请假记录，请确认后联系家长</span>
+      <div v-if="absentWithoutLeave > 0" class="warn-banner">
+        <span>!</span><span class="warn-banner-text">有 {{ absentWithoutLeave }} 名学生未到校且无请假记录，请确认后联系家长</span>
       </div>
 
       <div class="data-table">
-        <div class="data-table__header"><h3 style="font-size:16px;font-weight:600;">今日考勤</h3><span class="text-muted-13">出勤率 {{ summary.rate }}%</span></div>
+        <div class="data-table__header"><h3 class="table-title">今日考勤</h3><span class="text-muted-13">出勤率 {{ summary.rate }}%</span></div>
         <table>
           <thead><tr><th>姓名</th><th>学号</th><th>状态</th><th>来源</th><th>备注</th><th>签到</th><th>操作</th></tr></thead>
           <tbody>
-            <tr v-if="records.length === 0"><td colspan="7" class="empty-state"><div style="font-size:32px;margin-bottom:8px;">考勤</div>点击开始点名创建考勤记录</td></tr>
+            <tr v-if="records.length === 0"><td colspan="7" class="empty-state"><div class="empty-emoji">考勤</div>点击开始点名创建考勤记录</td></tr>
             <tr v-for="r in records" :key="r.student_id">
-              <td style="font-weight:600;">{{ r.student_name }}</td>
-              <td style="color:var(--color-text-secondary);">{{ r.student_no || '-' }}</td>
+              <td class="fw-600">{{ r.student_name }}</td>
+              <td class="cell-secondary">{{ r.student_no || '-' }}</td>
               <td><span :style="{ color: statusColors[r.status], fontWeight: 500 }">{{ statusLabels[r.status] }}</span></td>
-              <td><span :class="sourceClass(r.source)">{{ sourceLabel(r.source) }}</span><span v-if="r.leave_record?.leave_type" style="font-size:11px;color:#86868b;margin-left:4px;">({{ r.leave_record.leave_type }})</span></td>
-              <td style="color:var(--color-text-secondary);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" :title="r.remark || (r.leave_record?.reason || '')">{{ r.remark || r.leave_record?.reason || '-' }}</td>
-              <td style="color:var(--color-text-secondary);">{{ r.check_in_time || '-' }}</td>
-              <td style="display:flex;gap:4px;flex-wrap:wrap;">
-                <button v-if="r.status !== 'present'" class="btn btn-sm" style="background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border);" @click="setStatus(r.student_id, 'present')">到课</button>
-                <button v-if="r.status !== 'late'" class="btn btn-sm" style="background:var(--color-bg);color:#F59E0B;border:1px solid rgba(245,158,11,.3);" @click="setStatus(r.student_id, 'late')">迟到</button>
-                <button v-if="r.status !== 'leave'" class="btn btn-sm" style="background:var(--color-bg);color:#3B82F6;border:1px solid rgba(59,130,246,.3);" @click="openLeaveModal(r.student_id, r.student_name)">请假</button>
-                <button v-if="r.status !== 'absent'" class="btn btn-sm" style="background:var(--color-bg);color:var(--color-danger);border:1px solid rgba(239,68,68,.3);" @click="openAbsentModal(r.student_id, r.student_name)">缺勤</button>
+              <td><span :class="sourceClass(r.source)">{{ sourceLabel(r.source) }}</span><span v-if="r.leave_record?.leave_type" class="hint-gray-11-ml">({{ r.leave_record.leave_type }})</span></td>
+              <td :title="r.remark || (r.leave_record?.reason || '')" class="cell-ellipsis">{{ r.remark || r.leave_record?.reason || '-' }}</td>
+              <td class="cell-secondary">{{ r.check_in_time || '-' }}</td>
+              <td class="actions-row">
+                <button v-if="r.status !== 'present'" class="btn btn-sm btn-outline-neutral" @click="setStatus(r.student_id, 'present')">到课</button>
+                <button v-if="r.status !== 'late'" class="btn btn-sm btn-outline-warn" @click="setStatus(r.student_id, 'late')">迟到</button>
+                <button v-if="r.status !== 'leave'" class="btn btn-sm btn-outline-info" @click="openLeaveModal(r.student_id, r.student_name)">请假</button>
+                <button v-if="r.status !== 'absent'" class="btn btn-sm btn-outline-danger" @click="openAbsentModal(r.student_id, r.student_name)">缺勤</button>
               </td>
             </tr>
           </tbody>
@@ -142,13 +142,13 @@ async function confirmAbsent() {
       <div class="modal-card">
         <div class="modal-header"><h3>手动请假 - {{ leaveStudentName }}</h3><button class="modal-close" @click="showLeaveModal = false">&times;</button></div>
         <div class="modal-body">
-          <p style="font-size:13px;color:#86868b;margin-bottom:12px;">该学生未在企业微信提交请假申请，请填写请假原因。</p>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">请假原因 <span style="color:#EF4444;">*</span></label>
-          <textarea v-model="leaveRemark" placeholder="例：家长电话告知感冒请假一天" rows="3" style="width:100%;padding:10px 12px;border:1px solid #e5e5ea;border-radius:10px;font-size:14px;resize:vertical;outline:none;"></textarea>
+          <p class="modal-desc">该学生未在企业微信提交请假申请，请填写请假原因。</p>
+          <label class="form-label-block">请假原因 <span class="req-star-red">*</span></label>
+          <textarea v-model="leaveRemark" placeholder="例：家长电话告知感冒请假一天" rows="3" class="form-textarea"></textarea>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-sm" style="background:var(--color-bg);border:1px solid var(--color-border);" @click="showLeaveModal = false">取消</button>
-          <button class="btn btn-sm" style="color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[leaveStatus] }" :disabled="leaveStatus === 'loading'" @click="confirmLeave">
+          <button class="btn btn-sm btn-outline-bg" @click="showLeaveModal = false">取消</button>
+          <button class="btn btn-sm btn-white-flat" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[leaveStatus] }" :disabled="leaveStatus === 'loading'" @click="confirmLeave">
             {{ { idle: '确认请假', loading: '提交中...', success: '已提交 ✓', error: '失败' }[leaveStatus] }}
           </button>
         </div>
@@ -157,15 +157,15 @@ async function confirmAbsent() {
 
     <div v-if="showAbsentModal" class="modal-overlay" @click.self="showAbsentModal = false">
       <div class="modal-card">
-        <div class="modal-header" style="background:rgba(239,68,68,0.1);"><h3 style="color: var(--color-danger-text);">确认缺勤 - {{ absentStudentName }}</h3><button class="modal-close" @click="showAbsentModal = false">&times;</button></div>
+        <div class="modal-header modal-header-danger"><h3 class="text-danger-strong">确认缺勤 - {{ absentStudentName }}</h3><button class="modal-close" @click="showAbsentModal = false">&times;</button></div>
         <div class="modal-body">
-          <p style="font-size:14px;color: var(--color-danger-text);margin-bottom:12px;background:rgba(239,68,68,0.08);padding:10px 12px;border-radius:8px;">该学生未到校且无请假记录，建议先联系家长后再标记缺勤。</p>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">备注（可选）</label>
-          <textarea v-model="absentRemark" placeholder="例：电话未接通，稍后再联系" rows="2" style="width:100%;padding:10px 12px;border:1px solid #e5e5ea;border-radius:10px;font-size:14px;resize:vertical;outline:none;"></textarea>
+          <p class="modal-alert-danger">该学生未到校且无请假记录，建议先联系家长后再标记缺勤。</p>
+          <label class="form-label-block">备注（可选）</label>
+          <textarea v-model="absentRemark" placeholder="例：电话未接通，稍后再联系" rows="2" class="form-textarea"></textarea>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-sm" style="background:var(--color-bg);border:1px solid var(--color-border);" @click="showAbsentModal = false">取消</button>
-          <button class="btn btn-sm" style="color:#fff;border:none;" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[absentStatus] }" :disabled="absentStatus === 'loading'" @click="confirmAbsent">
+          <button class="btn btn-sm btn-outline-bg" @click="showAbsentModal = false">取消</button>
+          <button class="btn btn-sm btn-white-flat" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[absentStatus] }" :disabled="absentStatus === 'loading'" @click="confirmAbsent">
             {{ { idle: '确认缺勤', loading: '提交中...', success: '已提交 ✓', error: '失败' }[absentStatus] }}
           </button>
         </div>
@@ -187,4 +187,29 @@ async function confirmAbsent() {
 .modal-close:hover { color:var(--color-text) }
 .modal-body { padding: 20px }
 .modal-footer { display: flex; gap: 8px; justify-content: flex-end; padding: 16px 20px; border-top: 1px solid #f0f0f3 }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.btn-white-flat { color:#fff;border:none; }
+.cell-secondary { color:var(--color-text-secondary); }
+.form-label-block { font-size:13px;font-weight:600;display:block;margin-bottom:6px; }
+.form-textarea { width:100%;padding:10px 12px;border:1px solid #e5e5ea;border-radius:10px;font-size:14px;resize:vertical;outline:none; }
+.btn-outline-bg { background:var(--color-bg);border:1px solid var(--color-border); }
+.hint-gray-11 { font-size:11px;color:#86868b; }
+.stat-card-danger { border-color:rgba(239,68,68,.3); }
+.warn-banner { background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px; }
+.warn-banner-text { font-size:13px;color:#92400E; }
+.table-title { font-size:16px;font-weight:600; }
+.empty-emoji { font-size:32px;margin-bottom:8px; }
+.fw-600 { font-weight:600; }
+.hint-gray-11-ml { font-size:11px;color:#86868b;margin-left:4px; }
+.cell-ellipsis { color:var(--color-text-secondary);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.actions-row { display:flex;gap:4px;flex-wrap:wrap; }
+.btn-outline-neutral { background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border); }
+.btn-outline-warn { background:var(--color-bg);color:#F59E0B;border:1px solid rgba(245,158,11,.3); }
+.btn-outline-info { background:var(--color-bg);color:#3B82F6;border:1px solid rgba(59,130,246,.3); }
+.btn-outline-danger { background:var(--color-bg);color:var(--color-danger);border:1px solid rgba(239,68,68,.3); }
+.modal-desc { font-size:13px;color:#86868b;margin-bottom:12px; }
+.req-star-red { color:#EF4444; }
+.modal-header-danger { background:rgba(239,68,68,0.1); }
+.text-danger-strong { color: var(--color-danger-text); }
+.modal-alert-danger { font-size:14px;color: var(--color-danger-text);margin-bottom:12px;background:rgba(239,68,68,0.08);padding:10px 12px;border-radius:8px; }
 </style>
