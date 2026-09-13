@@ -156,19 +156,19 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
   <div>
     <div class="page-head">
       <h2 class="page-title">积分商城</h2>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="showAddForm = !showAddForm">
+      <div class="row-8">
+        <button class="btn btn-sm btn-card" @click="showAddForm = !showAddForm">
           {{ showAddForm ? '取消' : '添加奖品' }}
         </button>
       </div>
     </div>
 
     <!-- 宠物成长绑定说明 -->
-    <div class="card" style="margin-bottom:24px;padding:16px 24px;background:rgba(79,70,229,0.04);border-color:rgba(79,70,229,0.15);">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span style="font-size:28px;">🌟</span>
+    <div class="card balance-card">
+      <div class="row-gap-12">
+        <span class="icon-28">🌟</span>
         <div>
-          <div style="font-weight:600;font-size:14px;color:var(--color-primary);">宠物成长与积分联动</div>
+          <div class="balance-value">宠物成长与积分联动</div>
           <div class="text-muted-13">
             班主任和科任老师增减积分时，学生宠物的成长值同步变化。积分越高，宠物成长越快，逐步进化为更高级形态。
           </div>
@@ -177,18 +177,18 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
     </div>
 
     <!-- 分类筛选 -->
-    <div style="display:flex;gap:8px;margin-bottom:16px;">
+    <div class="tab-row">
       <button v-for="c in categories" :key="c.key"
-        :style="filterCategory === c.key ? { background:'var(--color-primary)', color:'#fff', borderColor:'var(--color-primary)' } : { color: 'var(--color-text)' }"
-        style="padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);"
-        @click="filterCategory = c.key">
+ :style="filterCategory === c.key ? { background:'var(--color-primary)', color:'#fff', borderColor:'var(--color-primary)' } : { color: 'var(--color-text)' }"
+ 
+ @click="filterCategory = c.key" class="pill">
         {{ c.label }}
       </button>
     </div>
 
-    <div v-if="showAddForm" class="card" style="margin-bottom:24px;">
+    <div v-if="showAddForm" class="card section-gap-lg">
       <h3 class="section-title">添加新奖品</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div class="grid-2-16">
         <div class="form-group"><label>商品名称 <span class="req-star">*</span></label><input v-model="newItem.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')"><div v-if="itemErrors.name" class="field-error">{{ itemErrors.name }}</div></div>
         <div class="form-group"><label>所需积分 <span class="req-star">*</span></label><input v-model.number="newItem.cost_score" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost_score ? '#f87171' : '' }" @blur="iVld('cost_score')" @input="iClr('cost_score')"><div v-if="itemErrors.cost_score" class="field-error">{{ itemErrors.cost_score }}</div></div>
         <div class="form-group"><label>库存（0=无限）</label><input v-model.number="newItem.stock" type="number" min="0" class="form-input"></div>
@@ -212,13 +212,13 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
           </select>
         </div>
       </div>
-      <div class="form-group" style="margin-top:8px;">
+      <div class="form-group space-top-sm">
         <label>描述</label>
         <input v-model="newItem.description" class="form-input" placeholder="简短描述">
       </div>
-      <button class="btn btn-primary" style="margin-top:16px;width:auto;" :disabled="addStatus !== 'idle'"
-        :style="{ background: addStatus === 'loading' ? '#f59e0b' : addStatus === 'success' ? '#10b981' : addStatus === 'error' ? '#ef4444' : '#7c3aed' }"
-        @click="addItem">
+      <button class="btn btn-primary form-actions-inline" :disabled="addStatus !== 'idle'"
+ :style="{ background: addStatus === 'loading' ? '#f59e0b' : addStatus === 'success' ? '#10b981' : addStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+ @click="addItem">
         <template v-if="addStatus === 'idle'">添加</template>
         <template v-else-if="addStatus === 'loading'">添加中...</template>
         <template v-else-if="addStatus === 'success'">✅ 已添加</template>
@@ -233,40 +233,40 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
       <p>{{ filterCategory ? '该类别暂无商品' : '暂无商品，点击「添加奖品」开始' }}</p>
     </div>
 
-    <div v-else style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
-      <div v-for="item in filteredItems" :key="item.id" class="card"
-        style="text-align:center;padding:24px;cursor:pointer;position:relative;transition:transform 0.3s;"
-        @mouseenter="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'"
+    <div v-else class="grid-220">
+      <div v-for="item in filteredItems" :key="item.id" class="card item-card"
+ 
+ @mouseenter="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'"
         @mouseleave="(e: MouseEvent) => (e.currentTarget as HTMLElement).style.transform = ''">
-        <div style="position:absolute;top:8px;right:12px;font-size:14px;"
-          :style="{
-            cursor: (!deleteStatusMap[item.id] || deleteStatusMap[item.id] === 'idle') ? 'pointer' : 'default',
-            color: deleteStatusMap[item.id] === 'loading' ? '#f59e0b' : deleteStatusMap[item.id] === 'success' ? '#10b981' : deleteStatusMap[item.id] === 'error' ? '#ef4444' : 'var(--color-text-secondary)'
-          }"
-          @click.stop="(!deleteStatusMap[item.id] || deleteStatusMap[item.id] === 'idle') && deleteItem(item)">
+        <div 
+ :style="{
+ cursor: (!deleteStatusMap[item.id] || deleteStatusMap[item.id] === 'idle') ? 'pointer' : 'default',
+ color: deleteStatusMap[item.id] === 'loading' ? '#f59e0b' : deleteStatusMap[item.id] === 'success' ? '#10b981' : deleteStatusMap[item.id] === 'error' ? '#ef4444' : 'var(--color-text-secondary)'
+ }"
+ @click.stop="(!deleteStatusMap[item.id] || deleteStatusMap[item.id] === 'idle') && deleteItem(item)" class="item-badge">
           <template v-if="!deleteStatusMap[item.id] || deleteStatusMap[item.id] === 'idle'">✕</template>
           <template v-else-if="deleteStatusMap[item.id] === 'loading'">⏳</template>
           <template v-else-if="deleteStatusMap[item.id] === 'success'">✅</template>
           <template v-else-if="deleteStatusMap[item.id] === 'error'">❌</template>
         </div>
-        <div style="font-size:48px;margin-bottom:12px;">
+        <div class="item-emoji">
           {{ { '课外图书': '📖', '科学实验套装': '🔬', '免作业1天': '🎮', '班级之星徽章': '🏆', '冰淇淋奖励': '🍦', '迟到抵消券': '⏰' }[item.name] || '🎁' }}
         </div>
-        <div style="font-weight:600;font-size:16px;margin-bottom:4px;">{{ item.name }}</div>
-        <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;" v-if="item.description">{{ item.description }}</div>
-        <div style="display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:12px;font-size:12px;margin-bottom:8px;background:rgba(79,70,229,0.08);color:var(--color-primary);">
+        <div class="item-title">{{ item.name }}</div>
+        <div v-if="item.description" class="item-desc">{{ item.description }}</div>
+        <div class="stock-pill">
           {{ (catLabels as any)[item.category] || '🎁 奖励' }}
         </div>
-        <div style="color:var(--color-secondary);font-weight:700;font-size:16px;">⭐ {{ item.cost_score }} 积分</div>
-        <div v-if="item.stock > 0" style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">库存: {{ item.stock }}</div>
-        <button class="btn btn-sm btn-primary" style="margin-top:12px;width:100%;" @click.stop="openRedeem(item)">立即兑换</button>
+        <div class="price">⭐ {{ item.cost_score }} 积分</div>
+        <div v-if="item.stock > 0" class="muted-12-top">库存: {{ item.stock }}</div>
+        <button class="btn btn-sm btn-primary item-cta" @click.stop="openRedeem(item)">立即兑换</button>
       </div>
     </div>
 
     <!-- 兑换弹窗 -->
-    <div v-if="showRedeemModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:200;">
-      <div class="card" style="width:420px;max-width:90vw;max-height:80vh;overflow-y:auto;">
-        <h3 style="font-size:18px;font-weight:600;margin-bottom:16px;">兑换 {{ selectedItem?.name }}</h3>
+    <div v-if="showRedeemModal" class="modal-mask">
+      <div class="card modal-panel">
+        <h3 class="modal-heading">兑换 {{ selectedItem?.name }}</h3>
         <div class="form-group">
           <label>选择学生</label>
           <select v-model.number="selectedStudentId" class="form-select">
@@ -276,16 +276,16 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
             </option>
           </select>
         </div>
-        <div v-if="selectedStudentId" style="margin-bottom:16px;padding:12px;background:var(--color-bg);border-radius:var(--radius-md);">
-          <div style="font-size:13px;">
+        <div v-if="selectedStudentId" class="info-box">
+          <div class="text-13">
             当前积分: <strong>{{ students.find(s => s.id === selectedStudentId)?.total_score || 0 }}</strong>
-            → 兑换后: <strong style="color:var(--color-accent);">{{ (students.find(s => s.id === selectedStudentId)?.total_score || 0) - (selectedItem?.cost_score || 0) }}</strong>
+            → 兑换后: <strong class="text-accent">{{ (students.find(s => s.id === selectedStudentId)?.total_score || 0) - (selectedItem?.cost_score || 0) }}</strong>
           </div>
-          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">
+          <div class="muted-12-top">
             宠物等级: Lv.{{ students.find(s => s.id === selectedStudentId)?.pet_level || 0 }}
           </div>
         </div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <div class="modal-actions">
           <button class="btn btn-ghost" @click="showRedeemModal = false">取消</button>
           <button class="btn btn-primary" :disabled="redeemStatus !== 'idle' || !selectedStudentId"
             :style="{ background: redeemStatus === 'loading' ? '#f59e0b' : redeemStatus === 'success' ? '#10b981' : redeemStatus === 'error' ? '#ef4444' : '#7c3aed' }"
@@ -305,4 +305,34 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
 .cat-btn { padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);font-family:inherit;transition:all 0.15s; }
 .cat-btn:hover { border-color:var(--color-primary);color:var(--color-primary); }
 .cat-btn.active { background:var(--color-primary);color:#fff;border-color:var(--color-primary); }
+/* ===== 页内布局类（本页专用，替代原内联样式；声明逐字保留以保证渲染等价） ===== */
+.muted-12-top { font-size:12px; color:var(--color-text-secondary); margin-top:4px; }
+.row-8 { display:flex; gap:8px; }
+.btn-card { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
+.balance-card { margin-bottom:24px; padding:16px 24px; background:rgba(79,70,229,0.04); border-color:rgba(79,70,229,0.15); }
+.row-gap-12 { display:flex; align-items:center; gap:12px; }
+.icon-28 { font-size:28px; }
+.balance-value { font-weight:600; font-size:14px; color:var(--color-primary); }
+.tab-row { display:flex; gap:8px; margin-bottom:16px; }
+.pill { padding:8px 16px; border-radius:20px; font-size:13px; cursor:pointer; background:var(--color-bg); border:1px solid var(--color-border); color:var(--color-text); }
+.section-gap-lg { margin-bottom:24px; }
+.grid-2-16 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.space-top-sm { margin-top:8px; }
+.form-actions-inline { margin-top:16px; width:auto; }
+.grid-220 { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
+.item-card { text-align:center; padding:24px; cursor:pointer; position:relative; transition:transform 0.3s; }
+.item-badge { position:absolute; top:8px; right:12px; font-size:14px; }
+.item-emoji { font-size:48px; margin-bottom:12px; }
+.item-title { font-weight:600; font-size:16px; margin-bottom:4px; }
+.item-desc { font-size:12px; color:var(--color-text-secondary); margin-bottom:8px; }
+.stock-pill { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; font-size:12px; margin-bottom:8px; background:rgba(79,70,229,0.08); color:var(--color-primary); }
+.price { color:var(--color-secondary); font-weight:700; font-size:16px; }
+.item-cta { margin-top:12px; width:100%; }
+.modal-mask { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:200; }
+.modal-panel { width:420px; max-width:90vw; max-height:80vh; overflow-y:auto; }
+.modal-heading { font-size:18px; font-weight:600; margin-bottom:16px; }
+.info-box { margin-bottom:16px; padding:12px; background:var(--color-bg); border-radius:var(--radius-md); }
+.text-13 { font-size:13px; }
+.text-accent { color:var(--color-accent); }
+.modal-actions { display:flex; gap:8px; justify-content:flex-end; }
 </style>
