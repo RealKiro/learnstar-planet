@@ -125,7 +125,7 @@ cp .env.example .env
 
 > Windows PowerShell 请用：`copy .env.example .env`
 >
-> **默认配置 = 内置 SQLite 数据库，什么都不用装、什么都不用改**，直接进 [2.5 启动](#启动)。全校规模（>500 学生）再按下文 [📦 部署指南](#-部署指南) 外接你已有的 MySQL/PostgreSQL 服务器。
+> **默认配置 = 内置 SQLite 数据库，什么都不用装、什么都不用改**，直接进 [▶️ 启动](#-启动)。全校规模（>500 学生）再按下文 [📦 部署指南](#-部署指南) 外接你已有的 MySQL/PostgreSQL 服务器。
 
 ### ▶️ 启动
 
@@ -267,14 +267,14 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 
 ### 🔗 第三方平台对接（可选）
 
-企业微信扫码登录 / 通讯录导入：填 `WECHAT_WORK_CORPID` / `WECHAT_WORK_AGENTID` / `WECHAT_WORK_SECRET`（在企业微信管理后台创建自建应用获取）；钉钉/飞书在后端 `config/dingtalk.php`、`config/feishu.php` 填凭证。详细步骤见 [🔌 集成与对接](#-集成与对接)。
+企业微信扫码登录 / 通讯录导入：填 `WECHAT_WORK_CORPID` / `WECHAT_WORK_AGENTID` / `WECHAT_WORK_SECRET`（在企业微信管理后台创建自建应用获取）；钉钉/飞书在 `.env` 填 `DINGTALK_APP_KEY` / `DINGTALK_APP_SECRET`、`FEISHU_APP_ID` / `FEISHU_APP_SECRET`。详细步骤见 [🔌 集成与对接](#-集成与对接)。
 
 ## 💾 数据备份与恢复
 
 > **⚡ 场景速查**
-> - 我要备份数据 → [5.2 备份（SQLite 模式）](#52-备份sqlite-模式) / [5.4 备份 / 恢复（外置 MySQL 模式）](#54-备份--恢复外置-mysql-模式)
-> - 我要恢复数据 → [5.3 恢复（SQLite 模式）](#53-恢复sqlite-模式) / [5.4 备份 / 恢复（外置 MySQL 模式）](#54-备份--恢复外置-mysql-模式)
-> - 系统坏了想重来 → 先 [5.2 备份](#52-备份sqlite-模式)，再看 [7. 常见问题（FAQ）](#-常见问题faq) 的「彻底重置」
+> - 我要备份数据 → [📤 备份（SQLite 模式）](#-备份sqlite-模式) / [🐬 备份 / 恢复（外置 MySQL 模式）](#-备份--恢复外置-mysql-模式)
+> - 我要恢复数据 → [📥 恢复（SQLite 模式）](#-恢复sqlite-模式) / [🐬 备份 / 恢复（外置 MySQL 模式）](#-备份--恢复外置-mysql-模式)
+> - 系统坏了想重来 → 先 [📤 备份](#-备份sqlite-模式)，再看 [❓ 常见问题（FAQ）](#-常见问题faq) 的「彻底重置」
 
 ### 📍 数据都存在哪里？
 
@@ -346,10 +346,10 @@ docker cp learnstar-app:/app/storage/database.sqlite ./backup-before-upgrade.sql
 
 | 小节 | 适合谁 |
 |--------|--------|
-| [6.1 REST API 机器人账号（外部系统对接）](#-rest-api-机器人账号外部系统对接) | 想让**自己的项目/脚本**调用积分管理能力 |
-| [6.2 MCP 服务器（AI 机器人插件）](#-mcp-服务器ai-机器人插件) | 想接 **AstrBot / Claude Desktop** 等 AI 宿主，自然语言管积分 |
-| [6.3 第三方平台登录与通讯录同步](#-第三方平台登录与通讯录同步) | 学校用**企业微信 / 钉钉 / 飞书**，要扫码登录与名单导入 |
-| [6.4 ClassIsland 课表同步（CSES）](#-classisland-课表同步cses) | 教室一体机用 **ClassIsland**，想把本系统排的课表导入进去 |
+| [REST API 机器人账号（外部系统对接）](#-rest-api-机器人账号外部系统对接) | 想让**自己的项目/脚本**调用积分管理能力 |
+| [MCP 服务器（AI 机器人插件）](#-mcp-服务器ai-机器人插件) | 想接 **AstrBot / Claude Desktop** 等 AI 宿主，自然语言管积分 |
+| [第三方平台登录与通讯录同步](#-第三方平台登录与通讯录同步) | 学校用**企业微信 / 钉钉 / 飞书**，要扫码登录与名单导入 |
+| [ClassIsland 课表同步（CSES）](#-classisland-课表同步cses) | 教室一体机用 **ClassIsland**，想把本系统排的课表导入进去 |
 
 ### 🤖 REST API 机器人账号（外部系统对接）
 
@@ -398,13 +398,13 @@ curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
 
 ### 🧩 MCP 服务器（AI 机器人插件）
 
-[mcp-server/](mcp-server/) 提供标准 MCP 协议服务器（工具：add_score / batch_add_score / query_score / search_student / get_leaderboard / get_dashboard / send_notice），AstrBot、Claude Desktop 等 MCP 宿主配 `LEARNSTAR_API_BASE` + `LEARNSTAR_API_TOKEN` 两个环境变量即可接入——把 6.1 中机器人账号的 token 填进去，QQ/微信群即可用自然语言加减分。部署详见 [mcp-server/README.md](mcp-server/README.md)。
+[mcp-server/](mcp-server/) 提供标准 MCP 协议服务器（工具：add_score / batch_add_score / query_score / search_student / get_leaderboard / get_dashboard / send_notice），AstrBot、Claude Desktop 等 MCP 宿主配 `LEARNSTAR_API_BASE` + `LEARNSTAR_API_TOKEN` 两个环境变量即可接入——把上文「REST API 机器人账号」的 token 填进去，QQ/微信群即可用自然语言加减分。部署详见 [mcp-server/README.md](mcp-server/README.md)。
 
 ### 🔐 第三方平台登录与通讯录同步
 
 学宠星球支持多平台第三方扫码登录。**管理员在后台勾选哪些平台启用**，勾选后登录页才会显示对应平台入口，并自动展示各平台官方品牌图标。
 
-#### 6.3.1 后台启用第三方平台
+#### 后台启用第三方平台
 
 1. 管理员登录 → **学校设置** → 「第三方登录平台」
 2. 勾选要启用的平台（可多选）：**企业微信 / 钉钉 / 飞书 / 人人通空间 / 微信 / QQ**
@@ -413,27 +413,27 @@ curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
 > 未勾选任何平台时，默认启用 **企业微信 / 微信 / QQ**。
 > 勾选平台的展示与登录无需额外配置；但**扫码登录真正可用**需在对应平台开放平台注册应用并配置凭证（见下表）。
 
-#### 6.3.2 各平台配置凭证
+#### 各平台配置凭证
 
 | 平台 | 是否需要凭证 | 凭证位置 | 支持能力 |
 |------|:-----------:|----------|----------|
 | **企业微信** | ✅ | `.env`：`WECHAT_WORK_CORPID` / `WECHAT_WORK_AGENTID` / `WECHAT_WORK_SECRET` | 扫码免注册登录 + 通讯录导入 + 请假同步 + 消息推送 |
-| **钉钉** | ✅ | `backend/config/dingtalk.php`：`app_key` / `app_secret` | 扫码登录 + 通讯录导入 |
-| **飞书** | ✅ | `backend/config/feishu.php`：`app_id` / `app_secret` | 扫码登录 + 通讯录导入 |
+| **钉钉** | ✅ | `.env`：`DINGTALK_APP_KEY` / `DINGTALK_APP_SECRET` | 扫码登录 + 通讯录导入 |
+| **飞书** | ✅ | `.env`：`FEISHU_APP_ID` / `FEISHU_APP_SECRET` | 扫码登录 + 通讯录导入 |
 | **微信** | ⚠️ | 需前端接入微信开放平台 JSAPI 取 openid | 当前仅展示入口，扫码流程待接入 |
 | **QQ** | ⚠️ | 需前端接入 QQ 互联取 openid | 当前仅展示入口，扫码流程待接入 |
 | **人人通空间** | ⚠️ | 需对接区域人人通开放平台 | 当前仅展示入口，扫码流程待接入 |
 
-#### 6.3.3 教师绑定与免注册登录
+#### 教师绑定与免注册登录
 
 - **企业微信 / 钉钉 / 飞书**：教师扫码后，若系统已有绑定账号则直接登录；否则**按手机号/实名用户名匹配本地已有账号并自动绑定**（不会重复建号）；确无匹配时自动创建教师账号（实名用户名 + 默认密码 `ls123456`）
 - **账号设置 → 第三方账号绑定**：教师可查看/解绑已绑定的第三方平台，或扫码绑定新平台
 
-#### 6.3.4 通讯录批量导入
+#### 通讯录批量导入
 
 管理员 → 教师管理 → **🏢 第三方导入**：从学校配置的第三方平台（企业微信/钉钉/飞书）拉取通讯录，勾选成员后批量创建教师与学生账号。教师按手机号/实名账号自动去重（不会生成"张老师_2"冗余账号）；学生按部门名自动匹配班级（支持"六年级1班 ↔ 六年级（1）班"模糊匹配），可搜索、批量设置班级，导入完成后展示新增/跳过明细与新教师初始密码。
 
-#### 6.3.5 数据同步与冲突处理（升班 / 名单更新必读）
+#### 数据同步与冲突处理（升班 / 名单更新必读）
 
 系统以**本地数据库为准**，第三方平台（企业微信/钉钉/飞书）是数据来源之一。平台侧的调整不会自动写入本地，按以下规则协同：
 
@@ -446,7 +446,7 @@ curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
 
 > 推荐顺序：每个学年开始时，先在第三方平台完成升班与名单调整 → 本系统执行「学年升级」→ 建新一年级班级 → 通讯录导入新生（同学号冲突会被自动拦截）。
 
-#### 6.3.6 工作原理（可选了解）
+#### 工作原理（可选了解）
 
 - 登录页平台列表来自接口 `GET /api/v1/auth/third-party/options`（返回管理员勾选的平台 + 品牌图标）
 - 学校配置存储在 `schools.settings.enabled_third_party_platforms`（JSON 数组）
