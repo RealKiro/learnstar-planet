@@ -710,9 +710,9 @@ class TimetableService
      *
      * @param  array<int, int>  $periodIndexes
      * @param  array<int, bool>  $isAm
-     * @param  array<int, array<int, string>>  $grid
-     * @param  array<int, array<string, int>>  $perDay
-     * @param  array<string, array<int, array<int, true>>>|null  $teacherBusy
+     * @param  array  $grid
+     * @param  array  $perDay
+     * @param  array|null  $teacherBusy
      */
     private function placeBlock(array $block, array $days, array $periodIndexes, array $isAm, array &$grid, array &$perDay, ?array &$teacherBusy = null, ?string $teacher = null): bool
     {
@@ -1014,15 +1014,21 @@ class TimetableService
                 'room' => $e->room,
             ])
             ->filter(fn (array $e) => $e['subject_name'] !== null)
-            ->values();
+            ->values()
+            ->all();
 
         return [
             'teacher_name' => $teacherName,
-            'subjects' => $subjects->values(),
+            'subjects' => $subjects->map(fn (Subject $s) => [
+                'name' => $s->name,
+                'simplified_name' => $s->simplified_name,
+                'color' => $s->color,
+            ])->values()->all(),
             'periods' => ClassPeriod::where('school_id', $schoolId)
                 ->orderBy('period_index')
                 ->get(['period_index', 'name', 'start_time', 'end_time'])
-                ->values(),
+                ->values()
+                ->all(),
             'entries' => $entries,
         ];
     }
@@ -1142,7 +1148,7 @@ class TimetableService
                     'other_subject_name' => $o->subject_id ? ($nameById[$o->subject_id] ?? null) : null,
                     'message' => sprintf(
                         '%s%s第%d节「%s」与 %s「%s」冲突（同一教师）',
-                        self::WEEKDAY_LABELS[$weekday] ?? "第{$weekday}天",
+                        self::WEEKDAY_LABELS[$weekday],
                         $weekType === 'all' ? '' : ($weekType === 'odd' ? '单周' : '双周'),
                         $periodIndex,
                         $subjectName ?: '课程',
@@ -1169,7 +1175,7 @@ class TimetableService
                         'other_subject_name' => null,
                         'message' => sprintf(
                             '%s 第%d节「%s」：教师 %s 此时段已被标记为不可用',
-                            self::WEEKDAY_LABELS[$weekday] ?? "第{$weekday}天",
+                            self::WEEKDAY_LABELS[$weekday],
                             $periodIndex,
                             $subjectName ?: '课程',
                             $teacher,
