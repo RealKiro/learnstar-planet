@@ -2,18 +2,13 @@
 // 同一角色在不同阶段显示不同 emoji：蛋 → 幼年 → 成长期 → 成熟期 → 传说 → 道果
 // 未单独配置的阶段回退：蛋=🥚，幼年/成长期/成熟期=基础 emoji，传说=✨，道果=👑
 
-import { getSpeciesEmoji } from './petData'
+import { getSpeciesEmoji, getLevelStage } from './petData'
 
 export type PetStage = 'egg' | 'baby' | 'growing' | 'mature' | 'legendary' | 'transcendent'
 
-/** 等级 → 阶段（与 petArtParts 的 6 阶段阈值一致） */
+/** 等级 → 阶段（单一真源在 petData.getLevelStage，此处仅做类型收窄） */
 export function stageKeyOf(level: number): PetStage {
-  if (level >= 11) return 'transcendent'
-  if (level >= 9) return 'legendary'
-  if (level >= 7) return 'mature'
-  if (level >= 5) return 'growing'
-  if (level >= 3) return 'baby'
-  return 'egg'
+  return getLevelStage(level) as PetStage
 }
 
 /**

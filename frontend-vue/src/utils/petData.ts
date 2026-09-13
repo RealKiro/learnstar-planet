@@ -1,5 +1,5 @@
 // ===== 学宠星球 · 宠物数据系统 =====
-// 10 个系列、120 个物种、每个物种 12 级进化
+// 10 个系列、126 个物种、每个物种 12 级进化
 // 基础 8 系列数据来源：宠物系列设计.txt；扩充物种见 petDataExtended.ts
 
 import { EXTRA_SPECIES, EXTRA_SERIES } from './petDataExtended'
@@ -37,7 +37,14 @@ export function getLevelRequiredScore(level: number): number {
   return scores[level] ?? 450
 }
 
-/** 判断等级阶段(Lv.1-2 卵生 / 3-5 幼年 / 6-8 成长 / 9-10 成熟 / 11-12 传说) */
+/** 六阶段顺序（蛋 → 幼年 → 成长期 → 成熟期 → 传说级 → 归真级），阶段索引即本数组下标 */
+export const STAGE_ORDER = ['egg', 'baby', 'growing', 'mature', 'legendary', 'transcendent'] as const
+
+/**
+ * 判断等级阶段：Lv.1-2 蛋 / 3-4 幼年 / 5-6 成长期 / 7-8 成熟期 / 9-10 传说级 / 11-12 归真级。
+ * ⚠️ 全站唯一真源：stageEmoji / petHandbookData / stageAiPrompt / petTraits 等一律调用此函数，
+ * 不得再各自复制一套阈值。后端 Pet::currentStage() 因 PHP 无法 import TS 而自持一份，须保持同值。
+ */
 export function getLevelStage(level: number): PetLevel['stage'] {
   if (level <= 2) return 'egg'
   if (level <= 4) return 'baby'
@@ -45,6 +52,11 @@ export function getLevelStage(level: number): PetLevel['stage'] {
   if (level <= 8) return 'mature'
   if (level <= 10) return 'legendary'
   return 'transcendent'
+}
+
+/** 阶段索引(0-5)，与 STAGE_ORDER 一一对应；由 getLevelStage 派生，避免出现第三处阈值副本 */
+export function getStageIndex(level: number): number {
+  return STAGE_ORDER.indexOf(getLevelStage(level))
 }
 
 /** 获取等级的通用阶段称谓 */
@@ -309,9 +321,9 @@ export function getSeriesEmoji(seriesId: string): string {
 export function getSeriesName(seriesId: string): string {
   const map: Record<string, string> = {
     myth: '山海经',
-    pokemon: '元素精灵',
+    pokemon: '宝可梦',
     national: '国宝守护',
-    mecha: '数码宝贝',
+    digimon: '数码宝贝',
     magic: '魔法奇幻',
     prehistoric: '史前生物',
     constellation: '星座守护',
@@ -1297,8 +1309,8 @@ export const PET_SERIES: PetSeries[] = [
 ]
 
 // ============================================================
-// 扩充数据合并：每系列补齐到 12 种 + 新增「传统节日」「虹猫蓝兔七侠传」系列
-// 构成 10 系列 × 12 物种 = 120 种
+// 扩充数据合并：为部分系列补种 + 新增「传统节日」「虹猫蓝兔七侠传」「东方神话」系列
+// 合并后 10 系列共 126 种（各系列物种数不等，非统一 12）
 // ============================================================
 
 for (const series of PET_SERIES) {

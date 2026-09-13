@@ -4,7 +4,7 @@
 // 互动剧情（interaction 字段）不进提示词（提示词只管画面），属剧情展示层。
 
 import { PET_LIFE_STORIES } from './petLifeStories'
-import { getSpeciesById, getSeriesBySpeciesId, getLevelStage } from './petData'
+import { getSpeciesById, getSeriesBySpeciesId, getLevelStage, getStageIndex } from './petData'
 import { getArtStyleById } from './petArtStyles'
 import { getStageLabel, getSeriesArtStyle, type PetStageKey } from './seriesStages'
 
@@ -47,11 +47,7 @@ export function composeStageAiPrompt(speciesId: string, level: number): string {
 }
 
 function stageIndexOf(level: number): number {
-  if (level <= 2) return 0
-  if (level <= 4) return 1
-  if (level <= 6) return 2
-  if (level <= 8) return 3
-  if (level <= 10) return 4
-  return 5
+  // 阶段索引统一由 petData.getStageIndex 提供（单一真源），不再本地复制阈值
+  return getStageIndex(level)
 }
 

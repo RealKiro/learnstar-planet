@@ -48,8 +48,9 @@ class Pet extends Model
     }
 
     /**
-     * 当前阶段（按 12 级制划分，与前端 petData 阶段一致）
-     * Lv.1-2 卵生 / 3-5 幼年 / 6-8 成长 / 9-10 成熟 / 11-12 传说
+     * 当前阶段（按 12 级制划分，与前端 petData.getLevelStage() 同值）
+     * Lv.1-2 蛋 / 3-4 幼年 / 5-6 成长期 / 7-8 成熟期 / 9-10 传说级 / 11-12 归真级
+     * ⚠️ PHP 无法 import TS，此处必须自持一份；改阈值时须同步前端 petData.getLevelStage()。
      */
     public function currentStage(): array
     {
@@ -103,7 +104,8 @@ class Pet extends Model
 
     public function canLevelUp(): bool
     {
-        return $this->level < 10 && $this->experience >= $this->experienceForNextLevel();
+        // 12 级制：Lv.12 为满级。（此前误写 < 10，导致 Lv.11/12 无法靠经验自然升级）
+        return $this->level < 12 && $this->experience >= $this->experienceForNextLevel();
     }
 
     public function levelUp(): bool
@@ -201,7 +203,10 @@ class Pet extends Model
     }
 
     /**
-     * 各系列 12 物种池（仅物种 id，与前端 petData 对齐；用于整班随机分配）
+     * 各系列物种池（仅物种 id，与前端 petData / petDataExtended 对齐；用于整班随机分配）
+     * 各系列物种数不等：myth 18 / pokemon 12 / national 12 / digimon 6 / magic 12 /
+     * prehistoric 12 / constellation 12 / festival 12 / qixia 10 / dongfang 20。
+     * 2026-09-13 修正过一次漂移：qixia 补 ma_sanniang、dongfang 补 10 个（此前整班随机分配取不到）。
      */
     public static function speciesPoolForSeries(string $seriesId): array
     {
@@ -214,8 +219,8 @@ class Pet extends Model
             'prehistoric' => ['t_rex', 'triceratops', 'pterosaur', 'mammoth', 'sabertooth', 'mosasaur', 'spinosaurus', 'ankylosaurus', 'diplodocus', 'megalodon', 'ground_sloth', 'woolly_rhino'],
             'constellation' => ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'],
             'festival' => ['zongzi', 'tangyuan', 'mooncake', 'qingtuan', 'chongyang_cake', 'niangao', 'laba_porridge', 'spring_pancake', 'tanghulu', 'osmanthus_cake', 'wonton', 'festival_lantern'],
-            'qixia' => ['hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'heixinhu', 'heixiaohu'],
-            'dongfang' => ['jiang_ziya', 'nezha', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao'],
+            'qixia' => ['hongmao', 'lantu', 'doudou', 'dabeng', 'tiaotiao', 'shali', 'dada', 'heixinhu', 'heixiaohu', 'ma_sanniang'],
+            'dongfang' => ['jiang_ziya', 'nezha', 'yang_jian', 'lei_zhenzi', 'huang_tianhua', 'tu_xingsun', 'yang_ren', 'wei_hu', 'daji', 'shen_gongbao', 'sun_wukong', 'lv_dongbin', 'he_xiangu', 'zhang_guolao', 'tie_guaili', 'han_zhongli', 'lan_caihe', 'cao_guojiu', 'taishang_laojun', 'zhong_kui'],
             default => [],
         };
     }
@@ -235,7 +240,7 @@ class Pet extends Model
             'constellation' => '星座守护',
             'festival' => '传统节日',
             'qixia' => '虹猫蓝兔七侠传',
-            'dongfang' => '封神演义',
+            'dongfang' => '东方神话',
             default => $seriesId,
         };
     }

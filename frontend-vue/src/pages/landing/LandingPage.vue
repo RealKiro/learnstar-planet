@@ -17,7 +17,7 @@ const slides = [
 
 const features = [
   { icon: '⭐', title: '积分激励', desc: '自定义规则，实时到大屏' },
-  { icon: '🐣', title: '宠物养成', desc: '125 种宠物，12 级进化' },
+  { icon: '🐣', title: '宠物养成', desc: '126 种宠物，12 级进化' },
   { icon: '🤖', title: 'AI 助教', desc: '30+ 供应商，开箱即用' },
   { icon: '📊', title: '数据报表', desc: '趋势 / 分布 / 一键导出' },
 ]

@@ -158,7 +158,7 @@ watch(() => props.visible, load)
               <div>
                 <h2 class="header-title">宠物图鉴 · {{ data?.student_name || '学生' }}</h2>
                 <p class="header-sub">
-                  已解锁 <strong>{{ ownedCount }}</strong> / 120 种 · 当前类别 <strong class="cat-name">{{ categoryName }}</strong>
+                  已解锁 <strong>{{ ownedCount }}</strong> / 126 种 · 当前类别 <strong class="cat-name">{{ categoryName }}</strong>
                   <span v-if="data?.class_series" class="slots-full">(仅本类可领养)</span>
                 </p>
               </div>

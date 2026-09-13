@@ -1,6 +1,8 @@
 // ===== 宠物图鉴 · 专属诗文与进化台词（源自宠物图鉴.html） =====
 // 每个物种6阶段：蛋 → 幼年 → 成长 → 成熟 → 巅峰 → 涅槃
 
+import { getStageIndex } from './petData'
+
 export const PET_POEMS: Record<string, string[]> = {
   '烛龙': [
     '玄黄一点孕灵胎，万古长眠待晓开。忽有微光惊混沌，时空从此任剪裁。',
@@ -837,12 +839,7 @@ export function getEvoLines(speciesName: string): string[] {
   ]
 }
 
-/** 根据等级换算进化阶段索引(0-5)：新生之卵/幼年/成长期/成熟期/巅峰期/涅槃 */
+/** 根据等级换算进化阶段索引(0-5)，委托 petData.getStageIndex（单一真源，勿再复制阈值） */
 export function stageIndexForLevel(level: number): number {
-  if (level <= 2) return 0
-  if (level <= 4) return 1
-  if (level <= 6) return 2
-  if (level <= 8) return 3
-  if (level <= 10) return 4
-  return 5
+  return getStageIndex(level)
 }

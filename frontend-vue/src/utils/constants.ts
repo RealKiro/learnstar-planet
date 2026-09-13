@@ -1,61 +1,9 @@
-import { getPetLevelName, getPetLevelDescription, getLevelStage, getLevelTitle, getSpeciesEmoji } from './petData'
-
-/** @deprecated 使用 petData 中的 12 级系统替代 */
-export const PET_EVOLUTION_STAGES = [
-  { level: 0, emoji: '🥚', name: '宠物蛋' },
-  { level: 1, emoji: '🐣', name: '绒绒雏鸟' },
-  { level: 2, emoji: '🐥', name: '黄毛小鸭' },
-  { level: 3, emoji: '🐰', name: '绒耳萌兔' },
-  { level: 4, emoji: '🦊', name: '机灵小狐' },
-  { level: 5, emoji: '🐱', name: '优雅萌猫' },
-  { level: 6, emoji: '🐶', name: '忠诚幼犬' },
-  { level: 7, emoji: '🦁', name: '威风小狮' },
-  { level: 8, emoji: '🐯', name: '勇猛虎崽' },
-  { level: 9, emoji: '🦄', name: '神圣灵兽' },
-  { level: 10, emoji: '🐉', name: '东方神龙' },
-]
-
-/** @deprecated 使用 petData 中的函数替代 */
-export function getStageName(level: number): string {
-  if (level < 0 || level >= PET_EVOLUTION_STAGES.length) return '星尘'
-  return PET_EVOLUTION_STAGES[level].name
-}
-
-/** @deprecated 使用 petData 中的函数替代 */
-export function getStageEmoji(level: number): string {
-  if (level < 0 || level >= PET_EVOLUTION_STAGES.length) return '🌟'
-  return PET_EVOLUTION_STAGES[level].emoji
-}
-
-/** 新版：获取宠物当前阶段名称（基于物种和等级） */
-export function getPetStageName(speciesId: string, level: number): string {
-  return getPetLevelName(speciesId, level) || getLevelTitle(level) || `Lv.${level}`
-}
-
-/** 新版：获取宠物描述 */
-export function getPetStageDescription(speciesId: string, level: number): string {
-  return getPetLevelDescription(speciesId, level) || ''
-}
-
-/** 新版：获取等级通用称谓 */
-export function getStageTitle(level: number): string {
-  return getLevelTitle(level)
-}
-
-/** 新版：获取宠物外观 Emoji */
-export function getPetEmoji(speciesId: string, level: number): string {
-  if (level <= 1) return '🥚'
-  if (level <= 3) return '🐣'
-  if (level <= 5) return getSpeciesEmoji(speciesId)
-  return getSpeciesEmoji(speciesId)
-}
-
-/** 新版：获取等级阶段分类 */
-export function getPetStage(level: number): string {
-  return getLevelStage(level)
-}
-
-// ===== 以下为原有工具函数（保留不变） =====
+// ===== 通用工具函数 =====
+// 历史：原「旧 11 级宠物进化系统」相关导出（PET_EVOLUTION_STAGES / getStageName /
+// getStageEmoji(level) / getPetStageName / getPetStageDescription / getStageTitle /
+// getPetEmoji / getPetStage）已于 2026-09-13 全部移除 —— 它们与新 12 级系统重复且无任何引用。
+// 宠物阶段一律使用 @/utils/petData 的 getLevelStage / getLevelTitle / getStageIndex；
+// 宠物阶段 emoji 使用 @/utils/stageEmoji 的 getStageEmoji(speciesId, level)。
 
 export function escapeHtml(text: string): string {
   return text
