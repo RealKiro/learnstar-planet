@@ -118,7 +118,7 @@ jobs:
 
       - name: Install Composer dependencies
         working-directory: backend
-        run: composer update --no-interaction --no-progress --prefer-dist --ignore-platform-reqs
+        run: composer install --no-interaction --no-progress --prefer-dist --ignore-platform-reqs
 
       - name: Generate app key
         working-directory: backend
@@ -208,7 +208,7 @@ jobs:
 
       - name: Install Composer dependencies
         working-directory: backend
-        run: composer update --no-interaction --no-progress --prefer-dist --no-scripts --ignore-platform-reqs
+        run: composer install --no-interaction --no-progress --prefer-dist --no-scripts --ignore-platform-reqs
 
       - name: Run PHP CS Fixer (auto-fix)
         working-directory: backend
