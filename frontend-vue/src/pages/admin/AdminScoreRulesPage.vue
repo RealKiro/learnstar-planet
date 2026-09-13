@@ -253,7 +253,7 @@ async function handleDelete(rule: ScoreRule) {
 .fw-500 { font-weight:500; }
 .badge-subject { font-size:10px; color:#38bdf8; background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.3); padding:1px 6px; border-radius:4px; white-space:nowrap; }
 .badge-meta { font-size:11px; color:var(--color-text-secondary); background:var(--color-bg); padding:2px 8px; border-radius:4px; white-space:nowrap; }
-.badge-warn { font-size:10px; color:#f59e0b; border:1px solid rgba(245,158,11,0.3); padding:1px 6px; border-radius:4px; }
+.badge-warn { font-size:10px; color: var(--c-amber); border:1px solid rgba(245,158,11,0.3); padding:1px 6px; border-radius:4px; }
 .rule-actions { display:flex; gap:4px; flex-shrink:0; }
 .page-desc { font-size:12px; color:var(--color-text-secondary); margin-bottom:16px; }
 .section-gap { margin-bottom:16px; }

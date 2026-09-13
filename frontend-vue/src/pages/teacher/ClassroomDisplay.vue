@@ -376,7 +376,7 @@ onUnmounted(() => {
   text-align: center; outline: none; box-sizing: border-box;
 }
 .unlock-input:focus { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
-.unlock-error { color: #f87171; font-size: 12px; margin-top: 8px; }
+.unlock-error { color: var(--c-red-soft); font-size: 12px; margin-top: 8px; }
 .unlock-buttons { display: flex; gap: 10px; margin-top: 16px; }
 .unlock-btn {
   flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 14px;

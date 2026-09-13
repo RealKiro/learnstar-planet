@@ -373,7 +373,7 @@ async function uploadLogo(e: Event) {
 .info-block { flex:1; min-width:200px; padding:12px 16px; background:var(--color-bg); border-radius:10px; }
 .info-label { font-size:12px; color:var(--color-text-secondary); margin-bottom:4px; }
 .mono { font-family:monospace; font-weight:600; }
-.badge-active { display:inline-block; padding:3px 12px; border-radius:20px; font-size:12px; font-weight:600; background:rgba(16,185,129,0.1); color:#10B981; }
+.badge-active { display:inline-block; padding:3px 12px; border-radius:20px; font-size:12px; font-weight:600; background:rgba(16,185,129,0.1); color: var(--c-green); }
 .form-group { margin-bottom:14px; }
 .form-group label { display:block; font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:4px; }
 .form-input { color:var(--color-text); width:100%; padding:8px 12px; border:1px solid var(--color-border); border-radius:8px; font-size:13px; outline:none; transition:border-color 0.15s; box-sizing:border-box; background:var(--color-bg-card); }
@@ -393,7 +393,7 @@ async function uploadLogo(e: Event) {
 .btn-primary { background:#7c3aed; color:white; border-color:#7c3aed; }
 .btn-primary:hover { background:#6d28d9; }
 .btn-outline { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
-.btn-danger { background:var(--color-bg-card); color:#EF4444; border:1px solid rgba(239,68,68,0.2); }
+.btn-danger { background:var(--color-bg-card); color: var(--c-red); border:1px solid rgba(239,68,68,0.2); }
 
 /* ===== 页内布局类（本页专用，替代原内联样式；声明逐字保留以保证渲染等价） ===== */
 .tabs-narrow { max-width:640px; }
@@ -416,10 +416,10 @@ async function uploadLogo(e: Event) {
 .card-subtitle { font-size:13px; color:var(--color-text-secondary); margin-bottom:16px; }
 .btn-row { display:flex; gap:12px; margin-bottom:16px; }
 .diag-row { display:flex; align-items:center; gap:10px; padding:6px 10px; border-bottom:1px solid var(--color-border); font-size:13px; }
-.c-ok { color:#10B981; }
-.c-warn { color:#F59E0B; }
-.c-err { color:#EF4444; }
-.repair-done { padding:8px 12px; font-size:13px; color:#10B981; font-weight:500; }
+.c-ok { color: var(--c-green); }
+.c-warn { color: var(--c-amber); }
+.c-err { color: var(--c-red); }
+.repair-done { padding:8px 12px; font-size:13px; color: var(--c-green); font-weight:500; }
 .diag-empty { padding:12px; text-align:center; font-size:13px; color:var(--color-text-secondary); }
 .status-loading { text-align:center; padding:24px; }
 .version-block { margin-bottom:20px; }
@@ -430,13 +430,13 @@ async function uploadLogo(e: Event) {
 .btn-card { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
 .btn-purple { background:#7c3aed; color:#fff; border:none; }
 .log-count { font-size:12px; color:var(--color-text-secondary); }
-.log-error { color:#EF4444; font-size:13px; padding:8px; background:rgba(239,68,68,0.06); border-radius:6px; margin-bottom:8px; }
+.log-error { color: var(--c-red); font-size:13px; padding:8px; background:rgba(239,68,68,0.06); border-radius:6px; margin-bottom:8px; }
 .log-view { background:#0d1117; border-radius:10px; max-height:60vh; overflow:auto; padding:8px 0; }
 .log-empty { padding:16px; text-align:center; color:#8b949e; font-size:13px; }
 .log-line { display:flex; align-items:flex-start; gap:8px; padding:2px 16px; font-family:monospace; font-size:12px; line-height:1.6; white-space:pre-wrap; word-break:break-all; }
 .log-level { flex-shrink:0; width:60px; font-weight:600; }
-.log-level--error { color:#f87171; }
-.log-level--warn { color:#F59E0B; }
+.log-level--error { color: var(--c-red-soft); }
+.log-level--warn { color: var(--c-amber); }
 .log-level--info { color:#60A5FA; }
 .log-level--debug { color:#94A3B8; }
 .log-text { color:#e6edf3; }

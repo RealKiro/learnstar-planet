@@ -860,7 +860,7 @@ onMounted(async () => {
   transition: all 0.2s ease;
 }
 .sort-tag:hover { color: var(--color-text); border-color: var(--color-text-secondary); }
-.sort-tag.active { background: rgba(16,185,129,0.08); border-color: #10B981; color: #10B981; font-weight: 600; }
+.sort-tag.active { background: rgba(16,185,129,0.08); border-color: #10B981; color: var(--c-green); font-weight: 600; }
 
 /* 教室端搜索 */
 .class-search {
@@ -909,9 +909,9 @@ onMounted(async () => {
 .batch-info { font-size: 13px; color: var(--color-text); }
 .batch-info strong { color: var(--color-primary); }
 .batch-btn { padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s ease; font-family: inherit; }
-.batch-add { background: rgba(16,185,129,0.1); color: #10B981; border-color: rgba(16,185,129,0.25); }
+.batch-add { background: rgba(16,185,129,0.1); color: var(--c-green); border-color: rgba(16,185,129,0.25); }
 .batch-add:hover { background: rgba(16,185,129,0.18); }
-.batch-sub { background: rgba(239,68,68,0.1); color: #EF4444; border-color: rgba(239,68,68,0.25); }
+.batch-sub { background: rgba(239,68,68,0.1); color: var(--c-red); border-color: rgba(239,68,68,0.25); }
 .batch-sub:hover { background: rgba(239,68,68,0.18); }
 .batch-clear { margin-left: auto; background: transparent; color: var(--color-text-secondary); border-color: var(--color-border); }
 .batch-clear:hover { background: var(--color-bg); }
@@ -931,9 +931,9 @@ onMounted(async () => {
 .qr-label { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; }
 .qr-group { display: flex; gap: 6px; flex-wrap: wrap; }
 .qr-btn { padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s ease; }
-.qr-add { background: rgba(16,185,129,0.08); color: #10B981; border-color: rgba(16,185,129,0.2); }
+.qr-add { background: rgba(16,185,129,0.08); color: var(--c-green); border-color: rgba(16,185,129,0.2); }
 .qr-add:hover { background: rgba(16,185,129,0.15); }
-.qr-sub { background: rgba(239,68,68,0.08); color: #EF4444; border-color: rgba(239,68,68,0.2); }
+.qr-sub { background: rgba(239,68,68,0.08); color: var(--c-red); border-color: rgba(239,68,68,0.2); }
 .qr-sub:hover { background: rgba(239,68,68,0.15); }
 
 /* 学生卡片网格 */
@@ -1049,7 +1049,7 @@ onMounted(async () => {
 .species-btn:hover { background: var(--tint-3); }
 .species-sprite { width: 48px; height: 48px; margin: 0 auto 2px; }
 .species-name { font-size: 10px; font-weight: 500; color: var(--md-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.species-current { font-size: 9px; font-weight: 700; color: #10B981; }
+.species-current { font-size: 9px; font-weight: 700; color: var(--c-green); }
 .picker-cancel { width: 100%; margin-top: 8px; padding: 8px; border-radius: 10px; border: 1px solid var(--tint-3); background: transparent; color: var(--md-text-secondary); font-size: 13px; cursor: pointer; font-family: inherit; }
 
 /* 过渡 */

@@ -294,7 +294,7 @@ function getRemainingScore(level: number): number {
   color: var(--color-text-secondary);
 }
 .item--current .level-num {
-  color: #F59E0B;
+  color: var(--c-amber);
 }
 
 .item-info {
@@ -337,7 +337,7 @@ function getRemainingScore(level: number): number {
   color: var(--color-text-secondary);
 }
 .require-score strong {
-  color: #F59E0B;
+  color: var(--c-amber);
 }
 
 /* 当前经验条 */

@@ -362,7 +362,7 @@ async function doSubmit(force: boolean) {
 .grid-2-gap6 { display:grid;grid-template-columns:1fr 1fr;gap:6px; }
 .row-end-mt6 { display:flex;justify-content:flex-end;margin-top:6px; }
 .btn-add-assign { padding:5px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500; }
-.assign-error { color:#f87171;font-size:11px;margin-top:4px; }
+.assign-error { color: var(--c-red-soft);font-size:11px;margin-top:4px; }
 .assign-hint { font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent); }
 .assign-list { margin-top:8px;display:flex;flex-direction:column;gap:4px; }
 .assign-list-title { font-size:11px;color:var(--color-text-secondary);margin-bottom:2px; }

@@ -382,7 +382,7 @@ async function exportCses() {
 .card-title { font-size: 16px; font-weight: 600; margin: 0 }
 .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px }
 .chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1.5px solid var(--color-border); border-radius: 9999px; font-size: 13px; font-weight: 500 }
-.chip-remove { background: none; border: none; color: #86868b; cursor: pointer; font-size: 15px; line-height: 1; padding: 0 }
+.chip-remove { background: none; border: none; color: var(--c-gray-apple); cursor: pointer; font-size: 15px; line-height: 1; padding: 0 }
 .chip-remove:hover { color: var(--color-danger, #ef4444) }
 .subject-add-row { display: flex; gap: 8px }
 .subject-add-row .form-input { flex: 1 }
@@ -390,7 +390,7 @@ async function exportCses() {
 .period-row { display: flex; align-items: center; gap: 8px }
 .period-index { width: 56px; font-size: 13px; font-weight: 600; color: var(--color-text-secondary, #86868b) }
 .time-input { width: 100px; padding: 5px 8px }
-.period-dash { color: #86868b }
+.period-dash { color: var(--c-gray-apple) }
 .period-remove { font-size: 16px; margin-left: auto }
 .weekend-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary, #86868b); cursor: pointer }
 .table-scroll { overflow-x: auto }
@@ -398,42 +398,42 @@ async function exportCses() {
 .grid-table th { font-size: 13px; font-weight: 600; color: var(--color-text-secondary, #86868b); padding: 4px }
 .corner-th { width: 92px; text-align: left }
 .period-cell { vertical-align: middle; padding: 4px }
-.time-hint { font-size: 11px; color: #86868b }
+.time-hint { font-size: 11px; color: var(--c-gray-apple) }
 .slot-cell { position: relative; min-height: 56px; height: 56px; background: var(--color-bg, #f7f7f9); border-radius: 8px; cursor: pointer; padding: 3px; vertical-align: top }
 .slot-cell:hover { background: var(--color-border, #ececf1) }
 .slot-entry { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 48px; border: 1.5px solid var(--color-border); border-radius: 6px; font-size: 12px; line-height: 1.3; overflow: hidden }
 .slot-subject { font-weight: 600 }
-.slot-week { font-size: 10px; color: #86868b }
-.slot-meta { font-size: 10px; color: #86868b; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.slot-week { font-size: 10px; color: var(--c-gray-apple) }
+.slot-meta { font-size: 10px; color: var(--c-gray-apple); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .slot-plus { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #c7c7cc; font-size: 16px }
-.muted-tip { font-size: 12px; color: #86868b; margin: 10px 2px 0 }
+.muted-tip { font-size: 12px; color: var(--c-gray-apple); margin: 10px 2px 0 }
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 1000 }
 .modal-card { background: var(--color-bg-card, #fff); border-radius: 16px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,.15); overflow: hidden }
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #f0f0f3 }
 .modal-header h3 { font-size: 16px; font-weight: 700; margin: 0 }
-.modal-close { background: none; border: none; font-size: 22px; color: #86868b; cursor: pointer; padding: 0; line-height: 1 }
+.modal-close { background: none; border: none; font-size: 22px; color: var(--c-gray-apple); cursor: pointer; padding: 0; line-height: 1 }
 .modal-close:hover { color: var(--color-text) }
 .modal-body { padding: 20px }
 .modal-footer { display: flex; gap: 8px; align-items: center; justify-content: space-between; padding: 16px 20px; border-top: 1px solid #f0f0f3 }
 .cell-entry-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px }
 .cell-entry { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--color-bg, #f7f7f9); border-radius: 8px; font-size: 13px }
 .cell-entry .chip-remove { margin-left: auto }
-.week-badge { font-size: 11px; padding: 1px 6px; border-radius: 9999px; background: #ede9fe; color: #7c3aed }
+.week-badge { font-size: 11px; padding: 1px 6px; border-radius: 9999px; background: var(--c-violet-chip); color: var(--color-primary) }
 .modal-hint-line { margin-bottom: 16px }
 .add-entry-form { display: flex; flex-direction: column; gap: 10px; border-top: 1px dashed var(--color-border, #e5e5ea); padding-top: 14px }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
 .form-label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 4px }
 .add-entry-form .btn { align-self: flex-start }
-.req-star-red { color: #ef4444 }
+.req-star-red { color: var(--c-red) }
 .fw-600 { font-weight: 600 }
-.save-tip { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: 13px; border-radius: 10px; padding: 8px 14px; margin-bottom: 12px }
+.save-tip { background: var(--c-amber-bg); border: 1px solid #fde68a; color: var(--c-amber-chip-text); font-size: 13px; border-radius: 10px; padding: 8px 14px; margin-bottom: 12px }
 .save-tip--pending { background: var(--color-bg, #f7f7f9); border-color: var(--color-border, #e5e5ea); color: var(--color-text-secondary, #86868b) }
 .change-list { display: flex; flex-direction: column; gap: 6px }
 .change-row { display: flex; align-items: center; gap: 12px; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed var(--color-border, #f0f0f3); flex-wrap: wrap }
 .change-row:last-child { border-bottom: none }
 .status-badge { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 9999px }
-.status-badge.pending { background: #fef3c7; color: #92400e }
-.status-badge.approved { background: #d1fae5; color: #065f46 }
-.status-badge.rejected { background: #fee2e2; color: #991b1b }
+.status-badge.pending { background: var(--c-amber-chip); color: var(--c-amber-chip-text) }
+.status-badge.approved { background: var(--c-green-chip); color: #065f46 }
+.status-badge.rejected { background: var(--c-red-chip); color: var(--c-red-chip-text) }
 .change-note { color: var(--color-text-secondary, #86868b); max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 </style>

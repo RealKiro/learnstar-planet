@@ -176,9 +176,9 @@ function onTabChange(tab: typeof activeTab.value) {
 .diag-icon { flex-shrink: 0; }
 .diag-item-name { flex: 1; }
 .diag-status { font-weight: 600; }
-.diag-status.ok { color: #10B981; }
-.diag-status.fail { color: #EF4444; }
-.diag-success { padding: 10px 14px; background: rgba(16,185,129,0.05); font-size: 13px; color: #10B981; font-weight: 500; }
+.diag-status.ok { color: var(--c-green); }
+.diag-status.fail { color: var(--c-red); }
+.diag-success { padding: 10px 14px; background: rgba(16,185,129,0.05); font-size: 13px; color: var(--c-green); font-weight: 500; }
 .diag-placeholder { padding: 12px; background: var(--color-bg); border-radius: 8px; text-align: center; font-size: 13px; color: var(--color-text-secondary); }
 
 /* 系统状态 */
@@ -199,7 +199,7 @@ function onTabChange(tab: typeof activeTab.value) {
 .btn-primary { background: #7c3aed; color: white; border-color: #7c3aed; }
 .btn-primary:hover { background: #6d28d9; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-danger { background: var(--color-bg-card); color: #EF4444; border: 1px solid rgba(239,68,68,0.2); }
+.btn-danger { background: var(--color-bg-card); color: var(--c-red); border: 1px solid rgba(239,68,68,0.2); }
 .btn-danger:hover { background: rgba(239,68,68,0.15); }
 .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-outline { background: var(--color-bg-card); color: var(--color-text); border: 1px solid var(--color-border); }

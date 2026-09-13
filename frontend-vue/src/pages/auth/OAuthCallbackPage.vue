@@ -85,5 +85,5 @@ onMounted(async () => {
 .oac-center { text-align:center; }
 .oac-emoji { font-size:48px;margin-bottom:16px; }
 .oac-title { font-size:20px;font-weight:600;margin-bottom:8px; }
-.oac-muted { color:#64748B; }
+.oac-muted { color: var(--c-slate-500); }
 </style>

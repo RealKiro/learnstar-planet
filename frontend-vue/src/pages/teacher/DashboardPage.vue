@@ -391,8 +391,8 @@ onUnmounted(() => {
   font-size: 18px;
   font-weight: 700;
 }
-.stat-val.peak { color: #8B5CF6; }
-.stat-val.weekly { color: #10B981; }
+.stat-val.peak { color: var(--c-violet); }
+.stat-val.weekly { color: var(--c-green); }
 
 /* 班级之星 */
 .star-card {

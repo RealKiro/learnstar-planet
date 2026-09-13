@@ -494,8 +494,8 @@ const expPercent = computed(() => {
   font-family: inherit;
   color: var(--color-text-secondary);
 }
-.btn-minus:hover { background: rgba(239,68,68,0.1); color: #EF4444; border-color: rgba(239,68,68,0.3); transform: translateY(-1px); }
-.btn-plus:hover { background: rgba(16,185,129,0.1); color: #10B981; border-color: rgba(16,185,129,0.3); transform: translateY(-1px); }
+.btn-minus:hover { background: rgba(239,68,68,0.1); color: var(--c-red); border-color: rgba(239,68,68,0.3); transform: translateY(-1px); }
+.btn-plus:hover { background: rgba(16,185,129,0.1); color: var(--c-green); border-color: rgba(16,185,129,0.3); transform: translateY(-1px); }
 .step-num {
   font-size: 13px;
   font-weight: 700;

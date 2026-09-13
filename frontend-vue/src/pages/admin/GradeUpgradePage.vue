@@ -183,7 +183,7 @@ async function executeUpgrade() {
 .gup-info-desc { font-size:13px;color:var(--color-text-secondary);line-height:1.6; }
 .gup-mb-16 { margin-bottom:16px; }
 .gup-warn-card { padding:12px 20px;margin-bottom:16px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2); }
-.gup-warn-text { font-size:13px;color:#B45309; }
+.gup-warn-text { font-size:13px;color: var(--c-amber-deeper); }
 .gup-pill-gray { display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;background:rgba(107,114,128,0.1);color:var(--color-text-secondary); }
 .gup-secondary { color:var(--color-text-secondary); }
 .gup-pill-primary { display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(79,70,229,0.08);color:var(--color-primary); }

@@ -178,7 +178,7 @@ watch(() => props.pets.map(p => `${p.species}:${p.level}`).join('|'), maybePlay)
   border: 1px solid rgba(245,158,11,0.25);
 }
 .bar-label {
-  font-size: 12px; font-weight: 700; color: #F59E0B;
+  font-size: 12px; font-weight: 700; color: var(--c-amber);
 }
 .ach-chip {
   font-size: 12px; font-weight: 600;

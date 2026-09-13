@@ -489,8 +489,8 @@ onMounted(() => {
   width: 40px;
   text-align: right;
 }
-.up { color: #10B981; }
-.down { color: #EF4444; }
+.up { color: var(--c-green); }
+.down { color: var(--c-red); }
 
 /* 进步奖 */
 .progress-award {
@@ -522,7 +522,7 @@ onMounted(() => {
 .award-change {
   font-size: 13px;
   font-weight: 600;
-  color: #10B981;
+  color: var(--c-green);
 }
 
 /* 加载/空 */

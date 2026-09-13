@@ -879,7 +879,7 @@ async function submitImport(dryRun: boolean) {
 .card-title { font-size: 16px; font-weight: 600; margin: 0 }
 .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px }
 .chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1.5px solid var(--color-border); border-radius: 9999px; font-size: 13px; font-weight: 500 }
-.chip-remove { background: none; border: none; color: #86868b; cursor: pointer; font-size: 15px; line-height: 1; padding: 0 }
+.chip-remove { background: none; border: none; color: var(--c-gray-apple); cursor: pointer; font-size: 15px; line-height: 1; padding: 0 }
 .chip-remove:hover { color: var(--color-danger, #ef4444) }
 .subject-add-row { display: flex; gap: 8px }
 .subject-add-row .form-input { flex: 1 }
@@ -887,7 +887,7 @@ async function submitImport(dryRun: boolean) {
 .period-row { display: flex; align-items: center; gap: 8px }
 .period-index { width: 56px; font-size: 13px; font-weight: 600; color: var(--color-text-secondary, #86868b) }
 .time-input { width: 100px; padding: 5px 8px }
-.period-dash { color: #86868b }
+.period-dash { color: var(--c-gray-apple) }
 .period-remove { font-size: 16px; margin-left: auto }
 .weekend-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary, #86868b); cursor: pointer }
 .table-scroll { overflow-x: auto }
@@ -895,19 +895,19 @@ async function submitImport(dryRun: boolean) {
 .grid-table th { font-size: 13px; font-weight: 600; color: var(--color-text-secondary, #86868b); padding: 4px }
 .corner-th { width: 92px; text-align: left }
 .period-cell { vertical-align: middle; padding: 4px }
-.time-hint { font-size: 11px; color: #86868b }
+.time-hint { font-size: 11px; color: var(--c-gray-apple) }
 .slot-cell { position: relative; min-height: 56px; height: 56px; background: var(--color-bg, #f7f7f9); border-radius: 8px; cursor: pointer; padding: 3px; vertical-align: top }
 .slot-cell:hover { background: var(--color-border, #ececf1) }
 .slot-entry { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 48px; border: 1.5px solid var(--color-border); border-radius: 6px; font-size: 12px; line-height: 1.3; overflow: hidden }
 .slot-subject { font-weight: 600 }
-.slot-week { font-size: 10px; color: #86868b }
-.slot-meta { font-size: 10px; color: #86868b; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.slot-week { font-size: 10px; color: var(--c-gray-apple) }
+.slot-meta { font-size: 10px; color: var(--c-gray-apple); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .slot-plus { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #c7c7cc; font-size: 16px }
-.muted-tip { font-size: 12px; color: #86868b; margin: 10px 2px 0 }
+.muted-tip { font-size: 12px; color: var(--c-gray-apple); margin: 10px 2px 0 }
 .assign-list { display: flex; flex-direction: column; gap: 8px }
 .assign-row { display: flex; align-items: center; gap: 8px }
 .assign-subject { width: 160px }
-.assign-arrow { color: #86868b }
+.assign-arrow { color: var(--c-gray-apple) }
 .assign-row .form-input { width: 160px }
 .assign-row .chip-remove { margin-left: 8px; font-size: 17px }
 .import-row { display: flex; gap: 8px; align-items: center; margin-top: 10px }
@@ -919,22 +919,22 @@ async function submitImport(dryRun: boolean) {
 .modal-card--wide { max-width: 720px }
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #f0f0f3 }
 .modal-header h3 { font-size: 16px; font-weight: 700; margin: 0 }
-.modal-close { background: none; border: none; font-size: 22px; color: #86868b; cursor: pointer; padding: 0; line-height: 1 }
+.modal-close { background: none; border: none; font-size: 22px; color: var(--c-gray-apple); cursor: pointer; padding: 0; line-height: 1 }
 .modal-close:hover { color: var(--color-text) }
 .modal-body { padding: 20px }
 .modal-footer { display: flex; gap: 8px; align-items: center; justify-content: space-between; padding: 16px 20px; border-top: 1px solid #f0f0f3 }
 .cell-entry-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px }
 .cell-entry { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--color-bg, #f7f7f9); border-radius: 8px; font-size: 13px }
 .cell-entry .chip-remove { margin-left: auto }
-.week-badge { font-size: 11px; padding: 1px 6px; border-radius: 9999px; background: #ede9fe; color: #7c3aed }
+.week-badge { font-size: 11px; padding: 1px 6px; border-radius: 9999px; background: var(--c-violet-chip); color: var(--color-primary) }
 .modal-hint-line { margin-bottom: 16px }
 .add-entry-form { display: flex; flex-direction: column; gap: 10px; border-top: 1px dashed var(--color-border, #e5e5ea); padding-top: 14px }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
 .form-label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 4px }
 .add-entry-form .btn { align-self: flex-start }
-.req-star-red { color: #ef4444 }
+.req-star-red { color: var(--c-red) }
 .fw-600 { font-weight: 600 }
-.save-tip { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: 13px; border-radius: 10px; padding: 8px 14px; margin-bottom: 12px }
+.save-tip { background: var(--c-amber-bg); border: 1px solid #fde68a; color: var(--c-amber-chip-text); font-size: 13px; border-radius: 10px; padding: 8px 14px; margin-bottom: 12px }
 .save-tip--pending { background: var(--color-bg, #f7f7f9); border-color: var(--color-border, #e5e5ea); color: var(--color-text-secondary, #86868b) }
 .schoolwide-toggle { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; margin-bottom: 12px; cursor: pointer }
 .gen-days-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; flex-wrap: wrap }
@@ -944,19 +944,19 @@ async function submitImport(dryRun: boolean) {
 .gen-table td { padding: 6px 8px; border-bottom: 1px dashed var(--color-border, #f0f0f3) }
 .num-input { width: 72px; padding: 5px 8px }
 .num-select { width: 92px; padding: 5px 8px }
-.field-error { color: #ef4444; font-size: 12px; margin-top: 6px }
+.field-error { color: var(--c-red); font-size: 12px; margin-top: 6px }
 .slot-entry--dragging { opacity: .45; border-style: dashed }
 .slot-cell--toggle { cursor: pointer; text-align: center; min-height: 44px; height: 44px }
 .slot-cell--toggle:hover { background: var(--color-border, #ececf1) }
-.slot-cell--blocked { background: #fee2e2 }
+.slot-cell--blocked { background: var(--c-red-chip) }
 .slot-cell--blocked:hover { background: #fecaca }
 .unavail-mark { font-size: 16px }
 .unavail-teacher-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px }
 .unavail-teacher-row .form-select { width: 180px }
 .unavail-grid { margin-bottom: 4px }
-.conflict-banner { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 10px 14px; margin-bottom: 10px; font-size: 13px }
-.conflict-banner--busy { border-color: #fde68a; background: #fffbeb }
-.conflict-title { font-weight: 600; color: #991b1b; margin-bottom: 4px }
-.conflict-title--checking { color: #92400e; font-weight: 500 }
-.conflict-item { color: #b91c1c; padding: 2px 0; border-top: 1px dashed #fecaca }
+.conflict-banner { background: var(--c-red-bg); border: 1px solid var(--c-red-border); border-radius: 10px; padding: 10px 14px; margin-bottom: 10px; font-size: 13px }
+.conflict-banner--busy { border-color: #fde68a; background: var(--c-amber-bg) }
+.conflict-title { font-weight: 600; color: var(--c-red-chip-text); margin-bottom: 4px }
+.conflict-title--checking { color: var(--c-amber-chip-text); font-weight: 500 }
+.conflict-item { color: var(--c-red-deeper); padding: 2px 0; border-top: 1px dashed #fecaca }
 </style>

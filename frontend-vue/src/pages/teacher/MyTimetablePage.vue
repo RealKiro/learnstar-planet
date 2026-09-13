@@ -104,14 +104,14 @@ function subjectColor(name: string): string | null {
 .corner-th { width: 92px; text-align: left }
 .today-th { color: #007aff }
 .period-cell { vertical-align: middle; padding: 4px }
-.time-hint { font-size: 11px; color: #86868b }
+.time-hint { font-size: 11px; color: var(--c-gray-apple) }
 .slot-cell { position: relative; min-height: 56px; height: 56px; background: var(--color-bg, #f7f7f9); border-radius: 8px; padding: 3px; vertical-align: top }
 .today-col { background: #eef4ff }
 .slot-entry { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 48px; border: 1.5px solid var(--color-border); border-radius: 6px; font-size: 12px; line-height: 1.3; overflow: hidden; background: var(--color-bg-card, #fff) }
 .slot-subject { font-weight: 600 }
-.slot-week { font-size: 10px; color: #86868b }
-.slot-meta { font-size: 10px; color: #86868b; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.slot-week { font-size: 10px; color: var(--c-gray-apple) }
+.slot-meta { font-size: 10px; color: var(--c-gray-apple); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .slot-class { font-size: 10px; font-weight: 600; color: #007aff }
-.muted-tip { font-size: 12px; color: #86868b; margin: 10px 2px 0 }
+.muted-tip { font-size: 12px; color: var(--c-gray-apple); margin: 10px 2px 0 }
 .fw-600 { font-weight: 600 }
 </style>

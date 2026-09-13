@@ -50,6 +50,23 @@
 
   /* 占位符 */
   --placeholder: rgba(0, 0, 0, 0.35);
+
+  /* ===== 语义状态色（暗色适配批）：日间值与原各页硬编码逐字一致，仅夜间翻转 ===== */
+  /* 红系（危险/扣分） */
+  --c-red: #ef4444; --c-red-deep: #dc2626; --c-red-soft: #f87171; --c-red-deeper: #b91c1c; --c-red-chip-text: #991b1b;
+  --c-red-bg: #fef2f2; --c-red-chip: #fee2e2; --c-red-border: #fecaca;
+  /* 绿系（成功/加分） */
+  --c-green: #10b981; --c-green-deep: #16a34a; --c-green-bright: #22c55e;
+  --c-green-chip: #d1fae5; --c-green-chip-text: #065f46;
+  /* 琥珀系（警告/待审） */
+  --c-amber: #f59e0b; --c-amber-deep: #d97706; --c-amber-deeper: #b45309; --c-amber-chip-text: #92400e;
+  --c-amber-chip: #fef3c7; --c-amber-chip-strong: #fde68a; --c-amber-bg: #fffbeb;
+  /* 蓝系（信息） */
+  --c-blue: #3b82f6; --c-blue-deep: #2563eb; --c-blue-deeper: #1d4ed8; --c-blue-chip: #dbeafe;
+  /* 紫/橙/中性灰（#7c3aed 直接复用 --color-primary） */
+  --c-violet: #8b5cf6; --c-violet-deep: #6d28d9; --c-violet-chip: #ede9fe;
+  --c-orange: #f97316;
+  --c-gray-500: #6b7280; --c-slate-500: #64748b; --c-gray-apple: #86868b;
 }
 
 /* ===== 夜间暗色（原 MD3 暗色主题整体搬入） ===== */
@@ -77,6 +94,18 @@ html.dark {
   --tint-3: rgba(255, 255, 255, 0.08);
   --tint-4: rgba(255, 255, 255, 0.12);
   --placeholder: rgba(255, 255, 255, 0.25);
+
+  /* ===== 语义状态色夜间翻转 ===== */
+  --c-red: #f87171; --c-red-deep: #fca5a5; --c-red-soft: #fca5a5; --c-red-deeper: #f87171; --c-red-chip-text: #fecaca;
+  --c-red-bg: rgba(239, 68, 68, 0.10); --c-red-chip: rgba(239, 68, 68, 0.18); --c-red-border: rgba(239, 68, 68, 0.35);
+  --c-green: #34d399; --c-green-deep: #6ee7b7; --c-green-bright: #4ade80;
+  --c-green-chip: rgba(16, 185, 129, 0.16); --c-green-chip-text: #a7f3d0;
+  --c-amber: #fbbf24; --c-amber-deep: #fcd34d; --c-amber-deeper: #fbbf24; --c-amber-chip-text: #fde68a;
+  --c-amber-chip: rgba(245, 158, 11, 0.14); --c-amber-chip-strong: rgba(245, 158, 11, 0.28); --c-amber-bg: rgba(245, 158, 11, 0.08);
+  --c-blue: #60a5fa; --c-blue-deep: #93c5fd; --c-blue-deeper: #93c5fd; --c-blue-chip: rgba(59, 130, 246, 0.16);
+  --c-violet: #a78bfa; --c-violet-deep: #c4b5fd; --c-violet-chip: rgba(139, 92, 246, 0.16);
+  --c-orange: #fb923c;
+  --c-gray-500: #9ca3af; --c-slate-500: #94a3b8; --c-gray-apple: #98989d;
 }
 
 /* ===== 全局下拉选项适配 ===== */
@@ -203,8 +232,8 @@ a:hover { color: var(--md-primary-light); }
 .card-title { font-size: 16px; font-weight: 700; color: var(--color-text); margin: 0; }
 
 /* ===== 表单字段校验错误（跨页统一，与 .error-banner 配套） ===== */
-.field-error { color: #f87171; font-size: 11px; margin-top: 2px; }
-.req-star { color: #f87171; }
+.field-error { color: var(--c-red-soft); font-size: 11px; margin-top: 2px; }
+.req-star { color: var(--c-red-soft); }
 
 /* ===== 图标关闭按钮（跨页统一） ===== */
 .icon-close { background: none; border: none; color: var(--color-text-secondary); font-size: 20px; cursor: pointer; padding: 0; line-height: 1; }

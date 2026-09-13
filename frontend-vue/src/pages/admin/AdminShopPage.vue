@@ -334,7 +334,7 @@ async function handleDelete(item: ShopItemExt) {
 .item-name { font-size:13px; flex:1; }
 .num-input { width:64px; padding:4px 8px; border-radius:6px; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-size:13px; }
 .nowrap { white-space:nowrap; }
-.inline-error { margin-top:8px; color:#f87171; font-size:12px; }
+.inline-error { margin-top:8px; color: var(--c-red-soft); font-size:12px; }
 .hint-block { font-size:11px; color:var(--color-text-secondary); margin:10px 0 0; }
 .filter-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
 .section-gap { margin-bottom:16px; }
@@ -342,7 +342,7 @@ async function handleDelete(item: ShopItemExt) {
 .card-item { padding:16px; display:flex; flex-direction:column; gap:8px; border-color:var(--tint-3); }
 .row-between { display:flex; align-items:center; justify-content:space-between; }
 .stat-24 { font-size:24px; }
-.badge-warn { font-size:10px; color:#f59e0b; border:1px solid rgba(245,158,11,0.3); padding:1px 6px; border-radius:4px; }
+.badge-warn { font-size:10px; color: var(--c-amber); border:1px solid rgba(245,158,11,0.3); padding:1px 6px; border-radius:4px; }
 .price-row { display:flex; align-items:center; gap:6px; font-weight:600; font-size:15px; }
 .badge-info { font-size:10px; color:#38bdf8; background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.3); padding:1px 6px; border-radius:4px; font-weight:500; flex-shrink:0; }
 .desc-12 { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }

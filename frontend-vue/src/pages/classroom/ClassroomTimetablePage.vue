@@ -160,7 +160,7 @@ onUnmounted(() => { if (clockTimer) clearInterval(clockTimer) })
 .tt-period-name { font-size: 12px; color: var(--color-text-secondary); }
 .tt-main { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
 .tt-subject { font-size: 22px; font-weight: 800; }
-.tt-week { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; background: #ede9fe; color: #7c3aed; }
+.tt-week { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; background: var(--c-violet-chip); color: var(--color-primary); }
 .tt-meta { font-size: 14px; color: var(--color-text-secondary); flex-shrink: 0; }
 .tt-empty { text-align: center; padding: 60px 0; color: var(--color-text-secondary); font-size: 15px; }
 .tt-empty-icon { display: block; font-size: 40px; margin-bottom: 10px; }

@@ -263,11 +263,11 @@ function typeClass(t?: string): string {
 .notice-item { display: flex; gap: 16px; padding: 16px; border-bottom: 1px solid var(--color-border); align-items: flex-start; }
 .notice-item:last-child { border-bottom: none; }
 .type-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap; align-self: flex-start; }
-.type-badge--info { background: rgba(59,130,246,0.1); color: #3B82F6; }
-.type-badge--event { background: rgba(16,185,129,0.1); color: #10B981; }
-.type-badge--urgent { background: rgba(239,68,68,0.1); color: #EF4444; }
-.type-badge--homework { background: rgba(245,158,11,0.1); color: #D97706; }
-.type-badge--other { background: rgba(100,116,139,0.1); color: #64748B; }
+.type-badge--info { background: rgba(59,130,246,0.1); color: var(--c-blue); }
+.type-badge--event { background: rgba(16,185,129,0.1); color: var(--c-green); }
+.type-badge--urgent { background: rgba(239,68,68,0.1); color: var(--c-red); }
+.type-badge--homework { background: rgba(245,158,11,0.1); color: var(--c-amber-deep); }
+.type-badge--other { background: rgba(100,116,139,0.1); color: var(--c-slate-500); }
 .notice-main { flex: 1; min-width: 0; }
 .notice-title { font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .publish-badge { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; }

@@ -159,7 +159,7 @@ function formatTime(iso?: string | null): string {
 </template>
 
 <style scoped>
-.pending-chip { font-size: 13px; font-weight: 600; background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px }
+.pending-chip { font-size: 13px; font-weight: 600; background: var(--c-amber-chip); color: var(--c-amber-chip-text); padding: 4px 12px; border-radius: 9999px }
 .filter-row { display: flex; gap: 8px; margin-bottom: 14px }
 .filter-btn { border: 1.5px solid var(--color-border); background: transparent; border-radius: 9999px; padding: 5px 16px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--color-text-secondary); font-family: inherit }
 .filter-btn.active { background: var(--color-text); border-color: var(--color-text); color: var(--color-bg-card, #fff) }
@@ -170,21 +170,21 @@ function formatTime(iso?: string | null): string {
 .review-note { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .actions-row { white-space: nowrap }
 .approve-btn { background: var(--md-primary, #7c3aed); color: #fff }
-.muted-tip { font-size: 12px; color: #86868b; margin: 12px 2px 0 }
+.muted-tip { font-size: 12px; color: var(--c-gray-apple); margin: 12px 2px 0 }
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 1000 }
 .modal-card { background: var(--color-bg-card, #fff); border-radius: 16px; width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,.15); overflow: hidden }
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #f0f0f3 }
 .modal-header h3 { font-size: 16px; font-weight: 700; margin: 0 }
-.modal-close { background: none; border: none; font-size: 22px; color: #86868b; cursor: pointer; padding: 0; line-height: 1 }
+.modal-close { background: none; border: none; font-size: 22px; color: var(--c-gray-apple); cursor: pointer; padding: 0; line-height: 1 }
 .modal-body { padding: 20px }
 .modal-footer { display: flex; gap: 8px; justify-content: flex-end; padding: 16px 20px; border-top: 1px solid #f0f0f3 }
 .form-label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px }
 .form-textarea { width: 100%; padding: 10px 12px; border: 1px solid #e5e5ea; border-radius: 10px; font-size: 14px; resize: vertical; outline: none }
-.req-star-red { color: #ef4444 }
+.req-star-red { color: var(--c-red) }
 .status-badge { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 9999px; white-space: nowrap }
-.status-badge.pending { background: #fef3c7; color: #92400e }
-.status-badge.approved { background: #d1fae5; color: #065f46 }
-.status-badge.rejected { background: #fee2e2; color: #991b1b }
+.status-badge.pending { background: var(--c-amber-chip); color: var(--c-amber-chip-text) }
+.status-badge.approved { background: var(--c-green-chip); color: #065f46 }
+.status-badge.rejected { background: var(--c-red-chip); color: var(--c-red-chip-text) }
 .fw-600 { font-weight: 600 }
 .btn-outline-danger { background: var(--color-bg); color: var(--color-danger); border: 1px solid rgba(239,68,68,.3) }
 </style>

@@ -426,7 +426,7 @@ const poemLines = computed(() => poemToLines(poem.value))
 }
 .detail-unlocked {
   font-size: 10px;
-  color: #10B981;
+  color: var(--c-green);
   font-weight: 500;
 }
 .detail-locked {
@@ -477,11 +477,11 @@ const poemLines = computed(() => poemToLines(poem.value))
   padding: 2px 8px;
   border-radius: 4px;
 }
-.stage--egg { background: rgba(245,158,11,0.2); color: #F59E0B; }
-.stage--baby { background: rgba(16,185,129,0.2); color: #10B981; }
-.stage--growing { background: rgba(59,130,246,0.2); color: #3B82F6; }
-.stage--mature { background: rgba(139,92,246,0.2); color: #8B5CF6; }
-.stage--legendary { background: rgba(245,158,11,0.2); color: #F59E0B; }
+.stage--egg { background: rgba(245,158,11,0.2); color: var(--c-amber); }
+.stage--baby { background: rgba(16,185,129,0.2); color: var(--c-green); }
+.stage--growing { background: rgba(59,130,246,0.2); color: var(--c-blue); }
+.stage--mature { background: rgba(139,92,246,0.2); color: var(--c-violet); }
+.stage--legendary { background: rgba(245,158,11,0.2); color: var(--c-amber); }
 .stage--transcendent { background: rgba(244,114,182,0.2); color: #F472B6; }
 
 .unlock-hint {
@@ -493,7 +493,7 @@ const poemLines = computed(() => poemToLines(poem.value))
   color: var(--color-text-secondary);
 }
 .unlock-hint strong {
-  color: #F59E0B;
+  color: var(--c-amber);
   font-size: 14px;
 }
 

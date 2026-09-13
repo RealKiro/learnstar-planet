@@ -158,8 +158,8 @@ const emit = defineEmits<{
   min-width: 30px;
   text-align: center;
 }
-.rule-add .rule-amt { color: #10B981; }
-.rule-sub .rule-amt { color: #EF4444; }
+.rule-add .rule-amt { color: var(--c-green); }
+.rule-sub .rule-amt { color: var(--c-red); }
 .rule-name {
   white-space: nowrap;
 }

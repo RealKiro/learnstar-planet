@@ -258,7 +258,7 @@ onMounted(async () => {
   border-radius: 30px;
   background: rgba(245,158,11,0.08);
   border: 1px solid rgba(245,158,11,0.15);
-  color: #F59E0B;
+  color: var(--c-amber);
   font-size: 15px;
   font-weight: 700;
 }
@@ -294,9 +294,9 @@ onMounted(async () => {
   width: 44px;
   text-align: center;
 }
-.rank-gold { color: #F59E0B; }
+.rank-gold { color: var(--c-amber); }
 .rank-silver { color: #94A3B8; }
-.rank-bronze { color: #D97706; }
+.rank-bronze { color: var(--c-amber-deep); }
 
 .pk-class {
   display: flex;
@@ -313,7 +313,7 @@ onMounted(async () => {
   padding: 1px 8px;
   border-radius: 4px;
   background: rgba(245,158,11,0.1);
-  color: #F59E0B;
+  color: var(--c-amber);
   font-weight: 600;
   width: fit-content;
 }
@@ -377,7 +377,7 @@ onMounted(async () => {
 .pk-btn.own {
   background: rgba(245,158,11,0.08);
   border-color: rgba(245,158,11,0.2);
-  color: #F59E0B;
+  color: var(--c-amber);
   cursor: default;
 }
 .pk-btn.own:hover {
@@ -386,7 +386,7 @@ onMounted(async () => {
 .pk-btn--done {
   background: rgba(16,185,129,0.12);
   border-color: rgba(16,185,129,0.3);
-  color: #10B981;
+  color: var(--c-green);
   cursor: default;
 }
 .pk-btn--done:hover {
@@ -425,8 +425,8 @@ onMounted(async () => {
   border-bottom: none;
 }
 .row-val { font-weight: 700; }
-.row-val.peak { color: #8B5CF6; }
-.row-val.weekly { color: #10B981; }
+.row-val.peak { color: var(--c-violet); }
+.row-val.weekly { color: var(--c-green); }
 
 .suggestion {
   font-size: 15px;
@@ -434,7 +434,7 @@ onMounted(async () => {
   line-height: 1.6;
 }
 .gap-score {
-  color: #F59E0B;
+  color: var(--c-amber);
   font-size: 18px;
 }
 .suggestion-hint {
@@ -443,7 +443,7 @@ onMounted(async () => {
   opacity: 0.7;
 }
 .victory {
-  color: #10B981;
+  color: var(--c-green);
   font-weight: 600;
 }
 
@@ -468,7 +468,7 @@ onMounted(async () => {
 .challenge-btn--done {
   background: rgba(16,185,129,0.12);
   border-color: rgba(16,185,129,0.3);
-  color: #10B981;
+  color: var(--c-green);
 }
 .challenge-btn--done:hover {
   background: rgba(16,185,129,0.12);
@@ -517,5 +517,5 @@ onMounted(async () => {
     width: auto;
   }
 }
-.tpk-danger { color:#ef4444; }
+.tpk-danger { color: var(--c-red); }
 </style>

@@ -154,23 +154,23 @@ onUnmounted(() => {
 .title-row { display:flex; align-items:baseline; gap:12px; }
 .page-title { font-size:26px; font-weight:700; margin:0; }
 .text-muted-14 { font-size:14px; color:var(--md-text-secondary); }
-.pk-badge { padding:6px 20px; border-radius:30px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.15); color:#F59E0B; font-size:15px; font-weight:700; }
+.pk-badge { padding:6px 20px; border-radius:30px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.15); color: var(--c-amber); font-size:15px; font-weight:700; }
 .empty-60-error { text-align:center; padding:60px; color: var(--color-danger-text); }
 .hint-13-top { font-size:13px; color:var(--md-text-secondary); margin-top:8px; }
 .stack-10 { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
 .rank { font-size:22px; font-weight:800; width:44px; text-align:center; }
 .team-name { width:130px; flex-shrink:0; }
 .fw-600-16 { font-size:16px; font-weight:600; }
-.mini-badge { font-size:10px; padding:1px 8px; border-radius:4px; background:rgba(245,158,11,0.1); color:#F59E0B; font-weight:600; }
+.mini-badge { font-size:10px; padding:1px 8px; border-radius:4px; background:rgba(245,158,11,0.1); color: var(--c-amber); font-weight:600; }
 .bar-wrap { flex:1; display:flex; align-items:center; gap:12px; }
 .bar-track { flex:1; height:8px; background:var(--tint-3); border-radius:4px; overflow:hidden; }
 .bar-value { font-weight:700; font-size:15px; min-width:70px; text-align:right; }
 .bar-meta { display:flex; gap:14px; font-size:13px; color:var(--md-text-secondary); min-width:160px; justify-content:flex-end; }
 .grid-2-20 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.fw-700-gold { font-weight:700; color:#F59E0B; }
+.fw-700-gold { font-weight:700; color: var(--c-amber); }
 .stat-line-plain { display:flex; justify-content:space-between; padding:8px 0; font-size:15px; }
 .text-muted-15 { font-size:15px; color:var(--md-text-secondary); line-height:1.6; }
-.gold-18 { color:#F59E0B; font-size:18px; }
+.gold-18 { color: var(--c-amber); font-size:18px; }
 .faded-13 { font-size:13px; opacity:0.7; }
-.text-ok-15 { font-size:15px; color:#10B981; line-height:1.6; }
+.text-ok-15 { font-size:15px; color: var(--c-green); line-height:1.6; }
 </style>

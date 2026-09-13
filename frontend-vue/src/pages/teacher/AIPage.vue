@@ -209,7 +209,7 @@ function useCommand(cmd: AICommand) {
 .page-title { font-size: 24px; font-weight: 700; }
 .usage-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--color-text-secondary); background: var(--color-bg); padding: 6px 12px; border-radius: var(--radius-sm); }
 .usage-config--on { color: var(--color-accent); }
-.usage-config--off { color: #EF4444; }
+.usage-config--off { color: var(--c-red); }
 .usage-meta { color: var(--color-text-secondary); }
 
 /* ===== 教室端：AI 未开启门禁 ===== */

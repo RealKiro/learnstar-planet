@@ -190,7 +190,7 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
         <template v-else-if="batchOpStatus === 'success'">已重置 ✓</template>
         <template v-else>🔑 批量重置密码</template>
       </button>
-      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :style="{ background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca', opacity: !selectedTeacherIds.length ? 0.5 : 1 }" @click="batchDeleteTeachers">
+      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :style="{ background: '#fee2e2', color: '#dc2626', border: '1px solid var(--c-red-border)', opacity: !selectedTeacherIds.length ? 0.5 : 1 }" @click="batchDeleteTeachers">
         批量删除
       </button>
     </div>
@@ -240,7 +240,7 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
 <style scoped>
 .section-badge { font-size:11px;font-weight:600;color:var(--md-primary-light);text-transform:uppercase;letter-spacing:0.05em;background:rgba(167,139,250,0.12);padding:3px 10px;border-radius:6px; }
 .page-title { font-size:22px;font-weight:700;margin:0;line-height:1.2; }
-.count-badge { font-size:13px;color:#6b7280;background:var(--color-bg);padding:2px 10px;border-radius:10px; }
+.count-badge { font-size:13px;color: var(--c-gray-500);background:var(--color-bg);padding:2px 10px;border-radius:10px; }
 .grade-header { display:flex; align-items:center; gap:10px; margin:20px 0 12px; padding:0 0 8px 4px; border-bottom:1px solid var(--tint-3); }
 .grade-dot { width:8px; height:8px; border-radius:50%; background:#8b5cf6; flex-shrink:0; }
 .grade-name { font-size:16px; font-weight:700; }

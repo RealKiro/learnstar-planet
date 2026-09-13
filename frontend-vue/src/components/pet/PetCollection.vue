@@ -270,8 +270,8 @@ watch(() => props.visible, load)
 .header-icon { font-size: 30px; }
 .header-title { font-size: 18px; font-weight: 700; color: var(--color-text); margin: 0; }
 .header-sub { font-size: 12px; color: var(--color-text-secondary); margin: 2px 0 0; }
-.header-sub strong { color: #F59E0B; }
-.slots-full { color: #EF4444; font-weight: 600; }
+.header-sub strong { color: var(--c-amber); }
+.slots-full { color: var(--c-red); font-weight: 600; }
 .close-btn {
   width: 32px; height: 32px; border-radius: 50%;
   border: 1px solid var(--tint-4); background: var(--tint-2);
@@ -288,7 +288,7 @@ watch(() => props.visible, load)
   font-size: 13px; padding: 8px 12px; border-radius: 10px; margin-bottom: 8px; font-weight: 600;
 }
 .msg--ok { background: rgba(16,185,129,0.12); color: #34D399; }
-.msg--err { background: rgba(239,68,68,0.12); color: #F87171; }
+.msg--err { background: rgba(239,68,68,0.12); color: var(--c-red-soft); }
 .series-filter { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
 .filter-chip {
   padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
@@ -334,7 +334,7 @@ watch(() => props.visible, load)
 .card-level { font-size: 10px; color: var(--color-text-secondary); text-align: center; }
 .card-locked-hint { font-size: 10px; color: var(--color-text-secondary); }
 .hint--cross { color: rgba(239,68,68,0.75); }
-.cat-name { color: #F59E0B; }
+.cat-name { color: var(--c-amber); }
 .switch-btn {
   margin-top: 4px; padding: 4px 16px; border-radius: 12px; font-size: 12px; font-weight: 600;
   border: none; cursor: pointer; color: white;

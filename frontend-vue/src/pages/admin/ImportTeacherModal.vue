@@ -237,12 +237,12 @@ async function uploadImport(isDry: boolean) {
 .imp-title { font-size:17px;font-weight:700;color:var(--color-text);margin:0; }
 .imp-close-btn { background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1; }
 .imp-mb-16 { margin-bottom:16px; }
-.imp-hint { font-size:13px;color:#6b7280;margin-bottom:8px; }
-.imp-required { color:#dc2626; }
+.imp-hint { font-size:13px;color: var(--c-gray-500);margin-bottom:8px; }
+.imp-required { color: var(--c-red-deep); }
 .imp-muted-12 { font-size:12px;color:#9ca3af; }
 .imp-btn-plain { background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border); }
 .imp-sub-title { font-weight:600;font-size:14px;margin-bottom:8px; }
-.imp-warn { font-size:12px;color:#d97706;padding:6px 10px;background:rgba(245,158,11,0.08);border-radius:6px;margin-bottom:8px; }
+.imp-warn { font-size:12px;color: var(--c-amber-deep);padding:6px 10px;background:rgba(245,158,11,0.08);border-radius:6px;margin-bottom:8px; }
 .imp-muted-12-mt { font-size:12px;color:#9ca3af;margin-top:4px; }
 .imp-footer-end { justify-content:flex-end; }
 .imp-btn-outline { background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border); }

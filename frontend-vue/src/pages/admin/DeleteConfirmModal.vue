@@ -136,7 +136,7 @@ async function confirmDelete() {
 .del-emoji { font-size:40px;margin-bottom:8px; }
 .del-title { font-size:15px;font-weight:600;color:var(--color-text);margin-bottom:8px; }
 .del-desc { font-size:12px;color:var(--color-text-secondary);margin-bottom:12px; }
-.del-warn { font-size:12px;color:#dc2626;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:12px; }
+.del-warn { font-size:12px;color: var(--c-red-deep);padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:12px; }
 .del-error { margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
 .del-footer-end { justify-content:flex-end; }
 .del-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
