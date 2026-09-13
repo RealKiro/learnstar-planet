@@ -124,6 +124,35 @@ echo "✅ 缓存重建完成"
 
 echo "🎉 学宠星球初始化完成！"
 
+# ============================================================
+# 安全自检：默认凭据告警（不阻断启动，仅打印醒目提示）
+# ============================================================
+SECURITY_WARN=0
+if [ "${ADMIN_PASSWORD:-admin123456}" = "admin123456" ]; then
+    SECURITY_WARN=1
+fi
+if [ "${BOT_ENABLED:-true}" = "true" ] && [ "${BOT_PASSWORD:-learnstar-bot-2026}" = "learnstar-bot-2026" ]; then
+    SECURITY_WARN=1
+fi
+
+if [ "$SECURITY_WARN" = "1" ]; then
+    echo ""
+    echo "🔴 ==================== 安全告警 ===================="
+    echo "🔴 检测到默认凭据，当前部署存在风险："
+    if [ "${ADMIN_PASSWORD:-admin123456}" = "admin123456" ]; then
+        echo "🔴   · 管理员密码仍为默认值 admin123456"
+    fi
+    if [ "${BOT_ENABLED:-true}" = "true" ] && [ "${BOT_PASSWORD:-learnstar-bot-2026}" = "learnstar-bot-2026" ]; then
+        echo "🔴   · API 机器人密码仍为默认值，且该账号可操作全部班级"
+    fi
+    echo "🔴 修复：编辑 .env / docker-compose.yml 后重启容器"
+    echo "🔴   ADMIN_PASSWORD=<强密码>"
+    echo "🔴   BOT_PASSWORD=<强密码>   或   BOT_ENABLED=false"
+    echo "🔴 详见 README「🔐 上线前安全检查」"
+    echo "🔴 ================================================="
+    echo ""
+fi
+
 # 如果使用 Redis 队列，启动后台 queue worker
 if [ "${QUEUE_CONNECTION:-redis}" = "redis" ] || [ "${QUEUE_CONNECTION:-redis}" = "database" ]; then
     echo "⏳ 启动队列 worker（${QUEUE_CONNECTION:-redis}）..."
