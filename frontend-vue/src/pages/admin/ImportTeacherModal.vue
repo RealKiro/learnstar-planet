@@ -60,47 +60,44 @@ async function uploadImport(isDry: boolean) {
 
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
-    <div style="max-width:700px;width:100%;padding:4px 0;">
+    <div class="imp-wrap">
       <div class="modal-header">
-        <h3 style="font-size:17px;font-weight:700;color:var(--color-text);margin:0;">批量导入教师</h3>
+        <h3 class="imp-title">批量导入教师</h3>
         <button
-          class="close-btn"
+          class="close-btn imp-close-btn"
           @click="closeModal"
-          style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1;"
-        >
+>
           &#10005;
         </button>
       </div>
 
       <div class="modal-body">
-        <div style="margin-bottom:16px;">
-          <p style="font-size:13px;color:#6b7280;margin-bottom:8px;">支持 CSV / Excel 格式。模板列：</p>
+        <div class="imp-mb-16">
+          <p class="imp-hint">支持 CSV / Excel 格式。模板列：</p>
           <div class="column-hint">
-            <code>姓名</code><span style="color:#dc2626;">*</span>
+            <code>姓名</code><span class="imp-required">*</span>
             <code>年级团队</code>
             <code>科目</code>
             <code>密码</code>
             <code>手机号</code>
           </div>
-          <p style="font-size:12px;color:#9ca3af;">
+          <p class="imp-muted-12">
             密码选填，不填默认为 ls123456。角色和班级导入后使用 &#127979; 按钮分配。
           </p>
-          <button class="btn btn-sm" style="background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border);" @click="downloadTemplate">📥 下载模板</button>
+          <button class="btn btn-sm imp-btn-plain" @click="downloadTemplate">📥 下载模板</button>
         </div>
 
         <input
           type="file"
           accept=".csv,.xlsx,.xls"
-          @change="onFileChange"
-          style="margin-bottom:12px;"
-        >
+          @change="onFileChange" class="imp-mb-12"
+>
 
-        <div v-if="importPreview.length > 0" style="margin-bottom:12px;">
-          <div style="font-weight:600;font-size:14px;margin-bottom:8px;">预览 ({{ importPreview.length }} 条)</div>
+        <div v-if="importPreview.length > 0" class="imp-mb-12">
+          <div class="imp-sub-title">预览 ({{ importPreview.length }} 条)</div>
           <div
-            v-if="importPreview.some(r => !r.subject)"
-            style="font-size:12px;color:#d97706;padding:6px 10px;background:rgba(245,158,11,0.08);border-radius:6px;margin-bottom:8px;"
-          >
+            v-if="importPreview.some(r => !r.subject)" class="imp-warn"
+>
             &#9888;&#65039; {{ importPreview.filter(r => !r.subject).length }} 条记录缺少科目，导入后需手动分配科目
           </div>
           <div class="preview-table-wrapper">
@@ -123,16 +120,15 @@ async function uploadImport(isDry: boolean) {
               </tbody>
             </table>
           </div>
-          <p v-if="importPreview.length > 20" style="font-size:12px;color:#9ca3af;margin-top:4px;">仅显示前 20 条</p>
+          <p v-if="importPreview.length > 20" class="imp-muted-12-mt">仅显示前 20 条</p>
         </div>
       </div>
 
-      <div class="modal-footer" style="justify-content:flex-end;">
+      <div class="modal-footer imp-footer-end">
         <button
-          class="btn"
-          style="background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);"
+          class="btn imp-btn-outline"
           @click="closeModal"
-        >
+>
           取消
         </button>
         <button
@@ -145,11 +141,10 @@ async function uploadImport(isDry: boolean) {
         </button>
         <button
           v-if="importPreview.length > 0"
-          class="btn"
-          style="background:rgba(245,158,11,0.12);color:var(--md-gold);border:1px solid rgba(245,158,11,0.3);"
+          class="btn imp-btn-warn"
           :disabled="importLoading"
           @click="uploadImport(true)"
-        >
+>
           重新预览
         </button>
         <button
@@ -236,4 +231,20 @@ async function uploadImport(isDry: boolean) {
 .modal-section-title { font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:8px; }
 .flex-row { display:flex; gap:8px; }
 .flex-1 { flex:1; }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.imp-mb-12 { margin-bottom:12px; }
+.imp-wrap { max-width:700px;width:100%;padding:4px 0; }
+.imp-title { font-size:17px;font-weight:700;color:var(--color-text);margin:0; }
+.imp-close-btn { background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:0;line-height:1; }
+.imp-mb-16 { margin-bottom:16px; }
+.imp-hint { font-size:13px;color:#6b7280;margin-bottom:8px; }
+.imp-required { color:#dc2626; }
+.imp-muted-12 { font-size:12px;color:#9ca3af; }
+.imp-btn-plain { background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border); }
+.imp-sub-title { font-weight:600;font-size:14px;margin-bottom:8px; }
+.imp-warn { font-size:12px;color:#d97706;padding:6px 10px;background:rgba(245,158,11,0.08);border-radius:6px;margin-bottom:8px; }
+.imp-muted-12-mt { font-size:12px;color:#9ca3af;margin-top:4px; }
+.imp-footer-end { justify-content:flex-end; }
+.imp-btn-outline { background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border); }
+.imp-btn-warn { background:rgba(245,158,11,0.12);color:var(--md-gold);border:1px solid rgba(245,158,11,0.3); }
 </style>
