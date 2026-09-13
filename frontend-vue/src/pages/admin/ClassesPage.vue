@@ -531,7 +531,7 @@ async function submitAssignTeacher() {
       </div>
       <div class="form-group">
         <label>字母前缀（本校统一）</label>
-        <input v-model="resetPrefix" class="form-input" placeholder="如：LS / BJ / LE" maxlength="4" style="text-transform:uppercase">
+        <input v-model="resetPrefix" class="form-input clp-uppercase" placeholder="如：LS / BJ / LE" maxlength="4">
         <p class="modal-hint">新班级码 = 前缀 + 年级 + 班号（如 LS11）。全部班级使用<b>同一个前缀</b>，不能一个班 LS 一个班 BJ。旧班级码将立即失效。</p>
       </div>
       <div class="modal-actions">
@@ -812,4 +812,5 @@ async function submitAssignTeacher() {
 .textarea-monospace { width: 100%; min-height: 160px; font-family: monospace; }
 .feedback-text { font-size: 13px; color: var(--color-text); line-height: 1.7; margin-bottom: 10px; }
 .feedback-link { text-decoration: none; }
+.clp-uppercase { text-transform:uppercase }
 </style>

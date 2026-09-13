@@ -170,7 +170,7 @@ function downloadTemplate() {
 onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
 </script>
 <template>
-  <div class="teachers-admin" style="max-width:1400px;margin:0 auto;padding:0 4px;">
+  <div class="teachers-admin tch-wrap">
     <TeacherFilters :grades="grades" :classRoleLabel="classRoleLabel" :filterGrade="filterGrade" :filterRole="filterRole" :searchQuery="searchQuery" :thirdPartyImportLabel="thirdPartyImportLabel"
       @update:filterGrade="filterGrade = $event" @update:filterRole="filterRole = $event as '' | ClassRole" @update:searchQuery="searchQuery = $event"
       @downloadTemplate="downloadTemplate" @openImport="showImportModal = true" @openWechatImport="showWechatImport = true" @openCreate="showCreateModal = true">
@@ -178,9 +178,9 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
     </TeacherFilters>
 
     <!-- 批量操作栏 -->
-    <div v-if="teachers.length > 0" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:8px 12px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:10px;">
-      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;user-select:none;">
-        <input type="checkbox" :checked="allTeachersSelected" @change="toggleSelectAllTeachers" style="accent-color:#7c3aed;width:15px;height:15px;">
+    <div v-if="teachers.length > 0" class="tch-bar">
+      <label class="tch-check-row">
+        <input type="checkbox" :checked="allTeachersSelected" @change="toggleSelectAllTeachers" class="tch-checkbox">
         全选
       </label>
       <span v-if="selectedTeacherIds.length > 0" class="text-muted-13">已选 {{ selectedTeacherIds.length }} 个</span>
@@ -194,8 +194,8 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
         批量删除
       </button>
     </div>
-    <div v-if="batchOpMsg" style="margin:-4px 0 12px;padding:8px 12px;border-radius:8px;font-size:12px;"
-      :style="{ background: batchOpStatus === 'error' ? 'rgba(239,68,68,0.08)' : 'rgba(16,185,129,0.08)', border: '1px solid ' + (batchOpStatus === 'error' ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)'), color: batchOpStatus === 'error' ? '#fca5a5' : '#6ee7b7' }">{{ batchOpMsg }}</div>
+    <div v-if="batchOpMsg"
+      :style="{ background: batchOpStatus === 'error' ? 'rgba(239,68,68,0.08)' : 'rgba(16,185,129,0.08)', border: '1px solid ' + (batchOpStatus === 'error' ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)'), color: batchOpStatus === 'error' ? '#fca5a5' : '#6ee7b7' }" class="tch-banner">{{ batchOpMsg }}</div>
 
     <div v-if="loading" class="loading-spinner">加载中...</div>
     <div v-else-if="filteredTeachers.length === 0" class="empty-state">
@@ -205,7 +205,7 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
     </div>
 
     <template v-for="group in teacherList" :key="group.team">
-      <div v-if="group.teachers.length > 0" style="margin-bottom:20px;">
+      <div v-if="group.teachers.length > 0" class="tch-mb-20">
         <div class="grade-header">
           <span class="grade-dot"></span>
           <span class="grade-name">{{ group.team }}</span>
@@ -249,4 +249,10 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
 .loading-spinner { text-align:center;padding:64px;color:#9ca3af;font-size:15px; }
 .empty-state { text-align:center;padding:64px 20px;color:#9ca3af; }
 .empty-icon { font-size:48px;margin-bottom:12px; }
+.tch-wrap { max-width:1400px;margin:0 auto;padding:0 4px; }
+.tch-bar { display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:8px 12px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:10px; }
+.tch-check-row { display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;user-select:none; }
+.tch-checkbox { accent-color:#7c3aed;width:15px;height:15px; }
+.tch-banner { margin:-4px 0 12px;padding:8px 12px;border-radius:8px;font-size:12px; }
+.tch-mb-20 { margin-bottom:20px; }
 </style>

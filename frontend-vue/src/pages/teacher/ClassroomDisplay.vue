@@ -178,7 +178,7 @@ onUnmounted(() => {
     <div v-if="loading" class="loading">加载中...</div>
     <div v-else-if="displayError" class="empty">
       <div class="empty-icon">⚠️</div>
-      <p style="color:var(--color-danger-text);">{{ displayError }}</p>
+      <p class="cdp-danger-text">{{ displayError }}</p>
     </div>
     <div v-else-if="!data || data.pets.length === 0" class="empty">
       <div class="empty-icon">📭</div>
@@ -411,4 +411,5 @@ onUnmounted(() => {
 
 .loading, .empty { text-align: center; padding: 80px 20px; color: rgba(200,190,240,0.5); }
 .empty-icon { font-size: 48px; margin-bottom: 12px; }
+.cdp-danger-text { color:var(--color-danger-text); }
 </style>

@@ -169,9 +169,9 @@ onUnmounted(() => {
       <!-- 三栏概览 -->
       <div class="overview-grid">
         <!-- 班级之星 -->
-        <div class="o-card star-card" v-if="data.star_student" style="position:relative;">
+        <div class="o-card star-card tdb-relative" v-if="data.star_student">
           <div class="o-label">🏅 班级之星</div>
-          <div v-if="data.star_student.student_no" style="position:absolute;top:20px;right:24px;font-size:11px;color:var(--color-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px;">学号 {{ data.star_student.student_no }}</div>
+          <div v-if="data.star_student.student_no" class="tdb-corner-tag">学号 {{ data.star_student.student_no }}</div>
           <div class="star-display">
             <div
               class="star-avatar"
@@ -179,7 +179,7 @@ onUnmounted(() => {
               @click="openHandbook(data.star_student)"
               title="点击查看宠物介绍"
             >
-              <div v-if="data.star_student.pet_species" style="width:100%;height:100%;border-radius:50%;overflow:hidden;">
+              <div v-if="data.star_student.pet_species" class="tdb-orb">
                 <PetSprite :species-id="data.star_student.pet_species" :level="data.star_student.pet_level" :animate="true" />
               </div>
               <span v-else class="star-emoji">🌟</span>
@@ -303,7 +303,7 @@ onUnmounted(() => {
     <div v-else-if="isTeacherMode" class="empty-state">
       <div class="empty-icon">📭</div>
       <p>暂未分配班级</p>
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-top:6px;">请联系管理员为你分配班级后使用</p>
+      <p class="tdb-hint-13">请联系管理员为你分配班级后使用</p>
     </div>
 
     <!-- 宠物图鉴弹窗 -->
@@ -656,4 +656,8 @@ onUnmounted(() => {
   .top3-row { grid-template-columns: 1fr; }
   .top2-row { grid-template-columns: 1fr; }
 }
+.tdb-relative { position:relative; }
+.tdb-corner-tag { position:absolute;top:20px;right:24px;font-size:11px;color:var(--color-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px; }
+.tdb-orb { width:100%;height:100%;border-radius:50%;overflow:hidden; }
+.tdb-hint-13 { font-size:13px;color:var(--color-text-secondary);margin-top:6px; }
 </style>

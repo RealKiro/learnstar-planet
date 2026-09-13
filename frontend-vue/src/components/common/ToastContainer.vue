@@ -79,7 +79,7 @@ function stopProgress(id: number) {
         @mouseenter="stopProgress(t.id)" @mouseleave="startProgress(t.id)"
       >
         <div class="center-icon" :style="{ background: borderMap[t.type] + '18' }">
-          <span style="font-size:32px;">{{ iconMap[t.type] || 'ℹ️' }}</span>
+          <span class="tst-icon-32">{{ iconMap[t.type] || 'ℹ️' }}</span>
         </div>
         <span class="toast-msg toast-msg--center">{{ t.message }}</span>
         <button v-if="t.action" class="toast-action toast-action--center" @click="t.action.onClick; store.remove(t.id)">{{ t.action.label }}</button>
@@ -184,4 +184,5 @@ function stopProgress(id: number) {
 .bc-enter-active { animation: slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards; }
 .bc-leave-active { animation: fadeOut 0.25s ease forwards; }
 @keyframes slideUp { 0% { opacity:0; transform:translateY(40px); } 100% { opacity:1; transform:translateY(0); } }
+.tst-icon-32 { font-size:32px; }
 </style>

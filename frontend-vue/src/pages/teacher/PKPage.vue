@@ -122,7 +122,7 @@ onMounted(async () => {
       <p>加载排行数据...</p>
     </div>
 
-    <div v-else-if="loadError" class="loading-state" style="color:#ef4444;">
+    <div v-else-if="loadError" class="loading-state tpk-danger">
       <p>⚠️ {{ loadError }}</p>
     </div>
 
@@ -224,7 +224,7 @@ onMounted(async () => {
             {{ challengeDone ? '已发起 ✓' : pkBusy ? '发起中...' : '⚡ 发起挑战' }}
           </button>
           <div v-if="pkMsg" class="pk-inline-msg">{{ pkMsg }}</div>
-          <div v-if="pkError" class="pk-inline-msg" style="color:#ef4444;">{{ pkError }}</div>
+          <div v-if="pkError" class="pk-inline-msg tpk-danger">{{ pkError }}</div>
         </div>
       </div>
     </template>
@@ -517,4 +517,5 @@ onMounted(async () => {
     width: auto;
   }
 }
+.tpk-danger { color:#ef4444; }
 </style>

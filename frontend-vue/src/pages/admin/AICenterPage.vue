@@ -597,7 +597,7 @@ onMounted(loadData)
         <div v-if="!mcpConfigs.length" class="empty-state">暂无 MCP 接口配置</div>
         <div v-for="mcp in mcpConfigs" :key="mcp.id" class="provider-card" :class="{ 'provider-card--active': mcp.is_active }">
           <div class="pc-head" @click="mcp._expanded = !mcp._expanded">
-            <span class="pc-dot" style="background: var(--color-primary);"></span>
+            <span class="pc-dot aic-bg-primary"></span>
             <div class="pc-name-wrap">
               <span class="pc-name">{{ mcp.label }}</span>
               <span v-if="mcp.model" class="pc-chip">{{ mcp.model }}</span>
@@ -651,7 +651,7 @@ onMounted(loadData)
         <div class="data-table">
           <table>
             <thead>
-              <tr><th>供应商</th><th style="text-align:right;">Token</th><th style="text-align:right;">调用</th><th style="text-align:right;">预估费用</th></tr>
+              <tr><th>供应商</th><th class="aic-right">Token</th><th class="aic-right">调用</th><th class="aic-right">预估费用</th></tr>
             </thead>
             <tbody>
               <tr v-for="(val, key) in usage?.by_provider || {}" :key="key">
@@ -868,4 +868,6 @@ onMounted(loadData)
   .quick-grid { grid-template-columns: 1fr; }
   .pc-key, .pc-meta { display: none; }
 }
+.aic-right { text-align:right; }
+.aic-bg-primary { background: var(--color-primary); }
 </style>

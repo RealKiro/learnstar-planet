@@ -742,9 +742,9 @@ onMounted(async () => {
   </div>
 
   <!-- 教师端：最近积分记录 -->
-  <div v-if="isTeacherMode" class="card" style="margin-top:24px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-      <h3 style="font-size:16px;font-weight:600;">📋 最近积分记录</h3>
+  <div v-if="isTeacherMode" class="card scp-mt-24">
+    <div class="scp-head">
+      <h3 class="scp-title-16">📋 最近积分记录</h3>
       <button class="btn btn-sm" :disabled="historyLoading" @click="loadRecentScores">🔄 刷新</button>
     </div>
     <div v-if="historyLoading" class="muted-center">加载中...</div>
@@ -754,10 +754,10 @@ onMounted(async () => {
         <thead><tr><th>学生</th><th>分值</th><th>原因</th><th>时间</th><th>操作</th></tr></thead>
         <tbody>
           <tr v-for="s in recentScores" :key="s.id">
-            <td style="font-weight:600;">{{ s.student_name }}</td>
+            <td class="scp-fw-600">{{ s.student_name }}</td>
             <td :style="{ color: s.amount > 0 ? '#10B981' : '#EF4444', fontWeight: 700 }">{{ s.amount > 0 ? '+' : '' }}{{ s.amount }}</td>
-            <td style="color:var(--color-text-secondary);">{{ s.reason }}</td>
-            <td style="color:var(--color-text-secondary);font-size:13px;">{{ new Date(s.created_at).toLocaleString('zh-CN') }}</td>
+            <td class="scp-secondary">{{ s.reason }}</td>
+            <td class="scp-secondary-13">{{ new Date(s.created_at).toLocaleString('zh-CN') }}</td>
             <td><button class="btn btn-xs" @click="undoScore(s.id)" :disabled="getUndoStatus(s.id) === 'loading'" :style="getUndoBtnStyle(s.id)">{{ getUndoBtnText(s.id) }}</button></td>
           </tr>
         </tbody>
@@ -1068,4 +1068,10 @@ onMounted(async () => {
 @media (max-width: 576px) {
   .student-grid { grid-template-columns: 1fr; }
 }
+.scp-mt-24 { margin-top:24px; }
+.scp-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px; }
+.scp-title-16 { font-size:16px;font-weight:600; }
+.scp-fw-600 { font-weight:600; }
+.scp-secondary { color:var(--color-text-secondary); }
+.scp-secondary-13 { color:var(--color-text-secondary);font-size:13px; }
 </style>

@@ -78,14 +78,14 @@ onMounted(async () => {
       </div>
 
       <!-- 按年级分布 -->
-      <div class="card" style="margin-top:24px;">
+      <div class="card adb-mt-24">
         <h3 class="section-title">按年级分布</h3>
         <div class="data-table">
           <table>
-            <thead><tr><th style="width:60px;">年级</th><th style="width:60px;">班级数</th><th style="width:60px;">学生数</th></tr></thead>
+            <thead><tr><th class="adb-col-60">年级</th><th class="adb-col-60">班级数</th><th class="adb-col-60">学生数</th></tr></thead>
             <tbody>
               <tr v-for="g in byGrade" :key="g.grade">
-                <td style="font-weight:600;">{{ g.grade }}</td>
+                <td class="adb-fw-600">{{ g.grade }}</td>
                 <td>{{ g.class_count }}</td>
                 <td>{{ g.student_count }}</td>
               </tr>
@@ -96,3 +96,9 @@ onMounted(async () => {
     </template>
   </div>
 </template>
+
+<style scoped>
+.adb-col-60 { width:60px; }
+.adb-mt-24 { margin-top:24px; }
+.adb-fw-600 { font-weight:600; }
+</style>

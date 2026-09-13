@@ -218,7 +218,7 @@ function fxShape(size: number): string {
     role="img"
     :aria-label="`宠物 Lv.${level}`"
   >
-    <text x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="150" style="user-select:none;">{{ getStageEmoji(speciesId, level) }}</text>
+    <text x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="150" class="spr-no-select">{{ getStageEmoji(speciesId, level) }}</text>
   </svg>
   <img
     v-else-if="imgUrl"
@@ -2297,4 +2297,5 @@ function fxShape(size: number): string {
   0%, 100% { transform: rotate(0deg); }
   50% { transform: rotate(8deg); }
 }
+.spr-no-select { user-select:none; }
 </style>

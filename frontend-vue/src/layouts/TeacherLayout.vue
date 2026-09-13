@@ -145,7 +145,7 @@ onMounted(() => {
 <template>
   <SidebarLayout role-label="教师端" :nav-items="navItems" :show-logout="true" @logout="logout">
     <template #user-meta>
-      <div style="font-size:12px;color:var(--color-text-secondary);">
+      <div class="tly-text-12">
         {{ authStore.user?.class_names?.join('、') || '教师' }}
       </div>
     </template>
@@ -159,8 +159,8 @@ onMounted(() => {
         </template>
         <template v-else>
           <div v-if="myClasses.length === 0" class="cs-empty">
-            <div style="font-weight:600;color:var(--color-text);">未分配班级</div>
-            <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">请联系管理员为你分配班级</div>
+            <div class="tly-fw-name">未分配班级</div>
+            <div class="tly-sub-11">请联系管理员为你分配班级</div>
           </div>
           <div v-else class="cs-select-wrap">
             <select
@@ -178,9 +178,9 @@ onMounted(() => {
             <span class="cs-role">{{ { head_teacher: '班主任', co_teacher: '副班', subject_teacher: '科任', grade_lead: '年级首席', admin_director: '分管行政' }[activeClass.role] || activeClass.role }}</span>
             <span class="cs-grade">{{ activeClass.grade }}</span>
           </div>
-          <div v-if="switchError" style="margin-top:8px;padding:8px 10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px;">{{ switchError }}</div>
+          <div v-if="switchError" class="tly-error">{{ switchError }}</div>
         </template>
-        <div v-if="isBasic" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--color-border);">
+        <div v-if="isBasic" class="tly-divider">
           <button class="cs-login-btn" @click="goToTeacherLogin">🔑 高级设置</button>
         </div>
       </div>
@@ -201,4 +201,9 @@ onMounted(() => {
 .cs-grade { color: var(--color-text-secondary); }
 .cs-login-btn { width:100%; padding:8px; border-radius:10px; border:1px solid var(--color-accent); background:rgba(124,58,237,0.06); color:var(--color-accent); font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; transition:0.2s; }
 .cs-login-btn:hover { background:rgba(124,58,237,0.12); }
+.tly-text-12 { font-size:12px;color:var(--color-text-secondary); }
+.tly-fw-name { font-weight:600;color:var(--color-text); }
+.tly-sub-11 { font-size:11px;color:var(--color-text-secondary);margin-top:2px; }
+.tly-error { margin-top:8px;padding:8px 10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
+.tly-divider { margin-top:8px;padding-top:8px;border-top:1px solid var(--color-border); }
 </style>

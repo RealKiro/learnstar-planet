@@ -71,11 +71,19 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#F8FAFC;">
-    <div style="text-align:center;">
-      <div style="font-size:48px;margin-bottom:16px;">🔄</div>
-      <h2 style="font-size:20px;font-weight:600;margin-bottom:8px;">正在处理扫码登录...</h2>
-      <p style="color:#64748B;">请稍候</p>
+  <div class="oac-page">
+    <div class="oac-center">
+      <div class="oac-emoji">🔄</div>
+      <h2 class="oac-title">正在处理扫码登录...</h2>
+      <p class="oac-muted">请稍候</p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.oac-page { display:flex;align-items:center;justify-content:center;min-height:100vh;background:#F8FAFC; }
+.oac-center { text-align:center; }
+.oac-emoji { font-size:48px;margin-bottom:16px; }
+.oac-title { font-size:20px;font-weight:600;margin-bottom:8px; }
+.oac-muted { color:#64748B; }
+</style>
