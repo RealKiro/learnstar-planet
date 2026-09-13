@@ -2132,6 +2132,11 @@ class SchoolAdminController extends Controller
             'providers.*.api_key' => 'nullable|string|max:2000',
             'providers.*.api_base' => 'nullable|string|max:500',
             'providers.*.model' => 'nullable|string|max:100',
+            'providers.*.models' => 'nullable|array',
+            'providers.*.models.*' => 'string|max:100',
+            // New API 式模型映射：请求模型名 → 上游模型名
+            'providers.*.model_map' => 'nullable|array|max:50',
+            'providers.*.model_map.*' => 'nullable|string|max:100',
             'providers.*.is_active' => 'boolean',
             'providers.*.billing_enabled' => 'boolean',
             'providers.*.input_price_per_m' => 'nullable|numeric|min:0',
@@ -2206,7 +2211,7 @@ class SchoolAdminController extends Controller
 
         $dailyUsage = \App\Models\AiConversation::where('school_id', $school->id)
             ->where('created_at', '>=', $from)
-            ->selectRaw('DATE(created_at) as date, SUM(tokens_used) as tokens, COUNT(*) as count')
+            ->selectRaw('DATE(created_at) as date, SUM(tokens_used) as tokens, COUNT(*) as count, SUM(cost) as cost')
             ->groupBy('date')
             ->orderBy('date')
             ->get();

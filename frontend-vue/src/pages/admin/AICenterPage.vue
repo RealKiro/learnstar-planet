@@ -8,12 +8,14 @@ interface ProviderConfig {
   is_active: boolean; billing_enabled?: boolean
   input_price_per_m?: number; output_price_per_m?: number; currency?: string
   tokens_used?: number; total_calls?: number; estimated_cost?: number
+  // New API 式：多模型白名单（教师端可选）+ 请求模型 → 上游模型映射
+  models?: string[]; model_map?: Record<string, string>
   // 本地 UI 状态（_ 前缀，不参与后端校验语义）
   _expanded?: boolean; _official_models?: string[]; _fetching?: boolean; _fetch_msg?: string
   _testing?: boolean; _test_ok?: boolean; _test_msg?: string; _show_key?: boolean
 }
 interface AiSettings { enabled: boolean; max_tokens: number; tokens_used: number; tokens_limit: number; providers: ProviderConfig[] }
-interface DailyUsage { date: string; tokens: number; count: number }
+interface DailyUsage { date: string; tokens: number; count: number; cost?: number }
 interface ConversationLog { id: number; student_name: string; provider?: string; question: string; answer: string; tokens_used: number; cost?: number; currency?: string; created_at: string }
 interface ProviderUsage { tokens: number; total_calls: number; estimated_cost: number; cost_per_token?: number; currency: string }
 interface AiUsage { enabled: boolean; tokens_used: number; tokens_limit: number; estimated_cost?: number; total_conversations: number; daily_usage: DailyUsage[]; by_provider?: Record<string, ProviderUsage>; recent_logs: ConversationLog[] }
@@ -166,6 +168,134 @@ function modelOptionsFor(p: ProviderConfig): string[] {
 }
 function currencySymbol(c?: string) { return c === 'USD' ? '$' : '¥' }
 
+// ===== 模型多选 + 映射（New API 式） =====
+function modelsText(p: ProviderConfig): string { return (p.models || []).join(', ') }
+function onModelsChange(p: ProviderConfig, e: Event) {
+  const raw = (e.target as HTMLInputElement).value
+  p.models = raw.split(/[,，]/).map(s => s.trim()).filter(Boolean)
+  if (!p.models.length) p.models = undefined
+}
+function addMapRow(p: ProviderConfig) {
+  if (!p.model_map) p.model_map = {}
+  let i = 1
+  while ((`模型 ${i}`) in p.model_map) i++
+  p.model_map[`模型 ${i}`] = ''
+}
+function onMapFromChange(p: ProviderConfig, from: string, e: Event) {
+  const next = (e.target as HTMLInputElement).value.trim()
+  if (!p.model_map || !next || next === from || next in p.model_map) return
+  p.model_map = Object.fromEntries(
+    Object.entries(p.model_map).map(([k, v]) => [k === from ? next : k, v]),
+  )
+}
+function onMapToChange(p: ProviderConfig, from: string, e: Event) {
+  if (!p.model_map) return
+  p.model_map[from] = (e.target as HTMLInputElement).value
+}
+// 映射编辑器的候选列表：官方/预设模型 + 可选模型 + 主模型 + 现有映射键
+function mapModelOptions(p: ProviderConfig): string[] {
+  return Array.from(new Set([
+    ...modelOptionsFor(p),
+    ...(p.models || []),
+    ...(p.model ? [p.model] : []),
+    ...Object.keys(p.model_map || {}),
+  ]))
+}
+function removeMapKey(p: ProviderConfig, key: string) {
+  if (!p.model_map) return
+  delete p.model_map[key]
+  p.model_map = { ...p.model_map }
+}
+
+// ===== 供应商配置导入导出（CC Switch 式迁移） =====
+const fileInput = ref<HTMLInputElement | null>(null)
+
+interface ExportedProvider { id: string; label: string; api_key?: string; api_base?: string; model?: string; models?: unknown; model_map?: unknown; is_active?: boolean; billing_enabled?: boolean; input_price_per_m?: number; output_price_per_m?: number; currency?: string }
+
+function exportProviders() {
+  if (!settings.value) return
+  openConfirm({
+    title: '导出供应商配置？',
+    message: '导出的 JSON 文件包含 API Key 明文，请妥善保管，避免分享给不可信的接收方。',
+    confirmText: '导出',
+  }).then(ok => {
+    if (!ok) return
+    const payload = {
+      app: 'learnstar-planet',
+      version: 1,
+      exported_at: new Date().toISOString(),
+      providers: (settings.value?.providers || []).map(p => ({
+        id: p.id, label: p.label, api_key: p.api_key, api_base: p.api_base, model: p.model,
+        models: p.models || [], model_map: p.model_map || {},
+        is_active: !!p.is_active, billing_enabled: !!p.billing_enabled,
+        input_price_per_m: p.input_price_per_m ?? 0, output_price_per_m: p.output_price_per_m ?? 0,
+        currency: p.currency ?? 'CNY',
+      })),
+    }
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `ai-providers-${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  })
+}
+
+async function onImportFile(e: Event) {
+  const input = e.target as HTMLInputElement
+  const file = input.files?.[0]
+  input.value = '' // 允许连续导入同一文件
+  if (!file || !settings.value) return
+  let json: unknown
+  try {
+    json = JSON.parse(await file.text())
+  } catch {
+    window.alert('导入失败：不是有效的 JSON 文件')
+    return
+  }
+  const list = (json as { providers?: unknown })?.providers
+  if (!Array.isArray(list) || !list.length) {
+    window.alert('导入失败：文件中没有 providers 配置')
+    return
+  }
+  const imported: ProviderConfig[] = (list as ExportedProvider[])
+    .filter(p => typeof p?.id === 'string' && p.id && typeof p?.label === 'string')
+    .map(p => ({
+      id: p.id,
+      label: p.label,
+      api_key: typeof p.api_key === 'string' ? p.api_key : '',
+      api_base: typeof p.api_base === 'string' ? p.api_base : '',
+      model: typeof p.model === 'string' ? p.model : '',
+      models: Array.isArray(p.models) ? p.models.filter((m): m is string => typeof m === 'string' && !!m) : undefined,
+      model_map: (p.model_map && typeof p.model_map === 'object' && !Array.isArray(p.model_map))
+        ? Object.fromEntries(Object.entries(p.model_map as Record<string, unknown>)
+            .filter(([k, v]) => k !== '' && typeof v === 'string')
+            .map(([k, v]) => [k, v as string]))
+        : undefined,
+      is_active: !!p.is_active,
+      billing_enabled: !!p.billing_enabled,
+      input_price_per_m: typeof p.input_price_per_m === 'number' ? p.input_price_per_m : 0,
+      output_price_per_m: typeof p.output_price_per_m === 'number' ? p.output_price_per_m : 0,
+      currency: typeof p.currency === 'string' ? p.currency : 'CNY',
+    }))
+  if (!imported.length) {
+    window.alert('导入失败：providers 条目缺少 id/label 字段')
+    return
+  }
+  const ok = await openConfirm({
+    title: `导入 ${imported.length} 个供应商配置？`,
+    message: '与本地同 ID 的配置将被覆盖（用量计数保留服务端较大值，空 API Key 不覆盖已存 Key）。导入后需点击「保存配置」生效。',
+    confirmText: '导入',
+  })
+  if (!ok) return
+  const ids = new Set(imported.map(p => p.id))
+  settings.value.providers = [
+    ...settings.value.providers.filter(p => !ids.has(p.id)),
+    ...imported,
+  ]
+}
+
 // ===== 数据加载 =====
 async function loadData() {
   loading.value = true
@@ -191,12 +321,18 @@ function coreSettings() {
     enabled: settings.value.enabled,
     max_tokens: settings.value.max_tokens,
     tokens_limit: settings.value.tokens_limit,
-    providers: (settings.value.providers || []).map(p => ({
-      id: p.id, label: p.label, api_key: p.api_key, api_base: p.api_base, model: p.model,
-      is_active: !!p.is_active, billing_enabled: !!p.billing_enabled,
-      input_price_per_m: p.input_price_per_m ?? 0, output_price_per_m: p.output_price_per_m ?? 0,
-      currency: p.currency ?? 'CNY',
-    })),
+    providers: (settings.value.providers || []).map(p => {
+      const core: Record<string, unknown> = {
+        id: p.id, label: p.label, api_key: p.api_key, api_base: p.api_base, model: p.model,
+        is_active: !!p.is_active, billing_enabled: !!p.billing_enabled,
+        input_price_per_m: p.input_price_per_m ?? 0, output_price_per_m: p.output_price_per_m ?? 0,
+        currency: p.currency ?? 'CNY',
+      }
+      // 空值省略：避免 [] / {} 与缺失字段往返 JSON.stringify 比对不一致导致误报「未保存」
+      if (p.models && p.models.length) core.models = p.models
+      if (p.model_map && Object.keys(p.model_map).length) core.model_map = p.model_map
+      return core
+    }),
   }
 }
 function markSaved() { savedSnapshot.value = JSON.stringify(coreSettings()) }
@@ -330,6 +466,7 @@ const usagePercent = computed(() => {
 })
 const maxDailyTokens = computed(() => Math.max(...(usage.value?.daily_usage || []).map(x => x.tokens || 0), 1))
 const maxDailyCount = computed(() => Math.max(...(usage.value?.daily_usage || []).map(x => x.count || 0), 1))
+const maxDailyCost = computed(() => Math.max(...(usage.value?.daily_usage || []).map(x => x.cost || 0), 0.000001))
 
 const filteredLogs = computed(() => {
   if (!usage.value?.recent_logs) return []
@@ -451,6 +588,12 @@ onMounted(loadData)
               </optgroup>
             </select>
           </div>
+          <div class="io-row">
+            <button class="mini-btn" @click="exportProviders">⬆ 导出配置</button>
+            <button class="mini-btn" @click="fileInput?.click()">⬇ 导入配置</button>
+            <input ref="fileInput" type="file" accept="application/json,.json" class="io-file" @change="onImportFile">
+            <span class="io-hint">JSON 迁移（含 API Key 明文，注意保管），导入后点「保存配置」生效</span>
+          </div>
         </div>
 
         <div v-if="!standardProviders.length" class="empty-state">
@@ -528,6 +671,31 @@ onMounted(loadData)
               <div class="pc-field">
                 <label>API 地址 <span class="label-optional">留空用官方默认</span></label>
                 <input v-model="p.api_base" class="form-input" placeholder="https://api.example.com/v1">
+              </div>
+            </div>
+            <div class="pc-models">
+              <div class="pc-field">
+                <label>可选模型 <span class="label-optional">逗号分隔，教师端在此范围内选择；留空仅用主模型</span></label>
+                <input :value="modelsText(p)" class="form-input" :list="'model-list-' + p.id" placeholder="gpt-4o, gpt-4o-mini" @change="onModelsChange(p, $event)">
+                <datalist :id="'map-list-' + p.id">
+                  <option v-for="m in mapModelOptions(p)" :key="m" :value="m"></option>
+                </datalist>
+              </div>
+              <div v-if="p.model_map" class="pc-map">
+                <div class="pc-map__head">
+                  <label>模型映射 <span class="label-optional">请求模型 → 上游模型（New API 式重定向）</span></label>
+                  <button class="mini-btn" @click="addMapRow(p)">＋ 添加映射</button>
+                </div>
+                <div v-for="(to, from) in p.model_map" :key="from" class="pc-map__row">
+                  <input :value="from" class="form-input" :list="'map-list-' + p.id" placeholder="请求模型名" @change="onMapFromChange(p, from, $event)">
+                  <span class="pc-map__arrow">→</span>
+                  <input :value="to" class="form-input" :list="'map-list-' + p.id" placeholder="上游模型名（留空则用请求名）" @change="onMapToChange(p, from, $event)">
+                  <button class="mini-btn mini-btn--danger" title="删除该映射" @click="removeMapKey(p, from)">✕</button>
+                </div>
+              </div>
+              <div v-else class="pc-map pc-map--empty">
+                <button class="mini-btn" @click="addMapRow(p)">＋ 添加模型映射</button>
+                <span class="io-hint">将请求模型重定向到该供应商的其他模型</span>
               </div>
             </div>
             <div v-if="p.billing_enabled" class="pc-billing">
@@ -685,6 +853,10 @@ onMounted(loadData)
                   <div class="trend-bar trend-bar--calls" :style="{ width: Math.max(Math.min((d.count || 0) / maxDailyCount * 100, 100), 1) + '%' }"></div>
                   <span class="trend-num">{{ d.count || 0 }} 次</span>
                 </div>
+                <div v-if="(d.cost || 0) > 0" class="trend-bar-row">
+                  <div class="trend-bar trend-bar--cost" :style="{ width: Math.max(Math.min((d.cost || 0) / maxDailyCost * 100, 100), 1) + '%' }"></div>
+                  <span class="trend-num trend-num--cost">{{ usageCurrency }}{{ (d.cost || 0).toFixed(2) }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -758,6 +930,18 @@ onMounted(loadData)
 .add-card { padding: 14px 20px; margin-bottom: 12px; }
 .add-card:hover { box-shadow: none; }
 .add-form { margin-bottom: 0; }
+.io-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--tint-2); flex-wrap: wrap; }
+.io-file { display: none; }
+.io-hint { font-size: 11px; color: var(--color-text-secondary); }
+
+/* ===== 模型多选 + 映射 ===== */
+.pc-models { padding-top: 10px; margin-top: 10px; border-top: 1px dashed var(--tint-2); display: flex; flex-direction: column; gap: 10px; }
+.pc-map { display: flex; flex-direction: column; gap: 6px; }
+.pc-map__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pc-map__head label { display: block; font-size: 11px; font-weight: 600; color: var(--color-text-secondary); }
+.pc-map__row { display: grid; grid-template-columns: 1fr auto 1fr auto; gap: 6px; align-items: center; }
+.pc-map__arrow { font-size: 12px; color: var(--color-text-secondary); }
+.pc-map--empty { display: flex; align-items: center; gap: 8px; }
 
 /* ===== 空态引导 ===== */
 .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 540px; margin: 0 auto; }
@@ -841,8 +1025,10 @@ onMounted(loadData)
 .trend-bar { height: 10px; border-radius: 4px; min-width: 3px; transition: width 0.4s; }
 .trend-bar--tokens { background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light)); }
 .trend-bar--calls { height: 7px; background: var(--md-gold, #d97706); opacity: 0.7; }
+.trend-bar--cost { height: 7px; background: linear-gradient(90deg, #10b981, #34d399); opacity: 0.85; }
 .trend-num { color: var(--color-text-secondary); white-space: nowrap; }
 .trend-num--tokens { color: var(--color-primary); font-weight: 600; }
+.trend-num--cost { color: var(--color-success-text); font-weight: 600; }
 
 /* ===== 对话记录 ===== */
 .logs-card { padding: 18px 20px; }

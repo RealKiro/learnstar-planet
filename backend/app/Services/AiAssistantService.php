@@ -44,8 +44,12 @@ class AiAssistantService
     /**
      * 教师对话：解析供应商 → 落会话 → 调 AI → 本地计费 → 回写用量。
      * 未启用/未配置等软失败返回提示文案（HTTP 200，与历史行为一致）。
+     *
+     * @param  string|null  $model  教师指定的模型（New API 式映射的请求侧）。
+     *                              必须在供应商模型白名单内（models 列表 / model_map 键 / 配置主模型），
+     *                              不在白名单时回退默认模型；命中 model_map 则重定向到上游模型。
      */
-    public function chat(User $teacher, string $message): string
+    public function chat(User $teacher, string $message, ?string $model = null): string
     {
         $settings = AiSetting::where('school_id', $teacher->school_id)->first();
         if (!$settings || !$settings->enabled) {
@@ -72,6 +76,16 @@ class AiAssistantService
             return '请先在 AI 中心配置并启用一个供应商';
         }
 
+        // 模型解析（New API 式）：默认主模型 → 白名单校验 → model_map 重定向
+        $defaultModel = $activeProvider['model'] ?: 'gpt-3.5-turbo';
+        $allowed = $this->allowedModelsFor($activeProvider);
+        $requested = (string) ($model ?: $defaultModel);
+        if (!in_array($requested, $allowed, true)) {
+            $requested = $defaultModel;
+        }
+        $modelMap = is_array($activeProvider['model_map'] ?? null) ? $activeProvider['model_map'] : [];
+        $upstreamModel = (string) ($modelMap[$requested] ?? $requested);
+
         $classId = $teacher->getSetting('active_class_id') ?: null;
 
         $conversation = AiConversation::create([
@@ -88,7 +102,7 @@ class AiAssistantService
             $result = $ai->chat(
                 provider: $activeProvider['id'],
                 apiKey: $activeProvider['api_key'],
-                model: $activeProvider['model'] ?: 'gpt-3.5-turbo',
+                model: $upstreamModel,
                 question: $message,
                 apiBase: $activeProvider['api_base'] ?? null,
                 maxTokens: $settings->max_tokens,
@@ -140,7 +154,7 @@ class AiAssistantService
     /**
      * 教师端 AI 用量（前端 AIPage 每次发送后刷新）。
      *
-     * @return array{configured: bool, provider: ?string, model: ?string, tokens_used: int, estimated_cost: float, currency: string}
+     * @return array{configured: bool, provider: ?string, model: ?string, models: array<int, string>, tokens_used: int, estimated_cost: float, currency: string}
      */
     public function usageFor(User $teacher): array
     {
@@ -170,10 +184,41 @@ class AiAssistantService
             'configured' => $settings !== null && $settings->enabled && $active !== null,
             'provider' => $active['id'] ?? ($settings->provider ?? null),
             'model' => $active['model'] ?? ($settings->model ?? null),
+            'models' => $active !== null ? $this->allowedModelsFor($active) : [],
             'tokens_used' => $settings ? (int) $settings->tokens_used : 0,
             'estimated_cost' => $estimatedCost,
             'currency' => $currency,
         ];
+    }
+
+    /**
+     * 供应商可选模型白名单：主模型 + models 多选列表 + model_map 请求侧键名。
+     *
+     * @param  array<string, mixed>  $provider
+     * @return array<int, string>
+     */
+    private function allowedModelsFor(array $provider): array
+    {
+        $models = [];
+        $default = (string) ($provider['model'] ?? '');
+        if ($default !== '') {
+            $models[] = $default;
+        }
+        foreach ((array) ($provider['models'] ?? []) as $m) {
+            if (is_string($m) && $m !== '') {
+                $models[] = $m;
+            }
+        }
+        $modelMap = $provider['model_map'] ?? null;
+        if (is_array($modelMap)) {
+            foreach (array_keys($modelMap) as $k) {
+                if (is_string($k) && $k !== '') {
+                    $models[] = $k;
+                }
+            }
+        }
+
+        return array_values(array_unique($models));
     }
 
     /**

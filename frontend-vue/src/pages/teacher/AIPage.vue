@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { apiGet, apiPost } from '@/utils/api'
 import { useAppMode } from '@/composables/useAppMode'
 import type { ApiResponse } from '@/types'
@@ -9,11 +9,18 @@ const { isClassroomMode, isTeacherMode } = useAppMode()
 
 interface ChatMessage { role: 'user' | 'assistant'; content: string }
 interface AICommand { label: string; prompt: string }
-interface Usage { configured: boolean; provider: string; model: string }
+// models：管理员在 AI 中心配置的可选模型白名单（New API 式，含映射请求名）
+interface Usage { configured: boolean; provider: string; model: string; models?: string[] }
 
 const loading = ref(true)
 const commands = ref<AICommand[]>([])
 const usage = ref<Usage | null>(null)
+const selectedModel = ref('')
+// 模型选择器选项：仅教师端且白名单多于 1 个时显示
+const selectableModels = computed<string[]>(() => {
+  const models = usage.value?.models || []
+  return isTeacherMode.value && models.length > 1 ? models : []
+})
 const messages = ref<ChatMessage[]>([])
 const input = ref('')
 const sending = ref(false)
@@ -32,6 +39,11 @@ async function loadConfig() {
     ])
     commands.value = cmdRes.data || []
     usage.value = usageRes.data || null
+    // 默认选中主模型；若当前选择不在白名单则重置
+    const models = usage.value?.models || []
+    if (!selectedModel.value || !models.includes(selectedModel.value)) {
+      selectedModel.value = usage.value?.model || models[0] || ''
+    }
     loadError.value = ''
   } catch {
     loadError.value = 'AI 配置加载失败'
@@ -91,7 +103,10 @@ async function send(prompt?: string) {
 
   // 教师端
   try {
-    const res = await apiPost<ApiResponse<{ reply: string }>>('/api/v1/teacher/ai/chat', { message: content })
+    const res = await apiPost<ApiResponse<{ reply: string }>>('/api/v1/teacher/ai/chat', {
+      message: content,
+      model: selectedModel.value || undefined,
+    })
     const reply = (res as unknown as { data: { reply: string } }).data?.reply ?? '暂无回复'
     messages.value.push({ role: 'assistant', content: reply })
     // 检查配置状态
@@ -174,6 +189,10 @@ function useCommand(cmd: AICommand) {
 
       <!-- 输入框 -->
       <div class="input-row">
+        <select v-if="selectableModels.length" v-model="selectedModel"
+          class="form-input model-select" title="选择本次对话使用的模型">
+          <option v-for="m in selectableModels" :key="m" :value="m">{{ m }}</option>
+        </select>
         <input v-model="input" class="form-input" placeholder="输入消息..."
           @keydown.enter="send()" :disabled="sending">
         <button class="btn btn-primary send-btn" :disabled="sending || !input.trim()" @click="send()">
@@ -249,6 +268,7 @@ function useCommand(cmd: AICommand) {
 .commands-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px 0; border-top: 1px solid var(--color-border); }
 .cmd-btn { font-size: 12px; }
 .input-row { display: flex; gap: 8px; padding-top: 8px; border-top: 1px solid var(--color-border); }
+.model-select { max-width: 200px; flex-shrink: 0; font-size: 12px; }
 .send-btn { width: auto; }
 
 /* ===== 加载 ===== */

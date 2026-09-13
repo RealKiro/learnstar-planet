@@ -1103,10 +1103,18 @@ class TeacherController extends Controller
 
     public function aiChat(Request $request): JsonResponse
     {
-        $request->validate(['message' => 'required|string|max:2000']);
+        $request->validate([
+            'message' => 'required|string|max:2000',
+            // 教师指定的模型（可选，须在供应商模型白名单内，否则回退默认）
+            'model' => 'nullable|string|max:100',
+        ]);
 
         $teacher = $request->user();
-        $reply = $this->aiAssistantService->chat($teacher, (string) $request->input('message'));
+        $reply = $this->aiAssistantService->chat(
+            $teacher,
+            (string) $request->input('message'),
+            $request->input('model'),
+        );
 
         return response()->json(['data' => ['reply' => $reply]]);
     }
