@@ -64,6 +64,7 @@ const router = createRouter({
         { path: 'classes', name: 'admin-classes', component: () => import('@/pages/admin/ClassesPage.vue') },
         { path: 'students', name: 'admin-students', component: () => import('@/pages/admin/StudentsPage.vue') },
         { path: 'score-rules', name: 'admin-score-rules', component: () => import('@/pages/admin/AdminScoreRulesPage.vue') },
+        { path: 'timetable', name: 'admin-timetable', component: () => import('@/pages/admin/AdminTimetableEditPage.vue') },
         { path: 'timetable-approvals', name: 'admin-timetable-approvals', component: () => import('@/pages/admin/TimetableApprovalsPage.vue') },
         { path: 'shop-items', name: 'admin-shop', component: () => import('@/pages/admin/AdminShopPage.vue') },
         { path: 'upgrade', name: 'admin-upgrade', component: () => import('@/pages/admin/GradeUpgradePage.vue') },

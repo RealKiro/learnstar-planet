@@ -91,6 +91,11 @@ Route::prefix('v1')->group(function () {
             Route::get('{classId}/display-code', [SchoolAdminController::class, 'getDisplayCode']);
             Route::post('{classId}/display-code/refresh', [SchoolAdminController::class, 'refreshDisplayCode']);
             Route::post('reset-display-codes', [SchoolAdminController::class, 'resetDisplayCodes']);
+            // 课表：管理员直接读取 / 编辑某班课表（即时生效，不走审核流）+ 任课设置
+            Route::get('{classId}/timetable', [TimetableController::class, 'adminShow']);
+            Route::match(['put', 'post'], '{classId}/timetable', [TimetableController::class, 'adminSave']);
+            Route::get('{classId}/teacher-assignments', [TimetableController::class, 'listAssignments']);
+            Route::match(['put', 'post'], '{classId}/teacher-assignments', [TimetableController::class, 'saveAssignments']);
         });
         Route::prefix('students')->group(function () {
             Route::get('/', [SchoolAdminController::class, 'listStudents']);
@@ -134,6 +139,10 @@ Route::prefix('v1')->group(function () {
             Route::post('{id}/approve', [TimetableController::class, 'approve']);
             Route::post('{id}/reject', [TimetableController::class, 'reject']);
         });
+        // 课表批量导入（CSV，dry_run 预览）与规则自动排课（单班计算 / 全校智能排课）
+        Route::post('timetable/import-csv', [TimetableController::class, 'adminImportCsv']);
+        Route::post('timetable/generate', [TimetableController::class, 'generate']);
+        Route::post('timetable/generate-school', [TimetableController::class, 'generateSchool']);
     });
 
     // ===== 3. 教师端 =====

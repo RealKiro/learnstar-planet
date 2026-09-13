@@ -181,6 +181,54 @@ export interface TimetableData {
   entries: TimetableEntry[]
 }
 
+// 管理员按班级读取课表（含班级名）
+export interface AdminTimetableData extends TimetableData {
+  class_name: string
+}
+
+// 任课表：班级 × 科目 → 教师
+export interface TimetableTeacherAssignment {
+  subject_name: string
+  teacher_name: string
+}
+
+// 排课规则（单科目）：每周节数 / 连堂 / 时段限定 / 每日上限 / 禁排节次
+export interface TimetableSubjectRule {
+  name: string
+  weekly: number
+  double: boolean
+  session: 'any' | 'am' | 'pm'
+  max_per_day: number
+  forbid_periods: number[]
+}
+
+export interface TimetableGenerateRules {
+  days: number[]
+  subjects: TimetableSubjectRule[]
+}
+
+export interface TimetableGenerateResult {
+  success: boolean
+  warnings: string[]
+  entries: TimetableEntry[]
+}
+
+export interface TimetableSchoolGenerateResult {
+  success: boolean
+  warnings: string[]
+  classes: Array<{ class_id: number; class_name: string; entry_count: number }>
+}
+
+// CSV 批量导入结果
+export interface TimetableImportSummary {
+  total_rows: number
+  classes: Array<{ grade: string; name: string; found: boolean; entry_count: number }>
+  period_count: number
+  errors: string[]
+  dry_run: boolean
+  imported: boolean
+}
+
 // 课表修改申请（教师提交 → 管理员审核）
 export interface TimetableChangeRequest {
   id: number

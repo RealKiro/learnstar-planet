@@ -440,6 +440,11 @@ GET /teacher/scores/history?student_id=1&page=1
 | `/admin/timetable/changes` | GET | 全校课表修改申请列表（可按 `?status=` 过滤） |
 | `/admin/timetable/changes/{id}/approve` | POST | 通过申请并应用课表（同班其余待审申请自动作废） |
 | `/admin/timetable/changes/{id}/reject` | POST | 驳回申请（`note` 为驳回原因） |
+| `/admin/classes/{classId}/timetable` | GET/POST | 管理员直接读取 / 保存某班课表（即时生效，不走审核；保存后该班待审申请自动作废） |
+| `/admin/classes/{classId}/teacher-assignments` | GET/POST | 任课设置读取 / 整体保存（班级 × 科目 → 教师） |
+| `/admin/timetable/import-csv` | POST | CSV 批量导入全校课表（`dry_run=true` 只预览；按班级整体覆盖） |
+| `/admin/timetable/generate` | POST | 单班规则自动排课（每周节数 / 连堂 / 每日上限 / 限上下午 / 禁排节次；只计算不落库） |
+| `/admin/timetable/generate-school` | POST | 全校智能排课（依据任课表，教师冲突硬约束；`commit=true` 落库） |
 | `/display/timetable` | GET | 大屏课表（只读，班级码 Token，返回今日星期 + 节次 + 排课） |
 | `/display/export-cses` | GET | 大屏免登录导出 CSES（教室机课表软件可直接拉取） |
 
