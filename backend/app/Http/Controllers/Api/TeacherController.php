@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Pet;
 use App\Models\Score;
-use App\Models\ScoreRule;
 use App\Models\Student;
 use App\Services\AiAssistantService;
 use App\Services\AttendanceService;
@@ -389,7 +388,7 @@ class TeacherController extends Controller
     {
         $teacher = $request->user();
         $classIds = $this->teacherClassIds($teacher);
-        $rule = ScoreRule::findOrFail($ruleId);
+        $rule = $this->scoreRuleService->findScopedForTeacher($teacher, $ruleId);
 
         $request->validate([
             'student_id' => 'required|integer',

@@ -150,15 +150,27 @@ class ScoreRuleService
     }
 
     /**
-     * 教师端更新规则。
-     *
-     * ⚠️ 行为保持原样：`orWhereNull('class_id')` 未限定 school_id，学校级规则跨校可见可改，
-     * 属历史行为，收口需另立批次（会影响多校场景）。
+     * 教师可见范围内的单条规则（本班班级规则 + 本校学校级规则）。
+     * 跨校/越权 ID 一律 404，与 listForTeacher 同一口径。
+     */
+    public function findScopedForTeacher(User $teacher, int $id): ScoreRule
+    {
+        $classIds = $this->scope->ids($teacher);
+
+        return ScoreRule::where(function ($q) use ($classIds, $teacher) {
+            $q->whereIn('class_id', $classIds)
+              ->orWhere(function ($q2) use ($teacher) {
+                  $q2->whereNull('class_id')->where('school_id', $teacher->school_id);
+              });
+        })->findOrFail($id);
+    }
+
+    /**
+     * 教师端更新规则（可见范围同 listForTeacher，跨校不可见不可改）。
      */
     public function updateForTeacher(User $teacher, int $id, array $attributes): ScoreRule
     {
-        $classIds = $this->scope->ids($teacher);
-        $rule = ScoreRule::whereIn('class_id', $classIds)->orWhereNull('class_id')->findOrFail($id);
+        $rule = $this->findScopedForTeacher($teacher, $id);
 
         $rule->update($attributes);
 
@@ -166,12 +178,11 @@ class ScoreRuleService
     }
 
     /**
-     * 教师端删除规则（可见范围同 updateForTeacher 的历史行为）。
+     * 教师端删除规则（可见范围同 listForTeacher，跨校不可见不可删）。
      */
     public function deleteForTeacher(User $teacher, int $id): void
     {
-        $classIds = $this->scope->ids($teacher);
-        $rule = ScoreRule::whereIn('class_id', $classIds)->orWhereNull('class_id')->findOrFail($id);
+        $rule = $this->findScopedForTeacher($teacher, $id);
         $rule->delete();
     }
 }
