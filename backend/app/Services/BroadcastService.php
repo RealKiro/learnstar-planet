@@ -86,21 +86,7 @@ class BroadcastService
                     'created_at' => $broadcast->created_at?->toIso8601String(),
                 ]);
             } catch (\Throwable $e) {
-                logger()->warning('Broadcast event publish failed for class ' . $classId . ': ' . $e->getMessage());
-            }
-
-            // 推送事件到班级大屏
-            try {
-                $this->displayEvents->publish($classId, 'broadcast', [
-                    'id' => $broadcast->id,
-                    'type' => $broadcast->type,
-                    'content' => $broadcast->content,
-                    'display_seconds' => $broadcast->display_seconds,
-                    'voice_enabled' => $broadcast->voice_enabled ?? false,
-                    'created_at' => $broadcast->created_at?->toIso8601String(),
-                ]);
-            } catch (\Throwable $e) {
-                Log::warning('Broadcast event publish failed: ' . $e->getMessage());
+                Log::warning('Broadcast event publish failed for class ' . $classId . ': ' . $e->getMessage());
             }
 
             $sent++;
