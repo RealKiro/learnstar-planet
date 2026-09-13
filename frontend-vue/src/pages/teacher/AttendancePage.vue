@@ -176,7 +176,7 @@ async function confirmAbsent() {
 
 <style scoped>
 .source-tag { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 500 }
-.source-tag.auto { background: #F3F4F6; color: #9CA3AF }
+.source-tag.auto { background: var(--c-gray-chip); color: var(--c-gray-400) }
 .source-tag.wechat_work { background: var(--c-blue-chip); color: var(--c-blue-deeper) }
 .source-tag.manual { background: var(--c-amber-chip); color: var(--c-amber-chip-text) }
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 1000 }

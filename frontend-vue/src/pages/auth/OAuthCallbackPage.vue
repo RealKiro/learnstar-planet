@@ -81,7 +81,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.oac-page { display:flex;align-items:center;justify-content:center;min-height:100vh;background:#F8FAFC; }
+.oac-page { display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--color-bg); }
 .oac-center { text-align:center; }
 .oac-emoji { font-size:48px;margin-bottom:16px; }
 .oac-title { font-size:20px;font-weight:600;margin-bottom:8px; }

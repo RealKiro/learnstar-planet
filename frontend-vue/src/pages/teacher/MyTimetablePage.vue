@@ -106,7 +106,7 @@ function subjectColor(name: string): string | null {
 .period-cell { vertical-align: middle; padding: 4px }
 .time-hint { font-size: 11px; color: var(--c-gray-apple) }
 .slot-cell { position: relative; min-height: 56px; height: 56px; background: var(--color-bg, #f7f7f9); border-radius: 8px; padding: 3px; vertical-align: top }
-.today-col { background: #eef4ff }
+.today-col { background: var(--c-blue-tint) }
 .slot-entry { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 48px; border: 1.5px solid var(--color-border); border-radius: 6px; font-size: 12px; line-height: 1.3; overflow: hidden; background: var(--color-bg-card, #fff) }
 .slot-subject { font-weight: 600 }
 .slot-week { font-size: 10px; color: var(--c-gray-apple) }

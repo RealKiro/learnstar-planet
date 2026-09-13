@@ -949,7 +949,7 @@ async function submitImport(dryRun: boolean) {
 .slot-cell--toggle { cursor: pointer; text-align: center; min-height: 44px; height: 44px }
 .slot-cell--toggle:hover { background: var(--color-border, #ececf1) }
 .slot-cell--blocked { background: var(--c-red-chip) }
-.slot-cell--blocked:hover { background: #fecaca }
+.slot-cell--blocked:hover { background: var(--c-red-hover) }
 .unavail-mark { font-size: 16px }
 .unavail-teacher-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px }
 .unavail-teacher-row .form-select { width: 180px }

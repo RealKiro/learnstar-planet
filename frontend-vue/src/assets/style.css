@@ -67,6 +67,8 @@
   --c-violet: #8b5cf6; --c-violet-deep: #6d28d9; --c-violet-chip: #ede9fe;
   --c-orange: #f97316;
   --c-gray-500: #6b7280; --c-slate-500: #64748b; --c-gray-apple: #86868b;
+  --c-gray-400: #9ca3af; --c-gray-chip: #f3f4f6;
+  --c-blue-tint: #eef4ff; --c-red-hover: #fecaca;
 }
 
 /* ===== 夜间暗色（原 MD3 暗色主题整体搬入） ===== */
@@ -106,6 +108,8 @@ html.dark {
   --c-violet: #a78bfa; --c-violet-deep: #c4b5fd; --c-violet-chip: rgba(139, 92, 246, 0.16);
   --c-orange: #fb923c;
   --c-gray-500: #9ca3af; --c-slate-500: #94a3b8; --c-gray-apple: #98989d;
+  --c-gray-400: #a1a1aa; --c-gray-chip: rgba(148, 163, 184, 0.16);
+  --c-blue-tint: rgba(59, 130, 246, 0.14); --c-red-hover: rgba(248, 113, 113, 0.25);
 }
 
 /* ===== 全局下拉选项适配 ===== */
@@ -320,8 +324,8 @@ a:hover { color: var(--md-primary-light); }
   font-family: inherit;
 }
 .form-select option {
-  color: #1E293B;
-  background: #FFFFFF;
+  color: var(--color-text);
+  background: var(--color-bg-card);
 }
 .form-select:focus {
   border-color: var(--md-primary);

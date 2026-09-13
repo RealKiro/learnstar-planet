@@ -285,8 +285,8 @@ function closeModal() {
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
 }
 .form-input option {
-  color: #1E293B;
-  background: #fff;
+  color: var(--color-text);
+  background: var(--color-bg-card);
 }
 /* 分配弹窗四列等宽对齐：年级/班级/角色/科目 */
 .assign-row { gap: 10px; }
