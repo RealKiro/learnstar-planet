@@ -227,16 +227,16 @@ async function doSubmit(force: boolean) {
 <template>
   <ModalGlass :visible="visible" @update:visible="emit('update:visible', $event)">
     <div class="modal-header">
-      <h2 style="font-size:18px;font-weight:700;color:var(--color-text);margin:0;">✨ 创建教师账号</h2>
-      <button :disabled="createLoading" @click="closeModal" style="background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1;">✕</button>
+      <h2 class="modal-title-18">✨ 创建教师账号</h2>
+      <button :disabled="createLoading" @click="closeModal" class="modal-x">✕</button>
     </div>
-    <div style="overflow-y:auto;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <div class="scroll-y">
+      <div class="grid-2-gap20">
         <div>
-          <div class="modal-section-title">📝 创建账号 <span style="font-size:10px;color:var(--color-text-secondary);">必填</span></div>
+          <div class="modal-section-title">📝 创建账号 <span class="tag-10-muted">必填</span></div>
           <div class="flex-row">
             <div class="flex-1 form-group">
-              <label>姓名 <span style="color:var(--color-danger);">*</span></label>
+              <label>姓名 <span class="req-danger">*</span></label>
               <input v-model="createForm.name" placeholder="姓名" class="form-input" :style="{ borderColor: createErrors.name ? '#f87171' : '' }" @blur="validateField('name', createForm.name)" @input="clearError('name')" />
               <div v-if="createErrors.name" class="field-error">{{ createErrors.name }}</div>
             </div>
@@ -269,7 +269,7 @@ async function doSubmit(force: boolean) {
             <div class="flex-1 form-group"><label>手机号</label><input v-model="createForm.phone" placeholder="选填" class="form-input" /></div>
             <div class="flex-1 form-group"><label>邮箱</label><input v-model="createForm.email" placeholder="选填" class="form-input" /></div>
           </div>
-          <div style="display:none;"></div>
+          <div class="hidden"></div>
           <div class="form-group">
             <label>初始密码</label>
             <input v-model="createForm.password" placeholder="留空默认 ls123456" class="form-input" :style="{ borderColor: createErrors.password ? '#f87171' : '' }" @blur="validateField('password', createForm.password)" @input="clearError('password')" />
@@ -277,36 +277,36 @@ async function doSubmit(force: boolean) {
           </div>
         </div>
         <div>
-          <div class="modal-section-title">📚 加入班级 <span style="font-size:10px;color:var(--color-text-secondary);">可选</span></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-            <div class="form-group" style="margin-bottom:0;"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
-            <div class="form-group" style="margin-bottom:0;"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
-            <div class="form-group" style="margin-bottom:0;"><label>角色</label><select v-model="pendingRole" class="form-input"><option value="">选择角色（默认科任教师）</option><option value="head_teacher">主班主任</option><option value="co_teacher">副班主任</option></select></div>
-            <div class="form-group" style="margin-bottom:0;"><label>科目</label><select v-model="pendingSubject" class="form-input"><option value="">请选择科目</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
+          <div class="modal-section-title">📚 加入班级 <span class="tag-10-muted">可选</span></div>
+          <div class="grid-2-gap6">
+            <div class="form-group mb-0"><label>年级</label><select v-model="pendingGrade" class="form-input"><option value="">请选择</option><option v-for="g in grades" :key="g" :value="g">{{ g }}</option></select></div>
+            <div class="form-group mb-0"><label>班级</label><select v-model="pendingClassId" :disabled="!pendingGrade" class="form-input"><option :value="null">请选择</option><option v-for="c in gradeClasses" :key="c.id" :value="c.id">{{ shortClassName(c.name) }}</option></select></div>
+            <div class="form-group mb-0"><label>角色</label><select v-model="pendingRole" class="form-input"><option value="">选择角色（默认科任教师）</option><option value="head_teacher">主班主任</option><option value="co_teacher">副班主任</option></select></div>
+            <div class="form-group mb-0"><label>科目</label><select v-model="pendingSubject" class="form-input"><option value="">请选择科目</option><option v-for="s in subjects" :key="s" :value="s">{{ s }}</option></select></div>
           </div>
-          <div style="display:flex;justify-content:flex-end;margin-top:6px;">
-            <button @click="addClassAssignment" :disabled="!pendingClassId" style="padding:5px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500;">➕ 添加</button>
+          <div class="row-end-mt6">
+            <button @click="addClassAssignment" :disabled="!pendingClassId" class="btn-add-assign">➕ 添加</button>
           </div>
-          <div v-if="assignError" style="color:#f87171;font-size:11px;margin-top:4px;">{{ assignError }}</div>
-          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent);">💡 创建后可随时在列表中点击 🏫 按钮重新分配班级</div>
-          <div v-if="createAssignments.length > 0" style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
-            <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">📋 已添加（{{ createAssignments.length }}）</div>
-            <div v-for="(group, gi) in groupedAssignments" :key="gi" style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent);">
-              <span style="flex:1;color:var(--color-text);font-weight:500;">{{ group.class_name }}</span>
+          <div v-if="assignError" class="assign-error">{{ assignError }}</div>
+          <div class="assign-hint">💡 创建后可随时在列表中点击 🏫 按钮重新分配班级</div>
+          <div v-if="createAssignments.length > 0" class="assign-list">
+            <div class="assign-list-title">📋 已添加（{{ createAssignments.length }}）</div>
+            <div v-for="(group, gi) in groupedAssignments" :key="gi" class="assign-group">
+              <span class="assign-class-name">{{ group.class_name }}</span>
               <template v-for="(a, ai) in group.items" :key="ai">
-                <span v-if="a.role === 'subject_teacher'" style="font-size:11px;color:var(--color-text-secondary);">{{ a.subject }}</span>
-                <span v-else style="font-size:11px;font-weight:500;color:var(--color-accent);">{{ classRoleLabel[a.role] || a.role }} · {{ a.subject }}</span>
-                <span v-if="ai < group.items.length - 1" style="color:var(--color-border);font-size:10px;">|</span>
-                <button @click="removeClassAssignment(a.index)" style="background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0;">✕</button>
+                <span v-if="a.role === 'subject_teacher'" class="text-11-muted">{{ a.subject }}</span>
+                <span v-else class="text-11-accent">{{ classRoleLabel[a.role] || a.role }} · {{ a.subject }}</span>
+                <span v-if="ai < group.items.length - 1" class="text-10-border">|</span>
+                <button @click="removeClassAssignment(a.index)" class="assign-remove">✕</button>
               </template>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal-footer" style="padding:12px 20px;flex-shrink:0;margin-top:0;">
-      <button @click="closeModal" class="flex-1" style="padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);">取消</button>
-      <button @click="submitCreate" :disabled="createStatus === 'loading'" class="flex-1" style="padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:#fff;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(124,58,237,0.15);"
+    <div class="modal-footer modal-footer-compact">
+      <button @click="closeModal" class="flex-1 modal-btn-outline">取消</button>
+      <button @click="submitCreate" :disabled="createStatus === 'loading'" class="flex-1 modal-btn-primary"
         :style="{ background: createStatus === 'loading' ? '#f59e0b' : createStatus === 'success' ? '#10b981' : createStatus === 'error' ? '#ef4444' : '#7c3aed' }">
         <span v-if="createStatus === 'idle'">创建账号</span>
         <span v-else-if="createStatus === 'loading'">⏳ 创建中...</span>
@@ -350,4 +350,29 @@ async function doSubmit(force: boolean) {
 .flex-row { display:flex; gap:8px; }
 .flex-1 { flex:1; }
 .form-input option { color:#1E293B; background:#fff; }
+/* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
+.mb-0 { margin-bottom:0; }
+.tag-10-muted { font-size:10px;color:var(--color-text-secondary); }
+.modal-title-18 { font-size:18px;font-weight:700;color:var(--color-text);margin:0; }
+.modal-x { background:none;border:none;color:var(--color-text-secondary);font-size:20px;cursor:pointer;padding:4px;line-height:1; }
+.scroll-y { overflow-y:auto; }
+.grid-2-gap20 { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+.req-danger { color:var(--color-danger); }
+.hidden { display:none; }
+.grid-2-gap6 { display:grid;grid-template-columns:1fr 1fr;gap:6px; }
+.row-end-mt6 { display:flex;justify-content:flex-end;margin-top:6px; }
+.btn-add-assign { padding:5px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500; }
+.assign-error { color:#f87171;font-size:11px;margin-top:4px; }
+.assign-hint { font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent); }
+.assign-list { margin-top:8px;display:flex;flex-direction:column;gap:4px; }
+.assign-list-title { font-size:11px;color:var(--color-text-secondary);margin-bottom:2px; }
+.assign-group { display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent); }
+.assign-class-name { flex:1;color:var(--color-text);font-weight:500; }
+.text-11-muted { font-size:11px;color:var(--color-text-secondary); }
+.text-11-accent { font-size:11px;font-weight:500;color:var(--color-accent); }
+.text-10-border { color:var(--color-border);font-size:10px; }
+.assign-remove { background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0; }
+.modal-footer-compact { padding:12px 20px;flex-shrink:0;margin-top:0; }
+.modal-btn-outline { padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
+.modal-btn-primary { padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:#fff;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(124,58,237,0.15); }
 </style>
