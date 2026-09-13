@@ -1,6 +1,12 @@
 // 互动剧情注入脚本：把 interaction 写入 petLifeStories.ts 指定物种的六个阶段
 // 用法：node scripts/inject-interactions.mjs
 // 数据格式：{ speciesId: [卵生, 幼年, 成长, 成熟, 传说, 道果] }，注入到各阶段 mood 行之后
+//
+// ⚠️ 已退役（2026-09-13）：数据层已迁至 src/data/pets/<seriesId>.json，
+// petLifeStories.ts 只剩类型与查询函数，本脚本再运行会破坏 wrapper。
+// 后续互动剧情增改请直接编辑对应系列 JSON 的 stages[n].interaction 字段。
+console.error('已退役：数据已迁至 src/data/pets/*.json，请直接编辑 JSON 的 stages[n].interaction 字段。')
+process.exit(1)
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'

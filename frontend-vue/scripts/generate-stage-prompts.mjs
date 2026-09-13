@@ -24,6 +24,11 @@ for (const name of FILES) {
   }).outputText
   fs.writeFileSync(path.join(tmpDir, 'utils', `${name}.js`), js)
 }
+
+// 1b. 拷贝系列数据 JSON（TS wrapper 经 require('../data/pets/*.json') 引用）
+const jsonSrcDir = path.join(utilsDir, '..', 'data', 'pets')
+fs.mkdirSync(path.join(tmpDir, 'data', 'pets'), { recursive: true })
+for (const f of fs.readdirSync(jsonSrcDir)) fs.copyFileSync(path.join(jsonSrcDir, f), path.join(tmpDir, 'data', 'pets', f))
 const require2 = createRequire(path.join(tmpDir, 'utils', 'petData.js'))
 const { PET_SERIES } = require2('./petData.js')
 const { composeStageAiPrompt } = require2('./stageAiPrompt.js')
