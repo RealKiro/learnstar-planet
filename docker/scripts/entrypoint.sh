@@ -18,14 +18,59 @@ mkdir -p storage/app/public \
 
 # 内置 SQLite：确保数据库文件存在（DB_CONNECTION=sqlite 时使用）
 if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ]; then
+    # 数据卷若历史上被挂成目录（旧镜像未预建文件），SQLite 会彻底不可用 → 改名保留后重建文件
+    if [ -d storage/database.sqlite ]; then
+        SQLITE_BAK="storage/database.sqlite.bak.$(date +%Y%m%d%H%M%S)"
+        echo "⚠️  storage/database.sqlite 是目录（历史数据卷残留），已改名保留：${SQLITE_BAK}"
+        mv storage/database.sqlite "${SQLITE_BAK}"
+    fi
     touch storage/database.sqlite
     chmod 666 storage/database.sqlite
 fi
 
+# ============================================================
 # 从 Docker 环境变量创建 .env 文件
+# 🔴 值必须加引号：phpdotenv 遇到未加引号的值内空格会抛
+#    "Failed to parse dotenv file"，Laravel 随即以
+#    "The environment file is invalid!" 退出 → 连 db:monitor 都跑不起来，
+#    启动日志表现为「数据库未就绪」死循环 + 容器反复重启（真正的根因被掩盖）。
+#    典型触发值：BOT_NAME=API 机器人（含空格）。
+# ============================================================
+ENV_KEY_PATTERN='^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|BROADCAST_|MAIL_|FILESYSTEM_|AI_|WECHAT_|DINGTALK_|FEISHU_|QQ_|RENREN_|ADMIN_|BOT_|UPLOAD_|GITHUB_)'
+
+write_env_from_environment() {
+    : > .env
+    env | grep -E "${ENV_KEY_PATTERN}" | while IFS= read -r _env_line; do
+        _env_key=${_env_line%%=*}
+        _env_val=${_env_line#*=}
+        # 跳过非法变量名（多行值被 env 拆行后的残留等），否则会写出无法解析的 .env
+        case "${_env_key}" in
+            '' | *[!A-Za-z0-9_]*) continue ;;
+        esac
+        # 先转义 \ " $ `，再整体用双引号包裹：空格 / 中文 / 特殊字符均安全
+        _env_esc=$(printf '%s' "${_env_val}" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\$/\\$/g' -e 's/`/\\`/g')
+        printf '%s="%s"\n' "${_env_key}" "${_env_esc}"
+    done >> .env
+}
+
 if [ ! -f .env ]; then
     echo "📝 从环境变量创建 .env 文件..."
-    env | grep -E "^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|BROADCAST_|MAIL_|FILESYSTEM_|AI_|WECHAT_|QQ_|RENREN_|ADMIN_|BOT_|GITHUB_)" > .env
+    write_env_from_environment
+elif ! php artisan --version >/dev/null 2>&1; then
+    # .env 存在但无法解析（如旧版本写入的未加引号含空格值）→ 保留 APP_KEY 重建
+    echo "⚠️  检测到 .env 无法解析，正在重建（保留 APP_KEY）..."
+    OLD_APP_KEY=$(grep -E '^APP_KEY=' .env | head -n 1 || true)
+    write_env_from_environment
+    if [ -n "${OLD_APP_KEY}" ]; then
+        printf '%s\n' "${OLD_APP_KEY}" >> .env
+        echo "   已保留原有 APP_KEY"
+    fi
+fi
+
+# 环境文件自检：解析失败时打印真实错误，避免后续现象误导排查方向
+if ! php artisan --version >/dev/null 2>&1; then
+    echo "🔴 .env 仍然无法被 Laravel 解析，artisan 输出如下："
+    php artisan --version 2>&1 | head -n 5 | sed 's/^/   /' || true
 fi
 
 # 自动拼接端口到 APP_URL
@@ -53,6 +98,9 @@ until php artisan db:monitor 2>/dev/null || php artisan migrate:status 2>/dev/nu
     RETRY_COUNT=$((RETRY_COUNT + 1))
     if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
         echo "⚠️  数据库连接超时（${MAX_RETRIES}次重试），跳过迁移继续启动..."
+        # 打印真实错误：避免「未就绪」掩盖 .env 解析失败 / 驱动缺失 / 认证失败等根因
+        echo "   最后一次连接错误（末 5 行）："
+        php artisan db:monitor 2>&1 | tail -n 5 | sed 's/^/   /' || true
         break
     fi
     echo "  数据库未就绪，3秒后重试（${RETRY_COUNT}/${MAX_RETRIES}）..."
