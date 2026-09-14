@@ -38,6 +38,8 @@ services:
       - APP_DEBUG=${APP_DEBUG:-false}
       - APP_URL=${APP_URL:-http://localhost}
       - APP_PORT=${APP_PORT:-8080}
+      # 时区：默认东八区（考勤/今日积分/日报表的「今天」边界依赖它，留空即用默认值）
+      - APP_TIMEZONE=${APP_TIMEZONE:-Asia/Shanghai}
 
       # 数据库配置（默认内置 SQLite；外置 MySQL/PG 时按 .env 填 DB_HOST 等）
       - DB_CONNECTION=${DB_CONNECTION:-sqlite}

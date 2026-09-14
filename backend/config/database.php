@@ -10,6 +10,24 @@ declare(strict_types=1);
 
 use Illuminate\Support\Env;
 
+/*
+ * MySQL 连接属性的常量名兼容层
+ *
+ * PHP 8.4 起这些属性迁到 Pdo\Mysql::ATTR_*，旧的 PDO::MYSQL_ATTR_* 自 PHP 8.5 起弃用
+ * （PHP 9 将移除）。启动日志里成排出现的
+ *   "Deprecated: Constant PDO::MYSQL_ATTR_SSL_CA is deprecated since 8.5"
+ * 就是这里发出的。按运行时可用的常量名取值，新老 PHP 均无告警。
+ * 注意：未装 pdo_mysql 时两组常量都不存在，故取 null —— 使用处仍被
+ * extension_loaded('pdo_mysql') 保护，null 不会被写进 options。
+ */
+$mysqlSslCa = defined('Pdo\Mysql::ATTR_SSL_CA')
+    ? Pdo\Mysql::ATTR_SSL_CA
+    : (defined('PDO::MYSQL_ATTR_SSL_CA') ? PDO::MYSQL_ATTR_SSL_CA : null);
+
+$mysqlMultiStatements = defined('Pdo\Mysql::ATTR_MULTI_STATEMENTS')
+    ? Pdo\Mysql::ATTR_MULTI_STATEMENTS
+    : (defined('PDO::MYSQL_ATTR_MULTI_STATEMENTS') ? PDO::MYSQL_ATTR_MULTI_STATEMENTS : null);
+
 return [
     'default' => Env::get('DB_CONNECTION', 'mysql'),
 
@@ -30,11 +48,13 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
+            // ⚠️ array_filter 的默认行为会连 false 一起丢掉，必须显式只过滤空值，
+            //    否则 MULTI_STATEMENTS=false 这条加固会被静默吃掉（历史上就没生效过）。
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => Env::get('MYSQL_ATTR_SSL_CA'),
-                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-                PDO::MYSQL_ATTR_MULTI_STATEMENTS => false,
-            ]) : [],
+                $mysqlSslCa => Env::get('MYSQL_ATTR_SSL_CA'),
+                // 关掉叠加查询（防 SQL 注入串联多语句）；本项目无多语句用法（仅一条单句 UPDATE）
+                $mysqlMultiStatements => false,
+            ], static fn ($value) => $value !== null && $value !== '') : [],
         ],
 
         // MariaDB 配置（与 MySQL 共用驱动，端口可能不同）
@@ -54,8 +74,8 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => Env::get('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+                $mysqlSslCa => Env::get('MYSQL_ATTR_SSL_CA'),
+            ], static fn ($value) => $value !== null && $value !== '') : [],
         ],
 
         // PostgreSQL 配置

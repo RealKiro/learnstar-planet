@@ -167,7 +167,12 @@ if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
 echo "🧹 优化缓存..."
 php artisan config:cache 2>/dev/null || true
 php artisan route:cache 2>/dev/null || true
-php artisan view:cache 2>/dev/null || true
+# 视图缓存仅在存在 Blade 视图时执行：本项目前端是 Vue SPA，resources/views 不存在，
+# 无条件执行会报 "The /app/resources/views directory does not exist"，
+# 且该报错走 **stdout**（2>/dev/null 拦不住），会污染启动日志
+if [ -d resources/views ]; then
+    php artisan view:cache 2>/dev/null || true
+fi
 echo "✅ 缓存重建完成"
 
 echo "🎉 学宠星球初始化完成！"
