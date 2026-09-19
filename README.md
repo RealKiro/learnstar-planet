@@ -514,29 +514,56 @@ curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
 
 ## 🏗️ 技术架构
 
+> 更细的模块划分与接口设计见 [docs/系统架构与接口.md](docs/系统架构与接口.md)，接口清单见 [docs/api-reference.md](docs/api-reference.md)。
+
 ### 🧰 技术栈
 
 | 层级 | 技术 |
 |------|------|
-| 后端 | Laravel 12（PHP 8.5） |
-| 数据库 | SQLite / MySQL / MariaDB / PostgreSQL |
-| 缓存与队列 | Redis 8（可降级 file / database） |
-| 前端 | Vue 3 + TypeScript + Tailwind CSS |
+| 后端 | Laravel 12（PHP 8.5），生产环境以 **Laravel Octane + FrankenPHP** 常驻运行 |
+| 数据库 | SQLite（默认）/ MySQL / MariaDB / PostgreSQL，`.env` 一行切换 |
+| 缓存与队列 | Redis 8（可选外置；无 Redis 自动降级 file / database） |
+| 前端 | Vue 3 + TypeScript + Vite（单页应用，管理员端 / 教师端 / 教室端三端合一） |
 | 实时推送 | SSE 协议（后端实现，前端 EventSource 优先 / 轮询降级） |
 | 小程序 | 微信原生（教师端 / 教室端） |
 | 机器人 | MCP 协议 Python 服务器 |
-| 部署 | Docker 多阶段构建 + Compose 编排 / 裸 PHP 环境 |
+| 部署 | Docker（FrankenPHP Alpine 基镜像 + opcache）+ Compose 编排 / 裸 PHP 环境 |
+
+### 🏛️ 架构总览
+
+```
+浏览器 / 教室大屏 / 微信小程序
+        │  HTTP
+        ▼
+Docker 容器 learnstar-app
+  ├─ Laravel Octane (FrankenPHP) ──── 常驻 worker 处理 API 请求
+  │    ├─ REST API（29 模型 / 204 条路由 / 25 个 Service）
+  │    ├─ SSE 广播服务 ──── 积分变动实时推送教室大屏
+  │    └─ AI 网关 ──── 30+ 供应商统一驱动（用量/余额直查）
+  ├─ SQLite 数据卷 app-db（或外置 MySQL / PostgreSQL）
+  └─ 上传附件 / 日志数据卷
+        ▲
+        │ 班级码免登录（教室端）
+外部系统：REST API 机器人账号 · MCP 机器人 · 企业微信/钉钉/飞书 OAuth
+```
+
+几个关键设计：
+
+- **三端合一 SPA**：管理员端、教师端、教室端共用同一个 Vue 3 单页应用；教室端以班级码进入，学生无需账号
+- **常驻运行时**：生产镜像以 Octane + FrankenPHP 常驻内存处理请求（框架不再每请求重建），启动失败自动回退 `artisan serve`，普通机器也能跑
+- **渐进式数据层**：单机起步用 SQLite 零依赖，全校规模改 `.env` 切外置数据库，无锁死；Redis 可选，用于排行榜毫秒级排序与缓存
+- **开放接口**：REST API 机器人账号 + 标准 MCP 服务器 + 第三方平台登录，全部能力见 [🔌 集成与对接](#-集成与对接)
 
 ### 📂 目录结构
 
 ```
 learnstar-planet/
 ├── frontend-vue/          # Vue 3 SPA（管理员端 / 教师端 / 教室端）
-├── backend/               # Laravel 12 API（23 模型，31 张表，约 184 条路由）
+├── backend/               # Laravel 12 API（29 模型，约 204 条路由）
 ├── mini-program/          # 微信小程序（10 页面，教师端）
 ├── pwa/                   # PWA 离线配置
 ├── mcp-server/            # MCP 机器人服务
-├── docker/                # Docker 构建文件（Dockerfile / Dockerfile.dev / entrypoint.sh）
+├── docker/                # Docker 构建文件（Dockerfile / Dockerfile.dev / scripts/entrypoint.sh）
 └── docker-compose.yml     # Docker 编排（默认仅 app 单容器，留在根目录：.env 按约定与 compose 同目录解析）
 ```
 
