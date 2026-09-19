@@ -465,6 +465,17 @@ onMounted(async () => {
       students.value = names.map((name, i) => ({
         id: i + 1, name, total_score: Math.floor(Math.random() * 400) + 20, class_id: 1, status: 'active' as const,
       }))
+      // 统计 chip 同步给演示值：否则横幅说「已显示演示数据」而顶部全 0，页面自相矛盾
+      scoreSummary.value = {
+        total: students.value.reduce((s, x) => s + x.total_score, 0),
+        today: Math.floor(Math.random() * 30) + 5,
+        this_week: Math.floor(Math.random() * 120) + 40,
+      }
+      rules.value = [
+        { id: -1, name: '课堂发言', amount: 2, category: 'behavior', is_positive: true, is_active: true },
+        { id: -2, name: '作业完成', amount: 3, category: 'study', is_positive: true, is_active: true },
+        { id: -3, name: '作业未交', amount: -1, category: 'study', is_positive: false, is_active: true },
+      ]
     } finally {
       loading.value = false
     }

@@ -115,7 +115,7 @@ onMounted(loadLeaderboard)
         <span class="page-subtitle">同年级大比拼</span>
       </div>
         <button class="page-link-btn" @click="goToLeaderboard">📊 查看个人排名</button>
-      <div class="rank-badge">
+      <div v-if="overview.rank > 0" class="rank-badge">
         {{ rankBadge }} 当前排名: #{{ overview.rank }}
       </div>
     </div>
@@ -210,7 +210,12 @@ onMounted(loadLeaderboard)
 
         <div class="pk-detail-card">
           <h4>⚔️ 挑战建议</h4>
-          <div v-if="gapToFirst > 0" class="suggestion">
+          <div v-if="overview.rank === 0" class="suggestion">
+            📊 暂无本班排名数据
+            <br />
+            <span class="suggestion-hint">学生获得积分后即可参与年级比拼</span>
+          </div>
+          <div v-else-if="gapToFirst > 0" class="suggestion">
             💪 距离第1名还差
             <strong class="gap-score">{{ gapToFirst.toLocaleString() }}</strong> 分！
             <br />

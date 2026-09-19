@@ -106,11 +106,11 @@ async function confirmAbsent() {
       </button>
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card stat-card--accent"><span class="stat-card__icon">到</span><div class="stat-card__value">{{ summary.present }}</div><div class="stat-card__label">到课</div></div>
-      <div class="stat-card stat-card--secondary"><span class="stat-card__icon">迟</span><div class="stat-card__value">{{ summary.late }}</div><div class="stat-card__label">迟到</div></div>
-      <div class="stat-card stat-card--info"><span class="stat-card__icon">假</span><div class="stat-card__value">{{ summary.leave }}</div><div class="stat-card__label">请假 <span class="hint-gray-11">(企微{{ summary.wechat_leave_count }})</span></div></div>
-      <div class="stat-card stat-card-danger"><span class="stat-card__icon">缺</span><div class="stat-card__value">{{ summary.absent }}</div><div class="stat-card__label">缺勤</div></div>
+    <div v-if="!loadError && !loading" class="stats-grid">
+      <div class="stat-card stat-card--accent"><span class="stat-card__icon">✅</span><div class="stat-card__value">{{ summary.present }}</div><div class="stat-card__label">到课</div></div>
+      <div class="stat-card stat-card--secondary"><span class="stat-card__icon">⏰</span><div class="stat-card__value">{{ summary.late }}</div><div class="stat-card__label">迟到</div></div>
+      <div class="stat-card stat-card--info"><span class="stat-card__icon">📝</span><div class="stat-card__value">{{ summary.leave }}</div><div class="stat-card__label">请假 <span class="hint-gray-11">(企微{{ summary.wechat_leave_count }})</span></div></div>
+      <div class="stat-card stat-card-danger"><span class="stat-card__icon">❌</span><div class="stat-card__value">{{ summary.absent }}</div><div class="stat-card__label">缺勤</div></div>
     </div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
@@ -128,11 +128,11 @@ async function confirmAbsent() {
       </div>
 
       <div class="data-table">
-        <div class="data-table__header"><h3 class="table-title">今日考勤</h3><span class="text-muted-13">出勤率 {{ summary.rate }}%</span></div>
+        <div class="data-table__header"><h3 class="table-title">今日考勤</h3><span class="text-muted-13">出勤率 {{ records.length ? summary.rate + '%' : '—' }}</span></div>
         <table>
           <thead><tr><th>姓名</th><th>学号</th><th>状态</th><th>来源</th><th>备注</th><th>签到</th><th>操作</th></tr></thead>
           <tbody>
-            <tr v-if="records.length === 0"><td colspan="7" class="empty-state"><div class="empty-emoji">考勤</div>点击开始点名创建考勤记录</td></tr>
+            <tr v-if="records.length === 0"><td colspan="7" class="empty-state"><div class="empty-emoji">📋</div>点击开始点名创建考勤记录</td></tr>
             <tr v-for="r in records" :key="r.student_id">
               <td class="fw-600">{{ r.student_name }}</td>
               <td class="cell-secondary">{{ r.student_no || '-' }}</td>
