@@ -387,7 +387,8 @@ async function uploadLogo(e: Event) {
 .info-block { flex:1; min-width:200px; padding:12px 16px; background:var(--color-bg); border-radius:10px; }
 .info-label { font-size:12px; color:var(--color-text-secondary); margin-bottom:4px; }
 .mono { font-family:monospace; font-weight:600; }
-.badge-active { display:inline-block; padding:3px 12px; border-radius:20px; font-size:12px; font-weight:600; background:rgba(16,185,129,0.1); color: var(--c-green); }
+/* 实心绿字在绿底上仅 2.45:1，改用深绿 chip 文字色：日 7.0:1 / 夜 跟随翻转 */
+.badge-active { display:inline-block; padding:3px 12px; border-radius:20px; font-size:12px; font-weight:600; background:rgba(16,185,129,0.1); color: var(--c-green-chip-text); }
 .form-group { margin-bottom:14px; }
 .form-group label { display:block; font-size:12px; font-weight:600; color:var(--color-text); margin-bottom:4px; }
 .form-input { color:var(--color-text); width:100%; padding:8px 12px; border:1px solid var(--color-border); border-radius:8px; font-size:13px; outline:none; transition:border-color 0.15s; box-sizing:border-box; background:var(--color-bg-card); }

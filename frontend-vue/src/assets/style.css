@@ -16,7 +16,7 @@
   --md-secondary: #ec4899;
   --md-gold: #d97706;
   --md-text: #1D1D1F;
-  --md-text-secondary: rgba(29, 29, 31, 0.6);
+  --md-text-secondary: rgba(29, 29, 31, 0.62);
   --md-elevation: 0 8px 30px rgba(0, 0, 0, 0.12);
   --md-radius: 12px;
   --md-sidebar-width: 232px;
@@ -43,11 +43,12 @@
   --color-modal-bg: rgba(255, 255, 255, 0.96);
   --color-modal-border: rgba(0, 0, 0, 0.06);
 
-  /* 语义文字色（随主题翻转） */
-  --color-danger-text: #dc2626;
-  --color-success-text: #16a34a;
-  --color-warning-text: #d97706;
-  --color-info-text: #2563EB;
+  /* 语义文字色（随主题翻转）——值须自证可读：白底对比度标在行尾，
+     低于 4.5:1 的「文字色」等于没有语义，只会在浅底上失读。 */
+  --color-danger-text: #dc2626;   /* 4.83:1 */
+  --color-success-text: #15803d;  /* 5.02:1（原 #16a34a 仅 3.30:1） */
+  --color-warning-text: #b45309;  /* 5.02:1（原 #d97706 仅 3.19:1） */
+  --color-info-text: #2563EB;     /* 5.17:1 */
 
   /* 表面/边框覆盖色（半透明白 → 日间为半透明黑） */
   --tint-1: rgba(0, 0, 0, 0.03);
@@ -64,9 +65,12 @@
   --ui-bg-subtle: #FAFAF9;
   --ui-card: #FFFFFF;
   --ui-muted: #F4F4F2;
-  /* 文字三级 */
+  /* 文字三级
+     muted  = 承载信息的次要文字（指标名/分组标题/说明），必须过 WCAG AA 4.5:1；
+     subtle = 装饰性专用（图标、占位符、分隔符），禁止用于任何要读的文字
+              —— #A5A29C 在白底只有 2.55:1，在 #FAFAF9 上 2.44:1。 */
   --ui-fg: #0E0D0C;
-  --ui-fg-muted: #75716B;
+  --ui-fg-muted: #6E6A64;
   --ui-fg-subtle: #A5A29C;
   /* 描边两级（层级靠它，不靠投影） */
   --ui-border: #E6E4E1;
@@ -103,7 +107,9 @@
   /* 紫/橙/中性灰（#7c3aed 直接复用 --color-primary） */
   --c-violet: #8b5cf6; --c-violet-deep: #6d28d9; --c-violet-chip: #ede9fe;
   --c-orange: #f97316;
-  --c-gray-500: #6b7280; --c-slate-500: #64748b; --c-gray-apple: #86868b;
+  /* 灰阶：apple 档是「正文级次要灰」，取 Apple 自家 secondary label #6E6E73 ——
+     原 #86868b 白底仅 3.62:1，被课表/考勤多处当正文用，一律不达 AA。 */
+  --c-gray-500: #6b7280; --c-slate-500: #64748b; --c-gray-apple: #6E6E73;
   --c-gray-400: #9ca3af; --c-gray-chip: #f3f4f6;
   --c-blue-tint: #eef4ff; --c-red-hover: #fecaca;
 }
@@ -325,7 +331,8 @@ a:hover { color: var(--md-primary-light); }
 
 /* ===== 表单字段校验错误（跨页统一，与 .error-banner 配套） ===== */
 .field-error { color: var(--c-red-soft); font-size: 11px; margin-top: 2px; }
-.req-star { color: var(--c-red-soft); }
+/* 必填星号是文字，走 --color-danger-text（--c-red-soft 白底仅 2.77:1） */
+.req-star { color: var(--color-danger-text); }
 
 /* ===== 图标关闭按钮（跨页统一） ===== */
 .icon-close { background: none; border: none; color: var(--ui-fg-muted); font-size: 20px; cursor: pointer; padding: 0; line-height: 1; }
@@ -356,7 +363,8 @@ a:hover { color: var(--md-primary-light); }
   background: rgba(239,68,68,0.08);
   border: 1px solid rgba(239,68,68,0.2);
   border-radius: var(--ui-r-md);
-  color: var(--color-danger-text);
+  /* 自身带红底，故用比 --color-danger-text 深一级的红（后者在红底上只有 4.35:1） */
+  color: var(--c-red-deeper);
   font-size: 12px;
 }
 /* 独立成块（不在弹窗动作行里）：补下方间距，避免贴住下一块内容 */

@@ -326,7 +326,8 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
 .item-title { font-weight:600; font-size:16px; margin-bottom:4px; }
 .item-desc { font-size:12px; color:var(--color-text-secondary); margin-bottom:8px; }
 .stock-pill { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; font-size:12px; margin-bottom:8px; background:var(--ui-brand-soft); color:var(--color-primary); }
-.price { color:var(--color-secondary); font-weight:700; font-size:16px; }
+/* 琥珀底色在白底仅 2.15:1（原 --color-secondary），改用深琥珀：日 5.0:1 / 夜 10.5:1 */
+.price { color:var(--c-amber-deeper); font-weight:700; font-size:16px; }
 .item-cta { margin-top:12px; width:100%; }
 .modal-mask { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:200; }
 .modal-panel { width:420px; max-width:90vw; max-height:80vh; overflow-y:auto; }

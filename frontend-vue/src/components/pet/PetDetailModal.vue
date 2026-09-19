@@ -70,7 +70,7 @@ const evoStages = computed(() => {
 
 // 当前阶段背景（日/夜系列渐变）
 const sceneBg = computed(() => {
-  const primary = scene.value?.primaryColor || '#6366F1'
+  const primary = scene.value?.primaryColor || '#7C3AED'
   if (themeStore.isDark) return scene.value?.bgGradient || `linear-gradient(180deg, ${primary}, #0d1b2a)`
   return `linear-gradient(180deg, ${primary}2e, var(--color-bg-card))`
 })
@@ -366,7 +366,7 @@ const STAGE_LABEL = computed(() => getStageLabelMap(series.value?.id))
   font-size: 10px;
   font-weight: 600;
   color: var(--color-primary);
-  background: rgba(79, 70, 229, 0.08);
+  background: rgba(124, 58, 237, 0.08);
   padding: 2px 10px;
   border-radius: 12px;
 }
@@ -432,7 +432,7 @@ const STAGE_LABEL = computed(() => getStageLabelMap(series.value?.id))
   border: 1px solid var(--tint-2);
   color: var(--color-text);
 }
-.pill--ability { color: var(--color-primary); border-color: rgba(79, 70, 229, 0.2); }
+.pill--ability { color: var(--color-primary); border-color: rgba(124, 58, 237, 0.2); }
 
 .progress-block {
   background: var(--tint-1);

@@ -15,13 +15,14 @@ export function escapeHtml(text: string): string {
 }
 
 export function avatarGradient(name: string): string {
+  // 白字头像：所有 stop 须保证与 #FFF 对比 ≥4.5（AA），故统一用 700→800 深色阶
   const gradients = [
-    'linear-gradient(135deg,#6366F1,#818CF8)',
-    'linear-gradient(135deg,#8B5CF6,#A78BFA)',
-    'linear-gradient(135deg,#EC4899,#F472B6)',
-    'linear-gradient(135deg,#F59E0B,#FCD34D)',
-    'linear-gradient(135deg,#10B981,#6EE7B7)',
-    'linear-gradient(135deg,#3B82F6,#60A5FA)',
+    'linear-gradient(135deg,#0F766E,#115E59)',
+    'linear-gradient(135deg,#6D28D9,#5B21B6)',
+    'linear-gradient(135deg,#BE185D,#9D174D)',
+    'linear-gradient(135deg,#B45309,#92400E)',
+    'linear-gradient(135deg,#047857,#065F46)',
+    'linear-gradient(135deg,#1D4ED8,#1E40AF)',
   ]
   let hash = 0
   for (let i = 0; i < (name || '').length; i++) {

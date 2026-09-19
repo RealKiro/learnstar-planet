@@ -130,7 +130,7 @@ function navigate(name: string) {
 .brand-role {
   font-size: 11px;
   font-weight: 500;
-  color: var(--ui-fg-subtle);
+  color: var(--ui-fg-muted);
   flex-shrink: 0;
 }
 
@@ -173,7 +173,9 @@ function navigate(name: string) {
   border-radius: var(--ui-r-md);
   border: 1px solid transparent;
   background: var(--c-red-bg);
-  color: var(--color-danger-text);
+  /* 红底上的红字：--color-danger-text(#dc2626) 在 --c-red-bg 上只有 4.41:1，
+     必须降一级到 --c-red-deeper（白底 6.47 / 红底 5.91），暗色主题自动翻转为浅红。 */
+  color: var(--c-red-deeper);
   font-size: 13.5px;
   font-weight: 500;
   cursor: pointer;
@@ -194,12 +196,12 @@ function navigate(name: string) {
   flex: 1;
 }
 
-/* 分组标题（小节标签） */
+/* 分组标题（小节标签）—— 11px 小字，走 muted 而非 subtle（后者白底仅 2.44:1） */
 .nav-section {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--ui-fg-subtle);
+  color: var(--ui-fg-muted);
   padding: 14px 8px 5px;
   user-select: none;
 }

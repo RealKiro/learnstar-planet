@@ -351,7 +351,7 @@ async function doExchange() {
   border: 1px solid var(--color-border);
   position: relative;
 }
-.student-row--selected { border-color: var(--color-primary); background: rgba(79,70,229,0.04); }
+.student-row--selected { border-color: var(--color-primary); background: rgba(124,58,237,0.04); }
 .pet-icon { width: 44px; height: 44px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .pet-icon--egg { font-size: 24px; }
 .student-info { flex: 1; min-width: 0; }
@@ -391,7 +391,7 @@ async function doExchange() {
 .target-btn--active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
 .rate-note {
   padding: 12px;
-  background: rgba(79,70,229,0.05);
+  background: rgba(124,58,237,0.05);
   border-radius: var(--radius-md);
   margin-bottom: 16px;
   font-size: 13px;

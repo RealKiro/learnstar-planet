@@ -718,7 +718,7 @@ async function submitAssignTeacher() {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--ui-brand-soft), rgba(99,102,241,0.06));
+  background: linear-gradient(135deg, var(--ui-brand-soft), rgba(124,58,237,0.06));
   display: flex;
   align-items: center;
   justify-content: center;

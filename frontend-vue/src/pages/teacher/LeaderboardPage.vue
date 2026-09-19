@@ -426,7 +426,7 @@ onMounted(() => {
   transition: background 0.2s ease;
 }
 .rank-item:hover {
-  background: rgba(79,70,229,0.03);
+  background: rgba(124,58,237,0.03);
 }
 .rank-item + .rank-item {
   border-top: 1px solid var(--color-border);
@@ -487,8 +487,9 @@ onMounted(() => {
   width: 40px;
   text-align: right;
 }
-.up { color: var(--c-green); }
-.down { color: var(--c-red); }
+/* 涨跌标记是 11px 小字：原 --c-green 2.31:1 / --c-red 3.76:1 均不达 AA */
+.up { color: var(--c-green-chip-text); }
+.down { color: var(--color-danger-text); }
 
 /* 进步奖 */
 .progress-award {

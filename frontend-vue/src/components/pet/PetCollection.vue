@@ -100,7 +100,7 @@ function speciesLevel(speciesId: string): number {
 }
 
 function seriesColor(seriesId: string): string {
-  return SERIES_SCENES[seriesId]?.primaryColor || '#6366F1'
+  return SERIES_SCENES[seriesId]?.primaryColor || '#7C3AED'
 }
 
 async function load() {
@@ -281,7 +281,7 @@ watch(() => props.visible, load)
 .close-btn:hover { background: var(--tint-4); color: var(--color-text); }
 .collection-tip {
   font-size: 12px; color: var(--color-text-secondary);
-  background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.15);
+  background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.15);
   border-radius: 10px; padding: 8px 12px; margin-bottom: 8px;
 }
 .collection-message {

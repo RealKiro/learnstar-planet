@@ -404,7 +404,7 @@ onUnmounted(() => {
 .stat-label {
   display: block;
   font-size: 11px;
-  color: var(--ui-fg-subtle);
+  color: var(--ui-fg-muted);
   margin-bottom: 3px;
 }
 .stat-val {
@@ -412,8 +412,8 @@ onUnmounted(() => {
   font-weight: 700;
   color: var(--ui-fg);
 }
-.stat-val.peak { color: var(--c-violet); }
-.stat-val.weekly { color: var(--c-green-deep); }
+.stat-val.peak { color: var(--c-violet-deep); }
+.stat-val.weekly { color: var(--color-success-text); }
 
 /* 班级之星：名次色只落在边框上，不用渐变与光晕 */
 .star-card {
@@ -615,7 +615,7 @@ onUnmounted(() => {
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 .top4-card:hover { border-color: var(--ui-border-strong); background: var(--ui-bg-subtle); }
-.top4-rank { font-size: 20px; font-weight: 700; color: var(--ui-fg-subtle); min-width: 26px; }
+.top4-rank { font-size: 20px; font-weight: 700; color: var(--ui-fg-muted); min-width: 26px; }
 .top4-avatar {
   width: 52px;
   height: 52px;

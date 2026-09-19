@@ -176,7 +176,7 @@ async function executeUpgrade() {
 .gup-row-8 { display:flex;gap:8px; }
 .gup-btn-plain { background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border); }
 .gup-btn-solid { transition:all 0.3s ease;border:none;color:#fff; }
-.gup-info-card { padding:20px 24px;margin-bottom:24px;background:rgba(79,70,229,0.04);border:1px solid rgba(79,70,229,0.15); }
+.gup-info-card { padding:20px 24px;margin-bottom:24px;background:rgba(124,58,237,0.04);border:1px solid rgba(124,58,237,0.15); }
 .gup-info-row { display:flex;align-items:flex-start;gap:12px; }
 .gup-emoji-24 { font-size:24px; }
 .gup-info-title { font-weight:600;margin-bottom:4px; }
@@ -186,5 +186,5 @@ async function executeUpgrade() {
 .gup-warn-text { font-size:13px;color: var(--c-amber-deeper); }
 .gup-pill-gray { display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;background:rgba(107,114,128,0.1);color:var(--color-text-secondary); }
 .gup-secondary { color:var(--color-text-secondary); }
-.gup-pill-primary { display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(79,70,229,0.08);color:var(--color-primary); }
+.gup-pill-primary { display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(124,58,237,0.08);color:var(--color-primary); }
 </style>

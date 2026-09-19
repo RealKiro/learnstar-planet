@@ -208,7 +208,7 @@ function onTabChange(tab: typeof activeTab.value) {
 .btn-primary { background: #7c3aed; color: white; border-color: #7c3aed; }
 .btn-primary:hover { background: #6d28d9; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-danger { background: var(--color-bg-card); color: var(--c-red); border: 1px solid rgba(239,68,68,0.2); }
+.btn-danger { background: var(--color-bg-card); color: var(--color-danger-text); border: 1px solid rgba(239,68,68,0.2); }
 .btn-danger:hover { background: rgba(239,68,68,0.15); }
 .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-outline { background: var(--color-bg-card); color: var(--color-text); border: 1px solid var(--color-border); }

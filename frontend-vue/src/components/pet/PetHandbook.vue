@@ -35,7 +35,7 @@ const previewLevelName = computed(() =>
 
 // 预览场景背景：夜间保留系列深色渐变，日间用系列主色淡染成浅色背景
 const sceneBg = computed(() => {
-  const primary = scene.value?.primaryColor || '#6366F1'
+  const primary = scene.value?.primaryColor || '#7C3AED'
   if (themeStore.isDark) return scene.value?.bgGradient || `linear-gradient(180deg, ${primary}, #0d1b2a)`
   return `linear-gradient(180deg, ${primary}2e, var(--color-bg-card))`
 })

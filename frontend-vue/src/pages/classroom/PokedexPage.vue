@@ -367,7 +367,7 @@ onUnmounted(() => clearInterval(timer))
   border-radius: 12px;
   margin-bottom: 10px;
 }
-.life-char { background: rgba(79,70,229,0.06); border-left: 3px solid var(--color-primary); }
+.life-char { background: rgba(124,58,237,0.06); border-left: 3px solid var(--color-primary); }
 .life-action { background: rgba(16,185,129,0.06); border-left: 3px solid #10B981; }
 .life-desc { background: var(--tint-1); border-left: 3px solid var(--md-primary); }
 .life-quote { background: rgba(245,158,11,0.06); border-left: 3px solid #F59E0B; }

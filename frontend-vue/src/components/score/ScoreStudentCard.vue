@@ -456,7 +456,10 @@ const expPercent = computed(() => {
   flex-shrink: 0;
   font-size: 10px;
   font-weight: 800;
+  /* 10px/800 的小字直接用 --card-color 当文字色，在白底最低只有 2.15:1（琥珀档）。
+     上行给旧值兜底；下行按色相往 --ui-fg 方向压 45% —— 亮色压深、暗色提亮，一套规则吃两种主题。 */
   color: var(--card-color, #6B7280);
+  color: color-mix(in srgb, var(--card-color, #6B7280) 55%, var(--ui-fg));
   background: color-mix(in srgb, var(--card-color, #6B7280) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--card-color, #6B7280) 28%, transparent);
   padding: 1px 8px;

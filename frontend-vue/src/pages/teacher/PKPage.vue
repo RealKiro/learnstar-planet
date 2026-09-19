@@ -264,7 +264,7 @@ onMounted(loadLeaderboard)
   border-radius: 30px;
   background: rgba(245,158,11,0.08);
   border: 1px solid rgba(245,158,11,0.15);
-  color: var(--c-amber);
+  color: var(--c-amber-chip-text);
   font-size: 15px;
   font-weight: 700;
 }
@@ -340,7 +340,7 @@ onMounted(loadLeaderboard)
 }
 .pk-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-primary), #818CF8);
+  background: linear-gradient(90deg, var(--color-primary), var(--md-primary-light));
   border-radius: 4px;
   transition: width 0.8s ease;
 }

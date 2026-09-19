@@ -835,7 +835,7 @@ onMounted(async () => {
   transition: all 0.2s ease;
 }
 .filter-tag:hover { color: var(--color-text); border-color: var(--color-text-secondary); }
-.filter-tag.active { background: rgba(79,70,229,0.08); border-color: var(--color-primary); color: var(--color-primary); font-weight: 600; }
+.filter-tag.active { background: rgba(124,58,237,0.08); border-color: var(--color-primary); color: var(--color-primary); font-weight: 600; }
 .sort-group { display: flex; align-items: center; gap: 6px; }
 .sort-label { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; }
 .sort-tag {
@@ -890,7 +890,7 @@ onMounted(async () => {
   gap: 8px;
   margin-bottom: 16px;
   padding: 10px 14px;
-  background: linear-gradient(135deg, rgba(79,70,229,0.06), rgba(16,185,129,0.05));
+  background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(16,185,129,0.05));
   border: 1px solid var(--color-border);
   border-radius: 14px;
   flex-wrap: wrap;
