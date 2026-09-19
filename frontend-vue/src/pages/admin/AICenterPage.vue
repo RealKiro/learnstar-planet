@@ -946,7 +946,7 @@ onMounted(loadData)
 /* ===== 空态引导 ===== */
 .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 540px; margin: 0 auto; }
 .quick-card { padding: 16px 10px; background: var(--tint-1); border-radius: 12px; border: 1px dashed var(--tint-3); text-align: center; }
-.quick-card__icon { font-size: 22px; margin-bottom: 6px; }
+.quick-card__icon { display: flex; align-items: center; font-size: 22px; margin-bottom: 8px; color: var(--ui-brand); }
 .quick-card__title { font-size: 12px; font-weight: 600; color: var(--color-text); }
 .quick-card__sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
 .empty-hint { font-size: 12px; color: var(--color-text-secondary); margin-top: 12px; }
@@ -997,7 +997,7 @@ onMounted(loadData)
 
 /* ===== MCP ===== */
 .intro-card { padding: 18px 20px; margin-bottom: 12px; }
-.intro-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.intro-title { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
 .intro-text { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 12px; line-height: 1.7; }
 .intro-text code { background: var(--tint-2); padding: 1px 6px; border-radius: 5px; font-size: 11px; }
 .mcp-form { padding: 14px; background: var(--tint-1); border-radius: 10px; }

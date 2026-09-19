@@ -245,8 +245,7 @@ onMounted(() => {
   gap: 12px;
   margin-bottom: 20px;
 }
-.page-title {
-  font-size: 24px;
+.page-title { display: flex; align-items: center; gap: 6px; font-size: 24px;
   font-weight: 700;
   margin: 0;
 }
@@ -288,7 +287,7 @@ onMounted(() => {
   color: var(--color-text);
   box-shadow: var(--shadow-sm);
 }
-.tab-icon { font-size: 16px; }
+.tab-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
 
 /* 冠军专区 */
 .champion-section {
@@ -483,8 +482,7 @@ onMounted(() => {
   color: var(--color-text-secondary);
 }
 
-.rank-change {
-  font-size: 11px;
+.rank-change { display: inline-flex; align-items: center; justify-content: flex-end; gap: 2px; font-size: 11px;
   font-weight: 600;
   width: 40px;
   text-align: right;
@@ -502,8 +500,7 @@ onMounted(() => {
   border: 1px solid rgba(16,185,129,0.15);
   border-radius: 12px;
 }
-.award-icon {
-  font-size: 28px;
+.award-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 28px;
 }
 .award-info {
   display: flex;
@@ -541,7 +538,7 @@ onMounted(() => {
   margin: 0 auto 12px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.empty-icon { font-size: 48px; margin-bottom: 8px; }
+.empty-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 48px; margin-bottom: 8px; }
 
 @media (max-width: 600px) {
   .champion-section {

@@ -185,17 +185,17 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
       </label>
       <span v-if="selectedTeacherIds.length > 0" class="text-muted-13">已选 {{ selectedTeacherIds.length }} 个</span>
       <div class="flex-1"></div>
-      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :style="{ background: batchOpStatus === 'loading' ? '#f59e0b' : batchOpStatus === 'success' ? '#10b981' : batchOpStatus === 'error' ? '#ef4444' : 'var(--color-bg-card)', color: batchOpStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: batchOpStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" @click="batchResetTeacherPwd">
+      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :class="batchOpStatus === 'idle' ? 'btn-state-plain' : 'btn-state-' + batchOpStatus" @click="batchResetTeacherPwd">
         <template v-if="batchOpStatus === 'loading'">处理中...</template>
         <template v-else-if="batchOpStatus === 'success'">已重置 ✓</template>
         <template v-else>🔑 批量重置密码</template>
       </button>
-      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :style="{ background: '#fee2e2', color: '#dc2626', border: '1px solid var(--c-red-border)', opacity: !selectedTeacherIds.length ? 0.5 : 1 }" @click="batchDeleteTeachers">
+      <button class="btn btn-sm" :disabled="!selectedTeacherIds.length || batchOpStatus === 'loading'" :class="['btn-danger-soft', { 'is-disabled': !selectedTeacherIds.length }]" @click="batchDeleteTeachers">
         批量删除
       </button>
     </div>
     <div v-if="batchOpMsg"
-      :style="{ background: batchOpStatus === 'error' ? 'rgba(239,68,68,0.08)' : 'rgba(16,185,129,0.08)', border: '1px solid ' + (batchOpStatus === 'error' ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)'), color: batchOpStatus === 'error' ? '#fca5a5' : '#6ee7b7' }" class="tch-banner">{{ batchOpMsg }}</div>
+      :class="batchOpStatus === 'error' ? 'tch-banner--error' : 'tch-banner--ok'" class="tch-banner">{{ batchOpMsg }}</div>
 
     <div v-if="loading" class="loading-spinner">加载中...</div>
     <div v-else-if="filteredTeachers.length === 0" class="empty-state">
@@ -255,4 +255,7 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
 .tch-checkbox { accent-color:#7c3aed;width:15px;height:15px; }
 .tch-banner { margin:-4px 0 12px;padding:8px 12px;border-radius:8px;font-size:12px; }
 .tch-mb-20 { margin-bottom:20px; }
+.btn-danger-soft { background: var(--c-red-chip); color: var(--c-red-chip-text); border: 1px solid var(--c-red-border); }
+.tch-banner--error { background: var(--c-red-bg); border: 1px solid var(--c-red-border); color: var(--c-red-deep); }
+.tch-banner--ok { background: var(--c-green-chip); border: 1px solid var(--c-green); color: var(--c-green-chip-text); }
 </style>

@@ -7,6 +7,7 @@ const props = defineProps<{
   roleLabel: string
   navItems: Array<{
     section: string
+    /** 图标为 emoji 字符，模板中直接渲染 */
     items: Array<{ page: string; label: string; icon: string }>
   }>
   showLogout?: boolean
@@ -27,7 +28,9 @@ function navigate(name: string) {
 
 <template>
   <div class="app-shell">
-    <!-- 侧边栏（功能分类与版面设计.txt 版式） -->
+    <!-- 侧边栏
+         视觉对标：底色用 --ui-bg-subtle 与内容区（--ui-bg 白）拉开层次，
+         因此不再需要右边框（两条线会与内容区卡片边框打架）。 -->
     <nav class="sidebar">
       <div class="logo">
         <div class="brand">
@@ -37,7 +40,7 @@ function navigate(name: string) {
 
       <div class="nav-list">
         <template v-for="section in props.navItems" :key="section.section">
-          <!-- 分组标题（AstrBot 式小节标签）；空分组不渲染 -->
+          <!-- 分组标题；空分组不渲染 -->
           <template v-if="section.items.length">
             <div class="nav-section">{{ section.section }}</div>
             <button
@@ -86,9 +89,9 @@ function navigate(name: string) {
 /* ===== 侧边栏 ===== */
 .sidebar {
   width: var(--md-sidebar-width);
-  background: var(--md-surface-2);
-  border-right: 1px solid var(--tint-2);
-  padding: 24px 14px 20px;
+  background: var(--ui-bg-subtle);
+  border-right: none;
+  padding: 20px 12px 16px;
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -96,151 +99,161 @@ function navigate(name: string) {
   height: 100vh;
   overflow-y: auto;
   flex-shrink: 0;
-  backdrop-filter: blur(12px);
   z-index: 10;
 }
 
 .logo {
-  font-size: 22px;
-  font-weight: 700;
-  padding: 8px 12px;
-  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--tint-2);
-  padding-bottom: 12px;
+  gap: 8px;
+  padding: 2px 8px 14px;
 }
 
-.logo .brand {
+/* 品牌标识：纯色 + 字重，不用渐变裁剪（14.5px 下渐变会让笔画发灰） */
+.brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: linear-gradient(135deg, var(--md-primary), var(--md-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  gap: 9px;
+  font-size: 14.5px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--ui-fg);
+}
+.brand-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--ui-r-sm);
+  background: var(--ui-brand);
+  color: var(--ui-brand-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.brand-role {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ui-fg-subtle);
+  flex-shrink: 0;
 }
 
-.logo .brand span {
-  font-size: 28px;
-  -webkit-text-fill-color: initial;
-}
+.sidebar-footer { border-top: 1px solid var(--ui-border); padding-top: 10px; }
 
-.sidebar-footer { border-top: 1px solid var(--tint-2); padding-top: 12px; }
 .theme-fab {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-card);
-  color: var(--color-text);
-  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ui-r-lg);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-card);
+  color: var(--ui-fg-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--md-elevation);
+  box-shadow: var(--ui-shadow-sm);
   z-index: 999;
-  transition: 0.2s;
-}
-.theme-fab:hover { background: var(--tint-2); transform: scale(1.05); }
+  transition: 0.15s; font-size: 18px; line-height: 1;}
+.theme-fab:hover { background: var(--ui-muted); color: var(--ui-fg); border-color: var(--ui-border-strong); }
+
 .exit-btn {
-  width: 100%; padding: 10px; border-radius: var(--md-radius);
-  border: 1px solid rgba(255,100,100,0.15);
-  background: rgba(255,100,100,0.08); color: var(--color-danger-text);
-  font-size: 14px; font-weight: 500;
-  cursor: pointer; transition: 0.2s; font-family: inherit;
+  width: 100%;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: var(--ui-r-md);
+  border: 1px solid transparent;
+  background: var(--c-red-bg);
+  color: var(--color-danger-text);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.15s;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
 }
-.exit-btn:hover { background: rgba(255,100,100,0.15); }
+.exit-btn:hover { background: rgba(239, 68, 68, 0.14); }
 
 /* 导航列表 */
 .nav-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   flex: 1;
 }
 
-/* 分组标题（AstrBot 式小节标签） */
+/* 分组标题（小节标签） */
 .nav-section {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  opacity: 0.75;
-  padding: 14px 12px 5px;
+  letter-spacing: 0.02em;
+  color: var(--ui-fg-subtle);
+  padding: 14px 8px 5px;
   user-select: none;
 }
-.nav-section:first-child { padding-top: 4px; }
+.nav-section:first-child { padding-top: 2px; }
 
+/* 导航项：高度统一 32px，图标固定 16px，纵向节奏整齐 */
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 9px 12px;
-  border-radius: 10px;
+  gap: 10px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: var(--ui-r-md);
   cursor: pointer;
-  transition: background 0.18s var(--ease-smooth), color 0.18s var(--ease-smooth);
-  color: var(--md-text-secondary);
+  transition: background 0.15s var(--ease-smooth), color 0.15s var(--ease-smooth);
+  color: var(--ui-fg-muted);
   border: none;
   background: transparent;
   width: 100%;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   font-family: inherit;
   text-align: left;
-  position: relative;
 }
 
 .nav-item:hover {
-  background: var(--tint-2);
-  color: var(--color-text);
+  background: var(--ui-muted);
+  color: var(--ui-fg);
 }
+.nav-item:hover .icon { color: var(--ui-fg-muted); }
 
+/* 激活态：白卡片 + 微阴影，与 subtle 侧栏底拉开层次（取代原先的左竖条） */
 .nav-item.active {
-  background: var(--tint-2);
-  color: var(--color-primary);
+  background: var(--ui-card);
+  color: var(--ui-fg);
   font-weight: 600;
+  box-shadow: var(--ui-shadow-xs);
 }
+.nav-item.active .icon { color: var(--ui-brand); }
 
-/* 激活态左侧指示条（Linux.do 当前项式样） */
-.nav-item.active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 18px;
-  border-radius: 2px;
-  background: var(--md-primary);
-}
+.nav-item__label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .nav-item .icon {
-  font-size: 18px;
-  width: 24px;
-  text-align: center;
-  flex-shrink: 0;
+  color: var(--ui-fg-subtle);
+  transition: color 0.15s var(--ease-smooth);
 }
 
 /* 系列选择器区 */
 .series-selector {
   margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid var(--tint-2);
+  padding-top: 14px;
+  border-top: 1px solid var(--ui-border);
 }
 
 /* ===== 主内容 ===== */
 .main-content {
   flex: 1;
-  padding: 28px 32px 40px;
+  padding: 24px 28px 40px;
   max-width: calc(100% - var(--md-sidebar-width));
   overflow-x: hidden;
+  background: var(--ui-bg);
 }
 
 /* ===== 响应式 ===== */
@@ -252,18 +265,16 @@ function navigate(name: string) {
     top: 0;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 12px 16px;
-    border-right: none;
-    border-bottom: 1px solid var(--tint-2);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--ui-border);
+    box-shadow: var(--ui-shadow-xs);
   }
   .logo {
-    margin-bottom: 0;
-    border-bottom: none;
-    padding-bottom: 0;
-    font-size: 18px;
+    padding: 0;
     flex: 1;
   }
+  .brand-role { display: none; }
   .nav-list {
     flex-direction: row;
     gap: 4px;
@@ -274,20 +285,16 @@ function navigate(name: string) {
   }
   .nav-section { display: none; }
   .nav-item {
-    padding: 8px 12px;
-    font-size: 14px;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 13px;
   }
-  .nav-item.active::before { display: none; }
-  .nav-item .icon {
-    font-size: 18px;
-    width: 24px;
-  }
+  .nav-item.active { box-shadow: none; background: var(--ui-muted); }
   .series-selector {
-    margin-top: 0;
-    padding-top: 0;
+    margin-top: 8px;
+    padding-top: 8px;
     border-top: none;
     width: 100%;
-    margin-top: 8px;
   }
   .main-content {
     padding: 16px;

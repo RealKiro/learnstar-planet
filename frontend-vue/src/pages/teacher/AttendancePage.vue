@@ -23,7 +23,7 @@ const leaveError = ref('')
 const showAbsentModal = ref(false); const absentStudentId = ref<number | null>(null); const absentStudentName = ref(''); const absentRemark = ref(''); const absentStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
 const statusLabels: Record<string, string> = { present: '到课', late: '迟到', leave: '请假', absent: '缺勤' }
-const statusColors: Record<string, string> = { present: 'var(--color-accent)', late: '#F59E0B', leave: '#3B82F6', absent: 'var(--color-danger)' }
+const statusColors: Record<string, string> = { present: 'var(--c-green)', late: '#F59E0B', leave: '#3B82F6', absent: 'var(--color-danger)' }
 function sourceLabel(s: string) { switch(s) { case 'wechat_work': return '企微'; case 'manual': return '手动'; case 'auto': return '自动'; default: return s } }
 function sourceClass(s: string) { return 'source-tag ' + s }
 const absentWithoutLeave = computed(() => records.value.filter(r => r.status === 'absent').length)
@@ -94,7 +94,7 @@ async function confirmAbsent() {
   <div>
     <div class="page-head">
       <h2 class="page-title">智能考勤</h2>
-      <button class="btn btn-sm btn-white-flat" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[startStatus] }" :disabled="startStatus === 'loading' || attendanceStarted" @click="startAttendance">
+      <button class="btn btn-sm btn-white-flat" :class="'btn-state-' + startStatus" :disabled="startStatus === 'loading' || attendanceStarted" @click="startAttendance">
         {{ attendanceStarted ? '已开始点名' : ({ idle: '开始点名', loading: '开始中...', success: '已开始 ✓', error: '失败' }[startStatus]) }}
       </button>
     </div>
@@ -148,7 +148,7 @@ async function confirmAbsent() {
         </div>
         <div class="modal-footer">
           <button class="btn btn-sm btn-outline-bg" @click="showLeaveModal = false">取消</button>
-          <button class="btn btn-sm btn-white-flat" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[leaveStatus] }" :disabled="leaveStatus === 'loading'" @click="confirmLeave">
+          <button class="btn btn-sm btn-white-flat" :class="'btn-state-' + leaveStatus" :disabled="leaveStatus === 'loading'" @click="confirmLeave">
             {{ { idle: '确认请假', loading: '提交中...', success: '已提交 ✓', error: '失败' }[leaveStatus] }}
           </button>
         </div>
@@ -165,7 +165,7 @@ async function confirmAbsent() {
         </div>
         <div class="modal-footer">
           <button class="btn btn-sm btn-outline-bg" @click="showAbsentModal = false">取消</button>
-          <button class="btn btn-sm btn-white-flat" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[absentStatus] }" :disabled="absentStatus === 'loading'" @click="confirmAbsent">
+          <button class="btn btn-sm btn-white-flat" :class="'btn-state-' + absentStatus" :disabled="absentStatus === 'loading'" @click="confirmAbsent">
             {{ { idle: '确认缺勤', loading: '提交中...', success: '已提交 ✓', error: '失败' }[absentStatus] }}
           </button>
         </div>

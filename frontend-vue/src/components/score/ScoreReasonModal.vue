@@ -152,7 +152,7 @@ function confirm() {
 }
 @keyframes popIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .reason-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-.reason-head h3 { font-size: 19px; font-weight: 700; margin: 0; }
+.reason-head h3 { display: flex; align-items: center; gap: 8px; font-size: 19px; font-weight: 700; margin: 0; }
 .count-chip {
   font-size: 13px;
   font-weight: 700;
@@ -221,7 +221,7 @@ function confirm() {
   flex-wrap: wrap;
   animation: popIn 0.2s ease;
 }
-.perm-icon { font-size: 20px; flex-shrink: 0; }
+.perm-icon { display: flex; align-items: center; font-size: 20px; flex-shrink: 0; color: var(--ui-fg-subtle); }
 .perm-text { flex: 1; min-width: 0; }
 .perm-title { font-size: 13px; font-weight: 700; color: var(--color-danger-text); }
 .perm-desc { font-size: 12px; color: var(--md-text-secondary); margin-top: 2px; }

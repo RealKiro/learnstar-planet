@@ -159,7 +159,7 @@ async function submitResetPwd() {
         <button
           @click="submitResetPwd"
           :disabled="resetPwdStatus === 'loading'"
-          class="flex-1" :style="{ padding:'8px', borderRadius:'8px', fontSize:'13px', fontWeight:'600', cursor:'pointer', border:'none', color:'#fff', background: resetPwdStatus === 'loading' ? '#f59e0b' : resetPwdStatus === 'success' ? '#10b981' : resetPwdStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+          class="flex-1 rp-submit" :class="'btn-state-' + resetPwdStatus"
         >
           <template v-if="resetPwdStatus === 'loading'">更新中...</template>
           <template v-else-if="resetPwdStatus === 'success'">已更新 ✓</template>
@@ -205,9 +205,9 @@ async function submitResetPwd() {
 .flex-1 { flex:1; }
 .pwd-toggle-btn { transition: all 0.15s; }
 .pwd-toggle-btn:hover {
-  border-color: var(--color-accent);
+  border-color: var(--ui-brand);
   background: rgba(124, 58, 237, 0.1);
-  color: var(--color-accent);
+  color: var(--ui-brand);
 }
 /* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
 .rpm-wrap { max-width:420px;width:100%;padding:4px 0; }
@@ -223,4 +223,5 @@ async function submitResetPwd() {
 .rpm-error { margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
 .rpm-gap-12 { gap:12px; }
 .rpm-btn-outline { padding:8px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
+.rp-submit { padding: 8px; border-radius: var(--ui-r-md); font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
 </style>

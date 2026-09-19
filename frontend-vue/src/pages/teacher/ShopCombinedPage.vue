@@ -118,7 +118,7 @@ function onActiveTabChange(tab: typeof activeTab.value) {
         </div>
         <div v-if="rateError" class="shopc-error">{{ rateError }}</div>
         <button v-if="showAddRate" class="btn btn-primary shopc-mb-16" :disabled="addRateStatus !== 'idle'"
-          :style="{ background: addRateStatus === 'loading' ? '#f59e0b' : addRateStatus === 'success' ? '#10b981' : addRateStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+          :class="'btn-state-' + addRateStatus"
           @click="addRate">
           <template v-if="addRateStatus === 'idle'">确认添加</template>
           <template v-else-if="addRateStatus === 'loading'">添加中...</template>
@@ -137,7 +137,7 @@ function onActiveTabChange(tab: typeof activeTab.value) {
           <span>{{ currencyLabels[r.to_currency] || r.to_currency }}</span>
           <button :style="{
             background: getToggleStatus(r.id) === 'loading' ? '#f59e0b' : getToggleStatus(r.id) === 'success' ? '#10b981' : getToggleStatus(r.id) === 'error' ? '#ef4444' : 'none',
-            color: getToggleStatus(r.id) !== 'idle' ? 'white' : r.is_active ? 'var(--color-accent)' : 'var(--color-text-secondary)',
+            color: getToggleStatus(r.id) !== 'idle' ? 'white' : r.is_active ? 'var(--ui-brand)' : 'var(--color-text-secondary)',
             border: 'none', cursor: 'pointer', fontSize: '12px', padding: '4px 8px', borderRadius: '6px'
           }" @click="toggleRate(r)" :disabled="getToggleStatus(r.id) !== 'idle'">
             <template v-if="getToggleStatus(r.id) === 'idle'">{{ r.is_active ? '✅ 启用' : '⏸ 禁用' }}</template>

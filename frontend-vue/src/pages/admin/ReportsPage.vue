@@ -64,7 +64,7 @@ onMounted(async () => {
 
       <div v-if="overview.score_trend_percent !== undefined" class="card rep-bar-row">
         <span class="text-muted-13">积分环比：</span>
-        <span :style="{ fontSize:'13px', fontWeight:600, color: overview.score_trend_percent >= 0 ? '#10B981' : '#EF4444' }">
+        <span :class="['trend-num', overview.score_trend_percent >= 0 ? 'num-up' : 'num-down']">
           {{ overview.score_trend_percent >= 0 ? '▲' : '▼' }} {{ Math.abs(overview.score_trend_percent) }}%
         </span>
       </div>
@@ -78,7 +78,7 @@ onMounted(async () => {
             <div v-for="g in byGrade" :key="g.grade" class="rep-line">
               <span class="rep-line-name">{{ g.grade }}</span>
               <div class="rep-bar-track">
-                <div :style="{ width: (g.total_score / maxGradeScore * 100) + '%', height:'100%', background:'linear-gradient(90deg,#6366F1,#818CF8)', borderRadius:'6px', transition:'width 0.4s' }"></div>
+                <div :style="{ width: (g.total_score / maxGradeScore * 100) + '%', height:'100%', background:'var(--ui-brand)', borderRadius:'6px', transition:'width 0.4s' }"></div>
               </div>
               <span class="rep-line-count">{{ g.total_score.toLocaleString() }} 分</span>
             </div>
@@ -133,12 +133,12 @@ onMounted(async () => {
 /* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
 .rep-mt-24 { margin-top:24px; }
 .rep-fw-600 { font-weight:600; }
-.rep-fw-accent { font-weight:600;color:var(--color-accent); }
+.rep-fw-accent { font-weight:600;color:var(--ui-brand); }
 .rep-bar-row { margin-top:16px;padding:12px 20px;display:flex;align-items:center;gap:8px; }
 .rep-mb-20 { margin-bottom:20px; }
 .rep-line { display:flex;align-items:center;gap:12px;margin-bottom:8px; }
 .rep-line-name { width:60px;font-size:13px;font-weight:600;flex-shrink:0; }
 .rep-bar-track { flex:1;height:24px;background:var(--color-bg);border-radius:6px;overflow:hidden; }
 .rep-line-count { width:80px;font-size:12px;color:var(--color-text-secondary);text-align:right;flex-shrink:0; }
-.rep-pill { display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;background:rgba(79,70,229,0.08);color:var(--color-primary); }
+.rep-pill { display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;background:var(--ui-brand-soft);color:var(--color-primary); }
 </style>

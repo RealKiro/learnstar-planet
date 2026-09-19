@@ -720,7 +720,7 @@ onMounted(async () => {
             </div>
             <div class="pick-confirm-actions">
               <button class="pc-cancel" @click="clearPending" :disabled="switchingPet">取消选择</button>
-              <button class="pc-confirm" @click="executeSwitch" :disabled="switchingPet" :style="switchStatus === 'loading' ? 'background:#f59e0b;color:#fff' : switchStatus === 'success' ? 'background:#10b981;color:#fff' : switchStatus === 'error' ? 'background:#ef4444;color:#fff' : ''">
+              <button class="pc-confirm" @click="executeSwitch" :disabled="switchingPet" :class="switchStatus !== 'idle' ? 'btn-state-' + switchStatus : ''">
                 <template v-if="switchStatus === 'loading'">切换中...</template>
                 <template v-else-if="switchStatus === 'success'">切换成功 ✓</template>
                 <template v-else-if="switchStatus === 'error'">切换失败 ✗</template>
@@ -755,7 +755,7 @@ onMounted(async () => {
         <tbody>
           <tr v-for="s in recentScores" :key="s.id">
             <td class="scp-fw-600">{{ s.student_name }}</td>
-            <td :style="{ color: s.amount > 0 ? '#10B981' : '#EF4444', fontWeight: 700 }">{{ s.amount > 0 ? '+' : '' }}{{ s.amount }}</td>
+            <td :class="['scp-amount', s.amount > 0 ? 'num-up' : 'num-down']">{{ s.amount > 0 ? '+' : '' }}{{ s.amount }}</td>
             <td class="scp-secondary">{{ s.reason }}</td>
             <td class="scp-secondary-13">{{ new Date(s.created_at).toLocaleString('zh-CN') }}</td>
             <td><button class="btn btn-xs" @click="undoScore(s.id)" :disabled="getUndoStatus(s.id) === 'loading'" :style="getUndoBtnStyle(s.id)">{{ getUndoBtnText(s.id) }}</button></td>
@@ -783,7 +783,7 @@ onMounted(async () => {
 /* 顶部 */
 .page-top { margin-bottom: 20px; }
 .page-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-.page-title { font-size: 24px; font-weight: 700; margin: 0; }
+.page-title { display: flex; align-items: center; gap: 6px; font-size: 24px; font-weight: 700; margin: 0; }
 .page-subtitle { font-size: 13px; color: var(--color-text-secondary); }
 .class-total {
   margin-left: auto;
@@ -797,7 +797,7 @@ onMounted(async () => {
   font-size: 12px;
   color: var(--md-text-secondary);
 }
-.ct-icon { font-size: 14px; }
+.ct-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
 .ct-value { font-size: 16px; font-weight: 800; color: var(--color-text); }
 
 .stats-row { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -813,7 +813,7 @@ onMounted(async () => {
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
 }
-.chip-icon { font-size: 14px; }
+.chip-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
 
 /* 工具栏（教师端） */
 .toolbar { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
@@ -829,7 +829,7 @@ onMounted(async () => {
   min-width: 200px;
   max-width: 360px;
 }
-.search-icon { font-size: 16px; }
+.search-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
 .search-input { background: transparent; border: none; outline: none; color: var(--color-text); font-size: 14px; width: 100%; font-family: inherit; }
 .search-input::placeholder { color: var(--color-text-secondary); opacity: 0.6; }
 .filter-group { display: flex; gap: 6px; }
@@ -860,7 +860,7 @@ onMounted(async () => {
   transition: all 0.2s ease;
 }
 .sort-tag:hover { color: var(--color-text); border-color: var(--color-text-secondary); }
-.sort-tag.active { background: rgba(16,185,129,0.08); border-color: #10B981; color: var(--c-green); font-weight: 600; }
+.sort-tag.active { background: var(--ui-brand-soft); border-color: var(--ui-brand); color: var(--ui-brand); font-weight: 600; }
 
 /* 教室端搜索 */
 .class-search {
@@ -889,7 +889,7 @@ onMounted(async () => {
   border-radius: var(--md-radius);
   flex-wrap: wrap;
 }
-.adopt-icon { font-size: 24px; }
+.adopt-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 24px; }
 .adopt-title { font-weight: 700; font-size: 15px; }
 .adopt-desc { font-size: 13px; color: var(--md-text-secondary); }
 
@@ -1070,8 +1070,9 @@ onMounted(async () => {
 }
 .scp-mt-24 { margin-top:24px; }
 .scp-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px; }
-.scp-title-16 { font-size:16px;font-weight:600; }
+.scp-title-16 { display: flex; align-items: center; gap: 6px; font-size:16px;font-weight:600; }
 .scp-fw-600 { font-weight:600; }
 .scp-secondary { color:var(--color-text-secondary); }
 .scp-secondary-13 { color:var(--color-text-secondary);font-size:13px; }
+.scp-amount { font-weight: 700; }
 </style>

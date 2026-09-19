@@ -717,7 +717,7 @@ async function submitAssignTeacher() {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: linear-gradient(135deg, rgba(79,70,229,0.12), rgba(99,102,241,0.06));
+  background: linear-gradient(135deg, var(--ui-brand-soft), rgba(99,102,241,0.06));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -735,12 +735,12 @@ async function submitAssignTeacher() {
   gap: 8px;
   margin-right: 16px;
   padding: 4px 10px 4px 8px;
-  border: 1px solid rgba(79,70,229,0.12);
+  border: 1px solid var(--ui-brand-soft);
   border-radius: 8px;
-  background: rgba(79,70,229,0.02);
+  background: var(--ui-brand-soft);
   min-width: 140px;
 }
-.code-chip__icon { font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; }
+.code-chip__icon { display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; }
 .code-chip__value {
   font-size: 13px;
   font-weight: 700;
@@ -793,7 +793,7 @@ async function submitAssignTeacher() {
 
 /* ===== 导入结果 ===== */
 .import-result { text-align: center; padding: 24px 0; }
-.import-result__count { font-size: 36px; font-weight: 700; color: var(--color-accent); }
+.import-result__count { font-size: 36px; font-weight: 700; color: var(--ui-brand); }
 .import-result__label { color: var(--color-text-secondary); font-size: 13px; }
 .import-result__failed { margin-top: 8px; color: var(--color-danger); font-size: 13px; }
 .error-details { margin-bottom: 16px; }
@@ -813,4 +813,5 @@ async function submitAssignTeacher() {
 .feedback-text { font-size: 13px; color: var(--color-text); line-height: 1.7; margin-bottom: 10px; }
 .feedback-link { text-decoration: none; }
 .clp-uppercase { text-transform:uppercase }
+.modal-title { display: flex; align-items: center; gap: 6px; }
 </style>

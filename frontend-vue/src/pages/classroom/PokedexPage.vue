@@ -412,7 +412,7 @@ onUnmounted(() => clearInterval(timer))
 .pkdx-panel { background:linear-gradient(180deg,var(--color-bg-card),var(--color-bg));border:1px solid var(--tint-3);border-radius:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.5); }
 .pkdx-head-row { display:flex;align-items:center;gap:16px;margin-bottom:20px; }
 .pkdx-name-22 { font-size:22px;font-weight:700; }
-.pkdx-close { margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid var(--tint-4);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer; }
+.pkdx-close { display:inline-flex;align-items:center;justify-content:center;margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid var(--tint-4);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer; }
 .pkdx-tabs { display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap; }
 .pkdx-mb-16 { margin-bottom:16px; }
 .pkdx-evo-dots { display:flex;justify-content:center;gap:4px;margin-top:12px; }

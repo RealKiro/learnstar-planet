@@ -385,7 +385,7 @@ onMounted(async () => {
 .pet-egg { font-size: 18px; }
 .pet-level { font-size: 11px; color: var(--color-text-secondary); }
 .score-text { font-weight: 700; color: var(--color-primary); }
-.status-active { color: var(--color-accent); }
+.status-active { color: var(--ui-brand); }
 .status-other { color: var(--color-text-secondary); }
 .cell-actions { display: flex; gap: 4px; }
 

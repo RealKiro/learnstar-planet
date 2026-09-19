@@ -454,13 +454,13 @@ async function submitMove() {
 .grade-badge {
   display: inline-block; padding: 2px 10px; border-radius: 20px;
   font-size: 12px; font-weight: 600;
-  background: rgba(79,70,229,0.08); color: var(--color-primary);
+  background: var(--ui-brand-soft); color: var(--color-primary);
 }
 .pet-cell { display: flex; align-items: center; gap: 6px; }
 .pet-avatar { width: 30px; height: 30px; flex-shrink: 0; }
 .pet-egg { font-size: 16px; }
 .pet-level { font-size: 11px; color: var(--color-text-secondary); }
-.score-text { font-weight: 600; color: var(--color-accent); }
+.score-text { font-weight: 600; color: var(--ui-brand); }
 .cell-actions { display: flex; gap: 4px; }
 
 /* ===== 次要按钮（btn-ghost-card 已全局化） ===== */

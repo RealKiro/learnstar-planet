@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
@@ -23,6 +23,9 @@ const loading = ref(false)
 const loginStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 // 登录过期标记：从 /login?expired=1 读取，登录卡片顶部内联提示
 const sessionExpired = ref(false)
+
+/** 提交按钮四态走全局语义类（取代原先内联写死的 hex 底色，暗色下自动翻转） */
+const submitStateClass = computed(() => `btn-state-${loginStatus.value}`)
 
 // 内联校验
 const loginErrors = reactive<Record<string, string>>({})
@@ -300,7 +303,7 @@ function goToSlide(i: number) {
         <div v-if="loginType === 'teacher'" class="login-form">
           <div class="form-group">
             <label>账号</label>
-            <input v-model="teacherUsername" class="form-input" :style="{ borderColor: loginErrors.teacherUsername ? '#f87171' : '' }" @blur="validateLoginField('teacherUsername', teacherUsername)" @input="clearLoginErr('teacherUsername')" placeholder="教师账号" @keydown.enter="focusTeacherPwd">
+            <input v-model="teacherUsername" class="form-input" :class="{ 'is-error': loginErrors.teacherUsername }" @blur="validateLoginField('teacherUsername', teacherUsername)" @input="clearLoginErr('teacherUsername')" placeholder="教师账号" @keydown.enter="focusTeacherPwd">
             <div v-if="loginErrors.teacherUsername" class="field-error">{{ loginErrors.teacherUsername }}</div>
           </div>
           <div class="form-group">
@@ -308,7 +311,7 @@ function goToSlide(i: number) {
             <input ref="teacherPwdRef" v-model="teacherPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleTeacherLogin">
             <div v-if="loginErrors.teacherPassword" class="field-error">{{ loginErrors.teacherPassword }}</div>
           </div>
-          <button class="login-submit lgp-btn-solid" :disabled="loginStatus === 'loading'" @click="handleTeacherLogin" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#5E5CE6' }">
+          <button class="login-submit" :class="submitStateClass" :disabled="loginStatus === 'loading'" @click="handleTeacherLogin">
             <span v-if="loginStatus === 'idle'">🚀 登录</span>
             <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
             <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
@@ -331,7 +334,7 @@ function goToSlide(i: number) {
         <div v-if="loginType === 'admin'" class="login-form">
           <div class="form-group">
             <label>账号</label>
-            <input v-model="adminUsername" class="form-input" :style="{ borderColor: loginErrors.adminUsername ? '#f87171' : '' }" @blur="validateLoginField('adminUsername', adminUsername)" @input="clearLoginErr('adminUsername')" placeholder="管理员账号" @keydown.enter="focusAdminPwd">
+            <input v-model="adminUsername" class="form-input" :class="{ 'is-error': loginErrors.adminUsername }" @blur="validateLoginField('adminUsername', adminUsername)" @input="clearLoginErr('adminUsername')" placeholder="管理员账号" @keydown.enter="focusAdminPwd">
             <div v-if="loginErrors.adminUsername" class="field-error">{{ loginErrors.adminUsername }}</div>
           </div>
           <div class="form-group">
@@ -339,7 +342,7 @@ function goToSlide(i: number) {
             <div v-if="loginErrors.adminPassword" class="field-error">{{ loginErrors.adminPassword }}</div>
             <input ref="adminPwdRef" v-model="adminPassword" type="password" class="form-input" placeholder="输入密码" @keydown.enter="handleAdminLogin">
           </div>
-          <button class="login-submit login-submit--amber lgp-btn-solid" :disabled="loginStatus === 'loading'" @click="handleAdminLogin" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#d97706' }">
+          <button class="login-submit" :class="submitStateClass" :disabled="loginStatus === 'loading'" @click="handleAdminLogin">
             <span v-if="loginStatus === 'idle'">🚀 登录</span>
             <span v-else-if="loginStatus === 'loading'">⏳ 登录中...</span>
             <span v-else-if="loginStatus === 'success'">✅ 登录成功</span>
@@ -357,12 +360,12 @@ function goToSlide(i: number) {
           </div>
           <template v-else>
             <div class="form-group">
-              <input :value="classCode" class="form-input" placeholder="输入班级码（如 LS11）" maxlength="8" autocomplete="off" :style="{ borderColor: loginErrors.classCode ? '#f87171' : '' }" @input="onClassCodeInput" @blur="validateLoginField('classCode', classCode)" @keydown.enter="handleClassLogin">
+              <input :value="classCode" class="form-input form-input--code" placeholder="输入班级码（如 LS11）" maxlength="8" autocomplete="off" :class="{ 'is-error': loginErrors.classCode }" @input="onClassCodeInput" @blur="validateLoginField('classCode', classCode)" @keydown.enter="handleClassLogin">
               <div v-if="loginErrors.classCode" class="field-error">{{ loginErrors.classCode }}</div>
             </div>
             <p class="input-hint lgp-muted-12-tight">如 LS11（一年级1班）</p>
             <div v-if="classCodeError" class="error-msg lgp-error-inline">{{ classCodeError }}</div>
-            <button class="login-submit login-submit--purple lgp-btn-solid" :disabled="loginStatus === 'loading' || classCode.length < 3" @click="handleClassLogin" :style="{ background: loginStatus === 'loading' ? '#f59e0b' : loginStatus === 'success' ? '#10b981' : loginStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+            <button class="login-submit" :class="submitStateClass" :disabled="loginStatus === 'loading' || classCode.length < 3" @click="handleClassLogin">
               <span v-if="loginStatus === 'idle'">🚀 进入班级</span>
               <span v-else-if="loginStatus === 'loading'">⏳ 验证中...</span>
               <span v-else-if="loginStatus === 'success'">✅ 欢迎进入</span>
@@ -376,285 +379,222 @@ function goToSlide(i: number) {
 </template>
 
 <style scoped>
+/* ===================================================================
+ * 登录页 — 视觉对标重绘（2026-09-19）
+ * 去掉：光晕 orb、渐变文字、胶囊 tab + 渐变激活、按钮内联状态色 hex、
+ *       逐条手写的 html.dark 覆盖层（现由 --ui-* 令牌自动翻转）。
+ * 统一：三个身份的主操作都走品牌实色（唯一 accent），身份由 tab 表达，不再靠按钮颜色区分。
+ * =================================================================== */
 .login-page {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  padding-top: 60px;
-  background: #FFFFFF;
-  color: #1D1D1F;
-  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  -webkit-font-smoothing: antialiased;
+  padding-top: 56px;
+  background: var(--ui-bg);
+  color: var(--ui-fg);
   position: relative;
+  box-sizing: border-box;
 }
+
 .login-topnav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 32px; max-width: 1100px; margin: 0 auto; width: 100%; box-sizing: border-box;
-  background: rgba(255,255,255,.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0,0,0,.04);
+  padding: 12px 28px; max-width: 1120px; margin: 0 auto; width: 100%; box-sizing: border-box;
+  background: color-mix(in srgb, var(--ui-bg) 86%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--ui-border);
 }
-.topnav-link { color: #AEAEB2; font-size: 13px; text-decoration: none; transition: color .2s; margin-left: auto; }
-.topnav-link:hover { color: #6E6E73; }
+.topnav-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--ui-fg-subtle); font-size: 13px; transition: color .15s; margin-left: auto;
+}
+.topnav-link:hover { color: var(--ui-fg); }
+
+/* 左侧介绍区 */
 .intro {
   flex: 1;
-  max-width: 680px;
-  position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 64px;
-  background: #FBFBFD;
+  padding: 48px 56px;
+  background: var(--ui-bg-subtle);
+  position: relative;
+  overflow: hidden;
 }
-.intro-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.25;
-  pointer-events: none;
+/* 唯一保留的氛围：静态品牌色晕染（无动画、无 blur 圆斑） */
+.intro::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(560px 380px at 82% -10%, var(--ui-brand-soft), transparent 70%);
 }
-.intro-orb--top {
-  width: 500px; height: 500px;
-  background: #C7D2FE;
-  top: -200px; right: -100px;
-  animation: orbFloat 12s ease-in-out infinite;
-}
-.intro-orb--bottom {
-  width: 350px; height: 350px;
-  background: #A7F3D0;
-  bottom: -100px; left: -50px;
-  animation: orbFloat 15s ease-in-out infinite reverse;
-}
-@keyframes orbFloat {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(40px, -30px); }
-}
-.intro-content { position: relative; z-index: 1; max-width: 480px; width: 100%; }
+.intro-content { position: relative; z-index: 1; max-width: 460px; width: 100%; }
+
 .intro-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #FFFFFF;
-  border: 1px solid #E5E5EA;
-  border-radius: 9999px;
-  padding: 6px 16px;
-  font-size: 13px;
-  color: #6E6E73;
-  margin-bottom: 28px;
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 26px; padding: 0 11px;
+  background: var(--ui-card); border: 1px solid var(--ui-border);
+  border-radius: var(--ui-r-sm);
+  font-size: 12.5px; color: var(--ui-fg-muted); margin-bottom: 24px;
 }
-.intro-badge-dot {
-  width: 6px; height: 6px;
-  background: #34C759;
-  border-radius: 50%;
-  display: inline-block;
+.intro-badge-dot { width: 6px; height: 6px; background: var(--c-green); border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.intro-icon {
+  width: 44px; height: 44px; border-radius: var(--ui-r-lg); margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--ui-brand-soft); color: var(--ui-brand);
+  border: 1px solid var(--ui-brand-border);
 }
-.intro-icon { font-size: 56px; margin-bottom: 20px; }
 .intro-title {
-  font-size: 40px;
-  font-weight: 900;
-  color: #1D1D1F;
-  line-height: 1.2;
-  letter-spacing: -1px;
-  margin-bottom: 20px;
+  font-size: 34px; font-weight: 700; color: var(--ui-fg);
+  line-height: 1.24; letter-spacing: -0.025em; margin-bottom: 16px;
 }
-.intro-title-grad {
-  background: linear-gradient(135deg, #5E5CE6, #FF375F, #FF9F0A);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.intro-desc { font-size: 16px; color: #86868B; line-height: 1.7; white-space: pre-line; }
-.intro-dots { display: flex; gap: 8px; margin-top: 44px; }
+/* 高亮词用纯色品牌，不再做渐变文字裁剪 */
+.intro-title-accent { color: var(--ui-brand); }
+.intro-desc { font-size: 14.5px; color: var(--ui-fg-muted); line-height: 1.75; white-space: pre-line; }
+.intro-dots { display: flex; gap: 6px; margin-top: 36px; }
 .intro-dot {
-  height: 8px; width: 8px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  background: #D2D2D7;
-  transition: all 0.3s ease;
+  height: 6px; width: 6px; border-radius: 3px; border: none; padding: 0;
+  cursor: pointer; background: var(--ui-border-strong); transition: all 0.25s var(--ease-smooth);
 }
-.intro-dot--active {
-  width: 32px;
-  background: linear-gradient(135deg, #5E5CE6, #818CF8);
-}
-.intro-footer { position: absolute; bottom: -80px; left: 0; display: flex; gap: 16px; align-items: center; }
+.intro-dot:hover { background: var(--ui-fg-subtle); }
+.intro-dot--active { width: 24px; background: var(--ui-brand); }
+.intro-footer { display: flex; gap: 14px; align-items: center; margin-top: 40px; }
 .intro-footer-link {
-  color: #86868B; font-size: 13px;
-  text-decoration: none;
-  display: flex; align-items: center; gap: 6px;
-  transition: color 0.2s;
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--ui-fg-muted); font-size: 13px; transition: color 0.15s;
 }
-.intro-footer-link:hover { color: #1D1D1F; }
-.intro-footer-sep { color: #AEAEB2; font-size: 13px; }
-.slide-fade-enter-active { transition: all 0.4s ease; }
-.slide-fade-leave-active { transition: all 0.3s ease; }
-.slide-fade-enter-from { opacity: 0; transform: translateX(20px); }
-.slide-fade-leave-to { opacity: 0; transform: translateX(-20px); }
+.intro-footer-link:hover { color: var(--ui-fg); }
+.intro-footer-sep { color: var(--ui-fg-subtle); font-size: 13px; }
+
+.slide-fade-enter-active { transition: all 0.35s ease; }
+.slide-fade-leave-active { transition: all 0.25s ease; }
+.slide-fade-enter-from { opacity: 0; transform: translateX(16px); }
+.slide-fade-leave-to { opacity: 0; transform: translateX(-16px); }
+
+/* 右侧登录区 */
 .login-panel {
   flex: 0 0 400px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 32px;
-  background: #FFFFFF;
-  border-left: 1px solid #F0F0F3;
+  background: var(--ui-bg);
   position: relative;
   z-index: 1;
 }
-.login-card { width: 100%; max-width: 360px; }
-.login-card-header { text-align: center; margin-bottom: 28px; }
-.login-card-icon  { font-size: 40px; margin-bottom: 8px; display: block; }
-.login-card-title { font-size: 24px; font-weight: 800; color: #1D1D1F; }
-.session-expired-banner {
-  margin: 0 0 14px;
-  padding: 10px 12px;
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  border-radius: 10px;
-  color: #d97706;
-  font-size: 13px;
-  text-align: center;
-  font-weight: 600;
+.login-card { width: 100%; max-width: 356px; }
+.login-card-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 24px; }
+/* 品牌标识：纯色方块 + 字重，不用渐变裁剪 */
+.login-card-mark {
+  width: 32px; height: 32px; border-radius: var(--ui-r-md);
+  background: var(--ui-brand); color: var(--ui-brand-fg);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
+.login-card-title { font-size: 21px; font-weight: 650; letter-spacing: -0.02em; color: var(--ui-fg); }
+
+.session-expired-banner {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin: 0 0 14px; padding: 9px 12px;
+  background: var(--c-amber-bg);
+  border: 1px solid var(--c-amber-chip);
+  border-radius: var(--ui-r-md);
+  color: var(--color-warning-text);
+  font-size: 12.5px; font-weight: 500;
+}
+
+/* 身份切换：分段控件（底槽 --ui-muted，选中项白底 + 微阴影） */
 .login-tabs {
-  display: flex; gap: 0;
-  margin-bottom: 24px;
-  background: #F5F5F7;
-  border-radius: 12px;
-  border: 1px solid #E5E5EA;
-  padding: 4px;
+  display: flex; gap: 2px;
+  margin-bottom: 22px;
+  background: var(--ui-muted);
+  border-radius: var(--ui-r-lg);
+  padding: 3px;
 }
 .login-tab {
   flex: 1;
-  padding: 10px 8px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 9px;
+  height: 32px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 13px; font-weight: 500; font-family: inherit;
+  border-radius: calc(var(--ui-r-lg) - 3px);
   cursor: pointer;
   border: none;
   background: transparent;
-  color: #86868B;
-  transition: all 0.25s ease;
+  color: var(--ui-fg-muted);
+  transition: all 0.15s var(--ease-smooth);
 }
+.login-tab:hover { color: var(--ui-fg); }
 .login-tab--active {
-  background: linear-gradient(135deg, #5E5CE6, #818CF8);
-  color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(94, 92, 230, 0.2);
+  background: var(--ui-card);
+  color: var(--ui-fg);
+  font-weight: 600;
+  box-shadow: var(--ui-shadow-xs);
 }
-.login-form { display: flex; flex-direction: column; gap: 16px; }
+
+.login-form { display: flex; flex-direction: column; gap: 14px; }
 .form-group { display: flex; flex-direction: column; gap: 4px; }
-.form-group label { font-size: 13px; font-weight: 500; color: #6E6E73; }
-.form-input {
-  width: 100%;
-  padding: 11px 14px;
-  background: #F5F5F7;
-  border: 1px solid #E5E5EA;
-  border-radius: 10px;
-  color: #1D1D1F;
-  font-size: 14px;
-  outline: none;
-  transition: all 0.2s;
+.form-group label { font-size: 12.5px; font-weight: 550; color: var(--ui-fg); }
+/* .form-input 外观走全局令牌；此处只补登录页专有的错误态与班级码大字态 */
+.form-input.is-error { border-color: var(--c-red); }
+.form-input.is-error:focus { border-color: var(--c-red); box-shadow: 0 0 0 3px var(--c-red-bg); }
+.form-input--code {
+  height: 48px; text-align: center;
+  font-size: 19px; font-weight: 650;
+  letter-spacing: 0.14em; text-indent: 0.14em;
 }
-.form-input:focus {
-  border-color: #5E5CE6;
-  background: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(94, 92, 230, 0.12);
-}
-.form-input::placeholder { color: #AEAEB2; }
+.form-input--code::placeholder { font-size: 14px; font-weight: 400; letter-spacing: 0; text-indent: 0; }
+
+/* 提交按钮：外观全部由全局 .btn-state-* 提供，此处只管尺寸与排版 */
 .login-submit {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #5E5CE6, #818CF8);
-  color: #FFFFFF;
-  font-size: 15px;
+  height: 42px;
+  margin-top: 4px;
+  border-radius: var(--ui-r-md);
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  font-size: 14.5px;
   font-weight: 600;
-  border: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(94, 92, 230, 0.2);
-  transition: all 0.3s ease;
+  transition: filter 0.15s, background 0.15s, transform 0.08s;
 }
-.login-submit:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(94, 92, 230, 0.3);
-}
-.login-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-.login-submit--amber { background: linear-gradient(135deg, #F59E0B, #FBBF24); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2); }
-.login-submit--green { background: linear-gradient(135deg, #10B981, #34D399); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2); }
-.login-social { margin-top: 24px; text-align: center; }
+.login-submit:hover:not(:disabled) { filter: brightness(1.06); }
+.login-submit:active:not(:disabled) { transform: scale(0.99); }
+.login-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.login-social { margin-top: 20px; text-align: center; }
 .login-social-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #AEAEB2;
-  font-size: 12px;
-  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+  color: var(--ui-fg-subtle); font-size: 11.5px; margin-bottom: 12px;
 }
-.login-social-line { flex: 1; height: 1px; background: #E5E5EA; }
+.login-social-line { flex: 1; height: 1px; background: var(--ui-border); }
 .login-social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .login-social-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  padding: 10px 12px;
-  min-width: 72px;
-  background: #F5F5F7;
-  border: 1px solid #E5E5EA;
-  border-radius: 10px;
-  color: #6E6E73;
-  font-size: 11px;
-  cursor: pointer;
-  transition: all 0.2s;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 10px 12px; min-width: 72px;
+  background: var(--ui-card); border: 1px solid var(--ui-border);
+  border-radius: var(--ui-r-md);
+  color: var(--ui-fg-muted); font-size: 11px; font-family: inherit;
+  cursor: pointer; transition: 0.15s;
 }
-.login-social-btn:hover {
-  background: #FFFFFF;
-  border-color: #D2D2D7;
-  color: #1D1D1F;
+.login-social-btn:hover { background: var(--ui-muted); border-color: var(--ui-border-strong); color: var(--ui-fg); }
+.login-social-icon { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; }
+
+/* 班级码登录成功 */
+.class-login-success { text-align: center; padding: 12px 0 4px; }
+.success-icon { color: var(--c-green); display: inline-flex; margin-bottom: 10px; }
+.class-login-success h3 { font-size: 16px; font-weight: 650; letter-spacing: -0.01em; color: var(--ui-fg); }
+.class-login-success p { font-size: 13px; color: var(--ui-fg-muted); margin-top: 4px; }
+.success-hint { color: var(--ui-fg-subtle) !important; }
+
+/* 页内通用小件 */
+.form-error-banner {
+  margin-top: 10px; padding: 8px 12px;
+  background: var(--c-red-bg); border: 1px solid var(--c-red-border);
+  border-radius: var(--ui-r-md);
+  color: var(--color-danger-text); font-size: 12.5px;
 }
-.login-social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px; height: 32px;
-}
-@media (max-width: 768px) {
-  .intro { display: none !important; }
+.muted-note { font-size: 12.5px; color: var(--ui-fg-muted); padding: 8px 0; }
+.input-hint { font-size: 11.5px; color: var(--ui-fg-subtle); margin-top: -6px; }
+
+@media (max-width: 860px) {
+  .intro { display: none; }
   .login-panel { flex: 1; }
 }
-/* ===== P1 内联样式收口（声明逐字保留以保渲染等价；本页已有 login-/intro- 前缀，故用 lgp- 避免冲突） ===== */
-.lgp-btn-solid { transition:all 0.3s ease;border:none;color:#fff; }
-.lgp-error { margin-top:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#dc2626;font-size:12px; }
-.lgp-muted-12 { font-size:12px;color:#6E6E73;padding:8px 0; }
-.lgp-muted-12-tight { font-size:12px;color:#6E6E73;margin:-8px 0 0; }
-.lgp-error-inline { color:#EF4444;font-size:13px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:8px; }
-
-/* ===== Dark 模式覆盖层（html.dark 前缀；浅色模式零改动）===== */
-html.dark .login-page { background: #000000; color: #F5F5F7; }
-html.dark .topnav-link { color: #6E6E73; }
-html.dark .topnav-link:hover { color: #A1A1A6; }
-html.dark .intro { background: #0E0E10; }
-html.dark .intro-badge { background: #1C1C1E; border-color: rgba(255,255,255,0.12); color: #A1A1A6; }
-html.dark .intro-title { color: #F5F5F7; }
-html.dark .intro-desc { color: #98989D; }
-html.dark .intro-dot { background: #48484A; }
-html.dark .intro-footer-link { color: #98989D; }
-html.dark .intro-footer-link:hover { color: #F5F5F7; }
-html.dark .intro-footer-sep { color: #6E6E73; }
-html.dark .login-panel { background: #1C1C1E; border-left-color: rgba(255,255,255,0.10); }
-html.dark .login-card-title { color: #F5F5F7; }
-html.dark .login-tabs { background: #2C2C2E; border-color: rgba(255,255,255,0.12); }
-html.dark .login-tab { color: #98989D; }
-html.dark .form-group label { color: #A1A1A6; }
-html.dark .form-input { background: #2C2C2E; border-color: rgba(255,255,255,0.12); color: #F5F5F7; }
-html.dark .form-input:focus { background: #1C1C1E; }
-html.dark .form-input::placeholder { color: #6E6E73; }
-html.dark .login-social-label { color: #6E6E73; }
-html.dark .login-social-line { background: rgba(255,255,255,0.12); }
-html.dark .login-social-btn { background: #2C2C2E; border-color: rgba(255,255,255,0.12); color: #A1A1A6; }
-html.dark .login-social-btn:hover { background: #1C1C1E; border-color: #48484A; color: #F5F5F7; }
-html.dark .lgp-muted-12 { color: #A1A1A6; }
-html.dark .lgp-muted-12-tight { color: #A1A1A6; }
 </style>

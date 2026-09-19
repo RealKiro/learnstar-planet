@@ -230,7 +230,7 @@ async function uploadLogo(e: Event) {
             <div v-if="logoPath" class="logo-box">
               <img :src="logoPath" class="logo-img">
             </div>
-            <label class="btn btn-sm btn-outline" :style="{ background: uploadLogoStatus === 'loading' ? '#f59e0b' : uploadLogoStatus === 'success' ? '#10b981' : uploadLogoStatus === 'error' ? '#ef4444' : '', color: uploadLogoStatus !== 'idle' ? '#fff' : '', border: uploadLogoStatus !== 'idle' ? '1px solid transparent' : '', cursor: 'pointer' }">
+            <label class="btn btn-sm btn-outline" :class="uploadLogoStatus !== 'idle' ? 'btn-state-' + uploadLogoStatus : ''">
               <template v-if="uploadLogoStatus === 'loading'">上传中...</template>
               <template v-else-if="uploadLogoStatus === 'success'">已上传 ✓</template>
               <template v-else-if="uploadLogoStatus === 'error'">上传失败 ✗</template>
@@ -265,13 +265,13 @@ async function uploadLogo(e: Event) {
           <p class="hint-11">未勾选任何平台时，登录页默认显示企业微信/微信/QQ。通讯录导入需配置对应平台的应用凭证。</p>
         </div>
         <div class="form-actions">
-          <button class="btn btn-sm" :style="{ background: restoreStatus === 'loading' ? '#f59e0b' : restoreStatus === 'success' ? '#10b981' : restoreStatus === 'error' ? '#ef4444' : 'var(--color-bg-card)', color: restoreStatus !== 'idle' ? '#fff' : 'var(--color-text)', border: restoreStatus !== 'idle' ? '1px solid transparent' : '1px solid var(--color-border)' }" :disabled="restoreStatus === 'loading'" @click="reload">
+          <button class="btn btn-sm" :class="restoreStatus === 'idle' ? 'btn-state-plain' : 'btn-state-' + restoreStatus" :disabled="restoreStatus === 'loading'" @click="reload">
             <template v-if="restoreStatus === 'loading'">恢复中...</template>
             <template v-else-if="restoreStatus === 'success'">已恢复 ✓</template>
             <template v-else-if="restoreStatus === 'error'">恢复失败 ✗</template>
             <template v-else>↩️ 重置</template>
           </button>
-          <button class="btn btn-sm" :style="{ background: saveStatus === 'loading' ? '#f59e0b' : saveStatus === 'success' ? '#10b981' : saveStatus === 'error' ? '#ef4444' : '#7c3aed', color: '#fff', border: '1px solid transparent' }" :disabled="saveStatus !== 'idle' || loading" @click="saveSchool">
+          <button class="btn btn-sm" :class="'btn-state-' + saveStatus" :disabled="saveStatus !== 'idle' || loading" @click="saveSchool">
             <template v-if="saveStatus === 'loading'">保存中...</template>
             <template v-else-if="saveStatus === 'success'">已保存 ✓</template>
             <template v-else-if="saveStatus === 'error'">保存失败 ✗</template>
@@ -285,13 +285,13 @@ async function uploadLogo(e: Event) {
     <div v-if="activeTab === 'diagnose'" class="card card-form">
       <p class="card-subtitle">检查数据库表结构完整性</p>
       <div class="btn-row">
-        <button class="btn btn-outline" :style="{ background: diagnoseStatus === 'loading' ? '#f59e0b' : diagnoseStatus === 'success' ? '#10b981' : diagnoseStatus === 'error' ? '#ef4444' : '', color: diagnoseStatus !== 'idle' ? '#fff' : '', border: diagnoseStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="diagnoseStatus !== 'idle'" @click="diagnose">
+        <button class="btn btn-outline" :class="diagnoseStatus !== 'idle' ? 'btn-state-' + diagnoseStatus : ''" :disabled="diagnoseStatus !== 'idle'" @click="diagnose">
           <template v-if="diagnoseStatus === 'loading'">诊断中...</template>
           <template v-else-if="diagnoseStatus === 'success'">诊断完成 ✓</template>
           <template v-else-if="diagnoseStatus === 'error'">诊断失败 ✗</template>
           <template v-else>🔍 开始诊断</template>
         </button>
-        <button class="btn btn-danger" :style="{ background: repairStatus === 'loading' ? '#f59e0b' : repairStatus === 'success' ? '#10b981' : repairStatus === 'error' ? '#ef4444' : '', color: repairStatus !== 'idle' ? '#fff' : '', border: repairStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="repairStatus !== 'idle' || !diagHasIssues" @click="repair">
+        <button class="btn btn-danger" :class="repairStatus !== 'idle' ? 'btn-state-' + repairStatus : ''" :disabled="repairStatus !== 'idle' || !diagHasIssues" @click="repair">
           <template v-if="repairStatus === 'loading'">修复中...</template>
           <template v-else-if="repairStatus === 'success'">修复完成 ✓</template>
           <template v-else-if="repairStatus === 'error'">修复失败 ✗</template>
@@ -304,7 +304,7 @@ async function uploadLogo(e: Event) {
           <span v-else-if="r.status === 'fixable'" class="c-warn">⚠️</span>
           <span v-else class="c-err">❌</span>
           <span class="flex-1">{{ r.item }}</span>
-          <span :style="{ color: r.status === 'ok' ? '#10B981' : r.status === 'fixable' ? '#F59E0B' : '#EF4444', fontWeight:600 }">{{ r.status === 'ok' ? '正常' : (r.detail || '缺失') }}</span>
+          <span :class="['ts-strong', r.status === 'ok' ? 'text-ok' : r.status === 'fixable' ? 'text-warn' : 'text-err']">{{ r.status === 'ok' ? '正常' : (r.detail || '缺失') }}</span>
         </div>
         <div v-if="repairDone" class="repair-done">✅ 修复已完成</div>
       </div>
@@ -416,16 +416,16 @@ async function uploadLogo(e: Event) {
 .card-subtitle { font-size:13px; color:var(--color-text-secondary); margin-bottom:16px; }
 .btn-row { display:flex; gap:12px; margin-bottom:16px; }
 .diag-row { display:flex; align-items:center; gap:10px; padding:6px 10px; border-bottom:1px solid var(--color-border); font-size:13px; }
-.c-ok { color: var(--c-green); }
-.c-warn { color: var(--c-amber); }
-.c-err { color: var(--c-red); }
+.c-ok { display: inline-flex; align-items: center; justify-content: center; color: var(--c-green); }
+.c-warn { display: inline-flex; align-items: center; justify-content: center; color: var(--c-amber); }
+.c-err { display: inline-flex; align-items: center; justify-content: center; color: var(--c-red); }
 .repair-done { padding:8px 12px; font-size:13px; color: var(--c-green); font-weight:500; }
 .diag-empty { padding:12px; text-align:center; font-size:13px; color:var(--color-text-secondary); }
 .status-loading { text-align:center; padding:24px; }
 .version-block { margin-bottom:20px; }
 .sub-title-sm { font-size:13px; font-weight:600; color:var(--color-text-secondary); margin-bottom:8px; }
 .log-toolbar { display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
-.log-title { font-size:15px; font-weight:700; margin:0; }
+.log-title { display: flex; align-items: center; gap: 6px; font-size:15px; font-weight:700; margin:0; }
 .log-select { padding:4px 8px; border-radius:6px; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-size:12px; }
 .btn-card { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
 .btn-purple { background:#7c3aed; color:#fff; border:none; }
@@ -440,4 +440,5 @@ async function uploadLogo(e: Event) {
 .log-level--info { color:#60A5FA; }
 .log-level--debug { color:#94A3B8; }
 .log-text { color:#e6edf3; }
+.ts-strong { font-weight: 600; }
 </style>

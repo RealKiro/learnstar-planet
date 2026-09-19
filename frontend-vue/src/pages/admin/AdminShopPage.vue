@@ -218,7 +218,7 @@ async function handleDelete(item: ShopItemExt) {
     <!-- 分类筛选 -->
     <div class="filter-row">
       <button v-for="c in categories" :key="c.key" class="btn btn-sm"
-        :style="{ background: filterCategory === c.key ? '#7c3aed' : 'var(--color-bg-card)', color: filterCategory === c.key ? '#fff' : 'var(--color-text)', border: '1px solid var(--color-border)' }"
+        :class="['asp-filter', { 'is-selected': filterCategory === c.key }]"
         @click="filterCategory = c.key">{{ c.label }}</button>
     </div>
 
@@ -249,14 +249,14 @@ async function handleDelete(item: ShopItemExt) {
         <div class="row-between-top">
           <span class="price-strong">⭐ {{ item.cost_score }}</span>
           <div class="actions-row">
-            <button class="btn btn-sm btn-ghost" @click="toggleItem(item)" :disabled="getToggleStatus(item.id) === 'loading'" :style="{ color: getToggleStatus(item.id) === 'success' ? '#10b981' : getToggleStatus(item.id) === 'error' ? '#ef4444' : getToggleStatus(item.id) === 'loading' ? '#f59e0b' : item.is_active ? 'var(--color-text-secondary)' : '#f59e0b' }">
+            <button class="btn btn-sm btn-ghost" @click="toggleItem(item)" :disabled="getToggleStatus(item.id) === 'loading'" :style="{ color: getToggleStatus(item.id) === 'success' ? 'var(--c-green-deep)' : getToggleStatus(item.id) === 'error' ? 'var(--c-red-deep)' : getToggleStatus(item.id) === 'loading' ? 'var(--c-amber-deep)' : item.is_active ? 'var(--ui-fg-muted)' : 'var(--c-amber-deep)' }">
               <template v-if="getToggleStatus(item.id) === 'loading'">切换中</template>
               <template v-else-if="getToggleStatus(item.id) === 'success'">已切换</template>
               <template v-else-if="getToggleStatus(item.id) === 'error'">失败</template>
               <template v-else>{{ item.is_active ? '停用' : '启用' }}</template>
             </button>
             <button class="btn btn-sm btn-ghost" @click="openEdit(item)">编辑</button>
-            <button class="btn btn-sm btn-ghost" @click="handleDelete(item)" :disabled="getDeleteStatus(item.id) === 'loading'" :style="{ color: getDeleteStatus(item.id) === 'loading' ? '#f59e0b' : getDeleteStatus(item.id) === 'success' ? '#10b981' : getDeleteStatus(item.id) === 'error' ? '#ef4444' : 'var(--color-danger)' }">{{ getDeleteStatus(item.id) === 'loading' ? '删除中' : getDeleteStatus(item.id) === 'success' ? '已删除' : getDeleteStatus(item.id) === 'error' ? '失败' : '删除' }}</button>
+            <button class="btn btn-sm btn-ghost" @click="handleDelete(item)" :disabled="getDeleteStatus(item.id) === 'loading'" :style="{ color: getDeleteStatus(item.id) === 'loading' ? 'var(--c-amber-deep)' : getDeleteStatus(item.id) === 'success' ? 'var(--c-green-deep)' : getDeleteStatus(item.id) === 'error' ? 'var(--c-red-deep)' : 'var(--color-danger-text)' }">{{ getDeleteStatus(item.id) === 'loading' ? '删除中' : getDeleteStatus(item.id) === 'success' ? '已删除' : getDeleteStatus(item.id) === 'error' ? '失败' : '删除' }}</button>
           </div>
         </div>
       </div>
@@ -268,12 +268,12 @@ async function handleDelete(item: ShopItemExt) {
         <h3 class="modal-heading">{{ editingId ? '编辑商品' : '添加商品' }}</h3>
         <div class="form-group">
           <label>商品名称</label>
-          <input v-model="form.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')">
+          <input v-model="form.name" class="form-input" placeholder="如：铅笔" :class="{ 'input-error': itemErrors.name }" @blur="iVld('name')" @input="iClr('name')">
           <div v-if="itemErrors.name" class="field-error">{{ itemErrors.name }}</div>
         </div>
         <div class="form-group">
           <label>所需积分</label>
-          <input v-model.number="form.cost_score" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost_score ? '#f87171' : '' }" @blur="iVld('cost_score')" @input="iClr('cost_score')">
+          <input v-model.number="form.cost_score" type="number" min="1" class="form-input" :class="{ 'input-error': itemErrors.cost_score }" @blur="iVld('cost_score')" @input="iClr('cost_score')">
           <div v-if="itemErrors.cost_score" class="field-error">{{ itemErrors.cost_score }}</div>
         </div>
         <div class="form-grid-2">
@@ -359,4 +359,6 @@ async function handleDelete(item: ShopItemExt) {
 .accent { accent-color:#7c3aed; }
 .modal-actions { display:flex; justify-content:flex-end; gap:8px; }
 .w-auto { width:auto; }
+.asp-filter { background: var(--ui-card); color: var(--ui-fg); border: 1px solid var(--ui-border); }
+.asp-filter.is-selected { background: var(--ui-brand); color: var(--ui-brand-fg); border-color: var(--ui-brand); }
 </style>

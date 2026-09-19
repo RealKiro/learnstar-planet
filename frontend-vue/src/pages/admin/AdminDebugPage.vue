@@ -94,13 +94,13 @@ function onTabChange(tab: typeof activeTab.value) {
           检查数据库表结构完整性，检测到缺失字段可一键修复
         </p>
         <div class="dbg-row">
-          <button class="btn btn-outline" :style="{ background: diagnoseStatus === 'loading' ? '#f59e0b' : diagnoseStatus === 'success' ? '#10b981' : diagnoseStatus === 'error' ? '#ef4444' : '', color: diagnoseStatus !== 'idle' ? '#fff' : '', border: diagnoseStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="diagnoseStatus !== 'idle'" @click="diagnose">
+          <button class="btn btn-outline" :class="diagnoseStatus !== 'idle' ? 'btn-state-' + diagnoseStatus : ''" :disabled="diagnoseStatus !== 'idle'" @click="diagnose">
             <template v-if="diagnoseStatus === 'loading'">诊断中...</template>
             <template v-else-if="diagnoseStatus === 'success'">诊断完成 ✓</template>
             <template v-else-if="diagnoseStatus === 'error'">诊断失败 ✗</template>
             <template v-else>🔍 开始诊断</template>
           </button>
-          <button class="btn btn-danger" :style="{ background: repairStatus === 'loading' ? '#f59e0b' : repairStatus === 'success' ? '#10b981' : repairStatus === 'error' ? '#ef4444' : '', color: repairStatus !== 'idle' ? '#fff' : '', border: repairStatus !== 'idle' ? '1px solid transparent' : '' }" :disabled="repairStatus !== 'idle' || !diagHasIssues" @click="repair">
+          <button class="btn btn-danger" :class="repairStatus !== 'idle' ? 'btn-state-' + repairStatus : ''" :disabled="repairStatus !== 'idle' || !diagHasIssues" @click="repair">
             <template v-if="repairStatus === 'loading'">修复中...</template>
             <template v-else-if="repairStatus === 'success'">修复完成 ✓</template>
             <template v-else-if="repairStatus === 'error'">修复失败 ✗</template>

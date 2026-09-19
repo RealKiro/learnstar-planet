@@ -156,14 +156,14 @@ async function handleDelete(rule: ScoreRule) {
               <span v-if="!rule.is_active" class="badge-warn">停用</span>
             </div>
             <div class="rule-actions">
-              <button class="btn btn-sm btn-ghost" @click="toggleRule(rule)" :disabled="getToggleStatus(rule.id) === 'loading'" :style="{ color: getToggleStatus(rule.id) === 'success' ? '#10b981' : getToggleStatus(rule.id) === 'error' ? '#ef4444' : getToggleStatus(rule.id) === 'loading' ? '#f59e0b' : rule.is_active ? 'var(--color-text-secondary)' : '#f59e0b' }">
+              <button class="btn btn-sm btn-ghost" @click="toggleRule(rule)" :disabled="getToggleStatus(rule.id) === 'loading'" :style="{ color: getToggleStatus(rule.id) === 'success' ? 'var(--c-green-deep)' : getToggleStatus(rule.id) === 'error' ? 'var(--c-red-deep)' : getToggleStatus(rule.id) === 'loading' ? 'var(--c-amber-deep)' : rule.is_active ? 'var(--ui-fg-muted)' : 'var(--c-amber-deep)' }">
                 <template v-if="getToggleStatus(rule.id) === 'loading'">切换中</template>
                 <template v-else-if="getToggleStatus(rule.id) === 'success'">已切换</template>
                 <template v-else-if="getToggleStatus(rule.id) === 'error'">失败</template>
                 <template v-else>{{ rule.is_active ? '停用' : '启用' }}</template>
               </button>
               <button class="btn btn-sm btn-ghost" @click="openEdit(rule)">编辑</button>
-              <button class="btn btn-sm btn-ghost" @click="handleDelete(rule)" :disabled="getDeleteStatus(rule.id) === 'loading'" :style="{ color: getDeleteStatus(rule.id) === 'loading' ? '#f59e0b' : getDeleteStatus(rule.id) === 'success' ? '#10b981' : getDeleteStatus(rule.id) === 'error' ? '#ef4444' : 'var(--color-danger)' }">{{ getDeleteStatus(rule.id) === 'loading' ? '删除中' : getDeleteStatus(rule.id) === 'success' ? '已删除' : getDeleteStatus(rule.id) === 'error' ? '失败' : '删除' }}</button>
+              <button class="btn btn-sm btn-ghost" @click="handleDelete(rule)" :disabled="getDeleteStatus(rule.id) === 'loading'" :style="{ color: getDeleteStatus(rule.id) === 'loading' ? 'var(--c-amber-deep)' : getDeleteStatus(rule.id) === 'success' ? 'var(--c-green-deep)' : getDeleteStatus(rule.id) === 'error' ? 'var(--c-red-deep)' : 'var(--color-danger-text)' }">{{ getDeleteStatus(rule.id) === 'loading' ? '删除中' : getDeleteStatus(rule.id) === 'success' ? '已删除' : getDeleteStatus(rule.id) === 'error' ? '失败' : '删除' }}</button>
             </div>
           </div>
         </div>
@@ -183,14 +183,14 @@ async function handleDelete(rule: ScoreRule) {
               <span v-if="!rule.is_active" class="badge-warn">停用</span>
             </div>
             <div class="rule-actions">
-              <button class="btn btn-sm btn-ghost" @click="toggleRule(rule)" :disabled="getToggleStatus(rule.id) === 'loading'" :style="{ color: getToggleStatus(rule.id) === 'success' ? '#10b981' : getToggleStatus(rule.id) === 'error' ? '#ef4444' : getToggleStatus(rule.id) === 'loading' ? '#f59e0b' : rule.is_active ? 'var(--color-text-secondary)' : '#f59e0b' }">
+              <button class="btn btn-sm btn-ghost" @click="toggleRule(rule)" :disabled="getToggleStatus(rule.id) === 'loading'" :style="{ color: getToggleStatus(rule.id) === 'success' ? 'var(--c-green-deep)' : getToggleStatus(rule.id) === 'error' ? 'var(--c-red-deep)' : getToggleStatus(rule.id) === 'loading' ? 'var(--c-amber-deep)' : rule.is_active ? 'var(--ui-fg-muted)' : 'var(--c-amber-deep)' }">
                 <template v-if="getToggleStatus(rule.id) === 'loading'">切换中</template>
                 <template v-else-if="getToggleStatus(rule.id) === 'success'">已切换</template>
                 <template v-else-if="getToggleStatus(rule.id) === 'error'">失败</template>
                 <template v-else>{{ rule.is_active ? '停用' : '启用' }}</template>
               </button>
               <button class="btn btn-sm btn-ghost" @click="openEdit(rule)">编辑</button>
-              <button class="btn btn-sm btn-ghost" @click="handleDelete(rule)" :disabled="getDeleteStatus(rule.id) === 'loading'" :style="{ color: getDeleteStatus(rule.id) === 'loading' ? '#f59e0b' : getDeleteStatus(rule.id) === 'success' ? '#10b981' : getDeleteStatus(rule.id) === 'error' ? '#ef4444' : 'var(--color-danger)' }">{{ getDeleteStatus(rule.id) === 'loading' ? '删除中' : getDeleteStatus(rule.id) === 'success' ? '已删除' : getDeleteStatus(rule.id) === 'error' ? '失败' : '删除' }}</button>
+              <button class="btn btn-sm btn-ghost" @click="handleDelete(rule)" :disabled="getDeleteStatus(rule.id) === 'loading'" :style="{ color: getDeleteStatus(rule.id) === 'loading' ? 'var(--c-amber-deep)' : getDeleteStatus(rule.id) === 'success' ? 'var(--c-green-deep)' : getDeleteStatus(rule.id) === 'error' ? 'var(--c-red-deep)' : 'var(--color-danger-text)' }">{{ getDeleteStatus(rule.id) === 'loading' ? '删除中' : getDeleteStatus(rule.id) === 'success' ? '已删除' : getDeleteStatus(rule.id) === 'error' ? '失败' : '删除' }}</button>
             </div>
           </div>
         </div>
@@ -203,12 +203,12 @@ async function handleDelete(rule: ScoreRule) {
         <h3 class="modal-heading">{{ editingId ? '编辑规则' : '添加规则' }}</h3>
         <div class="form-group">
           <label>规则名称</label>
-          <input v-model="form.name" class="form-input" placeholder="如：举手发言" :style="{ borderColor: ruleErrors.name ? '#f87171' : '' }" @blur="rVld('name')" @input="rClr('name')" @keydown.enter="handleSubmit">
+          <input v-model="form.name" class="form-input" placeholder="如：举手发言" :class="{ 'input-error': ruleErrors.name }" @blur="rVld('name')" @input="rClr('name')" @keydown.enter="handleSubmit">
           <div v-if="ruleErrors.name" class="field-error">{{ ruleErrors.name }}</div>
         </div>
         <div class="form-group">
           <label>分值</label>
-          <input v-model.number="form.amount" type="number" min="1" class="form-input" placeholder="如：5" :style="{ borderColor: ruleErrors.amount ? '#f87171' : '' }" @blur="rVld('amount')" @input="rClr('amount')">
+          <input v-model.number="form.amount" type="number" min="1" class="form-input" placeholder="如：5" :class="{ 'input-error': ruleErrors.amount }" @blur="rVld('amount')" @input="rClr('amount')">
           <div v-if="ruleErrors.amount" class="field-error">{{ ruleErrors.amount }}</div>
         </div>
         <div class="form-group">
@@ -258,9 +258,9 @@ async function handleDelete(rule: ScoreRule) {
 .page-desc { font-size:12px; color:var(--color-text-secondary); margin-bottom:16px; }
 .section-gap { margin-bottom:16px; }
 .grid-2-24 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-.text-accent-13 { color:var(--color-accent); font-size:13px; }
+.text-accent-13 { color:var(--ui-brand); font-size:13px; }
 .notice-ok { padding:12px 16px; display:flex; align-items:center; justify-content:space-between; border-color:rgba(16,185,129,0.3); }
-.fw-700-accent { font-weight:700; color:var(--color-accent); }
+.fw-700-accent { font-weight:700; color:var(--ui-brand); }
 .text-danger-13 { color:var(--color-danger); font-size:13px; }
 .notice-err { padding:12px 16px; display:flex; align-items:center; justify-content:space-between; border-color:rgba(239,68,68,0.3); }
 .fw-700-danger { font-weight:700; color:var(--color-danger); }

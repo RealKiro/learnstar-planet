@@ -191,7 +191,7 @@ onMounted(() => {
 
 <style scoped>
 .class-switcher { font-size: 12px; }
-.cs-label { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 6px; letter-spacing: 0.03em; }
+.cs-label { display:flex; align-items:center; gap:5px; font-size: 11px; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 6px; letter-spacing: 0.03em; }
 .cs-empty { font-size: 12px; color: var(--color-text-secondary); padding: 8px 0; text-align: center; }
 .cs-basic-class { padding: 8px 10px; background: var(--tint-2); border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; color: var(--color-text); }
 .cs-select-wrap { position: relative; }
@@ -200,7 +200,7 @@ onMounted(() => {
 .cs-info { display: flex; gap: 8px; justify-content: center; margin-top: 6px; font-size: 11px; }
 .cs-role { color: var(--color-primary, #a78bfa); font-weight: 600; }
 .cs-grade { color: var(--color-text-secondary); }
-.cs-login-btn { width:100%; padding:8px; border-radius:10px; border:1px solid var(--color-accent); background:rgba(124,58,237,0.06); color:var(--color-accent); font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; transition:0.2s; }
+.cs-login-btn { display:inline-flex; align-items:center; justify-content:center; gap:5px; width:100%; padding:8px; border-radius:10px; border:1px solid var(--ui-brand); background:rgba(124,58,237,0.06); color:var(--ui-brand); font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; transition:0.2s; }
 .cs-login-btn:hover { background:rgba(124,58,237,0.12); }
 .tly-text-12 { font-size:12px;color:var(--color-text-secondary); }
 .tly-fw-name { font-weight:600;color:var(--color-text); }

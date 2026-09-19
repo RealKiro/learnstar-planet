@@ -151,7 +151,7 @@ onUnmounted(() => {
           <div v-if="unlockError" class="unlock-error">{{ unlockError }}</div>
           <div class="unlock-buttons">
             <button class="unlock-btn cancel" @click="showUnlock = false">取消</button>
-            <button class="unlock-btn confirm" :style="{ background: unlockStatus === 'loading' ? '#f59e0b' : unlockStatus === 'success' ? '#10b981' : unlockStatus === 'error' ? '#ef4444' : '#7c3aed' }" :disabled="unlockStatus === 'loading'" @click="submitUnlock">
+            <button class="unlock-btn confirm" :class="'btn-state-' + unlockStatus" :disabled="unlockStatus === 'loading'" @click="submitUnlock">
               <template v-if="unlockStatus === 'idle'">确认解锁</template>
               <template v-else-if="unlockStatus === 'loading'">解锁中...</template>
               <template v-else-if="unlockStatus === 'success'">已解锁 ✓</template>

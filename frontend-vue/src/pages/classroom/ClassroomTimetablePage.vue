@@ -163,6 +163,6 @@ onUnmounted(() => { if (clockTimer) clearInterval(clockTimer) })
 .tt-week { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; background: var(--c-violet-chip); color: var(--color-primary); }
 .tt-meta { font-size: 14px; color: var(--color-text-secondary); flex-shrink: 0; }
 .tt-empty { text-align: center; padding: 60px 0; color: var(--color-text-secondary); font-size: 15px; }
-.tt-empty-icon { display: block; font-size: 40px; margin-bottom: 10px; }
+.tt-empty-icon { display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 10px; color: var(--ui-fg-subtle); }
 .tt-error { color: var(--color-danger, #ef4444); }
 </style>

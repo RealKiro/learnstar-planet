@@ -86,7 +86,7 @@ onUnmounted(() => {
             borderRadius:'var(--md-radius)', transition:'0.25s',
           }">
           <div 
- :style="{ color: idx === 0 ? '#F59E0B' : idx === 1 ? '#94A3B8' : idx === 2 ? '#D97706' : 'var(--color-text-secondary)' }" class="rank">
+ :class="'pk-rank-' + (idx < 3 ? idx : 3)" class="rank">
             {{ getMedal(idx) }}
           </div>
           <div class="team-name">
@@ -95,7 +95,7 @@ onUnmounted(() => {
           </div>
           <div class="bar-wrap">
             <div class="bar-track">
-              <div :style="{ width: (cls.totalScore / maxScore) * 100 + '%', height:'100%', background: idx === 0 ? 'linear-gradient(90deg,#f59e0b,#fcd34d)' : 'linear-gradient(90deg,var(--md-primary),var(--md-secondary))', borderRadius:'4px', transition:'width 0.8s' }"></div>
+              <div :style="{ width: (cls.totalScore / maxScore) * 100 + '%' }" :class="['pk-bar', idx === 0 ? 'pk-bar--first' : 'pk-bar--rest']"></div>
             </div>
             <span class="bar-value">{{ cls.totalScore.toLocaleString() }}</span>
           </div>
@@ -173,4 +173,11 @@ onUnmounted(() => {
 .gold-18 { color: var(--c-amber); font-size:18px; }
 .faded-13 { font-size:13px; opacity:0.7; }
 .text-ok-15 { font-size:15px; color: var(--c-green); line-height:1.6; }
+.pk-rank-0 { color: var(--c-amber); }
+.pk-rank-1 { color: var(--c-slate-500); }
+.pk-rank-2 { color: var(--c-orange); }
+.pk-rank-3 { color: var(--ui-fg-muted); }
+.pk-bar { height: 100%; border-radius: 4px; transition: width 0.8s; }
+.pk-bar--first { background: var(--c-amber); }
+.pk-bar--rest { background: var(--ui-brand); }
 </style>

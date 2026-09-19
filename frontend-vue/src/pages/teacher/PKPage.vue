@@ -251,8 +251,8 @@ onMounted(async () => {
 }
 .page-title { font-size: 26px; font-weight: 700; margin: 0; }
 .page-subtitle { font-size: 14px; color: var(--color-text-secondary); }
-.page-link-btn { padding:4px 12px; border-radius:8px; border:1px solid var(--color-border); background:transparent; color:var(--color-accent); font-size:12px; font-weight:500; cursor:pointer; white-space:nowrap; transition:0.15s; font-family:inherit; }
-.page-link-btn:hover { background:rgba(79,70,229,0.08); border-color:var(--color-accent); }
+.page-link-btn { padding:4px 12px; border-radius:8px; border:1px solid var(--color-border); background:transparent; color:var(--ui-brand); font-size:12px; font-weight:500; cursor:pointer; white-space:nowrap; transition:0.15s; font-family:inherit; }
+.page-link-btn:hover { background:var(--ui-brand-soft); border-color:var(--ui-brand); }
 .rank-badge {
   padding: 6px 20px;
   border-radius: 30px;

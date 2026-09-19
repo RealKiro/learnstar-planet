@@ -425,7 +425,7 @@ const expPercent = computed(() => {
   color: var(--color-text);
   white-space: nowrap;
 }
-.score-icon { font-size: 13px; margin-right: 2px; }
+.score-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 13px; margin-right: 2px; }
 .card-score .unit {
   font-size: 11px;
   font-weight: 400;
@@ -438,7 +438,7 @@ const expPercent = computed(() => {
   font-size: 12px;
   color: var(--color-text-secondary);
 }
-.pt-icon { font-size: 12px; }
+.pt-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
 
 /* ===== 底部：等级/进度 + 加减分 ===== */
 .card-bottom {

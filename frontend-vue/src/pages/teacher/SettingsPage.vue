@@ -136,22 +136,22 @@ async function changePassword() {
           </div>
           <div class="form-group set-mb-12">
             <label>当前密码</label>
-            <input v-model="pwdForm.current_password" type="password" class="form-input" placeholder="输入当前密码" :style="{ borderColor: pwdErrors.current_password ? '#f87171' : '' }" @blur="pwdVld('current_password')" @input="pwdClr('current_password')">
+            <input v-model="pwdForm.current_password" type="password" class="form-input" placeholder="输入当前密码" :class="{ 'input-error': pwdErrors.current_password }" @blur="pwdVld('current_password')" @input="pwdClr('current_password')">
             <div v-if="pwdErrors.current_password" class="field-error">{{ pwdErrors.current_password }}</div>
           </div>
           <div class="form-group set-mb-12">
             <label>新密码</label>
-            <input v-model="pwdForm.new_password" type="password" class="form-input" placeholder="至少 6 位" :style="{ borderColor: pwdErrors.new_password ? '#f87171' : '' }" @blur="pwdVld('new_password')" @input="pwdClr('new_password')">
+            <input v-model="pwdForm.new_password" type="password" class="form-input" placeholder="至少 6 位" :class="{ 'input-error': pwdErrors.new_password }" @blur="pwdVld('new_password')" @input="pwdClr('new_password')">
             <div v-if="pwdErrors.new_password" class="field-error">{{ pwdErrors.new_password }}</div>
           </div>
           <div class="form-group set-mb-20">
             <label>确认新密码</label>
-            <input v-model="pwdForm.confirm_password" type="password" class="form-input" placeholder="再次输入新密码" :style="{ borderColor: pwdErrors.confirm_password ? '#f87171' : '' }" @blur="pwdVld('confirm_password')" @input="pwdClr('confirm_password')">
+            <input v-model="pwdForm.confirm_password" type="password" class="form-input" placeholder="再次输入新密码" :class="{ 'input-error': pwdErrors.confirm_password }" @blur="pwdVld('confirm_password')" @input="pwdClr('confirm_password')">
             <div v-if="pwdErrors.confirm_password" class="field-error">{{ pwdErrors.confirm_password }}</div>
           </div>
           <div class="set-row-12">
             <button class="btn set-input-flex" @click="showPwdModal = false">取消</button>
-            <button class="btn btn-primary flex-1" :style="{ background: pwdStatus === 'loading' ? '#f59e0b' : pwdStatus === 'success' ? '#10b981' : pwdStatus === 'error' ? '#ef4444' : '' }" :disabled="pwdStatus === 'loading'" @click="changePassword">
+            <button class="btn btn-primary flex-1" :class="pwdStatus !== 'idle' ? 'btn-state-' + pwdStatus : ''" :disabled="pwdStatus === 'loading'" @click="changePassword">
               <template v-if="pwdStatus === 'loading'">修改中...</template>
               <template v-else-if="pwdStatus === 'success'">修改成功 ✓</template>
               <template v-else-if="pwdStatus === 'error'">修改失败 ✗</template>
@@ -171,12 +171,12 @@ async function changePassword() {
           <span class="set-shrink-0"><PlatformIcon :platform="b.platform" :size="32" /></span>
           <div class="flex-1">
             <div class="set-fw-500">{{ b.label || platformLabel(b.platform) }}</div>
-            <div :style="{ color: b.bound ? 'var(--color-accent)' : 'var(--color-text-secondary)' }" class="set-text-12">
+            <div :style="{ color: b.bound ? 'var(--c-green)' : 'var(--color-text-secondary)' }" class="set-text-12">
               {{ b.bound ? '✅ 已绑定' : '未绑定' }}
               <span v-if="b.bound && b.nick" class="set-ml-4">（{{ b.nick }}）</span>
             </div>
           </div>
-          <button v-if="b.bound" class="btn btn-sm" :style="{ background: unbindStatus[b.platform] === 'loading' ? '#f59e0b' : unbindStatus[b.platform] === 'success' ? '#10b981' : unbindStatus[b.platform] === 'error' ? '#ef4444' : '', color: unbindStatus[b.platform] && unbindStatus[b.platform] !== 'idle' ? '#fff' : 'var(--color-danger)', border: unbindStatus[b.platform] && unbindStatus[b.platform] !== 'idle' ? '1px solid transparent' : '' }" :disabled="unbindStatus[b.platform] === 'loading'" @click="unbind(b.platform)">
+          <button v-if="b.bound" class="btn btn-sm" :class="unbindStatus[b.platform] && unbindStatus[b.platform] !== 'idle' ? 'btn-state-' + unbindStatus[b.platform] : 'text-danger'" :disabled="unbindStatus[b.platform] === 'loading'" @click="unbind(b.platform)">
             <template v-if="unbindStatus[b.platform] === 'loading'">解绑中...</template>
             <template v-else-if="unbindStatus[b.platform] === 'success'">已解绑 ✓</template>
             <template v-else-if="unbindStatus[b.platform] === 'error'">解绑失败 ✗</template>

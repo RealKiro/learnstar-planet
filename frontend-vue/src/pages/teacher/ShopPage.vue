@@ -179,7 +179,7 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
     <!-- 分类筛选 -->
     <div class="tab-row">
       <button v-for="c in categories" :key="c.key"
- :style="filterCategory === c.key ? { background:'var(--color-primary)', color:'#fff', borderColor:'var(--color-primary)' } : { color: 'var(--color-text)' }"
+ :class="{ 'is-selected': filterCategory === c.key }"
  
  @click="filterCategory = c.key" class="pill">
         {{ c.label }}
@@ -189,8 +189,8 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
     <div v-if="showAddForm" class="card section-gap-lg">
       <h3 class="section-title">添加新奖品</h3>
       <div class="grid-2-16">
-        <div class="form-group"><label>商品名称 <span class="req-star">*</span></label><input v-model="newItem.name" class="form-input" placeholder="如：铅笔" :style="{ borderColor: itemErrors.name ? '#f87171' : '' }" @blur="iVld('name')" @input="iClr('name')"><div v-if="itemErrors.name" class="field-error">{{ itemErrors.name }}</div></div>
-        <div class="form-group"><label>所需积分 <span class="req-star">*</span></label><input v-model.number="newItem.cost_score" type="number" min="1" class="form-input" :style="{ borderColor: itemErrors.cost_score ? '#f87171' : '' }" @blur="iVld('cost_score')" @input="iClr('cost_score')"><div v-if="itemErrors.cost_score" class="field-error">{{ itemErrors.cost_score }}</div></div>
+        <div class="form-group"><label>商品名称 <span class="req-star">*</span></label><input v-model="newItem.name" class="form-input" placeholder="如：铅笔" :class="{ 'input-error': itemErrors.name }" @blur="iVld('name')" @input="iClr('name')"><div v-if="itemErrors.name" class="field-error">{{ itemErrors.name }}</div></div>
+        <div class="form-group"><label>所需积分 <span class="req-star">*</span></label><input v-model.number="newItem.cost_score" type="number" min="1" class="form-input" :class="{ 'input-error': itemErrors.cost_score }" @blur="iVld('cost_score')" @input="iClr('cost_score')"><div v-if="itemErrors.cost_score" class="field-error">{{ itemErrors.cost_score }}</div></div>
         <div class="form-group"><label>库存（0=无限）</label><input v-model.number="newItem.stock" type="number" min="0" class="form-input"></div>
         <div class="form-group">
           <label>类别</label>
@@ -217,7 +217,7 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
         <input v-model="newItem.description" class="form-input" placeholder="简短描述">
       </div>
       <button class="btn btn-primary form-actions-inline" :disabled="addStatus !== 'idle'"
- :style="{ background: addStatus === 'loading' ? '#f59e0b' : addStatus === 'success' ? '#10b981' : addStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+ :class="'btn-state-' + addStatus"
  @click="addItem">
         <template v-if="addStatus === 'idle'">添加</template>
         <template v-else-if="addStatus === 'loading'">添加中...</template>
@@ -288,7 +288,7 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
         <div class="modal-actions">
           <button class="btn btn-ghost" @click="showRedeemModal = false">取消</button>
           <button class="btn btn-primary" :disabled="redeemStatus !== 'idle' || !selectedStudentId"
-            :style="{ background: redeemStatus === 'loading' ? '#f59e0b' : redeemStatus === 'success' ? '#10b981' : redeemStatus === 'error' ? '#ef4444' : '#7c3aed' }"
+            :class="'btn-state-' + redeemStatus"
             @click="submitRedeem">
             <template v-if="redeemStatus === 'idle'">确认兑换</template>
             <template v-else-if="redeemStatus === 'loading'">兑换中...</template>
@@ -309,9 +309,9 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
 .muted-12-top { font-size:12px; color:var(--color-text-secondary); margin-top:4px; }
 .row-8 { display:flex; gap:8px; }
 .btn-card { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
-.balance-card { margin-bottom:24px; padding:16px 24px; background:rgba(79,70,229,0.04); border-color:rgba(79,70,229,0.15); }
+.balance-card { margin-bottom:24px; padding:16px 24px; background:var(--ui-brand-soft); border-color:var(--ui-brand-soft); }
 .row-gap-12 { display:flex; align-items:center; gap:12px; }
-.icon-28 { font-size:28px; }
+.icon-28 { display: inline-flex; align-items: center; justify-content: center; font-size:28px; }
 .balance-value { font-weight:600; font-size:14px; color:var(--color-primary); }
 .tab-row { display:flex; gap:8px; margin-bottom:16px; }
 .pill { padding:8px 16px; border-radius:20px; font-size:13px; cursor:pointer; background:var(--color-bg); border:1px solid var(--color-border); color:var(--color-text); }
@@ -325,7 +325,7 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
 .item-emoji { font-size:48px; margin-bottom:12px; }
 .item-title { font-weight:600; font-size:16px; margin-bottom:4px; }
 .item-desc { font-size:12px; color:var(--color-text-secondary); margin-bottom:8px; }
-.stock-pill { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; font-size:12px; margin-bottom:8px; background:rgba(79,70,229,0.08); color:var(--color-primary); }
+.stock-pill { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; font-size:12px; margin-bottom:8px; background:var(--ui-brand-soft); color:var(--color-primary); }
 .price { color:var(--color-secondary); font-weight:700; font-size:16px; }
 .item-cta { margin-top:12px; width:100%; }
 .modal-mask { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:200; }
@@ -333,6 +333,7 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
 .modal-heading { font-size:18px; font-weight:600; margin-bottom:16px; }
 .info-box { margin-bottom:16px; padding:12px; background:var(--color-bg); border-radius:var(--radius-md); }
 .text-13 { font-size:13px; }
-.text-accent { color:var(--color-accent); }
+.text-accent { color:var(--ui-brand); }
 .modal-actions { display:flex; gap:8px; justify-content:flex-end; }
+.pill.is-selected { background: var(--ui-brand); color: var(--ui-brand-fg); border-color: var(--ui-brand); }
 </style>

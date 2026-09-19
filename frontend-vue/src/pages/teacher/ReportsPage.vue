@@ -45,7 +45,7 @@ const maxTrendValue = computed(() => {
 })
 
 const trendArrow = (t: string) => t === 'up' ? '↑' : t === 'down' ? '↓' : '→'
-const trendColor = (t: string) => t === 'up' ? 'var(--color-accent)' : t === 'down' ? 'var(--color-danger)' : 'var(--color-text-secondary)'
+const trendColor = (t: string) => t === 'up' ? 'var(--c-green)' : t === 'down' ? 'var(--color-danger)' : 'var(--color-text-secondary)'
 
 const exportBtnClass = computed(() =>
   exportStatus.value === 'loading' ? 'btn-state-loading'

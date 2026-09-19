@@ -208,13 +208,13 @@ function useCommand(cmd: AICommand) {
 .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
 .page-title { font-size: 24px; font-weight: 700; }
 .usage-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--color-text-secondary); background: var(--color-bg); padding: 6px 12px; border-radius: var(--radius-sm); }
-.usage-config--on { color: var(--color-accent); }
+.usage-config--on { color: var(--c-green); }
 .usage-config--off { color: var(--c-red); }
 .usage-meta { color: var(--color-text-secondary); }
 
 /* ===== 教室端：AI 未开启门禁 ===== */
 .ai-disabled { text-align: center; padding: 48px; color: var(--color-text-secondary); }
-.ai-disabled__icon { font-size: 48px; margin-bottom: 12px; }
+.ai-disabled__icon { font-size: 48px; line-height: 1; text-align: center; color: var(--ui-fg-subtle); margin-bottom: 12px; }
 
 /* ===== 聊天容器 ===== */
 .chat-card { display: flex; flex-direction: column; height: calc(100vh - 200px); min-height: 400px; }
@@ -253,7 +253,7 @@ function useCommand(cmd: AICommand) {
 /* ===== 消息区 ===== */
 .chat-body { flex: 1; overflow-y: auto; padding: 8px 4px; display: flex; flex-direction: column; gap: 12px; }
 .chat-empty { text-align: center; padding: 48px; color: var(--color-text-secondary); }
-.chat-empty__icon { font-size: 48px; margin-bottom: 12px; }
+.chat-empty__icon { font-size: 48px; line-height: 1; text-align: center; color: var(--ui-fg-subtle); margin-bottom: 12px; }
 .chat-empty__main { margin-bottom: 8px; }
 .chat-empty__sub { font-size: 13px; }
 .msg-row { max-width: 75%; }

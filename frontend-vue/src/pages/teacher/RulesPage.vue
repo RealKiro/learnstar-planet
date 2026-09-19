@@ -189,12 +189,12 @@ async function handleDelete(rule: ScoreRule) {
         <h3 class="rule-modal-title">{{ editingId ? '编辑规则' : '添加规则' }}</h3>
         <div class="form-group">
           <label>规则名称</label>
-          <input v-model="form.name" class="form-input" placeholder="如：举手发言" :style="{ borderColor: ruleErrors.name ? '#f87171' : '' }" @blur="rVld('name')" @input="rClr('name')" @keydown.enter="handleSubmit">
+          <input v-model="form.name" class="form-input" placeholder="如：举手发言" :class="{ 'input-error': ruleErrors.name }" @blur="rVld('name')" @input="rClr('name')" @keydown.enter="handleSubmit">
           <div v-if="ruleErrors.name" class="field-error">{{ ruleErrors.name }}</div>
         </div>
         <div class="form-group">
           <label>分值</label>
-          <input v-model.number="form.amount" type="number" min="1" class="form-input" placeholder="如：5" :style="{ borderColor: ruleErrors.amount ? '#f87171' : '' }" @blur="rVld('amount')" @input="rClr('amount')">
+          <input v-model.number="form.amount" type="number" min="1" class="form-input" placeholder="如：5" :class="{ 'input-error': ruleErrors.amount }" @blur="rVld('amount')" @input="rClr('amount')">
           <div v-if="ruleErrors.amount" class="field-error">{{ ruleErrors.amount }}</div>
         </div>
         <div class="form-group">
@@ -227,9 +227,9 @@ async function handleDelete(rule: ScoreRule) {
 .rule-error { margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
 .rule-mb-16 { margin-bottom:16px; }
 .rule-grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
-.rule-accent-13 { color:var(--color-accent);font-size:13px; }
+.rule-accent-13 { color:var(--ui-brand);font-size:13px; }
 .rule-card-ok { padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(16,185,129,0.3); }
-.rule-fw-accent { font-weight:700;color:var(--color-accent); }
+.rule-fw-accent { font-weight:700;color:var(--ui-brand); }
 .rule-danger-13 { color:var(--color-danger);font-size:13px; }
 .rule-card-danger { padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-color:rgba(239,68,68,0.3); }
 .rule-fw-danger { font-weight:700;color:var(--color-danger); }

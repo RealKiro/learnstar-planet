@@ -40,8 +40,7 @@ const emit = defineEmits<{
                 v-for="rule in group.rules"
                 :key="rule.id"
                 class="rule-btn"
-                :class="{ 'rule-add': rule.amount > 0, 'rule-sub': rule.amount < 0 }"
-                :style="status !== 'idle' && activeRuleName === rule.name ? { background: status === 'loading' ? '#f59e0b' : status === 'success' ? '#10b981' : '#ef4444', color: '#fff', borderColor: 'transparent' } : {}"
+                :class="[{ 'rule-add': rule.amount > 0, 'rule-sub': rule.amount < 0 }, status !== 'idle' && activeRuleName === rule.name ? 'btn-state-' + status : '']"
                 @click="emit('apply', rule)"
                 :disabled="busy"
               >

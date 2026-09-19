@@ -304,9 +304,9 @@ function closeModal() {
   height: 36px;
   padding: 0 16px;
   border-radius: 8px;
-  border: 1px solid var(--color-accent);
-  background: rgba(79, 70, 229, 0.08);
-  color: var(--color-accent);
+  border: 1px solid var(--ui-brand);
+  background: var(--ui-brand-soft);
+  color: var(--ui-brand);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;

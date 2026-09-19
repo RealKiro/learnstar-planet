@@ -237,7 +237,7 @@ async function doSubmit(force: boolean) {
           <div class="flex-row">
             <div class="flex-1 form-group">
               <label>姓名 <span class="req-danger">*</span></label>
-              <input v-model="createForm.name" placeholder="姓名" class="form-input" :style="{ borderColor: createErrors.name ? '#f87171' : '' }" @blur="validateField('name', createForm.name)" @input="clearError('name')" />
+              <input v-model="createForm.name" placeholder="姓名" class="form-input" :class="{ 'input-error': createErrors.name }" @blur="validateField('name', createForm.name)" @input="clearError('name')" />
               <div v-if="createErrors.name" class="field-error">{{ createErrors.name }}</div>
             </div>
             <div class="flex-1 form-group">
@@ -272,7 +272,7 @@ async function doSubmit(force: boolean) {
           <div class="hidden"></div>
           <div class="form-group">
             <label>初始密码</label>
-            <input v-model="createForm.password" placeholder="留空默认 ls123456" class="form-input" :style="{ borderColor: createErrors.password ? '#f87171' : '' }" @blur="validateField('password', createForm.password)" @input="clearError('password')" />
+            <input v-model="createForm.password" placeholder="留空默认 ls123456" class="form-input" :class="{ 'input-error': createErrors.password }" @blur="validateField('password', createForm.password)" @input="clearError('password')" />
             <div v-if="createErrors.password" class="field-error">{{ createErrors.password }}</div>
           </div>
         </div>
@@ -307,7 +307,7 @@ async function doSubmit(force: boolean) {
     <div class="modal-footer modal-footer-compact">
       <button @click="closeModal" class="flex-1 modal-btn-outline">取消</button>
       <button @click="submitCreate" :disabled="createStatus === 'loading'" class="flex-1 modal-btn-primary"
-        :style="{ background: createStatus === 'loading' ? '#f59e0b' : createStatus === 'success' ? '#10b981' : createStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+        :class="'btn-state-' + createStatus">
         <span v-if="createStatus === 'idle'">创建账号</span>
         <span v-else-if="createStatus === 'loading'">⏳ 创建中...</span>
         <span v-else-if="createStatus === 'success'">✅ 创建成功</span>
@@ -361,15 +361,15 @@ async function doSubmit(force: boolean) {
 .hidden { display:none; }
 .grid-2-gap6 { display:grid;grid-template-columns:1fr 1fr;gap:6px; }
 .row-end-mt6 { display:flex;justify-content:flex-end;margin-top:6px; }
-.btn-add-assign { padding:5px 16px;border-radius:8px;border:1px solid var(--color-accent);background:rgba(79,70,229,0.08);color:var(--color-accent);font-size:13px;cursor:pointer;font-weight:500; }
+.btn-add-assign { padding:5px 16px;border-radius:8px;border:1px solid var(--ui-brand);background:var(--ui-brand-soft);color:var(--ui-brand);font-size:13px;cursor:pointer;font-weight:500; }
 .assign-error { color: var(--c-red-soft);font-size:11px;margin-top:4px; }
-.assign-hint { font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--color-accent); }
+.assign-hint { font-size:11px;color:var(--color-text-secondary);margin-top:8px;padding:6px 8px;background:var(--color-bg);border-radius:6px;border-left:2px solid var(--ui-brand); }
 .assign-list { margin-top:8px;display:flex;flex-direction:column;gap:4px; }
 .assign-list-title { font-size:11px;color:var(--color-text-secondary);margin-bottom:2px; }
-.assign-group { display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--color-accent); }
+.assign-group { display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--color-bg);border-radius:4px;font-size:12px;border-left:3px solid var(--ui-brand); }
 .assign-class-name { flex:1;color:var(--color-text);font-weight:500; }
 .text-11-muted { font-size:11px;color:var(--color-text-secondary); }
-.text-11-accent { font-size:11px;font-weight:500;color:var(--color-accent); }
+.text-11-accent { font-size:11px;font-weight:500;color:var(--ui-brand); }
 .text-10-border { color:var(--color-border);font-size:10px; }
 .assign-remove { background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0; }
 .modal-footer-compact { padding:12px 20px;flex-shrink:0;margin-top:0; }

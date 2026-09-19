@@ -43,8 +43,6 @@ function openHandbook(s: CardStudent) {
   handbook.value = { speciesId: s.pet_species, level: s.pet_level, score: s.score }
 }
 
-// 冠亚季军奖牌色（金/银/铜）
-const MEDALS = ['#F59E0B', '#A8B0B8', '#CD7F32']
 
 // 积分均衡阈值：第1名与末位分差 ≤ 该值视为「积分相近」，切换领跑群展示
 const TIGHT_THRESHOLD = 10
@@ -77,14 +75,24 @@ function calcRanks(list: CardStudent[]): Array<{ rank: number; tied: boolean }> 
 
 const leaderRanks = computed(() => calcRanks(data.value?.top5 || []))
 
+/** 班级之星头像底色：宠物系列场景渐变属内容语义，保留；教室端兜底用品牌色 */
 const starBg = computed(() => {
-  if (!data.value?.star_student?.pet_species) return 'var(--gradient-primary)'
-  const series = getSeriesBySpeciesId(data.value.star_student.pet_species)
-  return series && SERIES_SCENES[series.id]?.bgGradient || 'var(--gradient-primary)'
+  if (isClassroomMode.value) return 'var(--ui-brand)'
+  const species = data.value?.star_student?.pet_species
+  if (!species) return 'var(--ui-brand)'
+  const series = getSeriesBySpeciesId(species)
+  return (series && SERIES_SCENES[series.id]?.bgGradient) || 'var(--ui-brand)'
 })
 
 // ===== 数据加载（按模式互斥） =====
 const token = ref('')
+
+// 空态文案：区分「没绑定班级」与「接口没拿到数据」，避免只留一个空白页
+const emptyHint = computed(() =>
+  isClassroomMode.value && !token.value
+    ? '尚未进入班级，请扫描班级码或由老师在大屏端进入'
+    : '数据暂时没有加载出来，请稍后重试',
+)
 let pollTimer: ReturnType<typeof setInterval> | null = null
 
 async function fetchTeacherDashboard() {
@@ -155,14 +163,20 @@ onUnmounted(() => {
   <div class="overview-page">
     <div class="page-header">
       <h2 class="page-title">🏠 班级总览</h2>
-      <span class="page-subtitle">
-        {{ data?.class_name || '--' }} · {{ data?.grade || '--' }}
+      <span v-if="data" class="page-subtitle">
+        {{ data.class_name || '--' }} · {{ data.grade || '--' }}
       </span>
     </div>
 
     <div v-if="loading" class="loading-state">
       <div class="loading-spinner"></div>
       <p>加载数据中...</p>
+    </div>
+
+    <div v-else-if="!data" class="empty-state">
+      <div class="empty-state__icon">📭</div>
+      <div class="empty-state__title">暂无班级数据</div>
+      <p class="empty-state__desc">{{ emptyHint }}</p>
     </div>
 
     <template v-else-if="data">
@@ -175,7 +189,7 @@ onUnmounted(() => {
           <div class="star-display">
             <div
               class="star-avatar"
-              :style="{ background: isClassroomMode ? 'linear-gradient(135deg,#f093fb,#f5576c)' : starBg, cursor: 'pointer' }"
+              :style="{ background: starBg, cursor: 'pointer' }"
               @click="openHandbook(data.star_student)"
               title="点击查看宠物介绍"
             >
@@ -186,8 +200,8 @@ onUnmounted(() => {
             </div>
             <div class="star-info">
               <div class="star-name">{{ data.star_student.name }}</div>
-              <div class="star-pet">Lv.{{ data.star_student.pet_level }}</div>
-              <div class="star-score">{{ data.star_student.score }} 分</div>
+              <div class="star-pet tnum">Lv.{{ data.star_student.pet_level }}</div>
+              <div class="star-score tnum">{{ data.star_student.score }} 分</div>
             </div>
           </div>
         </div>
@@ -195,20 +209,20 @@ onUnmounted(() => {
         <!-- 班级概况 -->
         <div class="o-card">
           <div class="o-label">📊 班级概况</div>
-          <div class="o-value">{{ (data.total_score || 0).toLocaleString() }}</div>
+          <div class="o-value tnum">{{ (data.total_score || 0).toLocaleString() }}</div>
           <div class="o-sub">总积分 · 共 {{ data.student_count }} 人</div>
           <div class="o-stats-row">
             <div>
               <span class="stat-label">平均等级</span>
-              <strong class="stat-val">{{ (data.avg_pet_level || 0).toFixed(1) }}</strong>
+              <strong class="stat-val tnum">{{ (data.avg_pet_level || 0).toFixed(1) }}</strong>
             </div>
             <div>
               <span class="stat-label">巅峰 Lv.10+</span>
-              <strong class="stat-val peak">{{ data.peak_count }}</strong>
+              <strong class="stat-val peak tnum">{{ data.peak_count }}</strong>
             </div>
             <div>
               <span class="stat-label">本周增长</span>
-              <strong class="stat-val weekly">+{{ data.weekly_score }}</strong>
+              <strong class="stat-val weekly tnum">+{{ data.weekly_score }}</strong>
             </div>
           </div>
         </div>
@@ -241,14 +255,14 @@ onUnmounted(() => {
             @click="openHandbook(s)"
             :title="s.pet_species ? '点击查看宠物介绍' : ''"
           >
-            <span class="leader-rank">{{ leaderRanks[i].tied ? '并列第 ' + leaderRanks[i].rank + ' 名' : '第 ' + leaderRanks[i].rank + ' 名' }}</span>
+            <span class="leader-rank tnum">{{ leaderRanks[i].tied ? '并列第 ' + leaderRanks[i].rank + ' 名' : '第 ' + leaderRanks[i].rank + ' 名' }}</span>
             <div class="leader-avatar">
               <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
               <span v-else class="leader-emoji">🌟</span>
             </div>
             <div class="leader-name">{{ s.name }}</div>
-            <div v-if="s.student_no" class="leader-no">学号 {{ s.student_no }}</div>
-            <div class="leader-score">{{ s.score }} 分</div>
+            <div v-if="s.student_no" class="leader-no tnum">学号 {{ s.student_no }}</div>
+            <div class="leader-score tnum">{{ s.score }} 分</div>
           </div>
         </div>
 
@@ -264,14 +278,14 @@ onUnmounted(() => {
               :title="s.pet_species ? '点击查看宠物介绍' : ''"
             >
               <span class="top3-medal">{{ ['🥇', '🥈', '🥉'][i] }}</span>
-              <div class="top3-avatar" :style="{ '--medal': MEDALS[i] }">
+              <div class="top3-avatar">
                 <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
                 <span v-else class="top3-emoji">🌟</span>
               </div>
               <div class="top3-name">{{ s.name }}</div>
-              <div v-if="s.student_no" class="top3-no">学号 {{ s.student_no }}</div>
-              <div class="top3-level">Lv.{{ s.pet_level }}</div>
-              <div class="top3-score">{{ s.score }} 分</div>
+              <div v-if="s.student_no" class="top3-no tnum">学号 {{ s.student_no }}</div>
+              <div class="top3-level tnum">Lv.{{ s.pet_level }}</div>
+              <div class="top3-score tnum">{{ s.score }} 分</div>
               <div class="top3-bar"><div class="top3-fill" :style="{ width: (s.score / data.top5[0].score) * 100 + '%' }"></div></div>
             </div>
           </div>
@@ -284,14 +298,14 @@ onUnmounted(() => {
               @click="openHandbook(s)"
               :title="s.pet_species ? '点击查看宠物介绍' : ''"
             >
-              <span class="top4-rank">{{ i + 4 }}</span>
+              <span class="top4-rank tnum">{{ i + 4 }}</span>
               <div class="top4-avatar">
                 <PetSprite v-if="s.pet_species" :species-id="s.pet_species" :level="s.pet_level" :animate="true" />
                 <span v-else class="top4-emoji">🌟</span>
               </div>
               <div class="top4-info">
                 <div class="top4-name">{{ s.name }}</div>
-                <div class="top4-score">{{ s.score }} 分</div>
+                <div class="top4-score tnum">{{ s.score }} 分</div>
               </div>
             </div>
           </div>
@@ -322,8 +336,16 @@ onUnmounted(() => {
   gap: 12px;
   margin-bottom: 24px;
 }
-.page-title { font-size: 24px; font-weight: 700; margin: 0; }
-.page-subtitle { font-size: 14px; color: var(--color-text-secondary); }
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ui-fg);
+}
+.page-subtitle { font-size: 14px; color: var(--ui-fg-muted); }
 
 /* 三栏 */
 .overview-grid {
@@ -334,81 +356,66 @@ onUnmounted(() => {
 }
 .o-card {
   position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 0% 0%, rgba(79,70,229,0.05), transparent 55%),
-    var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: 18px;
+  background: var(--ui-card);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-r-xl);
   padding: 18px 20px;
-  transition: all 0.25s ease;
+  box-shadow: var(--ui-shadow-xs);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.o-card::after {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(var(--color-text-secondary) 0.8px, transparent 0.8px);
-  background-size: 18px 18px;
-  opacity: 0.05;
-  pointer-events: none;
-}
-.o-card > * { position: relative; z-index: 1; }
 .o-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 3px 10px rgba(0,0,0,0.06);
+  border-color: var(--ui-border-strong);
+  box-shadow: var(--ui-shadow-sm);
 }
 .o-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
-  color: var(--color-text-secondary);
+  color: var(--ui-fg-muted);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
 }
 .o-value {
   font-size: 30px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  color: var(--ui-fg);
+  letter-spacing: -0.01em;
 }
 .o-sub {
   font-size: 12px;
-  color: var(--color-text-secondary);
-  margin-bottom: 10px;
+  color: var(--ui-fg-muted);
+  margin-bottom: 12px;
 }
 .o-stats-row {
   display: flex;
   gap: 16px;
-  padding-top: 10px;
-  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
+  border-top: 1px solid var(--ui-border);
 }
 .stat-label {
   display: block;
   font-size: 11px;
-  color: var(--color-text-secondary);
-  margin-bottom: 2px;
+  color: var(--ui-fg-subtle);
+  margin-bottom: 3px;
 }
 .stat-val {
   font-size: 18px;
   font-weight: 700;
+  color: var(--ui-fg);
 }
 .stat-val.peak { color: var(--c-violet); }
-.stat-val.weekly { color: var(--c-green); }
+.stat-val.weekly { color: var(--c-green-deep); }
 
-/* 班级之星 */
+/* 班级之星：名次色只落在边框上，不用渐变与光晕 */
 .star-card {
-  border-color: rgba(245,158,11,0.28);
-  background:
-    radial-gradient(120% 90% at 0% 0%, rgba(245,158,11,0.09), transparent 55%),
-    var(--color-bg-card);
+  border-color: color-mix(in srgb, var(--c-amber) 32%, var(--ui-border));
 }
-.star-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #F59E0B, #FCD34D);
-  opacity: 0.9;
-  z-index: 2;
+.star-card:hover {
+  border-color: color-mix(in srgb, var(--c-amber) 50%, var(--ui-border));
 }
 .star-display {
   display: flex;
@@ -417,36 +424,27 @@ onUnmounted(() => {
 }
 .star-avatar {
   position: relative;
-  width: 92px;
-  height: 92px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12), 0 0 24px rgba(0,0,0,0.08);
+  color: var(--ui-brand-fg);
+  border: 1px solid var(--ui-border);
+  box-shadow: 0 1px 2px rgba(9, 9, 11, 0.08), 0 0 0 4px var(--ui-muted);
 }
-.star-avatar::before {
-  content: '';
-  position: absolute; inset: -8px; border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--color-primary), transparent 40%, var(--color-secondary), transparent 70%, var(--color-primary));
-  opacity: 0.3;
-  animation: spinRing 14s linear infinite;
-  z-index: 0;
-}
-.star-avatar > * { position: relative; z-index: 1; }
-@keyframes spinRing { to { transform: rotate(360deg); } }
-.star-emoji { font-size: 40px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-.star-name { font-size: 18px; font-weight: 700; }
-.star-pet { font-size: 12px; color: var(--color-text-secondary); }
-.star-score { font-size: 20px; font-weight: 800; color: var(--color-primary); }
+.star-name { font-size: 18px; font-weight: 700; color: var(--ui-fg); }
+.star-pet { font-size: 12px; color: var(--ui-fg-muted); }
+.star-score { font-size: 20px; font-weight: 700; color: var(--ui-brand); margin-top: 2px; }
 
 /* 新闻 */
 .news-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   max-height: 160px;
   overflow-y: auto;
 }
@@ -454,42 +452,49 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 11px;
-  background: var(--color-bg);
+  padding: 8px 10px;
+  background: var(--ui-bg-subtle);
   border: 1px solid transparent;
-  border-radius: 12px;
+  border-radius: var(--ui-r-md);
   font-size: 13px;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 .news-item:hover {
-  border-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
-  background: color-mix(in srgb, var(--color-primary) 4%, var(--color-bg));
-  transform: translateX(2px);
+  border-color: var(--ui-border);
+  background: var(--ui-muted);
 }
-.news-icon { font-size: 16px; flex-shrink: 0; }
-.news-text { color: var(--color-text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.news-icon { font-size: 16px; line-height: 1; flex-shrink: 0; }
+.news-text { color: var(--ui-fg-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* TOP 5 */
 .top5-section {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: 18px;
-  padding: 16px 20px;
+  background: var(--ui-card);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-r-xl);
+  padding: 16px 20px 20px;
+  box-shadow: var(--ui-shadow-xs);
 }
 .section-header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   margin-bottom: 16px;
   flex-wrap: wrap;
 }
-.section-title { font-size: 15px; font-weight: 700; }
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ui-fg);
+}
 .top5-tight-tip {
   font-size: 12px;
-  color: var(--color-text-secondary);
-  background: var(--tint-2);
+  color: var(--ui-fg-muted);
+  background: var(--ui-muted);
   padding: 2px 10px;
-  border-radius: 12px;
+  border-radius: var(--ui-r-sm);
 }
 
 /* 积分相近 · 领跑群（并列名次，不标冠亚季军） */
@@ -499,103 +504,93 @@ onUnmounted(() => {
   gap: 12px;
 }
 .leader-card {
-  position: relative;
   text-align: center;
-  padding: 18px 12px 16px;
-  border-radius: 18px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg);
+  padding: 16px 12px 14px;
+  border-radius: var(--ui-r-xl);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-card);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
-.leader-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-.leader-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  border-radius: 18px 18px 0 0;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  opacity: 0.7;
+.leader-card:hover {
+  border-color: var(--ui-brand-border);
+  background: var(--ui-brand-soft);
+  box-shadow: var(--ui-shadow-sm);
 }
 .leader-rank {
   display: inline-block;
   font-size: 11px;
-  font-weight: 700;
-  color: var(--color-primary);
-  background: rgba(79,70,229,0.08);
-  border: 1px solid rgba(79,70,229,0.22);
+  font-weight: 600;
+  color: var(--ui-brand);
+  background: var(--ui-brand-soft);
+  border: 1px solid var(--ui-brand-border);
   padding: 2px 10px;
-  border-radius: 12px;
-  margin-bottom: 8px;
+  border-radius: var(--ui-r-sm);
+  margin-bottom: 10px;
 }
 .leader-avatar {
-  width: 70px;
-  height: 70px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 8px;
-  border: 2px solid color-mix(in srgb, var(--color-primary) 70%, transparent);
-  background: var(--color-bg-card);
+  border: 1px solid var(--ui-brand-border);
+  background: var(--ui-bg-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent), 0 6px 16px rgba(0,0,0,0.12);
+  color: var(--ui-fg-subtle);
+  box-shadow: 0 0 0 3px var(--ui-brand-soft);
 }
-.leader-emoji { font-size: 26px; }
-.leader-name { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.leader-no { font-size: 10px; color: var(--color-text-secondary); background: var(--tint-2); padding: 1px 8px; border-radius: 8px; display: inline-block; margin-top: 2px; }
-.leader-score { font-size: 15px; font-weight: 800; color: var(--color-primary); margin-top: 2px; }
-/* 前三名大卡片 */
+.leader-name { font-size: 14px; font-weight: 600; color: var(--ui-fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.leader-no { font-size: 10px; color: var(--ui-fg-muted); background: var(--ui-muted); padding: 1px 8px; border-radius: var(--ui-r-sm); display: inline-block; margin-top: 3px; }
+.leader-score { font-size: 15px; font-weight: 700; color: var(--ui-brand); margin-top: 3px; }
+
+/* 前三名大卡片：名次色统一走 --medal，暗色自动跟随 */
 .top3-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
 .top3-card {
+  --medal: var(--c-amber);
+  --medal-soft: var(--c-amber-chip);
   position: relative;
   text-align: center;
   padding: 20px 12px 16px;
-  border-radius: 18px;
-  border: 1px solid var(--color-border);
+  border-radius: var(--ui-r-xl);
+  border: 1px solid color-mix(in srgb, var(--medal) 28%, var(--ui-border));
+  background: var(--ui-card);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.top3-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-.top3-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  border-radius: 18px 18px 0 0;
-  background: linear-gradient(90deg, #F59E0B, #FCD34D);
-  opacity: 0.9;
+.medal--1 { --medal: var(--c-slate-500); --medal-soft: var(--c-gray-chip); }
+.medal--2 { --medal: var(--c-orange); --medal-soft: var(--c-amber-chip); }
+.top3-card:hover {
+  border-color: color-mix(in srgb, var(--medal) 55%, var(--ui-border));
+  box-shadow: var(--ui-shadow-sm);
 }
-.medal--1.top3-card::before { background: linear-gradient(90deg, #94A3B8, #E2E8F0); }
-.medal--2.top3-card::before { background: linear-gradient(90deg, #D97706, #F59E0B); }
-.medal--0 { background: linear-gradient(180deg, rgba(245,158,11,0.08), transparent); border-color: rgba(245,158,11,0.25); }
-.medal--1 { background: linear-gradient(180deg, rgba(168,176,184,0.08), transparent); border-color: rgba(168,176,184,0.25); }
-.medal--2 { background: linear-gradient(180deg, rgba(205,127,50,0.08), transparent); border-color: rgba(205,127,50,0.25); }
-.top3-medal { position: absolute; top: 8px; left: 12px; font-size: 22px; }
+.top3-medal { position: absolute; top: 10px; left: 12px; font-size: 20px; line-height: 1; }
 .top3-avatar {
-  width: 84px;
-  height: 84px;
+  width: 82px;
+  height: 82px;
   border-radius: 50%;
   overflow: hidden;
-  margin: 6px auto 8px;
-  border: 2.5px solid var(--medal, #6B7280);
-  background: var(--color-bg);
+  margin: 6px auto 10px;
+  border: 1px solid color-mix(in srgb, var(--medal) 40%, var(--ui-border));
+  background: var(--ui-bg-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--medal, #6B7280) 12%, transparent), 0 6px 18px color-mix(in srgb, var(--medal, #6B7280) 26%, transparent);
+  color: var(--ui-fg-subtle);
+  box-shadow: 0 0 0 4px var(--medal-soft);
 }
-.top3-emoji { font-size: 34px; }
-.top3-name { font-size: 16px; font-weight: 700; }
-.top3-no { font-size: 10px; color: var(--color-text-secondary); background: var(--tint-2); padding: 1px 8px; border-radius: 8px; display: inline-block; margin-top: 2px; }
-.top3-level { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
-.top3-score { font-size: 18px; font-weight: 800; color: var(--color-primary); margin-top: 2px; }
-.top3-bar { height: 4px; background: var(--color-border); border-radius: 2px; overflow: hidden; margin-top: 8px; }
-.top3-fill { height: 100%; border-radius: 2px; background: var(--gradient-primary); transition: width 0.5s ease; }
-.medal--0 .top3-fill { background: linear-gradient(90deg, #F59E0B, #FCD34D); }
+.top3-name { font-size: 16px; font-weight: 700; color: var(--ui-fg); }
+.top3-no { font-size: 10px; color: var(--ui-fg-muted); background: var(--ui-muted); padding: 1px 8px; border-radius: var(--ui-r-sm); display: inline-block; margin-top: 3px; }
+.top3-level { font-size: 11px; color: var(--ui-fg-muted); margin-top: 3px; }
+.top3-score { font-size: 18px; font-weight: 700; color: var(--ui-fg); margin-top: 3px; }
+.top3-bar { height: 4px; background: var(--ui-muted); border-radius: 2px; overflow: hidden; margin-top: 10px; }
+.top3-fill { height: 100%; border-radius: 2px; background: var(--medal); transition: width 0.5s ease; }
 
 /* 4-5 名次位 */
 .top2-row {
@@ -609,47 +604,46 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--color-border);
+  border-radius: var(--ui-r-lg);
+  border: 1px solid var(--ui-border);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
-.top4-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-.top4-rank { font-size: 22px; font-weight: 800; color: var(--color-text-secondary); opacity: 0.6; min-width: 28px; }
+.top4-card:hover { border-color: var(--ui-border-strong); background: var(--ui-bg-subtle); }
+.top4-rank { font-size: 20px; font-weight: 700; color: var(--ui-fg-subtle); min-width: 26px; }
 .top4-avatar {
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid color-mix(in srgb, var(--color-primary) 35%, var(--color-border));
-  background: var(--color-bg);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-bg-subtle);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 7%, transparent);
+  color: var(--ui-fg-subtle);
 }
-.top4-emoji { font-size: 22px; }
 .top4-info { min-width: 0; }
-.top4-name { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.top4-score { font-size: 13px; font-weight: 700; color: var(--color-primary); }
+.top4-name { font-size: 14px; font-weight: 600; color: var(--ui-fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.top4-score { font-size: 13px; font-weight: 600; color: var(--ui-fg-muted); }
 
 /* 加载/空 */
 .loading-state, .empty-state {
   text-align: center;
   padding: 60px 24px;
-  color: var(--color-text-secondary);
+  color: var(--ui-fg-muted);
 }
 .loading-spinner {
   width: 36px; height: 36px;
-  border: 3px solid var(--color-border);
-  border-top-color: var(--color-primary);
+  border: 2px solid var(--ui-border);
+  border-top-color: var(--ui-brand);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 12px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.empty-icon { font-size: 48px; margin-bottom: 8px; }
+.empty-icon { font-size: 48px; line-height: 1; text-align: center; margin-bottom: 8px; }
 
 @media (max-width: 900px) {
   .overview-grid { grid-template-columns: 1fr; }
@@ -657,7 +651,12 @@ onUnmounted(() => {
   .top2-row { grid-template-columns: 1fr; }
 }
 .tdb-relative { position:relative; }
-.tdb-corner-tag { position:absolute;top:20px;right:24px;font-size:11px;color:var(--color-text-secondary);background:var(--tint-2);padding:2px 10px;border-radius:8px; }
+.tdb-corner-tag { position:absolute;top:20px;right:24px;font-size:11px;color:var(--ui-fg-muted);background:var(--ui-muted);padding:2px 10px;border-radius:var(--ui-r-sm); }
 .tdb-orb { width:100%;height:100%;border-radius:50%;overflow:hidden; }
-.tdb-hint-13 { font-size:13px;color:var(--color-text-secondary);margin-top:6px; }
+.tdb-hint-13 { font-size:13px;color:var(--ui-fg-muted);margin-top:6px; }
+/* 宠物缺失时的 emoji 占位（字号沿用 HEAD 版，与头像容器 88/68/82/52 相匹配） */
+.star-emoji { font-size: 40px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+.leader-emoji { font-size: 26px; line-height: 1; }
+.top3-emoji { font-size: 34px; line-height: 1; }
+.top4-emoji { font-size: 22px; line-height: 1; }
 </style>

@@ -111,12 +111,12 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
         </div>
         <div class="bc-chip-wrap">
           <label
-            :style="selectAll ? { border:'1px solid var(--color-accent)', background:'rgba(79,70,229,0.08)' } : {}" class="bc-class-chip">
+            :style="selectAll ? { border:'1px solid var(--ui-brand)', background:'var(--ui-brand-soft)' } : {}" class="bc-class-chip">
             <input type="checkbox" :checked="selectAll" @change="toggleAll" class="bc-accent">
             全部班级
           </label>
           <label v-for="c in myClasses" :key="c.class_id"
-            :style="selectedClassIds.includes(c.class_id) ? { border:'1px solid var(--color-accent)', background:'rgba(79,70,229,0.08)' } : {}" class="bc-class-chip">
+            :style="selectedClassIds.includes(c.class_id) ? { border:'1px solid var(--ui-brand)', background:'var(--ui-brand-soft)' } : {}" class="bc-class-chip">
             <input type="checkbox" :value="c.class_id" v-model="selectedClassIds"
               @change="selectAll = false" class="bc-accent">
             {{ c.class_name }}
@@ -142,7 +142,7 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
       </div>
 
       <div v-if="bcError" class="bc-error">{{ bcError }}</div>
-      <button class="btn bc-send-btn" :style="{ background: { idle: '#7c3aed', loading: '#f59e0b', success: '#10b981', error: '#ef4444' }[sendStatus] }" :disabled="sendStatus === 'loading'" @click="sendBroadcast">
+      <button class="btn bc-send-btn" :class="'btn-state-' + sendStatus" :disabled="sendStatus === 'loading'" @click="sendBroadcast">
         {{ { idle: '📡 发送至 ' + selectedClassIds.length + ' 个班级', loading: '发送中...', success: '已发送 ✓', error: '发送失败' }[sendStatus] }}
       </button>
     </div>
@@ -182,14 +182,14 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 
 <style scoped>
 .bc-type-btn { flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:13px;cursor:pointer;font-weight:500;font-family:inherit; }
-.bc-type-btn:hover { border-color:var(--color-accent); }
-.bc-type-btn.active { border:2px solid var(--color-accent);background:rgba(79,70,229,0.1);color:var(--color-accent); }
+.bc-type-btn:hover { border-color:var(--ui-brand); }
+.bc-type-btn.active { border:2px solid var(--ui-brand);background:var(--ui-brand-soft);color:var(--ui-brand); }
 /* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
 .bc-card-mb { margin-bottom:24px; }
 .bc-class-chip { display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--color-border); }
-.bc-accent { accent-color:var(--color-accent); }
+.bc-accent { accent-color:var(--ui-brand); }
 .bc-check-row { display:flex;align-items:center;gap:4px;font-size:14px;cursor:pointer; }
-.bc-accent-text { color:var(--color-accent); }
+.bc-accent-text { color:var(--ui-brand); }
 .bc-type-row { display:flex;gap:8px;margin-bottom:16px; }
 .bc-textarea { min-height:80px;resize:vertical; }
 .bc-mb-16 { margin-bottom:16px; }

@@ -336,8 +336,7 @@ const poemLines = computed(() => poemToLines(poem.value))
   padding: 14px 16px;
   margin-bottom: 16px;
 }
-.profile-title {
-  font-size: 12px;
+.profile-title { display: flex; align-items: center; gap: 6px; font-size: 12px;
   font-weight: 700;
   color: var(--color-text-secondary);
   margin-bottom: 10px;
@@ -352,8 +351,7 @@ const poemLines = computed(() => poemToLines(poem.value))
   margin-bottom: 8px;
 }
 .profile-row:last-child { margin-bottom: 0; }
-.profile-label {
-  flex-shrink: 0;
+.profile-label { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
   font-size: 11px;
   font-weight: 600;
   color: var(--color-warning-text);
@@ -453,7 +451,7 @@ const poemLines = computed(() => poemToLines(poem.value))
   margin-bottom: 6px;
 }
 .trait--ability { color: var(--color-info-text); background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.18); }
-.trait-icon { flex-shrink: 0; }
+.trait-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .detail-stats {
   display: flex;
   gap: 16px;
@@ -531,8 +529,7 @@ const poemLines = computed(() => poemToLines(poem.value))
 .card--locked:hover {
   opacity: 0.7;
 }
-.card-emoji {
-  font-size: 18px;
+.card-emoji { display: inline-flex; align-items: center; justify-content: center; font-size: 18px;
   margin-bottom: 4px;
 }
 .card-name {
