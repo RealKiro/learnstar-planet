@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\AiBilling;
 
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Http;
 
 /**

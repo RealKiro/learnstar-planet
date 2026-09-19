@@ -38,7 +38,7 @@ class OpenRouterBillingDriver implements AiBillingDriver
     public function getBalance(array $provider): ?AiBalance
     {
         $info = $this->keyInfo($provider);
-        if ($info === null || !isset($info['limit']) || $info['limit'] === null) {
+        if ($info === null || !isset($info['limit']) || !is_numeric($info['limit'])) {
             // 不限额度的 Key 无「余额」概念
             return null;
         }
