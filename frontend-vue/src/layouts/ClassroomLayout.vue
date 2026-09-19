@@ -300,7 +300,6 @@ onUnmounted(() => {
 /* 品牌标识：纯色 + 字重（去掉渐变裁剪，小字号下渐变会让笔画发灰） */
 .logo { display: flex; align-items: center; gap: 9px; padding: 2px 8px 14px; font-size: 16px; font-weight: 650; letter-spacing: -0.01em; color: var(--ui-fg); }
 .brand { display: flex; align-items: center; gap: 9px; }
-.brand-mark { width: 24px; height: 24px; border-radius: var(--ui-r-sm); background: var(--ui-brand); color: var(--ui-brand-fg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .class-badge { text-align: center; padding: 10px; margin-bottom: 12px; background: var(--ui-card); border-radius: var(--ui-r-lg); border: 1px solid var(--ui-border); }
 .class-name { font-size: 15px; font-weight: 650; display: block; color: var(--ui-fg); }
 .class-count { font-size: 12px; color: var(--ui-fg-muted); }

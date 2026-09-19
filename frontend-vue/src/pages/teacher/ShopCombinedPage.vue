@@ -1,9 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import ShopPage from './ShopPage.vue'
 import ExchangeCenterPage from './ExchangeCenterPage.vue'
 
-const activeTab = ref<'shop' | 'exchange' | 'rates'>('shop')
+type Tab = 'shop' | 'rates' | 'exchange'
+
+const route = useRoute()
+const router = useRouter()
+
+/** tab 以 URL 为唯一真相：/teacher/shop?tab=exchange 可深链、可分享，
+    也让原独立路由 /teacher/exchange 的重定向有的放矢。 */
+function normalizeTab(v: unknown): Tab {
+  return v === 'rates' || v === 'exchange' ? v : 'shop'
+}
+const activeTab = ref<Tab>(normalizeTab(route.query.tab))
+
+function selectTab(tab: Tab) {
+  if (tab === activeTab.value) return
+  activeTab.value = tab
+  router.replace({ query: { ...route.query, tab } })
+}
 
 // 汇率管理
 interface Rate { id: number; name: string; from_currency: string; to_currency: string; rate: number; is_active: boolean }
@@ -77,10 +94,10 @@ async function toggleRate(r: Rate) {
   }
 }
 
-function onActiveTabChange(tab: typeof activeTab.value) {
-  activeTab.value = tab
+// 汇率按需加载：切到「汇率设定」时才拉取（含直接以 ?tab=rates 进入的情况）
+watch(activeTab, (tab) => {
   if (tab === 'rates' && rates.value.length === 0) loadRates()
-}
+}, { immediate: true })
 </script>
 
 <template>
@@ -93,9 +110,9 @@ function onActiveTabChange(tab: typeof activeTab.value) {
     </div>
 
     <div class="tab-bar">
-      <button :class="['tab-btn', { active: activeTab === 'shop' }]" @click="onActiveTabChange('shop')">📦 商品管理</button>
-      <button :class="['tab-btn', { active: activeTab === 'rates' }]" @click="onActiveTabChange('rates')">💱 汇率设定</button>
-      <button :class="['tab-btn', { active: activeTab === 'exchange' }]" @click="onActiveTabChange('exchange')">🔄 兑换管理</button>
+      <button :class="['tab-btn', { active: activeTab === 'shop' }]" @click="selectTab('shop')">📦 商品管理</button>
+      <button :class="['tab-btn', { active: activeTab === 'rates' }]" @click="selectTab('rates')">💱 汇率设定</button>
+      <button :class="['tab-btn', { active: activeTab === 'exchange' }]" @click="selectTab('exchange')">🔄 兑换管理</button>
     </div>
 
     <ShopPage v-if="activeTab === 'shop'" />

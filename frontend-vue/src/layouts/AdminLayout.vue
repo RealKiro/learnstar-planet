@@ -43,7 +43,6 @@ const navItems = [
   <SidebarLayout
     role-label="学校管理"
     :nav-items="navItems"
-    avatar-gradient="var(--gradient-gold)"
     :show-logout="true"
     @logout="logout"
   />

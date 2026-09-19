@@ -34,6 +34,8 @@ const router = createRouter({
         // 完整模式（教师登录）
         { path: '', redirect: { name: 'teacher-dashboard' } },
         { path: 'dashboard', name: 'teacher-dashboard', component: () => import('@/pages/teacher/DashboardPage.vue') },
+        // 教室大屏展示页（承载广播/弹窗的 kiosk 视图）：故意不进侧栏，
+        // 由大屏设备直接打开 URL；待定：是否移到 /classroom/* 免登录分组 + 从消息中心给入口
         { path: 'classroom', name: 'teacher-classroom', component: () => import('@/pages/teacher/ClassroomDisplay.vue') },
         { path: 'students', name: 'teacher-students', component: () => import('@/pages/teacher/StudentsPage.vue') },
         { path: 'pets', name: 'teacher-pets', component: () => import('@/pages/classroom/PokedexPage.vue') },
@@ -42,14 +44,16 @@ const router = createRouter({
         { path: 'leaderboard', name: 'teacher-leaderboard', component: () => import('@/pages/teacher/LeaderboardPage.vue') },
         { path: 'pk', name: 'teacher-pk', component: () => import('@/pages/teacher/PKPage.vue') },
         { path: 'shop', name: 'teacher-shop', component: () => import('@/pages/teacher/ShopCombinedPage.vue') },
-        { path: 'exchange', name: 'teacher-exchange', component: () => import('@/pages/teacher/ExchangeCenterPage.vue') },
+        // 「兑换管理」是积分商城内的 tab，不再单独成页；重定向保住旧链接
+        { path: 'exchange', redirect: { name: 'teacher-shop', query: { tab: 'exchange' } } },
         { path: 'communication', name: 'teacher-communication', component: () => import('@/pages/teacher/CommunicationPage.vue') },
-        { path: 'broadcast', name: 'teacher-broadcast', component: () => import('@/pages/teacher/BroadcastPage.vue') },
+        // 「实时广播 / 班级通知」是消息中心内的 tab，不再单独成页
+        { path: 'broadcast', redirect: { name: 'teacher-communication', query: { tab: 'broadcast' } } },
+        { path: 'notices', redirect: { name: 'teacher-communication', query: { tab: 'notice' } } },
         { path: 'attendance', name: 'teacher-attendance', component: () => import('@/pages/teacher/AttendancePage.vue') },
         { path: 'timetable', name: 'teacher-timetable', component: () => import('@/pages/teacher/TimetablePage.vue') },
         { path: 'my-timetable', name: 'teacher-my-timetable', component: () => import('@/pages/teacher/MyTimetablePage.vue') },
         { path: 'ai', name: 'teacher-ai', component: () => import('@/pages/teacher/AIPage.vue') },
-        { path: 'notices', name: 'teacher-notices', component: () => import('@/pages/teacher/NoticesPage.vue') },
         { path: 'reports', name: 'teacher-reports', component: () => import('@/pages/teacher/ReportsPage.vue') },
         { path: 'settings', name: 'teacher-settings', component: () => import('@/pages/teacher/SettingsPage.vue') },
       ],
@@ -72,6 +76,7 @@ const router = createRouter({
         { path: 'reports', name: 'admin-reports', component: () => import('@/pages/admin/ReportsPage.vue') },
         { path: 'school', name: 'admin-school', component: () => import('@/pages/admin/SchoolSettingsPage.vue') },
         { path: 'ai', name: 'admin-ai', component: () => import('@/pages/admin/AICenterPage.vue') },
+        // 高级调试（系统诊断/系统状态/一键修复）：故意不进侧栏，排障时手动访问
         { path: 'debug', name: 'admin-debug', component: () => import('@/pages/admin/AdminDebugPage.vue') },
       ],
     },

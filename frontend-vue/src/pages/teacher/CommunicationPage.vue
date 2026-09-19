@@ -1,9 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import BroadcastPage from './BroadcastPage.vue'
 import NoticesPage from './NoticesPage.vue'
 
-const activeTab = ref<'broadcast' | 'notice'>('broadcast')
+type Tab = 'broadcast' | 'notice'
+
+const route = useRoute()
+const router = useRouter()
+
+/** tab 以 URL 为唯一真相：/teacher/communication?tab=notice 可深链、可分享，
+    也让原独立路由 /teacher/broadcast、/teacher/notices 的重定向有的放矢。 */
+const activeTab = ref<Tab>(route.query.tab === 'notice' ? 'notice' : 'broadcast')
+
+function selectTab(tab: Tab) {
+  if (tab === activeTab.value) return
+  activeTab.value = tab
+  router.replace({ query: { ...route.query, tab } })
+}
 </script>
 
 <template>
@@ -17,10 +31,10 @@ const activeTab = ref<'broadcast' | 'notice'>('broadcast')
 
     <!-- 标签导航 -->
     <div class="tab-bar">
-      <button :class="['tab-btn', { active: activeTab === 'broadcast' }]" @click="activeTab = 'broadcast'">
+      <button :class="['tab-btn', { active: activeTab === 'broadcast' }]" @click="selectTab('broadcast')">
         📡 实时广播
       </button>
-      <button :class="['tab-btn', { active: activeTab === 'notice' }]" @click="activeTab = 'notice'">
+      <button :class="['tab-btn', { active: activeTab === 'notice' }]" @click="selectTab('notice')">
         📋 班级通知
       </button>
     </div>

@@ -36,6 +36,13 @@ function navigate(name: string) {
         <div class="brand">
           <span>🌌</span> 学宠星球
         </div>
+        <!-- 端别标识（教师端 / 学校管理）；移动端由 .brand-role 隐藏 -->
+        <span class="brand-role">{{ props.roleLabel }}</span>
+      </div>
+
+      <!-- 用户元信息（如教师所带班级），由调用方通过 #user-meta 插槽填充 -->
+      <div v-if="$slots['user-meta']" class="sidebar-user">
+        <slot name="user-meta" />
       </div>
 
       <div class="nav-list">
@@ -120,22 +127,22 @@ function navigate(name: string) {
   letter-spacing: -0.01em;
   color: var(--ui-fg);
 }
-.brand-mark {
-  width: 22px;
-  height: 22px;
-  border-radius: var(--ui-r-sm);
-  background: var(--ui-brand);
-  color: var(--ui-brand-fg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
 .brand-role {
   font-size: 11px;
   font-weight: 500;
   color: var(--ui-fg-subtle);
   flex-shrink: 0;
+}
+
+/* 用户元信息：单行次要文本，超长省略（如多个班级名拼接） */
+.sidebar-user {
+  padding: 0 8px 12px;
+  overflow: hidden;
+}
+.sidebar-user :deep(*) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sidebar-footer { border-top: 1px solid var(--ui-border); padding-top: 10px; }
@@ -232,8 +239,6 @@ function navigate(name: string) {
   box-shadow: var(--ui-shadow-xs);
 }
 .nav-item.active .icon { color: var(--ui-brand); }
-
-.nav-item__label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .nav-item .icon {
   color: var(--ui-fg-subtle);

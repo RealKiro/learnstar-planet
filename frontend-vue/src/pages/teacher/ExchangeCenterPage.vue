@@ -174,8 +174,8 @@ async function doExchange() {
 
 <template>
   <div>
+    <!-- 标题归容器（积分商城 / 兑换管理 tab）所有，这里只保留副标题 -->
     <div class="page-header">
-      <h2 class="page-title">💱 兑换中心</h2>
       <span class="page-subtitle">积分按汇率兑换科学币 / 读书币 / 体育币</span>
     </div>
 
@@ -316,7 +316,6 @@ async function doExchange() {
 <style scoped>
 /* ===== 页头 ===== */
 .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-.page-title { font-size: 24px; font-weight: 700; }
 .page-subtitle { font-size: 13px; color: var(--color-text-secondary); }
 
 /* ===== 布局 ===== */

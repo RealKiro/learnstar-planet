@@ -138,8 +138,8 @@ function typeClass(t?: string): string {
 
 <template>
   <div>
+    <!-- 标题归消息中心容器所有，这里只保留「发布通知」主操作 -->
     <div class="page-header">
-      <h2 class="page-title">📢 班级通知</h2>
       <button class="btn btn-sm btn-primary" @click="showCreate = true">发布通知</button>
     </div>
 
@@ -249,8 +249,7 @@ function typeClass(t?: string): string {
 
 <style scoped>
 /* ===== 页头 ===== */
-.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-.page-title { font-size: 24px; font-weight: 700; }
+.page-header { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 24px; }
 
 /* ===== 弹窗 ===== */
 .form-group--lg { margin-bottom: 20px; }

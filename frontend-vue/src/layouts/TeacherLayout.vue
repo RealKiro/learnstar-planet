@@ -33,6 +33,7 @@ const isBasic = computed(() => route.meta?.basic === true)
 const FULL_NAV = [
   { section: '概览', items: [
     { page: 'teacher-dashboard', label: '班级总览', icon: '🏠' },
+    { page: 'teacher-students', label: '学生名单', icon: '🎒' },
   ]},
   { section: '课堂教学', items: [
     { page: 'teacher-scores', label: '课堂评价', icon: '✏️' },

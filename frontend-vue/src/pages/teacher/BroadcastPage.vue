@@ -82,8 +82,8 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 
 <template>
   <div>
+    <!-- 标题归消息中心容器所有，这里只保留状态行（避免 h2 重复） -->
     <div class="page-head">
-      <h2 class="page-title">📡 实时广播</h2>
       <span class="text-muted-13">
         🖥️ 教室桌面端：<strong class="bc-accent-text">已连接</strong>
       </span>
@@ -181,6 +181,8 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 </template>
 
 <style scoped>
+/* 标题由消息中心容器承担；此处只剩状态行，保持与原位置一致的右对齐 */
+.page-head { justify-content: flex-end; }
 .bc-type-btn { flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:13px;cursor:pointer;font-weight:500;font-family:inherit; }
 .bc-type-btn:hover { border-color:var(--ui-brand); }
 .bc-type-btn.active { border:2px solid var(--ui-brand);background:var(--ui-brand-soft);color:var(--ui-brand); }
