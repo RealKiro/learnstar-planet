@@ -17,7 +17,7 @@
 #           需要全校规模时请使用你已有的数据库服务器（外置）。
 #
 # 端口说明：
-#   容器内 PHP 内置服务器固定监听 8080，不可改
+#   容器内应用服务器固定监听 8080，不可改（Octane/FrankenPHP 或回退的内置服务器同端口）
 #   APP_PORT 是宿主机访问端口，可自由修改
 #   APP_URL 是 Laravel 生成绝对 URL 用的，填用户浏览器看到的地址
 
@@ -48,6 +48,13 @@ services:
       - DB_DATABASE=${DB_DATABASE:-}
       - DB_USERNAME=${DB_USERNAME:-}
       - DB_PASSWORD=${DB_PASSWORD:-}
+      # SQLite 多 worker 并发写保护（毫秒）：写冲突时等待而非立即报错；仅 SQLite 生效
+      - DB_BUSY_TIMEOUT=${DB_BUSY_TIMEOUT:-5000}
+
+      # Octane 运行时（frankenphp=常驻高性能默认；serve=旧内置开发服务器，排障时临时切换）
+      - OCTANE_SERVER=${OCTANE_SERVER:-frankenphp}
+      - OCTANE_WORKERS=${OCTANE_WORKERS:-4}
+      - OCTANE_MAX_REQUESTS=${OCTANE_MAX_REQUESTS:-500}
 
       # Redis 配置（可选：默认无 Redis，排行榜降级 SQL；外置 Redis 填 REDIS_HOST）
       - REDIS_HOST=${REDIS_HOST:-}

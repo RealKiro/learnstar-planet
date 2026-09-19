@@ -1,7 +1,7 @@
 #!/bin/sh
 # ============================================================
 # 学宠星球 - Docker 入口脚本
-# 初始化 Laravel 应用、运行迁移、启动 PHP 内置服务器
+# 初始化 Laravel 应用、运行迁移、启动 Octane(FrankenPHP) 或回退内置服务器
 # ============================================================
 
 set -e
@@ -36,7 +36,7 @@ fi
 #    启动日志表现为「数据库未就绪」死循环 + 容器反复重启（真正的根因被掩盖）。
 #    典型触发值：BOT_NAME=API 机器人（含空格）。
 # ============================================================
-ENV_KEY_PATTERN='^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|BROADCAST_|MAIL_|FILESYSTEM_|AI_|WECHAT_|DINGTALK_|FEISHU_|QQ_|RENREN_|ADMIN_|BOT_|UPLOAD_|GITHUB_)'
+ENV_KEY_PATTERN='^(APP_|DB_|REDIS_|CACHE_|SESSION_|QUEUE_|BROADCAST_|MAIL_|FILESYSTEM_|AI_|WECHAT_|DINGTALK_|FEISHU_|QQ_|RENREN_|OCTANE_|ADMIN_|BOT_|UPLOAD_|GITHUB_)'
 
 write_env_from_environment() {
     : > .env
@@ -215,6 +215,23 @@ else
     echo "⚡ 队列模式: sync（同步处理）"
 fi
 
-# 启动 PHP 内置服务器
-echo "  启动 PHP 内置服务器（http://0.0.0.0:8080）..."
+# ============================================================
+# 启动应用服务器
+# ============================================================
+# 默认 Octane + FrankenPHP（常驻 worker：框架启动成本归零，替代开发服务器）。
+# 回退链：OCTANE_SERVER=serve 或镜像内无 frankenphp 时，退回 artisan serve
+# （此时用 PHP_CLI_SERVER_WORKERS 提升并发 + opcache 仍生效）。
+# 回退开关给排障用：Octane 出问题时 .env 改 OCTANE_SERVER=serve 重启容器即可。
+if [ "${OCTANE_SERVER:-frankenphp}" = "frankenphp" ] && command -v frankenphp >/dev/null 2>&1; then
+    echo "⚡ Octane + FrankenPHP 常驻模式（workers=${OCTANE_WORKERS:-4}，max-requests=${OCTANE_MAX_REQUESTS:-500}）..."
+    exec php artisan octane:start \
+        --server=frankenphp \
+        --host=0.0.0.0 \
+        --port=8080 \
+        --workers="${OCTANE_WORKERS:-4}" \
+        --max-requests="${OCTANE_MAX_REQUESTS:-500}"
+fi
+
+echo "⚡ 回退：PHP 内置开发服务器（建议检查 OCTANE_SERVER / frankenphp 是否正常）..."
+export PHP_CLI_SERVER_WORKERS="${PHP_CLI_SERVER_WORKERS:-8}"
 exec php artisan serve --host=0.0.0.0 --port=8080

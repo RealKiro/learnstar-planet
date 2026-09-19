@@ -1,9 +1,16 @@
 # Multi-stage Dockerfile for LearnStar Planet
 # Stage 1: Build Vue frontend (Node)
-# Stage 2: PHP runtime (php artisan serve — no Nginx, no FPM, no Supervisor)
+# Stage 2: Composer vendor (独立层：只在 composer.lock 变化时重建，且 composer 不进最终镜像)
+# Stage 3: Runtime = Octane + FrankenPHP（常驻 worker，替代 artisan serve 开发服务器）
 #
 # Location: docker/Dockerfile (all Docker build files live in docker/)
 # Build context = learnstar-planet/ (repository root)
+#
+# 为什么是 FrankenPHP：
+#   - 单个静态二进制 = Web 服务器(Caddy) + PHP 运行时，无 nginx/FPM/Supervisor
+#   - Octane worker 常驻内存，框架启动成本归零（PHP 唯一的架构劣势）
+#   - alpine 变体 + install-php-extensions，镜像比旧的 php-cli + artisan serve 更小
+#   - 官方镜像含 PHP 8.5（tag: 1-php8.5-alpine），与 config/platform.php 对齐
 
 # ============================================================
 # Stage 1: Build Vue frontend
@@ -19,35 +26,14 @@ COPY frontend-vue/ ./
 RUN npm run build:ci
 
 # ============================================================
-# Stage 2: PHP production runtime
+# Stage 2: Composer 依赖（vendor 独立成段，最终镜像不含 composer）
 # ============================================================
-FROM php:8.5-cli-alpine AS app
+FROM dunglas/frankenphp:1-php8.5-alpine AS vendor-builder
 
-# Install system dependencies for PHP extensions
-RUN apk add --no-cache \
-    libpng libjpeg-turbo freetype libzip oniguruma \
-    postgresql-libs sqlite-libs libwebp curl unzip \
-    && rm -rf /var/cache/apk/*
-
-# Compile PHP extensions
-RUN apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        postgresql-dev sqlite-dev libpng-dev libjpeg-turbo-dev \
-        freetype-dev libzip-dev oniguruma-dev libwebp-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install -j"$(nproc)" \
-        pdo_mysql pdo_pgsql pdo_sqlite zip gd mbstring pcntl \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && apk del --no-cache .build-deps \
-    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/php*
-
-# Install Composer
 COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy composer files and install production dependencies
 COPY backend/composer.json backend/composer.lock* ./
 RUN composer install \
         --no-interaction \
@@ -56,32 +42,49 @@ RUN composer install \
         --optimize-autoloader \
         --no-dev \
         --no-scripts \
-        --ignore-platform-reqs \
-    && composer dump-autoload --optimize --no-scripts --no-dev \
-    && rm -rf /root/.composer/cache
+        --ignore-platform-reqs
 
-# Copy application code (需要在 octane:install 之前)
+# ============================================================
+# Stage 3: Runtime（Octane + FrankenPHP）
+# ============================================================
+FROM dunglas/frankenphp:1-php8.5-alpine AS app
+
+# curl 仅供 HEALTHCHECK；其余 PHP 扩展用镜像自带的 install-php-extensions
+# （脚本会自动装各扩展的 alpine 运行库，无需手工 apk 拉一串 -dev 包）
+RUN apk add --no-cache curl && rm -rf /var/cache/apk/*
+
+# 扩展清单与旧镜像对齐（gd 供 intervention/image 头像处理；pcntl 为 Octane 必需）：
+RUN install-php-extensions \
+        opcache \
+        pdo_mysql \
+        pdo_pgsql \
+        pdo_sqlite \
+        zip \
+        gd \
+        mbstring \
+        pcntl \
+        redis
+
+WORKDIR /app
+
+# vendor 来自独立段：业务代码改动不再打掉 composer install 层
+COPY --from=vendor-builder /app/vendor ./vendor
+
 COPY backend/ .
-
-# 创建必要目录并完成包发现
-RUN mkdir -p bootstrap/cache storage/framework/cache/data \
-    storage/framework/sessions storage/framework/views storage/logs \
-    && php artisan package:discover --ansi 2>/dev/null || true
 
 # Copy Vue frontend build to public directory
 COPY --from=frontend-builder /app/dist ./public
 
-# Ensure storage directories exist with proper permissions
-RUN mkdir -p storage/app/public \
-    storage/framework/cache/data \
-    storage/framework/sessions \
-    storage/framework/views \
-    storage/logs \
-    bootstrap/cache \
+# 创建必要目录、完成包发现、发布 Octane 配置
+# （octane:install 若因构建期无 .env 失败不影响运行：entrypoint 启动时显式传 --server）
+RUN mkdir -p bootstrap/cache storage/framework/cache/data \
+    storage/framework/sessions storage/framework/views storage/logs \
+    storage/app/public \
+    && php artisan package:discover --ansi 2>/dev/null || true \
+    && php artisan octane:install --server=frankenphp --no-interaction 2>/dev/null || true \
+    && touch storage/database.sqlite && chmod 666 storage/database.sqlite \
     && chown -R www-data:www-data /app \
-    && chmod -R 755 storage bootstrap/cache public \
-    && touch storage/database.sqlite \
-    && chmod 666 storage/database.sqlite
+    && chmod -R 755 storage bootstrap/cache public
 
 # Copy entrypoint script
 COPY docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh

@@ -101,6 +101,10 @@ return [
             'database' => Env::get('DB_DATABASE', storage_path('database.sqlite')),
             'prefix' => '',
             'prefix_indexes' => true,
+            // 并发写保护（毫秒）：Octane 多 worker 同时写 SQLite 时，写锁冲突先等待而非立即抛
+            // "database is locked"。逐连接生效、不落盘，与 compose 的单文件数据卷兼容（勿改用 WAL：
+            // WAL 的 -wal/-shm 副文件不在卷内，容器重建会丢最近写入）
+            'busy_timeout' => Env::get('DB_BUSY_TIMEOUT', 5000),
         ],
     ],
 
