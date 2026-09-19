@@ -157,12 +157,12 @@ export const SERIES_SCENES: Record<string, SceneConfig> = {
 /** 系列与物种的Emoji映射 */
 export const SPECIES_EMOJI: Record<string, string> = {
   // ===== 山海经·神话（18） =====
-  zhulong: '🐉',          // 烛龙
+  zhulong: '🕯️',          // 烛龙（烛火之神，开目为昼闭目为夜；让出 🐉 给青龙体系避免两龙打架）
   yinglong: '🪽',         // 应龙（翼龙）
   nine_tail_fox: '🦊',    // 九尾狐
   kunpeng: '🐳',          // 鲲鹏（巨鱼化鸟）
-  fenghuang: '🌋',        // 凤凰
-  qilin: '🦄',            // 麒麟
+  fenghuang: '🐦‍🔥',      // 凤凰（Unicode 15.1 凤凰符；旧系统回退为 🐦+🔥 仍表火鸟）
+  qilin: '🐎',            // 麒麟（与 unicorn 对调：🦄 归独角兽，麒麟取神兽马形）
   qiongqi: '🐺',          // 穷奇（音如嗥狗）
   bifang: '🐦',           // 毕方（单足火鸟）
   pixiu: '🦁',            // 貔貅
@@ -171,10 +171,10 @@ export const SPECIES_EMOJI: Record<string, string> = {
   xiezhi: '🐐',           // 獬豸
   qinglong: '🐲',         // 青龙
   baihu: '🐯',            // 白虎
-  zhuque: '🦩',           // 朱雀
-  xuanwu: '🛡️',           // 玄武（龟蛇）
+  zhuque: '🦚',           // 朱雀（南方赤色神鸟；孔雀羽冠意象，与毕方 🐦 拉开）
+  xuanwu: '🐢‍🐍',         // 玄武（龟蛇合体；旧系统回退为 🐢🐍 两字形并排，语义不丢）
   taotie: '👹',           // 饕餮
-  baize: '🐏',            // 白泽（雪白羊角瑞兽）
+  baize: '🦙',            // 白泽（瑞兽；换 🦙 与獬豸 🐐 拉开视觉距离）
   // ===== 宝可梦（6） =====
   charmander: '🦎',
   bulbasaur: '🐸',
@@ -203,7 +203,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   digital_phoenix: '🪶',
   mecha_shark: '🦈',
   // ===== 魔法（12） =====
-  unicorn: '🐎',
+  unicorn: '🦄',          // 独角兽
   wyvern: '🦇',
   fairy: '🧚',
   treant: '🌳',
