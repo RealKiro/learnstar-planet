@@ -932,9 +932,9 @@ onMounted(async () => {
 .qr-label { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; }
 .qr-group { display: flex; gap: 6px; flex-wrap: wrap; }
 .qr-btn { padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s ease; }
-.qr-add { background: rgba(16,185,129,0.08); color: var(--c-green); border-color: rgba(16,185,129,0.2); }
+.qr-add { background: rgba(16,185,129,0.08); color: var(--color-success-text); border-color: rgba(16,185,129,0.2); }
 .qr-add:hover { background: rgba(16,185,129,0.15); }
-.qr-sub { background: rgba(239,68,68,0.08); color: var(--c-red); border-color: rgba(239,68,68,0.2); }
+.qr-sub { background: rgba(239,68,68,0.08); color: var(--c-red-deeper); border-color: rgba(239,68,68,0.2); } /* 自带红底，--color-danger-text 在红底上仅 4.35:1，用深一级红 */
 .qr-sub:hover { background: rgba(239,68,68,0.15); }
 
 /* 学生卡片网格 */
