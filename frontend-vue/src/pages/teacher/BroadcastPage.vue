@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { apiGet, apiPost } from '@/utils/api'
 import type { ApiResponse } from '@/types'
+
+const router = useRouter()
+/** 教室大屏是本页要投送的终端，给个直达入口（新标签打开，不打断当前编辑） */
+const classroomHref = router.resolve({ name: 'teacher-classroom' }).href
 
 const bcContent = ref('')
 const bcError = ref('')
@@ -82,11 +87,13 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 
 <template>
   <div>
-    <!-- 标题归消息中心容器所有，这里只保留状态行（避免 h2 重复） -->
+    <!-- 标题归消息中心容器所有，这里只保留教室大屏的说明与入口（避免 h2 重复） -->
     <div class="page-head">
-      <span class="text-muted-13">
-        🖥️ 教室桌面端：<strong class="bc-accent-text">已连接</strong>
-      </span>
+      <!-- 这里原先硬编码「教室桌面端：已连接」。教室大屏只轮询 /classroom/display 与
+           /messages，后端没有任何心跳/在线接口，前端无从知道它是否真的开着，
+           因此改为陈述事实，不再虚构连接状态。 -->
+      <span class="text-muted-13">🖥️ 教室大屏在教室设备上打开后，会自动接收广播与通知</span>
+      <a class="btn btn-ghost btn-sm" :href="classroomHref" target="_blank" rel="noopener">打开教室大屏 ↗</a>
     </div>
 
     <!-- 发送区 -->
@@ -181,8 +188,8 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 </template>
 
 <style scoped>
-/* 标题由消息中心容器承担；此处只剩状态行，保持与原位置一致的右对齐 */
-.page-head { justify-content: flex-end; }
+/* 标题由消息中心容器承担；此处只剩说明文字 + 大屏入口，保持与原位置一致的右对齐 */
+.page-head { justify-content: flex-end; gap: 12px; }
 .bc-type-btn { flex:1;padding:10px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:13px;cursor:pointer;font-weight:500;font-family:inherit; }
 .bc-type-btn:hover { border-color:var(--ui-brand); }
 .bc-type-btn.active { border:2px solid var(--ui-brand);background:var(--ui-brand-soft);color:var(--ui-brand); }
@@ -191,7 +198,6 @@ const typeLabels: Record<string, string> = { banner: '📌 横幅', popup: '💬
 .bc-class-chip { display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--color-border); }
 .bc-accent { accent-color:var(--ui-brand); }
 .bc-check-row { display:flex;align-items:center;gap:4px;font-size:14px;cursor:pointer; }
-.bc-accent-text { color:var(--ui-brand); }
 .bc-type-row { display:flex;gap:8px;margin-bottom:16px; }
 .bc-textarea { min-height:80px;resize:vertical; }
 .bc-mb-16 { margin-bottom:16px; }
