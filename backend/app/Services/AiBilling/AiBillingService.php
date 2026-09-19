@@ -25,6 +25,10 @@ class AiBillingService
         return $this->drivers[$providerId] ??= match ($providerId) {
             'openai' => new OpenAiBillingDriver(),
             'deepseek' => new DeepSeekBillingDriver(),
+            'moonshot' => new MoonshotBillingDriver(),
+            'siliconflow' => new SiliconFlowBillingDriver(),
+            'openrouter' => new OpenRouterBillingDriver(),
+            'newapi', 'oneapi' => new RelayBillingDriver(),
             default => new LocalPreciseBillingDriver(),
         };
     }

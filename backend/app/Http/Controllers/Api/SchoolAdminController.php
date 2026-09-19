@@ -2393,6 +2393,90 @@ class SchoolAdminController extends Controller
     }
 
     /**
+     * 供应商官方用量/余额直查（不做本地估算）：
+     * - OpenAI Usage API（近 30 日 token + 美元费用）
+     * - DeepSeek / Moonshot / SiliconFlow 官方余额
+     * - OpenRouter credits（已用/剩余）
+     * - New API / One API 中转的 billing 兼容端点（已用 + 剩余额度）
+     * 官方接口不可用时返回 official=false 与说明，前端继续展示本地估算。
+     * 官方余额同步写入 providers[].balance（保存时服务端取较大值合并）。
+     */
+    public function getAiProviderOfficial(Request $request): JsonResponse
+    {
+        $school = $request->user()->school;
+        $providerId = (string) $request->input('provider_id', '');
+
+        if ($providerId === '') {
+            return response()->json(['message' => '缺少供应商'], 422);
+        }
+
+        $settings = \App\Models\AiSetting::where('school_id', $school->id)->first();
+        if (!$settings) {
+            return response()->json(['message' => '尚未创建 AI 配置'], 422);
+        }
+
+        $provider = null;
+        foreach ($settings->providers ?? [] as $p) {
+            if (($p['id'] ?? '') === $providerId) {
+                $provider = $p;
+                break;
+            }
+        }
+        if (!$provider) {
+            return response()->json(['message' => '未找到该供应商配置'], 422);
+        }
+        if (empty($provider['api_key'])) {
+            return response()->json(['message' => '该供应商未配置 API Key，请先填写并保存'], 422);
+        }
+
+        $billing = app(\App\Services\AiBilling\AiBillingService::class);
+        $snapshot = $billing->syncOfficialUsage($settings, $providerId, now()->subDays(30), now());
+        $balance = $billing->getBalance($settings, $providerId);
+
+        if ($snapshot === null && $balance === null) {
+            return response()->json(['data' => [
+                'provider_id' => $providerId,
+                'official' => false,
+                'message' => '该平台未提供可用的官方用量/余额接口，当前数据为本地估算',
+            ]]);
+        }
+
+        // 官方余额落盘，供列表展示与保存合并（取较大值防清零）
+        if ($balance !== null) {
+            $providers = $settings->providers ?: [];
+            foreach ($providers as &$p) {
+                if (($p['id'] ?? '') === $providerId) {
+                    $p['balance'] = $balance->totalBalance;
+                    break;
+                }
+            }
+            unset($p);
+            $settings->providers = $providers;
+            $settings->save();
+        }
+
+        return response()->json(['data' => [
+            'provider_id' => $providerId,
+            'official' => true,
+            'usage' => $snapshot ? [
+                'prompt_tokens' => $snapshot->promptTokens,
+                'completion_tokens' => $snapshot->completionTokens,
+                'total_tokens' => $snapshot->totalTokens(),
+                'cost' => $snapshot->cost,
+                'currency' => $snapshot->currency,
+                'source' => $snapshot->source,
+            ] : null,
+            'balance' => $balance ? [
+                'currency' => $balance->currency,
+                'total_balance' => $balance->totalBalance,
+                'granted_balance' => $balance->grantedBalance,
+                'is_available' => $balance->isAvailable,
+            ] : null,
+            'fetched_at' => now()->toDateTimeString(),
+        ]]);
+    }
+
+    /**
      * 拉取企业微信通讯录（部门 + 成员），供前端预览导入
      */
     public function wechatWorkContacts(Request $request): JsonResponse

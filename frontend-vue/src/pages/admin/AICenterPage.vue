@@ -14,6 +14,15 @@ interface ProviderConfig {
   // 本地 UI 状态（_ 前缀，不参与后端校验语义）
   _expanded?: boolean; _official_models?: string[]; _fetching?: boolean; _fetch_msg?: string
   _testing?: boolean; _test_ok?: boolean; _test_msg?: string; _show_key?: boolean
+  _official_loading?: boolean; _official_err?: boolean; _official_msg?: string; _official_data?: OfficialData
+}
+/** 供应商官方用量/余额直查结果（/admin/ai/provider-official） */
+interface OfficialData {
+  official: boolean
+  message?: string
+  usage?: { prompt_tokens: number; completion_tokens: number; total_tokens: number; cost: number; currency: string; source: string } | null
+  balance?: { currency: string; total_balance: number; granted_balance?: number | null; is_available: boolean } | null
+  fetched_at?: string
 }
 interface AiSettings { enabled: boolean; max_tokens: number; tokens_used: number; tokens_limit: number; providers: ProviderConfig[] }
 interface DailyUsage { date: string; tokens: number; count: number; cost?: number }
@@ -113,6 +122,12 @@ const providerMeta: ProviderMeta[] = [
   { id: 'azure', label: 'Azure OpenAI', group: '聚合', color: '#0078d4', site: 'https://portal.azure.com/',
     models: ['gpt-4o', 'gpt-4-turbo', 'gpt-35-turbo'],
     pricing: { input: '$2.50', output: '$10.00', unit: '/M tokens', url: 'https://azure.com/pricing' }},
+  { id: 'newapi', label: 'New API 中转', group: '中转', color: '#0ea5e9', site: 'https://github.com/Calcium-Ion/new-api',
+    models: [],
+    pricing: { input: '按上游', output: '按上游', unit: '计费', url: 'https://github.com/Calcium-Ion/new-api' }},
+  { id: 'oneapi', label: 'One API 中转', group: '中转', color: '#6366f1', site: 'https://github.com/songquanpeng/one-api',
+    models: [],
+    pricing: { input: '按上游', output: '按上游', unit: '计费', url: 'https://github.com/songquanpeng/one-api' }},
   { id: 'ollama', label: 'Ollama（本地）', group: '本地', color: '#000', site: 'https://ollama.com/',
     models: ['llama3.2', 'qwen2.5', 'deepseek-r1', 'mistral'],
     pricing: { input: '免费', output: '免费', unit: '（本地运行）', url: 'https://ollama.com' }},
@@ -427,6 +442,40 @@ async function fetchModels(p: ProviderConfig) {
   } finally { p._fetching = false }
 }
 
+// ===== 官方用量/余额直查（非本地估算） =====
+const isRelay = (p: ProviderConfig) => p.id === 'newapi' || p.id === 'oneapi'
+async function fetchOfficial(p: ProviderConfig) {
+  if (p._official_loading) return
+  p._official_loading = true
+  p._official_err = false
+  p._official_msg = ''
+  try {
+    const res = await apiPost<{ data: OfficialData }>(
+      '/api/v1/admin/ai/provider-official', { provider_id: p.id }, { skipToast: true })
+    const d = res.data
+    p._official_data = d
+    if (!d.official) {
+      p._official_err = true
+      p._official_msg = d.message || '官方接口不可用'
+    } else {
+      const parts: string[] = []
+      if (d.balance) parts.push(`余额 ${currencySymbol(d.balance.currency)}${d.balance.total_balance.toFixed(2)}`)
+      if (d.usage && d.usage.total_tokens) {
+        parts.push(`近 30 日 ${d.usage.total_tokens.toLocaleString()} tk`)
+        if (d.usage.cost) parts.push(currencySymbol(d.usage.currency) + d.usage.cost.toFixed(2))
+      } else if (d.usage && d.usage.cost) {
+        parts.push(`近 30 日 ${currencySymbol(d.usage.currency)}${d.usage.cost.toFixed(2)}`)
+      }
+      p._official_msg = parts.length
+        ? `官方数据 · ${parts.join(' · ')}${d.fetched_at ? ' · ' + fmtTime(d.fetched_at) : ''}`
+        : '官方接口已连通，暂无用量数据'
+    }
+  } catch (e: any) {
+    p._official_err = true
+    p._official_msg = e?.response?.data?.message || '查询失败'
+  } finally { p._official_loading = false }
+}
+
 // ===== 连通性测试（New API 渠道测试模式） =====
 async function testProvider(p: ProviderConfig) {
   if (p._testing) return
@@ -655,7 +704,7 @@ onMounted(loadData)
             <div class="quick-card">
               <div class="quick-card__icon">🔗</div>
               <div class="quick-card__title">自定义接口</div>
-              <div class="quick-card__sub">MCP · Ollama · vLLM</div>
+              <div class="quick-card__sub">MCP · New API · Ollama</div>
             </div>
           </div>
           <p class="empty-hint">💡 从上方下拉框选择供应商开始配置</p>
@@ -671,8 +720,10 @@ onMounted(loadData)
             <div class="pc-name-wrap">
               <span class="pc-name">{{ getProviderMeta(p.id)?.label || p.label }}</span>
               <span v-if="p.model" class="pc-chip">{{ p.model }}</span>
+              <span v-if="p._official_data?.balance" class="pc-chip pc-chip--official" title="来自平台官方接口">官方 {{ currencySymbol(p._official_data.balance.currency) }}{{ p._official_data.balance.total_balance.toFixed(2) }}</span>
             </div>
-            <span class="pc-key" :class="{ 'pc-key--missing': !p.api_key }">{{ maskKey(p.api_key) }}</span>
+            <span v-if="isRelay(p)" class="pc-key pc-key--wide" :class="{ 'pc-key--missing': !p.api_base }">{{ p.api_base || '未配置中转地址' }}</span>
+            <span v-else class="pc-key" :class="{ 'pc-key--missing': !p.api_key }">{{ maskKey(p.api_key) }}</span>
 
             <span v-if="p._test_msg" class="pc-test" :class="p._test_ok ? 'pc-test--ok' : 'pc-test--fail'">{{ p._test_msg }}</span>
             <span v-if="p.tokens_used !== undefined" class="pc-meta">{{ (p.tokens_used || 0).toLocaleString() }} tk · {{ currencySymbol(p.currency) }}{{ (p.estimated_cost || 0).toFixed(3) }}</span>
@@ -718,6 +769,28 @@ onMounted(loadData)
               <div class="pc-field">
                 <label>API 地址 <span class="label-optional">留空用官方默认</span></label>
                 <input v-model="p.api_base" class="form-input" placeholder="https://api.example.com/v1">
+              </div>
+            </div>
+            <div class="pc-official">
+              <div class="pc-official__head">
+                <label>官方用量 / 余额 <span class="label-optional">向平台官方接口实时查询，非本地估算</span></label>
+                <button class="mini-btn" :disabled="p._official_loading" @click="fetchOfficial(p)">
+                  {{ p._official_loading ? '查询中...' : '⟳ 查询' }}
+                </button>
+              </div>
+              <div v-if="p._official_msg" class="field-hint" :class="{ 'field-hint--error': p._official_err }">{{ p._official_msg }}</div>
+              <div v-if="p._official_data?.official" class="official-grid">
+                <div v-if="p._official_data.balance" class="official-box">
+                  <div class="official-box__label">官方余额</div>
+                  <div class="official-box__value">{{ currencySymbol(p._official_data.balance.currency) }}{{ p._official_data.balance.total_balance.toFixed(2) }}</div>
+                  <div v-if="p._official_data.balance.granted_balance" class="official-box__sub">含赠送 {{ currencySymbol(p._official_data.balance.currency) }}{{ p._official_data.balance.granted_balance.toFixed(2) }}</div>
+                </div>
+                <div v-if="p._official_data.usage" class="official-box">
+                  <div class="official-box__label">近 30 日用量（官方）</div>
+                  <div v-if="p._official_data.usage.total_tokens" class="official-box__value">{{ p._official_data.usage.total_tokens.toLocaleString() }} tk</div>
+                  <div v-else class="official-box__value">{{ currencySymbol(p._official_data.usage.currency) }}{{ p._official_data.usage.cost.toFixed(2) }}</div>
+                  <div v-if="p._official_data.usage.total_tokens && p._official_data.usage.cost" class="official-box__sub">{{ currencySymbol(p._official_data.usage.currency) }}{{ p._official_data.usage.cost.toFixed(2) }}</div>
+                </div>
               </div>
             </div>
             <div class="pc-models">
@@ -1047,6 +1120,17 @@ onMounted(loadData)
 .field-hint--error { color: var(--color-danger-text); }
 .input-error { border-color: rgba(239, 68, 68, 0.5) !important; }
 
+/* ===== 官方用量/余额直查 ===== */
+.pc-official { padding-top: 10px; margin-top: 10px; border-top: 1px dashed var(--tint-2); }
+.pc-official__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 2px; }
+.pc-official__head label { display: block; font-size: 11px; font-weight: 600; color: var(--color-text-secondary); }
+.official-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
+.official-box { padding: 10px 12px; background: var(--tint-1); border: 1px solid var(--tint-2); border-radius: 10px; }
+.official-box__label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 3px; }
+.official-box__value { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.official-box__sub { font-size: 10px; color: var(--color-text-secondary); margin-top: 2px; }
+.pc-chip--official { background: rgba(16, 185, 129, 0.1); color: var(--color-success-text); font-weight: 600; }
+
 /* ===== MCP ===== */
 .intro-card { padding: 18px 20px; margin-bottom: 12px; }
 .intro-title { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
@@ -1104,6 +1188,7 @@ onMounted(loadData)
   .mcp-form__grid { grid-template-columns: 1fr; }
   .usage-trio { grid-template-columns: 1fr; }
   .quick-grid { grid-template-columns: 1fr; }
+  .official-grid { grid-template-columns: 1fr; }
   .pc-key, .pc-meta { display: none; }
 }
 .aic-right { text-align:right; }
