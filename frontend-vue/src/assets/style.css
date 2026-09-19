@@ -392,6 +392,13 @@ a:hover { color: var(--md-primary-light); }
 /* 紧凑变体：用于卡片内 / 表格内 / 弹窗内，避免 60px 大留白把容器撑高 */
 .error-state--compact { padding: 28px 16px; gap: 8px; }
 .error-state--compact .error-state__icon { font-size: 24px; }
+/* 页面级错误态纵向撑满：错误提示垂直居中，不再顶在上方、下方留大片空白。
+   仅限主内容区内的非 compact（页面级）实例；卡内/弹窗内 --compact 不受影响，
+   教室大屏端（/classroom/*、/display/*）不使用 error-state 类，无波及。 */
+.main-content .error-state:not(.error-state--compact) {
+  min-height: 56vh;
+  justify-content: center;
+}
 
 /* 表单分组（跨页统一） */
 .form-group { margin-bottom: 12px; }

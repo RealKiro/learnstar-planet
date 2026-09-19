@@ -73,11 +73,14 @@ function navigate(name: string) {
       </div>
     </nav>
 
-    <!-- 主内容 -->
+    <!-- 主内容：content-wrap 限宽居中（1360px），超宽屏上避免内容稀疏拉满；
+         .main-content 背景仍铺满，两端留白属容器而非内容 -->
     <main class="main-content">
-      <router-view v-slot="{ Component }">
-        <component :is="Component" :key="$route.fullPath" />
-      </router-view>
+      <div class="content-wrap">
+        <router-view v-slot="{ Component }">
+          <component :is="Component" :key="$route.fullPath" />
+        </router-view>
+      </div>
     </main>
 
     <!-- 右下角主题切换浮动按钮 -->
@@ -261,6 +264,13 @@ function navigate(name: string) {
   max-width: calc(100% - var(--md-sidebar-width));
   overflow-x: hidden;
   background: var(--ui-bg);
+}
+
+/* 内容限宽居中：对标 shadcn/cdk 的 container 纪律（1360px 上限），
+   超宽屏上表格/卡片不再稀疏拉满；移动端自然占满无需额外处理 */
+.content-wrap {
+  max-width: 1360px;
+  margin: 0 auto;
 }
 
 /* ===== 响应式 ===== */
