@@ -170,7 +170,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   xiangliu: '🐍',         // 相柳（九头蛇）
   xiezhi: '🐐',           // 獬豸
   qinglong: '🐲',         // 青龙
-  baihu: '🐯',            // 白虎
+  baihu: '🐯',            // 白虎（无白色虎字形，虎面为准；取舍非错配）
   zhuque: '🦚',           // 朱雀（南方赤色神鸟；孔雀羽冠意象，与毕方 🐦 拉开）
   xuanwu: '🐢‍🐍',         // 玄武（龟蛇合体；旧系统回退为 🐢🐍 两字形并排，语义不丢）
   taotie: '👹',           // 饕餮
@@ -192,7 +192,7 @@ export const SPECIES_EMOJI: Record<string, string> = {
   tibetan_antelope: '🦬',
   snow_leopard: '🐆',
   milu_deer: '🫎',
-  siberian_tiger: '🌨️',
+  siberian_tiger: '🌨️',   // 东北虎（虎字形 🐅🐯 已被华南虎/白虎占用，取雪原意象；取舍非错配）
   red_panda: '🐿️',
   finless_porpoise: '🐬',
   // ===== 数码/机甲（6） =====
@@ -219,8 +219,8 @@ export const SPECIES_EMOJI: Record<string, string> = {
   t_rex: '🦖',
   triceratops: '🦕',
   pterosaur: '🪁',
-  mammoth: '🐘',
-  sabertooth: '🦣',
+  mammoth: '🦣',
+  sabertooth: '🐘',        // 剑齿虎（猫科字形全占，与猛犸互换后取冰河巨兽象形；猛犸得归位 🦣）
   mosasaur: '🦭',
   spinosaurus: '🌊',
   ankylosaurus: '🦔',
