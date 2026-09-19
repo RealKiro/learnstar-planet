@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import { apiGet, apiPost, apiPut } from '@/utils/api'
 import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 
@@ -475,6 +476,47 @@ const filteredLogs = computed(() => {
   return usage.value.recent_logs.filter(log => (log.student_name || '').toLowerCase().includes(q))
 })
 
+// ===== 未保存离开保护：路由内切换 + 刷新/关闭双保险 =====
+function onBeforeUnload(e: BeforeUnloadEvent) {
+  if (hasUnsaved.value) { e.preventDefault(); e.returnValue = '' }
+}
+async function guardUnsaved(): Promise<boolean> {
+  if (!hasUnsaved.value) return true
+  return await openConfirm({
+    title: '有未保存的更改',
+    message: '离开将丢失未保存的 AI 配置修改。确定离开？',
+    danger: true, confirmText: '放弃更改并离开',
+  })
+}
+onBeforeRouteLeave(guardUnsaved)
+
+// ===== Ctrl/Cmd+S 保存 =====
+function onKeydown(e: KeyboardEvent) {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+    e.preventDefault()
+    if (saveStatus.value === 'idle' && settings.value) saveSettings()
+  }
+}
+onMounted(() => {
+  window.addEventListener('beforeunload', onBeforeUnload)
+  window.addEventListener('keydown', onKeydown)
+})
+onUnmounted(() => {
+  window.removeEventListener('beforeunload', onBeforeUnload)
+  window.removeEventListener('keydown', onKeydown)
+})
+
+// ===== 展示辅助 =====
+/** "2026-09-19 21:00:00" → 同日 "21:00"，跨日 "09-19 21:00"，其余原样 */
+function fmtTime(s: string): string {
+  const m = s?.match(/(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/)
+  if (!m) return s
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const now = new Date()
+  const sameDay = m[1] === String(now.getFullYear()) && m[2] === pad(now.getMonth() + 1) && m[3] === pad(now.getDate())
+  return sameDay ? `${m[4]}:${m[5]}` : `${m[2]}-${m[3]} ${m[4]}:${m[5]}`
+}
+
 onMounted(loadData)
 </script>
 
@@ -492,8 +534,9 @@ onMounted(loadData)
           'btn-state-loading': saveStatus === 'loading',
           'btn-state-success': saveStatus === 'success',
           'btn-state-error': saveStatus === 'error',
-          'btn-solid': saveStatus === 'idle',
-        }" :disabled="saveStatus !== 'idle'" @click="saveSettings">
+          'btn-primary': saveStatus === 'idle' && hasUnsaved,
+          'btn-solid': saveStatus === 'idle' && !hasUnsaved,
+        }" :disabled="saveStatus !== 'idle'" :title="hasUnsaved ? '有未保存的更改（Ctrl+S 保存）' : 'Ctrl+S 保存'" @click="saveSettings">
           <template v-if="saveStatus === 'loading'">保存中...</template>
           <template v-else-if="saveStatus === 'success'">已保存 ✓</template>
           <template v-else-if="saveStatus === 'error'">保存失败 ✗</template>
@@ -525,7 +568,7 @@ onMounted(loadData)
         </div>
         <div class="stat-card stat-card--info">
           <span class="stat-card__icon">{{ settings.enabled ? '🟢' : '🔴' }}</span>
-          <div class="stat-card__value" :style="{ fontSize: '22px', paddingTop: '6px' }">
+          <div class="stat-card__value stat-card__value--status">
             {{ settings.enabled ? '运行中' : '已停用' }}
           </div>
           <div class="stat-card__label">AI 服务状态</div>
@@ -571,8 +614,8 @@ onMounted(loadData)
         <button :class="['tab-btn', { active: activeTab === 'mcp' }]" @click="activeTab = 'mcp'">
           🔗 MCP 接口 <span class="tab-count">{{ mcpConfigs.length }}</span>
         </button>
-        <button :class="['tab-btn', { active: activeTab === 'usage' }]" @click="activeTab = 'usage'">📊 用量统计</button>
-        <button :class="['tab-btn', { active: activeTab === 'logs' }]" @click="activeTab = 'logs'">📋 对话记录</button>
+        <button :class="['tab-btn', { active: activeTab === 'usage' }]" @click="activeTab = 'usage'">📊 用量统计 <span class="tab-count">{{ Object.keys(usage?.by_provider || {}).length }}</span></button>
+        <button :class="['tab-btn', { active: activeTab === 'logs' }]" @click="activeTab = 'logs'">📋 对话记录 <span class="tab-count">{{ usage?.recent_logs?.length || 0 }}</span></button>
       </div>
 
       <!-- ===== 供应商 ===== -->
@@ -620,7 +663,10 @@ onMounted(loadData)
 
         <div v-for="p in standardProviders" :key="p.id" class="provider-card" :class="{ 'provider-card--active': p.is_active }">
           <!-- 卡片头 -->
-          <div class="pc-head" @click="p._expanded = !p._expanded">
+          <div class="pc-head" role="button" :tabindex="0" :aria-expanded="!!p._expanded"
+            @click="p._expanded = !p._expanded"
+            @keydown.enter.prevent="p._expanded = !p._expanded"
+            @keydown.space.prevent="p._expanded = !p._expanded">
             <span class="pc-dot" :style="{ background: getProviderMeta(p.id)?.color || 'var(--color-primary)' }"></span>
             <div class="pc-name-wrap">
               <span class="pc-name">{{ getProviderMeta(p.id)?.label || p.label }}</span>
@@ -765,7 +811,10 @@ onMounted(loadData)
 
         <div v-if="!mcpConfigs.length" class="empty-state">暂无 MCP 接口配置</div>
         <div v-for="mcp in mcpConfigs" :key="mcp.id" class="provider-card" :class="{ 'provider-card--active': mcp.is_active }">
-          <div class="pc-head" @click="mcp._expanded = !mcp._expanded">
+          <div class="pc-head" role="button" :tabindex="0" :aria-expanded="!!mcp._expanded"
+            @click="mcp._expanded = !mcp._expanded"
+            @keydown.enter.prevent="mcp._expanded = !mcp._expanded"
+            @keydown.space.prevent="mcp._expanded = !mcp._expanded">
             <span class="pc-dot aic-bg-primary"></span>
             <div class="pc-name-wrap">
               <span class="pc-name">{{ mcp.label }}</span>
@@ -877,7 +926,7 @@ onMounted(loadData)
               <span v-if="log.provider" class="log-provider">{{ log.provider }}</span>
               <span class="log-tokens">{{ log.tokens_used }} tk</span>
               <span v-if="log.cost" class="log-cost">{{ log.cost }} {{ log.currency }}</span>
-              <span class="log-time">{{ log.created_at }}</span>
+              <span class="log-time">{{ fmtTime(log.created_at) }}</span>
             </div>
             <div class="log-q"><strong>问：</strong>{{ log.question }}</div>
             <div class="log-a"><strong>答：</strong>{{ log.answer?.substring(0, 200) }}{{ (log.answer?.length || 0) > 200 ? '...' : '' }}</div>
@@ -891,7 +940,9 @@ onMounted(loadData)
 
 <style scoped>
 /* ===== 页面骨架（Linux.do / AstrBot 式清爽布局） ===== */
-.ai-center { max-width: 880px; }
+.ai-center { max-width: 880px; margin: 0 auto; }
+/* 文字型数值（运行中/已停用）：与 26px 数字基线对齐 */
+.stat-card__value--status { font-size: 22px; padding-top: 6px; }
 .page-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
 .page-crumb { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 2px; }
 .page-title { font-size: 24px; font-weight: 700; }
