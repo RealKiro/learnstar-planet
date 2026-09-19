@@ -383,7 +383,7 @@ async function uploadLogo(e: Event) {
 .tab-bar { display: flex; gap: 4px; margin-bottom: 20px; background: var(--color-bg); border-radius: 12px; padding: 4px; }
 .tab-btn { flex: 1; padding: 10px 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all 0.2s; }
 .tab-btn:hover { background: rgba(124,58,237,0.06); color: var(--color-text); }
-.tab-btn.active { background: #7c3aed; color: #fff; box-shadow: 0 2px 8px rgba(124,58,237,0.25); }
+.tab-btn.active { background: var(--color-bg-card); color: var(--color-text); box-shadow: var(--shadow-sm); }
 .info-block { flex:1; min-width:200px; padding:12px 16px; background:var(--color-bg); border-radius:10px; }
 .info-label { font-size:12px; color:var(--color-text-secondary); margin-bottom:4px; }
 .mono { font-family:monospace; font-weight:600; }

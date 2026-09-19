@@ -924,7 +924,7 @@ onMounted(loadData)
 .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; background: var(--tint-1); border: 1px solid var(--tint-2); border-radius: 12px; padding: 4px; }
 .tab-btn { flex: 1; padding: 8px 10px; border: none; border-radius: 9px; font-size: 12px; font-weight: 600; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all 0.2s; white-space: nowrap; font-family: inherit; }
 .tab-btn:hover { color: var(--color-text); background: var(--tint-2); }
-.tab-btn.active { background: var(--color-primary); color: #fff; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25); }
+.tab-btn.active { background: var(--color-bg-card); color: var(--color-text); box-shadow: var(--shadow-sm); }
 .tab-count { opacity: 0.7; font-weight: 500; margin-left: 2px; }
 
 /* ===== 添加行 ===== */

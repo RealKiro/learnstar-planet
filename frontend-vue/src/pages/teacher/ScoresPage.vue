@@ -835,7 +835,7 @@ onMounted(async () => {
   transition: all 0.2s ease;
 }
 .filter-tag:hover { color: var(--color-text); border-color: var(--color-text-secondary); }
-.filter-tag.active { background: rgba(124,58,237,0.08); border-color: var(--color-primary); color: var(--color-primary); font-weight: 600; }
+.filter-tag.active { background: var(--ui-brand-soft); border-color: var(--ui-brand); color: var(--ui-brand); font-weight: 600; }
 .sort-group { display: flex; align-items: center; gap: 6px; }
 .sort-label { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; }
 .sort-tag {

@@ -167,7 +167,7 @@ function formatTime(iso?: string | null): string {
 .pending-chip { font-size: 13px; font-weight: 600; background: var(--c-amber-chip); color: var(--c-amber-chip-text); padding: 4px 12px; border-radius: 9999px }
 .filter-row { display: flex; gap: 8px; margin-bottom: 14px }
 .filter-btn { border: 1.5px solid var(--color-border); background: transparent; border-radius: 9999px; padding: 5px 16px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--color-text-secondary); font-family: inherit }
-.filter-btn.active { background: var(--color-text); border-color: var(--color-text); color: var(--color-bg-card, #fff) }
+.filter-btn.active { background: var(--ui-brand-soft); border-color: var(--ui-brand); color: var(--ui-brand) }
 .req-table { width: 100%; border-collapse: collapse }
 .req-table th { text-align: left; font-size: 12px; color: var(--color-text-secondary); font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--color-border); white-space: nowrap }
 .req-table td { padding: 12px; border-bottom: 1px solid var(--color-border); font-size: 14px; vertical-align: middle }
