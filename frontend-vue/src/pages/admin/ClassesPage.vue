@@ -397,7 +397,8 @@ async function submitAssignTeacher() {
 
     <div v-else-if="loadError" class="error-state">
       <div class="error-state__icon">⚠️</div>
-      <p class="error-state__msg">{{ loadError }}</p>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
       <button class="btn btn-sm btn-primary" @click="reloadClasses()">重试</button>
     </div>
 

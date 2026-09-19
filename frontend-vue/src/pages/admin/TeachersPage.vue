@@ -25,6 +25,7 @@ const subjects = ['语文', '数学', '英语', '科学', '道德与法治', '�
 const teachers = ref<Teacher[]>([])
 const classes = ref<ClassRoom[]>([])
 const loading = ref(true)
+const loadError = ref('')
 const filterGrade = ref('')
 const filterRole = ref<ClassRole | ''>('')
 const searchQuery = ref('')
@@ -158,7 +159,13 @@ async function loadTeachers(isInitial = false) {
       apiGet<{ data: ClassRoom[] }>('/api/v1/admin/classes'),
     ])
     teachers.value = tRes.data || []; classes.value = cRes.data || []
-  } catch { /* silent */ }
+    loadError.value = ''
+  } catch {
+    // 原为 catch { /* silent */ }：失败后列表渲染「暂无教师，点击「创建教师」添加」，
+    // 管理员会误以为教师被清空并重复创建。
+    teachers.value = []; classes.value = []
+    loadError.value = '教师名单加载失败'
+  }
   finally { if (isInitial) loading.value = false }
 }
 const refreshTeachers = () => loadTeachers(false)
@@ -198,6 +205,12 @@ onMounted(() => { loadTeachers(true); loadSchoolPlatform() })
       :class="batchOpStatus === 'error' ? 'tch-banner--error' : 'tch-banner--ok'" class="tch-banner">{{ batchOpMsg }}</div>
 
     <div v-if="loading" class="loading-spinner">加载中...</div>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadTeachers(true)">重试</button>
+    </div>
     <div v-else-if="filteredTeachers.length === 0" class="empty-state">
       <div class="empty-icon">&#x1F468;&#x200D;&#x1F3EB;</div>
       <p v-if="searchQuery || filterGrade || filterRole">未找到匹配的教师，请修改搜索条件</p>

@@ -28,7 +28,7 @@ async function loadData() {
     const res = await apiGet<ApiResponse<TimetableTeacherSchedule>>('/api/v1/teacher/timetable/my-schedule')
     schedule.value = res.data || null
   } catch {
-    loadError.value = '课表加载失败，请刷新重试'
+    loadError.value = '课表加载失败'
   } finally {
     loading.value = false
   }
@@ -57,7 +57,12 @@ function subjectColor(name: string): string | null {
     </div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
-    <div v-else-if="loadError" class="error-banner">{{ loadError }}</div>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadData">重试</button>
+    </div>
     <div v-else-if="!schedule || schedule.entries.length === 0" class="empty-state">
       暂未找到您的排课记录（按教师姓名匹配各班排课，可让管理员核对任课设置与排课中的教师姓名）
     </div>

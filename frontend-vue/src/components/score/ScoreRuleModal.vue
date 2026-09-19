@@ -50,7 +50,7 @@ const emit = defineEmits<{
             </div>
           </div>
         </div>
-        <div v-if="error" class="modal-error">{{ error }}</div>
+        <div v-if="error" class="error-banner error-banner--block">{{ error }}</div>
         <button class="cancel-btn" @click="emit('close')">取消操作</button>
       </div>
     </div>
@@ -84,16 +84,6 @@ const emit = defineEmits<{
 .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
 .modal-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 20px; }
 .modal-sub strong { color: var(--color-text); }
-.modal-error {
-  margin-bottom: 10px;
-  padding: 8px 12px;
-  background: rgba(239,68,68,0.08);
-  border: 1px solid rgba(239,68,68,0.2);
-  border-radius: 8px;
-  color: var(--color-danger-text);
-  font-size: 12px;
-}
-
 /* 规则分组（并列式） */
 .reason-groups {
   display: flex;

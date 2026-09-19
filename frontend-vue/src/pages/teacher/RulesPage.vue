@@ -55,16 +55,18 @@ const categoryLabels: Record<string, string> = {
   literacy: '📊 综合素养', daily: '📅 日常表现', academic: '📚 学业',
 }
 
-onMounted(async () => {
+async function loadRules() {
+  loading.value = true
   try {
     const res = await apiGet<ApiResponse<ScoreRule[]>>('/api/v1/teacher/scores/rules', { skipToast: true })
     rules.value = res.data || []
     loadError.value = ''
   } catch {
-    loadError.value = '规则加载失败，请稍后重试'
+    loadError.value = '积分规则加载失败'
   }
   finally { loading.value = false }
-})
+}
+onMounted(loadRules)
 
 function openAdd() {
   editingId.value = null
@@ -132,9 +134,14 @@ async function handleDelete(rule: ScoreRule) {
       <button class="btn btn-sm btn-primary" @click="openAdd">添加规则</button>
     </div>
 
-    <div v-if="loadError" class="rule-error">⚠️ {{ loadError }}</div>
-
     <div v-if="loading" class="empty-state">加载中...</div>
+
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadRules">重试</button>
+    </div>
 
     <div v-else-if="rules.length === 0" class="card empty-state">
       <div class="empty-state__icon">📋</div>
@@ -224,7 +231,6 @@ async function handleDelete(rule: ScoreRule) {
 .rule-ml-8-fw { margin-left:8px;font-weight:500; }
 .rule-chip { margin-left:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-bg);padding:2px 8px;border-radius:4px; }
 .rule-row-4 { display:flex;gap:4px; }
-.rule-error { margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
 .rule-mb-16 { margin-bottom:16px; }
 .rule-grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
 .rule-accent-13 { color:var(--ui-brand);font-size:13px; }

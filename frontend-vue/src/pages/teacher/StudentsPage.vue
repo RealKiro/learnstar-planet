@@ -230,7 +230,7 @@ async function loadStudents(resetPage = false) {
     if (res.meta) meta.value = res.meta
   } catch {
     students.value = []
-    loadError.value = '学生数据加载失败'
+    loadError.value = '学生名单加载失败'
   } finally { loading.value = false }
 }
 
@@ -256,7 +256,7 @@ onMounted(async () => {
 <template>
   <div>
     <div class="page-header">
-      <h2 class="page-title">🎒 学生列表</h2>
+      <h2 class="page-title">🎒 学生名单</h2>
       <div class="header-actions">
         <input
           v-model="searchKeyword"
@@ -284,7 +284,8 @@ onMounted(async () => {
 
     <div v-else-if="loadError" class="error-state">
       <div class="error-state__icon">⚠️</div>
-      <p class="error-state__msg">{{ loadError }}</p>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
       <button class="btn btn-sm btn-primary" @click="loadStudents(true)">重试</button>
     </div>
 

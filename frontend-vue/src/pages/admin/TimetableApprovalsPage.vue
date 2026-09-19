@@ -33,7 +33,7 @@ async function loadData() {
     const res = await apiGet<ApiResponse<TimetableChangeRequest[]>>('/api/v1/admin/timetable/changes')
     list.value = res.data || []
   } catch {
-    loadError.value = '申请列表加载失败，请刷新重试'
+    loadError.value = '申请列表加载失败'
   } finally {
     loading.value = false
   }
@@ -99,7 +99,12 @@ function formatTime(iso?: string | null): string {
     </div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
-    <div v-else-if="loadError" class="error-banner">{{ loadError }}</div>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadData">重试</button>
+    </div>
 
     <div v-else class="card">
       <table class="req-table">

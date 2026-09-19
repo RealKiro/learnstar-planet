@@ -347,7 +347,9 @@ a:hover { color: var(--md-primary-light); }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
 .modal-hint { font-size: 12px; color: var(--ui-fg-muted); margin-top: 4px; }
 
-/* ===== 表单错误横幅（内联校验错误，跨页统一） ===== */
+/* ===== 表单错误横幅（内联校验错误，跨页统一） =====
+ * 默认形态面向「弹窗动作行里的一员」：靠 margin-right:auto 靠左，按钮靠右。
+ * 单独成块使用时加 --block；需要在右侧挂操作按钮时加 --action。 */
 .error-banner {
   margin-right: auto;
   padding: 8px 12px;
@@ -357,8 +359,16 @@ a:hover { color: var(--md-primary-light); }
   color: var(--color-danger-text);
   font-size: 12px;
 }
+/* 独立成块（不在弹窗动作行里）：补下方间距，避免贴住下一块内容 */
+.error-banner--block { margin-right: 0; margin-bottom: 12px; }
+/* 横幅 + 右侧操作按钮（如「重试」） */
+.error-banner--action { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 
-/* ===== 统一错误态（列表加载失败 + 重试按钮，跨页复用） ===== */
+/* ===== 统一错误态（列表加载失败 + 重试按钮，跨页复用） =====
+ * 与 .empty-state 结构对齐：__icon + __title（发生了什么）+ __desc（下一步怎么办）。
+ * 用法约定：整个列表/页面加载不出来 → .error-state；
+ * 表单字段校验失败、页面仍可用 → .error-banner（见上）。
+ * 描述行固定用 --ui-fg-muted，不要在模板里另写颜色。 */
 .error-state {
   text-align: center;
   padding: 60px;
@@ -368,8 +378,12 @@ a:hover { color: var(--md-primary-light); }
   align-items: center;
   gap: 12px;
 }
-.error-state__icon { font-size: 36px; }
-.error-state__msg { font-size: 14px; }
+.error-state__icon { font-size: 36px; line-height: 1; }
+.error-state__title { font-size: 14px; font-weight: 600; color: var(--ui-fg); }
+.error-state__desc { font-size: 13px; margin-top: -8px; }
+/* 紧凑变体：用于卡片内 / 表格内 / 弹窗内，避免 60px 大留白把容器撑高 */
+.error-state--compact { padding: 28px 16px; gap: 8px; }
+.error-state--compact .error-state__icon { font-size: 24px; }
 
 /* 表单分组（跨页统一） */
 .form-group { margin-bottom: 12px; }

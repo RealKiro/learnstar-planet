@@ -113,21 +113,23 @@ async function exportExcel(schoolWide: boolean) {
   }
 }
 
-onMounted(async () => {
+async function reloadAll() {
   loading.value = true
   try {
     const clsRes = await apiGet<ApiResponse<ClassRoom[]>>('/api/v1/admin/classes')
     classes.value = clsRes.data || []
+    loadError.value = ''
     if (classes.value.length > 0) {
       currentClassId.value = classes.value[0].id
       await loadTimetable()
     }
   } catch {
-    loadError.value = '班级列表加载失败，请刷新重试'
+    loadError.value = '班级列表加载失败'
   } finally {
     loading.value = false
   }
-})
+}
+onMounted(reloadAll)
 
 async function loadTimetable() {
   if (!currentClassId.value) return
@@ -142,7 +144,7 @@ async function loadTimetable() {
     assignments.value = aRes.data || []
     scheduleConflictCheck()
   } catch {
-    loadError.value = '课表加载失败，请刷新重试'
+    loadError.value = '课表加载失败'
   }
 }
 
@@ -544,7 +546,12 @@ async function submitImport(dryRun: boolean) {
     <div v-if="excelExportError" class="field-error">{{ excelExportError }}</div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
-    <div v-else-if="loadError" class="error-banner">{{ loadError }}</div>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="reloadAll">重试</button>
+    </div>
 
     <template v-else-if="currentClassId">
       <div class="config-grid">

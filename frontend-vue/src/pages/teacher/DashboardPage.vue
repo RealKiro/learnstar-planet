@@ -36,6 +36,7 @@ interface ClassOverviewData {
 
 const data = ref<ClassOverviewData | null>(null)
 const loading = ref(true)
+const loadError = ref('')
 // 点击宠物 SVG 打开的图鉴弹窗
 const handbook = ref<{ speciesId: string; level: number; score: number } | null>(null)
 function openHandbook(s: CardStudent) {
@@ -100,7 +101,8 @@ async function fetchTeacherDashboard() {
     const res = await apiGet<ApiResponse<ClassOverviewData>>('/api/v1/teacher/dashboard')
     data.value = res.data
   } catch {
-    // Demo data
+    // Demo data —— 兜底演示数据保留，但必须声明，否则老师会把假班情当真（与 ScoresPage 口径一致）
+    loadError.value = '班级数据加载失败，当前展示的是演示数据'
     data.value = {
       class_name: '三年级一班',
       grade: '三年级',
@@ -167,6 +169,9 @@ onUnmounted(() => {
         {{ data.class_name || '--' }} · {{ data.grade || '--' }}
       </span>
     </div>
+
+    <!-- 接口失败时下方渲染的是内置演示数据，必须显式声明，避免被误读为真实班情 -->
+    <div v-if="loadError" class="error-banner error-banner--block">{{ loadError }}</div>
 
     <div v-if="loading" class="loading-state">
       <div class="loading-spinner"></div>

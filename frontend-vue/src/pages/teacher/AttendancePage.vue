@@ -15,6 +15,7 @@ interface Summary { present: number; late: number; leave: number; absent: number
 const records = ref<AttendanceRecord[]>([])
 const summary = ref<Summary>({ present: 0, late: 0, leave: 0, absent: 0, rate: 0, wechat_leave_count: 0, manual_leave_count: 0 })
 const loading = ref(true)
+const loadError = ref('')
 const attendanceStarted = ref(false)
 const startStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 
@@ -40,7 +41,13 @@ async function loadData() {
     records.value = recRes.data || []
     summary.value = sumRes.data || { present: 0, late: 0, leave: 0, absent: 0, rate: 0, wechat_leave_count: 0, manual_leave_count: 0 }
     attendanceStarted.value = records.value.length > 0
-  } catch { /* handled */ } finally { loading.value = false }
+    loadError.value = ''
+  } catch {
+    // 原为 catch { /* handled */ }：失败后页面渲染成「无人考勤 + 可点开始点名」，
+    // 与「确实还没有考勤记录」是两回事，必须区分，否则老师会以为今天没人缺勤。
+    records.value = []
+    loadError.value = '考勤数据加载失败'
+  } finally { loading.value = false }
 }
 
 async function startAttendance() {
@@ -107,6 +114,13 @@ async function confirmAbsent() {
     </div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
+
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadData">重试</button>
+    </div>
 
     <div v-else>
       <div v-if="absentWithoutLeave > 0" class="warn-banner">

@@ -56,7 +56,11 @@ async function loadStatus() {
     })
     const data = await res.json()
     sysStatus.value = data.data || null
-  } catch { /* errors handled by interceptor */ }
+  } catch {
+    // 注意：这里是原生 fetch，不走 axios 拦截器，HTTP 错误也不会 reject。
+    // 失败态统一由 sysStatus 为 null + 模板的 .error-state 呈现。
+    sysStatus.value = null
+  }
   finally { statusLoading.value = false }
 }
 
@@ -154,7 +158,12 @@ function onTabChange(tab: typeof activeTab.value) {
             </div>
           </div>
         </div>
-        <div v-else class="diag-placeholder">加载失败，请刷新重试</div>
+        <div v-else class="error-state error-state--compact">
+          <div class="error-state__icon">⚠️</div>
+          <p class="error-state__title">系统状态加载失败</p>
+          <p class="error-state__desc">请稍后重试</p>
+          <button class="btn btn-sm btn-primary" @click="loadStatus">重试</button>
+        </div>
       </div>
     </div>
   </div>

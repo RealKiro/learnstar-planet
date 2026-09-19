@@ -146,7 +146,7 @@ function useCommand(cmd: AICommand) {
 
     <div v-else class="card chat-card">
       <!-- 教师端：配置加载失败提示（不阻塞聊天） -->
-      <div v-if="isTeacherMode && loadError" class="config-error">
+      <div v-if="isTeacherMode && loadError" class="error-banner error-banner--action error-banner--block">
         <span>{{ loadError }}</span>
         <button class="btn btn-sm btn-ghost" @click="loadConfig">重试</button>
       </div>
@@ -218,21 +218,6 @@ function useCommand(cmd: AICommand) {
 
 /* ===== 聊天容器 ===== */
 .chat-card { display: flex; flex-direction: column; height: calc(100vh - 200px); min-height: 400px; }
-
-/* ===== 配置加载失败（非阻塞，不挡聊天） ===== */
-.config-error {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  background: rgba(239,68,68,0.08);
-  border: 1px solid rgba(239,68,68,0.2);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  font-size: 13px;
-  color: var(--color-danger-text);
-}
 
 /* ===== 配置提示 ===== */
 .hint-box {

@@ -66,7 +66,7 @@ async function loadData() {
     const chRes = await apiGet<ApiResponse<TimetableChangeRequest[]>>('/api/v1/teacher/timetable/changes')
     changes.value = chRes.data || []
   } catch {
-    loadError.value = '课表加载失败，请刷新重试'
+    loadError.value = '课表加载失败'
   } finally {
     loading.value = false
   }
@@ -220,7 +220,12 @@ async function exportCses() {
     <div v-else-if="pendingCount > 0" class="save-tip save-tip--pending">有 {{ pendingCount }} 条修改申请待管理员审核，审核通过前课表保持现状</div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
-    <div v-else-if="loadError" class="error-banner">{{ loadError }}</div>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadData">重试</button>
+    </div>
 
     <template v-else>
       <div class="config-grid">

@@ -61,6 +61,7 @@ function rateFor(target: string): number {
 // ===== 学生列表（搜索 + 分页，后端 search/page 已支持） =====
 const studentSearch = ref('')
 const studentsLoading = ref(false)
+const studentsError = ref('')
 const studentsMeta = ref({ current_page: 1, last_page: 1, per_page: 50, total: 0 })
 
 // ===== 兑换记录 =====
@@ -84,7 +85,13 @@ async function loadStudents(resetPage = false) {
     const res = await apiGet<ApiResponse<StudentInfo[]>>(`/api/v1/teacher/students?${params.toString()}`)
     students.value = res.data || []
     if (res.meta) studentsMeta.value = res.meta
-  } catch { /* 列表失败不阻塞兑换 */ }
+    studentsError.value = ''
+  } catch {
+    // 原为 catch { /* 列表失败不阻塞兑换 */ }：失败后列表渲染「暂无学生数据」，
+    // 老师会以为班里没有学生。改为在列表区内呈现可重试的错误态。
+    students.value = []
+    studentsError.value = '学生名单加载失败'
+  }
   finally { studentsLoading.value = false }
 }
 
@@ -128,7 +135,7 @@ async function loadAll() {
     rates.value = rateRes.data || []
     loadError.value = ''
   } catch {
-    loadError.value = '数据加载失败'
+    loadError.value = '兑换数据加载失败'
   } finally { loading.value = false }
   await Promise.all([loadStudents(true), loadLogs(true)])
 }
@@ -183,7 +190,8 @@ async function doExchange() {
 
     <div v-else-if="loadError" class="error-state">
       <div class="error-state__icon">⚠️</div>
-      <p class="error-state__msg">{{ loadError }}</p>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
       <button class="btn btn-sm btn-primary" @click="loadAll">重试</button>
     </div>
 
@@ -224,7 +232,13 @@ async function doExchange() {
               <div class="wallet-line">🔬{{ getWallet(s.id, 'science') }} 📚{{ getWallet(s.id, 'reading') }} ⚽{{ getWallet(s.id, 'class_point') }}</div>
             </div>
           </div>
-          <div v-if="students.length === 0 && !studentsLoading" class="empty-students">暂无学生数据</div>
+          <div v-if="studentsError" class="error-state error-state--compact">
+            <div class="error-state__icon">⚠️</div>
+            <p class="error-state__title">{{ studentsError }}</p>
+            <p class="error-state__desc">请稍后重试</p>
+            <button class="btn btn-sm btn-primary" @click="loadStudents(true)">重试</button>
+          </div>
+          <div v-else-if="students.length === 0 && !studentsLoading" class="empty-students">暂无学生数据</div>
           <div v-if="studentsMeta.last_page > 1" class="mini-pagination">
             <button class="btn btn-sm btn-ghost-card" :disabled="studentsMeta.current_page <= 1" @click="changeStudentsPage(studentsMeta.current_page - 1)">←</button>
             <span class="mini-pagination__info">{{ studentsMeta.current_page }} / {{ studentsMeta.last_page }}</span>

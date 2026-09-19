@@ -81,7 +81,8 @@ function getRankMedal(idx: number): string {
   return ['🥇', '🥈', '🥉'][idx] || `#${idx + 1}`
 }
 
-onMounted(async () => {
+async function loadLeaderboard() {
+  loading.value = true
   try {
     const pkRes = await apiGet<ApiResponse<ClassPKData[]>>('/api/v1/teacher/pk/leaderboard')
     classes.value = pkRes.data || []
@@ -96,12 +97,14 @@ onMounted(async () => {
         rank: classes.value.indexOf(own) + 1,
       }
     }
+    loadError.value = ''
   } catch (e: any) {
-    loadError.value = e?.response?.data?.message || 'PK 排行榜加载失败，请稍后重试'
+    loadError.value = e?.response?.data?.message || 'PK 排行榜加载失败'
   } finally {
     loading.value = false
   }
-})
+}
+onMounted(loadLeaderboard)
 </script>
 
 <template>
@@ -122,8 +125,11 @@ onMounted(async () => {
       <p>加载排行数据...</p>
     </div>
 
-    <div v-else-if="loadError" class="loading-state tpk-danger">
-      <p>⚠️ {{ loadError }}</p>
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadLeaderboard">重试</button>
     </div>
 
     <template v-else>

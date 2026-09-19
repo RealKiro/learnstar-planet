@@ -309,7 +309,7 @@ async function loadData() {
     usage.value = uRes.data || null
     markSaved()
   } catch (e: any) {
-    loadError.value = e?.response?.data?.message || '加载失败，请稍后重试'
+    loadError.value = e?.response?.data?.message || 'AI 配置加载失败'
   } finally { loading.value = false }
 }
 
@@ -505,8 +505,9 @@ onMounted(loadData)
     <div v-if="loading" class="loading-state"><div class="loading-spinner"></div><p>加载中...</p></div>
     <div v-else-if="loadError" class="error-state">
       <div class="error-state__icon">⚠️</div>
-      <div class="error-state__msg">{{ loadError }}</div>
-      <button class="btn btn-primary btn-sm" @click="loadData">🔄 重试</button>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadData">重试</button>
     </div>
 
     <template v-else-if="settings">

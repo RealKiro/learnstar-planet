@@ -11,6 +11,7 @@ interface School {
 }
 
 const loading = ref(true)
+const settingsError = ref('')
 const saveStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const restoreStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 // 第三方登录平台选项（管理员勾选哪些可用）
@@ -97,10 +98,10 @@ async function loadLogs() {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
     })
     const data = await res.json()
-    if (!res.ok) { logError.value = data.message || '加载失败'; return }
+    if (!res.ok) { logError.value = data.message || '日志加载失败'; return }
     logEntries.value = data.data?.entries || []
     logTotal.value = data.data?.total || 0
-  } catch { logError.value = '加载日志失败' }
+  } catch { logError.value = '日志加载失败' }
   finally { logRefreshing.value = false }
 }
 function startLogPolling() { stopLogPolling(); logTimer = setInterval(loadLogs, 5000) }
@@ -115,7 +116,8 @@ function logLevelClass(level: string): string {
 }
 onUnmounted(stopLogPolling)
 
-onMounted(async () => {
+async function loadSchool() {
+  loading.value = true
   try {
     const [schoolRes, statusRes] = await Promise.all([
       apiGet<ApiResponse<School>>('/api/v1/admin/school'),
@@ -135,9 +137,15 @@ onMounted(async () => {
     schoolStatus.value = s.status || ''
     logoPath.value = s.logo_path || ''
     sysStatus.value = statusRes.data || null
-  } catch { /* handled */ }
+    settingsError.value = ''
+  } catch {
+    // 原为 catch { /* handled */ }：失败后表单以空白渲染（schoolCode 也为空），
+    // 管理员若顺手点「保存设置」就会把学校名称/编码写成空值，属数据损坏风险。
+    settingsError.value = '学校信息加载失败'
+  }
   finally { loading.value = false }
-})
+}
+onMounted(loadSchool)
 
 async function save() {
   saveStatus.value = 'loading'
@@ -218,6 +226,12 @@ async function uploadLogo(e: Event) {
     <!-- 学校信息 -->
     <div v-if="activeTab === 'school'">
       <div v-if="loading" class="loading-spinner">加载中...</div>
+      <div v-else-if="settingsError" class="error-state">
+        <div class="error-state__icon">⚠️</div>
+        <p class="error-state__title">{{ settingsError }}</p>
+        <p class="error-state__desc">请稍后重试</p>
+        <button class="btn btn-sm btn-primary" @click="loadSchool">重试</button>
+      </div>
       <div v-else class="card card-form-lg">
         <div class="info-row">
           <div class="info-block"><div class="info-label">学校编码</div><div class="mono">{{ schoolCode || '-' }}</div></div>
@@ -353,7 +367,7 @@ async function uploadLogo(e: Event) {
         <button class="btn btn-sm btn-card" @click="stopLogPolling">⏹ 停止</button>
         <span class="log-count">{{ logTotal }} 条</span>
       </div>
-      <div v-if="logError" class="log-error">{{ logError }}</div>
+      <div v-if="logError" class="error-banner error-banner--block">{{ logError }}</div>
       <div class="log-view">
         <div v-if="!logEntries.length" class="log-empty">暂无日志</div>
         <div v-for="(entry, i) in logEntries" :key="i" class="log-line">
@@ -430,7 +444,6 @@ async function uploadLogo(e: Event) {
 .btn-card { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
 .btn-purple { background:#7c3aed; color:#fff; border:none; }
 .log-count { font-size:12px; color:var(--color-text-secondary); }
-.log-error { color: var(--c-red); font-size:13px; padding:8px; background:rgba(239,68,68,0.06); border-radius:6px; margin-bottom:8px; }
 .log-view { background:#0d1117; border-radius:10px; max-height:60vh; overflow:auto; padding:8px 0; }
 .log-empty { padding:16px; text-align:center; color:#8b949e; font-size:13px; }
 .log-line { display:flex; align-items:flex-start; gap:8px; padding:2px 16px; font-family:monospace; font-size:12px; line-height:1.6; white-space:pre-wrap; word-break:break-all; }

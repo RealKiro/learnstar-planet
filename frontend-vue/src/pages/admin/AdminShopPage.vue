@@ -19,6 +19,7 @@ interface ShopItemExt {
 
 const items = ref<ShopItemExt[]>([])
 const loading = ref(true)
+const loadError = ref('')
 const filterCategory = ref('')
 const showModal = ref(false)
 const editingId = ref<number | null>(null)
@@ -42,13 +43,20 @@ const currencyOptions = [
 interface AdminRate { id: number; name?: string; from_currency: string; to_currency: string; rate: string; is_active: boolean }
 const rates = ref<AdminRate[]>([])
 const ratesLoading = ref(true)
+const ratesError = ref('')
 const rateSaving = ref('')
 const rateErrors = reactive<Record<string, string>>({})
 async function loadRates() {
+  ratesLoading.value = true
   try {
     const res = await apiGet<ApiResponse<AdminRate[]>>('/api/v1/admin/exchange-rates', { skipToast: true })
     rates.value = res.data || []
-  } catch { rates.value = [] }
+    ratesError.value = ''
+  } catch {
+    // 同上：静默清空会让面板一片空白，用户无从知道是加载失败
+    rates.value = []
+    ratesError.value = '兑换汇率加载失败'
+  }
   finally { ratesLoading.value = false }
 }
 function rateLabel(c: string) {
@@ -98,10 +106,16 @@ const filteredItems = computed(() => {
 const currencyLabel = (key: string) => currencyOptions.find(c => c.key === key)?.label || key
 
 async function loadItems() {
+  loading.value = true
   try {
     const res = await apiGet<ApiResponse<ShopItemExt[]>>('/api/v1/admin/shop-items')
     items.value = res.data || []
-  } catch { /* handled */ }
+    loadError.value = ''
+  } catch {
+    // 不能静默吞错：失败后若items为空，页面会谎报「暂无商品」
+    items.value = []
+    loadError.value = '商品列表加载失败'
+  }
   finally { loading.value = false }
 }
 onMounted(() => {
@@ -202,6 +216,12 @@ async function handleDelete(item: ShopItemExt) {
         <span class="hint-11">全校共享 · 默认 2:1（2 积分 = 1 币，防通胀）</span>
       </div>
       <div v-if="ratesLoading" class="text-muted-12">加载中...</div>
+      <div v-else-if="ratesError" class="error-state error-state--compact">
+        <div class="error-state__icon">⚠️</div>
+        <p class="error-state__title">{{ ratesError }}</p>
+        <p class="error-state__desc">请稍后重试</p>
+        <button class="btn btn-sm btn-primary" @click="loadRates">重试</button>
+      </div>
       <div v-else class="grid-260">
         <div v-for="r in rates" :key="r.id" class="item-row">
           <span class="item-name">{{ rateLabel(r.from_currency) }} → {{ rateLabel(r.to_currency) }}</span>
@@ -211,7 +231,7 @@ async function handleDelete(item: ShopItemExt) {
           </button>
         </div>
       </div>
-      <div v-if="Object.keys(rateErrors).length" class="inline-error">{{ Object.values(rateErrors)[0] }}</div>
+      <div v-if="Object.keys(rateErrors).length" class="error-banner">{{ Object.values(rateErrors)[0] }}</div>
       <p class="hint-block">💡 示例：2 积分 = 1 科学币/体育币/读书币；小商品约 100 积分（一周可攒），大商品约 200 积分（两周可攒）。</p>
     </div>
 
@@ -223,6 +243,13 @@ async function handleDelete(item: ShopItemExt) {
     </div>
 
     <div v-if="loading" class="empty-state">加载中...</div>
+
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadItems">重试</button>
+    </div>
 
     <div v-else-if="filteredItems.length === 0" class="card empty-state">
       <div class="empty-state__icon">🛍️</div>
@@ -334,7 +361,6 @@ async function handleDelete(item: ShopItemExt) {
 .item-name { font-size:13px; flex:1; }
 .num-input { width:64px; padding:4px 8px; border-radius:6px; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); font-size:13px; }
 .nowrap { white-space:nowrap; }
-.inline-error { margin-top:8px; color: var(--c-red-soft); font-size:12px; }
 .hint-block { font-size:11px; color:var(--color-text-secondary); margin:10px 0 0; }
 .filter-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
 .section-gap { margin-bottom:16px; }

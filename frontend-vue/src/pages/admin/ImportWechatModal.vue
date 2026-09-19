@@ -252,7 +252,7 @@ function finishImport() {
           <button class="btn btn-primary" :disabled="loading" @click="loadContacts">
             {{ loading ? '拉取中...' : '📥 拉取通讯录' }}
           </button>
-          <div v-if="loadError" class="inline-error">{{ loadError }}</div>
+          <div v-if="loadError" class="error-banner iw-error-top">{{ loadError }}</div>
         </div>
 
         <!-- ===== 成员预览表 ===== -->
@@ -315,7 +315,7 @@ function finishImport() {
             </table>
           </div>
           <p class="hint-line">💡 学生班级已按部门名自动匹配（含"六年级1班 ↔ 六年级（1）班"模糊匹配），可手动调整或用上方批量设置；教师默认以姓名作为登录账号，重复导入会自动跳过已有账号。</p>
-          <div v-if="importError" class="inline-error">{{ importError }}</div>
+          <div v-if="importError" class="error-banner iw-error-top">{{ importError }}</div>
         </div>
       </div>
 
@@ -349,7 +349,8 @@ function finishImport() {
 .empty-fetch { text-align: center; padding: 32px 16px; }
 .empty-fetch__icon { font-size: 40px; margin-bottom: 12px; }
 .empty-fetch__desc { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px; }
-.inline-error { margin-top: 10px; padding: 8px 12px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 8px; color: var(--color-danger-text); font-size: 12px; }
+/* 外观统一走全局 .error-banner；这两处横幅之下还有内容块，需要的是「上」间距 */
+.iw-error-top { margin-top: 10px; }
 
 /* 工具栏 + 统计 */
 .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }

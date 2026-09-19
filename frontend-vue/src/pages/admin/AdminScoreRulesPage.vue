@@ -6,6 +6,7 @@ import type { ApiResponse, ScoreRule } from '@/types'
 
 const rules = ref<ScoreRule[]>([])
 const loading = ref(true)
+const loadError = ref('')
 const showModal = ref(false)
 const editingId = ref<number | null>(null)
 
@@ -42,13 +43,21 @@ const categoryLabels: Record<string, string> = {
   literacy: '📊 综合素养', daily: '📅 日常表现', academic: '📚 学业', custom: '✨ 自定义',
 }
 
-onMounted(async () => {
+async function loadRules() {
+  loading.value = true
   try {
     const res = await apiGet<ApiResponse<ScoreRule[]>>('/api/v1/admin/score-rules')
     rules.value = res.data || []
-  } catch { /* handled */ }
+    loadError.value = ''
+  } catch {
+    // 原为 catch { /* handled */ }：加载失败后规则列表渲染「暂无全校积分规则」，
+    // 会让管理员以为规则被清空了，必须区分「空」与「没加载出来」。
+    rules.value = []
+    loadError.value = '积分规则加载失败'
+  }
   finally { loading.value = false }
-})
+}
+onMounted(loadRules)
 
 function openAdd() {
   editingId.value = null
@@ -135,6 +144,13 @@ async function handleDelete(rule: ScoreRule) {
     <p class="page-desc">💡 全校教师共享这些规则，新增/修改后教师端即时可见。</p>
 
     <div v-if="loading" class="empty-state">加载中...</div>
+
+    <div v-else-if="loadError" class="error-state">
+      <div class="error-state__icon">⚠️</div>
+      <p class="error-state__title">{{ loadError }}</p>
+      <p class="error-state__desc">请稍后重试</p>
+      <button class="btn btn-sm btn-primary" @click="loadRules">重试</button>
+    </div>
 
     <div v-else-if="rules.length === 0" class="card empty-state">
       <div class="empty-state__icon">📋</div>

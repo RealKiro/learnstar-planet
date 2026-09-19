@@ -493,9 +493,9 @@ onMounted(async () => {
 
 <template>
   <div class="scores-page">
-    <!-- 教师端加载失败提示 -->
-    <div v-if="isTeacherMode && loadError" class="load-error">
-      ⚠️ {{ loadError }}
+    <!-- 教师端降级提示（已回退演示数据，页面仍可用，故用横幅而非整块错误态） -->
+    <div v-if="isTeacherMode && loadError" class="error-banner error-banner--block">
+      {{ loadError }}
     </div>
 
     <!-- 页头：标题 + 统计/班级总分 -->
@@ -770,16 +770,6 @@ onMounted(async () => {
 .scores-page {
   max-width: 1200px;
 }
-.load-error {
-  margin-bottom: 12px;
-  padding: 8px 12px;
-  background: rgba(239,68,68,0.08);
-  border: 1px solid rgba(239,68,68,0.2);
-  border-radius: 8px;
-  color: var(--color-danger-text);
-  font-size: 12px;
-}
-
 /* 顶部 */
 .page-top { margin-bottom: 20px; }
 .page-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
