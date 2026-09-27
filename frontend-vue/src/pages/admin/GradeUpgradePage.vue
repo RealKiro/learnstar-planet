@@ -57,8 +57,7 @@ async function executeUpgrade() {
         <button class="btn btn-sm gup-btn-plain" @click="loadPreview" :disabled="loading">
           {{ loading ? '加载中...' : '🔄 重新预览' }}
         </button>
-        <button v-if="preview" class="btn btn-sm gup-btn-solid" :disabled="executeStatus === 'loading'" @click="executeUpgrade"
-          :style="{ background: executeStatus === 'loading' ? '#f59e0b' : executeStatus === 'success' ? '#10b981' : executeStatus === 'error' ? '#ef4444' : '#7c3aed' }">
+        <button v-if="preview" class="btn btn-sm gup-btn-solid" :class="executeStatus !== 'idle' ? 'btn-state-' + executeStatus : ''" :disabled="executeStatus === 'loading'" @click="executeUpgrade">
           <span v-if="executeStatus === 'idle'">▶ 执行升级</span>
           <span v-else-if="executeStatus === 'loading'">⏳ 执行中...</span>
           <span v-else-if="executeStatus === 'success'">✅ 升级完成</span>
@@ -174,8 +173,10 @@ async function executeUpgrade() {
 .gup-mb-24 { margin-bottom:24px; }
 .gup-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px; }
 .gup-row-8 { display:flex;gap:8px; }
-.gup-btn-plain { background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border); }
-.gup-btn-solid { transition:all 0.3s ease;border:none;color:#fff; }
+.gup-btn-plain { background:var(--ui-card);color:var(--ui-fg);border:1px solid var(--ui-border); }
+.gup-btn-plain:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
+.gup-btn-solid { border:none;color:var(--ui-brand-fg);background:var(--ui-brand); }
+.gup-btn-solid:hover { filter:brightness(1.08); }
 .gup-info-card { padding:20px 24px;margin-bottom:24px;background:rgba(124,58,237,0.04);border:1px solid rgba(124,58,237,0.15); }
 .gup-info-row { display:flex;align-items:flex-start;gap:12px; }
 .gup-emoji-24 { font-size:24px; }

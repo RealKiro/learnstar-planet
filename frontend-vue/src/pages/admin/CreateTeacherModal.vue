@@ -373,6 +373,8 @@ async function doSubmit(force: boolean) {
 .text-10-border { color:var(--color-border);font-size:10px; }
 .assign-remove { background:none;border:none;color:var(--color-danger);cursor:pointer;padding:0;font-size:14px;flex-shrink:0; }
 .modal-footer-compact { padding:12px 20px;flex-shrink:0;margin-top:0; }
-.modal-btn-outline { padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
-.modal-btn-primary { padding:8px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:#fff;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(124,58,237,0.15); }
+.modal-btn-outline { padding:8px;border-radius:8px;font-size:13px;font-weight:600;background:var(--ui-card);border:1px solid var(--ui-border);color:var(--ui-fg); }
+.modal-btn-outline:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
+.modal-btn-primary { padding:8px;border-radius:8px;font-size:13px;font-weight:600;border:none;color:var(--ui-brand-fg);background:var(--ui-brand);box-shadow:0 2px 8px rgba(124,58,237,0.15); }
+.modal-btn-primary:hover { filter:brightness(1.08); }
 </style>

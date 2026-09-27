@@ -213,11 +213,12 @@ body {
 /* 文本选区 */
 ::selection { background: rgba(124, 58, 237, 0.22); }
 
-/* 键盘焦点环（鼠标点击不显示，Tab 导航清晰可见）——统一走品牌 accent */
+/* 键盘焦点环（鼠标点击不显示，Tab 导航清晰可见）——统一走品牌 accent
+ * 注意：不在此设置 border-radius —— outline 会自动跟随元素自身圆角，
+ * 强行设值会导致聚焦瞬间形状跳变（元素平时 8px、聚焦变 6px）。 */
 :focus-visible {
   outline: 2px solid var(--ui-brand);
   outline-offset: 2px;
-  border-radius: var(--ui-r-sm);
 }
 
 a { color: var(--ui-brand); text-decoration: none; }
@@ -240,8 +241,25 @@ a:hover { color: var(--md-primary-light); }
   box-shadow: var(--ui-shadow-xs);
 }
 
+/* ===== 按钮交互基座（全站 button 元素统一，2026-09 对标收口） =====
+ * 页内变体只需写底色，交互反馈统一由基座提供：
+ *   按下 :active → scale(0.98)；禁用 → not-allowed + 半透明；
+ *   过渡只对视觉属性（transform/filter/颜色），不碰布局属性。
+ * hover 两档规范（写在注释供新代码遵循）：
+ *   实心/彩色底 → filter: brightness(1.08)；
+ *   描边/白卡   → muted 底 + border-strong（同 .btn-ghost-card:hover）。
+ * cursor:pointer 对 button 全局生效——浏览器默认 default 是历史遗留。 */
+button { font-family: inherit; cursor: pointer; }
+button:not(:disabled) {
+  transition: transform 0.12s var(--ease-smooth), filter 0.15s ease,
+    background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+button:active:not(:disabled) { transform: scale(0.98); }
+button:disabled { cursor: not-allowed; opacity: 0.55; }
+
 /* ===== 按钮 =====
- * 圆角 8px（废弃胶囊）；hover 用亮度/同族加深而非换色，双主题一致。 */
+ * 圆角 8px（废弃胶囊）；hover 用亮度/同族加深而非换色，双主题一致。
+ * 交互基座（cursor/active/disabled/transition）见上方 button 规则，不在此重复。 */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -251,13 +269,8 @@ a:hover { color: var(--md-primary-light); }
   border-radius: var(--ui-r-md);
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
   border: none;
-  transition: all 0.18s var(--ease-smooth);
-  font-family: inherit;
 }
-.btn:active:not(:disabled) { transform: scale(0.98); }
-.btn:disabled { cursor: not-allowed; opacity: 0.55; }
 .btn-primary {
   background: var(--ui-brand-soft);
   border: 1px solid var(--ui-brand-border);
@@ -288,6 +301,8 @@ a:hover { color: var(--md-primary-light); }
 .btn-state-loading { background: var(--c-amber-chip) !important; color: var(--c-amber-chip-text) !important; border: 1px solid var(--c-amber-chip-strong) !important; }
 .btn-state-success { background: var(--c-green-chip) !important; color: var(--c-green-chip-text) !important; border: 1px solid var(--c-green) !important; }
 .btn-state-error { background: var(--c-red-chip) !important; color: var(--c-red-chip-text) !important; border: 1px solid var(--c-red-border) !important; }
+/* idle 是主操作常态（非状态反馈），按实心档 hover 提亮；loading/success/error 是瞬时状态反馈，不再叠 hover */
+.btn-state-idle:hover { filter: brightness(1.08); }
 
 /* 状态文字色（图标/文字着色，同样收口内联 hex） */
 .text-ok { color: var(--c-green-deep) !important; }
@@ -308,12 +323,18 @@ a:hover { color: var(--md-primary-light); }
 /* 危险（删除类）默认态 */
 .btn-danger { background: rgba(239,68,68,0.08); color: var(--color-danger-text); border: 1px solid rgba(239,68,68,0.2); }
 .btn-danger:hover { background: rgba(239,68,68,0.16); }
-/* 实心主按钮（提交/创建默认态） */
+/* 实心主按钮（提交/创建默认态）——hover 按规范用 brightness，亮暗主题通用 */
 .btn-solid { background: var(--ui-brand); color: var(--ui-brand-fg); border: 1px solid var(--ui-brand); }
-.btn-solid:hover { background: var(--ui-brand-hover); }
+.btn-solid:hover { filter: brightness(1.08); }
 /* 次级白卡按钮（卡片背景 + 描边） */
 .btn-ghost-card { background: var(--ui-card); color: var(--ui-fg); border: 1px solid var(--ui-border); }
 .btn-ghost-card:hover { background: var(--ui-muted); border-color: var(--ui-border-strong); }
+/* 描边按钮（白卡底 + 细边框；原 AdminDebugPage / SchoolSettingsPage 各自 scoped 定义，收口全局） */
+.btn-outline { background: var(--ui-card); color: var(--ui-fg); border: 1px solid var(--ui-border); }
+.btn-outline:hover { background: var(--ui-muted); border-color: var(--ui-border-strong); }
+/* 描边危险（删除类次操作；原 TimetableApprovalsPage / AttendancePage 各自 scoped 定义，收口全局） */
+.btn-outline-danger { background: var(--ui-card); color: var(--color-danger-text); border: 1px solid rgba(239, 68, 68, 0.3); }
+.btn-outline-danger:hover { background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.45); }
 
 /* ===== 空态（跨页统一） ===== */
 .empty-state { text-align: center; padding: 48px; color: var(--ui-fg-muted); }

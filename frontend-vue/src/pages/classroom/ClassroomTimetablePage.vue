@@ -146,6 +146,7 @@ onUnmounted(() => { if (clockTimer) clearInterval(clockTimer) })
 .tt-sub { font-size: 14px; color: var(--color-text-secondary); margin: 4px 0 0; }
 .tt-switch { display: flex; gap: 4px; background: var(--color-bg); border-radius: 10px; padding: 4px; }
 .tt-switch-btn { border: none; background: transparent; padding: 6px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--color-text-secondary); font-family: inherit; }
+.tt-switch-btn:hover { background: var(--ui-muted); color: var(--color-text); }
 .tt-switch-btn.active { background: var(--color-bg-card, #fff); color: var(--color-text); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
 .tt-week-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
 .tt-tab { border: 1.5px solid var(--color-border); background: transparent; border-radius: 9999px; padding: 5px 14px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--color-text-secondary); font-family: inherit; }

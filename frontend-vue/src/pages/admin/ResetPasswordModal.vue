@@ -215,13 +215,17 @@ async function submitResetPwd() {
 .rpm-label-11 { font-size:11px;color:var(--color-text-secondary);margin-bottom:4px; }
 .rpm-row-8 { display:flex;align-items:center;gap:8px; }
 .rpm-pwd-text { font-size:14px;font-weight:700;color:var(--color-text);flex:1;font-family:monospace; }
-.rpm-copy-btn { flex-shrink:0;padding:4px 12px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:12px;color:var(--color-text);font-family:inherit; }
+.rpm-copy-btn { flex-shrink:0;padding:4px 12px;border-radius:6px;border:1px solid var(--ui-border);background:var(--ui-card);font-size:12px;color:var(--ui-fg); }
+.rpm-copy-btn:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
 .rpm-gap-6 { gap:6px; }
-.rpm-icon-btn { flex-shrink:0;width:38px;padding:6px 0;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-card);cursor:pointer;font-size:16px;color:var(--color-text);font-family:inherit; }
+.rpm-icon-btn { flex-shrink:0;width:38px;padding:6px 0;border-radius:6px;border:1px solid var(--ui-border);background:var(--ui-card);font-size:16px;color:var(--ui-fg); }
+.rpm-icon-btn:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
 .rpm-mb-12 { margin-bottom:12px; }
-.rpm-gen-btn { padding:6px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--color-border);background:var(--color-bg-card);color:var(--color-text-secondary);font-family:inherit; }
+.rpm-gen-btn { padding:6px;border-radius:6px;font-size:11px;border:1px solid var(--ui-border);background:var(--ui-card);color:var(--ui-fg-muted); }
+.rpm-gen-btn:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
 .rpm-error { margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
 .rpm-gap-12 { gap:12px; }
-.rpm-btn-outline { padding:8px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
-.rp-submit { padding: 8px; border-radius: var(--ui-r-md); font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
+.rpm-btn-outline { padding:8px;border-radius:8px;font-size:13px;font-weight:500;background:var(--ui-card);border:1px solid var(--ui-border);color:var(--ui-fg); }
+.rpm-btn-outline:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
+.rp-submit { padding: 8px; border-radius: var(--ui-r-md); font-size: 13px; font-weight: 600; border: none; }
 </style>

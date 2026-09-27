@@ -241,13 +241,10 @@ function closeModal() {
           取消
         </button>
         <button
+          class="asm-btn-submit"
+          :class="assignStatus !== 'idle' ? 'btn-state-' + assignStatus : ''"
           @click="submitAssign"
           :disabled="assignStatus === 'loading'"
-          :style="{
-            padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer',
-            background: assignStatus === 'loading' ? '#f59e0b' : assignStatus === 'success' ? '#10b981' : assignStatus === 'error' ? '#ef4444' : '#7c3aed',
-            border: 'none', color: '#fff'
-          }"
         >
           {{ assignStatus === 'loading' ? '保存中...' : assignStatus === 'success' ? '已保存 ✓' : assignStatus === 'error' ? '保存失败 ✗' : '保存分配' }}
         </button>
@@ -340,5 +337,9 @@ function closeModal() {
 .asm-item-name { flex:1;font-weight:500;color:var(--color-text); }
 .asm-remove { background:none;border:none;color:var(--color-danger);cursor:pointer;padding:2px;font-size:16px; }
 .asm-footer-end { justify-content:flex-end; }
-.asm-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
+.asm-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;background:var(--ui-card);border:1px solid var(--ui-border);color:var(--ui-fg); }
+.asm-btn-outline:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
+/* 提交按钮尺寸类：底色走全局 .btn-state-*（idle 时本类提供品牌实底） */
+.asm-btn-submit { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:none;background:var(--ui-brand);color:var(--ui-brand-fg); }
+.asm-btn-submit:hover { filter:brightness(1.08); }
 </style>

@@ -174,7 +174,8 @@ function formatTime(iso?: string | null): string {
 .review-cell { max-width: 220px }
 .review-note { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .actions-row { white-space: nowrap }
-.approve-btn { background: var(--md-primary, #7c3aed); color: #fff }
+.approve-btn { background: var(--ui-brand); color: var(--ui-brand-fg) }
+.approve-btn:hover { filter: brightness(1.08) }
 .muted-tip { font-size: 12px; color: var(--c-gray-apple); margin: 12px 2px 0 }
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 1000 }
 .modal-card { background: var(--color-bg-card, #fff); border-radius: 16px; width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,.15); overflow: hidden }
@@ -191,5 +192,5 @@ function formatTime(iso?: string | null): string {
 .status-badge.approved { background: var(--c-green-chip); color: #065f46 }
 .status-badge.rejected { background: var(--c-red-chip); color: var(--c-red-chip-text) }
 .fw-600 { font-weight: 600 }
-.btn-outline-danger { background: var(--color-bg); color: var(--color-danger); border: 1px solid rgba(239,68,68,.3) }
+/* .btn-outline-danger 已收口全局（style.css），页内不再重复定义 */
 </style>

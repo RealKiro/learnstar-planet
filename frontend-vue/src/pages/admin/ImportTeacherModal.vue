@@ -240,11 +240,14 @@ async function uploadImport(isDry: boolean) {
 .imp-hint { font-size:13px;color: var(--c-gray-500);margin-bottom:8px; }
 .imp-required { color: var(--c-red-deep); }
 .imp-muted-12 { font-size:12px;color:#9ca3af; }
-.imp-btn-plain { background:var(--color-bg-card);color:var(--color-text);border:1px solid var(--color-border); }
+.imp-btn-plain { background:var(--ui-card);color:var(--ui-fg);border:1px solid var(--ui-border); }
+.imp-btn-plain:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
 .imp-sub-title { font-weight:600;font-size:14px;margin-bottom:8px; }
 .imp-warn { font-size:12px;color: var(--c-amber-deep);padding:6px 10px;background:rgba(245,158,11,0.08);border-radius:6px;margin-bottom:8px; }
 .imp-muted-12-mt { font-size:12px;color:#9ca3af;margin-top:4px; }
 .imp-footer-end { justify-content:flex-end; }
-.imp-btn-outline { background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border); }
-.imp-btn-warn { background:rgba(245,158,11,0.12);color:var(--md-gold);border:1px solid rgba(245,158,11,0.3); }
+.imp-btn-outline { background:var(--ui-card);color:var(--ui-fg);border:1px solid var(--ui-border); }
+.imp-btn-outline:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
+.imp-btn-warn { background:rgba(245,158,11,0.12);color:var(--c-amber-deep);border:1px solid rgba(245,158,11,0.3); }
+.imp-btn-warn:hover { background:rgba(245,158,11,0.2);border-color:rgba(245,158,11,0.45); }
 </style>

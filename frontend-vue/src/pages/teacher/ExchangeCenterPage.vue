@@ -384,10 +384,11 @@ async function doExchange() {
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background: var(--color-bg);
-  cursor: pointer;
   font-size: 13px;
   color: var(--color-text);
 }
+/* 按钮交互基座（style.css）提供 cursor/active/disabled，此处只补 hover */
+.target-btn:hover { background: var(--ui-muted); border-color: var(--ui-border-strong); }
 .target-btn--active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
 .rate-note {
   padding: 12px;

@@ -405,7 +405,8 @@ onUnmounted(() => clearInterval(timer))
 .pkdx-series-row { display:flex;align-items:center;gap:10px;flex-wrap:wrap; }
 .pkdx-series-select { padding:8px 14px;border-radius:var(--md-radius);background:var(--tint-3);border:1px solid var(--tint-3);color:var(--color-text);font-size:14px;font-weight:500;outline:none;cursor:pointer;font-family:inherit; }
 .pkdx-option-dark { background:#1a1a2e;color:#f1f1f1; }
-.pkdx-switch-btn { padding:8px 18px;border-radius:30px;border:none;background:rgba(167,139,250,0.15);color:var(--md-primary-light);font-size:13px;font-weight:600;cursor:pointer;transition:0.15s;font-family:inherit; }
+.pkdx-switch-btn { padding:8px 18px;border-radius:30px;border:none;background:rgba(167,139,250,0.15);color:var(--md-primary-light);font-size:13px;font-weight:600;transition:0.15s; }
+.pkdx-switch-btn:hover { background:rgba(167,139,250,0.24); }
 .pkdx-msg-ok { margin-bottom:16px;padding:10px 16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);border-radius:var(--md-radius);color: var(--color-success-text);font-size:13px; }
 .pkdx-msg-err { margin-bottom:16px;padding:10px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);border-radius:var(--md-radius);color: var(--color-danger-text);font-size:13px; }
 .pkdx-mask { position:fixed;inset:0;z-index:300;background:rgba(5,2,20,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px; }

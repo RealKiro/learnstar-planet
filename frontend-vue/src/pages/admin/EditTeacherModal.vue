@@ -152,13 +152,10 @@ async function submitEdit() {
           取消
         </button>
         <button
+          class="etm-btn-submit"
+          :class="editStatus !== 'idle' ? 'btn-state-' + editStatus : ''"
           @click="submitEdit"
           :disabled="editStatus === 'loading'"
-          :style="{
-            padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer',
-            background: editStatus === 'loading' ? '#f59e0b' : editStatus === 'success' ? '#10b981' : editStatus === 'error' ? '#ef4444' : '#7c3aed',
-            border: 'none', color: '#fff'
-          }"
         >
           {{ editStatus === 'loading' ? '保存中...' : editStatus === 'success' ? '已保存 ✓' : editStatus === 'error' ? '保存失败 ✗' : '保存' }}
         </button>
@@ -211,5 +208,9 @@ async function submitEdit() {
 .etm-hidden-input { opacity:0;position:absolute;width:0;height:0;pointer-events:none; }
 .etm-error { margin-top:16px;margin-bottom:-12px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
 .etm-footer-end { justify-content:flex-end;margin-top:20px; }
-.etm-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
+.etm-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;background:var(--ui-card);border:1px solid var(--ui-border);color:var(--ui-fg); }
+.etm-btn-outline:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
+/* 提交按钮尺寸类：底色走全局 .btn-state-*（idle 时本类提供品牌实底） */
+.etm-btn-submit { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:none;background:var(--ui-brand);color:var(--ui-brand-fg); }
+.etm-btn-submit:hover { filter:brightness(1.08); }
 </style>

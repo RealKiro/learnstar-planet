@@ -220,7 +220,7 @@ async function confirmAbsent() {
 .btn-outline-neutral { background:var(--color-bg);color:var(--color-text-secondary);border:1px solid var(--color-border); }
 .btn-outline-warn { background:var(--color-bg);color: var(--c-amber);border:1px solid rgba(245,158,11,.3); }
 .btn-outline-info { background:var(--color-bg);color: var(--c-blue);border:1px solid rgba(59,130,246,.3); }
-.btn-outline-danger { background:var(--color-bg);color:var(--color-danger);border:1px solid rgba(239,68,68,.3); }
+/* .btn-outline-danger 已收口全局（style.css），页内不再重复定义 */
 .modal-desc { font-size:13px;color: var(--c-gray-apple);margin-bottom:12px; }
 .req-star-red { color: var(--c-red); }
 .modal-header-danger { background:rgba(239,68,68,0.1); }

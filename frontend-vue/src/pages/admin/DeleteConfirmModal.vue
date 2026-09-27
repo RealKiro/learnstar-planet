@@ -92,13 +92,10 @@ async function confirmDelete() {
           取消
         </button>
         <button
+          class="del-btn-submit"
+          :class="deleteStatus !== 'idle' ? 'btn-state-' + deleteStatus : ''"
           @click="confirmDelete"
           :disabled="deleteStatus === 'loading'"
-          :style="{
-            padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer',
-            background: deleteStatus === 'loading' ? '#f59e0b' : deleteStatus === 'success' ? '#10b981' : deleteStatus === 'error' ? '#ef4444' : '#dc2626',
-            border: 'none', color: '#fff'
-          }"
         >
           {{ deleteStatus === 'loading' ? '删除中...' : deleteStatus === 'success' ? '已删除 ✓' : deleteStatus === 'error' ? '删除失败 ✗' : '确认删除' }}
         </button>
@@ -139,5 +136,8 @@ async function confirmDelete() {
 .del-warn { font-size:12px;color: var(--c-red-deep);padding:8px;background:rgba(239,68,68,0.06);border-radius:6px;margin-bottom:12px; }
 .del-error { margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color: var(--color-danger-text);font-size:12px; }
 .del-footer-end { justify-content:flex-end; }
-.del-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text); }
+.del-btn-outline { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;background:var(--ui-card);border:1px solid var(--ui-border);color:var(--ui-fg); }
+.del-btn-outline:hover { background:var(--ui-muted);border-color:var(--ui-border-strong); }
+/* 删除主操作：全站删除档 .btn-danger（淡红底+深红字），状态色走 .btn-state-* */
+.del-btn-submit { padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.08);color:var(--color-danger-text); }
 </style>

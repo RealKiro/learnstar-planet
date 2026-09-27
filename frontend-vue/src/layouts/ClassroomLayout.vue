@@ -354,7 +354,8 @@ onUnmounted(() => {
 .vote-item-emoji { font-size:32px;margin-bottom:6px; }
 .vote-item-name { font-size:14px;font-weight:600; }
 .vote-item-meta { font-size:11px;color:var(--md-text-secondary);margin-top:2px; }
-.vote-submit { width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit; }
+.vote-submit { width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));color:#fff;font-size:16px;font-weight:700; }
+.vote-submit:hover { filter:brightness(1.08); }
 .vote-done-emoji { font-size:64px;margin-bottom:16px; }
 .vote-done-title { font-size:22px;font-weight:700;margin-bottom:8px; }
 .vote-done-desc { font-size:14px;color:var(--md-text-secondary); }
@@ -372,7 +373,8 @@ onUnmounted(() => {
 .bc-pop-panel { background:var(--md-surface-2);border:1px solid var(--tint-3);border-radius:24px;padding:32px 28px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5); }
 .bc-pop-emoji { font-size:40px;margin-bottom:12px;text-align:center; }
 .bc-pop-text { font-size:20px;font-weight:700;color:var(--color-text);text-align:center;margin-bottom:16px;line-height:1.5; }
-.bc-pop-btn { width:100%;padding:12px;border-radius:14px;border:1px solid var(--tint-3);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px;cursor:pointer;font-family:inherit; }
+.bc-pop-btn { width:100%;padding:12px;border-radius:14px;border:1px solid var(--tint-3);background:var(--tint-2);color:var(--color-text-secondary);font-size:14px; }
+.bc-pop-btn:hover { border-color:var(--tint-3);background:var(--tint-3);color:var(--color-text); }
 
 /* 横幅广播 */
 .bc-banner { position:fixed;top:0;left:0;right:0;z-index:900;background:linear-gradient(135deg,var(--md-primary),var(--md-secondary));padding:12px 24px;text-align:center;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.3); }

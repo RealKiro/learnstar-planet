@@ -1007,7 +1007,8 @@ onMounted(async () => {
 .pick-cost-free { font-size: 12px; margin-top: 4px; padding: 3px 10px; border-radius: 8px; font-weight: 700; display: inline-block; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: var(--color-success-text); }
 .pick-cost-charge { font-size: 12px; margin-top: 4px; padding: 3px 10px; border-radius: 8px; font-weight: 700; display: inline-block; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: var(--color-warning-text); }
 .pick-confirm-actions { display: flex; gap: 8px; flex-shrink: 0; }
-.pc-cancel { padding: 8px 16px; border-radius: 10px; border: 1px solid var(--tint-3); background: transparent; color: var(--md-text-secondary); font-size: 13px; cursor: pointer; font-family: inherit; }
+.pc-cancel { padding: 8px 16px; border-radius: 10px; border: 1px solid var(--tint-3); background: transparent; color: var(--md-text-secondary); font-size: 13px; }
+.pc-cancel:hover { background: var(--ui-muted); border-color: var(--ui-border-strong); }
 .pc-confirm {
   padding: 8px 18px;
   border-radius: 10px;
@@ -1016,12 +1017,8 @@ onMounted(async () => {
   color: #fff;
   font-size: 13px;
   font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.15s ease;
 }
-.pc-confirm:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
-.pc-confirm:disabled { opacity: 0.6; cursor: not-allowed; }
+.pc-confirm:hover { filter: brightness(1.08); }
 .switch-error { margin-top: 8px; padding: 8px 12px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; color: var(--color-danger-text); font-size: 12px; }
 
 .picker-box {

@@ -208,11 +208,8 @@ function onTabChange(tab: typeof activeTab.value) {
 .btn-primary { background: #7c3aed; color: white; border-color: #7c3aed; }
 .btn-primary:hover { background: #6d28d9; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-danger { background: var(--color-bg-card); color: var(--color-danger-text); border: 1px solid rgba(239,68,68,0.2); }
-.btn-danger:hover { background: rgba(239,68,68,0.15); }
-.btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-outline { background: var(--color-bg-card); color: var(--color-text); border: 1px solid var(--color-border); }
-.btn-outline:hover { background: var(--tint-3); }
+/* .btn-danger（含 hover/disabled）已收口全局（style.css） */
+/* .btn-outline / :hover 已收口全局（style.css），页内不再重复定义 */
 /* ===== P1 内联样式收口（声明逐字保留以保渲染等价） ===== */
 .dbg-card { max-width:640px;padding:32px; }
 .dbg-title { font-size:16px;font-weight:600;margin-bottom:4px; }

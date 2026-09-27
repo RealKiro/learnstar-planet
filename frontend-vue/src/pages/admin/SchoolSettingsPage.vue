@@ -407,8 +407,7 @@ async function uploadLogo(e: Event) {
 .btn-sm { padding:6px 14px; font-size:12px; border-radius:8px; }
 .btn-primary { background:#7c3aed; color:white; border-color:#7c3aed; }
 .btn-primary:hover { background:#6d28d9; }
-.btn-outline { background:var(--color-bg-card); color:var(--color-text); border:1px solid var(--color-border); }
-.btn-danger { background:var(--color-bg-card); color: var(--c-red); border:1px solid rgba(239,68,68,0.2); }
+/* .btn-outline / .btn-danger 已收口全局（style.css），页内不再重复定义 */
 
 /* ===== 页内布局类（本页专用，替代原内联样式；声明逐字保留以保证渲染等价） ===== */
 .tabs-narrow { max-width:640px; }

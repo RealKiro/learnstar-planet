@@ -1100,7 +1100,9 @@ onMounted(loadData)
 .mini-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 .mini-btn--danger:hover { border-color: rgba(239, 68, 68, 0.4); color: var(--color-danger-text); background: rgba(239, 68, 68, 0.06); }
 .state-btn--on { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.35); color: var(--color-success-text); font-weight: 600; }
+.state-btn--on:hover { background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.5); }
 .state-btn--off { background: transparent; }
+.state-btn--off:hover { background: var(--ui-muted); }
 .billing-check { display: flex; align-items: center; gap: 3px; font-size: 11px; color: var(--color-text-secondary); cursor: pointer; user-select: none; }
 .billing-check input { accent-color: var(--color-primary); }
 
