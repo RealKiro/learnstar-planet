@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Http\Controllers\Api\SchoolAdminController;
 use App\Http\Controllers\Api\StudentController;
 use App\Models\School;
 use App\Models\ScoreRule;
 use App\Models\User;
 use App\Services\ScoreRuleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -191,6 +193,31 @@ class ScoreRuleServiceTest extends TestCase
             count(ScoreRuleService::DEFAULT_RULES),
             $rules->count(),
             '升级后规则总数应等于唯一真源模板条数'
+        );
+    }
+
+    #[Test]
+    public function 管理员端规则列表同样会触发默认规则补齐(): void
+    {
+        $school = $this->makeSchool();
+        $admin = User::create([
+            'school_id' => $school->id,
+            'role' => 'school_admin',
+            'username' => 'admin' . $school->id,
+            'password' => bcrypt('secret'),
+            'name' => '测试管理员',
+            'status' => 'active',
+        ]);
+
+        $request = Request::create('/api/v1/admin/score-rules', 'GET');
+        $request->setUserResolver(fn () => $admin);
+
+        app(SchoolAdminController::class)->adminListScoreRules($request);
+
+        $this->assertSame(
+            count(ScoreRuleService::DEFAULT_RULES),
+            ScoreRule::where('school_id', $school->id)->count(),
+            '管理员先打开规则页时也应拿到完整默认规则集'
         );
     }
 }

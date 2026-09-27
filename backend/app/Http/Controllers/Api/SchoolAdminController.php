@@ -16,6 +16,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Services\AuthService;
 use App\Services\DisplayEventService;
+use App\Services\ScoreRuleService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -208,6 +209,8 @@ class SchoolAdminController extends Controller
     public function adminListScoreRules(Request $request): JsonResponse
     {
         $school = $request->user()->school;
+        // 「装完即用」：管理员常是最先打开本页的人，同样触发默认规则补齐（幂等）
+        ScoreRuleService::ensureDefaultsForSchool($school?->id);
         // 聚合全校规则：学校级(class_id=null,同步所有班级) + 教师创建的班级级规则
         $rules = ScoreRule::with('classRoom:id,name')
             ->where('school_id', $school->id)
