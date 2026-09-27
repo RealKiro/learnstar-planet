@@ -119,7 +119,7 @@ learnstar-planet/
 | `class_rooms` | 班级 | grade, year, teacher_id, max_students |
 | `students` | 学生 | class_id, parent_id, total_score, student_no |
 | `pets` | 宠物 | student_id(一对一), level, exp, mood, species |
-| `score_rules` | 积分规则 | class_id/school_id, name, points, category |
+| `score_rules` | 积分规则（默认规则口径见决策 23） | class_id/school_id, name, amount, category, is_positive |
 | `scores` | 积分记录 | student_id, class_id, rule_id, points, reason |
 | `score_logs` | 审计日志 | score_id, balance_before, balance_after |
 | `notices` | 公告 | class_id/school_id, title, content, publisher_id |
@@ -380,3 +380,10 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
     - **`array_filter` 吃掉 false（隐性加固失效）**：同处 `array_filter([...])` 不带回调会连 `false` 一起剔除 → `MULTI_STATEMENTS=false` 这条「关掉叠加查询」的加固**从未生效**；`SSL_VERIFY_SERVER_CERT=false` 同样被剔除（等价于从未设置，等于校验仍开启）。现改为只过滤 `null`/`''`：MULTI_STATEMENTS 真正生效（全仓仅 1 条单句 `DB::statement` UPDATE，无多语句用法），VERIFY_SERVER_CERT 作为死代码删除。
     - **`view:cache` 报错刷屏**：前端是 Vue SPA，`backend/resources/views` 自 P0-1 起已删除 → `php artisan view:cache` 每轮启动必报 `The "/app/resources/views" directory does not exist`，**且该报错走 stdout，入口脚本的 `2>/dev/null` 拦不住**。已改为 `[ -d resources/views ]` 时才执行。
     - **应用时区实际是 UTC（重要）**：框架基础配置把 `app.timezone` **硬编码为 UTC 且不读环境变量**，本项目又没有 `config/app.php` → 全站按 UTC 运行（容器日志时间戳比北京时间早 8 小时）。而代码里 `today()` / `whereDate('created_at', today())` / `now()->startOfDay()` / 报表按 `format('Y-m-d')` 聚合大量用于**考勤、今日积分、日报表** → UTC 会把北京时间 00:00–08:00 的记录算到前一天。已新增**最小** `backend/config/app.php`（只覆盖 `timezone = env('APP_TIMEZONE', 'Asia/Shanghai')`；Laravel 11+ 的 `LoadConfiguration` 会把应用 config 与框架基础配置 `array_merge`，删掉 config 里的 name/providers/aliases 也不会丢），`docker-compose.yml` 与两份 `.env.example` 同步透传 `APP_TIMEZONE`。⚠️ **该改动改变时间语义**：已有的 UTC 存量记录与新写入的北京时间记录会差 8 小时，故在库还很新时切换最干净。
+23. **积分规则口径 · 「装完即用」（2026-09-20 收口）**:
+    - **目标**：新装 / 升级后系统已自带一套完整、成对的奖励 + 惩罚规则，教师**只需按需补特殊规则**，不必先把基础规则手工加一遍；不该出现「只有惩罚没有奖励」或分类显示成裸 slug。
+    - **唯一真源**：`App\Services\ScoreRuleService::DEFAULT_RULES`（43 条 = 奖励 27 / 惩罚 16）+ `CATEGORY_LABELS`（classroom / homework / behavior / literacy / daily / academic / custom 共 7 键）。前端 `frontend-vue/src/utils/scoreRules.ts` 的 `categoryLabels` **必须与之同键集**。
+    - **补齐时机**：`ensureDefaultsForSchool()`（幂等、增量、同名不覆盖）在教师端首次访问规则列表时触发，并写 `schools.settings.score_rules_seeded` 标记。**判据是「是否播种过」而不是「规则集合是否为空」**——后者会让只播种过惩罚规则的学校永远拿不到奖励规则。播种后教师对默认规则的增/删/改一律尊重，不会在下次访问被「复活」。
+    - **升级路径**：迁移 `2026_09_20_000001_ensure_default_score_rules` 清理历史 `category='discipline'` 的自动播种痕迹（该分类不在标签表内、且只有惩罚），并为每个学校补齐默认集；由 `entrypoint.sh` 的 `migrate --force` 自动执行。
+    - ⚠️ **不要再新增第二份默认规则表或第三套分类词汇**：历史上并存过 4 套互相冲突的定义——`ScoreRule::defaultRules()` / `ScoreRule::categories()`（死代码，已删）、`ScoreRulesSeeder` 的 20 条中文分类清单（已改为同源）、`/common/score-categories` 自带的一套 id（已对齐真源）。
+    - **守护测试**：`backend/tests/Unit/ScoreRuleServiceTest.php`（模板分类合法 / 奖励+惩罚数量不退化 / 新校补齐 / 只有惩罚的学校也补奖励 / 幂等 / 教师删除不复活 / 升级迁移清理 / 分类端点与真源一致）。

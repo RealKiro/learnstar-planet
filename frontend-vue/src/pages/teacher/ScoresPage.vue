@@ -472,9 +472,10 @@ onMounted(async () => {
         this_week: Math.floor(Math.random() * 120) + 40,
       }
       rules.value = [
-        { id: -1, name: '课堂发言', amount: 2, category: 'behavior', is_positive: true, is_active: true },
-        { id: -2, name: '作业完成', amount: 3, category: 'study', is_positive: true, is_active: true },
-        { id: -3, name: '作业未交', amount: -1, category: 'study', is_positive: false, is_active: true },
+        // 与后端 ScoreRuleService::DEFAULT_RULES 保持同名同值同分类（负数 id 防与真实规则冲突）
+        { id: -1, name: '举手发言', amount: 3, category: 'classroom', is_positive: true, is_active: true },
+        { id: -2, name: '作业按时完成', amount: 3, category: 'homework', is_positive: true, is_active: true },
+        { id: -3, name: '作业缺交', amount: -3, category: 'homework', is_positive: false, is_active: true },
       ]
     } finally {
       loading.value = false

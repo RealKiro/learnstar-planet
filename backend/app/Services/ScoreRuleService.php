@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\School;
 use App\Models\ScoreRule;
 use App\Models\User;
 
@@ -57,6 +58,7 @@ class ScoreRuleService
         ['name' => '节约环保', 'amount' => 2, 'category' => 'literacy', 'is_positive' => true],
         ['name' => '竞赛获奖', 'amount' => 10, 'category' => 'literacy', 'is_positive' => true],
         ['name' => '破坏公物', 'amount' => -8, 'category' => 'literacy', 'is_positive' => false],
+        ['name' => '乱扔垃圾', 'amount' => -2, 'category' => 'literacy', 'is_positive' => false],
         // 📅 日常表现
         ['name' => '全勤表现', 'amount' => 3, 'category' => 'daily', 'is_positive' => true],
         ['name' => '按时到校', 'amount' => 2, 'category' => 'daily', 'is_positive' => true],
@@ -64,42 +66,98 @@ class ScoreRuleService
         ['name' => '仪容整洁', 'amount' => 1, 'category' => 'daily', 'is_positive' => true],
         ['name' => '值日认真', 'amount' => 2, 'category' => 'daily', 'is_positive' => true],
         ['name' => '不戴红领巾/校牌', 'amount' => -1, 'category' => 'daily', 'is_positive' => false],
+        // 📚 学业表现（前端 categoryLabels 一直有 academic 标签，此前无规则落在此分类）
+        ['name' => '考试优秀', 'amount' => 10, 'category' => 'academic', 'is_positive' => true],
+        ['name' => '考试进步', 'amount' => 8, 'category' => 'academic', 'is_positive' => true],
+        ['name' => '考试作弊', 'amount' => -15, 'category' => 'academic', 'is_positive' => false],
     ];
 
     /**
-     * 按班级 + 学校取积分规则；无规则时自动创建学校级默认规则
+     * 分类标签（后端唯一真源；键集必须与前端 utils/scoreRules.ts 的 categoryLabels 一致）。
+     */
+    public const CATEGORY_LABELS = [
+        'classroom' => '课堂表现',
+        'homework'  => '作业管理',
+        'behavior'  => '行为习惯',
+        'literacy'  => '综合素养',
+        'daily'     => '日常表现',
+        'academic'  => '学业表现',
+        'custom'    => '自定义',
+    ];
+
+    /**
+     * 增量补齐某校的学校级默认规则（幂等：缺哪条补哪条，已存在的同名规则一律不覆盖）。
+     *
+     * 「安装即可用」的关键：
+     *   ① 判据是「该校是否播种过」而不是「该校规则是否为空」——旧实现用后者，
+     *      导致只播种过惩罚规则的学校永远拿不到奖励规则（加分区分区空白）；
+     *   ② 播种后写 schools.settings.score_rules_seeded 标记，之后教师对默认规则的
+     *      增/删/改一律尊重，不会在下次访问时被"复活"。
+     *
+     * @return int 本次新建的规则条数
+     */
+    public static function ensureDefaultsForSchool(?int $schoolId, bool $force = false): int
+    {
+        if (!$schoolId) {
+            return 0;
+        }
+
+        $school = School::find($schoolId);
+        if (!$school) {
+            return 0;
+        }
+
+        $settings = is_array($school->settings) ? $school->settings : [];
+        if (!$force && !empty($settings['score_rules_seeded'])) {
+            return 0;
+        }
+
+        $created = 0;
+        foreach (self::DEFAULT_RULES as $i => $d) {
+            $rule = ScoreRule::firstOrCreate(
+                ['class_id' => null, 'school_id' => $schoolId, 'name' => $d['name']],
+                [
+                    'amount' => $d['amount'],
+                    'category' => $d['category'],
+                    'is_positive' => $d['is_positive'],
+                    'is_active' => true,
+                    'sort_order' => $i,
+                ]
+            );
+            if ($rule->wasRecentlyCreated) {
+                $created++;
+            }
+        }
+
+        $settings['score_rules_seeded'] = true;
+        $school->settings = $settings;
+        $school->save();
+
+        return $created;
+    }
+
+    /**
+     * 按班级 + 学校取积分规则；首次访问时增量补齐学校级默认规则（幂等，见 ensureDefaultsForSchool）。
      *
      * @return \Illuminate\Database\Eloquent\Collection<int, ScoreRule>
      */
     public static function rulesForClass(int $classId, int $schoolId): \Illuminate\Database\Eloquent\Collection
     {
-        $rules = ScoreRule::where(function ($q) use ($classId, $schoolId) {
+        if ($schoolId) {
+            self::ensureDefaultsForSchool($schoolId);
+        }
+
+        return ScoreRule::where(function ($q) use ($classId, $schoolId) {
             $q->where('class_id', $classId)
               ->orWhere(function ($q2) use ($schoolId) {
                   $q2->whereNull('class_id')->where('school_id', $schoolId);
               });
         })->orderBy('sort_order')->get();
-
-        if ($rules->isEmpty() && $schoolId) {
-            foreach (self::DEFAULT_RULES as $i => $d) {
-                ScoreRule::create([
-                    'class_id' => null,
-                    'school_id' => $schoolId,
-                    'name' => $d['name'], 'amount' => $d['amount'],
-                    'category' => $d['category'], 'is_positive' => $d['is_positive'],
-                    'is_active' => true, 'sort_order' => $i,
-                ]);
-            }
-            $rules = ScoreRule::where('school_id', $schoolId)
-                ->whereNull('class_id')->orderBy('sort_order')->get();
-        }
-
-        return $rules;
     }
 
     /**
      * 教师端规则列表：本班班级规则 + 本校学校级规则（class_id=null 且 school_id=本校），避免跨校泄漏。
-     * 无规则时自动创建学校级默认规则（同校所有教师共享）。
+     * 首次访问时增量补齐学校级默认规则（同校所有教师共享，见 ensureDefaultsForSchool）。
      *
      * @return \Illuminate\Database\Eloquent\Collection<int, ScoreRule>
      */
@@ -107,28 +165,16 @@ class ScoreRuleService
     {
         $classIds = $this->scope->ids($teacher);
 
-        $rules = ScoreRule::where(function ($q) use ($classIds, $teacher) {
+        if ($teacher->school_id) {
+            self::ensureDefaultsForSchool($teacher->school_id);
+        }
+
+        return ScoreRule::where(function ($q) use ($classIds, $teacher) {
             $q->whereIn('class_id', $classIds)
               ->orWhere(function ($q2) use ($teacher) {
                   $q2->whereNull('class_id')->where('school_id', $teacher->school_id);
               });
         })->orderBy('sort_order')->get();
-
-        if ($rules->isEmpty() && $teacher->school_id) {
-            foreach (self::DEFAULT_RULES as $i => $d) {
-                ScoreRule::create([
-                    'class_id' => null,
-                    'school_id' => $teacher->school_id,
-                    'name' => $d['name'], 'amount' => $d['amount'],
-                    'category' => $d['category'], 'is_positive' => $d['is_positive'],
-                    'is_active' => true, 'sort_order' => $i,
-                ]);
-            }
-            $rules = ScoreRule::where('school_id', $teacher->school_id)
-                ->whereNull('class_id')->orderBy('sort_order')->get();
-        }
-
-        return $rules;
     }
 
     /**

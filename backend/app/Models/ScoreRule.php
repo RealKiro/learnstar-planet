@@ -14,7 +14,7 @@ class ScoreRule extends Model
         'school_id',
         'name',             // 如：作业完成、课堂发言
         'amount',           // 积分值
-        'category',         // academic / behavior / activity / custom
+        'category',         // classroom / homework / behavior / literacy / daily / academic / custom
         'is_positive',      // true=加分 false=减分
         'is_active',
         'sort_order',
@@ -26,39 +26,9 @@ class ScoreRule extends Model
         'is_active' => 'boolean',
         'sort_order' => 'integer',
     ];
-
-    // ========== 分类标签 ==========
-
-    public static function categories(): array
-    {
-        return [
-            'academic'  => '学业表现',
-            'behavior'  => '行为习惯',
-            'activity'  => '活动参与',
-            'custom'    => '自定义',
-        ];
-    }
-
-    // ========== 默认规则模板 ==========
-
-    public static function defaultRules(): array
-    {
-        return [
-            // 加分
-            ['name' => '作业完成', 'amount' => 5,  'category' => 'academic', 'is_positive' => true],
-            ['name' => '作业优秀', 'amount' => 10, 'category' => 'academic', 'is_positive' => true],
-            ['name' => '主动发言', 'amount' => 3,  'category' => 'academic', 'is_positive' => true],
-            ['name' => '帮助同学', 'amount' => 5,  'category' => 'behavior', 'is_positive' => true],
-            ['name' => '课堂专注', 'amount' => 3,  'category' => 'behavior', 'is_positive' => true],
-            ['name' => '活动参与', 'amount' => 5,  'category' => 'activity', 'is_positive' => true],
-            ['name' => '考试进步', 'amount' => 8,  'category' => 'academic', 'is_positive' => true],
-            ['name' => '考试优秀', 'amount' => 15, 'category' => 'academic', 'is_positive' => true],
-            // 减分
-            ['name' => '课堂违纪', 'amount' => -3, 'category' => 'behavior', 'is_positive' => false],
-            ['name' => '作业未交', 'amount' => -5, 'category' => 'academic', 'is_positive' => false],
-            ['name' => '迟到早退', 'amount' => -2, 'category' => 'behavior', 'is_positive' => false],
-        ];
-    }
+    // ========== 分类标签与默认规则 ==========
+    // 唯一真源在 App\Services\ScoreRuleService（CATEGORY_LABELS / DEFAULT_RULES），
+    // 本模型不再自带第二份分类表与默认规则表（历史遗留的两份已删除，避免三套词汇并存）。
 
     public function classRoom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

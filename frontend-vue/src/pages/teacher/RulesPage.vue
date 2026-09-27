@@ -3,6 +3,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api'
 import { openConfirm } from '@/components/common/ConfirmDialog.vue'
 import type { ApiResponse, ScoreRule } from '@/types'
+import { categoryLabels } from '@/utils/scoreRules'
 
 const rules = ref<ScoreRule[]>([])
 const loading = ref(true)
@@ -50,10 +51,7 @@ function getDeleteBtnText(ruleId: number): string {
 const positiveRules = computed(() => rules.value.filter(r => r.is_positive))
 const negativeRules = computed(() => rules.value.filter(r => !r.is_positive))
 
-const categoryLabels: Record<string, string> = {
-  classroom: '📖 课堂表现', homework: '📝 作业管理', behavior: '🌟 行为习惯',
-  literacy: '📊 综合素养', daily: '📅 日常表现', academic: '📚 学业',
-}
+// categoryLabels 收口到 @/utils/scoreRules（与后端 ScoreRuleService::CATEGORY_LABELS 同键集）
 
 async function loadRules() {
   loading.value = true
