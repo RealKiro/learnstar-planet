@@ -35,7 +35,7 @@ func TestAuthRefreshRevokesOldTokenAndIssuesNew(t *testing.T) {
 
 	var revoked int64
 	require.NoError(t, db.Model(&models.RevokedToken{}).
-		Where("jti = ? AND expires_at > ?", claims.JTI(), claims.Expiry().Add(-1)).Count(&revoked).Error)
+		Where("jti = ? AND expires_at > ?", claims.JTI(), claims.Expiry().UTC().Add(-1)).Count(&revoked).Error)
 	assert.Equal(t, int64(1), revoked, "旧令牌的 jti 应进入撤销名单")
 
 	newClaims, err := jwtMgr.Parse(newToken)
@@ -678,4 +678,6 @@ func TestScoreServiceGiveScoreByRule(t *testing.T) {
 }
 
 // nowMinusHour 一小时前（用于制造「已过期」的撤销记录）。
-func nowMinusHour() time.Time { return time.Now().Add(-time.Hour) }
+// ⚠️ 必须与 revoked_tokens 列的写入域一致（UTC）——SQLite 对 time 列做文本比较，
+// 若这里给 Local 域而清理用 UTC 域，文本比较不会判定为「已过期」，测试会假绿/假红。
+func nowMinusHour() time.Time { return time.Now().UTC().Add(-time.Hour) }

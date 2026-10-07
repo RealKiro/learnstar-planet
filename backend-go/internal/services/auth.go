@@ -148,13 +148,19 @@ type BindingView struct {
 // RevokeToken 撤销一个 jti（登出 / 刷新旧令牌）。
 // Laravel 是删除 Sanctum 令牌行（删了即失效）；Go 端把 jti 写入 revoked_tokens，
 // 中间件命中且未过期即 401。空 jti（历史令牌，签发时无 jti）不做处理，保持向后兼容。
+//
+// ⚠️ 时区纪律：SQLite 对 time 列做**文本比较**，同一列的写入与比较必须同一钟面域。
+// JWT 的过期时间是 Local 域（随部署环境变化），而 util.Now() 恒为 Asia/Shanghai——
+// 两者混比在 TZ≠UTC 的环境会错序（未来 72h 才过期的行被惰性清理当成已过期删除，
+// 登出/刷新随即失效，CI 上曾因此挂测试）。故本表全链路统一 UTC 域：
+// 写入 .UTC()、清理与中间件比较一律 time.Now().UTC()。
 func (s *AuthService) RevokeToken(jti string, expiresAt *time.Time) error {
 	if jti == "" {
 		return nil
 	}
-	exp := util.Now().Add(s.jwtMgr.Exp())
+	exp := time.Now().UTC().Add(s.jwtMgr.Exp())
 	if expiresAt != nil {
-		exp = *expiresAt
+		exp = expiresAt.UTC()
 	}
 	if err := s.db.Where("jti = ?", jti).Delete(&models.RevokedToken{}).Error; err != nil {
 		return err
@@ -163,7 +169,7 @@ func (s *AuthService) RevokeToken(jti string, expiresAt *time.Time) error {
 		return err
 	}
 	// 顺带清理已过期记录（无定时任务，惰性清理）。
-	return s.db.Where("expires_at <= ?", util.Now()).Delete(&models.RevokedToken{}).Error
+	return s.db.Where("expires_at <= ?", time.Now().UTC()).Delete(&models.RevokedToken{}).Error
 }
 
 // Logout 撤销当前访问令牌（Laravel `$user->currentAccessToken()->delete()`）。

@@ -43,7 +43,7 @@ func Auth(jwtMgr *auth.Manager, db *gorm.DB) gin.HandlerFunc {
 		if jti := claims.JTI(); jti != "" {
 			var revoked int64
 			lookupErr := db.Model(&models.RevokedToken{}).
-				Where("jti = ? AND expires_at > ?", jti, time.Now()).
+				Where("jti = ? AND expires_at > ?", jti, time.Now().UTC()).
 				Count(&revoked).Error
 			if lookupErr != nil || revoked > 0 {
 				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "登录已过期或无效"})

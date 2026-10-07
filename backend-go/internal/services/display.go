@@ -181,7 +181,8 @@ func (d *DisplayService) issueToken(class *models.ClassRoom, ip string) (string,
 	}
 
 	// 过期行惰性清理：Laravel 由 Cache TTL 自动回收，Go 端借登录时机顺手清理。
-	_ = d.db.Where("expires_at < ?", time.Now()).Delete(&models.DisplayToken{}).Error
+	// ⚠️ 写入与比较统一 UTC 域（SQLite 对 time 列做文本比较，见 services/auth.go 的时区纪律）。
+	_ = d.db.Where("expires_at < ?", time.Now().UTC()).Delete(&models.DisplayToken{}).Error
 
 	row := models.DisplayToken{
 		Token:     value,
@@ -189,7 +190,7 @@ func (d *DisplayService) issueToken(class *models.ClassRoom, ip string) (string,
 		ClassName: class.Name,
 		Grade:     class.Grade,
 		IPAddress: ip,
-		ExpiresAt: time.Now().Add(models.DisplayTokenTTL * time.Second),
+		ExpiresAt: time.Now().UTC().Add(models.DisplayTokenTTL * time.Second),
 	}
 	if err := d.db.Create(&row).Error; err != nil {
 		return "", err

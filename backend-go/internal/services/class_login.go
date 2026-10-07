@@ -21,7 +21,6 @@ import (
 	"time"
 
 	"github.com/RealKiro/learnstar-planet/backend-go/internal/models"
-	"github.com/RealKiro/learnstar-planet/backend-go/internal/util"
 )
 
 // ClassLoginResult 班级码登录结果（字段名逐字同 Laravel classLogin 的 data）。
@@ -56,7 +55,8 @@ func (d *DisplayService) ClassLogin(rawCode string) (*ClassLoginResult, error) {
 	}
 
 	// 过期行惰性清理：Laravel 由 Cache TTL 自动回收（同 DisplayService.issueToken）。
-	now := util.Now()
+	// ⚠️ 写入与比较统一 UTC 域（SQLite 对 time 列做文本比较，见 services/auth.go 的时区纪律）。
+	now := time.Now().UTC()
 	_ = d.db.Where("expires_at < ?", now).Delete(&models.DisplayToken{}).Error
 	if err := d.db.Create(&models.DisplayToken{
 		Token:     token,
