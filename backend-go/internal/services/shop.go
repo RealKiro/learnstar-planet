@@ -729,7 +729,10 @@ func (s *ShopService) DisplayItems(classID uint) ([]DisplayShopItem, error) {
 // 并生成一条 status = approved 的兑换记录。
 //
 // 有意差异/忠实点：Laravel quickRedeem **不校验也不扣减库存**（stock 只做展示，与教师端审批路径
-// 的结算口径不同），此处保持一致；扣分原因同样拼成「兑换消耗：兑换：<商品名>」。
+// 的结算口径不同），此处保持一致。
+// ⚠️ 扣分原因与教师端审批路径**统一为「兑换消耗：<商品名>」**：原先这里传 "兑换："+商品名，
+// 与 SpendScore 自带的前缀叠成「兑换消耗：兑换：<商品名>」（Laravel 同款）——同一个动作在
+// 两个入口留下两种审计文案，属无意义的不一致，已统一。
 func (s *ShopService) DisplayRedeem(classID, studentID, itemID uint) (*DisplayRedeemResult, error) {
 	var student models.Student
 	err := s.db.Where("class_id = ? AND id = ?", classID, studentID).First(&student).Error
@@ -767,7 +770,7 @@ func (s *ShopService) DisplayRedeem(classID, studentID, itemID uint) (*DisplayRe
 	var spent models.Score
 	err = s.db.Transaction(func(tx *gorm.DB) error {
 		var err error
-		spent, err = spendScoreTx(tx, &student, item.CostScore, "兑换："+item.Name, operator)
+		spent, err = spendScoreTx(tx, &student, item.CostScore, item.Name, operator)
 		if err != nil {
 			return err
 		}

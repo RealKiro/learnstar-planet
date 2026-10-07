@@ -12,7 +12,11 @@
 //     （500「服务器内部错误」），未复制该文案。
 package services
 
-import "fmt"
+import (
+	"fmt"
+
+	"gorm.io/gorm"
+)
 
 // QuickTransferResult 转赠结果（字段名逐字同 Laravel quickTransfer 的 data）。
 type QuickTransferResult struct {
@@ -52,12 +56,33 @@ func (d *DisplayService) QuickTransfer(classID, fromID, toID uint, amount int) (
 		operator = 1
 	}
 
-	if _, err := d.scores.GiveScore(from, -amount, "转赠给 "+to.Name, operator, nil); err != nil {
+	outReason := "转赠给 " + to.Name
+	inReason := fmt.Sprintf("来自 %s 的转赠", from.Name)
+
+	// ⚠️ 两笔变动必须在同一个事务里：原先各走一次 ScoreService.GiveScore（各自独立提交），
+	// 第二步失败就会「扣了没到账」。转出侧另用**条件扣减**而不是「加减 + 钳 0」——否则并发下
+	// 余额不足时会被钳到 0 并照常给接收方加分（凭空造分）。
+	err = d.db.Transaction(func(tx *gorm.DB) error {
+		balanceBefore, newBalance, ok, err := deductScoreAtomic(tx, from.ID, amount)
+		if err != nil {
+			return err
+		}
+		if !ok {
+			return ErrBadRequest("积分不足")
+		}
+		if _, err := recordScoreTx(tx, from, -amount, outReason, operator, nil, balanceBefore, newBalance); err != nil {
+			return err
+		}
+		_, err = giveScoreTx(tx, to, amount, inReason, operator, nil)
+		return err
+	})
+	if err != nil {
 		return nil, err
 	}
-	if _, err := d.scores.GiveScore(to, amount, fmt.Sprintf("来自 %s 的转赠", from.Name), operator, nil); err != nil {
-		return nil, err
-	}
+
+	// 事务提交后逐条发布 score_update（同 GiveScore 的口径：逐个学生发布、is_spend=false）。
+	d.scores.publishScoreUpdate(from, -amount, outReason, false)
+	d.scores.publishScoreUpdate(to, amount, inReason, false)
 
 	return &QuickTransferResult{FromName: from.Name, ToName: to.Name, Amount: amount}, nil
 }

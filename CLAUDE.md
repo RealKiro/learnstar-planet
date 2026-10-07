@@ -409,3 +409,9 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
     - **⚠️ 刻意未动的两项（需产品拍板，别顺手改）**：
       * **换宠物费 / 整班换系列费直改 `total_score`**：不写 `scores` / `score_logs`、不发大屏事件、不重算宠物等级 → 不进「本周榜」也不进学生积分历史、无审计。若要统一改走 `SpendScore`，注意换宠后宠物等级来自图鉴记录（`pet_collections`），而 `SyncLevelWithScore` 会把它覆盖成「按积分算」的等级——语义并不是等价替换。
       * **`shop_items.stock` 永不扣减**：所有结算路径都不看库存（`display_writes_test.go` 还专门断言「库存不变」），即库存纯展示。真要扣减需 `WHERE stock > 0` 条件更新，并同步前端口径。
+    - **补充优化（同日第二轮）**：
+      * **撤回金额改为「实际生效的变动额」**：`Undo` 现在读 `score_logs(score_id = 原记录)` 的 `balance_after - balance_before` 作为回补额，找不到审计行时回退为 `-Amount`。原因：原记录若被「余额不为负」钳制过（余额 10 判定 -30、实际只扣到 0），按账面 `-Amount` 撤回会**凭空多补 20 分**。同时为撤回流水补写 `score_logs`——至此「每条 `scores` 都有配对的 before/after」这条不变式完整（也是上面那条能递归生效的前提）。A/B 已验证：改回账面值后 `TestUndoRestoresEffectiveDeltaWhenClamped` 变红（余额 30 ≠ 10）。
+      * **`QuickTransfer`（教室端转赠）改为单事务**：原先转出/转入各走一次 `ScoreService.GiveScore`（各自独立提交），第二步失败就「扣了没到账」。现同事务内落两笔，转出侧用**条件扣减**而非「加减+钳 0」——否则并发下余额不足会被钳到 0 并照常给接收方加分（凭空造分）。两条 `score_update` 事件仍在提交后逐条发布。⚠️ 该原子性**无法从测试注入**（没有可注入的中途失败点），故只做结构性保证 + happy-path 回归断言，未做 A/B。
+      * **教室端兑换的扣分文案统一**：`DisplayRedeem` 原先传 `"兑换："+商品名`，与 `SpendScore` 自带前缀叠成「兑换消耗：兑换：铅笔」，而教师端审批同一动作是「兑换消耗：铅笔」。现两端统一为单前缀（**用户可见文案变化**，已同步更新 `display_writes_test.go` 的断言；前端不按 reason 文案做逻辑）。
+      * **宠物读-改-写（此前列为待办）复核后判定无需改**：`syncPetForDelta` 的「读 → 改 → `Save` 整行」在所有调用点都天然串行——调用前同一事务已用原子 UPDATE 改过该学生 `students` 行，并发请求会在学生行上排队（SQLite 写锁 / MySQL·Postgres 行锁），读宠物必然晚于前一个事务提交。已在函数注释里写明「新调用点务必先动学生行、再动宠物」。真正没有保护的是 `PetService.Feed`/`Rename`（不在事务、不动学生行，属外观层 mood/名字更新，并发双击可能丢一次 +20），影响仅展示，故未改。
+      * **仍未做**：登录以外的写端点没有限流（放大并发类风险，属策略问题）；`shop_items.stock` 与「换宠/换系列费走审计通道」两项仍待产品拍板。

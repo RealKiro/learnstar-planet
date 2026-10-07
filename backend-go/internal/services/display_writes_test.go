@@ -111,7 +111,7 @@ func TestDisplayShopItemsAndRedeem(t *testing.T) {
 	var score models.Score
 	require.NoError(t, db.Where("student_id = ?", rich.ID).Order("id DESC").First(&score).Error)
 	assert.Equal(t, -30, score.Amount)
-	assert.Equal(t, "兑换消耗：兑换：铅笔", score.Reason)
+	assert.Equal(t, "兑换消耗：铅笔", score.Reason)
 
 	events, err := services.NewDisplayEvents(db).Consume(f.Class.ID, nil)
 	require.NoError(t, err)

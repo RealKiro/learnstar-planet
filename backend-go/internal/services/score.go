@@ -50,6 +50,21 @@ func (s *ScoreService) GiveScore(student *models.Student, amount int, reason str
 
 // giveScoreTx 在指定事务内完成一次加减分。
 func giveScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string, givenBy uint, scoreRuleID *uint) (models.Score, error) {
+	// ⚠️ 余额走 SQL 侧原子读-改-写（addScoreAtomic），不再「从内存快照算好新值再整值写回」：
+	// 后者在并发下会丢更新（两条请求各自从同一份旧余额算出同一个新余额，后写覆盖先写）。
+	balanceBefore, newBalance, err := addScoreAtomic(tx, student.ID, amount)
+	if err != nil {
+		return models.Score{}, err
+	}
+	return recordScoreTx(tx, student, amount, reason, givenBy, scoreRuleID, balanceBefore, newBalance)
+}
+
+// recordScoreTx 落一条积分记录 + 审计日志 + 同步宠物经验，并回写内存余额。
+//
+// 抽出来的理由：加分、消费、（转赠的）转出转入这几条链路只有「余额如何变」不同
+// （原子加减 / 条件扣减），而记录与副作用完全一致——避免每条链路各自复制一遍
+// scores + score_logs + 宠物同步（复制出来的副本最容易日后改漏一处）。
+func recordScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string, givenBy uint, scoreRuleID *uint, balanceBefore, balanceAfter int) (models.Score, error) {
 	score := models.Score{
 		StudentID:   student.ID,
 		ClassID:     student.ClassID,
@@ -62,29 +77,21 @@ func giveScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string
 		return score, err
 	}
 
-	// ⚠️ 余额一律走 SQL 侧原子读-改-写（addScoreAtomic），不再「从内存快照算好新值再整值写回」：
-	// 后者在并发下会丢更新（两条请求各自从同一份旧余额算出同一个新余额，后写覆盖先写）。
-	balanceBefore, newBalance, err := addScoreAtomic(tx, student.ID, amount)
-	if err != nil {
-		return score, err
-	}
-
-	log := models.ScoreLog{
+	if err := tx.Create(&models.ScoreLog{
 		StudentID:     student.ID,
 		ScoreID:       score.ID,
 		BalanceBefore: balanceBefore,
-		BalanceAfter:  newBalance,
+		BalanceAfter:  balanceAfter,
 		Description:   reason,
-	}
-	if err := tx.Create(&log).Error; err != nil {
+	}).Error; err != nil {
 		return score, err
 	}
 
-	if err := syncPetForDelta(tx, student.ID, newBalance, amount); err != nil {
+	if err := syncPetForDelta(tx, student.ID, balanceAfter, amount); err != nil {
 		return score, err
 	}
 
-	student.TotalScore = newBalance
+	student.TotalScore = balanceAfter
 	return score, nil
 }
 
@@ -145,6 +152,13 @@ func deductScoreAtomic(tx *gorm.DB, studentID uint, amount int) (before, after i
 }
 
 // syncPetForDelta 依据积分变动同步宠物经验并校正等级。
+//
+// ⚠️ 这里的「读宠物 → 改字段 → Save 整行」看似是读-改-写竞态，但在所有调用点都**天然串行**：
+// 调用前，同一个事务已经用原子 UPDATE 改过该学生的 students 行（addScoreAtomic /
+// deductScoreAtomic），并发请求会在「学生行」上排队（SQLite 全局写锁；MySQL/Postgres 行锁），
+// 于是本函数读宠物的时刻必然晚于前一个事务提交。**新调用点务必保持「先动学生行、再动宠物」的顺序。**
+// （真正没有保护的是 PetService.Feed / Rename：它们既不在事务里、也不动学生行——属外观层的
+// mood / 名字更新，并发双击可能丢一次 +20，影响仅限展示，故未改。）
 func syncPetForDelta(tx *gorm.DB, studentID uint, newBalance, amount int) error {
 	var pet models.Pet
 	err := tx.Where("student_id = ?", studentID).First(&pet).Error
@@ -184,46 +198,16 @@ func (s *ScoreService) SpendScore(student *models.Student, amount int, reason st
 
 // spendScoreTx 在指定事务内完成一次积分消费（金额为正表示扣减）。
 func spendScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string, spentBy uint) (models.Score, error) {
-	var score models.Score
-
 	// ⚠️ 「校验余额」与「扣减」合并为一次条件更新（deductScoreAtomic）：并发下既不会穿仓，
 	// 也不会把人家的消费覆盖掉。余额不足则一个字节都不写、直接报错。
 	balanceBefore, newBalance, ok, err := deductScoreAtomic(tx, student.ID, amount)
 	if err != nil {
-		return score, err
+		return models.Score{}, err
 	}
 	if !ok {
-		return score, ErrBadRequest(fmt.Sprintf("积分不足，当前余额：%d", balanceBefore))
+		return models.Score{}, ErrBadRequest(fmt.Sprintf("积分不足，当前余额：%d", balanceBefore))
 	}
-
-	score = models.Score{
-		StudentID: student.ID,
-		ClassID:   student.ClassID,
-		Amount:    -amount,
-		Reason:    "兑换消耗：" + reason,
-		GivenBy:   spentBy,
-	}
-	if err := tx.Create(&score).Error; err != nil {
-		return score, err
-	}
-
-	log := models.ScoreLog{
-		StudentID:     student.ID,
-		ScoreID:       score.ID,
-		BalanceBefore: balanceBefore,
-		BalanceAfter:  newBalance,
-		Description:   score.Reason,
-	}
-	if err := tx.Create(&log).Error; err != nil {
-		return score, err
-	}
-
-	if err := syncPetForDelta(tx, student.ID, newBalance, -amount); err != nil {
-		return score, err
-	}
-
-	student.TotalScore = newBalance
-	return score, nil
+	return recordScoreTx(tx, student, -amount, "兑换消耗："+reason, spentBy, nil, balanceBefore, newBalance)
 }
 
 // BatchGive 批量加分，单事务原子提交，返回成功人数。
@@ -273,7 +257,15 @@ func (s *ScoreService) Undo(original *models.Score, operatedBy uint) (*models.Sc
 			return err
 		}
 
+		// ⚠️ 撤回金额取「实际生效」的变动额，而不是账面金额：原记录若被「余额不为负」钳制过
+		// （例如余额 10 时扣 30，实际只扣到 0），按 -Amount 撤回会凭空多补 20 分。
+		// score_logs 里存着权威的 before/after，用它算实际变动额即可精确回补。
+		// 找不到审计行时回退为 -Amount（老数据；撤回流水本身此前也不写审计行）。
 		undoAmount := -original.Amount
+		var audit models.ScoreLog
+		if auditErr := tx.Where("score_id = ?", original.ID).Order("id DESC").First(&audit).Error; auditErr == nil {
+			undoAmount = -(audit.BalanceAfter - audit.BalanceBefore)
+		}
 		originalID := original.ID
 		undo = models.Score{
 			StudentID:     student.ID,
@@ -288,8 +280,20 @@ func (s *ScoreService) Undo(original *models.Score, operatedBy uint) (*models.Sc
 		}
 
 		// 余额同样走 SQL 侧原子读-改-写（见 addScoreAtomic）。
-		_, newBalance, err := addScoreAtomic(tx, student.ID, undoAmount)
+		balanceBefore, newBalance, err := addScoreAtomic(tx, student.ID, undoAmount)
 		if err != nil {
+			return err
+		}
+
+		// 为撤回补一条审计行：让「每条 scores 都有配对的 before/after」这条不变式完整
+		// （撤回原先只写 scores、不写 score_logs），也是上面「按实际变动额撤回」能递归生效的前提。
+		if err := tx.Create(&models.ScoreLog{
+			StudentID:     student.ID,
+			ScoreID:       undo.ID,
+			BalanceBefore: balanceBefore,
+			BalanceAfter:  newBalance,
+			Description:   undo.Reason,
+		}).Error; err != nil {
 			return err
 		}
 

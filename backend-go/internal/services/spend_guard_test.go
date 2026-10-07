@@ -272,3 +272,92 @@ func TestShopRejectRequiresPending(t *testing.T) {
 	assert.Equal(t, "approved", row2.Status, "状态不得被改成 rejected")
 	assert.Equal(t, 100, f.balance(t), "也不存在退款——钱与记录必须一致")
 }
+
+// countAllScores 统计当前积分流水条数（用于断言「整笔失败不留痕」）。
+func countAllScores(t *testing.T, db *gorm.DB) int64 {
+	t.Helper()
+	var n int64
+	require.NoError(t, db.Model(&models.Score{}).Count(&n).Error)
+	return n
+}
+
+// TestUndoRestoresEffectiveDeltaWhenClamped 撤回按「实际生效的变动额」回补，而不是账面金额。
+//
+// 场景：余额 10 时被判 -30，实际只扣到 0（「余额不为负」把负数钳成 0）；此时撤回必须只补回
+// +10。按账面 -Amount 撤回会凭空多补 20 分（余额变 30）——这正是修正前的行为。
+func TestUndoRestoresEffectiveDeltaWhenClamped(t *testing.T) {
+	db := setupDB(t)
+	school := seedSchool(t, db)
+	class := seedClass(t, db, school.ID)
+	student := seedStudent(t, db, class.ID)
+	svc := services.NewScoreService(db)
+
+	_, err := svc.GiveScore(&student, 10, "起始", 1, nil)
+	require.NoError(t, err)
+
+	clamped, err := svc.GiveScore(&student, -30, "惩罚", 1, nil)
+	require.NoError(t, err)
+	assert.Equal(t, -30, clamped.Amount, "流水仍按账面记 -30")
+
+	var afterGive models.Student
+	require.NoError(t, db.First(&afterGive, student.ID).Error)
+	require.Equal(t, 0, afterGive.TotalScore, "确认钳制确实发生：10-30 → 0")
+
+	undo, err := svc.Undo(clamped, 1)
+	require.NoError(t, err)
+
+	var reloaded models.Student
+	require.NoError(t, db.First(&reloaded, student.ID).Error)
+	assert.Equal(t, 10, reloaded.TotalScore, "应只补回实际生效的 10 分；按账面 -30 撤回会变成 30")
+
+	var log models.ScoreLog
+	require.NoError(t, db.Where("score_id = ?", undo.ID).Order("id DESC").First(&log).Error)
+	assert.Equal(t, 0, log.BalanceBefore)
+	assert.Equal(t, 10, log.BalanceAfter, "撤回也要落审计行（此前只写 scores、不写 score_logs）")
+}
+
+// TestQuickTransferIsAtomicAndStrict 转赠：两笔变动同一事务落库，文案与审计齐全，
+// 余额不足整笔失败且不留痕（旧实现两笔各自独立提交，第二步失败会「扣了没到账」）。
+func TestQuickTransferIsAtomicAndStrict(t *testing.T) {
+	db := setupDB(t)
+	f := newDisplayFixture(t, db)
+
+	from := models.Student{ClassID: f.Class.ID, Name: "甲", StudentNo: "1", TotalScore: 50, Status: "active"}
+	to := models.Student{ClassID: f.Class.ID, Name: "乙", StudentNo: "2", TotalScore: 10, Status: "active"}
+	require.NoError(t, db.Create(&from).Error)
+	require.NoError(t, db.Create(&to).Error)
+
+	res, err := f.Svc.QuickTransfer(f.Class.ID, from.ID, to.ID, 30)
+	require.NoError(t, err)
+	assert.Equal(t, "甲", res.FromName)
+	assert.Equal(t, "乙", res.ToName)
+	assert.Equal(t, 30, res.Amount)
+
+	var a, b models.Student
+	require.NoError(t, db.First(&a, from.ID).Error)
+	require.NoError(t, db.First(&b, to.ID).Error)
+	assert.Equal(t, 20, a.TotalScore)
+	assert.Equal(t, 40, b.TotalScore)
+
+	var out, in models.Score
+	require.NoError(t, db.Where("student_id = ?", from.ID).Order("id DESC").First(&out).Error)
+	require.NoError(t, db.Where("student_id = ?", to.ID).Order("id DESC").First(&in).Error)
+	assert.Equal(t, -30, out.Amount)
+	assert.Equal(t, "转赠给 乙", out.Reason)
+	assert.Equal(t, 30, in.Amount)
+	assert.Equal(t, "来自 甲 的转赠", in.Reason)
+
+	var outLog, inLog models.ScoreLog
+	require.NoError(t, db.Where("score_id = ?", out.ID).First(&outLog).Error)
+	require.NoError(t, db.Where("score_id = ?", in.ID).First(&inLog).Error)
+	assert.Equal(t, 50, outLog.BalanceBefore)
+	assert.Equal(t, 20, outLog.BalanceAfter)
+	assert.Equal(t, 10, inLog.BalanceBefore)
+	assert.Equal(t, 40, inLog.BalanceAfter)
+
+	before := countAllScores(t, db)
+	_, err = f.Svc.QuickTransfer(f.Class.ID, from.ID, to.ID, 30)
+	require.Error(t, err)
+	assert.Equal(t, "积分不足", appErrorOf(t, err, 400))
+	assert.Equal(t, before, countAllScores(t, db), "余额不足不应写入任何流水")
+}
