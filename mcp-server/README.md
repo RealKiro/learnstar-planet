@@ -78,5 +78,5 @@ MCP Client Plugin
     ↓ (JSON-RPC over stdio)
 LearnStar MCP Server
     ↓ (REST API)
-LearnStar Laravel Backend
+LearnStar Backend (Go)
 ```

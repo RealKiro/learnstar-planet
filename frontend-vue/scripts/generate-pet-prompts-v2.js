@@ -442,7 +442,7 @@ const lines = []
 lines.push('# 宠物 AI 生图提示词 · 全 125 物种 × 6 阶段（v2）')
 lines.push('')
 lines.push(`> 生成：${new Date().toISOString().slice(0, 10)} · 由 \`scripts/generate-pet-prompts-v2.js\` 自动生成，**不要手改**（改数据源后重跑）`)
-lines.push('> 取代 v1 `pet-prompts.csv` 通用模板。生成图片后按 `docs/pet-image-manifest.md` 流程登记（MANIFEST + 拷贝到 backend/public/pets/）。')
+lines.push('> 取代 v1 `pet-prompts.csv` 通用模板。生成图片后按 `docs/pet-image-manifest.md` 流程登记（MANIFEST + 拷贝到 backend-go/public/pets/）。')
 lines.push('')
 lines.push('## 一、使用说明')
 lines.push('')

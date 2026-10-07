@@ -3,6 +3,10 @@ package router
 
 import (
 	"net/http"
+	"os"
+	"path"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -13,6 +17,59 @@ import (
 	"github.com/RealKiro/learnstar-planet/backend-go/internal/handlers"
 	"github.com/RealKiro/learnstar-planet/backend-go/internal/middleware"
 )
+
+// storageURLPrefix 是落库的上传文件 URL 前缀（与 Laravel 时代保持一致，
+// 前端模板里已有该字面量）；目录部分由 UPLOAD_DIR 承载。
+const storageURLPrefix = "/storage/app/uploads/"
+
+// spaFallback 构建未命中路由的兜底处理器。
+func spaFallback(cfg *config.Config) gin.HandlerFunc {
+	publicDir := strings.TrimSpace(cfg.PublicDir)
+	uploadDir := os.Getenv("UPLOAD_DIR")
+	if uploadDir == "" {
+		uploadDir = "storage/app/uploads"
+	}
+	publicFS := http.Dir(publicDir) // 目录不存在时 Open 直接报错，走 index/404 兜底
+
+	return func(c *gin.Context) {
+		isAPI := strings.HasPrefix(c.Request.URL.Path, "/api/")
+		if isAPI || (c.Request.Method != http.MethodGet && c.Request.Method != http.MethodHead) {
+			c.JSON(http.StatusNotFound, gin.H{"message": "资源不存在"})
+			return
+		}
+
+		// 上传文件：/storage/app/uploads/<相对路径> → UPLOAD_DIR/<相对路径>
+		if strings.HasPrefix(c.Request.URL.Path, storageURLPrefix) {
+			rel := path.Clean("/" + strings.TrimPrefix(c.Request.URL.Path, storageURLPrefix))
+			c.File(filepath.Join(uploadDir, rel))
+			return
+		}
+
+		if publicDir == "" {
+			c.JSON(http.StatusNotFound, gin.H{"message": "资源不存在"})
+			return
+		}
+
+		// 静态文件存在且非目录 → 直接返回（http.Dir 自带目录穿越防护）。
+		upath := path.Clean("/" + c.Request.URL.Path)
+		if f, err := publicFS.Open(upath); err == nil {
+			st, serr := f.Stat()
+			f.Close()
+			if serr == nil && !st.IsDir() {
+				c.File(filepath.Join(publicDir, upath))
+				return
+			}
+		}
+
+		// SPA 前端路由兜底：未命中的页面路径回落 index.html。
+		indexPath := filepath.Join(publicDir, "index.html")
+		if st, err := os.Stat(indexPath); err == nil && !st.IsDir() {
+			c.File(indexPath)
+			return
+		}
+		c.JSON(http.StatusNotFound, gin.H{"message": "资源不存在"})
+	}
+}
 
 // New 构建 gin 引擎并注册全部路由。
 func New(db *gorm.DB, cfg *config.Config) *gin.Engine {
@@ -348,6 +405,14 @@ func New(db *gorm.DB, cfg *config.Config) *gin.Engine {
 	api.GET("/common/score-categories", h.ScoreCategories)
 	api.GET("/wechat-work/callback", h.WechatWorkCallbackVerify)
 	api.POST("/wechat-work/callback", h.WechatWorkCallbackReceive)
+
+	// SPA 静态资源与前端路由兜底（等价旧 Laravel routes/web.php 的 SPA 兜底行为）：
+	//   - /api/* 未命中 → 统一 JSON 404；
+	//   - /storage/app/uploads/* → UPLOAD_DIR 下的上传文件（学校 LOGO 等）；
+	//   - 其余 GET/HEAD → PUBLIC_DIR 静态文件；文件不存在回落 index.html
+	//     （Vue Router history 模式刷新不 404）；
+	//   - PUBLIC_DIR 未配置或不存在（纯 API 部署）→ 一律 JSON 404，不报错。
+	r.NoRoute(spaFallback(cfg))
 
 	return r
 }

@@ -1,16 +1,12 @@
-# Multi-stage Dockerfile for LearnStar Planet
-# Stage 1: Build Vue frontend (Node)
-# Stage 2: Composer vendor (独立层：只在 composer.lock 变化时重建，且 composer 不进最终镜像)
-# Stage 3: Runtime = Octane + FrankenPHP（常驻 worker，替代 artisan serve 开发服务器）
+# Multi-stage Dockerfile for LearnStar Planet（Go 后端）
 #
-# Location: docker/Dockerfile (all Docker build files live in docker/)
-# Build context = learnstar-planet/ (repository root)
+# Stage 1: Node 构建前端（Vue 3 + Vite）
+# Stage 2: Go 编译（CGO_ENABLED=0，纯 Go SQLite 驱动，无 cgo 依赖）
+# Stage 3: alpine 运行时（ca-certificates 供第三方 HTTPS 调用；tzdata 兜底，
+#          二进制内已 embed time/tzdata 双保险）
 #
-# 为什么是 FrankenPHP：
-#   - 单个静态二进制 = Web 服务器(Caddy) + PHP 运行时，无 nginx/FPM/Supervisor
-#   - Octane worker 常驻内存，框架启动成本归零（PHP 唯一的架构劣势）
-#   - alpine 变体 + install-php-extensions，镜像比旧的 php-cli + artisan serve 更小
-#   - 官方镜像含 PHP 8.5（tag: 1-php8.5-alpine），与 config/platform.php 对齐
+# Location: docker/Dockerfile
+# Build context = learnstar-planet/（仓库根）
 
 # ============================================================
 # Stage 1: Build Vue frontend
@@ -26,73 +22,42 @@ COPY frontend-vue/ ./
 RUN npm run build:ci
 
 # ============================================================
-# Stage 2: Composer 依赖（vendor 独立成段，最终镜像不含 composer）
+# Stage 2: Build Go binary
 # ============================================================
-FROM dunglas/frankenphp:1-php8.5-alpine AS vendor-builder
+FROM golang:1.27-alpine AS go-builder
 
-COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
+WORKDIR /src
+
+# 依赖独立成层：go.mod/go.sum 不变时命中缓存
+COPY backend-go/go.mod backend-go/go.sum ./
+RUN go mod download
+
+COPY backend-go/ ./
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/learnstar-go .
+
+# ============================================================
+# Stage 3: Runtime
+# ============================================================
+FROM alpine:3.21 AS app
+
+RUN apk add --no-cache ca-certificates tzdata && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-COPY backend/composer.json backend/composer.lock* ./
-RUN composer install \
-        --no-interaction \
-        --no-progress \
-        --prefer-dist \
-        --optimize-autoloader \
-        --no-dev \
-        --no-scripts \
-        --ignore-platform-reqs
+COPY --from=go-builder /out/learnstar-go ./learnstar-go
 
-# ============================================================
-# Stage 3: Runtime（Octane + FrankenPHP）
-# ============================================================
-FROM dunglas/frankenphp:1-php8.5-alpine AS app
-
-# curl 仅供 HEALTHCHECK；其余 PHP 扩展用镜像自带的 install-php-extensions
-# （脚本会自动装各扩展的 alpine 运行库，无需手工 apk 拉一串 -dev 包）
-RUN apk add --no-cache curl && rm -rf /var/cache/apk/*
-
-# 扩展清单与旧镜像对齐（gd 供 intervention/image 头像处理；pcntl 为 Octane 必需）：
-RUN install-php-extensions \
-        opcache \
-        pdo_mysql \
-        pdo_pgsql \
-        pdo_sqlite \
-        zip \
-        gd \
-        mbstring \
-        pcntl \
-        redis
-
-WORKDIR /app
-
-# vendor 来自独立段：业务代码改动不再打掉 composer install 层
-COPY --from=vendor-builder /app/vendor ./vendor
-
-COPY backend/ .
-
-# Copy Vue frontend build to public directory
+# 前端构建产物：Go 端 PUBLIC_DIR=public 由它服务（SPA + index.html 兜底）
 COPY --from=frontend-builder /app/dist ./public
 
-# 创建必要目录、完成包发现、发布 Octane 配置
-# （octane:install 若因构建期无 .env 失败不影响运行：entrypoint 启动时显式传 --server）
-RUN mkdir -p bootstrap/cache storage/framework/cache/data \
-    storage/framework/sessions storage/framework/views storage/logs \
-    storage/app/public \
-    && php artisan package:discover --ansi 2>/dev/null || true \
-    && php artisan octane:install --server=frankenphp --no-interaction 2>/dev/null || true \
-    && touch storage/database.sqlite && chmod 666 storage/database.sqlite \
-    && chown -R www-data:www-data /app \
-    && chmod -R 755 storage bootstrap/cache public
+# 运行时目录：data（SQLite + .jwt_secret）/ uploads（学校 LOGO）/ logs
+RUN mkdir -p data storage/app/uploads logs
 
-# Copy entrypoint script
 COPY docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Health check
+# alpine busybox 自带 wget，无需额外安装 curl
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:8080/health || exit 1
+    CMD wget -q -O /dev/null http://localhost:8080/health || exit 1
 
 EXPOSE 8080
 

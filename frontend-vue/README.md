@@ -63,7 +63,7 @@ src/
 
 ## 部署
 
-Vue 构建产物需部署到后端 `public/` 目录，由 Nginx 统一 serve（SPA 模式 `try_files $uri /index.html`）。两种方式：
+Vue 构建产物输出到后端 `public/` 目录，由 Go 后端统一静态托管（SPA 路由自动回落 `index.html`）。两种方式：
 
-1. **本地构建**：`npm run build:deploy` 直接输出到 `../backend/public/`
+1. **本地构建**：`npm run build:deploy` 直接输出到 `../backend-go/public/`（由 Go 后端静态托管）
 2. **Docker 部署**：`docker/Dockerfile` 已包含 Node 阶段自动构建前端并复制产物

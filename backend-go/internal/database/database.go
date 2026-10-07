@@ -137,17 +137,24 @@ func Seed(db *gorm.DB, cfg *config.Config) error {
 }
 
 func seedAdmin(tx *gorm.DB, cfg *config.Config, schoolID uint) error {
-	var count int64
-	if err := tx.Model(&models.User{}).
-		Where("school_id = ? AND role = ?", schoolID, "school_admin").
-		Count(&count).Error; err != nil {
+	// 与 Laravel AdminUserSeeder 同口径：按用户名查找；已存在则**只同步密码**
+	//（.env 是唯一真相来源，改 ADMIN_PASSWORD 重启即生效——「忘了密码」的官方
+	// 恢复路径依赖它）；name/状态等其余字段不覆盖，可通过后台修改。
+	var admin models.User
+	err := tx.Where("username = ?", cfg.AdminUsername).First(&admin).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return createUser(tx, schoolID, "school_admin", cfg.AdminUsername, cfg.AdminPassword, cfg.AdminName, false)
+	}
+	if err != nil {
 		return err
 	}
-	if count > 0 {
-		return nil
-	}
 
-	return createUser(tx, schoolID, "school_admin", cfg.AdminUsername, cfg.AdminPassword, cfg.AdminName, false)
+	hash, err := bcrypt.GenerateFromPassword([]byte(cfg.AdminPassword), cfg.BcryptCost)
+	if err != nil {
+		return err
+	}
+	admin.PasswordHash = string(hash)
+	return tx.Save(&admin).Error
 }
 
 func seedBot(tx *gorm.DB, cfg *config.Config, schoolID uint) error {

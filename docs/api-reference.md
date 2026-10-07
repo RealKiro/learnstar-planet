@@ -1,4 +1,5 @@
 # 学宠星球 (LearnStar Planet) API 接口文档
+> 📌 **注（2026-09-20）**：后端已切换为 Go（`backend-go/`），本文档的 API 端点与契约仍然有效（Go 端与原 Laravel 路由逐条对齐）；文中涉及 Laravel 实现细节（migrations、Sanctum 等）以 `backend-go/README.md` 为准。
 
 > 版本：v1 | 协议：RESTful | 格式：JSON
 > 适用于第三方应用接入、小程序、移动端、AI 机器人等

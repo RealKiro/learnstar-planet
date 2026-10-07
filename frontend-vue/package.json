@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "build:ci": "vite build",
-    "build:deploy": "vite build --outDir ../backend/public",
+    "build:deploy": "vite build --outDir ../backend-go/public",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit"
   },

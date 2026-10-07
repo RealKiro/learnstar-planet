@@ -2,32 +2,9 @@
 # 学趣星球 .gitignore
 # ================================
 
-# ========== Laravel ==========
-/backend/vendor
-/backend/node_modules
-/backend/.env
-/backend/.env.local
-/backend/.env.production
-/backend/storage/*
-/backend/storage/framework/cache/*
-/backend/storage/framework/sessions/*
-/backend/storage/framework/views/*
-/backend/storage/logs/*
-/backend/bootstrap/cache/*
-/backend/public/hot
-/backend/public/storage
-/backend/public/build
-/backend/public/css
-/backend/public/js
-/backend/public/mix-manifest.json
-# 前端构建产物（Docker 构建时重新生成，源文件在 frontend-vue/public/）
-/backend/public/assets
-/backend/public/favicon.svg
-/backend/public/icons.svg
-/backend/public/index.html
-/backend/public/icons
-/backend/coverage.xml
-/backend/coverage-html
+# ========== Go 后端（backend-go 细则见其目录内 .gitignore） ==========
+/backend-go/data/
+/backend-go/.jwt_secret
 
 # ========== Node.js ==========
 node_modules/
@@ -111,4 +88,3 @@ docs/角色卡/
 docs/宠物AI生图提示词.md
 frontend-vue/pet-prompts.csv
 docs/角色档案·非人物视觉规格速查.md
-backend/.phpunit.result.cache

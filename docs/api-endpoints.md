@@ -1,4 +1,5 @@
 # 学宠星球 API 端点映射
+> 📌 **注（2026-09-20）**：后端已切换为 Go（`backend-go/`），端点路径不变；实现描述以 `backend-go/README.md` 为准。
 
 > 基于 `功能分类与版面设计.txt` 整理的前后端联调对照表
 > 前端服务层：`frontend-vue/src/services/api.ts`

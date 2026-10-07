@@ -7,222 +7,39 @@ on:
     branches: [ main, master, develop ]
 
 jobs:
-  # ========== 后端测试（Laravel/PHP）==========
+  # ========== 后端测试（Go） ==========
   backend-test:
-    name: Backend Tests (PHP ${{ matrix.php }} · ${{ matrix.database }})
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php: [8.5]
-        database: [mysql, pgsql, sqlite]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, pdo_pgsql, pdo_sqlite, sqlite3, redis, gd, zip, bz2
-          coverage: xdebug
-
-      - name: Copy .env
-        working-directory: backend
-        run: cp .env.example .env
-
-      - name: Create storage directories
-        working-directory: backend
-        run: |
-          mkdir -p storage/app/public \
-            storage/framework/cache/data \
-            storage/framework/sessions \
-            storage/framework/views \
-            storage/logs \
-            bootstrap/cache
-
-      - name: Start Redis (with retry)
-        run: |
-          for attempt in 1 2 3 4 5; do
-            echo "Attempt $attempt/5 to start Redis..."
-            docker run -d --name redis -p 6379:6379 redis:alpine && break
-            echo "Redis start failed, retrying in 15s..."
-            sleep 15
-          done
-          echo "Waiting for Redis to be ready..."
-          for i in $(seq 1 30); do
-            docker exec redis redis-cli ping 2>/dev/null | grep -q PONG && echo "✅ Redis ready" && exit 0
-            sleep 1
-          done
-          echo "❌ Redis did not become ready in time"
-          docker logs redis
-          exit 1
-
-      - name: Start MySQL (with retry)
-        if: matrix.database == 'mysql'
-        run: |
-          for attempt in 1 2 3 4 5; do
-            echo "Attempt $attempt/5 to start MySQL..."
-            docker run -d --name mysql \
-              -e MYSQL_ROOT_PASSWORD=root \
-              -e MYSQL_DATABASE=learnstar_test \
-              -p 3306:3306 \
-              --health-cmd="mysqladmin ping -h localhost -uroot -proot" \
-              --health-interval=5s \
-              --health-timeout=5s \
-              --health-retries=10 \
-              mysql:8.0 && break
-            echo "MySQL start failed, retrying in 15s..."
-            docker rm -f mysql 2>/dev/null || true
-            sleep 15
-          done
-          echo "Waiting for MySQL to be healthy..."
-          for i in $(seq 1 60); do
-            status=$(docker inspect --format='{{.State.Health.Status}}' mysql 2>/dev/null || echo 'starting')
-            [ "$status" = "healthy" ] && echo "✅ MySQL healthy" && exit 0
-            echo "MySQL health status: $status, waiting..."
-            sleep 2
-          done
-          echo "❌ MySQL did not become healthy in time"
-          docker logs mysql
-          exit 1
-
-      - name: Start PostgreSQL (with retry)
-        if: matrix.database == 'pgsql'
-        run: |
-          for attempt in 1 2 3 4 5; do
-            echo "Attempt $attempt/5 to start PostgreSQL..."
-            docker run -d --name pgsql \
-              -e POSTGRES_PASSWORD=postgres \
-              -e POSTGRES_DB=learnstar_test \
-              -p 5432:5432 \
-              --health-cmd="pg_isready -U postgres" \
-              --health-interval=5s \
-              --health-timeout=5s \
-              --health-retries=10 \
-              postgres:16 && break
-            echo "PostgreSQL start failed, retrying in 15s..."
-            docker rm -f pgsql 2>/dev/null || true
-            sleep 15
-          done
-          echo "Waiting for PostgreSQL to be healthy..."
-          for i in $(seq 1 60); do
-            status=$(docker inspect --format='{{.State.Health.Status}}' pgsql 2>/dev/null || echo 'starting')
-            [ "$status" = "healthy" ] && echo "✅ PostgreSQL healthy" && exit 0
-            echo "PostgreSQL health status: $status, waiting..."
-            sleep 2
-          done
-          echo "❌ PostgreSQL did not become healthy in time"
-          docker logs pgsql
-          exit 1
-
-      - name: Install Composer dependencies
-        working-directory: backend
-        run: composer install --no-interaction --no-progress --prefer-dist --ignore-platform-reqs
-
-      - name: Generate app key
-        working-directory: backend
-        run: php artisan key:generate --no-interaction
-
-      - name: Setup database (MySQL)
-        if: matrix.database == 'mysql'
-        working-directory: backend
-        env:
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: learnstar_test
-          DB_USERNAME: root
-          DB_PASSWORD: root
-        run: php artisan migrate --force
-
-      - name: Setup database (PostgreSQL)
-        if: matrix.database == 'pgsql'
-        working-directory: backend
-        env:
-          DB_CONNECTION: pgsql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 5432
-          DB_DATABASE: learnstar_test
-          DB_USERNAME: postgres
-          DB_PASSWORD: postgres
-        run: php artisan migrate --force
-
-      - name: Setup database (SQLite)
-        if: matrix.database == 'sqlite'
-        working-directory: backend
-        env:
-          DB_DATABASE: database/testing.sqlite
-        run: |
-          touch database/testing.sqlite
-          php artisan migrate --force --database=sqlite
-
-      - name: Run PHPUnit tests
-        working-directory: backend
-        env:
-          DB_CONNECTION: ${{ matrix.database == 'mysql' && 'mysql' || matrix.database == 'pgsql' && 'pgsql' || 'sqlite' }}
-          DB_HOST: 127.0.0.1
-          DB_PORT: ${{ matrix.database == 'mysql' && '3306' || matrix.database == 'pgsql' && '5432' || '' }}
-          DB_DATABASE: ${{ matrix.database == 'sqlite' && 'database/testing.sqlite' || 'learnstar_test' }}
-          DB_USERNAME: ${{ matrix.database == 'pgsql' && 'postgres' || 'root' }}
-          DB_PASSWORD: ${{ matrix.database == 'pgsql' && 'postgres' || 'root' }}
-          REDIS_HOST: 127.0.0.1
-          REDIS_PORT: 6379
-        run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
-
-      - name: Upload coverage to Codecov
-        if: matrix.php == '8.5' && matrix.database == 'mysql'
-        uses: codecov/codecov-action@v4
-        with:
-          file: backend/coverage.xml
-          fail_ci_if_error: false
-
-  # ========== 代码质量检查 ==========
-  code-quality:
-    name: Code Quality (PHP CS Fixer + PHPStan)
+    name: Backend Tests (Go)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
-          php-version: 8.5
-          extensions: mbstring, xml, ctype, iconv, intl, gd, zip, bz2
-          tools: php-cs-fixer, phpstan
+          go-version: '1.27'
+          cache-dependency-path: backend-go/go.sum
 
-      - name: Copy .env
-        working-directory: backend
-        run: cp .env.example .env
-
-      - name: Create storage directories
-        working-directory: backend
+      - name: Check formatting (gofmt)
+        working-directory: backend-go
         run: |
-          mkdir -p storage/app/public \
-            storage/framework/cache/data \
-            storage/framework/sessions \
-            storage/framework/views \
-            storage/logs \
-            bootstrap/cache
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "以下文件未通过 gofmt："
+            echo "$unformatted"
+            exit 1
+          fi
 
-      - name: Install Composer dependencies
-        working-directory: backend
-        run: composer install --no-interaction --no-progress --prefer-dist --no-scripts --ignore-platform-reqs
+      - name: Run go vet
+        working-directory: backend-go
+        run: go vet ./...
 
-      - name: Run PHP CS Fixer (auto-fix)
-        working-directory: backend
-        run: ./vendor/bin/php-cs-fixer fix --diff
+      - name: Run tests
+        working-directory: backend-go
+        run: go test ./... -count=1
 
-      - name: Run PHP CS Fixer (check only)
-        working-directory: backend
-        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
-
-      - name: Run PHPStan (static analysis)
-        working-directory: backend
-        run: ./vendor/bin/phpstan analyse --memory-limit=512M
-
-  # ========== 前端构建检查（Vue 3 + Vite + TypeScript）==========
+  # ========== 前端构建检查（Vue 3 + Vite + TypeScript） ==========
   frontend-build:
     name: Frontend Build (Vue 3 + Vite)
     runs-on: ubuntu-latest

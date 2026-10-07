@@ -1,4 +1,4 @@
-# 学宠星球 - Docker Compose 部署配置
+# 学宠星球 - Docker Compose 部署配置（Go 后端）
 #
 # 两种部署方式：
 #
@@ -9,22 +9,21 @@
 #
 #   方式二：外置数据库（MySQL / MariaDB / PostgreSQL，全校规模）
 #     1. 在你的数据库服务器上创建空库（如 learnstar）和账号
-#     2. .env 中注释掉 SQLite 段、启用外置 MySQL/PG 段（DB_HOST 填服务器地址）
+#     2. .env 中把 DB 段改成 mysql/postgres 并填 DB_HOST 等（或一行 DB_DSN 直填）
 #     3. docker-compose up -d app --no-deps
-#     → 只启动 app，连接你自己的数据库（Redis 同理可选外置）
+#     → 只启动 app，连接你自己的数据库
 #
-# 设计说明：本项目刻意不内置 MySQL/Redis 容器，以减小默认部署体积；
+# 设计说明：本项目刻意不内置数据库容器，以保持默认部署体积最小；
 #           需要全校规模时请使用你已有的数据库服务器（外置）。
 #
 # 端口说明：
-#   容器内应用服务器固定监听 8080，不可改（Octane/FrankenPHP 或回退的内置服务器同端口）
-#   APP_PORT 是宿主机访问端口，可自由修改
-#   APP_URL 是 Laravel 生成绝对 URL 用的，填用户浏览器看到的地址
+#   容器内应用固定监听 8080（不可改）；APP_PORT 是宿主机访问端口，可自由修改
+#   APP_URL 是第三方登录回调等生成地址用的，填用户浏览器实际访问的地址
 
 version: '3.8'
 
 services:
-  # ===== 应用服务 =====
+  # ===== 应用服务（Go 后端 + 前端静态资源，单容器） =====
   app:
     image: ghcr.io/${GITHUB_USERNAME:-realkiro}/learnstar-planet/backend:latest
     container_name: learnstar-app
@@ -33,87 +32,62 @@ services:
       - "${APP_PORT:-8080}:8080"
     environment:
       # 基础配置
-      - APP_NAME=${APP_NAME:-学宠星球}
-      - APP_ENV=${APP_ENV:-production}
-      - APP_DEBUG=${APP_DEBUG:-false}
       - APP_URL=${APP_URL:-http://localhost}
-      - APP_PORT=${APP_PORT:-8080}
-      # 时区：默认东八区（考勤/今日积分/日报表的「今天」边界依赖它，留空即用默认值）
+      # 时区：默认东八区（考勤/今日积分/日报表的「今天」边界依赖它）
       - APP_TIMEZONE=${APP_TIMEZONE:-Asia/Shanghai}
 
-      # 数据库配置（默认内置 SQLite；外置 MySQL/PG 时按 .env 填 DB_HOST 等）
-      - DB_CONNECTION=${DB_CONNECTION:-sqlite}
+      # 数据库配置（默认内置 SQLite；外置 MySQL/PG 时按 .env 修改 DB 段）
+      # DB_CONNECTION 是旧键名，留作兼容；DB_DRIVER 优先
+      - DB_DRIVER=${DB_DRIVER:-${DB_CONNECTION:-sqlite}}
+      - DB_DSN=${DB_DSN:-}
       - DB_HOST=${DB_HOST:-}
-      - DB_PORT=${DB_PORT:-3306}
+      - DB_PORT=${DB_PORT:-}
       - DB_DATABASE=${DB_DATABASE:-}
       - DB_USERNAME=${DB_USERNAME:-}
       - DB_PASSWORD=${DB_PASSWORD:-}
-      # SQLite 多 worker 并发写保护（毫秒）：写冲突时等待而非立即报错；仅 SQLite 生效
-      - DB_BUSY_TIMEOUT=${DB_BUSY_TIMEOUT:-5000}
 
-      # Octane 运行时（frankenphp=常驻高性能默认；serve=旧内置开发服务器，排障时临时切换）
-      - OCTANE_SERVER=${OCTANE_SERVER:-frankenphp}
-      - OCTANE_WORKERS=${OCTANE_WORKERS:-4}
-      - OCTANE_MAX_REQUESTS=${OCTANE_MAX_REQUESTS:-500}
+      # JWT 密钥：留空 = 启动时自动生成并持久化到数据卷（data/.jwt_secret）
+      - JWT_SECRET=${JWT_SECRET:-}
+      - JWT_EXP_HOURS=${JWT_EXP_HOURS:-72}
 
-      # Redis 配置（可选：默认无 Redis，排行榜降级 SQL；外置 Redis 填 REDIS_HOST）
-      - REDIS_HOST=${REDIS_HOST:-}
-      - REDIS_PORT=${REDIS_PORT:-6379}
-      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
-
-      # 缓存配置（默认 file/database，无需 Redis）
-      - CACHE_DRIVER=${CACHE_DRIVER:-file}
-      - SESSION_DRIVER=${SESSION_DRIVER:-file}
-      - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
-      - BROADCAST_CONNECTION=${BROADCAST_CONNECTION:-null}
-
-      # AI 功能配置（可选）
-      - AI_PROVIDER=${AI_PROVIDER:-}
-      - AI_API_KEY=${AI_API_KEY:-}
-      - AI_API_BASE=${AI_API_BASE:-}
-      - AI_MODEL=${AI_MODEL:-qwen-turbo}
-      - AI_MAX_TOKENS=${AI_MAX_TOKENS:-2000}
-      - AI_TEMPERATURE=${AI_TEMPERATURE:-0.7}
-
-      # 第三方登录配置（可选）
-      - WECHAT_OFFICIAL_APPID=${WECHAT_OFFICIAL_APPID:-}
-      - WECHAT_OFFICIAL_SECRET=${WECHAT_OFFICIAL_SECRET:-}
-      - WECHAT_WORK_CORPID=${WECHAT_WORK_CORPID:-}
-      - WECHAT_WORK_AGENTID=${WECHAT_WORK_AGENTID:-}
-      - WECHAT_WORK_SECRET=${WECHAT_WORK_SECRET:-}
-      - WECHAT_WORK_TOKEN=${WECHAT_WORK_TOKEN:-}
-      - WECHAT_WORK_ENCODING_AES_KEY=${WECHAT_WORK_ENCODING_AES_KEY:-}
-      - WECHAT_WORK_LEAVE_TEMPLATE_ID=${WECHAT_WORK_LEAVE_TEMPLATE_ID:-}
-      - DINGTALK_APP_KEY=${DINGTALK_APP_KEY:-}
-      - DINGTALK_APP_SECRET=${DINGTALK_APP_SECRET:-}
-      - FEISHU_APP_ID=${FEISHU_APP_ID:-}
-      - FEISHU_APP_SECRET=${FEISHU_APP_SECRET:-}
-      - QQ_APPID=${QQ_APPID:-}
-      - QQ_APPSECRET=${QQ_APPSECRET:-}
-      - RENREN_CLIENT_ID=${RENREN_CLIENT_ID:-}
-      - RENREN_CLIENT_SECRET=${RENREN_CLIENT_SECRET:-}
-
-      # 超级管理员配置（首次部署自动创建，生产环境请务必修改密码）
+      # 超级管理员配置（首次部署自动创建；密码以 .env 为唯一真相来源，每次启动同步）
+      - SCHOOL_NAME=${SCHOOL_NAME:-${ADMIN_SCHOOL_NAME:-学宠星球}}
+      - SCHOOL_CODE=${SCHOOL_CODE:-${ADMIN_SCHOOL_CODE:-learnstar}}
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123456}
-      - ADMIN_NAME=${ADMIN_NAME:-系统管理员}
-      - ADMIN_SCHOOL_NAME=${ADMIN_SCHOOL_NAME:-学宠星球默认学校}
-      - ADMIN_SCHOOL_CODE=${ADMIN_SCHOOL_CODE:-learnstar-default}
+      - ADMIN_NAME=${ADMIN_NAME:-学校管理员}
 
       # API 机器人账号（外部系统 REST API 对接，拥有全部班级权限）
       - BOT_ENABLED=${BOT_ENABLED:-true}
       - BOT_USERNAME=${BOT_USERNAME:-api-bot}
       - BOT_PASSWORD=${BOT_PASSWORD:-learnstar-bot-2026}
       - BOT_NAME=${BOT_NAME:-API 机器人}
+
+      # 系统运维「查看日志」读取的日志文件（可选；默认日志走 stdout）
+      - LOG_FILE=${LOG_FILE:-}
+
+      # 第三方登录配置（可选）
+      - WECHAT_WORK_CORPID=${WECHAT_WORK_CORPID:-}
+      - WECHAT_WORK_AGENTID=${WECHAT_WORK_AGENTID:-}
+      - WECHAT_WORK_SECRET=${WECHAT_WORK_SECRET:-}
+      - WECHAT_WORK_TOKEN=${WECHAT_WORK_TOKEN:-}
+      - WECHAT_WORK_ENCODING_AES_KEY=${WECHAT_WORK_ENCODING_AES_KEY:-}
+      - DINGTALK_APP_KEY=${DINGTALK_APP_KEY:-}
+      - DINGTALK_APP_SECRET=${DINGTALK_APP_SECRET:-}
+      - FEISHU_APP_ID=${FEISHU_APP_ID:-}
+      - FEISHU_APP_SECRET=${FEISHU_APP_SECRET:-}
     volumes:
-      # ⚠️ 生产镜像 WORKDIR=/app，应用与 SQLite 均在 /app（勿改成 /var/www/html，镜像内不存在该路径）
+      # ⚠️ 生产镜像 WORKDIR=/app（勿改成 /var/www/html，镜像内不存在该路径）
+      # data：SQLite 数据库 + 自动生成的 JWT 密钥
+      - app-db:/app/data
+      # 上传文件（学校 LOGO 等）
       - app-uploads:/app/storage/app/uploads
-      - app-logs:/app/storage/logs
-      - app-db:/app/storage/database.sqlite
+      # 日志目录（配置 LOG_FILE=/app/logs/app.log 并自行重定向时可查看）
+      - app-logs:/app/logs
     networks:
       - learnstar-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -124,6 +98,6 @@ networks:
     driver: bridge
 
 volumes:
+  app-db:
   app-uploads:
   app-logs:
-  app-db:

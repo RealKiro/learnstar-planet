@@ -108,7 +108,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-  // 基础模式（班级码进入）不需要 Sanctum 认证
+  // 基础模式（班级码进入）不需要登录
   if (to.meta.basic) return next()
 
   const authStore = useAuthStore()

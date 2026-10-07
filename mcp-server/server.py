@@ -47,7 +47,7 @@ QQ/微信 接入路径：
     → AstrBot（消息处理框架）
     → MCP Client Plugin（工具调用）
     → 本 MCP Server（学宠星球 API 封装）
-    → LearnStar Laravel Backend（数据库操作）
+    → LearnStar Backend（Go，数据库操作）
 """
 
 import os

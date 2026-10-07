@@ -16,17 +16,15 @@
 
 | 层面 | 技术 | 说明 |
 |------|------|------|
-| 框架 | Laravel 12 | PHP 8.5，RESTful API |
-| 认证 | Laravel Sanctum 4 | API Token 认证，按角色隔离 |
-| 权限 | 自定义 RoleMiddleware（users.role 列） | 按角色隔离（school_admin / teacher） |
-| 实时推送 | SSE（后端实现） | 教室大屏广播 / 积分变动，前端 EventSource 优先、轮询降级 |
-| 缓存 | Redis (Predis 2) | 排行榜用 ZSET，队列用 Horizon 5 |
-| 数据库 | MySQL 8.0+ / MariaDB 10.3+ / PostgreSQL 14+ / SQLite 3.8+ | 四种数据库均支持 |
-| Excel | maatwebsite/excel 3 | Excel 导入导出 |
-| PDF | barryvdh/laravel-dompdf ^3.1 | PDF 报表导出 |
-| 图片 | intervention/image 3 | 图片处理 |
-| 日志 | spatie/laravel-activitylog 4 | 活动日志审计 |
-| 队列 | Laravel Horizon 5 | Redis 队列监控。**仅外置 Redis 时可用**；默认部署无 Redis，走 `QUEUE_CONNECTION=database`，不经过 Horizon |
+| 框架 | Go 1.27 + Gin | RESTful API，单二进制常驻运行 |
+| 认证 | JWT（golang-jwt/jwt/v5）+ bcrypt | Bearer Token；`jti` 黑名单支持登出/刷新即时失效 |
+| 权限 | 自定义 middleware.RequireRole（users.role 列） | 按角色隔离（school_admin / teacher）；教室端独立的班级码 token |
+| 实时推送 | SSE + 轮询降级（DB 事件总线 `display_events`） | 教室大屏广播 / 积分变动，前端 EventSource 优先 |
+| ORM | GORM | AutoMigrate 建表 + 事务 + 作用域查询 |
+| 数据库 | SQLite（纯 Go 驱动，零 CGO）/ MySQL / PostgreSQL | `.env` 一行切换（兼容 Laravel 风格 DB_* 分项键） |
+| 静态托管 | 内置（PUBLIC_DIR + index.html 兜底） | SPA 与 API 同端口，无需 Nginx |
+| 上传 | 原始文件落盘 UPLOAD_DIR | 学校 LOGO（不做缩放裁剪，有意差异） |
+| 限流 | 进程内固定窗口（Throttle） | 登录 6,1 / 班级码 10,1；多副本需换共享存储 |
 
 ### 前端
 
@@ -36,34 +34,28 @@
 | 小程序 | 微信小程序原生 | `mini-program/` 目录，10 个页面，教师端 |
 | PWA | 原生 Service Worker | `pwa/` 目录，离线缓存、推送通知、后台同步 |
 
-> ⚠️ **Livewire 已退役（勿再新增）**：`backend/app/Livewire/`（2 个组件）与 `backend/resources/views/`
-> 是 Vue 3 重构前的遗留，当前**无任何路由可达**——`routes/web.php` 只提供 `/health`、`/up`、`/debug`
-> 与 SPA 兜底（返回 `public/index.html`），没有一条路由渲染 Blade 视图。二者已随 P0-1 于 2026-09-13 删除。
-> 其 `layouts/app.blade.php` 曾用 `@fluxStyles` 注入 FluxUI——`livewire/flux:^2.0` **确实**装在 `require-dev`
-> 并已安装（`backend/vendor/livewire/flux`）。⚠️ 早前文档写「从未安装的 FluxUI」有误，2026-09-13 已更正。新功能一律写 Vue。
+> **历史注记（Livewire 已退役）**：Vue 3 重构前的 Livewire + Blade 遗留已随 P0-1（2026-09-13）删除；2026-09-20 起 Laravel 后端整体移除（见决策 24）。新功能一律写 Vue。
 
 ### 基础设施
 
-- Docker 多阶段构建（Node 22 构建前端 + PHP 8.5 运行时，`php artisan serve` 直接服务，无 Nginx/FPM/Supervisor）
-- ~~backend/docker/nginx/、backend/docker/supervisor/~~ 已删除（P0，2026-09-13）；Docker 构建文件统一在 `docker/`（Dockerfile / Dockerfile.dev / entrypoint.sh）
-- Docker Compose 编排（默认仅 app 一个容器 + 内置 SQLite；MySQL/PostgreSQL/Redis 均为外置方案，刻意不内置数据库容器以减小体积）
-- GitHub Container Registry (GHCR) 镜像托管
-- CI/CD: GitHub Actions + Gitee Go
+* Docker 三阶段构建（Node 22 构建前端 → golang:1.27-alpine 交叉编译 CGO_ENABLED=0 → alpine 运行时单二进制）；构建文件统一在 `docker/`（Dockerfile / scripts/entrypoint.sh）
+* Docker Compose 编排（默认仅 app 一个容器 + 内置 SQLite；MySQL/PostgreSQL 均为外置方案，刻意不内置数据库容器以减小体积）
+* GitHub Container Registry (GHCR) 镜像托管
+* CI/CD: GitHub Actions（gofmt/vet/test + 前端构建）+ Gitee Go
 
 ### 后端规范（已实施）
 
-- **Form Requests**: 登录/批量创建/班级/导入验证逻辑已从控制器中抽离到独立请求类
-- **API Resources**: UserResource、ClassRoomResource、StudentResource、SchoolResource 提供一致的 JSON 输出
-- **异常处理**: 所有异常统一返回 JSON（ModelNotFound→404、ValidationException→422、Auth→401/403、Throwable→500）
-- **速率限制**: 登录端点限制 `throttle:6,1`，API 整体限制 `throttle:api`
-- **API 版本控制**: `/api/v1/*` 前缀 + 向后兼容旧路由
-- **Eloquent Scopes**: User/ClassRoom/Student 模型添加 `active()`、`byRole()`、`bySchool()`、`byClass()` 作用域
+* **统一响应信封**: 成功 `{"data": ..., "message": "ok"}`；错误 `{"message": "..."}` + 对应 HTTP 状态码（`services.DomainException` 可携带 HTTP 码与字段级 `errors`）
+* **鉴权**: JWT Bearer（`middleware.Auth` + `RequireRole`），登录/刷新撤销 `jti` 黑名单（`revoked_tokens` 表）；教室端独立的班级码 token（`disp_`/`class_` 前缀）
+* **可见性收口**: `services.Scope` 统一教师可见范围（本校 + `class_rooms.teacher_id = 本人`；API 机器人放行全校）
+* **速率限制**: 登录端点 `middleware.Throttle`（6,1 / 10,1），与 Laravel `throttle` 键位一致
+* **API 版本控制**: `/api/v1/*` 前缀（与旧 Laravel 路由逐条对齐，前端零改动切换）
+* **启动即就绪**: AutoMigrate 建表 + Seed 播种默认学校/管理员/机器人，无需手工迁移
 
 ---
 
 ## 项目结构
 
-\`\`\`
 learnstar-planet/
 ├── frontend-vue/                   # Vue 3 + Vite + TypeScript SPA
 │   ├── src/                        # 源代码（组件/路由/状态/类型）
@@ -72,32 +64,37 @@ learnstar-planet/
 ├── mcp-server/                     # MCP 服务器（AI 机器人集成）
 │   ├── server.py                   #   MCP 协议服务器
 │   └── README.md                   #   部署说明
-├── docker-compose.yml              # Docker Compose 编排（应用 + MySQL + Redis）
+├── docker-compose.yml              # Docker Compose 编排（默认仅 app 单容器）
 ├── .env.example                    # 环境变量模板
 ├── CLAUDE.md                       # 开发文档与规范
 ├── LICENSE                         # MIT 开源许可证
 ├── README.md                       # 项目说明
 │
-├── backend/                        # Laravel 12 API
-│   ├── Dockerfile                  # 生产环境多阶段构建（Node + PHP + Nginx）
-│   ├── Dockerfile.dev              # 开发环境构建
-│   ├── app/
-│   │   ├── Models/                 # 29 个 Eloquent 模型
-│   │   ├── Http/Controllers/Api/  # 6 个 API 控制器
-│   │   ├── Services/              # 28 个服务与辅助类（含 AiBilling / ThirdParty 子目录）
-│   │   ├── Http/Requests/         # Form Request 验证类
-│   │   ├── Http/Resources/        # JsonResource 响应类
-│   │   └── Livewire/              # ⚠️ 遗留死代码（无路由可达，待清理，见「前端」小节）
-│   ├── database/migrations/       # 36 个迁移（含 2026_08_05 计费/班级码/汇率）
-│   └── routes/api.php             # 约 206 条路由定义（get 89 / post 87 / put 22 / delete 11）
+├── backend-go/                     # Go 1.27 后端（Gin + GORM + JWT，唯一后端）
+│   ├── main.go                     # 入口（含企微请假同步 CLI、JWT 密钥持久化）
+│   ├── .env.example                # 裸跑环境变量模板
+│   └── internal/
+│       ├── auth/                   # JWT 生成/解析
+│       ├── config/                 # 环境变量加载（含 Laravel 风格 DB_* 组装）
+│       ├── database/              # 连接/AutoMigrate/种子数据
+│       ├── handlers/              # HTTP 处理器（27 个文件）
+│       ├── middleware/            # JWT 鉴权 + 角色隔离 + 登录限流
+│       ├── models/                # GORM 模型 + 宠物等级/阶段逻辑
+│       ├── router/                # 路由注册（211 条 + SPA 静态兜底）
+│       ├── services/              # 业务服务（88 个文件：积分/宠物/排行榜/规则/认证/管理…）
+│       └── util/                   # 业务时区工具
 │
 ├── mini-program/                   # 微信小程序
-│   └── pages/                     # 10 个页面
+│   └── pages/
 │
 ├── pwa/                            # PWA 配置
 │
+├── docker/                         # Docker 构建文件
+│   ├── Dockerfile                  # 三阶段：Node 前端 → Go 编译 → alpine 运行时
+│   └── scripts/entrypoint.sh       # 安全自检 + 启动
+│
 ├── .github/workflows/              # GitHub Actions CI/CD
-│   ├── ci.yml
+│   ├── ci.yml                      # gofmt/vet/test + 前端构建 + 小程序检查
 │   ├── docker.yml
 │   ├── deploy.yml
 │   └── security.yml
@@ -108,7 +105,7 @@ learnstar-planet/
 
 ---
 
-## 数据库架构（31 张表）
+## 数据库架构（31 张表 · 由 backend-go 启动时 GORM AutoMigrate 自动建表，无迁移文件）
 
 ### 基础表
 | 表名 | 说明 | 关键字段 |
@@ -159,7 +156,7 @@ learnstar-planet/
 
 ---
 
-## API 架构（约 187 条路由定义）
+## API 架构（211 条路由 · 注册见 backend-go/internal/router/router.go，导出清单 goroutes.json）
 
 ### `/api/v1/auth/*` — 认证
 - POST teacher/login, admin/login, teacher/login/{platform}
@@ -192,25 +189,23 @@ learnstar-planet/
 
 | 服务 | 职责 |
 |------|------|
-| `AuthService` | 教师账号创建（智能去重用户名/昵称）、管理员登录、密码管理 |
-| `ScoreService` | DB 事务内积分操作（创建积分记录 + 更新余额 + 审计日志 + 宠物经验）；批量操作 |
-| `LeaderboardService` | 基于 Redis ZSET 的排行榜（总分/本周/宠物等级）；MySQL 回退 |
-| `PinyinService` | 中文名称拼音转换（昵称默认用）|
-| `AiService` | AI 对话调用（30+ 供应商 OpenAI 兼容分发），返回 answer + token 拆分 |
-| `AiBilling\AiBillingService` | Token 计费：OpenAI/DeepSeek 官方账单查询 + 本地精确计价兜底 |
-| `CurrencyService` | 多币种体系（科学币/读书币/班级积分）：积分兑换、钱包互兑、消费 |
-| `DisplayEventService` | 教室大屏 SSE 实时广播（积分变动/横幅/通知），班级码缓存 |
-| `ThirdParty\ThirdPartyManager` + `WeChatWorkProvider`/`DingTalkProvider`/`LarkProvider` | 多平台第三方扫码（每校选一平台）：authUrl/getUserByCode/fetchContacts |
-| `WechatWorkService` / `WechatWorkAttendanceService` | 企业微信集成：免注册登录、请假同步 |
+| `services.ScoreService` | 事务内积分操作（创建积分记录 + 更新余额 + 审计日志 + 宠物经验）；批量操作 |
+| `services.Leaderboard` | 总分/本周/宠物等级排行榜（SQL 直查，无 Redis 依赖） |
+| `services.Rules` + `DefaultRules` | 43 条默认积分规则唯一真源 + 幂等播种（判据「是否播种过」而非集合为空） |
+| `services.AIService` / `AIBilling` | AI 对话 30+ 供应商分发（claude/google/qwen/mcp 专属 + OpenAI 兼容）；7 个官方账单驱动 + 本地精确计价兜底 |
+| `services.Currency` | 多币种体系（科学币/读书币/班级积分）：积分兑换、钱包互兑、消费 |
+| `services.DisplayEvents` | 教室大屏实时事件总线（DB 表 `display_events`，SSE 长连接 + poll 轮询降级） |
+| `services.ThirdPartyManager` + 企微/钉钉/飞书 provider | 多平台第三方扫码（每校选一平台）：authUrl/getUserByCode/fetchContacts |
+| `services.WechatWorkService` / `WechatWorkAttendanceService` | 企业微信集成：免注册登录、请假同步（CLI `-sync-wechat-work-leave`） |
+| `middleware.Throttle` | 登录端点限流（进程内固定窗口：教师/管理员 6/min、班级码 10/min；多副本需共享存储） |
 
 ---
 
 ## 开发规范
 
 ### 代码风格
-- **PHP**: PSR-12，使用 `.php-cs-fixer.php` 配置
-- **PHP 静态分析**: PHPStan Level 5
-- **测试**: PHPUnit 11
+- **Go**: gofmt 格式化（CI 强制 `gofmt -l` 零输出）+ `go vet` 静态检查
+- **测试**: `go test ./...`（内存 SQLite + httptest 假上游，不访问外网）
 - **Git 提交**: 约定式提交（Conventional Commits）
 - **JavaScript**: ESLint
 
@@ -241,26 +236,23 @@ cp .env.example .env
 docker-compose up -d
 \`\`\`
 
-### 后端开发
-\`\`\`bash
-cd backend
-composer install
-php artisan migrate
-php artisan db:seed --class=AdminUserSeeder
-php artisan serve
-php artisan test
-vendor/bin/php-cs-fixer fix
-vendor/bin/phpstan analyse
-\`\`\`
+### 后端开发（Go）
+```bash
+cd backend-go
+cp .env.example .env   # 可选，零配置也能启动（SQLite + 默认学校/管理员自动播种）
+go run .               # 启动，默认 http://localhost:8080
+go test ./... -count=1 # 全量测试（内存 SQLite，不访问外网）
+go vet ./...
+gofmt -l .             # 应无输出
+```
 
 ### Docker 常用操作
-\`\`\`bash
+```bash
 docker-compose logs -f app
-docker-compose exec app bash
 docker-compose restart app
 docker-compose pull && docker-compose up -d
-docker-compose exec mysql mysqldump -u root -p learnstar > backup.sql
-\`\`\`
+docker cp learnstar-app:/app/data/learnstar.db ./backup.db   # SQLite 备份
+```
 
 ### 前端开发
 \`\`\`bash
@@ -269,7 +261,7 @@ npm install
 npm run dev         # 开发服务器 http://localhost:5173
 npm run typecheck   # TypeScript 类型检查
 npm run build       # 生产构建
-npm run build:deploy # 输出到 ../backend/public/
+npm run build:deploy # 输出到 ../backend-go/public/（Go 端 PUBLIC_DIR 托管）
 
 # 宠物数据审计（改动 petData/petLifeStories/petTraits/stageEmoji 后必须跑）
 node scripts/analyze-pets.mjs   # 数据完整性审计 → ../docs/pet-audit-report.json
@@ -387,3 +379,10 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
     - **升级路径**：迁移 `2026_09_20_000001_ensure_default_score_rules` 清理历史 `category='discipline'` 的自动播种痕迹（该分类不在标签表内、且只有惩罚），并为每个学校补齐默认集；由 `entrypoint.sh` 的 `migrate --force` 自动执行。
     - ⚠️ **不要再新增第二份默认规则表或第三套分类词汇**：历史上并存过 4 套互相冲突的定义——`ScoreRule::defaultRules()` / `ScoreRule::categories()`（死代码，已删）、`ScoreRulesSeeder` 的 20 条中文分类清单（已改为同源）、`/common/score-categories` 自带的一套 id（已对齐真源）。
     - **守护测试**：`backend/tests/Unit/ScoreRuleServiceTest.php`（模板分类合法 / 奖励+惩罚数量不退化 / 新校补齐 / 只有惩罚的学校也补奖励 / 幂等 / 教师删除不复活 / 升级迁移清理 / 分类端点与真源一致）。
+
+24. **后端整体切换 Go（2026-09-20）**:
+    - `backend/`（Laravel 12）**已整体移除**，唯一后端为 `backend-go/`（Go 1.27 + Gin + GORM + JWT，211 条路由，测试全绿）。切换动机：单二进制部署、镜像体积、常驻性能。
+    - **为切换补齐的 Go 端能力**：SPA 静态托管（`PUBLIC_DIR`，NoRoute → 静态文件 + index.html 兜底，`/api/*` JSON 404）；`/storage/app/uploads/*` 映射 `UPLOAD_DIR`；JWT_SECRET 未配置时自动生成并持久化到 `<DB 目录>/.jwt_secret`（对齐 Laravel APP_KEY 数据卷体验）；`seedAdmin` 对齐 AdminUserSeeder「按 username 查找、已存在只同步密码」；DB 配置兼容 Laravel 分项键（DB_CONNECTION 别名 / DB_HOST 等组装 DSN，DB_DSN 优先）；`import _ "time/tzdata"` 保证最小镜像时区可用。
+    - **数据不迁移**：Go 数据模型重新设计，旧 Laravel 库不兼容；升级 = 全新空库（README 已大字说明）。
+    - **有意差异备忘**（详见 backend-go/README.md）：报表/课表导出 xlsx→CSV；排行榜 SQL 直查（无 Redis ZSET）；学生删除硬删除（无 SoftDeletes）；教师昵称无拼音库（用姓名本身）；明文密码不随 User JSON 输出；登录限流为进程内固定窗口（多副本需共享存储）。
+    - **部署**：Dockerfile 三阶段（Node 前端 → Go 交叉编译 CGO_ENABLED=0 → alpine 运行时）；entrypoint 只做安全自检 + exec；compose 数据卷 `app-db:/app/data`（SQLite + .jwt_secret）；镜像名保持 `backend:latest`（升级路径不断）。CI 全部改 gofmt/vet/test；deploy.yml 去掉 artisan 步骤（AutoMigrate 启动自完成）。

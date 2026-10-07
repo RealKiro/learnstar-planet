@@ -1,8 +1,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
   <img src="https://img.shields.io/github/stars/RealKiro/learnstar-planet?style=social" alt="GitHub stars">
-  <img src="https://img.shields.io/badge/PHP-8.5-777BB4?logo=php" alt="PHP 8.5">
-  <img src="https://img.shields.io/badge/Laravel-12-F9322C?logo=laravel" alt="Laravel 12">
+  <img src="https://img.shields.io/badge/Go-1.27-00ADD8?logo=go" alt="Go 1.27">
+  <img src="https://img.shields.io/badge/Gin-GORM-00ADD8" alt="Gin + GORM">
   <img src="https://img.shields.io/badge/Vue-3-4FC08D?logo=vue.js" alt="Vue 3">
   <img src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker" alt="Docker">
 </p>
@@ -58,7 +58,7 @@
 | **宠物进化系统** | 126 种宠物、10 大系列（山海经 / 宝可梦 / 国宝守护 / 数码宝贝 / 魔法奇幻 / 史前生物 / 星座守护 / 传统节日 / 虹猫蓝兔七侠传 / 东方神话）、12 级进化路线，积分即经验值；每只宠物以程序化 SVG 艺术呈现（可一键切换 emoji 展示），六阶段生灵档案（品性 / 互动剧情 / 诗词台词 / 视觉规格）支撑 AI 助教与未来 AI 生图 |
 | **跨班 PK 战场** | 同年级各班自动排行（总积分 / 平均等级 / 巅峰人数 / 周增长），支持发起班级挑战 |
 | **积分商城** | 教师自定义奖品，学生自助兑换，完整的审核/发货/拒绝流程，支持多币种 |
-| **排行榜单** | 总积分榜、周增长榜、宠物等级榜，Redis ZSET 毫秒级排序，无 Redis 自动降级 SQL |
+| **排行榜单** | 总积分榜、周增长榜、宠物等级榜，数据库直查排序，零外部依赖 |
 | **学年升级** | 预览升级明细 → 事务性执行，自动处理毕业与班级迭代 |
 
 ### 📊 数据与运营
@@ -67,7 +67,7 @@
 |------|------|
 | **数据报表** | 积分趋势（近 4 周）、宠物等级分布、学生进步追踪、分年级/班级统计 |
 | **学生 / 教师管理** | Excel 批量导入、批量转班/删除、智能去重账号创建 |
-| **Excel 导出** | 积分报表、宠物报表、考勤报表一键导出 .xlsx |
+| **报表导出** | 积分报表、宠物报表、考勤报表、课表一键导出 CSV（Excel 可直接打开） |
 | **系统诊断与修复** | 一键检查数据库结构缺失并自动修复 |
 | **多数据库支持** | SQLite / MySQL / PostgreSQL / MariaDB 任选，从小规模起步可无缝升级 |
 
@@ -181,7 +181,7 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 
 ### 🪶 SQLite（默认 · 零依赖 · 推荐起步）
 
-就是 [🚀 快速开始](#-快速开始) 的方式：不装数据库、不装 Redis，数据保存在 Docker 数据卷里的一个 SQLite 文件（容器内路径 `storage/database.sqlite`）。
+就是 [🚀 快速开始](#-快速开始) 的方式：不装数据库、不装 Redis，数据保存在 Docker 数据卷里的一个 SQLite 文件（容器内路径 `/app/data/learnstar.db`）。
 
 - 适合：单机、500 学生以内的学校
 - 备份/恢复方法见下文 [💾 数据备份与恢复](#-数据备份与恢复)
@@ -191,29 +191,27 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 学生多、并发高时，把数据库换成你学校已有的 MySQL/MariaDB/PostgreSQL 服务器（**Docker 刻意不内置数据库容器，以保持默认部署体积最小**）：
 
 1. 在你的数据库服务器上**手动创建**一个空库（如 `learnstar`）和账号
-2. 编辑 `.env`：**注释掉**「一、SQLite」段的 10 行配置，**取消注释**「二、外置 MySQL/MariaDB」段（`.env.example` 里有分段标注，两段只能有一段生效）
+2. 编辑 `.env`：把 `DB_DRIVER=sqlite` 一行注释掉，取消注释「方式二：外置 MySQL」段并填入你的服务器信息（`.env.example` 里有分段标注）
 
    ```env
-   # DB_CONNECTION=sqlite          ← 行首加 # 注释掉
-   # CACHE_DRIVER=file
-   # ...(SQLite 段全部注释)
+   # DB_DRIVER=sqlite          ← 行首加 # 注释掉
 
-   DB_CONNECTION=mysql             ← MySQL 段去掉行首 #
-   DB_HOST=192.168.1.50            ← 你的数据库服务器地址
+   DB_DRIVER=mysql             ← MySQL 段去掉行首 #
+   DB_HOST=192.168.1.50        ← 你的数据库服务器地址
+   DB_PORT=3306
    DB_DATABASE=learnstar
    DB_USERNAME=learnstar
    DB_PASSWORD=你的数据库密码
    ```
 
 3. 只启动应用容器（连接外部数据库）：
-
    ```bash
    docker-compose up -d app --no-deps
    ```
 
 4. 验证：`docker-compose ps` 中 app 为 `Up (healthy)`，首次启动会自动在空库里建表
 
-> 缓存可选外置 Redis（`.env` 填 `REDIS_HOST` 并把 `CACHE_DRIVER` 等改为 `redis`），排行榜走毫秒级排序；没有 Redis 就保持 `file`，功能完全可用。
+> 密码含空格、`=` 等特殊字符时，可改用一行 `DB_DSN` 直填完整连接串（示例见 `.env.example`）。PostgreSQL 把 `DB_DRIVER` 改为 `postgres`，端口默认 5432。
 
 ### 🔁 数据库切换与数据迁移（重要，先看再切）
 
@@ -225,8 +223,8 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 |---|---|---|
 | 额外容器 | 无 | 无（连你自己的数据库服务器） |
 | 推荐规模 | < 500 学生 | 无限制 |
-| 排行榜性能 | SQL 查询 | 可外接 Redis，毫秒级 |
-| 实时广播 | 轮询 | SSE 实时推送 |
+| 排行榜性能 | SQL 查询 | SQL 查询（并发更高） |
+| 实时广播 | SSE 实时推送 / 轮询降级 | SSE 实时推送 / 轮询降级 |
 
 ## ⚙️ 配置说明
 
@@ -248,22 +246,24 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 | `ADMIN_PASSWORD` | `admin123456` | ⚠️ **务必修改**（见 [🔐 上线前安全检查](#-上线前安全检查强烈建议两分钟)）。且每次重启容器都会以此值为准同步密码（忘了密码 = 改这里重启） |
 | `ADMIN_NAME` / `ADMIN_SCHOOL_NAME` | 见 .env | 显示用的姓名 / 校名 |
 
-### 🗄️ 数据库与缓存（二选一，详见「📦 部署指南」）
+### 🗄️ 数据库（二选一，详见「📦 部署指南」）
 
 | 变量 | SQLite 模式 | 外置 MySQL 模式 | 白话说明 |
 |------|------------|---------------|---------|
-| `DB_CONNECTION` | `sqlite` | `mysql` / `pgsql` | 数据库类型 |
-| `DB_HOST` | 留空 | 你的数据库服务器地址 | 数据库在哪 |
-| `DB_DATABASE` 等 | 留空 | 见 .env.example | 库名 / 账号 / 密码 |
-| `CACHE_DRIVER` / `SESSION_DRIVER` | `file` | `file`（有外置 Redis 则 `redis`） | 缓存与会话存哪 |
-| `QUEUE_CONNECTION` | `database` | `database`（有外置 Redis 则 `redis`） | 后台任务队列 |
-| `REDIS_HOST` | 留空 | 外部 Redis 地址（可选） | 有 Redis 排行榜才走毫秒级 |
+| `DB_DRIVER` | `sqlite` | `mysql` / `postgres` | 数据库类型（旧键名 `DB_CONNECTION` 也识别） |
+| `DB_HOST` / `DB_PORT` | 留空 | 你的数据库服务器地址 / 端口 | 数据库在哪 |
+| `DB_DATABASE` / `DB_USERNAME` / `DB_PASSWORD` | 留空 | 见 .env.example | 库名 / 账号 / 密码 |
+| `DB_DSN` | 留空（用默认路径） | 可选：一行直填完整连接串 | 密码含空格/特殊字符时最省心 |
 
-### 🤖 AI 助教（可选，不配不影响任何核心功能）
+### 🔑 登录密钥（✅ 可不动）
 
 | 变量 | 白话说明 |
 |------|---------|
-| `AI_PROVIDER` / `AI_API_KEY` / `AI_MODEL` | 供应商（deepseek/openai/qwen/moonshot 等）+ 密钥 + 模型，在管理后台「AI 中心」也可视化配置（推荐） |
+| `JWT_SECRET` | **留空即可**：启动时自动生成随机密钥并保存到数据卷，容器重建不掉登录态。想自己管理时才需要填 |
+
+### 🤖 AI 助教（可选，不配不影响任何核心功能）
+
+AI 不在 `.env` 配置——登录管理后台「AI 中心」可视化配置：30+ 供应商（DeepSeek / OpenAI / 通义千问 / Moonshot 等）、API Key、模型、用量与官方余额直查。
 
 ### 🔗 第三方平台对接（可选）
 
@@ -280,9 +280,9 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 
 | 数据 | 位置（容器内） | Docker 数据卷 |
 |------|--------------|--------------|
-| SQLite 数据库（积分/学生/教师/商城全部业务数据） | `/app/storage/database.sqlite` | `app-db` |
+| SQLite 数据库（积分/学生/教师/商城全部业务数据）+ 自动生成的登录密钥 | `/app/data`（`learnstar.db`） | `app-db` |
 | 上传的附件（Logo 等） | `/app/storage/app/uploads` | `app-uploads` |
-| 运行日志 | `/app/storage/logs` | `app-logs` |
+| 日志目录（默认日志走 stdout，用 `docker-compose logs app` 查看） | `/app/logs` | `app-logs` |
 
 > 外置 MySQL/PostgreSQL 模式下，业务数据在你自己的数据库服务器上，随你的数据库备份策略走。
 
@@ -294,18 +294,18 @@ docker-compose pull && docker-compose up -d   # 升级到最新版
 
 ```bash
 docker-compose stop app
-docker cp learnstar-app:/app/storage/database.sqlite ./backup.sqlite
+docker cp learnstar-app:/app/data/learnstar.db ./backup.db
 docker-compose start app
 ```
 
-> Windows PowerShell 把 `./backup.sqlite` 换成 `.\backup.sqlite` 即可。
+> Windows PowerShell 把 `./backup.db` 换成 `.\backup.db` 即可。
 > 建议每周备份一次，重大操作（升班、批量导入）前手动备份一次。
 
 ### 📥 恢复（SQLite 模式）
 
 ```bash
 docker-compose stop app
-docker cp ./backup.sqlite learnstar-app:/app/storage/database.sqlite
+docker cp ./backup.db learnstar-app:/app/data/learnstar.db
 docker-compose start app
 ```
 
@@ -325,10 +325,20 @@ mysql -h <数据库地址> -u learnstar -p learnstar < backup.sql
 
 `backup.sql` 是纯文本 SQL，请妥善保管（含学生与积分数据）。
 
-### ⚠️ 旧版本升级注意（仅 2026-09 之前部署的需要看一次）
+### ⚠️ 旧版本升级注意
 
 <details>
-<summary>展开：如何把旧版本容器里的数据抢救出来</summary>
+<summary>展开一：从 Laravel 版（2026-09 之前）升级到 Go 版 —— 必读</summary>
+
+后端已从 Laravel 整体切换为 **Go 单二进制**（`backend-go/`），新版数据库结构与之配套：
+
+- **旧数据不会自动迁移**：升级后是全新的空库，需要重新导入教师与学生名单（Excel / 通讯录导入均可）；积分历史、宠物等级等运行数据无法带过来。介意的话请继续使用旧版镜像。
+- 其余使用方式完全一致：同样的端口（8080）、同样的默认账号（admin）、同样的 `.env` 大部分键名（`DB_HOST`/`DB_PASSWORD` 等分项键仍被识别）、同样的 REST API 与小程序。
+
+</details>
+
+<details>
+<summary>展开二：如何把更早版本容器里的数据抢救出来</summary>
 
 早期版本的 docker-compose 把数据卷挂错了路径，**数据库实际存在容器内部，`down` 或升级镜像会丢数据**。升级到本版本前，先从旧容器把数据库抢救出来：
 
@@ -336,7 +346,7 @@ mysql -h <数据库地址> -u learnstar -p learnstar < backup.sql
 docker cp learnstar-app:/app/storage/database.sqlite ./backup-before-upgrade.sqlite
 ```
 
-然后正常 `git pull && docker-compose pull && docker-compose up -d`（会重建容器），最后用上面的「恢复」命令把数据灌回去。**只需做这一次**，之后的升级都安全了。
+然后正常 `git pull && docker-compose pull && docker-compose up -d`（会重建容器）。**只需做这一次**，之后的升级都安全了。
 
 </details>
 
@@ -483,7 +493,7 @@ curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
 
 <details>
 <summary>AI 助教怎么用？</summary>
-在管理后台「AI 中心」可视化配置，或 `.env` 配置 `AI_PROVIDER` 和 `AI_API_KEY`，支持 DeepSeek / OpenAI / 通义千问 / Moonshot 等 30+ 供应商。不配置不影响其他功能。
+在管理后台「AI 中心」可视化配置（支持 DeepSeek / OpenAI / 通义千问 / Moonshot 等 30+ 供应商，含用量与官方余额直查）。不配置不影响其他功能。
 </details>
 
 <details>
@@ -520,14 +530,13 @@ curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
 
 | 层级 | 技术 |
 |------|------|
-| 后端 | Laravel 12（PHP 8.5），生产环境以 **Laravel Octane + FrankenPHP** 常驻运行 |
-| 数据库 | SQLite（默认）/ MySQL / MariaDB / PostgreSQL，`.env` 一行切换 |
-| 缓存与队列 | Redis 8（可选外置；无 Redis 自动降级 file / database） |
-| 前端 | Vue 3 + TypeScript + Vite（单页应用，管理员端 / 教师端 / 教室端三端合一） |
-| 实时推送 | SSE 协议（后端实现，前端 EventSource 优先 / 轮询降级） |
+| 后端 | Go 1.27（Gin HTTP 路由 + GORM ORM + JWT 认证 + bcrypt），单二进制常驻运行 |
+| 数据库 | SQLite（默认，纯 Go 驱动零 CGO）/ MySQL / PostgreSQL，`.env` 一行切换 |
+| 前端 | Vue 3 + TypeScript + Vite（单页应用，管理员端 / 教师端 / 教室端三端合一，由 Go 静态托管） |
+| 实时推送 | SSE 协议（DB 事件总线，前端 EventSource 优先 / 轮询降级） |
 | 小程序 | 微信原生（教师端 / 教室端） |
 | 机器人 | MCP 协议 Python 服务器 |
-| 部署 | Docker（FrankenPHP Alpine 基镜像 + opcache）+ Compose 编排 / 裸 PHP 环境 |
+| 部署 | Docker（多阶段构建：Node 构建前端 → Go 交叉编译 → alpine 运行时，最终镜像只含一个 ~20MB 级二进制 + 静态资源） |
 
 ### 🏛️ 架构总览
 
@@ -536,11 +545,12 @@ curl -X POST http://<服务器>:8080/api/v1/teacher/scores/give \
         │  HTTP
         ▼
 Docker 容器 learnstar-app
-  ├─ Laravel Octane (FrankenPHP) ──── 常驻 worker 处理 API 请求
-  │    ├─ REST API（29 模型 / 204 条路由 / 25 个 Service）
-  │    ├─ SSE 广播服务 ──── 积分变动实时推送教室大屏
+  ├─ learnstar-go（单二进制，常驻运行）
+  │    ├─ SPA 静态托管（public/ + 前端路由 index.html 兜底）
+  │    ├─ REST API（211 条路由 / GORM AutoMigrate / 43 条默认积分规则播种）
+  │    ├─ SSE 广播服务 ──── 积分变动实时推送教室大屏（DB 事件总线 + 轮询降级）
   │    └─ AI 网关 ──── 30+ 供应商统一驱动（用量/余额直查）
-  ├─ SQLite 数据卷 app-db（或外置 MySQL / PostgreSQL）
+  ├─ SQLite 数据卷 app-db（/app/data/learnstar.db，或外置 MySQL / PostgreSQL）
   └─ 上传附件 / 日志数据卷
         ▲
         │ 班级码免登录（教室端）
@@ -549,9 +559,9 @@ Docker 容器 learnstar-app
 
 几个关键设计：
 
+- **单二进制后端**：Go 编译产物自带 HTTP 服务、ORM、静态托管，无 PHP/Nginx/FPM/Composer 依赖，启动即自动建表与播种
 - **三端合一 SPA**：管理员端、教师端、教室端共用同一个 Vue 3 单页应用；教室端以班级码进入，学生无需账号
-- **常驻运行时**：生产镜像以 Octane + FrankenPHP 常驻内存处理请求（框架不再每请求重建），启动失败自动回退 `artisan serve`，普通机器也能跑
-- **渐进式数据层**：单机起步用 SQLite 零依赖，全校规模改 `.env` 切外置数据库，无锁死；Redis 可选，用于排行榜毫秒级排序与缓存
+- **渐进式数据层**：单机起步用 SQLite 零依赖，全校规模改 `.env` 切外置数据库，无锁死
 - **开放接口**：REST API 机器人账号 + 标准 MCP 服务器 + 第三方平台登录，全部能力见 [🔌 集成与对接](#-集成与对接)
 
 ### 📂 目录结构
@@ -559,11 +569,11 @@ Docker 容器 learnstar-app
 ```
 learnstar-planet/
 ├── frontend-vue/          # Vue 3 SPA（管理员端 / 教师端 / 教室端）
-├── backend/               # Laravel 12 API（29 模型，约 204 条路由）
-├── mini-program/          # 微信小程序（10 页面，教师端）
+├── backend-go/            # Go 1.27 后端（Gin + GORM + JWT，211 条路由）
+├── mini-program/          # 微信小程序（教师端）
 ├── pwa/                   # PWA 离线配置
 ├── mcp-server/            # MCP 机器人服务
-├── docker/                # Docker 构建文件（Dockerfile / Dockerfile.dev / scripts/entrypoint.sh）
+├── docker/                # Docker 构建文件（Dockerfile / scripts/entrypoint.sh）
 └── docker-compose.yml     # Docker 编排（默认仅 app 单容器，留在根目录：.env 按约定与 compose 同目录解析）
 ```
 
@@ -575,7 +585,7 @@ learnstar-planet/
 4. 推送：`git push origin feature/my-feature`
 5. 提交 Pull Request
 
-代码规范：PHP PSR-12（PHP CS Fixer）· TypeScript ESLint · Conventional Commits
+代码规范：Go gofmt / go vet · TypeScript ESLint · Conventional Commits
 
 ## 📄 许可证（License）
 

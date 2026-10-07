@@ -140,7 +140,7 @@ onMounted(() => {
   // 检查 AI 功能状态
   checkAiStatus()
 
-  // 使用轮询接收广播和通知（php artisan serve 不支持 SSE 长连接）
+  // 使用轮询接收广播和通知（前端课堂页按既有口径走 poll，未接 SSE 长连接）
   lastEventId.value = parseInt(sessionStorage.getItem('last_event_id') || '0', 10)
   startPolling()
 })

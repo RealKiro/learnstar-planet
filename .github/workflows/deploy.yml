@@ -24,9 +24,6 @@ jobs:
     environment: staging
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Check deployment secrets
         id: check-secrets
         env:
@@ -45,6 +42,7 @@ jobs:
             echo "notify=false" >> $GITHUB_OUTPUT
           fi
 
+      # Go 后端启动时自动建表与播种（AutoMigrate + Seed），无需手工迁移命令
       - name: Deploy to Staging Server
         if: steps.check-secrets.outputs.skip != 'true'
         uses: appleboy/ssh-action@v1.0.0
@@ -57,15 +55,12 @@ jobs:
             git pull origin develop
             docker-compose pull
             docker-compose up -d --remove-orphans
-            docker-compose exec -T app php artisan migrate --force
-            docker-compose exec -T app php artisan config:clear
-            docker-compose exec -T app php artisan cache:clear
 
       - name: Health check
         if: steps.check-secrets.outputs.skip != 'true'
         run: |
           sleep 10
-          curl -f https://staging.learnstar.com/api/health || exit 1
+          curl -f https://staging.learnstar.com/health || exit 1
 
       - name: Notify deployment status
         if: always() && steps.check-secrets.outputs.skip != 'true' && steps.check-secrets.outputs.notify == 'true'
@@ -78,7 +73,7 @@ jobs:
 
       - name: Skip notice
         if: steps.check-secrets.outputs.skip == 'true'
-        run: echo "ℹ️ Staging deployment skipped — configure STAGING_HOST/STAGING_USER/STAGING_SSH_KEY secrets to enable."
+        run: echo "⏭️ Staging deployment skipped — configure STAGING_HOST/STAGING_USER/STAGING_SSH_KEY secrets to enable."
 
   # ========== 部署到生产环境 ==========
   deploy-production:
@@ -121,6 +116,7 @@ jobs:
           draft: false
           prerelease: false
 
+      # Go 后端启动时自动建表与播种（AutoMigrate + Seed），无需手工迁移命令
       - name: Deploy to Production Server
         if: steps.check-secrets.outputs.skip != 'true'
         uses: appleboy/ssh-action@v1.0.0
@@ -133,16 +129,12 @@ jobs:
             git pull origin main
             docker-compose pull
             docker-compose up -d --remove-orphans
-            docker-compose exec -T app php artisan migrate --force
-            docker-compose exec -T app php artisan config:cache
-            docker-compose exec -T app php artisan route:cache
-            docker-compose exec -T app php artisan view:cache
 
       - name: Health check
         if: steps.check-secrets.outputs.skip != 'true'
         run: |
           sleep 15
-          curl -f https://learnstar.com/api/health || exit 1
+          curl -f https://learnstar.com/health || exit 1
 
       - name: Verify deployment
         if: steps.check-secrets.outputs.skip != 'true'
@@ -153,7 +145,7 @@ jobs:
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
             docker-compose ps
-            docker-compose exec -T app php artisan health:check
+            curl -fs http://localhost:8080/health || exit 1
 
       - name: Notify deployment status
         if: always() && steps.check-secrets.outputs.skip != 'true' && steps.check-secrets.outputs.notify == 'true'
@@ -166,7 +158,7 @@ jobs:
 
       - name: Skip notice
         if: steps.check-secrets.outputs.skip == 'true'
-        run: echo "ℹ️ Production deployment skipped — configure PROD_HOST/PROD_USER/PROD_SSH_KEY secrets to enable."
+        run: echo "⏭️ Production deployment skipped — configure PROD_HOST/PROD_USER/PROD_SSH_KEY secrets to enable."
 
   # ========== 回滚机制 ==========
   rollback:
@@ -184,7 +176,7 @@ jobs:
         run: |
           if [ -z "$PROD_HOST" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
-            echo "ℹ️ PROD_HOST not configured, skipping rollback"
+            echo "⏭️ PROD_HOST not configured, skipping rollback"
           else
             echo "skip=false" >> $GITHUB_OUTPUT
           fi
@@ -205,7 +197,6 @@ jobs:
             cd /opt/learnstar/production
             git revert --no-edit HEAD
             docker-compose up -d --remove-orphans
-            docker-compose exec -T app php artisan migrate --force
 
       - name: Notify rollback
         if: always() && steps.check-prod.outputs.skip != 'true' && steps.check-prod.outputs.notify == 'true'
@@ -218,4 +209,4 @@ jobs:
 
       - name: Skip notice
         if: steps.check-prod.outputs.skip == 'true'
-        run: echo "ℹ️ Rollback skipped — PROD_HOST not configured."
+        run: echo "⏭️ Rollback skipped — PROD_HOST not configured."
