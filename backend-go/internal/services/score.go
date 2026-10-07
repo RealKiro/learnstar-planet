@@ -50,8 +50,6 @@ func (s *ScoreService) GiveScore(student *models.Student, amount int, reason str
 
 // giveScoreTx 在指定事务内完成一次加减分。
 func giveScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string, givenBy uint, scoreRuleID *uint) (models.Score, error) {
-	balanceBefore := student.TotalScore
-
 	score := models.Score{
 		StudentID:   student.ID,
 		ClassID:     student.ClassID,
@@ -64,10 +62,10 @@ func giveScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string
 		return score, err
 	}
 
-	// 余额不为负（与教室端一致）。
-	newBalance := maxInt(balanceBefore+amount, 0)
-	if err := tx.Model(&models.Student{}).Where("id = ?", student.ID).
-		Update("total_score", newBalance).Error; err != nil {
+	// ⚠️ 余额一律走 SQL 侧原子读-改-写（addScoreAtomic），不再「从内存快照算好新值再整值写回」：
+	// 后者在并发下会丢更新（两条请求各自从同一份旧余额算出同一个新余额，后写覆盖先写）。
+	balanceBefore, newBalance, err := addScoreAtomic(tx, student.ID, amount)
+	if err != nil {
 		return score, err
 	}
 
@@ -88,6 +86,62 @@ func giveScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string
 
 	student.TotalScore = newBalance
 	return score, nil
+}
+
+// currentScore 读取学生当前积分（事务内的权威值）。
+func currentScore(tx *gorm.DB, studentID uint) (int, error) {
+	var s models.Student
+	if err := tx.Select("total_score").Where("id = ?", studentID).First(&s).Error; err != nil {
+		return 0, err
+	}
+	return s.TotalScore, nil
+}
+
+// addScoreAtomic 原子地把学生积分加上 delta（可为负），负余额钳制为 0，返回（变更前, 变更后）。
+//
+// 为什么必须交给 SQL：并发下「读出来算好再整值写回」会丢更新——两条请求各自基于同一份
+// 旧余额算出同一个新值，后写的覆盖先写的；「扣到负数就钳 0」这条不变式同理会被绕过。
+// 这里用 `total_score = total_score + ?` 让数据库做主，再单独把负数钳成 0。
+// 钳制不写 MAX()/GREATEST()：SQLite 是标量 MAX(a,b)、MySQL/Postgres 是 GREATEST(a,b)，
+// 拆成「先加减、再把负数置 0」两步即可跨三库可移植（同事务内执行，语义等价）。
+func addScoreAtomic(tx *gorm.DB, studentID uint, delta int) (before, after int, err error) {
+	if before, err = currentScore(tx, studentID); err != nil {
+		return 0, 0, err
+	}
+	if err = tx.Model(&models.Student{}).Where("id = ?", studentID).
+		Update("total_score", gorm.Expr("total_score + ?", delta)).Error; err != nil {
+		return 0, 0, err
+	}
+	if err = tx.Model(&models.Student{}).Where("id = ? AND total_score < 0", studentID).
+		Update("total_score", 0).Error; err != nil {
+		return 0, 0, err
+	}
+	if after, err = currentScore(tx, studentID); err != nil {
+		return 0, 0, err
+	}
+	return before, after, nil
+}
+
+// deductScoreAtomic 原子「校验 + 扣减」：条件更新一次完成，余额不足则一个字节都不写。
+// ok=false 表示余额不足（before = 不足时的权威余额，供报错文案使用）。
+// 这是消除「先查后扣」竞态的关键：把余额判定放进 UPDATE 的 WHERE 里，并发下不会穿仓。
+func deductScoreAtomic(tx *gorm.DB, studentID uint, amount int) (before, after int, ok bool, err error) {
+	if before, err = currentScore(tx, studentID); err != nil {
+		return 0, 0, false, err
+	}
+	res := tx.Model(&models.Student{}).
+		Where("id = ? AND total_score >= ?", studentID, amount).
+		Update("total_score", gorm.Expr("total_score - ?", amount))
+	if res.Error != nil {
+		return 0, 0, false, res.Error
+	}
+	if res.RowsAffected == 0 {
+		return before, before, false, nil
+	}
+	if after, err = currentScore(tx, studentID); err != nil {
+		return 0, 0, false, err
+	}
+	return before, after, true, nil
 }
 
 // syncPetForDelta 依据积分变动同步宠物经验并校正等级。
@@ -112,48 +166,11 @@ func syncPetForDelta(tx *gorm.DB, studentID uint, newBalance, amount int) error 
 
 // SpendScore 消耗积分（兑换奖励时调用），金额为正表示扣减。
 func (s *ScoreService) SpendScore(student *models.Student, amount int, reason string, spentBy uint) (*models.Score, error) {
-	if student.TotalScore < amount {
-		return nil, ErrBadRequest(fmt.Sprintf("积分不足，当前余额：%d", student.TotalScore))
-	}
-
 	var score models.Score
 	err := s.db.Transaction(func(tx *gorm.DB) error {
-		balanceBefore := student.TotalScore
-
-		score = models.Score{
-			StudentID: student.ID,
-			ClassID:   student.ClassID,
-			Amount:    -amount,
-			Reason:    "兑换消耗：" + reason,
-			GivenBy:   spentBy,
-		}
-		if err := tx.Create(&score).Error; err != nil {
-			return err
-		}
-
-		newBalance := balanceBefore - amount
-		if err := tx.Model(&models.Student{}).Where("id = ?", student.ID).
-			Update("total_score", newBalance).Error; err != nil {
-			return err
-		}
-
-		log := models.ScoreLog{
-			StudentID:     student.ID,
-			ScoreID:       score.ID,
-			BalanceBefore: balanceBefore,
-			BalanceAfter:  newBalance,
-			Description:   score.Reason,
-		}
-		if err := tx.Create(&log).Error; err != nil {
-			return err
-		}
-
-		if err := syncPetForDelta(tx, student.ID, newBalance, -amount); err != nil {
-			return err
-		}
-
-		student.TotalScore = newBalance
-		return nil
+		var err error
+		score, err = spendScoreTx(tx, student, amount, reason, spentBy)
+		return err
 	})
 	if err != nil {
 		return nil, err
@@ -163,6 +180,50 @@ func (s *ScoreService) SpendScore(student *models.Student, amount int, reason st
 	s.publishScoreUpdate(student, -amount, score.Reason, true)
 
 	return &score, nil
+}
+
+// spendScoreTx 在指定事务内完成一次积分消费（金额为正表示扣减）。
+func spendScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string, spentBy uint) (models.Score, error) {
+	var score models.Score
+
+	// ⚠️ 「校验余额」与「扣减」合并为一次条件更新（deductScoreAtomic）：并发下既不会穿仓，
+	// 也不会把人家的消费覆盖掉。余额不足则一个字节都不写、直接报错。
+	balanceBefore, newBalance, ok, err := deductScoreAtomic(tx, student.ID, amount)
+	if err != nil {
+		return score, err
+	}
+	if !ok {
+		return score, ErrBadRequest(fmt.Sprintf("积分不足，当前余额：%d", balanceBefore))
+	}
+
+	score = models.Score{
+		StudentID: student.ID,
+		ClassID:   student.ClassID,
+		Amount:    -amount,
+		Reason:    "兑换消耗：" + reason,
+		GivenBy:   spentBy,
+	}
+	if err := tx.Create(&score).Error; err != nil {
+		return score, err
+	}
+
+	log := models.ScoreLog{
+		StudentID:     student.ID,
+		ScoreID:       score.ID,
+		BalanceBefore: balanceBefore,
+		BalanceAfter:  newBalance,
+		Description:   score.Reason,
+	}
+	if err := tx.Create(&log).Error; err != nil {
+		return score, err
+	}
+
+	if err := syncPetForDelta(tx, student.ID, newBalance, -amount); err != nil {
+		return score, err
+	}
+
+	student.TotalScore = newBalance
+	return score, nil
 }
 
 // BatchGive 批量加分，单事务原子提交，返回成功人数。
@@ -190,29 +251,45 @@ func (s *ScoreService) BatchGive(students []*models.Student, amount int, reason 
 }
 
 // Undo 撤回一条积分记录（创建等额反向记录，与 Laravel undoScore 一致）。
+//
+// ⚠️ 幂等守卫：撤回是**加回**积分，所以同一条记录必须只能被撤回一次——原先没有任何守卫，
+// 反复点「撤回」就能把积分刷上去（Laravel undoScore 亦如此）。这里两层防护：
+//  1. 事务内先查 `undo_of_score_id = 本记录` 是否已存在，存在即 400；
+//  2. Score.UndoOfScoreID 带 uniqueIndex，库层兜住并发双击（第二个插入失败并整体回滚）。
 func (s *ScoreService) Undo(original *models.Score, operatedBy uint) (*models.Score, error) {
 	var undo models.Score
 	err := s.db.Transaction(func(tx *gorm.DB) error {
+		var alreadyUndone int64
+		if err := tx.Model(&models.Score{}).
+			Where("undo_of_score_id = ?", original.ID).Count(&alreadyUndone).Error; err != nil {
+			return err
+		}
+		if alreadyUndone > 0 {
+			return ErrBadRequest("该积分记录已撤回")
+		}
+
 		var student models.Student
 		if err := tx.First(&student, original.StudentID).Error; err != nil {
 			return err
 		}
 
 		undoAmount := -original.Amount
+		originalID := original.ID
 		undo = models.Score{
-			StudentID: student.ID,
-			ClassID:   original.ClassID,
-			Amount:    undoAmount,
-			Reason:    "撤回操作（原：" + original.Reason + "）",
-			GivenBy:   operatedBy,
+			StudentID:     student.ID,
+			ClassID:       original.ClassID,
+			Amount:        undoAmount,
+			Reason:        "撤回操作（原：" + original.Reason + "）",
+			GivenBy:       operatedBy,
+			UndoOfScoreID: &originalID,
 		}
 		if err := tx.Create(&undo).Error; err != nil {
 			return err
 		}
 
-		newBalance := maxInt(student.TotalScore+undoAmount, 0)
-		if err := tx.Model(&models.Student{}).Where("id = ?", student.ID).
-			Update("total_score", newBalance).Error; err != nil {
+		// 余额同样走 SQL 侧原子读-改-写（见 addScoreAtomic）。
+		_, newBalance, err := addScoreAtomic(tx, student.ID, undoAmount)
+		if err != nil {
 			return err
 		}
 

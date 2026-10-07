@@ -244,7 +244,14 @@ type ApproveResult struct {
 	PetLevel       *int   `json:"pet_level"`
 }
 
-// ApproveRedemption 审批通过并结算（忠实移植 Laravel approveRedemption 的状态机）。
+// ApproveRedemption 审批通过并结算（状态机同 Laravel approveRedemption，但**并发与原子性**更强）。
+//
+// ⚠️ 与 Laravel 的有意差异（安全性修复）：
+//  1. 「认领状态」用条件更新（WHERE status='pending'）并与结算放进**同一个事务**。
+//     原实现（Laravel 同款）是「事务外读 status → 各自结算 → 再更新 status」，两处都会出事：
+//     并发双击审批会各扣一次款；结算成功但状态更新失败则记录仍是 pending，重试再扣一次。
+//  2. 结算改用事务内版本（spendScoreTx / exchangeTx / spendTx），因此失败会整体回滚，
+//     状态退回 pending，不会留下「扣了款但记录未落地」。
 func (s *ShopService) ApproveRedemption(u *models.User, id uint) (*ApproveResult, error) {
 	classIDs, err := s.scope.ClassIDs(u)
 	if err != nil {
@@ -282,86 +289,149 @@ func (s *ShopService) ApproveRedemption(u *models.User, id uint) (*ApproveResult
 		currency = "score"
 	}
 
-	// 根据商品类型选择结算方式。
-	switch {
-	case item.Category == "points" && isWalletCurrency(currency):
-		// 积分充值类：扣积分 + 扣宠物经验 → 按汇率发放钱包币。
-		if _, err := s.currency.Exchange(&student, currency, cost, u.ID); err != nil {
+	// 积分充值类要走汇率：默认汇率播种必须在事务外（它自己写 exchange_rates，事务内用另一条
+	// 连接写会与写锁互等）。
+	var schoolID uint
+	useExchange := item.Category == "points" && isWalletCurrency(currency)
+	if useExchange {
+		var class models.ClassRoom
+		if err := s.db.First(&class, student.ClassID).Error; err != nil {
 			return nil, err
 		}
-	case currency == "score":
-		// 积分兑换：扣积分 + 扣宠物经验。
-		if _, err := s.scores.SpendScore(&student, cost, itemName, u.ID); err != nil {
+		if err := s.currency.ensureDefaultRates(class.SchoolID); err != nil {
 			return nil, err
 		}
-	default:
-		// 钱包币兑换：只扣钱包余额。
-		if err := s.currency.Spend(student.ID, currency, cost, "兑换："+itemName); err != nil {
-			return nil, err
-		}
+		schoolID = class.SchoolID
 	}
 
-	now := util.Now()
-	approvedBy := u.ID
-	if err := s.db.Model(&redemption).Updates(map[string]any{
-		"status":      "approved",
-		"approved_by": approvedBy,
-		"approved_at": now,
-	}).Error; err != nil {
+	var result *ApproveResult
+	var spent *models.Score
+	err = s.db.Transaction(func(tx *gorm.DB) error {
+		// 1) 原子认领：抢到的才结算；抢不到说明已被处理（并发下只有一次生效）。
+		claim := tx.Model(&models.ShopRedemption{}).
+			Where("id = ? AND class_id IN ? AND status = ?", id, classIDs, "pending").
+			Updates(map[string]any{
+				"status":      "approved",
+				"approved_by": u.ID,
+				"approved_at": util.Now(),
+			})
+		if claim.Error != nil {
+			return claim.Error
+		}
+		if claim.RowsAffected == 0 {
+			return ErrBadRequest("该兑换已处理")
+		}
+
+		// 2) 结算（与认领同一事务）。
+		switch {
+		case useExchange:
+			// 积分充值类：扣积分 + 扣宠物经验 → 按汇率发放钱包币。
+			if _, err := s.currency.exchangeTx(tx, &student, schoolID, currency, cost, u.ID); err != nil {
+				return err
+			}
+		case currency == "score":
+			// 积分兑换：扣积分 + 扣宠物经验。
+			sc, err := spendScoreTx(tx, &student, cost, itemName, u.ID)
+			if err != nil {
+				return err
+			}
+			spent = &sc
+		default:
+			// 钱包币兑换：只扣钱包余额。
+			if err := s.currency.spendTx(tx, student.ID, currency, cost); err != nil {
+				return err
+			}
+		}
+
+		// 3) 特权奖励自动发班级事件通知（已发布）。
+		if item.Category == "privilege" {
+			now := util.Now()
+			notice := models.Notice{
+				ClassID:     student.ClassID,
+				SchoolID:    u.SchoolID,
+				Title:       "特权奖励：" + itemName,
+				Content:     fmt.Sprintf("%s 使用 %d %s 兑换了「%s」", student.Name, cost, currencyUnit(currency), itemName),
+				Type:        "event",
+				PublishedBy: u.ID,
+				IsPublished: true,
+				PublishedAt: &now,
+			}
+			if err := tx.Create(&notice).Error; err != nil {
+				return err
+			}
+		}
+
+		// 4) 回读权威余额与宠物等级。
+		if err := tx.First(&student, student.ID).Error; err != nil {
+			return err
+		}
+		var pet models.Pet
+		var petLevel *int
+		if err := tx.Where("student_id = ?", student.ID).First(&pet).Error; err == nil {
+			petLevel = &pet.Level
+		}
+
+		result = &ApproveResult{
+			Message:        fmt.Sprintf("已批准兑换，扣除 %d %s", cost, currencyUnit(currency)),
+			RemainingScore: student.TotalScore,
+			PetLevel:       petLevel,
+		}
+		return nil
+	})
+	if err != nil {
 		return nil, err
 	}
 
-	// 特权奖励自动发班级事件通知（已发布）。
-	if item.Category == "privilege" {
-		currencyLabel := currencyUnit(currency)
-		notice := models.Notice{
-			ClassID:     student.ClassID,
-			SchoolID:    u.SchoolID,
-			Title:       "特权奖励：" + itemName,
-			Content:     fmt.Sprintf("%s 使用 %d %s 兑换了「%s」", student.Name, cost, currencyLabel, itemName),
-			Type:        "event",
-			PublishedBy: u.ID,
-			IsPublished: true,
-			PublishedAt: &now,
-		}
-		if err := s.db.Create(&notice).Error; err != nil {
-			return nil, err
-		}
+	// 事务提交后再发大屏事件（与 ScoreService.SpendScore 同一口径：提交后发布）。
+	if spent != nil {
+		s.scores.publishScoreUpdate(&student, -cost, spent.Reason, true)
 	}
 
-	// 重新加载学生余额与宠物等级。
-	if err := s.db.First(&student, student.ID).Error; err != nil {
-		return nil, err
-	}
-	var pet models.Pet
-	var petLevel *int
-	if err := s.db.Where("student_id = ?", student.ID).First(&pet).Error; err == nil {
-		petLevel = &pet.Level
-	}
-
-	return &ApproveResult{
-		Message:        fmt.Sprintf("已批准兑换，扣除 %d %s", cost, currencyUnit(currency)),
-		RemainingScore: student.TotalScore,
-		PetLevel:       petLevel,
-	}, nil
+	return result, nil
 }
 
 // RejectRedemption 拒绝兑换（不结算）。
+//
+// ⚠️ 守卫（有意差异）：只允许 pending → rejected，且用条件更新原子完成。原先没有任何状态判定
+// （Laravel 同款），已 approve（已扣款）的记录也能被改成 rejected 且不退款——学生钱没了、
+// 记录却显示拒绝。
 func (s *ShopService) RejectRedemption(u *models.User, id uint) error {
 	redemption, err := s.findRedemption(u, id)
 	if err != nil {
 		return err
 	}
-	return s.db.Model(redemption).Update("status", "rejected").Error
+	res := s.db.Model(&models.ShopRedemption{}).
+		Where("id = ? AND status = ?", redemption.ID, "pending").
+		Update("status", "rejected")
+	if res.Error != nil {
+		return res.Error
+	}
+	if res.RowsAffected == 0 {
+		return ErrBadRequest("该兑换已处理，不能拒绝")
+	}
+	return nil
 }
 
 // DeliverRedemption 标记为已发放。
+//
+// ⚠️ 守卫（有意差异）：只允许 approved → delivered。原先没有任何状态判定（Laravel 同款），
+// pending（还没扣款）的记录也能直接置为 delivered → 学生「免单」拿到商品，且此后 approve
+// 会因 status≠pending 被永久拒绝、无法补扣。顺带补写此前从未落库的 delivered_at。
 func (s *ShopService) DeliverRedemption(u *models.User, id uint) error {
 	redemption, err := s.findRedemption(u, id)
 	if err != nil {
 		return err
 	}
-	return s.db.Model(redemption).Update("status", "delivered").Error
+	res := s.db.Model(&models.ShopRedemption{}).
+		Where("id = ? AND status = ?", redemption.ID, "approved").
+		Updates(map[string]any{"status": "delivered", "delivered_at": util.Now()})
+	if res.Error != nil {
+		return res.Error
+	}
+	if res.RowsAffected == 0 {
+		return ErrBadRequest("该兑换尚未批准，不能标记发放")
+	}
+	return nil
 }
 
 func (s *ShopService) findRedemption(u *models.User, id uint) (*models.ShopRedemption, error) {
@@ -690,24 +760,33 @@ func (s *ShopService) DisplayRedeem(classID, studentID, itemID uint) (*DisplayRe
 		operator = 1
 	}
 
-	if _, err := s.scores.SpendScore(&student, item.CostScore, "兑换："+item.Name, operator); err != nil {
+	// ⚠️ 「扣款 + 落兑换记录」必须同一事务：原先是两笔独立提交，落库失败会留下「已扣款但无
+	// 兑换记录」的孤儿扣款（Laravel quickRedeem 同款问题）。
+	now := util.Now()
+	approvedBy := operator
+	var spent models.Score
+	err = s.db.Transaction(func(tx *gorm.DB) error {
+		var err error
+		spent, err = spendScoreTx(tx, &student, item.CostScore, "兑换："+item.Name, operator)
+		if err != nil {
+			return err
+		}
+		return tx.Create(&models.ShopRedemption{
+			StudentID:  student.ID,
+			ShopItemID: item.ID,
+			ClassID:    classID,
+			Cost:       item.CostScore,
+			Status:     "approved",
+			ApprovedBy: &approvedBy,
+			ApprovedAt: &now,
+		}).Error
+	})
+	if err != nil {
 		return nil, err
 	}
 
-	now := util.Now()
-	approvedBy := operator
-	redemption := models.ShopRedemption{
-		StudentID:  student.ID,
-		ShopItemID: item.ID,
-		ClassID:    classID,
-		Cost:       item.CostScore,
-		Status:     "approved",
-		ApprovedBy: &approvedBy,
-		ApprovedAt: &now,
-	}
-	if err := s.db.Create(&redemption).Error; err != nil {
-		return nil, err
-	}
+	// 事务提交后发大屏事件（同 ScoreService.SpendScore 的口径）。
+	s.scores.publishScoreUpdate(&student, -item.CostScore, spent.Reason, true)
 
 	return &DisplayRedeemResult{
 		StudentName: student.Name,

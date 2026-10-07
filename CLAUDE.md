@@ -396,3 +396,16 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
     - **⚠️ Windows 上的 Go 运行时不读 `TZ` 环境变量**（实测 `TZ=UTC` / `TZ=America/New_York` 时 `time.Now()` 仍为 +08:00），所以**不能**用 `$env:TZ='UTC'` 在本机复现这类缺陷。要复现必须在测试内改 `time.Local`（`orig := time.Local; time.Local = time.UTC; t.Cleanup(func(){ time.Local = orig })`）——两个守护测试都已这么做，从而在任意宿主机上都能抓住回归。
     - **守护测试**：`internal/services/timezone_domain_test.go`（撤销名单与大屏 token 的裸落库文本域、不被惰性清理误删、真过期仍清理）、`internal/database/timezone_domain_test.go`（GORM 自动时间戳与 `util.Now()` 同域，测试内强制 UTC 宿主复现 CI 条件）。
     - **验证口径**：`go test ./... -count=1` 需在「宿主强制 UTC」（= CI / 容器条件）与常规 +08:00 两种情形下**均全绿**；本机复现手段即上面的 `time.Local` 探针（临时给各包加 `func init() { time.Local = time.UTC }` 的 `_test.go` 跑一遍，跑完即删）。
+
+26. **积分消费的安全加固（2026-09-20，接在决策 24/25 之后）**:
+    - **背景**：「分析积分消费逻辑」时发现一组账目/状态机缺陷，并用 `git show 0bb6135^:backend/app/Services/*.php` 逐条核对 Laravel 原实现——`giveScore`/`undoScore`/`exchange` 的「读-改-写」与 `reject`/`deliver` 无状态守卫**在 Laravel 里一模一样**，属历史设计缺口、不是 Go 切换引入的回归。本次是有意偏离「忠实移植」口径做的安全性修复，三项：
+      1. **撤回幂等**：`Undo` 原先无任何守卫，反复点「撤回」就能把积分刷上去。现加两道闸：`scores.undo_of_score_id`（新列，`uniqueIndex`，指向被撤回的原记录）+ 事务内先查后拒（400「该积分记录已撤回」）。DB 唯一索引同时兜住并发双击——实测绕过预检时插入会被 `UNIQUE constraint failed` 拦下并整体回滚。
+      2. **兑换状态机**：`deliver` 只允许 `approved → delivered`、`reject` 只允许 `pending → rejected`，且都用条件更新（`WHERE status = ?` + `RowsAffected==0` 即 400）原子完成。原先无守卫 → **免单路径**（pending 直接置 delivered，且此后 `approve` 因 status≠pending 被永久拒绝、无法补扣）与**已扣款被标 rejected**（学生钱没了、记录却显示拒绝）。顺带补写此前从未落库的 `delivered_at`。
+      3. **余额与结算原子化**：
+         * 7 处 `total_score` 写入点全部改为 SQL 侧读-改-写：新增 `addScoreAtomic`（`total_score = total_score + ?`，再把负数钳 0——拆两步是为了跨 sqlite/mysql/pg 可移植，不写 `MAX()`/`GREATEST()`）与 `deductScoreAtomic`（**条件更新**一次性完成「校验 + 扣减」）。原先「从内存快照算新值再整值回写」→ 并发丢更新（余额 100、两笔各扣 30 会双双写成 70）且绕过「余额不为负」。
+         * `Wallet` 余额同样改为自增/条件扣减（`Exchange` / `Spend` / `CrossExchange`）。
+         * `ApproveRedemption` 改为**一个事务**：先用 `WHERE status='pending'` 条件更新「认领」，再在**同一事务内**结算（新增事务内版本 `spendScoreTx` / `exchangeTx` / `spendTx`；失败即整体回滚、状态退回 pending）。原先「事务外读 status → 各自结算 → 再更新 status」→ 并发双击各扣一次；结算成功但状态更新失败则记录仍 pending、重试再扣。教室端 `DisplayRedeem`（扣款 + 落兑换记录）同样并进一个事务。
+    - **守护测试**：`internal/services/spend_guard_test.go`（撤回幂等 + DB 唯一索引兜底 + 发放/拒绝守卫 + 审批只扣一次款 + 陈旧快照下既不误拒也不丢更新 + 余额不足零写入）。**A/B 反证**：临时恢复旧行为后 4 项按预期变红（其中唯一索引实测生效）。
+    - **⚠️ 刻意未动的两项（需产品拍板，别顺手改）**：
+      * **换宠物费 / 整班换系列费直改 `total_score`**：不写 `scores` / `score_logs`、不发大屏事件、不重算宠物等级 → 不进「本周榜」也不进学生积分历史、无审计。若要统一改走 `SpendScore`，注意换宠后宠物等级来自图鉴记录（`pet_collections`），而 `SyncLevelWithScore` 会把它覆盖成「按积分算」的等级——语义并不是等价替换。
+      * **`shop_items.stock` 永不扣减**：所有结算路径都不看库存（`display_writes_test.go` 还专门断言「库存不变」），即库存纯展示。真要扣减需 `WHERE stock > 0` 条件更新，并同步前端口径。

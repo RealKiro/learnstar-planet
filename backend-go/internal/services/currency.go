@@ -87,16 +87,27 @@ type ExchangeResult struct {
 	WalletBalance  int `json:"wallet_balance"`
 }
 
+// currentWalletBalance 读取钱包当前余额（事务内的权威值）。
+func currentWalletBalance(tx *gorm.DB, walletID uint) (int, error) {
+	var w models.Wallet
+	if err := tx.Select("balance").Where("id = ?", walletID).First(&w).Error; err != nil {
+		return 0, err
+	}
+	return w.Balance, nil
+}
+
 // Exchange 扣减学生积分并按学校汇率发放钱包币（单事务原子提交）。
-// 扣分、审计日志、宠物经验同步与旧 Laravel CurrencyService::exchange 一致。
+// 扣减、审计日志、宠物经验同步与旧 Laravel CurrencyService::exchange 一致。
+//
+// ⚠️ 与 Laravel 的有意差异：余额校验不再「事务外读内存快照」，而是与扣减合并成一次条件更新；
+// 钱包加币也改 SQL 侧自增。原实现（Laravel 同款）在并发下会丢更新、也会绕过「积分不足」判定。
 func (s *CurrencyService) Exchange(student *models.Student, toCurrency string, scoreAmount int, operatedBy uint) (*ExchangeResult, error) {
 	if scoreAmount <= 0 {
 		return nil, ErrBadRequest("兑换积分必须大于 0")
 	}
-	if student.TotalScore < scoreAmount {
-		return nil, ErrBadRequest("积分不足，当前余额：" + strconv.Itoa(student.TotalScore))
-	}
 
+	// 汇率播种必须在事务外执行：它自己写 exchange_rates，若放进事务里用另一条连接写，
+	// 会与当前事务持有的写锁互等。
 	var class models.ClassRoom
 	if err := s.db.First(&class, student.ClassID).Error; err != nil {
 		return nil, err
@@ -105,9 +116,23 @@ func (s *CurrencyService) Exchange(student *models.Student, toCurrency string, s
 		return nil, err
 	}
 
+	var result *ExchangeResult
+	err := s.db.Transaction(func(tx *gorm.DB) error {
+		var err error
+		result, err = s.exchangeTx(tx, student, class.SchoolID, toCurrency, scoreAmount, operatedBy)
+		return err
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// exchangeTx 在给定事务内完成「校汇率 → 原子扣积分 → 发钱包币 → 记流水」的全部写入。
+func (s *CurrencyService) exchangeTx(tx *gorm.DB, student *models.Student, schoolID uint, toCurrency string, scoreAmount int, operatedBy uint) (*ExchangeResult, error) {
 	var rate models.ExchangeRate
-	err := s.db.Where("school_id = ? AND from_currency = ? AND to_currency = ? AND is_active = ?",
-		class.SchoolID, "score", toCurrency, true).First(&rate).Error
+	err := tx.Where("school_id = ? AND from_currency = ? AND to_currency = ? AND is_active = ?",
+		schoolID, "score", toCurrency, true).First(&rate).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, ErrBadRequest("未找到可用的汇率配置")
 	}
@@ -120,108 +145,110 @@ func (s *CurrencyService) Exchange(student *models.Student, toCurrency string, s
 		return nil, ErrBadRequest("兑换金额过小，无法兑换")
 	}
 
-	result := &ExchangeResult{}
-	err = s.db.Transaction(func(tx *gorm.DB) error {
-		balanceBefore := student.TotalScore
-
-		// 1) 扣减积分。
-		newBalance := balanceBefore - scoreAmount
-		if err := tx.Model(&models.Student{}).Where("id = ?", student.ID).
-			Update("total_score", newBalance).Error; err != nil {
-			return err
-		}
-
-		// 2) 扣分记录。
-		reason := "兑换" + CurrencyLabel(toCurrency)
-		score := models.Score{
-			StudentID: student.ID,
-			ClassID:   student.ClassID,
-			Amount:    -scoreAmount,
-			Reason:    reason,
-			GivenBy:   operatedBy,
-		}
-		if err := tx.Create(&score).Error; err != nil {
-			return err
-		}
-
-		// 3) 审计日志。
-		if err := tx.Create(&models.ScoreLog{
-			StudentID:     student.ID,
-			ScoreID:       score.ID,
-			BalanceBefore: balanceBefore,
-			BalanceAfter:  newBalance,
-			Description:   reason,
-		}).Error; err != nil {
-			return err
-		}
-
-		// 4) 扣减宠物经验（1:1）。
-		if err := syncPetForDelta(tx, student.ID, newBalance, -scoreAmount); err != nil {
-			return err
-		}
-
-		// 5) 增加钱包余额（显式计算，避免依赖 GORM Update 回写内存字段导致重复累加）。
-		wallet, err := s.getOrCreateWallet(tx, student.ID, toCurrency)
-		if err != nil {
-			return err
-		}
-		walletNewBalance := wallet.Balance + toAmount
-		if err := tx.Model(&models.Wallet{}).Where("id = ?", wallet.ID).Update("balance", walletNewBalance).Error; err != nil {
-			return err
-		}
-		wallet.Balance = walletNewBalance
-
-		// 6) 兑换日志。
-		if err := tx.Create(&models.ExchangeLog{
-			StudentID:    student.ID,
-			FromCurrency: "score",
-			ToCurrency:   toCurrency,
-			FromAmount:   scoreAmount,
-			ToAmount:     toAmount,
-			OperatedBy:   &operatedBy,
-		}).Error; err != nil {
-			return err
-		}
-
-		student.TotalScore = newBalance
-		result.RemainingScore = newBalance
-		result.WalletBalance = wallet.Balance
-		return nil
-	})
+	// 1) 原子扣减积分（条件更新：并发下既不会穿仓，也不会丢更新）。
+	balanceBefore, newBalance, ok, err := deductScoreAtomic(tx, student.ID, scoreAmount)
 	if err != nil {
 		return nil, err
 	}
-	return result, nil
+	if !ok {
+		return nil, ErrBadRequest("积分不足，当前余额：" + strconv.Itoa(balanceBefore))
+	}
+
+	// 2) 扣分记录。
+	reason := "兑换" + CurrencyLabel(toCurrency)
+	score := models.Score{
+		StudentID: student.ID,
+		ClassID:   student.ClassID,
+		Amount:    -scoreAmount,
+		Reason:    reason,
+		GivenBy:   operatedBy,
+	}
+	if err := tx.Create(&score).Error; err != nil {
+		return nil, err
+	}
+
+	// 3) 审计日志。
+	if err := tx.Create(&models.ScoreLog{
+		StudentID:     student.ID,
+		ScoreID:       score.ID,
+		BalanceBefore: balanceBefore,
+		BalanceAfter:  newBalance,
+		Description:   reason,
+	}).Error; err != nil {
+		return nil, err
+	}
+
+	// 4) 扣减宠物经验（1:1）。
+	if err := syncPetForDelta(tx, student.ID, newBalance, -scoreAmount); err != nil {
+		return nil, err
+	}
+
+	// 5) 增加钱包余额（SQL 侧自增，同样避免并发丢更新）。
+	wallet, err := s.getOrCreateWallet(tx, student.ID, toCurrency)
+	if err != nil {
+		return nil, err
+	}
+	if err := tx.Model(&models.Wallet{}).Where("id = ?", wallet.ID).
+		Update("balance", gorm.Expr("balance + ?", toAmount)).Error; err != nil {
+		return nil, err
+	}
+	walletBalance, err := currentWalletBalance(tx, wallet.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	// 6) 兑换日志。
+	if err := tx.Create(&models.ExchangeLog{
+		StudentID:    student.ID,
+		FromCurrency: "score",
+		ToCurrency:   toCurrency,
+		FromAmount:   scoreAmount,
+		ToAmount:     toAmount,
+		OperatedBy:   &operatedBy,
+	}).Error; err != nil {
+		return nil, err
+	}
+
+	student.TotalScore = newBalance
+	return &ExchangeResult{RemainingScore: newBalance, WalletBalance: walletBalance}, nil
 }
 
 // Spend 消费钱包币种（用于活动专属商城结算）。
+// 注：reason 仅用于调用方可读性，当前不落库（exchange_logs 无原因列，与 Laravel 一致）。
 func (s *CurrencyService) Spend(studentID uint, currency string, amount int, reason string) error {
 	if amount <= 0 {
 		return ErrBadRequest("消费数量必须大于 0")
 	}
-
 	return s.db.Transaction(func(tx *gorm.DB) error {
-		wallet, err := s.getOrCreateWallet(tx, studentID, currency)
-		if err != nil {
-			return err
-		}
-		if wallet.Balance < amount {
-			return ErrBadRequest(CurrencyLabel(currency) + "余额不足，当前余额：" + strconv.Itoa(wallet.Balance))
-		}
-
-		if err := tx.Model(wallet).Update("balance", wallet.Balance-amount).Error; err != nil {
-			return err
-		}
-
-		return tx.Create(&models.ExchangeLog{
-			StudentID:    studentID,
-			FromCurrency: currency,
-			ToCurrency:   currency,
-			FromAmount:   amount,
-			ToAmount:     amount,
-			OperatedBy:   nil,
-		}).Error
+		return s.spendTx(tx, studentID, currency, amount)
 	})
+}
+
+// spendTx 在给定事务内消费钱包币种：条件更新一次性完成「校验 + 扣减」（并发下不会透支）。
+func (s *CurrencyService) spendTx(tx *gorm.DB, studentID uint, currency string, amount int) error {
+	wallet, err := s.getOrCreateWallet(tx, studentID, currency)
+	if err != nil {
+		return err
+	}
+
+	res := tx.Model(&models.Wallet{}).
+		Where("id = ? AND balance >= ?", wallet.ID, amount).
+		Update("balance", gorm.Expr("balance - ?", amount))
+	if res.Error != nil {
+		return res.Error
+	}
+	if res.RowsAffected == 0 {
+		return ErrBadRequest(CurrencyLabel(currency) + "余额不足，当前余额：" + strconv.Itoa(wallet.Balance))
+	}
+
+	return tx.Create(&models.ExchangeLog{
+		StudentID:    studentID,
+		FromCurrency: currency,
+		ToCurrency:   currency,
+		FromAmount:   amount,
+		ToAmount:     amount,
+		OperatedBy:   nil,
+	}).Error
 }
 
 // RatesForSchool 返回学校汇率列表；首次访问（为空）惰性播种默认汇率。
@@ -342,35 +369,44 @@ func (s *CurrencyService) CrossExchange(student *models.Student, from, to string
 	if err != nil {
 		return nil, err
 	}
-
-	fromWallet, err := s.getOrCreateWallet(s.db, student.ID, from)
-	if err != nil {
-		return nil, err
-	}
-	if fromWallet.Balance < amount {
-		return nil, ErrBadRequest(CurrencyLabel(from) + "余额不足，当前余额：" + strconv.Itoa(fromWallet.Balance))
-	}
-
 	toAmount := int(math.Round(float64(amount) * rate.Rate))
 	if toAmount <= 0 {
 		return nil, ErrBadRequest("兑换金额过小，无法兑换")
 	}
 
+	// 源/目标钱包的读写全部收进事务，且用条件更新/自增：原先「事务外读余额 → 事务内按旧值算新值」
+	// 在并发下会丢更新，也会绕过余额不足判定。
 	result := &CrossExchangeResult{}
 	err = s.db.Transaction(func(tx *gorm.DB) error {
-		// 扣减源币种（以事务内最新余额为准）。
-		newFrom := fromWallet.Balance - amount
-		if err := tx.Model(&models.Wallet{}).Where("id = ?", fromWallet.ID).Update("balance", newFrom).Error; err != nil {
+		fromWallet, err := s.getOrCreateWallet(tx, student.ID, from)
+		if err != nil {
+			return err
+		}
+		res := tx.Model(&models.Wallet{}).
+			Where("id = ? AND balance >= ?", fromWallet.ID, amount).
+			Update("balance", gorm.Expr("balance - ?", amount))
+		if res.Error != nil {
+			return res.Error
+		}
+		if res.RowsAffected == 0 {
+			return ErrBadRequest(CurrencyLabel(from) + "余额不足，当前余额：" + strconv.Itoa(fromWallet.Balance))
+		}
+		fromBalance, err := currentWalletBalance(tx, fromWallet.ID)
+		if err != nil {
 			return err
 		}
 
-		// 增加目标币种（显式计算，避免依赖 GORM Update 回写内存字段导致重复累加）。
+		// 增加目标币种（SQL 侧自增，同样避免并发丢更新）。
 		toWallet, err := s.getOrCreateWallet(tx, student.ID, to)
 		if err != nil {
 			return err
 		}
-		newTo := toWallet.Balance + toAmount
-		if err := tx.Model(&models.Wallet{}).Where("id = ?", toWallet.ID).Update("balance", newTo).Error; err != nil {
+		if err := tx.Model(&models.Wallet{}).Where("id = ?", toWallet.ID).
+			Update("balance", gorm.Expr("balance + ?", toAmount)).Error; err != nil {
+			return err
+		}
+		toBalance, err := currentWalletBalance(tx, toWallet.ID)
+		if err != nil {
 			return err
 		}
 
@@ -386,8 +422,8 @@ func (s *CurrencyService) CrossExchange(student *models.Student, from, to string
 			return err
 		}
 
-		result.FromBalance = newFrom
-		result.ToBalance = newTo
+		result.FromBalance = fromBalance
+		result.ToBalance = toBalance
 		return nil
 	})
 	if err != nil {

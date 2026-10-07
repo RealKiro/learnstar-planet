@@ -110,9 +110,13 @@ func (s *PetSeriesService) SwitchSeriesForClassroom(classID uint, seriesID strin
 	now := util.Now()
 	err = s.db.Transaction(func(tx *gorm.DB) error {
 		for _, st := range students {
-			if err := tx.Model(&models.Student{}).Where("id = ?", st.ID).
-				Update("total_score", st.TotalScore-classroomSeriesSwitchCost).Error; err != nil {
+			// ⚠️ 条件更新一次性完成「校验 + 扣减」：并发下不会穿仓，也不会丢更新。
+			_, _, ok, err := deductScoreAtomic(tx, st.ID, classroomSeriesSwitchCost)
+			if err != nil {
 				return err
+			}
+			if !ok {
+				return ErrBadRequest(fmt.Sprintf("积分不足：%s 每人需要 %d 积分", st.Name, classroomSeriesSwitchCost))
 			}
 		}
 		if err := s.saveSeries(tx, class, seriesID); err != nil {

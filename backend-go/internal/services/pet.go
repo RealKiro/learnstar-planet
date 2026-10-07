@@ -259,15 +259,16 @@ func (p *PetService) Switch(u *models.User, studentID uint, species, name string
 		cost := 0
 		if !usedFreePick {
 			// 1) 先扣积分（等级越高越贵；免费自选不扣）——不足直接拒绝，不留脏数据。
+			// ⚠️ 校验与扣减合并为一次条件更新（deductScoreAtomic）：并发下既不会穿仓，也不会丢更新。
 			cost = models.SwitchCost(pet.Level)
-			if student.TotalScore < cost {
-				return ErrBadRequest(fmt.Sprintf("积分不足，更换宠物需 %d 积分", cost))
-			}
-			student.TotalScore -= cost
-			if err := tx.Model(&models.Student{}).Where("id = ?", student.ID).
-				Update("total_score", student.TotalScore).Error; err != nil {
+			_, newScore, ok, err := deductScoreAtomic(tx, student.ID, cost)
+			if err != nil {
 				return err
 			}
+			if !ok {
+				return ErrBadRequest(fmt.Sprintf("积分不足，更换宠物需 %d 积分", cost))
+			}
+			student.TotalScore = newScore
 		}
 
 		// ===== 目标物种的图鉴进度（切换前先查，切回时恢复） =====
@@ -464,11 +465,15 @@ func (p *PetService) SwitchForClassroom(classID, studentID uint, newSpecies stri
 
 		err = p.db.Transaction(func(tx *gorm.DB) error {
 			if !usedFreePick {
-				if err := tx.Model(&models.Student{}).Where("id = ?", student.ID).
-					Update("total_score", student.TotalScore-cost).Error; err != nil {
+				// ⚠️ 校验与扣减合并为一次条件更新（deductScoreAtomic）：并发下不会穿仓/丢更新。
+				_, newScore, ok, err := deductScoreAtomic(tx, student.ID, cost)
+				if err != nil {
 					return err
 				}
-				student.TotalScore -= cost
+				if !ok {
+					return ErrBadRequest(fmt.Sprintf("积分不足，更换宠物需 %d 积分", cost))
+				}
+				student.TotalScore = newScore
 			}
 
 			// 旧物种进度存入图鉴（保留等级/经验/心情，标记为非激活）。

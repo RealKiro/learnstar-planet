@@ -115,15 +115,19 @@ type ScoreRule struct {
 
 // Score 一条积分变动记录（正为加分、负为减分）。
 type Score struct {
-	ID          uint      `gorm:"primaryKey" json:"id"`
-	StudentID   uint      `gorm:"index;not null" json:"student_id"`
-	ClassID     uint      `gorm:"index;not null" json:"class_id"`
-	ScoreRuleID *uint     `gorm:"index" json:"score_rule_id"`
-	Amount      int       `gorm:"not null" json:"amount"`
-	Reason      string    `gorm:"size:500" json:"reason"`
-	GivenBy     uint      `gorm:"index" json:"given_by"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          uint   `gorm:"primaryKey" json:"id"`
+	StudentID   uint   `gorm:"index;not null" json:"student_id"`
+	ClassID     uint   `gorm:"index;not null" json:"class_id"`
+	ScoreRuleID *uint  `gorm:"index" json:"score_rule_id"`
+	Amount      int    `gorm:"not null" json:"amount"`
+	Reason      string `gorm:"size:500" json:"reason"`
+	GivenBy     uint   `gorm:"index" json:"given_by"`
+	// UndoOfScoreID 指向被撤回的原积分记录（仅「撤回」产生的反向流水有值）。
+	// uniqueIndex 由数据库层保证「一条记录只能被撤回一次」——撤回是加积分操作，
+	// 缺这条约束时可反复点撤回把积分刷上去（见 services/score.go Undo 的幂等守卫）。
+	UndoOfScoreID *uint     `gorm:"uniqueIndex" json:"undo_of_score_id,omitempty"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
 }
 
 // ScoreLog 积分审计日志（记录余额变化前后值）。
