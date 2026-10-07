@@ -1,0 +1,866 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/scores/rules"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/scores/recent"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/scores/summary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/scores/history/:student_id"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/shop/items"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/shop/redemptions"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/students"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/class"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/classroom/display"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/classroom/messages"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/classes"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/currency/wallets"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/currency/exchange-logs"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/pets/overview"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/pets/:student_id"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/pets/:student_id/collection"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/pk/leaderboard"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/pk/my-stats"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/ai/config"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/ai/commands"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/ai/usage"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/attendance/today"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/attendance/summary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/timetable"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/timetable/changes"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/timetable/my-schedule"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/timetable/export-cses"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/reports/score-trend"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/reports/student-progress"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/reports/pet-distribution"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/reports/export/:type"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/leaderboard/total"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/leaderboard/weekly"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/leaderboard/pet-level"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/broadcasts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/broadcasts/:id"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/my-classes"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/mode"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/dashboard"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/display-code"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/notices"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/teacher/exchange-rates"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/system/diagnose"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/system/status"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/system/logs"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/school"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/score-rules"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/students"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/shop-items"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/teachers"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/teachers/template-csv"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/teachers/:id/password"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/timetable/changes"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/timetable/unavailabilities"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/timetable/export-excel"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/third-party/contacts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/classes"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/classes/:id"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/classes/:id/timetable"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/classes/:id/timetable/export-excel"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/classes/:id/teacher-assignments"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/classes/:id/students"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/classes/:id/display-code"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/reports/by-grade"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/reports/by-class"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/reports/overview"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/ai/settings"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/ai/usage"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/exchange-rates"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/display-login-logs"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/grade-upgrade/preview"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/admin/wechat-work/contacts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/auth/third-party/auth-url"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/auth/third-party/options"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/auth/me"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/auth/bindings"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/students"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/scores/rules"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/sse"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/shop-items"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/pets/overview"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/poll"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/pk/leaderboard"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/initial-data"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/timetable"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/export-cses"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/leaderboard"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/class-settings"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/dashboard"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/display/ai/settings"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/common/score-categories"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/wechat-work/callback"
+  },
+  {
+    "method": "GET",
+    "path": "/health"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/timetable/changes/:id/approve"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/timetable/changes/:id/reject"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/timetable/check-conflicts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/timetable/generate"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/timetable/generate-school"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/timetable/import-csv"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/timetable/unavailabilities"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/teachers"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/teachers/batch-create"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/teachers/import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/teachers/:id/reset-password"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/third-party/import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/students"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/students/batch-delete"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/students/batch-move"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/students/import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/school"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/school/logo"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/score-rules"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/system/repair"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/shop-items"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/classes"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/classes/batch-create"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/classes/reset-display-codes"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/classes/:id/teacher-assignments"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/classes/:id/timetable"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/classes/:id/students"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/classes/:id/assign-teacher"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/classes/:id/display-code/refresh"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/ai/toggle"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/ai/test"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/ai/fetch-models"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/ai/provider-official"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/accounts/batch-reset-password"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/accounts/batch-delete"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/exchange-rates"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/grade-upgrade/execute"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/wechat-work/import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/teacher/login"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/teacher/login/wechat"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/teacher/login/wechat-work"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/teacher/login/qq"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/teacher/login/renren"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/teacher/bind-after-scan"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/third-party/login"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/class/login"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/change-password"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/login"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/logout"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/admin/login"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/bind/:platform"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/auth/refresh"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/scores/give"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/scores/give-by-rule/:ruleId"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/scores/rules"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/scores/batch-give"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/scores/:id/undo"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/students"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/students/import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/shop/items"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/shop/redemptions"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/switch-class"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/pets/:student_id/feed"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/pets/:student_id/rename"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/pets/:student_id/switch"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/pk/challenge"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/currency/exchange"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/currency/cross-exchange"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/class/switch-series"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/classroom/messages"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/attendance/start"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/attendance/:student_id/mark-leave"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/attendance/:student_id/mark-absent"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/ai/chat"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/notices"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/broadcasts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/exchange-rates"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/timetable"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/mode"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/teacher/display-code/refresh"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/scores/give"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/scores/batch-give"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/switch-series"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/login"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/ai/chat"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/quick-score"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/redeem"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/transfer"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/display/pets/switch"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/wechat-work/callback"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/admin/students/:id"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/admin/score-rules/:id"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/admin/shop-items/:id"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/admin/classes/:id"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/admin/classes/:id/remove-teacher"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/admin/teachers/:id"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/auth/unbind/:platform"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/teacher/students/:id"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/teacher/scores/rules/:id"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/teacher/shop/items/:id"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/teacher/notices/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/shop/redemptions/:id/approve"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/shop/redemptions/:id/reject"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/shop/redemptions/:id/deliver"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/shop/items/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/students/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/scores/rules/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/notices/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/notices/:id/publish"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/notices/:id/unpublish"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/attendance/:student_id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/teacher/exchange-rates/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/school"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/score-rules/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/students/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/shop-items/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/classes/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/classes/:id/teacher-assignments"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/classes/:id/timetable"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/teachers/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/teachers/:id/classes"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/exchange-rates/:id"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/admin/ai/settings"
+  }
+]

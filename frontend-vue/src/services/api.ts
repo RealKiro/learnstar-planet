@@ -4,7 +4,7 @@
  * 对接文档：功能分类与版面设计.txt
  */
 
-import { apiGet, apiPost, apiPut } from '@/utils/api'
+import { apiGet, apiPost } from '@/utils/api'
 import type { ApiResponse, Student, ScoreRule, Pet, PetDetail, LeaderboardEntry, ClassRoom } from '@/types'
 
 // ============================================================
@@ -82,9 +82,6 @@ export const overviewApi = {
   getOverview: () =>
     apiGet<ApiResponse<ClassOverviewData>>('/api/v1/teacher/dashboard'),
 
-  /** 获取班级最新动态 */
-  getRecentNews: () =>
-    apiGet<ApiResponse<{ icon: string; text: string }[]>>('/api/v1/teacher/dashboard/news'),
 }
 
 // ============================================================
@@ -152,17 +149,17 @@ export const petApi = {
   getClassOverview: () =>
     apiGet<ApiResponse<Pet[]>>('/api/v1/teacher/pets/overview'),
 
-  /** 获取单个宠物详情 */
-  getPetDetail: (petId: number) =>
-    apiGet<ApiResponse<PetDetail>>(`/api/v1/teacher/pets/${petId}`),
+  /** 获取单个宠物详情（路径参数是**学生 ID**，同 Laravel 路由 `{studentId}`） */
+  getPetDetail: (studentId: number) =>
+    apiGet<ApiResponse<PetDetail>>(`/api/v1/teacher/pets/${studentId}`),
 
-  /** 投喂宠物 */
-  feedPet: (data: FeedPetRequest) =>
-    apiPost<ApiResponse<{ exp_gained: number; new_level: number }>>('/api/v1/teacher/pets/${studentId}/feed', data),
+  /** 投喂宠物（路径参数是**学生 ID**；无请求体，同 Laravel `{studentId}/feed`） */
+  feedPet: (studentId: number) =>
+    apiPost<ApiResponse<{ mood: number; level: number }>>(`/api/v1/teacher/pets/${studentId}/feed`),
 
-  /** 重命名宠物 */
-  renamePet: (petId: number, name: string) =>
-    apiPut(`/api/v1/teacher/pets/${petId}/rename`, { name }),
+  /** 重命名宠物（Laravel/Go 均为 POST，路径参数是**学生 ID**） */
+  renamePet: (studentId: number, name: string) =>
+    apiPost(`/api/v1/teacher/pets/${studentId}/rename`, { name }),
 
   /** 切换班级宠物系列 */
   switchSeries: (seriesId: string) =>

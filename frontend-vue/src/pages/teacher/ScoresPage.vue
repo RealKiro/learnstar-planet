@@ -160,7 +160,7 @@ async function executeAction(rule: ScoreRule) {
   activeReason.value = rule.name
   giveStatus.value = 'loading'
   try {
-    await apiPost(`/api/v1/teacher/scores/by-rule/${rule.id}`, { student_id: student.id })
+    await apiPost(`/api/v1/teacher/scores/give-by-rule/${rule.id}`, { student_id: student.id })
     student.total_score = Math.max(0, student.total_score + rule.amount)
     giveStatus.value = 'success'
     showFloatText(student.id, rule.amount)

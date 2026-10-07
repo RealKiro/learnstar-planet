@@ -45,7 +45,9 @@ const maxProgress = computed(() => {
 async function fetchData(type: LbType) {
   loading.value = true
   try {
-    const res = await apiGet<ApiResponse<LeaderboardEntry[]>>(`/api/v1/teacher/leaderboard/${type}`)
+    // UI 键 'pet' 对应后端路由片段 'pet-level'（/teacher/leaderboard/{total|weekly|pet-level}）
+    const apiSegment = type === 'pet' ? 'pet-level' : type
+    const res = await apiGet<ApiResponse<LeaderboardEntry[]>>(`/api/v1/teacher/leaderboard/${apiSegment}`)
     entries.value = (res.data || []).map((e) => ({
       ...e,
       pet_emoji: getSpeciesEmoji((e as any).pet_species || ''),
