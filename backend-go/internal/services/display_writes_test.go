@@ -105,7 +105,8 @@ func TestDisplayShopItemsAndRedeem(t *testing.T) {
 
 	var itemAfter models.ShopItem
 	require.NoError(t, db.First(&itemAfter, onSale.ID).Error)
-	assert.Equal(t, 5, itemAfter.Stock, "Laravel quickRedeem 不校验也不扣库存")
+	assert.Equal(t, 4, itemAfter.Stock, "限量商品（stock>0）每笔兑换扣 1 件")
+	assert.True(t, itemAfter.IsActive, "未售罄时仍在售")
 
 	// 扣分记录（ScoreService 口径）+ score_update 事件（is_spend）。
 	var score models.Score
@@ -237,14 +238,21 @@ func TestClassroomSwitchSeries(t *testing.T) {
 	require.Len(t, picks, 2)
 	assert.WithinDuration(t, time.Now().Add(3*24*time.Hour), picks[0].ExpiresAt, 2*time.Minute)
 
-	// 已有宠物不被重抽，也没有积分/审计记录（Laravel 直接改 total_score）。
+	// 已有宠物不被重抽；切换费**现在会落「明细 + 审计」**（此前只改 total_score → 无任何痕迹）。
 	var pet models.Pet
 	require.NoError(t, db.Where("student_id = ?", rich.ID).First(&pet).Error)
 	assert.Equal(t, "zhulong", pet.Species)
 	assert.Equal(t, 3, pet.Level)
 	var scoreCount int64
 	require.NoError(t, db.Model(&models.Score{}).Count(&scoreCount).Error)
-	assert.Equal(t, int64(0), scoreCount)
+	assert.Equal(t, int64(2), scoreCount, "两名活跃学生各留一条扣费流水")
+	var fee models.Score
+	require.NoError(t, db.Where("student_id = ?", rich.ID).First(&fee).Error)
+	assert.Equal(t, -20, fee.Amount, "每人扣 20 分")
+	assert.Contains(t, fee.Reason, "整班切换系列：")
+	var feeLog models.ScoreLog
+	require.NoError(t, db.Where("score_id = ?", fee.ID).First(&feeLog).Error)
+	assert.Equal(t, feeLog.BalanceBefore-20, feeLog.BalanceAfter, "审计行记录扣费前后余额")
 
 	// 班级不存在 → 404；没有活跃学生 → 400。
 	_, err = petSeries.SwitchSeriesForClassroom(999999, "pokemon")
@@ -354,10 +362,17 @@ func TestClassroomSwitchPet(t *testing.T) {
 	assert.Equal(t, "pikachu", after.Species)
 	assert.Equal(t, 1, after.Level)
 
-	// 不写积分记录 / 不发事件（Laravel classroomSwitchPet 直接改 total_score）。
+	// 换宠费**现在会落「明细 + 审计」**（此前只改 total_score）；仍不发大屏事件。
 	var scoreCount int64
 	require.NoError(t, db.Model(&models.Score{}).Count(&scoreCount).Error)
-	assert.Equal(t, int64(0), scoreCount)
+	assert.Equal(t, int64(1), scoreCount, "换宠费留一条扣费流水")
+	var fee models.Score
+	require.NoError(t, db.Where("student_id = ?", student.ID).First(&fee).Error)
+	assert.Equal(t, -5, fee.Amount, "Lv.1 → SwitchCost(1) = 5")
+	assert.Contains(t, fee.Reason, "更换宠物：")
+	var feeLog models.ScoreLog
+	require.NoError(t, db.Where("score_id = ?", fee.ID).First(&feeLog).Error)
+	assert.Equal(t, feeLog.BalanceBefore-5, feeLog.BalanceAfter)
 	events, err := services.NewDisplayEvents(db).Consume(f.Class.ID, nil)
 	require.NoError(t, err)
 	assert.Empty(t, events)

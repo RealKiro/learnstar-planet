@@ -414,4 +414,14 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
       * **`QuickTransfer`（教室端转赠）改为单事务**：原先转出/转入各走一次 `ScoreService.GiveScore`（各自独立提交），第二步失败就「扣了没到账」。现同事务内落两笔，转出侧用**条件扣减**而非「加减+钳 0」——否则并发下余额不足会被钳到 0 并照常给接收方加分（凭空造分）。两条 `score_update` 事件仍在提交后逐条发布。⚠️ 该原子性**无法从测试注入**（没有可注入的中途失败点），故只做结构性保证 + happy-path 回归断言，未做 A/B。
       * **教室端兑换的扣分文案统一**：`DisplayRedeem` 原先传 `"兑换："+商品名`，与 `SpendScore` 自带前缀叠成「兑换消耗：兑换：铅笔」，而教师端审批同一动作是「兑换消耗：铅笔」。现两端统一为单前缀（**用户可见文案变化**，已同步更新 `display_writes_test.go` 的断言；前端不按 reason 文案做逻辑）。
       * **宠物读-改-写（此前列为待办）复核后判定无需改**：`syncPetForDelta` 的「读 → 改 → `Save` 整行」在所有调用点都天然串行——调用前同一事务已用原子 UPDATE 改过该学生 `students` 行，并发请求会在学生行上排队（SQLite 写锁 / MySQL·Postgres 行锁），读宠物必然晚于前一个事务提交。已在函数注释里写明「新调用点务必先动学生行、再动宠物」。真正没有保护的是 `PetService.Feed`/`Rename`（不在事务、不动学生行，属外观层 mood/名字更新，并发双击可能丢一次 +20），影响仅展示，故未改。
-      * **仍未做**：登录以外的写端点没有限流（放大并发类风险，属策略问题）；`shop_items.stock` 与「换宠/换系列费走审计通道」两项仍待产品拍板。
+      * **该三项已在决策 27 落地**（换宠/换系列费走审计通道、`shop_items.stock` 真正扣减、写端点限流）。
+
+27. **积分/兑换链路三项收口（2026-09-20，第三轮）**:
+    - 承接决策 26，接着做这三件事：宠物扣费走审计、库存真正扣减、写端点限流。
+    - **换宠费 / 整班换系列费走审计通道**：`PetService.Switch`、`PetService.SwitchForClassroom`、`PetSeriesService.SwitchSeriesForClassroom` 三处扣费现在都落 `scores` + `score_logs`（文案 `更换宠物：<物种>`、`整班切换系列：<系列中文名>`）；教师端记 `given_by = 教师 ID`，教室端取班主任（缺失兜底 1）。**语义变化**：这些扣费从此会进「本周榜 / 积分历史 / 报表」（与商城兑换、积分兑币一致），此前完全不可见。
+      * ⚠️ **刻意不动宠物**：走新增的 `recordScoreRowTx`（只落流水 + 审计）而不是 `recordScoreTx`——换宠后的等级/经验来自图鉴进度，若顺手跑 `syncPetForDelta`，`SyncLevelWithScore` 会把刚恢复的图鉴等级覆盖成「按积分算」的等级。同一轮还补写了此前一直缺失的**撤回审计行**。
+    - **`shop_items.stock` 真正扣减**（`ShopService.consumeStockTx`）：口径与前端既有的「0=∞」一致——**stock == 0 视为不限量**（内置默认商品全是 0，必须保持可无限兑换），`stock > 0` 才每笔兑换扣 1 件，扣到 0 **自动下架**（`is_active=false`；所有购买路径都要求 `is_active`，故「售罄」自然表现成「买不到」，无需新增列）。扣减点只有两处且都在事务内：审批结算 `ApproveRedemption`、教室端 `DisplayRedeem`；**创建 pending 记录不占库存**（被拒绝的申请不该消耗库存）。
+      * ⚠️ 配套：`ApproveRedemption` 现在拒绝结算**已下架**商品（400「该商品已下架，无法结算」）——否则售罄前就存在的 pending 记录会绕过库存判定（0 既表示不限量也表示售罄，无法区分；教师可先重新上架/补库存再审批）。
+      * 前端：`stock == 0` 显示 ∞ 的口径不变，但**下架商品改显示「已下架」**（`teacher/ShopPage.vue`、`admin/AdminShopPage.vue`）。
+    - **写端点限流**（`middleware.ThrottlePrincipal`）：登录以外此前**完全没有限流**。新增按**主体**计数的限流：教师/管理员 → `user:<id>`、教室端 → `class:<班级 id>`、都没有才退回 IP，键里再拼路由路径。**为什么不按 IP**：教室端设备通常共用一个出口 IP（学校 NAT），按 IP 会让一个班的操作吃掉全校额度。挂载：`teacher` 分组 600 次/分钟（≈10 req/s）、`display` 分组 1200 次/分钟（≈20 req/s；该组含 `/poll` 轮询与 `/sse`，且多台设备共用同一个班级码）。阈值刻意远高于正常课堂节奏（批量给分只算 1 次请求），只用于挡住脚本刷与重试风暴。⚠️ 与登录限流同样的既有约束：计数在**进程内**、仅单实例有效，多副本需换共享存储；响应沿用 Laravel 的 `Retry-After` + `{"message":"Too Many Attempts."}`。
+    - **守护测试**：`internal/services/spend_guard_test.go`（教师端换宠费审计、售罄自动下架、0=不限量、下架后拒绝结算）、`internal/router/throttle_test.go`（教师主体与班级主体各自打满 → 429 且带 `Retry-After`，同时不误伤鉴权）。这三项的断言都是「只有新行为才能满足」（具体金额/库存/429），与决策 26 那些「断言缺陷不存在」的守护测试不同，无需再做 A/B 反证。

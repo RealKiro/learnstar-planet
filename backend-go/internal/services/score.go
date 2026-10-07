@@ -59,12 +59,13 @@ func giveScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string
 	return recordScoreTx(tx, student, amount, reason, givenBy, scoreRuleID, balanceBefore, newBalance)
 }
 
-// recordScoreTx 落一条积分记录 + 审计日志 + 同步宠物经验，并回写内存余额。
+// recordScoreRowTx 只落「积分流水 + 审计日志」并回写内存余额，**不触碰宠物**。
 //
-// 抽出来的理由：加分、消费、（转赠的）转出转入这几条链路只有「余额如何变」不同
-// （原子加减 / 条件扣减），而记录与副作用完全一致——避免每条链路各自复制一遍
-// scores + score_logs + 宠物同步（复制出来的副本最容易日后改漏一处）。
-func recordScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string, givenBy uint, scoreRuleID *uint, balanceBefore, balanceAfter int) (models.Score, error) {
+// 用于两类场景：① 常规加减分/消费（再叠一层 recordScoreTx 的宠物同步）；
+// ② 扣费但不应改动宠物的路径——例如换宠物费：换宠后的等级/经验由图鉴进度决定，
+//
+//	若顺手调 syncPetForDelta，SyncLevelWithScore 会把刚恢复的图鉴等级覆盖成「按积分算」的等级。
+func recordScoreRowTx(tx *gorm.DB, student *models.Student, amount int, reason string, givenBy uint, scoreRuleID *uint, balanceBefore, balanceAfter int) (models.Score, error) {
 	score := models.Score{
 		StudentID:   student.ID,
 		ClassID:     student.ClassID,
@@ -87,11 +88,23 @@ func recordScoreTx(tx *gorm.DB, student *models.Student, amount int, reason stri
 		return score, err
 	}
 
+	student.TotalScore = balanceAfter
+	return score, nil
+}
+
+// recordScoreTx 落一条积分记录 + 审计日志 + 同步宠物经验（= recordScoreRowTx + 宠物同步）。
+//
+// 抽出来的理由：加分、消费、（转赠的）转出转入这几条链路只有「余额如何变」不同
+// （原子加减 / 条件扣减），而记录与副作用完全一致——避免每条链路各自复制一遍
+// scores + score_logs + 宠物同步（复制出来的副本最容易日后改漏一处）。
+func recordScoreTx(tx *gorm.DB, student *models.Student, amount int, reason string, givenBy uint, scoreRuleID *uint, balanceBefore, balanceAfter int) (models.Score, error) {
+	score, err := recordScoreRowTx(tx, student, amount, reason, givenBy, scoreRuleID, balanceBefore, balanceAfter)
+	if err != nil {
+		return score, err
+	}
 	if err := syncPetForDelta(tx, student.ID, balanceAfter, amount); err != nil {
 		return score, err
 	}
-
-	student.TotalScore = balanceAfter
 	return score, nil
 }
 

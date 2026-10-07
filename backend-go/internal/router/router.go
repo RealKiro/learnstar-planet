@@ -147,7 +147,14 @@ func New(db *gorm.DB, cfg *config.Config) *gin.Engine {
 	admin.GET("/teachers/:id/password", h.AdminTeacherPassword)
 
 	// 教师端
-	teacher := api.Group("/teacher", middleware.Auth(jwtMgr, db), middleware.RequireRole("teacher"))
+	teacher := api.Group("/teacher",
+		middleware.Auth(jwtMgr, db),
+		middleware.RequireRole("teacher"),
+		// 按主体限流（非 Laravel 原样，属安全加固）：600 次/分钟/教师 ≈ 10 req/s。
+		// 阈值刻意远高于正常课堂节奏（批量给分只算 1 次请求），只用于挡住脚本刷与重试风暴；
+		// 挂在分组上而非逐路由，是为了避免「按 IP 计数让全校共享额度」并把 GET 也一并兜住。
+		middleware.ThrottlePrincipal(600, time.Minute),
+	)
 	teacher.GET("/dashboard", h.TeacherDashboard)
 	teacher.GET("/students", h.TeacherStudents)
 
@@ -356,7 +363,12 @@ func New(db *gorm.DB, cfg *config.Config) *gin.Engine {
 	displayGroup := api.Group("/display")
 	displayGroup.POST("/login", middleware.Throttle(10, time.Minute), h.DisplayLogin)
 
-	displayAuth := api.Group("/display", middleware.DisplayAuth(db))
+	displayAuth := api.Group("/display",
+		middleware.DisplayAuth(db),
+		// 按主体限流（同上）：1200 次/分钟/班级 ≈ 20 req/s。教室端可能多台设备共用同一个
+		// 班级码 token，且本组含 `/poll` 轮询与 `/sse` 长连接，故阈值比教师端更宽松。
+		middleware.ThrottlePrincipal(1200, time.Minute),
+	)
 	displayAuth.GET("/initial-data", h.DisplayInitialData)
 	displayAuth.GET("/timetable", h.DisplayTimetable)
 	displayAuth.GET("/export-cses", h.DisplayExportCses)

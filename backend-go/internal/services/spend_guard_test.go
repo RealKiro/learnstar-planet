@@ -361,3 +361,128 @@ func TestQuickTransferIsAtomicAndStrict(t *testing.T) {
 	assert.Equal(t, "积分不足", appErrorOf(t, err, 400))
 	assert.Equal(t, before, countAllScores(t, db), "余额不足不应写入任何流水")
 }
+
+// TestTeacherSwitchPetFeeIsAudited 教师端换宠费同样落「明细 + 审计」（此前只改余额）。
+// 注意断言的是「明细存在且金额/文案正确」，而不是宠物被扣经验——换宠路径刻意不动宠物。
+func TestTeacherSwitchPetFeeIsAudited(t *testing.T) {
+	db := setupDB(t)
+	school := seedSchool(t, db)
+	teacher := seedTeacher(t, db, school.ID, "teacher1")
+	class, student := seedTeacherClass(t, db, school.ID, teacher.ID, "一班")
+	require.NoError(t, db.Model(&models.Student{}).Where("id = ?", student.ID).
+		Update("total_score", 100).Error)
+	require.NoError(t, db.Create(&models.Pet{
+		StudentID: student.ID, ClassID: class.ID, Name: "小明",
+		Species: "zhulong", Level: 1, Experience: 0, Mood: 80,
+	}).Error)
+
+	svc := services.NewPetService(db, services.NewScope(db))
+	res, err := svc.Switch(&teacher, student.ID, "pikachu", "皮卡")
+	require.NoError(t, err)
+	assert.Equal(t, "皮卡", res.Data.PetName)
+
+	var fee models.Score
+	require.NoError(t, db.Where("student_id = ?", student.ID).Order("id DESC").First(&fee).Error)
+	assert.Equal(t, -5, fee.Amount, "Lv.1 → SwitchCost(1) = 5")
+	assert.Contains(t, fee.Reason, "更换宠物：pikachu")
+	assert.Equal(t, teacher.ID, fee.GivenBy)
+
+	var feeLog models.ScoreLog
+	require.NoError(t, db.Where("score_id = ?", fee.ID).First(&feeLog).Error)
+	assert.Equal(t, 100, feeLog.BalanceBefore)
+	assert.Equal(t, 95, feeLog.BalanceAfter)
+
+	var reloaded models.Student
+	require.NoError(t, db.First(&reloaded, student.ID).Error)
+	assert.Equal(t, 95, reloaded.TotalScore)
+}
+
+// TestStockSoldOutAutoDeactivates 限量商品（stock>0）每笔兑换扣 1 件，扣到 0 自动下架。
+func TestStockSoldOutAutoDeactivates(t *testing.T) {
+	db := setupDB(t)
+	f := newDisplayFixture(t, db)
+
+	item := models.ShopItem{
+		ClassID: &f.Class.ID, SchoolID: f.School.ID, Name: "限量铅笔", Category: "stationery",
+		CostScore: 10, CurrencyType: "score", Stock: 2, IsActive: true,
+	}
+	require.NoError(t, db.Create(&item).Error)
+	rich := models.Student{ClassID: f.Class.ID, Name: "富", StudentNo: "9", TotalScore: 100, Status: "active"}
+	require.NoError(t, db.Create(&rich).Error)
+	shop := services.NewShopService(db, services.NewScope(db),
+		services.NewScoreService(db), services.NewCurrencyService(db))
+
+	for i := 0; i < 2; i++ {
+		_, err := shop.DisplayRedeem(f.Class.ID, rich.ID, item.ID)
+		require.NoError(t, err, "第 %d 次兑换应成功", i+1)
+	}
+
+	var after models.ShopItem
+	require.NoError(t, db.First(&after, item.ID).Error)
+	assert.Equal(t, 0, after.Stock)
+	assert.False(t, after.IsActive, "售罄应自动下架（0 在约定里代表不限量，故必须同时下架）")
+
+	// 下架后：教室端商品列表不再包含它，直接兑换也拿不到。
+	items, err := shop.DisplayItems(f.Class.ID)
+	require.NoError(t, err)
+	for _, it := range items {
+		assert.NotEqual(t, item.ID, it.ID, "售罄商品不应再出现在教室端列表")
+	}
+	_, err = shop.DisplayRedeem(f.Class.ID, rich.ID, item.ID)
+	assert.Equal(t, "学生或商品不存在", appErrorOf(t, err, 404))
+}
+
+// TestStockZeroMeansUnlimited stock == 0 视为不限量：既不扣减也不下架（保护系统内置默认商品）。
+func TestStockZeroMeansUnlimited(t *testing.T) {
+	db := setupDB(t)
+	f := newDisplayFixture(t, db)
+
+	item := models.ShopItem{
+		ClassID: &f.Class.ID, SchoolID: f.School.ID, Name: "免作业券", Category: "reward",
+		CostScore: 10, CurrencyType: "score", Stock: 0, IsActive: true,
+	}
+	require.NoError(t, db.Create(&item).Error)
+	rich := models.Student{ClassID: f.Class.ID, Name: "富", StudentNo: "9", TotalScore: 100, Status: "active"}
+	require.NoError(t, db.Create(&rich).Error)
+	shop := services.NewShopService(db, services.NewScope(db),
+		services.NewScoreService(db), services.NewCurrencyService(db))
+
+	for i := 0; i < 3; i++ {
+		_, err := shop.DisplayRedeem(f.Class.ID, rich.ID, item.ID)
+		require.NoError(t, err, "不限量商品应可反复兑换")
+	}
+
+	var after models.ShopItem
+	require.NoError(t, db.First(&after, item.ID).Error)
+	assert.Equal(t, 0, after.Stock, "不限量商品不扣库存")
+	assert.True(t, after.IsActive, "不限量商品不会因兑换下架")
+}
+
+// TestApproveBlockedWhenItemDeactivated 已下架（含售罄自动下架）的商品不再结算，
+// 否则卖出前就存在的 pending 记录会绕过库存判定。
+func TestApproveBlockedWhenItemDeactivated(t *testing.T) {
+	f := newShopFixture(t)
+	limited, err := f.Svc.CreateItem(&f.Teacher, "限量铅笔", "", "stationery", "score", "", "", 10, 1)
+	require.NoError(t, err)
+
+	first, err := f.Svc.CreateRedemption(&f.Teacher, f.Student.ID, limited)
+	require.NoError(t, err)
+	second, err := f.Svc.CreateRedemption(&f.Teacher, f.Student.ID, limited)
+	require.NoError(t, err)
+
+	_, err = f.Svc.ApproveRedemption(&f.Teacher, first.ID)
+	require.NoError(t, err)
+	var item models.ShopItem
+	require.NoError(t, f.DB.First(&item, limited.ID).Error)
+	require.Equal(t, 0, item.Stock)
+	require.False(t, item.IsActive, "唯一一件卖出后自动下架")
+
+	_, err = f.Svc.ApproveRedemption(&f.Teacher, second.ID)
+	require.Error(t, err)
+	assert.Equal(t, "该商品已下架，无法结算", appErrorOf(t, err, 400))
+
+	var row models.ShopRedemption
+	require.NoError(t, f.DB.First(&row, second.ID).Error)
+	assert.Equal(t, "pending", row.Status, "结算失败时状态必须回退为 pending（事务整体回滚）")
+	assert.Equal(t, 190, f.balance(t), "只扣了第一笔的 10 分")
+}

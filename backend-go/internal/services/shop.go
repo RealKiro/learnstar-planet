@@ -244,6 +244,37 @@ type ApproveResult struct {
 	PetLevel       *int   `json:"pet_level"`
 }
 
+// consumeStockTx 消耗一件库存（仅对「限量商品」生效：stock > 0）。
+//
+// 口径（与前端既有的「0=∞」展示一致）：**stock == 0 视为不限量**，既不扣减也不下架——
+// 系统内置的默认商品（免作业、冰淇淋等）都是 0，必须保持可无限兑换。
+// stock > 0 才扣减，扣到 0 时**自动下架**（is_active=false）：所有购买路径都要求 is_active，
+// 于是「售罄」自然表现为「买不到」，无需新增列。并发下用条件更新，不会超卖。
+func (s *ShopService) consumeStockTx(tx *gorm.DB, itemID uint) error {
+	var item models.ShopItem
+	if err := tx.Select("stock").Where("id = ?", itemID).First(&item).Error; err != nil {
+		return err
+	}
+	if item.Stock <= 0 {
+		return nil // 不限量
+	}
+
+	res := tx.Model(&models.ShopItem{}).
+		Where("id = ? AND stock > 0", itemID).
+		Update("stock", gorm.Expr("stock - 1"))
+	if res.Error != nil {
+		return res.Error
+	}
+	if res.RowsAffected == 0 {
+		return ErrBadRequest("商品库存不足")
+	}
+
+	// 售罄 → 自动下架（0 在约定里表示「不限量」，故必须同时下架，否则会被当成无限库存）。
+	return tx.Model(&models.ShopItem{}).
+		Where("id = ? AND stock <= 0", itemID).
+		Update("is_active", false).Error
+}
+
 // ApproveRedemption 审批通过并结算（状态机同 Laravel approveRedemption，但**并发与原子性**更强）。
 //
 // ⚠️ 与 Laravel 的有意差异（安全性修复）：
@@ -277,6 +308,12 @@ func (s *ShopService) ApproveRedemption(u *models.User, id uint) (*ApproveResult
 	var item models.ShopItem
 	if err := s.db.First(&item, redemption.ShopItemID).Error; err != nil {
 		return nil, err
+	}
+	// ⚠️ 已下架的商品不再结算（含「售罄自动下架」）：否则卖出前就存在的 pending 记录会绕过
+	// 库存判定——因为 stock == 0 在约定里表示「不限量」，无法与「售罄」区分，只能靠 is_active。
+	// 教师若确需结算，可先把商品重新上架（必要时补库存）再审批。
+	if !item.IsActive {
+		return nil, ErrBadRequest("该商品已下架，无法结算")
 	}
 
 	itemName := item.Name
@@ -322,7 +359,10 @@ func (s *ShopService) ApproveRedemption(u *models.User, id uint) (*ApproveResult
 			return ErrBadRequest("该兑换已处理")
 		}
 
-		// 2) 结算（与认领同一事务）。
+		// 2) 结算（与认领同一事务）：先按限量扣库存，再扣款/发货。
+		if err := s.consumeStockTx(tx, item.ID); err != nil {
+			return err
+		}
 		switch {
 		case useExchange:
 			// 积分充值类：扣积分 + 扣宠物经验 → 按汇率发放钱包币。
@@ -769,6 +809,10 @@ func (s *ShopService) DisplayRedeem(classID, studentID, itemID uint) (*DisplayRe
 	approvedBy := operator
 	var spent models.Score
 	err = s.db.Transaction(func(tx *gorm.DB) error {
+		// 限量商品先扣库存（0 = 不限量；扣到 0 自动下架）。失败即整笔回滚，不会扣分。
+		if err := s.consumeStockTx(tx, item.ID); err != nil {
+			return err
+		}
 		var err error
 		spent, err = spendScoreTx(tx, &student, item.CostScore, item.Name, operator)
 		if err != nil {

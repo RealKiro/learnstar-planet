@@ -12,6 +12,7 @@ interface ShopItemExt {
   stock: number
   category: string
   description?: string
+  is_active?: boolean
 }
 
 const items = ref<ShopItemExt[]>([])
@@ -258,7 +259,8 @@ const catLabels: Record<string, string> = { points: '⭐ 积分充值', statione
           {{ (catLabels as any)[item.category] || '🎁 奖励' }}
         </div>
         <div class="price">⭐ {{ item.cost_score }} 积分</div>
-        <div v-if="item.stock > 0" class="muted-12-top">库存: {{ item.stock }}</div>
+        <div v-if="item.is_active === false" class="muted-12-top">已下架（售罄或手动下架）</div>
+        <div v-else-if="item.stock > 0" class="muted-12-top">库存: {{ item.stock }}</div>
         <button class="btn btn-sm btn-primary item-cta" @click.stop="openRedeem(item)">立即兑换</button>
       </div>
     </div>

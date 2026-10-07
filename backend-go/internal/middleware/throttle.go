@@ -115,6 +115,41 @@ func Throttle(max int, window time.Duration) gin.HandlerFunc {
 	}
 }
 
+// ThrottlePrincipal 与 Throttle 同构，但计数主体优先取**已认证身份**而不是 IP：
+// 教师/管理员 → `user:<id>`；教室端 → `class:<班级 id>`；两者都没有才退回 `ip:<ClientIP>`；
+// 最后统一拼上路由路径。
+//
+// 为什么按主体：教室端设备通常共用一个出口 IP（学校 NAT），按 IP 计数会让一个班的操作吃掉
+// 全校额度；按主体则「一个教师/一个班一个额度」，既能挡住脚本刷与重试风暴，又不影响
+// 正常课堂节奏（阈值见 router.go 的 scoreWrite / moneyWrite）。
+//
+// 与 Throttle 相同的既有约束：计数在进程内，**仅单实例有效**；多副本部署需换共享存储。
+// 挂载点必须位于认证中间件**之后**（否则取不到主体，退化为 IP 计数）。
+func ThrottlePrincipal(max int, window time.Duration) gin.HandlerFunc {
+	limiter := newThrottleLimiter(max, window)
+
+	return func(c *gin.Context) {
+		allowed, retryAfter := limiter.allow(throttlePrincipalKey(c) + "|" + throttleRoutePath(c))
+		if !allowed {
+			c.Header("Retry-After", strconv.Itoa(retryAfter))
+			c.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{"message": throttleMessage})
+			return
+		}
+		c.Next()
+	}
+}
+
+// throttlePrincipalKey 取限流主体：已认证用户 > 班级码 token 所属班级 > 客户端 IP。
+func throttlePrincipalKey(c *gin.Context) string {
+	if u := CurrentUser(c); u != nil && u.ID != 0 {
+		return "user:" + strconv.FormatUint(uint64(u.ID), 10)
+	}
+	if classID := DisplayClassID(c); classID != 0 {
+		return "class:" + strconv.FormatUint(uint64(classID), 10)
+	}
+	return "ip:" + c.ClientIP()
+}
+
 // throttleRoutePath 取限流键里的「路由路径」：优先用命中路由的注册模式
 // （`/api/v1/auth/teacher/login`，不含 query），未命中路由时退回原始 URL 路径。
 func throttleRoutePath(c *gin.Context) string {

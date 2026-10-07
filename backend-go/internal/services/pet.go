@@ -261,14 +261,19 @@ func (p *PetService) Switch(u *models.User, studentID uint, species, name string
 			// 1) 先扣积分（等级越高越贵；免费自选不扣）——不足直接拒绝，不留脏数据。
 			// ⚠️ 校验与扣减合并为一次条件更新（deductScoreAtomic）：并发下既不会穿仓，也不会丢更新。
 			cost = models.SwitchCost(pet.Level)
-			_, newScore, ok, err := deductScoreAtomic(tx, student.ID, cost)
+			balanceBefore, newScore, ok, err := deductScoreAtomic(tx, student.ID, cost)
 			if err != nil {
 				return err
 			}
 			if !ok {
 				return ErrBadRequest(fmt.Sprintf("积分不足，更换宠物需 %d 积分", cost))
 			}
-			student.TotalScore = newScore
+			// ⚠️ 换宠费也要落 `scores` + `score_logs`：此前只改余额 → 不进积分历史/本周榜、无审计。
+			// 故意用 recordScoreRowTx（**不动宠物**）：目标物种的等级/经验来自图鉴进度，
+			// 若顺手跑 syncPetForDelta，SyncLevelWithScore 会把刚恢复的图鉴等级覆盖掉。
+			if _, err := recordScoreRowTx(tx, student, -cost, "更换宠物："+species, u.ID, nil, balanceBefore, newScore); err != nil {
+				return err
+			}
 		}
 
 		// ===== 目标物种的图鉴进度（切换前先查，切回时恢复） =====
@@ -448,6 +453,12 @@ func (p *PetService) SwitchForClassroom(classID, studentID uint, newSpecies stri
 		}
 	}
 
+	// 操作人：班级教师，缺失时兜底 user_id = 1（与教室端其他写操作一致）。
+	operator := uint(1)
+	if class.TeacherID != nil {
+		operator = *class.TeacherID
+	}
+
 	if hasPet {
 		now := util.Now()
 		usedFreePick, err := models.HasPetFreePick(p.db, student.ID, now)
@@ -466,14 +477,17 @@ func (p *PetService) SwitchForClassroom(classID, studentID uint, newSpecies stri
 		err = p.db.Transaction(func(tx *gorm.DB) error {
 			if !usedFreePick {
 				// ⚠️ 校验与扣减合并为一次条件更新（deductScoreAtomic）：并发下不会穿仓/丢更新。
-				_, newScore, ok, err := deductScoreAtomic(tx, student.ID, cost)
+				balanceBefore, newScore, ok, err := deductScoreAtomic(tx, student.ID, cost)
 				if err != nil {
 					return err
 				}
 				if !ok {
 					return ErrBadRequest(fmt.Sprintf("积分不足，更换宠物需 %d 积分", cost))
 				}
-				student.TotalScore = newScore
+				// 同教师端：换宠费落明细与审计，但不动宠物（等级/经验由图鉴决定）。
+				if _, err := recordScoreRowTx(tx, &student, -cost, "更换宠物："+newSpecies, operator, nil, balanceBefore, newScore); err != nil {
+					return err
+				}
 			}
 
 			// 旧物种进度存入图鉴（保留等级/经验/心情，标记为非激活）。

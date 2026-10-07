@@ -107,16 +107,29 @@ func (s *PetSeriesService) SwitchSeriesForClassroom(classID uint, seriesID strin
 			strings.Join(names, "、"), more, classroomSeriesSwitchCost))
 	}
 
+	// 操作人：班级教师，缺失时兜底 user_id = 1（与教室端其他写操作一致）。
+	operator := uint(1)
+	if class.TeacherID != nil {
+		operator = *class.TeacherID
+	}
+
 	now := util.Now()
 	err = s.db.Transaction(func(tx *gorm.DB) error {
 		for _, st := range students {
 			// ⚠️ 条件更新一次性完成「校验 + 扣减」：并发下不会穿仓，也不会丢更新。
-			_, _, ok, err := deductScoreAtomic(tx, st.ID, classroomSeriesSwitchCost)
+			balanceBefore, newScore, ok, err := deductScoreAtomic(tx, st.ID, classroomSeriesSwitchCost)
 			if err != nil {
 				return err
 			}
 			if !ok {
 				return ErrBadRequest(fmt.Sprintf("积分不足：%s 每人需要 %d 积分", st.Name, classroomSeriesSwitchCost))
+			}
+			// 整班切换的扣费同样落明细与审计（此前只改余额 → 不进积分历史/本周榜、无审计）。
+			// 该路径不涉及换宠，故不碰宠物。
+			st.TotalScore = newScore
+			if _, err := recordScoreRowTx(tx, &st, -classroomSeriesSwitchCost,
+				"整班切换系列："+models.SeriesLabel(seriesID), operator, nil, balanceBefore, newScore); err != nil {
+				return err
 			}
 		}
 		if err := s.saveSeries(tx, class, seriesID); err != nil {

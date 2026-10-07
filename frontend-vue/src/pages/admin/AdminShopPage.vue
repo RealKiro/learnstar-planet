@@ -271,7 +271,7 @@ async function handleDelete(item: ShopItemExt) {
         <div v-if="item.description" class="desc-12">{{ item.description }}</div>
         <div class="tag-row">
           <span class="tag-code">{{ currencyLabel(item.currency_type || 'score') }}</span>
-          <span class="tag-code">库存 {{ item.stock === 0 ? '∞' : item.stock }}</span>
+          <span class="tag-code">{{ item.is_active === false ? '已下架' : '库存 ' + (item.stock === 0 ? '∞' : item.stock) }}</span>
         </div>
         <div class="row-between-top">
           <span class="price-strong">⭐ {{ item.cost_score }}</span>
