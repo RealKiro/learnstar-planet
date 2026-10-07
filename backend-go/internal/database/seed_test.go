@@ -24,7 +24,7 @@ func newSeedCfg(adminUser, adminPass string) *config.Config {
 }
 
 func TestSeedAdminSyncsPasswordFromEnv(t *testing.T) {
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), GormConfig())
 	require.NoError(t, err)
 	sqlDB, _ := db.DB()
 	sqlDB.SetMaxOpenConns(1)

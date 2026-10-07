@@ -42,7 +42,7 @@ func newDisplayHTTPFixture(t *testing.T) displayHTTPFixture {
 	t.Helper()
 	gin.SetMode(gin.TestMode)
 
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), database.GormConfig())
 	require.NoError(t, err)
 	sqlDB, err := db.DB()
 	require.NoError(t, err)

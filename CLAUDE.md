@@ -386,3 +386,13 @@ node scripts/audit-cards.mjs    # 角色卡唯一性 + 契合度核对表 card-f
     - **数据不迁移**：Go 数据模型重新设计，旧 Laravel 库不兼容；升级 = 全新空库（README 已大字说明）。
     - **有意差异备忘**（详见 backend-go/README.md）：报表/课表导出 xlsx→CSV；排行榜 SQL 直查（无 Redis ZSET）；学生删除硬删除（无 SoftDeletes）；教师昵称无拼音库（用姓名本身）；明文密码不随 User JSON 输出；登录限流为进程内固定窗口（多副本需共享存储）。
     - **部署**：Dockerfile 三阶段（Node 前端 → Go 交叉编译 CGO_ENABLED=0 → alpine 运行时）；entrypoint 只做安全自检 + exec；compose 数据卷 `app-db:/app/data`（SQLite + .jwt_secret）；镜像名保持 `backend:latest`（升级路径不断）。CI 全部改 gofmt/vet/test；deploy.yml 去掉 artisan 步骤（AutoMigrate 启动自完成）。
+
+25. **时区纪律 · 时间列的比较域（2026-09-20）**:
+    - **纪律**：SQLite（glebarez/sqlite）把 `time.Time` 落成**带偏移的文本**（实测裸值形如 `2026-10-08 15:13:57.8290404+08:00`，空格分隔而非 `T`），因此 SQL 里的 `WHERE expires_at > ?`、`WHERE created_at >= ?` 都是**文本比较**而非时刻比较——**同一列的写入方与比较方必须落在同一钟面域**，否则跨日比较会错序：UTC 域的 `…07:16+00:00` 会被判为「小于」上海域的 `…14:16+08:00`，尽管它其实晚了 6 小时。⚠️ 过期时间**跨过一天**时日期段先决出大小、时间段的错序会被掩盖，所以「72h 之后过期」在 +08 开发机上抓不到、必须同一日历日内才暴露。
+    - **已修两处**（共同根因都是「写入域随宿主机/容器漂移，比较域固定为业务时区」）：
+      * `revoked_tokens` / `display_tokens` → 全链路统一 **UTC 域**（写入 `.UTC()`、比较 `time.Now().UTC()`）。JWT 的 `NumericDate` 由 `time.Unix` 解析，Location 随环境变化（UTC 主机 = UTC 域，+08 开发机 = Local 域），而惰性清理原先用 `util.Now()`（恒为 +08）→ **真安全缺陷**：UTC 环境（CI / alpine 容器）里刚写入的撤销记录被当成过期删掉 → **登出/刷新不生效、旧令牌继续可用**（CI 上 `TestAuthLogoutAndRefreshInvalidateOldToken` 报 `expected 401 / actual 200` 就是它）。`display_tokens` 同因：该列有两个写入方（`display.go` 曾用 `time.Now()`、`class_login.go` 用 `util.Now()`）。
+      * GORM 自动写入的 `created_at` / `updated_at` → 由 `database.GormConfig()` 把 `NowFunc` 钉到 **`util.Now`**（即 `APP_TIMEZONE` 的实际落点，默认 Asia/Shanghai）。GORM 默认 `NowFunc = time.Now().Local()`，容器里即 UTC；而全部业务窗口（今日积分 / 本周榜 / 日报表 / 月报 / 大屏最近积分）都由 `util.Now()`、`StartOfDay`、`StartOfWeek` 生成 → 容器里「今天的积分」会被判成不在今天而**少算一整天**。`config.AppTimezone` 此前只用于拼 DB DSN、对进程时钟无影响，本次才真正落地。
+    - **⚠️ 测试必须复用生产配置**：各测试的 `setupDB` 一律 `gorm.Open(sqlite.Open(":memory:"), database.GormConfig())`；否则测试跑在 Local 域、生产跑在 `util.Loc` 域，正是「本机假绿」的温床。新增测试连接时照抄，**别再写裸 `&gorm.Config{}`**。
+    - **⚠️ Windows 上的 Go 运行时不读 `TZ` 环境变量**（实测 `TZ=UTC` / `TZ=America/New_York` 时 `time.Now()` 仍为 +08:00），所以**不能**用 `$env:TZ='UTC'` 在本机复现这类缺陷。要复现必须在测试内改 `time.Local`（`orig := time.Local; time.Local = time.UTC; t.Cleanup(func(){ time.Local = orig })`）——两个守护测试都已这么做，从而在任意宿主机上都能抓住回归。
+    - **守护测试**：`internal/services/timezone_domain_test.go`（撤销名单与大屏 token 的裸落库文本域、不被惰性清理误删、真过期仍清理）、`internal/database/timezone_domain_test.go`（GORM 自动时间戳与 `util.Now()` 同域，测试内强制 UTC 宿主复现 CI 条件）。
+    - **验证口径**：`go test ./... -count=1` 需在「宿主强制 UTC」（= CI / 容器条件）与常规 +08:00 两种情形下**均全绿**；本机复现手段即上面的 `time.Local` 探针（临时给各包加 `func init() { time.Local = time.UTC }` 的 `_test.go` 跑一遍，跑完即删）。

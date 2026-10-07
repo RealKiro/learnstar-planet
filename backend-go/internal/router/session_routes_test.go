@@ -61,7 +61,7 @@ type peopleFixture struct {
 // newPeopleFixture 自建内存库 + 完整路由（与 newTestEngine 同构，但保留 db 句柄）。
 func newPeopleFixture(t *testing.T) *peopleFixture {
 	t.Helper()
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), database.GormConfig())
 	require.NoError(t, err)
 	sqlDB, err := db.DB()
 	require.NoError(t, err)

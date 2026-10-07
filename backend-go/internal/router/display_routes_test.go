@@ -23,7 +23,7 @@ import (
 // newTestEngine 构建内存库 + 完整路由（router.New 在有路由冲突时会 panic）。
 func newTestEngine(t *testing.T) (*gorm.DB, *gin.Engine, models.ClassRoom) {
 	t.Helper()
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), database.GormConfig())
 	require.NoError(t, err)
 	require.NoError(t, database.Migrate(db))
 

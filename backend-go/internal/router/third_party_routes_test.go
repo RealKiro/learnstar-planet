@@ -168,7 +168,7 @@ func newThirdPartyFixture(t *testing.T, upstream *httptest.Server) *thirdPartyFi
 		t.Setenv("WECHAT_WORK_SECRET", "sec-1")
 	}
 
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), database.GormConfig())
 	require.NoError(t, err)
 	sqlDB, err := db.DB()
 	require.NoError(t, err)

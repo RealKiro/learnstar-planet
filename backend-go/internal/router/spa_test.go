@@ -18,6 +18,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/RealKiro/learnstar-planet/backend-go/internal/config"
+	"github.com/RealKiro/learnstar-planet/backend-go/internal/database"
 	"github.com/RealKiro/learnstar-planet/backend-go/internal/router"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
@@ -26,7 +27,7 @@ import (
 // newSPAEngine 构建带 PUBLIC_DIR 的完整引擎（内存库；NoRoute 路径不触库）。
 func newSPAEngine(t *testing.T, publicDir string) *gin.Engine {
 	t.Helper()
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), database.GormConfig())
 	require.NoError(t, err)
 	return router.New(db, &config.Config{JWTSecret: "test-secret", JWTExpHours: 1, PublicDir: publicDir})
 }

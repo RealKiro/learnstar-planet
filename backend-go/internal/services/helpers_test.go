@@ -12,7 +12,7 @@ import (
 // setupDB 打开内存 SQLite 并迁移全部模型，供服务层测试复用。
 func setupDB(t *testing.T) *gorm.DB {
 	t.Helper()
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), database.GormConfig())
 	if err != nil {
 		t.Fatalf("open sqlite: %v", err)
 	}

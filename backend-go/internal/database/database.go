@@ -9,6 +9,7 @@ import (
 
 	"github.com/RealKiro/learnstar-planet/backend-go/internal/config"
 	"github.com/RealKiro/learnstar-planet/backend-go/internal/models"
+	"github.com/RealKiro/learnstar-planet/backend-go/internal/util"
 	"github.com/glebarez/sqlite"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/mysql"
@@ -16,6 +17,25 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
+
+// GormConfig 返回生产与测试共用的 GORM 配置。
+//
+// ⚠️ 时区纪律（与 services/auth.go RevokeToken 的说明同一条）：SQLite 把 time 列存成
+// **带偏移的文本**，SQL 里的时间比较因此是**文本比较**，写入方与比较方必须落在同一钟面域。
+// 本仓全部业务时间窗口（今日积分 / 本周榜 / 日报表 / 月报…）都由 util.Now()、
+// util.StartOfDay、util.StartOfWeek 生成，域恒为 Asia/Shanghai；而 GORM 的默认 NowFunc 是
+// time.Now().Local()，随宿主机与容器 TZ 漂移（alpine 运行时无 TZ 时 = UTC）——两者不一致时
+// 跨日的文本比较会错序：容器里「今天的积分」会被判成不在今天而少算一整天。
+// 故这里把自动写入的 created_at / updated_at 显式钉到业务时区（APP_TIMEZONE 的实际落点）。
+//
+// ⚠️ 测试必须复用本配置（各 setupDB 用 database.GormConfig()），否则测试跑在 Local 域、
+// 生产跑在 util.Loc 域——那正是本次要消灭的那类「本机假绿、CI/容器才红」的假绿。
+func GormConfig() *gorm.Config {
+	return &gorm.Config{
+		Logger:  logger.Default.LogMode(logger.Warn),
+		NowFunc: util.Now,
+	}
+}
 
 // Connect 按配置连接数据库并执行自动迁移。
 func Connect(cfg *config.Config) (*gorm.DB, error) {
@@ -38,9 +58,7 @@ func Connect(cfg *config.Config) (*gorm.DB, error) {
 		return nil, fmt.Errorf("不支持的 DB_DRIVER: %q（可选 sqlite/mysql/postgres）", cfg.DBDriver)
 	}
 
-	db, err := gorm.Open(dialector, &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Warn),
-	})
+	db, err := gorm.Open(dialector, GormConfig())
 	if err != nil {
 		return nil, fmt.Errorf("连接数据库失败: %w", err)
 	}
